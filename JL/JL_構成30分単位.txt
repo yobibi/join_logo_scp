@@ -4,32 +4,94 @@
 #
 
 #----------------------------------------------
+# 設定
+#----------------------------------------------
+Default fdiv_typ  00:30:00      # 1構成期間（標準期間）
+Default fdiv_min  00:23:00      # 1構成期間（最小期間）
+Default fdiv_max  00:30:30      # 1構成期間（最大期間）
+Default divch_sb  B             # 分割区切り（B=優先なし S=ロゴ立上り優先）
+Default divpos_first  0         # 分割最初の開始フレーム位置
+Default divnext_force 0         # 1構成を標準期間強制区切り（0=しない 1=する）
+Default divnext_use_auto 0      # 分割に推測構成使用（0=使用しない 1=使用）
+
+Default nextcall_divide  "JL_フラグ指定.txt"   # 次にCallするファイル
+
+#----------------------------------------------
+# 実行処理の設定
+#----------------------------------------------
+LazyAuto   # このファイルは自動で実行タイミング制御
+
+# 分割内容を設定
+# 実行時には分割位置情報を変数(divide_pos_list)に出力する
+{
+  #---（設定記憶）分割場所決定 ---
+  Memory mfunc_divnext_command
+  {
+    LocalSet str_range "${fdiv_typ} ${fdiv_min} ${fdiv_max}"
+    If ${divnext_force} == 1          # 標準期間で強制区切り
+      Set str_range "${fdiv_typ} -force"
+    EndIf
+    If ${divnext_use_auto} == 1       # 分割に推測構成使用
+      NextTail ${divch_sb} ${str_range} -now -autochg
+    Else
+      NextTail ${divch_sb} ${str_range}
+    EndIf
+  }
+  EndMemory
+
+  #---（設定記憶）分割実行の初期設定 ---
+  Memory mfunc_divide_first
+    MemCopy LAZY hold_lazy_cmd      # 事前設定されたLazy系を保管（各分割で実行のため）
+    MemErase LAZY_E                 # 初期実行で最後に実行するものは除く
+    Call "${nextcall_divide}"       # 初期実行（全体で一度実行しておく）
+    AutoIClear                      # 各分割で設定するので予告・番組提供等は消去
+    LazyFlush                       # 遅延実行を完了させる
+    Set divide_pos_list ""          # 分割位置リスト初期化
+  EndMemory
+
+  #---（設定記憶）各分割実行時の設定 ---
+  Memory mfunc_divide_each
+    ListIns -1 -RegList divide_pos_list -RegPos HEADTIME  # 分割位置リスト末尾に追加
+    MemCall hold_lazy_cmd      # 事前設定されたLazy系を各分割で実行
+    Call "${nextcall_divide}"  # 各分割構成で検索メイン動作を実行
+    LazyFlush                  # 遅延実行を完了させる
+  EndMemory
+}
+
+#----------------------------------------------
 # 分割して実行
 #----------------------------------------------
-Default fdiv_typ  00:30:00            # 1構成期間（標準期間）
-Default fdiv_min  00:23:00            # 1構成期間（最小期間）
-Default fdiv_max  00:30:30            # 1構成期間（最大期間）
-
 If $MAXTIME < ${fdiv_min}+${fdiv_min} # 全体が短い時は分割なし
-  Call "JL_フラグ指定.txt"
+  Call "${nextcall_divide}"
 Else                              # 分割設定
+{
   Set HEADTIME   -1               # 初期設定
   Set TAILTIME   -1               # 初期設定
-  EvalNum numdiv $MAXTIME/${fdiv_typ}+1   # 繰り返し回数（時間/時間は整数で実施）
+  LocalSet numdiv 0               # ローカル変数に設定
+  EvalNum numdiv $MAXTIME/${fdiv_typ}   # 繰り返し回数（時間/時間は整数で実施）
 
-  Call "JL_フラグ指定.txt"        # 初期実行（最初の実行前に変数設定するため）
+  #---（設定挿入）複数話分割開始 ---
+  MemCall mfunc_divide_first
 
-  Set TAILTIME   0                # 最初の位置移動
+  Set TAILTIME   ${divpos_first}  # 最初の位置移動
+
   Repeat $numdiv
-    NextTail B $fdiv_typ $fdiv_min $fdiv_max
+    #---（設定挿入）分割場所決定 ---
+    MemCall mfunc_divnext_command
     If $LASTEXE
-      Call "JL_フラグ指定.txt"    # 分割を実行
+      #---（設定挿入）各複数話分割 ---
+      MemCall mfunc_divide_each
     EndIf
   EndRepeat
 
   If $MAXTIME-$TAILTIME>=$fdiv_typ/2  # 最後までまだ期間あったら
     Set HEADTIME $TAILTIME
     Set TAILTIME -1
-    Call "JL_フラグ指定.txt"      # last分割
+    #---（設定挿入）複数話分割 ---
+    MemCall mfunc_divide_each
   EndIf
+
+  Set HEADTIME   -1               # 念のため初期設定に戻す
+  Set TAILTIME   -1               # 念のため初期設定に戻す
+}
 EndIf

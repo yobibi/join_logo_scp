@@ -1,6 +1,6 @@
 -----------------------------------------
 join_logo_scp—p‚ÌŽÀs“à—eƒXƒNƒŠƒvƒg
-ƒRƒ}ƒ“ƒhà–¾iAutoŒnƒRƒ}ƒ“ƒhj ver3.0‘Î‰ž
+ƒRƒ}ƒ“ƒhà–¾iAutoŒnƒRƒ}ƒ“ƒhj ver4.0‘Î‰ž
 -----------------------------------------
 
 „‘ª‚µ‚½”Ô‘g\¬î•ñ‚ðŒ³‚ÉƒJƒbƒgˆÊ’u•ÏX‚ð‰Á‚¦‚éAutoŒnƒRƒ}ƒ“ƒh‚Ìà–¾B
@@ -211,17 +211,26 @@ AutoAddƒRƒ}ƒ“ƒh‚ÅÝ’è‚µAECŽw’è‚Å15•b–¢–ž‚ÅŽc‚Á‚½Š‚ÌƒJƒbƒgˆÊ’u‚ðŒˆ‚ß‚é‚±‚Æ‘z’è
   \¬ŠúŠÔŽw’èŽž‚ÌðŒ•b”‚ðŽw’èiã‰ºŒÀŽw’èŽž‚ÌãŒÀ10•b‚©‚ç•ÏX‚·‚éê‡‚Ì‚Ýj
 
 
-œAutoIns S/E/B ’†SŽw’è ”ÍˆÍæ“ª ”ÍˆÍ––”ö -code ”’l
-  AutoDel S/E/B ’†SŽw’è ”ÍˆÍæ“ª ”ÍˆÍ––”ö -code ”’l
+œAutoIns S/E/B ’†SŽw’è ”ÍˆÍæ“ª ”ÍˆÍ––”ö -code ”’l -info Ží—Þ
+  AutoDel S/E/B ’†SŽw’è ”ÍˆÍæ“ª ”ÍˆÍ––”ö -code ”’l -info Ží—Þ
 Žw’èƒƒS‚ÌÅ‰(S)/ÅŒã(E)/—¼•û(B)ˆÊ’u‚ðŠî€‚Æ‚µ‚ÄŽw’è”ÍˆÍ“à‚É–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW
 ‚ª‚ ‚ê‚Î\¬‚ðƒJƒbƒgE’Ç‰Á(ver3.0’Ç‰Á)
 AutoIns‚Í’Ç‰ÁAAutoDel‚ÍƒJƒbƒg‚ÅA–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚©‚ç\¬‚ð¶¬‚·‚éB
 AutoEdge‚Í„‘ªÏ‚Ý‚Ì\¬Ž©‘Ì‚Í•ÏX‚È‚µ‚É‘Î‚µA‚±‚¿‚ç‚Í\¬•ÏX‚ðs‚¤B
 ƒƒSŽw’èA‚Q“_Žw’è•û–@‚ÌƒIƒvƒVƒ‡ƒ“(-Nauto,-EndLen“™)‚ÍJLƒRƒ}ƒ“ƒhà–¾_‘S”Ê‚ðŽQÆB
+”ÍˆÍ‚Í‘¼ƒRƒ}ƒ“ƒh“¯—l‚É‘S•”È—ª‚Ü‚½‚Í’†SŽw’è‚¾‚¯‚à‰Â”\(ver4.0’Ç‰Á)
+-info‚ÍŽw’è‚µ‚½‚ç‰ðÍ—pƒtƒ@ƒCƒ‹‚Éo—Í‚³‚ê‚é’Ç‰Á‘®«î•ñ‚ðÝ’è‚·‚é
+-info‚Í-final‚ÆƒZƒbƒg‚Åˆê”ÔÅŒã‚É‘®«•ÏX‚·‚é‚±‚Æ‚ð‘z’èB
   -code‚Ì’l
     “®ìðŒ 0:ŽÀs‚µ‚È‚¢
-             1:ƒJƒbƒgE’Ç‰Á‚ðŽÀsB•ÏX‚µ‚½\¬“à‚ÅÄ\¬‚Í‚µ‚È‚¢B
+             1:ƒJƒbƒgE’Ç‰Á‚ðŽÀsB•ÏX‚µ‚½\¬“à‚ÅÄ\¬‚Í‚µ‚È‚¢B(‰ŠúÝ’è)
              2:ƒJƒbƒgE’Ç‰Á‚ðŽÀsB•ÏX‚µ‚½\¬“à‚Å„‘ª\¬‚ðs‚¤B
+  -info‚ÌŽí—Þ
+    ‘®«î•ñ Off :’Ç‰Á‘®«‚È‚µ(‰ŠúÝ’è)
+             TR  :—\
+             SP  :”Ô‘g’ñ‹Ÿ
+             EC  :ƒGƒ“ƒhƒJ[ƒh
+             LG  :ƒƒS•”•ª‚Ì’Ç‰ÁEƒJƒbƒgêŠ
 
 
 œAutoCM B -code ”’l
@@ -247,7 +256,7 @@ AutoEdge‚Í„‘ªÏ‚Ý‚Ì\¬Ž©‘Ì‚Í•ÏX‚È‚µ‚É‘Î‚µA‚±‚¿‚ç‚Í\¬•ÏX‚ðs‚¤B
 ƒRƒ}ƒ“ƒh’¼Œã‚Ì B ‚ÍÈ—ª‰Â”\B(ver3.0’Ç‰Á)
   -code‚Ì’l
     “®ìðŒ 0:ŽÀs‚µ‚È‚¢
-             1:ƒƒS—L–³‚Ì‚Ý”½‰f‚µ„‘ª\¬‚Íì¬‚µ‚È‚¢
+             1:ƒƒS—L–³‚Ì‚Ý”½‰f‚µ„‘ª\¬‚Íì¬‚µ‚È‚¢(‰ŠúÝ’è)
              2:ƒƒS—L–³‚É‡‚í‚¹‚Ä„‘ª\¬‚ð•ÏX
 
 œAutoBorder B -code ”’l
@@ -256,8 +265,17 @@ AutoEdge‚Í„‘ªÏ‚Ý‚Ì\¬Ž©‘Ì‚Í•ÏX‚È‚µ‚É‘Î‚µA‚±‚¿‚ç‚Í\¬•ÏX‚ðs‚¤B
 ƒRƒ}ƒ“ƒh’¼Œã‚Ì B ‚ÍÈ—ª‰Â”\B
   -code‚Ì’l
     “®ìðŒ 0:ŽÀs‚µ‚È‚¢
-             1:Border‚ðƒƒS‚È‚µˆµ‚¢‚É‚·‚é
+             1:Border‚ðƒƒS‚È‚µˆµ‚¢‚É‚·‚é(‰ŠúÝ’è)
              2:Border‚ðƒƒS‚ ‚èˆµ‚¢‚É‚·‚é
+
+œAutoIClear -code ”’l
+—\E”Ô‘g’ñ‹Ÿ“™‚Ì’Ç‰Á‘®«î•ñ‚ð‘S•”Á‹Ž‚·‚é(ver4.0’Ç‰Á)
+  -code‚Ì’l
+    “®ìðŒ 0:ŽÀs‚µ‚È‚¢
+             1:ŽÀs‚·‚é(‰ŠúÝ’è)
+
+¦AutoIns/AutoDel/AutoUp/AutoBorder/AutoIClear ‚É‚Â‚¢‚Ä
+  -codeÈ—ªŽž‚Í1‚ªÝ’è‚³‚ê‚é(ver4.0’Ç‰Á)
 
 œSetParam •Ï”–¼ Ý’è’l
   “à•”•ÛŽ‚µ‚Ä‚¢‚éÝ’è‚ð•ÏX‚·‚éBÅ‰‚ÌAutoŒnƒRƒ}ƒ“ƒhŽÀs‘O‚Ü‚Å‚ÉÝ’è‚·‚éB

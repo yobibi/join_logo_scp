@@ -18,12 +18,12 @@ class JlsDataset;
 class JlsAutoArg
 {
 public:
-	void	setParam(JlsCmdArg &cmdarg, JlcmdAutoType cmdtype);
-	int		getParam(JlParamAuto type);
+	void	setParam(JlsCmdArg &cmdarg, CmdAutoType cmdtype);
+	int		getParam(ParamAuto type);
 
 private:
 	void	clearAll();
-	void	setVal(JlParamAuto type, int val);
+	void	setVal(ParamAuto type, int val);
 	void	setParamCutTR(JlsCmdArg &cmdarg);
 	void	setParamCutEC(JlsCmdArg &cmdarg);
 	void	setParamAdd(JlsCmdArg &cmdarg);
@@ -31,8 +31,10 @@ private:
 	void	setParamInsDel(JlsCmdArg &cmdarg);
 private:
 	// ƒRƒ}ƒ“ƒhŽí—Þ
-	JlcmdAutoType m_cmdtype;
+	CmdAutoType m_cmdtype;
 	// Ši”[
+	static const int SIZE_PARAM_AUTO = static_cast<int>(ParamAuto::MAXSIZE);
+
 	int m_enable_prm[SIZE_PARAM_AUTO];
 	int m_val_prm[SIZE_PARAM_AUTO];
 };
@@ -76,15 +78,17 @@ public:
 private:
 	void checkFirstAct(JlsCmdArg &cmdarg);
 	bool exeCmdMain(JlsCmdSet &cmdset);
-	jlscmd::JlcmdAutoType exeCmdParam(JlsCmdArg &cmdarg);
+	jlscmd::CmdAutoType exeCmdParam(JlsCmdArg &cmdarg);
 	bool startAutoUp();
 	bool startAutoBorder(RangeMsec autoscope);
+	bool startAutoIClear(RangeMsec autoscope);
 	bool startAutoChg(JlsCmdLimit &cmdlimit);
 	Nsc  getNscElgFromNrf(Nrf nrf_base);
 	bool startAutoIns(JlsCmdLimit &cmdlimit);
 	bool startAutoDel(JlsCmdLimit &cmdlimit);
-	bool subInsDelGetRange(Nsc &nsc_target, Nsc &nsc_base, JlsCmdLimit &cmdlimit);
+	bool subInsDelGetRange(RangeNscMsec& rangeData, JlsCmdLimit &cmdlimit);
 	Nsc  subInsDelGetBase(JlsCmdLimit &cmdlimit);
+	void subInsDelChangeArExt(RangeMsec rmsec, bool flagAdd);
 	bool startAutoCutTR(RangeMsec autoscope);
 	Nsc  subCutTRGetLocSt(RangeMsec autoscope);
 	void subCutTRGetLocStSub(Nsc *r_nsc_cand, bool *r_flag_cand, RangeMsec autoscope, ElgCurrent elg);
@@ -95,10 +99,10 @@ private:
 	bool startAutoAddSP(RangeMsec autoscope);
 	bool startAutoAddEC(RangeMsec autoscope);
 	bool startAutoAddTR(RangeMsec autoscope);
-	int  subAddGetLimit(AddExistInfo &exist_info, JlcmdAutoType cmdtype, RangeMsec autoscope);
-	Nsc  subAddSearch(JlcmdAutoType cmdtype, AddExistInfo exist_info, RangeMsec autoscope);
+	int  subAddGetLimit(AddExistInfo &exist_info, CmdAutoType cmdtype, RangeMsec autoscope);
+	Nsc  subAddSearch(CmdAutoType cmdtype, AddExistInfo exist_info, RangeMsec autoscope);
 	void subAddGetLocInfo(AddLocInfo &locinfo, Term target, RangeMsec autoscope);
-	int  subAddGetPriority(AddLocInfo &locinfo, JlcmdAutoType cmdtype, ScpArType arstat_cur, ScpArExtType arext_cur, AddExistInfo exist_info);
+	int  subAddGetPriority(AddLocInfo &locinfo, CmdAutoType cmdtype, ScpArType arstat_cur, ScpArExtType arext_cur, AddExistInfo exist_info);
 	bool subAddCheckSec(Nsc nsc_cur, Sec difsec);
 	void subAddCancelCut(Nsc nsc_prior, RangeMsec autoscope);
 	void subAddReviseUnitCm(Nsc nsc_target);
@@ -107,7 +111,7 @@ private:
 	bool subEdgeExec(Nsc nsc_logo, LogoEdgeType edge_logo, SearchDirType dr);
 	bool getElgNextKeep(ElgCurrent &elg);
 	int  getConfig(ConfigVarType tp);
-	int  getAutoParam(JlParamAuto tp);
+	int  getAutoParam(ParamAuto tp);
 	void setTermEndtype(Term &term, ScpEndType endtype);
 	bool getTermNext(Term &term);
 	bool getTermPrev(Term &term);

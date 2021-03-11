@@ -22,82 +22,194 @@ JlsCmdArg::JlsCmdArg(){
 // コマンド保持内容初期化
 //---------------------------------------------------------------------
 void JlsCmdArg::clear(){
-	tack.floatBase   = 0;
-	tack.virtualLogo = 0;
+	tack = {};		// 念のため個別に初期化
+	tack.floatBase   = false;
+	tack.virtualLogo = false;
 	tack.ignoreComp  = false;
 	tack.limitByLogo = false;
 	tack.onePoint    = false;
 	tack.needAuto    = false;
-	cond.posStr   = 0;
-	cond.flagCond = false;
+	tack.typeLazy    = LazyType::None;
+	cond = {};		// 念のため個別に初期化
+	cond.numCheckCond = 0;
+	cond.flagCond     = false;
 
-	cmdsel        = JLCMD_SEL_Nop;
-	category      = JLCMD_CAT_NONE;
+	cmdsel        = CmdType::Nop;
+	category      = CmdCat::NONE;
 	wmsecDst      = {0, 0, 0};
 	selectEdge    = LOGO_EDGE_RISE;
-	selectAutoSub = JLCMD_SUB_TR;
+	selectAutoSub = CmdTrSpEcID::None;
+	listStrArg.clear();
 
 	listLgVal.clear();
 	listScOpt.clear();
 
-
-	for(int i=0; i<SIZE_JLOPT_DATA; i++){
+	for(int i=0; i<SIZE_JLOPT_OPTNUM; i++){
 		optdata[i] = 0;
-		flagset[i] = 0;
+		flagset[i] = false;
+	}
+	for(int i=0; i<SIZE_JLOPT_OPTSTR; i++){
+		optStrData[i] = "";
+		flagStrSet[i] = false;
+		flagStrUpdate[i] = false;
 	}
 
 	//--- 0以外の設定 ---
-	optdata[JLOPT_DATA_MsecFrameLeft]  = -1;
-	optdata[JLOPT_DATA_MsecFrameRight] = -1;
-	optdata[JLOPT_DATA_MsecLenPMin]    = -1;
-	optdata[JLOPT_DATA_MsecLenPMax]    = -1;
-	optdata[JLOPT_DATA_MsecLenNMin]    = -1;
-	optdata[JLOPT_DATA_MsecLenNMax]    = -1;
-	optdata[JLOPT_DATA_MsecFromAbs]    = -1;
-	optdata[JLOPT_DATA_MsecFromHead]   = -1;
-	optdata[JLOPT_DATA_MsecFromTail]   = -1;
+	setOptDefault(OptType::MsecFrameL,   -1);
+	setOptDefault(OptType::MsecFrameR,   -1);
+	setOptDefault(OptType::MsecLenPMin,  -1);
+	setOptDefault(OptType::MsecLenPMax,  -1);
+	setOptDefault(OptType::MsecLenNMin,  -1);
+	setOptDefault(OptType::MsecLenNMax,  -1);
+	setOptDefault(OptType::MsecLenPEMin, -1);
+	setOptDefault(OptType::MsecLenPEMax, -1);
+	setOptDefault(OptType::MsecLenNEMin, -1);
+	setOptDefault(OptType::MsecLenNEMax, -1);
+	setOptDefault(OptType::MsecFromAbs,  -1);
+	setOptDefault(OptType::MsecFromHead, -1);
+	setOptDefault(OptType::MsecFromTail, -1);
+	//--- 初期文字列 ---
+	setStrOptDefault(OptType::StrRegPos,   "POSHOLD");
+	setStrOptDefault(OptType::StrValPosR,  "-1");
+	setStrOptDefault(OptType::StrValPosW,  "-1");
+	setStrOptDefault(OptType::StrRegList,  "LISTHOLD");
+	setStrOptDefault(OptType::StrValListR, "");
+	setStrOptDefault(OptType::StrValListW, "");
+	setStrOptDefault(OptType::StrRegSize,  "SIZEHOLD");
 }
 
 //---------------------------------------------------------------------
 // オプションを設定
 //---------------------------------------------------------------------
-void JlsCmdArg::setOpt(int dselect, int val){
-	if (dselect >= 0 && dselect < SIZE_JLOPT_DATA){
-		optdata[dselect] = val;
-		flagset[dselect] = 1;
+//--- オプション数値 ---
+void JlsCmdArg::setOpt(OptType tp, int val){
+	int num;
+	if ( getRangeOptArray(num, tp) ){
+		optdata[num] = val;
+		flagset[num] = true;
 	}
 }
-
-//---------------------------------------------------------------------
-// 書き込み済みオプションかチェック
-//---------------------------------------------------------------------
-bool JlsCmdArg::isSetOpt(int dselect){
-	if (dselect >= 0 && dselect < SIZE_JLOPT_DATA){
-		if (flagset[dselect] != 0){
-			return true;
-		}
+void JlsCmdArg::setOptDefault(OptType tp, int val){
+	int num;
+	if ( getRangeOptArray(num, tp) ){
+		optdata[num] = val;
+		flagset[num] = false;
+	}
+}
+int JlsCmdArg::getOpt(OptType tp){
+	int num;
+	if ( getRangeOptArray(num, tp) ){
+		return optdata[num];
+	}
+	return false;
+}
+bool JlsCmdArg::isSetOpt(OptType tp){
+	int num;
+	if ( getRangeOptArray(num, tp) ){
+		return flagset[num];
 	}
 	return false;
 }
 
-//---------------------------------------------------------------------
-// オプションを取得
-//---------------------------------------------------------------------
-int JlsCmdArg::getOpt(int dselect){
-	if (dselect >= 0 && dselect < SIZE_JLOPT_DATA){
-		return optdata[dselect];
+//--- オプション文字列 ---
+void JlsCmdArg::setStrOpt(OptType tp, const string& str){
+	int num;
+	if ( getRangeStrOpt(num, tp) ){
+		optStrData[num]  = str;
+		flagStrSet[num]  = true;
+		flagStrUpdate[num] = true;
 	}
-	return 0;
 }
+void JlsCmdArg::setStrOptDefault(OptType tp, const string& str){
+	int num;
+	if ( getRangeStrOpt(num, tp) ){
+		optStrData[num]  = str;
+		flagStrSet[num]  = false;
+		flagStrUpdate[num] = false;
+	}
+}
+string JlsCmdArg::getStrOpt(OptType tp){
+	int num;
+	if ( getRangeStrOpt(num, tp) ){
+		return optStrData[num];
+	}
+	return "";
+}
+bool JlsCmdArg::isSetStrOpt(OptType tp){
+	int num;
+	if ( getRangeStrOpt(num, tp) ){
+		return flagStrSet[num];
+	}
+	return false;
+}
+void JlsCmdArg::clearStrOptUpdate(OptType tp){
+	int num;
+	if ( getRangeStrOpt(num, tp) ){
+		flagStrUpdate[num] = false;
+	}
+}
+bool JlsCmdArg::isUpdateStrOpt(OptType tp){
+	int num;
+	if ( getRangeStrOpt(num, tp) ){
+		return flagStrUpdate[num];
+	}
+	return false;
+}
+
+//--- オプションのカテゴリ分類 ---
+bool JlsCmdArg::getOptCategory(OptCat& category, OptType tp){
+	int nTp = static_cast<int>(tp);
+	if ( nTp < 0 ){
+		return false;
+	}
+	else if ( nTp > static_cast<int>(OptType::ScMIN) && nTp < static_cast<int>(OptType::ScMAX) ){
+		category = OptCat::PosSC;
+	}
+	else if ( nTp > static_cast<int>(OptType::LgMIN) && nTp < static_cast<int>(OptType::LgMAX) ){
+		category = OptCat::NumLG;
+	}
+	else if ( nTp > static_cast<int>(OptType::FrMIN) && nTp < static_cast<int>(OptType::FrMAX) ){
+		category = OptCat::FRAME;
+	}
+	else if ( nTp > static_cast<int>(OptType::StrMIN) && nTp < static_cast<int>(OptType::StrMAX) ){
+		category = OptCat::STR;
+	}
+	else if ( nTp > static_cast<int>(OptType::ArrayMIN) && nTp < static_cast<int>(OptType::ArrayMAX) ){
+		category = OptCat::NUM;
+	}
+	else{
+		return false;
+	}
+	return true;
+}
+//--- オプションを各カテゴリの0から順番の番号に変換 ---
+bool JlsCmdArg::getRangeOptArray(int& num, OptType tp){
+	int nTp = static_cast<int>(tp);
+	if ( nTp > static_cast<int>(OptType::ArrayMIN) && nTp < static_cast<int>(OptType::ArrayMAX) ){
+		num = nTp - static_cast<int>(OptType::ArrayMIN) - 1;
+		return true;
+	}
+	return false;
+}
+bool JlsCmdArg::getRangeStrOpt(int& num, OptType tp){
+	int nTp = static_cast<int>(tp);
+	if ( nTp > static_cast<int>(OptType::StrMIN) && nTp < static_cast<int>(OptType::StrMAX) ){
+		num = nTp - static_cast<int>(OptType::StrMIN) - 1;
+		return true;
+	}
+	return false;
+}
+
 
 //---------------------------------------------------------------------
 // -SC系オプションの設定追加
 //---------------------------------------------------------------------
-void JlsCmdArg::addScOpt(int numdata, int min, int max){
+void JlsCmdArg::addScOpt(OptType tp, bool relative, int tmin, int tmax){
 	CmdArgSc scset;
-	scset.type = numdata;
-	scset.min  = min;
-	scset.max  = max;
+	scset.type     = tp;
+	scset.relative = relative;
+	scset.min      = tmin;
+	scset.max      = tmax;
 	listScOpt.push_back(scset);
 }
 
@@ -105,21 +217,16 @@ void JlsCmdArg::addScOpt(int numdata, int min, int max){
 // -SC系オプションを取得
 //---------------------------------------------------------------------
 //--- コマンド取得 ---
-JlOptionArgScType JlsCmdArg::getScOptType(int num){
+OptType JlsCmdArg::getScOptType(int num){
 	if (num >= 0 && num < (int) listScOpt.size()){
-		int typedata = listScOpt[num].type;
-		if (typedata >= 16){
-			typedata = typedata - 16;
-		}
-		return (JlOptionArgScType) typedata;
+		return listScOpt[num].type;
 	}
-	return CMDARG_SC_NONE;
+	return OptType::ScNone;
 }
 //--- 相対位置コマンド(-RSC等）の判別 ---
 bool JlsCmdArg::isScOptRelative(int num){
 	if (num >= 0 && num < (int) listScOpt.size()){
-		int typedata = listScOpt[num].type;
-		if (typedata >= 16) return true;
+		return listScOpt[num].relative;
 	}
 	return false;
 }
@@ -145,15 +252,15 @@ int JlsCmdArg::sizeScOpt(){
 //---------------------------------------------------------------------
 // -LG系オプションの設定追加
 //---------------------------------------------------------------------
-void JlsCmdArg::addLgOpt(int nlg){
-	listLgVal.push_back(nlg);
+void JlsCmdArg::addLgOpt(string strNlg){
+	listLgVal.push_back(strNlg);
 }
 
 //---------------------------------------------------------------------
 // -LG系オプションを取得
 //---------------------------------------------------------------------
 //--- 値取得 ---
-int JlsCmdArg::getLgOpt(int num){
+string JlsCmdArg::getLgOpt(int num){
 	if (num >= 0 && num < (int) listLgVal.size()){
 		return listLgVal[num];
 	}
@@ -162,6 +269,54 @@ int JlsCmdArg::getLgOpt(int num){
 //--- 格納数取得 ---
 int JlsCmdArg::sizeLgOpt(){
 	return (int) listLgVal.size();
+}
+
+//---------------------------------------------------------------------
+// 引数取得
+//---------------------------------------------------------------------
+//--- 追加格納 ---
+void JlsCmdArg::addArgString(const string& strArg){
+	listStrArg.push_back(strArg);
+}
+//--- 差し替え ---
+bool JlsCmdArg::replaceArgString(int n, const string& strArg){
+	int num = n - 1;
+	if ( num >= 0 && num < (int) listStrArg.size() ){
+		listStrArg[num] = strArg;
+		return true;
+	}
+	return false;
+}
+//--- 引数取得 ---
+string JlsCmdArg::getStrArg(int n){
+	int num = n - 1;
+	if ( num >= 0 && num < (int) listStrArg.size() ){
+		return listStrArg[num];
+	}
+	return "";
+}
+//--- 引数を数字に変換して取得 ---
+int JlsCmdArg::getValStrArg(int n){
+	int num = n - 1;
+	if ( num >= 0 && num < (int) listStrArg.size() ){
+		return stoi(listStrArg[num]);
+	}
+	return 0;
+}
+//---------------------------------------------------------------------
+// IF条件式用
+//---------------------------------------------------------------------
+void JlsCmdArg::setNumCheckCond(int num){
+	cond.numCheckCond = num;
+}
+int JlsCmdArg::getNumCheckCond(){
+	return cond.numCheckCond;
+}
+void JlsCmdArg::setCondFlag(bool flag){
+	cond.flagCond = flag;
+}
+bool JlsCmdArg::getCondFlag(){
+	return cond.flagCond;
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -184,6 +339,8 @@ void JlsCmdLimit::clear(){
 	nrfBase = -1;
 	nscBase = -1;
 	edgeBase = LOGO_EDGE_RISE;
+	listWmsecLogoBase.clear();
+	locMsecLogoBase = -1;
 	wmsecTarget = {-1, -1, -1};
 	msecTargetFc = -1;
 	fromLogo = false;
@@ -191,6 +348,7 @@ void JlsCmdLimit::clear(){
 	listScpEnable.clear();
 	nscSel = -1;
 	nscEnd = -1;
+	edgeOutPos = LOGO_EDGE_RISE;
 }
 
 //---------------------------------------------------------------------
@@ -298,6 +456,43 @@ bool JlsCmdLimit::setLogoBaseNsc(Nsc nsc, jlsd::LogoEdgeType edge){
 	return true;
 }
 
+void JlsCmdLimit::setLogoWmsecList(vector<WideMsec>& listWmsec, int locBase){
+	listWmsecLogoBase = listWmsec;
+	locMsecLogoBase = locBase;
+}
+void JlsCmdLimit::getLogoWmsecBase(WideMsec& wmsec, int step, bool flagWide){
+	getLogoWmsecBaseShift(wmsec, step, flagWide, 0);
+}
+void JlsCmdLimit::getLogoWmsecBaseShift(WideMsec& wmsec, int step, bool flagWide, int sft){
+	int locMd   = locMsecLogoBase + sft;
+	int locSt   = locMsecLogoBase + sft - step;
+	int locEd   = locMsecLogoBase + sft + step;
+	int locSize = (int)listWmsecLogoBase.size();
+	if ( 0 <= locMd && locMd < locSize ){
+		wmsec.just = listWmsecLogoBase[locMd].just;
+	}else{
+		wmsec.just = -1;
+	}
+	if ( 0 <= locSt && locSt < locSize ){
+		if ( flagWide ){
+			wmsec.early = listWmsecLogoBase[locSt].early;
+		}else{
+			wmsec.early = listWmsecLogoBase[locSt].just;
+		}
+	}else{
+		wmsec.early = -1;
+	}
+	if ( 0 <= locEd && locEd < locSize ){
+		if ( flagWide ){
+			wmsec.late = listWmsecLogoBase[locEd].late;
+		}else{
+			wmsec.late = listWmsecLogoBase[locEd].just;
+		}
+	}else{
+		wmsec.late = -1;
+	}
+}
+
 //---------------------------------------------------------------------
 // ターゲット選択可能範囲
 //---------------------------------------------------------------------
@@ -322,6 +517,14 @@ bool JlsCmdLimit::setTargetRange(WideMsec wmsec, Msec msec_force, bool from_logo
 	msecTargetFc = msec_force;
 	fromLogo     = from_logo;
 	return true;
+}
+
+//--- 出力エッジ設定 ---
+void JlsCmdLimit::setTargetOutEdge(LogoEdgeType edge){
+	edgeOutPos = edge;
+}
+LogoEdgeType JlsCmdLimit::getTargetOutEdge(){
+	return edgeOutPos;
 }
 
 //---------------------------------------------------------------------

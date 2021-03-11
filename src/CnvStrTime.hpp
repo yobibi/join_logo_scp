@@ -43,6 +43,7 @@ private:
 	static const int D_CALCOP_PARE  = 0x3102;		// )
 	static const int D_CALCOP_N_INC = 0x4201;		// ++（後側）非実装
 	static const int D_CALCOP_N_DEC = 0x4202;		// --（後側）非実装
+	static const int D_CALCOP_ERROR = 0xFFFF;		// エラー
 	// 文字列から取得する時の区切り
 	enum DelimtStrType {
 		DELIMIT_SPACE_QUOTE,	// 空白区切りQUOTE可
@@ -63,6 +64,7 @@ public:
 	//--- ファイル名解析 ---
 	int getStrFilePathName(string &pathname, string &fname, const string &fullname);
 	int getStrFilePath(string &pathname, const string &fullname);
+	string getStrFileDelimiter();
 	//--- 時間とフレーム位置の変換 ---
 	int getFrmFromMsec(int msec);
 	int getMsecFromFrm(int frm);
@@ -82,6 +84,7 @@ public:
 	//--- 文字列から単語取得 ---
 	int getStrItem(string &dst, const string &cstr, int pos);
 	int getStrWord(string &dst, const string &cstr, int pos);
+	int getStrItemWithQuote(string &dst, const string &cstr, int pos);
 	//--- 時間を文字列（フレームまたはミリ秒）に変換 ---
 	string getStringMsecM1(int msec_val);
 	string getStringFrameMsecM1(int msec_val);
@@ -112,5 +115,6 @@ private:
 	int m_frate_n;				// フレームレート用(初期値=30000)
 	int m_frate_d;				// フレームレート用(初期値=1001)
 	int m_unitsec;				// 整数単位（0:フレーム 1:ミリ秒）
+	string m_delimiter;			// ファイルパスの区切り文字
 
 };

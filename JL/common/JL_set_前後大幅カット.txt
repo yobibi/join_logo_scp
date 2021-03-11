@@ -1,0 +1,31 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：最初と最後を大幅にカットする処理を追加
+#       検索（種類に制約なし）を実行する前に設定する
+#
+
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+Default longcut_by_logo   1    # ロゴ切れ目よるカット(0=しない 1=する)
+Default longcut_by_auto   0    # 推測構成区切りによるカット(0=しない 1=する)
+
+Default longcut_len_first 00:05:00  # ファイル先頭の最大カット期間
+Default longcut_len_last  00:08:00  # ファイル最後の最大カット期間
+
+Default longcut_str_auto  "-code 2" # 推測構成カット時の追加オプション
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+LazyAuto   # このファイルは自動で実行タイミング制御
+
+If ${longcut_by_logo}==1
+  Abort E -F -1 ${longcut_len_first} -WithP
+  Abort S -F ${MAXTIME}-${longcut_len_last} -1 -WithN
+EndIf
+
+If ${longcut_by_auto}==1
+  AutoDel E -fromabs ${longcut_len_first} -Drange -1 0 -EndAbs 0 -RAC ${longcut_str_auto}
+  AutoDel S -fromabs ${MAXTIME}-${longcut_len_last} -Drange 0 -1 -EndAbs ${MAXTIME} -RAC ${longcut_str_auto}
+EndIf

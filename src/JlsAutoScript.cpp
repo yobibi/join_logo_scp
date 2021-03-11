@@ -17,28 +17,29 @@
 //---------------------------------------------------------------------
 // パラメータ設定
 //---------------------------------------------------------------------
-void JlsAutoArg::setParam(JlsCmdArg &cmdarg, JlcmdAutoType cmdtype){
+void JlsAutoArg::setParam(JlsCmdArg &cmdarg, CmdAutoType cmdtype){
 	clearAll();
 	m_cmdtype = cmdtype;
 	switch(cmdtype){
-		case JLCMD_AUTO_CUTTR :
+		case CmdAutoType::CutTR :
 			setParamCutTR(cmdarg);
 			break;
-		case JLCMD_AUTO_CUTEC :
+		case CmdAutoType::CutEC :
 			setParamCutEC(cmdarg);
 			break;
-		case JLCMD_AUTO_ADDTR :
-		case JLCMD_AUTO_ADDSP :
-		case JLCMD_AUTO_ADDEC :
+		case CmdAutoType::AddTR :
+		case CmdAutoType::AddSP :
+		case CmdAutoType::AddEC :
 			setParamAdd(cmdarg);
 			break;
-		case JLCMD_AUTO_EDGE :
+		case CmdAutoType::Edge :
 			setParamEdge(cmdarg);
 			break;
-		case JLCMD_AUTO_ATUP :
-		case JLCMD_AUTO_ATBORDER :
-		case JLCMD_AUTO_INS :
-		case JLCMD_AUTO_DEL :
+		case CmdAutoType::AtUP :
+		case CmdAutoType::AtBorder :
+		case CmdAutoType::AtIClear :
+		case CmdAutoType::Ins :
+		case CmdAutoType::Del :
 			setParamInsDel(cmdarg);
 			break;
 		default :
@@ -50,13 +51,15 @@ void JlsAutoArg::setParam(JlsCmdArg &cmdarg, JlcmdAutoType cmdtype){
 //---------------------------------------------------------------------
 // パラメータ取得
 //---------------------------------------------------------------------
-int JlsAutoArg::getParam(JlParamAuto type){
-	if (type >= 0 && type < SIZE_PARAM_AUTO){
-		if (m_enable_prm[type] > 0){
-			return m_val_prm[type];
+int JlsAutoArg::getParam(ParamAuto type){
+	int num = static_cast<int>(type);
+	if (num >= 0 && num < SIZE_PARAM_AUTO){
+		if (m_enable_prm[num] > 0){
+			return m_val_prm[num];
 		}
 	}
-	cerr << "unexpected error JlsAutoArg::GetParam cmdtype=" << m_cmdtype << " type=" << type << endl;
+	cerr << "unexpected error JlsAutoArg::GetParam cmdtype=" << static_cast<int>(m_cmdtype);
+	cerr << " type=" << num << endl;
 	return 0;
 }
 
@@ -74,20 +77,21 @@ void JlsAutoArg::clearAll(){
 //---------------------------------------------------------------------
 // モード別のパラメータ設定
 //---------------------------------------------------------------------
-void JlsAutoArg::setVal(JlParamAuto type, int val){
-	if (type >= 0 && type < SIZE_PARAM_AUTO){
-		m_enable_prm[type] = 1;
-		m_val_prm[type]    = val;
+void JlsAutoArg::setVal(ParamAuto type, int val){
+	int num = static_cast<int>(type);
+	if (num >= 0 && num < SIZE_PARAM_AUTO){
+		m_enable_prm[num] = 1;
+		m_val_prm[num]    = val;
 	}
 }
 
 void JlsAutoArg::setParamCutTR(JlsCmdArg &cmdarg){
 	//--- パラメータ取得 ---
-	int autop_code     = cmdarg.getOpt(JLOPT_DATA_AutopCode);
-	int tmp_trscope    = cmdarg.getOpt(JLOPT_DATA_AutopTrScope);
-	int tmp_trsumprd   = cmdarg.getOpt(JLOPT_DATA_AutopTrSumPrd);
-	int prm_v_limit    = cmdarg.getOpt(JLOPT_DATA_AutopLimit);
-	int prm_v_tr1stprd = cmdarg.getOpt(JLOPT_DATA_AutopTr1stPrd);
+	int autop_code     = cmdarg.getOpt(OptType::AutopCode);
+	int tmp_trscope    = cmdarg.getOpt(OptType::AutopTrScope);
+	int tmp_trsumprd   = cmdarg.getOpt(OptType::AutopTrSumPrd);
+	int prm_v_limit    = cmdarg.getOpt(OptType::AutopLimit);
+	int prm_v_tr1stprd = cmdarg.getOpt(OptType::AutopTr1stPrd);
 	int prm_c_from     = autop_code % 10;
 	int prm_c_cutst    = (autop_code / 10) % 10;
 	int prm_c_lgpre    = (autop_code / 100) % 10;
@@ -98,25 +102,25 @@ void JlsAutoArg::setParamCutTR(JlsCmdArg &cmdarg){
 	int prm_v_trscope  = (tmp_trscope  == 0)? 30 : tmp_trscope;
 	int prm_v_trsumprd = (tmp_trsumprd == 0)?  3 : tmp_trsumprd;
 
-	setVal(PARAM_AUTO_v_limit    , prm_v_limit    );
-	setVal(PARAM_AUTO_v_tr1stprd , prm_v_tr1stprd );
-	setVal(PARAM_AUTO_c_from     , prm_c_from     );
-	setVal(PARAM_AUTO_c_cutst    , prm_c_cutst    );
-	setVal(PARAM_AUTO_c_lgpre    , prm_c_lgpre    );
-	setVal(PARAM_AUTO_c_exe      , prm_c_exe      );
-	setVal(PARAM_AUTO_v_trscope  , prm_v_trscope  );
-	setVal(PARAM_AUTO_v_trsumprd , prm_v_trsumprd );
-	setVal(PARAM_AUTO_c_noedge   , prm_c_noedge   );
+	setVal(ParamAuto::v_limit    , prm_v_limit    );
+	setVal(ParamAuto::v_tr1stprd , prm_v_tr1stprd );
+	setVal(ParamAuto::c_from     , prm_c_from     );
+	setVal(ParamAuto::c_cutst    , prm_c_cutst    );
+	setVal(ParamAuto::c_lgpre    , prm_c_lgpre    );
+	setVal(ParamAuto::c_exe      , prm_c_exe      );
+	setVal(ParamAuto::v_trscope  , prm_v_trscope  );
+	setVal(ParamAuto::v_trsumprd , prm_v_trsumprd );
+	setVal(ParamAuto::c_noedge   , prm_c_noedge   );
 }
 
 
 void JlsAutoArg::setParamCutEC(JlsCmdArg &cmdarg){
 	//--- パラメータ取得 ---
-	int autop_code     = cmdarg.getOpt(JLOPT_DATA_AutopCode);
-	int tmp_period   = cmdarg.getOpt(JLOPT_DATA_AutopPeriod);
-	int tmp_maxprd   = cmdarg.getOpt(JLOPT_DATA_AutopMaxPrd);
-	int prm_v_limit  = cmdarg.getOpt(JLOPT_DATA_AutopLimit);
-	int prm_c_sel    = cmdarg.getOpt(JLOPT_DATA_AutopCode) % 10;
+	int autop_code     = cmdarg.getOpt(OptType::AutopCode);
+	int tmp_period   = cmdarg.getOpt(OptType::AutopPeriod);
+	int tmp_maxprd   = cmdarg.getOpt(OptType::AutopMaxPrd);
+	int prm_v_limit  = cmdarg.getOpt(OptType::AutopLimit);
+	int prm_c_sel    = cmdarg.getOpt(OptType::AutopCode) % 10;
 	int prm_c_cutla  = ((((autop_code / 10) % 10) & 0x1) != 0)? 1 : 0;
 	int prm_c_cutlp  = ((((autop_code / 10) % 10) & 0x2) != 0)? 1 : 0;
 	int prm_c_cut30  = 0;
@@ -126,15 +130,15 @@ void JlsAutoArg::setParamCutEC(JlsCmdArg &cmdarg){
 	int prm_v_period = (tmp_period == 0)?   5 : tmp_period;
 	int prm_v_maxprd = (tmp_maxprd == 0)?  13 : tmp_maxprd;
 
-	setVal(PARAM_AUTO_v_limit  , prm_v_limit );
-	setVal(PARAM_AUTO_c_sel    , prm_c_sel );
-	setVal(PARAM_AUTO_c_cutla  , prm_c_cutla );
-	setVal(PARAM_AUTO_c_cutlp  , prm_c_cutlp );
-	setVal(PARAM_AUTO_c_cut30  , prm_c_cut30 );
-	setVal(PARAM_AUTO_c_cutsp  , prm_c_cutsp );
-	setVal(PARAM_AUTO_v_period , prm_v_period );
-	setVal(PARAM_AUTO_v_maxprd , prm_v_maxprd );
-	setVal(PARAM_AUTO_c_noedge , prm_c_noedge );
+	setVal(ParamAuto::v_limit  , prm_v_limit );
+	setVal(ParamAuto::c_sel    , prm_c_sel );
+	setVal(ParamAuto::c_cutla  , prm_c_cutla );
+	setVal(ParamAuto::c_cutlp  , prm_c_cutlp );
+	setVal(ParamAuto::c_cut30  , prm_c_cut30 );
+	setVal(ParamAuto::c_cutsp  , prm_c_cutsp );
+	setVal(ParamAuto::v_period , prm_v_period );
+	setVal(ParamAuto::v_maxprd , prm_v_maxprd );
+	setVal(ParamAuto::c_noedge , prm_c_noedge );
 }
 
 
@@ -144,7 +148,7 @@ void JlsAutoArg::setParamAdd(JlsCmdArg &cmdarg){
 	int enable_w15, enable_in1;
 
 	//--- コマンドによる違い部分 ---
-	if (m_cmdtype == JLCMD_AUTO_ADDSP){		// 番組提供
+	if (m_cmdtype == CmdAutoType::AddSP){	// 番組提供
 		//--- デフォルト値 ---
 		default_c_wmin = 6;					// 最小期間秒数
 		default_c_wmax = 13;				// 最大期間秒数
@@ -155,7 +159,7 @@ void JlsAutoArg::setParamAdd(JlsCmdArg &cmdarg){
 		enable_w15     = 1;					// 15秒の検索
 		enable_in1     = 1;					// 予告に挿入
 	}
-	else if (m_cmdtype == JLCMD_AUTO_ADDEC){	// エンドカード
+	else if (m_cmdtype == CmdAutoType::AddEC){	// エンドカード
 		//--- デフォルト値 ---
 		default_c_wmin = 1;					// 最小期間秒数
 		default_c_wmax = 13;				// 最大期間秒数
@@ -179,25 +183,25 @@ void JlsAutoArg::setParamAdd(JlsCmdArg &cmdarg){
 	}
 
 	//--- パラメータ取得 ---
-	int autop_code     = cmdarg.getOpt(JLOPT_DATA_AutopCode);
+	int autop_code     = cmdarg.getOpt(OptType::AutopCode);
 	int tmp_c_w        = autop_code % 10;				// 検索秒数決定用中間値
 	int tmp_c_sea      = (autop_code / 10) % 10;		// 検索範囲
 	int tmp_c_lg       = (autop_code / 100) % 10;		// ロゴ状態検索
 	int tmp_c_p        = (autop_code / 1000) % 10;
 	int tmp_c_lim      = (autop_code / 10000) % 10;
 	int tmp_c_unit     = (autop_code / 100000) % 10;
-	int tmp_period     = cmdarg.getOpt(JLOPT_DATA_AutopPeriod);
-	int tmp_maxprd     = cmdarg.getOpt(JLOPT_DATA_AutopMaxPrd);
-	int tmp_scope      = cmdarg.getOpt(JLOPT_DATA_AutopScope);
-	int prm_v_scopen   = cmdarg.getOpt(JLOPT_DATA_AutopScopeN);
-	int prm_v_limit    = cmdarg.getOpt(JLOPT_DATA_AutopLimit);
-	int prm_v_secnext  = cmdarg.getOpt(JLOPT_DATA_AutopSecNext);
-	int prm_v_secprev  = cmdarg.getOpt(JLOPT_DATA_AutopSecPrev);
-	int prm_v_trsumprd = cmdarg.getOpt(JLOPT_DATA_AutopTrSumPrd);
+	int tmp_period     = cmdarg.getOpt(OptType::AutopPeriod);
+	int tmp_maxprd     = cmdarg.getOpt(OptType::AutopMaxPrd);
+	int tmp_scope      = cmdarg.getOpt(OptType::AutopScope);
+	int prm_v_scopen   = cmdarg.getOpt(OptType::AutopScopeN);
+	int prm_v_limit    = cmdarg.getOpt(OptType::AutopLimit);
+	int prm_v_secnext  = cmdarg.getOpt(OptType::AutopSecNext);
+	int prm_v_secprev  = cmdarg.getOpt(OptType::AutopSecPrev);
+	int prm_v_trsumprd = cmdarg.getOpt(OptType::AutopTrSumPrd);
 	int prm_c_noedge   = 1;
-	bool is_scope       = cmdarg.isSetOpt(JLOPT_DATA_AutopScope);
-	bool is_period      = cmdarg.isSetOpt(JLOPT_DATA_AutopPeriod);
-	bool is_maxprd      = cmdarg.isSetOpt(JLOPT_DATA_AutopMaxPrd);
+	bool is_scope       = cmdarg.isSetOpt(OptType::AutopScope);
+	bool is_period      = cmdarg.isSetOpt(OptType::AutopPeriod);
+	bool is_maxprd      = cmdarg.isSetOpt(OptType::AutopMaxPrd);
 
 	//--- 実行判断 ---
 	int prm_c_exe = (tmp_c_w != 0)? 1 : 0;
@@ -223,31 +227,31 @@ void JlsAutoArg::setParamAdd(JlsCmdArg &cmdarg){
 	int prm_c_wdefmin   = default_c_wmin;
 	int prm_c_wdefmax   = default_c_wmax;
 
-	setVal(PARAM_AUTO_v_scopen    , prm_v_scopen );
-	setVal(PARAM_AUTO_v_limit     , prm_v_limit );
-	setVal(PARAM_AUTO_v_secnext   , prm_v_secnext );
-	setVal(PARAM_AUTO_v_secprev   , prm_v_secprev );
-	setVal(PARAM_AUTO_v_trsumprd  , prm_v_trsumprd );
-	setVal(PARAM_AUTO_c_exe       , prm_c_exe );
-	setVal(PARAM_AUTO_v_scope     , prm_v_scope );
-	setVal(PARAM_AUTO_v_period    , prm_v_period );
-	setVal(PARAM_AUTO_v_maxprd    , prm_v_maxprd );
-	setVal(PARAM_AUTO_c_search    , prm_c_search );
-	setVal(PARAM_AUTO_c_lgy       , prm_c_lgy );
-	setVal(PARAM_AUTO_c_lgn       , prm_c_lgn );
-	setVal(PARAM_AUTO_c_lgbn      , prm_c_lgbn );
-	setVal(PARAM_AUTO_c_cutskip   , prm_c_cutskip );
-	setVal(PARAM_AUTO_c_lgprev    , prm_c_lgprev );
-	setVal(PARAM_AUTO_c_lgpost    , prm_c_lgpost );
-	setVal(PARAM_AUTO_c_lgintr    , prm_c_lgintr );
-	setVal(PARAM_AUTO_c_lgsp      , prm_c_lgsp );
-	setVal(PARAM_AUTO_c_limloc    , prm_c_limloc );
-	setVal(PARAM_AUTO_c_limtrsum  , prm_c_limtrsum );
-	setVal(PARAM_AUTO_c_unitcmoff , prm_c_unitcmoff );
-	setVal(PARAM_AUTO_c_unitcmon  , prm_c_unitcmon );
-	setVal(PARAM_AUTO_c_wdefmin   , prm_c_wdefmin );
-	setVal(PARAM_AUTO_c_wdefmax   , prm_c_wdefmax );
-	setVal(PARAM_AUTO_c_noedge    , prm_c_noedge );
+	setVal(ParamAuto::v_scopen    , prm_v_scopen );
+	setVal(ParamAuto::v_limit     , prm_v_limit );
+	setVal(ParamAuto::v_secnext   , prm_v_secnext );
+	setVal(ParamAuto::v_secprev   , prm_v_secprev );
+	setVal(ParamAuto::v_trsumprd  , prm_v_trsumprd );
+	setVal(ParamAuto::c_exe       , prm_c_exe );
+	setVal(ParamAuto::v_scope     , prm_v_scope );
+	setVal(ParamAuto::v_period    , prm_v_period );
+	setVal(ParamAuto::v_maxprd    , prm_v_maxprd );
+	setVal(ParamAuto::c_search    , prm_c_search );
+	setVal(ParamAuto::c_lgy       , prm_c_lgy );
+	setVal(ParamAuto::c_lgn       , prm_c_lgn );
+	setVal(ParamAuto::c_lgbn      , prm_c_lgbn );
+	setVal(ParamAuto::c_cutskip   , prm_c_cutskip );
+	setVal(ParamAuto::c_lgprev    , prm_c_lgprev );
+	setVal(ParamAuto::c_lgpost    , prm_c_lgpost );
+	setVal(ParamAuto::c_lgintr    , prm_c_lgintr );
+	setVal(ParamAuto::c_lgsp      , prm_c_lgsp );
+	setVal(ParamAuto::c_limloc    , prm_c_limloc );
+	setVal(ParamAuto::c_limtrsum  , prm_c_limtrsum );
+	setVal(ParamAuto::c_unitcmoff , prm_c_unitcmoff );
+	setVal(ParamAuto::c_unitcmon  , prm_c_unitcmon );
+	setVal(ParamAuto::c_wdefmin   , prm_c_wdefmin );
+	setVal(ParamAuto::c_wdefmax   , prm_c_wdefmax );
+	setVal(ParamAuto::c_noedge    , prm_c_noedge );
 
 	//--- 15秒特殊設定（trailerでカットされた所も検索に入れる） ---
 	int prm_c_w15 = 0;
@@ -282,19 +286,19 @@ void JlsAutoArg::setParamAdd(JlsCmdArg &cmdarg){
 		prm_c_wmax = 15;
 	}
 
-	setVal(PARAM_AUTO_c_w15     , prm_c_w15 );
-	setVal(PARAM_AUTO_c_in1     , prm_c_in1 );
-	setVal(PARAM_AUTO_c_chklast , prm_c_chklast );
-	setVal(PARAM_AUTO_c_wmin    , prm_c_wmin );
-	setVal(PARAM_AUTO_c_wmax    , prm_c_wmax );
+	setVal(ParamAuto::c_w15     , prm_c_w15 );
+	setVal(ParamAuto::c_in1     , prm_c_in1 );
+	setVal(ParamAuto::c_chklast , prm_c_chklast );
+	setVal(ParamAuto::c_wmin    , prm_c_wmin );
+	setVal(ParamAuto::c_wmax    , prm_c_wmax );
 }
 
 void JlsAutoArg::setParamEdge(JlsCmdArg &cmdarg){
 	//--- パラメータ取得 ---
-	int autop_code   = cmdarg.getOpt(JLOPT_DATA_AutopCode);
-	int tmp_scope    = cmdarg.getOpt(JLOPT_DATA_AutopScope);
-	int tmp_period   = cmdarg.getOpt(JLOPT_DATA_AutopPeriod);
-	int tmp_maxprd   = cmdarg.getOpt(JLOPT_DATA_AutopMaxPrd);
+	int autop_code   = cmdarg.getOpt(OptType::AutopCode);
+	int tmp_scope    = cmdarg.getOpt(OptType::AutopScope);
+	int tmp_period   = cmdarg.getOpt(OptType::AutopPeriod);
+	int tmp_maxprd   = cmdarg.getOpt(OptType::AutopMaxPrd);
 	int tmp_c_w      = autop_code % 10;					// 検索秒数決定用中間値
 	int tmp_c_sea    = (autop_code / 10) % 10;			// 検索範囲
 	int prm_c_cmpart = ((((autop_code / 100) % 10) & 0x1) == 1)? 1 : 0;
@@ -305,7 +309,7 @@ void JlsAutoArg::setParamEdge(JlsCmdArg &cmdarg){
 	int prm_c_exe = (tmp_c_w != 0)? 1 : 0;
 	//--- デフォルト値付き設定 ---
 	int prm_v_scope  = (tmp_scope  == 0)? 90 : tmp_scope;
-	int prm_v_period = (tmp_period == 0 && cmdarg.isSetOpt(JLOPT_DATA_AutopPeriod) == false)?  5  : tmp_period;
+	int prm_v_period = (tmp_period == 0 && cmdarg.isSetOpt(OptType::AutopPeriod) == false)?  5  : tmp_period;
 	int prm_v_maxprd = (tmp_maxprd == 0)?  10 : tmp_maxprd;
 	int prm_c_search = (tmp_c_sea  == 0)?  1  : tmp_c_sea;
 	//--- 検索下限秒数 ---
@@ -322,31 +326,36 @@ void JlsAutoArg::setParamEdge(JlsCmdArg &cmdarg){
 		prm_c_wmax = prm_v_maxprd;
 	}
 
-	setVal(PARAM_AUTO_c_cmpart , prm_c_cmpart );
-	setVal(PARAM_AUTO_c_add    , prm_c_add    );
-	setVal(PARAM_AUTO_c_allcom , prm_c_allcom );
-	setVal(PARAM_AUTO_c_noedge , prm_c_noedge );
-	setVal(PARAM_AUTO_c_exe    , prm_c_exe    );
-	setVal(PARAM_AUTO_v_scope  , prm_v_scope  );
-	setVal(PARAM_AUTO_v_period , prm_v_period );
-	setVal(PARAM_AUTO_v_maxprd , prm_v_maxprd );
-	setVal(PARAM_AUTO_c_search , prm_c_search );
-	setVal(PARAM_AUTO_c_wmin   , prm_c_wmin   );
-	setVal(PARAM_AUTO_c_wmax   , prm_c_wmax   );
+	setVal(ParamAuto::c_cmpart , prm_c_cmpart );
+	setVal(ParamAuto::c_add    , prm_c_add    );
+	setVal(ParamAuto::c_allcom , prm_c_allcom );
+	setVal(ParamAuto::c_noedge , prm_c_noedge );
+	setVal(ParamAuto::c_exe    , prm_c_exe    );
+	setVal(ParamAuto::v_scope  , prm_v_scope  );
+	setVal(ParamAuto::v_period , prm_v_period );
+	setVal(ParamAuto::v_maxprd , prm_v_maxprd );
+	setVal(ParamAuto::c_search , prm_c_search );
+	setVal(ParamAuto::c_wmin   , prm_c_wmin   );
+	setVal(ParamAuto::c_wmax   , prm_c_wmax   );
 }
 
 void JlsAutoArg::setParamInsDel(JlsCmdArg &cmdarg){
 	//--- パラメータ取得 ---
-	int autop_code   = cmdarg.getOpt(JLOPT_DATA_AutopCode);
+	int autop_code   = cmdarg.getOpt(OptType::AutopCode);
+	if ( !cmdarg.isSetOpt(OptType::AutopCode) ){
+		autop_code   = 1;								// -code未設定時の初期値
+	}
+	int prm_v_info   = cmdarg.getOpt(OptType::AutopTrInfo);
 	int tmp_c_w      = autop_code % 10;					// 中間値
 	//--- 実行判断 ---
 	int prm_c_exe      = (tmp_c_w != 0)? 1 : 0;
 	int prm_c_restruct = (tmp_c_w == 2)? 1 : 0;
 	int prm_c_noedge   = 1;
 
-	setVal(PARAM_AUTO_c_exe      , prm_c_exe      );
-	setVal(PARAM_AUTO_c_restruct , prm_c_restruct );
-	setVal(PARAM_AUTO_c_noedge   , prm_c_noedge   );
+	setVal(ParamAuto::c_exe      , prm_c_exe      );
+	setVal(ParamAuto::c_restruct , prm_c_restruct );
+	setVal(ParamAuto::c_noedge   , prm_c_noedge   );
+	setVal(ParamAuto::v_info     , prm_v_info     );
 }
 
 
@@ -402,7 +411,7 @@ void JlsAutoScript::checkFirstAct(JlsCmdArg &cmdarg){
 //---------------------------------------------------------------------
 bool JlsAutoScript::exeCmdMain(JlsCmdSet &cmdset){
 	//--- パラメータとコマンド種類を取得 ---
-	JlcmdAutoType cmdtype = exeCmdParam(cmdset.arg);
+	CmdAutoType cmdtype = exeCmdParam(cmdset.arg);
 
 	//--- 範囲設定 ---
 	RangeMsec autoscope = cmdset.limit.getFrameRange();
@@ -415,47 +424,50 @@ bool JlsAutoScript::exeCmdMain(JlsCmdSet &cmdset){
 
 	bool exeflag = false;
 	switch(cmdtype){
-		case JLCMD_AUTO_CUTTR :
+		case CmdAutoType::CutTR :
 			exeflag = startAutoCutTR(autoscope);
 			break;
-		case JLCMD_AUTO_CUTEC :
+		case CmdAutoType::CutEC :
 			exeflag = startAutoCutEC(autoscope);
 			break;
-		case JLCMD_AUTO_ADDTR :
+		case CmdAutoType::AddTR :
 			exeflag = startAutoAddTR(autoscope);
 			break;
-		case JLCMD_AUTO_ADDSP :
+		case CmdAutoType::AddSP :
 			exeflag = startAutoAddSP(autoscope);
 			break;
-		case JLCMD_AUTO_ADDEC :
+		case CmdAutoType::AddEC :
 			exeflag = startAutoAddEC(autoscope);
 			break;
-		case JLCMD_AUTO_EDGE :
+		case CmdAutoType::Edge :
 			exeflag = startAutoEdge(cmdset.limit);
 			break;
-		case JLCMD_AUTO_ATCM :
+		case CmdAutoType::AtCM :
 			{
 				JlsAutoReform func_reform(pdata);
 				exeflag = func_reform.startAutoCM(cmdset.arg);
 			}
 			break;
-		case JLCMD_AUTO_ATUP :
+		case CmdAutoType::AtUP :
 			exeflag = startAutoUp();
 			break;
-		case JLCMD_AUTO_ATBORDER :
+		case CmdAutoType::AtBorder :
 			exeflag = startAutoBorder(autoscope);
 			break;
-		case JLCMD_AUTO_INS :
+		case CmdAutoType::AtIClear :
+			exeflag = startAutoIClear(autoscope);
+			break;
+		case CmdAutoType::Ins :
 			exeflag = startAutoIns(cmdset.limit);
 			break;
-		case JLCMD_AUTO_DEL :
+		case CmdAutoType::Del :
 			exeflag = startAutoDel(cmdset.limit);
 			break;
-		case JLCMD_AUTO_ATCHG :
+		case CmdAutoType::AtChg :
 			exeflag = startAutoChg(cmdset.limit);
 			break;
 		default :
-			cerr << "error:internal setting (AutoType: " << cmdtype << ")"  << endl;
+			cerr << "error:internal setting (AutoType: " << static_cast<int>(cmdtype) << ")"  << endl;
 			break;
 	}
 	return exeflag;
@@ -464,66 +476,69 @@ bool JlsAutoScript::exeCmdMain(JlsCmdSet &cmdset){
 //---------------------------------------------------------------------
 // Auto系コマンド用のパラメータ取得
 //---------------------------------------------------------------------
-jlscmd::JlcmdAutoType JlsAutoScript::exeCmdParam(JlsCmdArg &cmdarg){
+jlscmd::CmdAutoType JlsAutoScript::exeCmdParam(JlsCmdArg &cmdarg){
 	//--- コマンドから種類を選択 ---
-	JlcmdAutoType cmdtype = JLCMD_AUTO_None;
+	CmdAutoType cmdtype = CmdAutoType::None;
 	switch(cmdarg.cmdsel){
-		case JLCMD_SEL_AutoCut :
-			if (cmdarg.selectAutoSub == JLCMD_SUB_TR){
-				cmdtype = JLCMD_AUTO_CUTTR;
+		case CmdType::AutoCut :
+			if (cmdarg.selectAutoSub == CmdTrSpEcID::TR){
+				cmdtype = CmdAutoType::CutTR;
 			}
-			else if (cmdarg.selectAutoSub == JLCMD_SUB_EC){
-				cmdtype = JLCMD_AUTO_CUTEC;
+			else if (cmdarg.selectAutoSub == CmdTrSpEcID::EC){
+				cmdtype = CmdAutoType::CutEC;
 			}
 			else{
 				cerr << "error: AutoCut is need TR/EC" << endl;
 			}
 			break;
-		case JLCMD_SEL_AutoAdd :
-			if (cmdarg.selectAutoSub == JLCMD_SUB_TR){
-				cmdtype = JLCMD_AUTO_ADDTR;
+		case CmdType::AutoAdd :
+			if (cmdarg.selectAutoSub == CmdTrSpEcID::TR){
+				cmdtype = CmdAutoType::AddTR;
 			}
-			else if (cmdarg.selectAutoSub == JLCMD_SUB_EC){
-				cmdtype = JLCMD_AUTO_ADDEC;
+			else if (cmdarg.selectAutoSub == CmdTrSpEcID::EC){
+				cmdtype = CmdAutoType::AddEC;
 			}
-			else if (cmdarg.selectAutoSub == JLCMD_SUB_SP){
-				cmdtype = JLCMD_AUTO_ADDSP;
+			else if (cmdarg.selectAutoSub == CmdTrSpEcID::SP){
+				cmdtype = CmdAutoType::AddSP;
 			}
 			else{
 				cerr << "error: AutoAdd is need TR/EC/SP" << endl;
 			}
 			break;
-		case JLCMD_SEL_AutoEdge :
-			cmdtype = JLCMD_AUTO_EDGE;
+		case CmdType::AutoEdge :
+			cmdtype = CmdAutoType::Edge;
 			break;
-		case JLCMD_SEL_AutoCM :
-			cmdtype = JLCMD_AUTO_ATCM;
+		case CmdType::AutoCM :
+			cmdtype = CmdAutoType::AtCM;
 			break;
-		case JLCMD_SEL_AutoBorder :
-			cmdtype = JLCMD_AUTO_ATBORDER;
+		case CmdType::AutoBorder :
+			cmdtype = CmdAutoType::AtBorder;
 			break;
-		case JLCMD_SEL_AutoUp :
-			cmdtype = JLCMD_AUTO_ATUP;
+		case CmdType::AutoIClear :
+			cmdtype = CmdAutoType::AtIClear;
 			break;
-		case JLCMD_SEL_AutoIns :
-			cmdtype = JLCMD_AUTO_INS;
+		case CmdType::AutoUp :
+			cmdtype = CmdAutoType::AtUP;
 			break;
-		case JLCMD_SEL_AutoDel :
-			cmdtype = JLCMD_AUTO_DEL;
+		case CmdType::AutoIns :
+			cmdtype = CmdAutoType::Ins;
+			break;
+		case CmdType::AutoDel :
+			cmdtype = CmdAutoType::Del;
 			break;
 		default :
-			if (cmdarg.getOpt(JLOPT_DATA_FlagAutoChg) > 0){
-				cmdtype = JLCMD_AUTO_ATCHG;
+			if (cmdarg.getOpt(OptType::FlagAutoChg) > 0){
+				cmdtype = CmdAutoType::AtChg;
 			}
 			else{
-				cerr << "error:internal setting at autoCmd(Command: " << cmdtype << ")"  << endl;
+				cerr << "error:internal setting at autoCmd(Command: " << static_cast<int>(cmdtype) << ")"  << endl;
 			}
 			break;
 	}
 
 	//--- パラメータ格納 ---
-	if (cmdtype != JLCMD_AUTO_None){
-		if (cmdarg.cmdsel != JLCMD_SEL_AutoCM){	// AutoCMは別途実行時に別クラスで設定
+	if (cmdtype != CmdAutoType::None){
+		if (cmdarg.cmdsel != CmdType::AutoCM){	// AutoCMは別途実行時に別クラスで設定
 			m_autoArg.setParam(cmdarg, cmdtype);
 		}
 	}
@@ -546,12 +561,12 @@ jlscmd::JlcmdAutoType JlsAutoScript::exeCmdParam(JlsCmdArg &cmdarg){
 //---------------------------------------------------------------------
 bool JlsAutoScript::startAutoUp(){
 	//--- 実行有無確認 ---
-	int prm_c_exe = getAutoParam(PARAM_AUTO_c_exe);
+	int prm_c_exe = getAutoParam(ParamAuto::c_exe);
 	if (prm_c_exe == 0){
 		return false;
 	}
 	//--- コマンド実行 ---
-	int restruct = getAutoParam(PARAM_AUTO_c_restruct);
+	int restruct = getAutoParam(ParamAuto::c_restruct);
 	Nlg nlg_fall = 0;
 	Nsc nsc_lastfall = 0;
 	bool cont_bk = true;
@@ -598,7 +613,7 @@ bool JlsAutoScript::startAutoUp(){
 //---------------------------------------------------------------------
 bool JlsAutoScript::startAutoBorder(RangeMsec autoscope){
 	//--- 実行有無確認 ---
-	int prm_c_exe = getAutoParam(PARAM_AUTO_c_exe);
+	int prm_c_exe = getAutoParam(ParamAuto::c_exe);
 	if (prm_c_exe == 0){
 		return false;
 	}
@@ -612,7 +627,7 @@ bool JlsAutoScript::startAutoBorder(RangeMsec autoscope){
 			if (cont && autoscope.st <= term.msec.st && term.msec.ed <= autoscope.ed){
 				ScpArType arstat_term = getScpArstat(term);
 				if ( jlsd::isScpArTypeBorder(arstat_term) ){
-					int restruct = getAutoParam(PARAM_AUTO_c_restruct);
+					int restruct = getAutoParam(ParamAuto::c_restruct);
 					if (restruct){
 						if (arstat_term == SCP_AR_B_UNIT) arstat_term = SCP_AR_L_UNIT;
 						else arstat_term = SCP_AR_L_OTHER;
@@ -631,6 +646,35 @@ bool JlsAutoScript::startAutoBorder(RangeMsec autoscope){
 }
 
 //---------------------------------------------------------------------
+// AutoIClear実行開始（予告・番組提供等の属性情報を消去）
+// 出力：
+//  返り値  : 消去実行 0=未実行 1=実行
+//---------------------------------------------------------------------
+bool JlsAutoScript::startAutoIClear(RangeMsec autoscope){
+	//--- 実行有無確認 ---
+	int prm_c_exe = getAutoParam(ParamAuto::c_exe);
+	if (prm_c_exe == 0){
+		return false;
+	}
+	//--- コマンド実行 ---
+	bool exeflag = false;
+	{
+		Term term = {};
+		bool cont = true;
+		while( cont ){
+			cont = getTermNext(term);
+			if (cont && autoscope.st <= term.msec.st && term.msec.ed <= autoscope.ed){
+				setScpArext(term, SCP_AREXT_NONE);
+				exeflag = true;
+			}
+		}
+		//--- 検索位置の初期化 ---
+		pdata->recHold.msecTrPoint = -1;	// CutTRコマンドの設定位置（CM構成内部分割の位置判断用）
+	}
+	return exeflag;
+}
+
+//---------------------------------------------------------------------
 // AutoChg実行開始（従来コマンドの-autochgオプション）
 // 出力：
 //  返り値  : 位置更新実行 0=未実行 1=実行
@@ -641,11 +685,27 @@ bool JlsAutoScript::startAutoChg(JlsCmdLimit &cmdlimit){
 	bool exeflag = false;
 	//--- 対象の無音SCを設定（データ挿入によるシーンチェンジ番号(nsc)変更あり） ---
 	Nrf  nrf_base    = cmdlimit.getLogoBaseNrf();
-	LogoEdgeType edgelogo = jlsd::edgeFromNrf(nrf_base);
+	LogoEdgeType edgelogo = LOGO_EDGE_RISE;
+	if ( nrf_base >= 0 ){
+		edgelogo = jlsd::edgeFromNrf(nrf_base);
+	}
 	Nsc  nsc_target  = cmdlimit.getResultTargetSel();
 	Msec msec_target = cmdlimit.getTargetRangeForce();
 	if (nsc_target < 0 && msec_target >= 0){
 		nsc_target = pdata->getNscForceMsec(msec_target, edgelogo);
+	}
+	//--- ロゴ基準ではない場合(NextTail)の処理 ---
+	if ( nrf_base < 0 ){
+		if ( nsc_target > 0 ){
+			exeflag = true;
+			Nsc nsc_arstat = pdata->getNscNextScpDecide(nsc_target-1, SCP_END_EDGEIN);
+			if ( nsc_arstat != nsc_target ){	// 新規推測構成区切りなら推測設定
+				bool logoon = pdata->isElgInScp(nsc_arstat);
+				JlsAutoReform func_reform(pdata);
+				func_reform.mkReformTarget(-1, nsc_target, logoon, 0);
+			}
+		}
+		return exeflag;			// ロゴ基準ではない場合(NextTail)は終了
 	}
 	//--- 基準位置を取得 ---
 	Nsc  nsc_base = getNscElgFromNrf(nrf_base);
@@ -731,18 +791,21 @@ Nsc JlsAutoScript::getNscElgFromNrf(Nrf nrf_base){
 bool JlsAutoScript::startAutoIns(JlsCmdLimit &cmdlimit){
 	bool exeflag = false;
 	//--- 実行有無確認 ---
-	int prm_c_exe = getAutoParam(PARAM_AUTO_c_exe);
+	int prm_c_exe = getAutoParam(ParamAuto::c_exe);
 	if (prm_c_exe == 0){
 		return false;
 	}
 	//--- コマンド実行 ---
-	Nsc nsc_target;
-	Nsc nsc_base;
-	int restruct = getAutoParam(PARAM_AUTO_c_restruct);
-	if ( subInsDelGetRange(nsc_target, nsc_base, cmdlimit) ){
+	RangeNscMsec rangeData;
+	int restruct = getAutoParam(ParamAuto::c_restruct);
+	if ( subInsDelGetRange(rangeData, cmdlimit) ){
+		//--- 構成情報更新 ---
 		JlsAutoReform func_reform(pdata);
-		func_reform.mkReformTarget(nsc_target, nsc_base, 1, restruct);		// ロゴ有
+		func_reform.mkReformTarget(rangeData.nsc.st, rangeData.nsc.ed, 1, restruct);	// ロゴ有
 		exeflag = true;
+		//--- 属性情報の追加変更 ---
+		bool flagAdd = true;		// 追加
+		subInsDelChangeArExt(rangeData.msec, flagAdd);
 	}
 	return exeflag;
 }
@@ -757,18 +820,21 @@ bool JlsAutoScript::startAutoIns(JlsCmdLimit &cmdlimit){
 bool JlsAutoScript::startAutoDel(JlsCmdLimit &cmdlimit){
 	bool exeflag = false;
 	//--- 実行有無確認 ---
-	int prm_c_exe = getAutoParam(PARAM_AUTO_c_exe);
+	int prm_c_exe = getAutoParam(ParamAuto::c_exe);
 	if (prm_c_exe == 0){
 		return false;
 	}
 	//--- コマンド実行 ---
-	Nsc nsc_target;
-	Nsc nsc_base;
-	int restruct = getAutoParam(PARAM_AUTO_c_restruct);
-	if ( subInsDelGetRange(nsc_target, nsc_base, cmdlimit) ){
+	RangeNscMsec rangeData;
+	int restruct = getAutoParam(ParamAuto::c_restruct);
+	if ( subInsDelGetRange(rangeData, cmdlimit) ){
+		//--- 構成情報更新 ---
 		JlsAutoReform func_reform(pdata);
-		func_reform.mkReformTarget(nsc_target, nsc_base, 0, restruct);		// ロゴ無
+		func_reform.mkReformTarget(rangeData.nsc.st, rangeData.nsc.ed, 0, restruct);	// ロゴ無
 		exeflag = true;
+		//--- 属性情報の追加変更 ---
+		bool flagAdd = false;			// 追加ではなく削除
+		subInsDelChangeArExt(rangeData.msec, flagAdd);
 	}
 	return exeflag;
 }
@@ -782,21 +848,28 @@ bool JlsAutoScript::startAutoDel(JlsCmdLimit &cmdlimit){
 // 注意点：
 //   データ挿入によるシーンチェンジ番号(nsc)変更あり
 //---------------------------------------------------------------------
-bool JlsAutoScript::subInsDelGetRange(Nsc &nsc_target, Nsc &nsc_base, JlsCmdLimit &cmdlimit){
+bool JlsAutoScript::subInsDelGetRange(RangeNscMsec& rangeData, JlsCmdLimit &cmdlimit){
 	LogoEdgeType edge = cmdlimit.getLogoBaseEdge();
 	//--- 基準位置取得 ---
-	nsc_base = subInsDelGetBase(cmdlimit);
+	Nsc  nsc_base = subInsDelGetBase(cmdlimit);
 	Msec msec_base = pdata->getMsecScpEdge(nsc_base, edge);
 	//--- ターゲット位置取得 ---
-	nsc_target  = cmdlimit.getResultTargetSel();
+	Nsc  nsc_target  = cmdlimit.getResultTargetSel();
 	Msec msec_target = cmdlimit.getTargetRangeForce();
-	if (nsc_target < 0 && msec_target >= 0){
-		nsc_target = pdata->getNscForceMsec(msec_target, edge);
+	if (nsc_target < 0){
+		if ( msec_target >= 0 ){
+			nsc_target = pdata->getNscForceMsec(msec_target, edge);
+		}
+	}else{
+		msec_target = pdata->getMsecScp(nsc_target);
 	}
 	//--- 基準位置の更新（ターゲット位置が新規追加の時変わるため） ---
 	if (nsc_base >= 0){
 		nsc_base = pdata->getNscFromMsecAllEdgein(msec_base);
 	}
+	//--- 結果代入 ---
+	rangeData.nsc  = { nsc_target,  nsc_base  };
+	rangeData.msec = { msec_target, msec_base };
 	if (nsc_target < 0 || nsc_base < 0){
 		return false;
 	}
@@ -827,8 +900,78 @@ Nsc JlsAutoScript::subInsDelGetBase(JlsCmdLimit &cmdlimit){
 	}
 	return nsc_base;
 }
-
-
+//---------------------------------------------------------------------
+// AutoIns / AutoDel用 追加属性情報の設定
+//---------------------------------------------------------------------
+void JlsAutoScript::subInsDelChangeArExt(RangeMsec rmsec, bool flagAdd){
+	//--- 追加の更新有無 ---
+	CmdTrSpEcID idOpt = (CmdTrSpEcID) getAutoParam(ParamAuto::v_info);
+	if ( idOpt == CmdTrSpEcID::None ){
+		return;
+	}
+	//--- -info設定に対応する属性設定値 ---
+	ScpArExtType arExt = SCP_AREXT_NONE;
+	if ( flagAdd ){
+		switch( idOpt ){
+			case CmdTrSpEcID::TR :
+				arExt = SCP_AREXT_L_TRKEEP;
+				break;
+			case CmdTrSpEcID::SP :
+				arExt = SCP_AREXT_L_SP;
+				break;
+			case CmdTrSpEcID::EC :
+				arExt = SCP_AREXT_L_EC;
+				break;
+			case CmdTrSpEcID::LG :
+				arExt = SCP_AREXT_L_LGADD;
+				break;
+			default :
+				break;
+		}
+	}else{
+		switch( idOpt ){
+			case CmdTrSpEcID::TR :
+				arExt = SCP_AREXT_L_TRCUT;
+				break;
+			case CmdTrSpEcID::SP :
+				arExt = SCP_AREXT_L_SP;
+				break;
+			case CmdTrSpEcID::EC :
+				arExt = SCP_AREXT_L_ECCUT;
+				break;
+			case CmdTrSpEcID::LG :
+				arExt = SCP_AREXT_L_LGCUT;
+				break;
+			default :
+				break;
+		}
+	}
+	//--- 更新 ---
+	{
+		//--- 位置情報取得 ---
+		Nsc nscFrom = pdata->getNscFromMsecAllEdgein(rmsec.st);
+		Nsc nscTo   = pdata->getNscFromMsecAllEdgein(rmsec.ed);
+		//--- fromを前側、toを後側 ---
+		if (nscFrom > nscTo){
+			Nsc tmp = nscFrom;
+			nscFrom = nscTo;
+			nscTo   = tmp;
+		}
+		//--- 片側でもマイナスの時は設定なし ---
+		if (nscFrom < 0){
+			return;
+		}
+		//--- 処理開始 ---
+		Term term = {};
+		bool cont = true;
+		while( cont ){
+			cont = getTermNext(term);
+			if ( cont && nscFrom <= term.nsc.st && term.nsc.ed <= nscTo ){
+				setScpArext(term, arExt);
+			}
+		}
+	}
+}
 
 //---------------------------------------------------------------------
 // AutoCut TR 予告を残し番宣をカットする処理
@@ -841,7 +984,7 @@ bool JlsAutoScript::startAutoCutTR(RangeMsec autoscope){
 	//--- 予告設定位置（CM構成内部分割を自動で行う位置） ---
 	pdata->recHold.msecTrPoint = autoscope.st;
 	//--- 実行有無確認 ---
-	int prm_c_exe = getAutoParam(PARAM_AUTO_c_exe);
+	int prm_c_exe = getAutoParam(ParamAuto::c_exe);
 	if (prm_c_exe == 0){
 		return false;
 	}
@@ -854,11 +997,11 @@ bool JlsAutoScript::startAutoCutTR(RangeMsec autoscope){
 	}
 
 	//--- パラメータ取得 ---
-	int prm_msec_wlogo_trmax = getConfig(CONFIG_VAR_msecWLogoTRMax);
-	int prm_msec_wcomp_trmax = getConfig(CONFIG_VAR_msecWCompTRMax);
-	int prm_limit     = getAutoParam(PARAM_AUTO_v_limit);
-	int prm_trsumprd  = getAutoParam(PARAM_AUTO_v_trsumprd);
-	int prm_c_cutst   = getAutoParam(PARAM_AUTO_c_cutst);
+	int prm_msec_wlogo_trmax = getConfig(ConfigVarType::msecWLogoTRMax);
+	int prm_msec_wcomp_trmax = getConfig(ConfigVarType::msecWCompTRMax);
+	int prm_limit     = getAutoParam(ParamAuto::v_limit);
+	int prm_trsumprd  = getAutoParam(ParamAuto::v_trsumprd);
+	int prm_c_cutst   = getAutoParam(ParamAuto::c_cutst);
 
 	//--- 予告位置を設定 ---
 	bool ret = false;
@@ -977,16 +1120,16 @@ Nsc JlsAutoScript::subCutTRGetLocSt(RangeMsec autoscope){
 void JlsAutoScript::subCutTRGetLocStSub(Nsc *r_nsc_cand, bool *r_flag_cand, RangeMsec autoscope, ElgCurrent elg){
 	//--- 設定値 ---
 	Msec msec_spc = pdata->msecValSpc;
-	int prm_wcomp_spmin      = getConfig(CONFIG_VAR_secWCompSPMin);
-	int prm_wcomp_spmax      = getConfig(CONFIG_VAR_secWCompSPMax);
-	int prm_msec_wlogo_trmax = getConfig(CONFIG_VAR_msecWLogoTRMax);
-	int prm_msec_wcomp_trmax = getConfig(CONFIG_VAR_msecWCompTRMax);
+	int prm_wcomp_spmin      = getConfig(ConfigVarType::secWCompSPMin);
+	int prm_wcomp_spmax      = getConfig(ConfigVarType::secWCompSPMax);
+	int prm_msec_wlogo_trmax = getConfig(ConfigVarType::msecWLogoTRMax);
+	int prm_msec_wcomp_trmax = getConfig(ConfigVarType::msecWCompTRMax);
 
 	//--- 使用パラメータ ---
-	int prm_c_from   = getAutoParam(PARAM_AUTO_c_from);
-	int prm_c_lgpre  = getAutoParam(PARAM_AUTO_c_lgpre);
-	int prm_trscope  = getAutoParam(PARAM_AUTO_v_trscope);
-	int prm_tr1stprd = getAutoParam(PARAM_AUTO_v_tr1stprd);
+	int prm_c_from   = getAutoParam(ParamAuto::c_from);
+	int prm_c_lgpre  = getAutoParam(ParamAuto::c_lgpre);
+	int prm_trscope  = getAutoParam(ParamAuto::v_trscope);
+	int prm_tr1stprd = getAutoParam(ParamAuto::v_tr1stprd);
 
 	//--- ロゴ終了が期間内 ---
 	if (elg.msecFall <= autoscope.st + msec_spc || elg.msecFall >= autoscope.ed + msec_spc){
@@ -1207,8 +1350,8 @@ void JlsAutoScript::subCutTRSetCut(Term &term){
 		setScpArext(term, SCP_AREXT_L_ECCUT);
 	}
 	//--- 設定値読み込み ---
-	int prm_msec_wcomp_trmax = getConfig(CONFIG_VAR_msecWCompTRMax);
-	int mgn_cm_detect = pdata->getConfig(CONFIG_VAR_msecMgnCmDetect);
+	int prm_msec_wcomp_trmax = getConfig(ConfigVarType::msecWCompTRMax);
+	int mgn_cm_detect = pdata->getConfig(ConfigVarType::msecMgnCmDetect);
 	//--- 前構成と15秒単位の結合処理 ---
 	{
 		Term preterm = term;
@@ -1266,7 +1409,7 @@ void JlsAutoScript::subCutTRSetCut(Term &term){
 //---------------------------------------------------------------------
 bool JlsAutoScript::startAutoCutEC(RangeMsec autoscope){
 	//--- 使用パラメータ ---
-	int prm_limit  = getAutoParam(PARAM_AUTO_v_limit);
+	int prm_limit  = getAutoParam(ParamAuto::v_limit);
 
 	//--- 初期状態設定 ---
 	bool ret = false;
@@ -1333,14 +1476,14 @@ bool JlsAutoScript::startAutoCutEC(RangeMsec autoscope){
 //---------------------------------------------------------------------
 int JlsAutoScript::subCutECGetLocSt(vector<int> &local_cntcut, int *r_ovw_force, RangeMsec autoscope){
 	//--- 使用パラメータ ---
-	int prm_limit   = getAutoParam(PARAM_AUTO_v_limit);
-	int prm_period  = getAutoParam(PARAM_AUTO_v_period);
-	int prm_maxprd  = getAutoParam(PARAM_AUTO_v_maxprd);
-	int prm_c_sel   = getAutoParam(PARAM_AUTO_c_sel);
-	int prm_c_cutsp = getAutoParam(PARAM_AUTO_c_cutsp);
-	int prm_c_cutla = getAutoParam(PARAM_AUTO_c_cutla);
-	int prm_c_cutlp = getAutoParam(PARAM_AUTO_c_cutlp);
-	int prm_c_cut30 = getAutoParam(PARAM_AUTO_c_cut30);
+	int prm_limit   = getAutoParam(ParamAuto::v_limit);
+	int prm_period  = getAutoParam(ParamAuto::v_period);
+	int prm_maxprd  = getAutoParam(ParamAuto::v_maxprd);
+	int prm_c_sel   = getAutoParam(ParamAuto::c_sel);
+	int prm_c_cutsp = getAutoParam(ParamAuto::c_cutsp);
+	int prm_c_cutla = getAutoParam(ParamAuto::c_cutla);
+	int prm_c_cutlp = getAutoParam(ParamAuto::c_cutlp);
+	int prm_c_cut30 = getAutoParam(ParamAuto::c_cut30);
 
 	//--- 初期状態設定 ---
 	local_cntcut.assign(local_cntcut.size(), 0);
@@ -1553,11 +1696,11 @@ bool JlsAutoScript::subCutECCheckScope(Sec sec_dif, int prm_c_sel, int prm_perio
 //---------------------------------------------------------------------
 bool JlsAutoScript::startAutoAddSP(RangeMsec autoscope){
 	//--- 使用パラメータ ---
-	int prm_c_exe      = getAutoParam(PARAM_AUTO_c_exe);
-	int prm_limit      = getAutoParam(PARAM_AUTO_v_limit);
-	int prm_c_limtrsum = getAutoParam(PARAM_AUTO_c_limtrsum);
-	int prm_trsumprd   = getAutoParam(PARAM_AUTO_v_trsumprd);
-	int prm_c_in1      = getAutoParam(PARAM_AUTO_c_in1);
+	int prm_c_exe      = getAutoParam(ParamAuto::c_exe);
+	int prm_limit      = getAutoParam(ParamAuto::v_limit);
+	int prm_c_limtrsum = getAutoParam(ParamAuto::c_limtrsum);
+	int prm_trsumprd   = getAutoParam(ParamAuto::v_trsumprd);
+	int prm_c_in1      = getAutoParam(ParamAuto::c_in1);
 
 	//--- 実行有無確認 ---
 	if (prm_c_exe == 0){
@@ -1566,7 +1709,7 @@ bool JlsAutoScript::startAutoAddSP(RangeMsec autoscope){
 
 	//--- limit確認、予告・番組提供有無確認 ---
 	AddExistInfo exist_info;
-	int cnt_limit = subAddGetLimit(exist_info, JLCMD_AUTO_ADDSP, autoscope);
+	int cnt_limit = subAddGetLimit(exist_info, CmdAutoType::AddSP, autoscope);
 	//--- limit上限確認、上限以上であれば何もせず終了 ---
 	if (prm_limit != 0 && cnt_limit >= prm_limit){
 		return false;
@@ -1579,7 +1722,7 @@ bool JlsAutoScript::startAutoAddSP(RangeMsec autoscope){
 	exist_info.sponsor = false;
 
 	//--- 優先順位最大のシーンチェンジ位置確認（prm_limit == 0の時は書き換えも実行） ---
-	int nsc_prior = subAddSearch(JLCMD_AUTO_ADDSP, exist_info, autoscope);
+	int nsc_prior = subAddSearch(CmdAutoType::AddSP, exist_info, autoscope);
 	if (nsc_prior < 0){
 		return false;
 	}
@@ -1652,10 +1795,10 @@ bool JlsAutoScript::startAutoAddSP(RangeMsec autoscope){
 //---------------------------------------------------------------------
 bool JlsAutoScript::startAutoAddEC(RangeMsec autoscope){
 	//--- 使用パラメータ ---
-	int prm_c_exe      = getAutoParam(PARAM_AUTO_c_exe);
-	int prm_limit      = getAutoParam(PARAM_AUTO_v_limit);
-	int prm_c_limtrsum = getAutoParam(PARAM_AUTO_c_limtrsum);
-	int prm_trsumprd   = getAutoParam(PARAM_AUTO_v_trsumprd);
+	int prm_c_exe      = getAutoParam(ParamAuto::c_exe);
+	int prm_limit      = getAutoParam(ParamAuto::v_limit);
+	int prm_c_limtrsum = getAutoParam(ParamAuto::c_limtrsum);
+	int prm_trsumprd   = getAutoParam(ParamAuto::v_trsumprd);
 
 	//--- 実行有無確認 ---
 	if (prm_c_exe == 0){
@@ -1664,7 +1807,7 @@ bool JlsAutoScript::startAutoAddEC(RangeMsec autoscope){
 
 	//--- limit確認、予告・番組提供有無確認 ---
 	AddExistInfo exist_info;
-	int cnt_limit = subAddGetLimit(exist_info, JLCMD_AUTO_ADDEC, autoscope);
+	int cnt_limit = subAddGetLimit(exist_info, CmdAutoType::AddEC, autoscope);
 	//--- limit上限確認、上限以上であれば何もせず終了 ---
 	if (prm_limit != 0 && cnt_limit >= prm_limit){
 		return false;
@@ -1675,7 +1818,7 @@ bool JlsAutoScript::startAutoAddEC(RangeMsec autoscope){
 	}
 
 	//--- 優先順位最大のシーンチェンジ位置確認（prm_limit == 0の時は書き換えも実行） ---
-	int nsc_prior = subAddSearch(JLCMD_AUTO_ADDEC, exist_info, autoscope);
+	int nsc_prior = subAddSearch(CmdAutoType::AddEC, exist_info, autoscope);
 	if (nsc_prior < 0){
 		return false;
 	}
@@ -1697,10 +1840,10 @@ bool JlsAutoScript::startAutoAddEC(RangeMsec autoscope){
 //---------------------------------------------------------------------
 bool JlsAutoScript::startAutoAddTR(RangeMsec autoscope){
 	//--- 使用パラメータ ---
-	int prm_c_exe      = getAutoParam(PARAM_AUTO_c_exe);
-	int prm_limit      = getAutoParam(PARAM_AUTO_v_limit);
-	int prm_c_limtrsum = getAutoParam(PARAM_AUTO_c_limtrsum);
-	int prm_trsumprd   = getAutoParam(PARAM_AUTO_v_trsumprd);
+	int prm_c_exe      = getAutoParam(ParamAuto::c_exe);
+	int prm_limit      = getAutoParam(ParamAuto::v_limit);
+	int prm_c_limtrsum = getAutoParam(ParamAuto::c_limtrsum);
+	int prm_trsumprd   = getAutoParam(ParamAuto::v_trsumprd);
 
 	//--- 実行有無確認 ---
 	if (prm_c_exe == 0){
@@ -1709,7 +1852,7 @@ bool JlsAutoScript::startAutoAddTR(RangeMsec autoscope){
 
 	//--- limit確認、予告・番組提供有無確認 ---
 	AddExistInfo exist_info;
-	int cnt_limit = subAddGetLimit(exist_info, JLCMD_AUTO_ADDTR, autoscope);
+	int cnt_limit = subAddGetLimit(exist_info, CmdAutoType::AddTR, autoscope);
 	//--- limit上限確認、上限以上であれば何もせず終了 ---
 	if (prm_limit != 0 && cnt_limit >= prm_limit){
 		return false;
@@ -1720,7 +1863,7 @@ bool JlsAutoScript::startAutoAddTR(RangeMsec autoscope){
 	}
 
 	//--- 優先順位最大のシーンチェンジ位置確認（prm_limit == 0の時は書き換えも実行） ---
-	Nsc nsc_prior = subAddSearch(JLCMD_AUTO_ADDTR, exist_info, autoscope);
+	Nsc nsc_prior = subAddSearch(CmdAutoType::AddTR, exist_info, autoscope);
 	if (nsc_prior < 0){
 		return false;
 	}
@@ -1748,13 +1891,13 @@ bool JlsAutoScript::startAutoAddTR(RangeMsec autoscope){
 //    sec_tr   : 予告認識秒数
 //    devideCm : CM構成内分割（false=なし true=あり）
 //---------------------------------------------------------------------
-int JlsAutoScript::subAddGetLimit(AddExistInfo &exist_info, JlcmdAutoType cmdtype, RangeMsec autoscope){
+int JlsAutoScript::subAddGetLimit(AddExistInfo &exist_info, CmdAutoType cmdtype, RangeMsec autoscope){
 	//--- コマンドに対応する構成取得 ---
 	ScpArExtType arext_dst;
-	if (cmdtype == JLCMD_AUTO_ADDSP){			// 番組提供
+	if (cmdtype == CmdAutoType::AddSP){			// 番組提供
 		arext_dst = SCP_AREXT_L_SP;
 	}
-	else if (cmdtype == JLCMD_AUTO_ADDEC){		// エンドカード
+	else if (cmdtype == CmdAutoType::AddEC){		// エンドカード
 		arext_dst = SCP_AREXT_L_EC;
 	}
 	else{
@@ -1795,11 +1938,11 @@ int JlsAutoScript::subAddGetLimit(AddExistInfo &exist_info, JlcmdAutoType cmdtyp
 	bool divide_cm = false;
 	{
 		if (pdata->recHold.msecTrPoint == autoscope.st && autoscope.st > 0){
-			if (cmdtype == JLCMD_AUTO_ADDSP){		// 番組提供
+			if (cmdtype == CmdAutoType::AddSP){		// 番組提供
 				divide_cm = true;
 			}
 		}
-		if (flag_trailer == false && cmdtype == JLCMD_AUTO_ADDTR){	// 予告なし予告検出時も同様
+		if (flag_trailer == false && cmdtype == CmdAutoType::AddTR){	// 予告なし予告検出時も同様
 			divide_cm = true;
 		}
 	}
@@ -1820,26 +1963,26 @@ int JlsAutoScript::subAddGetLimit(AddExistInfo &exist_info, JlcmdAutoType cmdtyp
 // 出力：
 //  返り値  : 優先順位最大のシーンチェンジ番号
 //---------------------------------------------------------------------
-Nsc JlsAutoScript::subAddSearch(JlcmdAutoType cmdtype, AddExistInfo exist_info, RangeMsec autoscope){
+Nsc JlsAutoScript::subAddSearch(CmdAutoType cmdtype, AddExistInfo exist_info, RangeMsec autoscope){
 	//--- 使用パラメータ ---
-	int prm_secprev   = getAutoParam(PARAM_AUTO_v_secprev);
-	int prm_secnext   = getAutoParam(PARAM_AUTO_v_secnext);
-	int prm_limit     = getAutoParam(PARAM_AUTO_v_limit  );
-	int prm_c_limloc  = getAutoParam(PARAM_AUTO_c_limloc );
-	int prm_c_cutskip = getAutoParam(PARAM_AUTO_c_cutskip);
-	int prm_c_wmin    = getAutoParam(PARAM_AUTO_c_wmin);
-	int prm_c_wmax    = getAutoParam(PARAM_AUTO_c_wmax);
-	int prm_c_w15     = getAutoParam(PARAM_AUTO_c_w15);
-	int prm_c_wdefmin = getAutoParam(PARAM_AUTO_c_wdefmin);
-	int prm_c_wdefmax = getAutoParam(PARAM_AUTO_c_wdefmax);
+	int prm_secprev   = getAutoParam(ParamAuto::v_secprev);
+	int prm_secnext   = getAutoParam(ParamAuto::v_secnext);
+	int prm_limit     = getAutoParam(ParamAuto::v_limit  );
+	int prm_c_limloc  = getAutoParam(ParamAuto::c_limloc );
+	int prm_c_cutskip = getAutoParam(ParamAuto::c_cutskip);
+	int prm_c_wmin    = getAutoParam(ParamAuto::c_wmin);
+	int prm_c_wmax    = getAutoParam(ParamAuto::c_wmax);
+	int prm_c_w15     = getAutoParam(ParamAuto::c_w15);
+	int prm_c_wdefmin = getAutoParam(ParamAuto::c_wdefmin);
+	int prm_c_wdefmax = getAutoParam(ParamAuto::c_wdefmax);
 
 	//--- コマンドに対応する構成取得 ---
 	ScpArExtType arext_dst;
 	switch(cmdtype){
-		case JLCMD_AUTO_ADDSP:				// 番組提供
+		case CmdAutoType::AddSP:				// 番組提供
 			arext_dst = SCP_AREXT_L_SP;
 			break;
-		case JLCMD_AUTO_ADDEC:				// エンドカード
+		case CmdAutoType::AddEC:				// エンドカード
 			arext_dst = SCP_AREXT_L_EC;
 			break;
 		default:
@@ -1863,7 +2006,7 @@ Nsc JlsAutoScript::subAddSearch(JlcmdAutoType cmdtype, AddExistInfo exist_info, 
 				AddLocInfo locinfo;
 				//--- 指定位置の前後状態を取得 ---
 				subAddGetLocInfo(locinfo, term, autoscope);
-//if (cmdtype == JLCMD_AUTO_ADDSP){
+//if (cmdtype == CmdAutoType::AddSP){
 //printf("(%d,%d,%d:(%d,%d),(%d,%d),(%d,%d),%d)", term.nsc.st,term.nsc.ed,arstat_term,
 //	locinfo.typeLogo, locinfo.secDifLogo, locinfo.typeTr, locinfo.secDifTr,
 //	locinfo.typeSp, locinfo.secDifSp, locinfo.secDifSc);
@@ -1946,12 +2089,12 @@ Nsc JlsAutoScript::subAddSearch(JlcmdAutoType cmdtype, AddExistInfo exist_info, 
 //---------------------------------------------------------------------
 void JlsAutoScript::subAddGetLocInfo(AddLocInfo &locinfo, Term target, RangeMsec autoscope){
 	//--- 設定値 ---
-	int prm_msec_wcomp_trmax = getConfig(CONFIG_VAR_msecWCompTRMax);
+	int prm_msec_wcomp_trmax = getConfig(ConfigVarType::msecWCompTRMax);
 
 	//--- 使用パラメータ ---
-	int prm_c_cutskip = getAutoParam(PARAM_AUTO_c_cutskip);
-	int prm_c_lgprev  = getAutoParam(PARAM_AUTO_c_lgprev);
-	int prm_c_lgpost  = getAutoParam(PARAM_AUTO_c_lgpost);
+	int prm_c_cutskip = getAutoParam(ParamAuto::c_cutskip);
+	int prm_c_lgprev  = getAutoParam(ParamAuto::c_lgprev);
+	int prm_c_lgpost  = getAutoParam(ParamAuto::c_lgpost);
 
 	//--- ロゴ位置を取得 ---
 	bool logomode = false;				// ターゲット位置のロゴ状態
@@ -2288,22 +2431,22 @@ void JlsAutoScript::subAddGetLocInfo(AddLocInfo &locinfo, Term target, RangeMsec
 // 出力：
 //  返り値  : 入力配置の優先順位
 //---------------------------------------------------------------------
-int JlsAutoScript::subAddGetPriority(AddLocInfo &locinfo, JlcmdAutoType cmdtype, ScpArType arstat_cur, ScpArExtType arext_cur, AddExistInfo exist_info){
+int JlsAutoScript::subAddGetPriority(AddLocInfo &locinfo, CmdAutoType cmdtype, ScpArType arstat_cur, ScpArExtType arext_cur, AddExistInfo exist_info){
 	//--- 使用パラメータ ---
-	int prm_c_lgprev  = getAutoParam(PARAM_AUTO_c_lgprev);
-	int prm_c_lgpost  = getAutoParam(PARAM_AUTO_c_lgpost);
-	int prm_c_lgintr  = getAutoParam(PARAM_AUTO_c_lgintr);
-	int prm_c_lgy     = getAutoParam(PARAM_AUTO_c_lgy);
-	int prm_c_lgn     = getAutoParam(PARAM_AUTO_c_lgn);
-	int prm_c_lgbn    = getAutoParam(PARAM_AUTO_c_lgbn);
-	int prm_c_search  = getAutoParam(PARAM_AUTO_c_search);
-	int prm_scope     = getAutoParam(PARAM_AUTO_v_scope);
-	int prm_scopen    = getAutoParam(PARAM_AUTO_v_scopen);
-	int prm_c_lgsp    = getAutoParam(PARAM_AUTO_c_lgsp);
-	int prm_c_in1     = getAutoParam(PARAM_AUTO_c_in1);
-	int prm_c_chklast = getAutoParam(PARAM_AUTO_c_chklast);
-	int prm_c_unitcmoff = getAutoParam(PARAM_AUTO_c_unitcmoff);
-	int prm_c_unitcmon  = getAutoParam(PARAM_AUTO_c_unitcmon);
+	int prm_c_lgprev  = getAutoParam(ParamAuto::c_lgprev);
+	int prm_c_lgpost  = getAutoParam(ParamAuto::c_lgpost);
+	int prm_c_lgintr  = getAutoParam(ParamAuto::c_lgintr);
+	int prm_c_lgy     = getAutoParam(ParamAuto::c_lgy);
+	int prm_c_lgn     = getAutoParam(ParamAuto::c_lgn);
+	int prm_c_lgbn    = getAutoParam(ParamAuto::c_lgbn);
+	int prm_c_search  = getAutoParam(ParamAuto::c_search);
+	int prm_scope     = getAutoParam(ParamAuto::v_scope);
+	int prm_scopen    = getAutoParam(ParamAuto::v_scopen);
+	int prm_c_lgsp    = getAutoParam(ParamAuto::c_lgsp);
+	int prm_c_in1     = getAutoParam(ParamAuto::c_in1);
+	int prm_c_chklast = getAutoParam(ParamAuto::c_chklast);
+	int prm_c_unitcmoff = getAutoParam(ParamAuto::c_unitcmoff);
+	int prm_c_unitcmon  = getAutoParam(ParamAuto::c_unitcmon);
 
 	//--- type_logoを分類 ---
 	int type_logo_prior = locinfo.typeLogo % 10;				// 優先順位
@@ -2406,7 +2549,7 @@ int JlsAutoScript::subAddGetPriority(AddLocInfo &locinfo, JlcmdAutoType cmdtype,
 	}
 	else if (prm_c_search >= 1 && prm_c_search <= 3){
 		if (exist_info.trailer == false &&
-			(exist_info.sponsor == false || cmdtype == JLCMD_AUTO_ADDTR || cmdtype == JLCMD_AUTO_ADDSP)){
+			(exist_info.sponsor == false || cmdtype == CmdAutoType::AddTR || cmdtype == CmdAutoType::AddSP)){
 			valid_onlylogo = true;
 		}
 	}
@@ -2597,7 +2740,7 @@ int JlsAutoScript::subAddGetPriority(AddLocInfo &locinfo, JlcmdAutoType cmdtype,
 			}
 		}
 		else if (jlsd::isScpArTypeBorder(arstat_cur)){
-			if (cmdtype == JLCMD_AUTO_ADDSP){	// 番組提供のみ優先度アップ
+			if (cmdtype == CmdAutoType::AddSP){	// 番組提供のみ優先度アップ
 				prior1 += 200;
 			}
 		}
@@ -2762,7 +2905,7 @@ void JlsAutoScript::subAddReviseUnitCm(Nsc nsc_target){
 						Nsc nsc_lastwrite = -1;
 						Term subterm = term;
 						for(int i=0; i<keep-1; i++){
-							Msec msec_prm_gap = (Msec) pdata->getConfig(CONFIG_VAR_msecMgnCmDivide);
+							Msec msec_prm_gap = (Msec) pdata->getConfig(ConfigVarType::msecMgnCmDivide);
 							Msec msec_sub_gapp = calcDifGap(subterm.msec.st, msec_start);
 							Msec msec_sub_gapn = calcDifGap(subterm.msec.st, term.msec.ed);
 							if (msec_sub_gapp <= msec_prm_gap && msec_sub_gapn <= msec_prm_gap){
@@ -2832,8 +2975,8 @@ bool JlsAutoScript::startAutoEdge(JlsCmdLimit &cmdlimit){
 //---------------------------------------------------------------------
 bool JlsAutoScript::startAutoEdgeMain(Nsc nsc_elg, LogoEdgeType edge_elg){
 	//--- 使用パラメータ ---
-	int prm_c_exe      = getAutoParam(PARAM_AUTO_c_exe);
-	int prm_c_cmpart   = getAutoParam(PARAM_AUTO_c_cmpart);
+	int prm_c_exe      = getAutoParam(ParamAuto::c_exe);
+	int prm_c_cmpart   = getAutoParam(ParamAuto::c_cmpart);
 
 	//--- 実行有無確認 ---
 	bool flag_exec = false;
@@ -2873,12 +3016,12 @@ bool JlsAutoScript::startAutoEdgeMain(Nsc nsc_elg, LogoEdgeType edge_elg){
 //---------------------------------------------------------------------
 bool JlsAutoScript::subEdgeExec(Nsc nsc_logo, LogoEdgeType edge_logo, SearchDirType dr){
 	//--- 使用パラメータ ---
-	int prm_c_search   = getAutoParam(PARAM_AUTO_c_search);
-	int prm_scope      = getAutoParam(PARAM_AUTO_v_scope);
-	int prm_c_wmin     = getAutoParam(PARAM_AUTO_c_wmin);
-	int prm_c_wmax     = getAutoParam(PARAM_AUTO_c_wmax);
-	int prm_c_add      = getAutoParam(PARAM_AUTO_c_add);
-	int prm_c_allcom   = getAutoParam(PARAM_AUTO_c_allcom);
+	int prm_c_search   = getAutoParam(ParamAuto::c_search);
+	int prm_scope      = getAutoParam(ParamAuto::v_scope);
+	int prm_c_wmin     = getAutoParam(ParamAuto::c_wmin);
+	int prm_c_wmax     = getAutoParam(ParamAuto::c_wmax);
+	int prm_c_add      = getAutoParam(ParamAuto::c_add);
+	int prm_c_allcom   = getAutoParam(ParamAuto::c_allcom);
 	bool flag_adapt = (prm_c_search == 2 || prm_c_search == 3)? false : true;	// 既存カット適用後からの時1
 	bool flag_ovw = (prm_c_search == 3)? true : false;
 
@@ -3024,7 +3167,7 @@ int JlsAutoScript::getConfig(ConfigVarType tp){
 //---------------------------------------------------------------------
 // 設定値の取得（autoコマンド実行時のパラメータ）
 //---------------------------------------------------------------------
-int JlsAutoScript::getAutoParam(JlParamAuto tp){
+int JlsAutoScript::getAutoParam(ParamAuto tp){
 	return m_autoArg.getParam(tp);
 }
 
@@ -3039,7 +3182,7 @@ void JlsAutoScript::setTermEndtype(Term &term, ScpEndType endtype){
 //---------------------------------------------------------------------
 bool JlsAutoScript::getTermNext(Term &term){
 	if (!term.endfix){				// エッジ情報未設定時
-		ScpEndType noedge = (getAutoParam(PARAM_AUTO_c_noedge)!= 0)? SCP_END_NOEDGE : SCP_END_EDGEIN;
+		ScpEndType noedge = (getAutoParam(ParamAuto::c_noedge)!= 0)? SCP_END_NOEDGE : SCP_END_EDGEIN;
 		setTermEndtype(term, noedge);
 	}
 	return pdata->getTermNext(term);
@@ -3049,7 +3192,7 @@ bool JlsAutoScript::getTermNext(Term &term){
 //---------------------------------------------------------------------
 bool JlsAutoScript::getTermPrev(Term &term){
 	if (!term.endfix){				// エッジ情報未設定時
-		ScpEndType noedge = (getAutoParam(PARAM_AUTO_c_noedge)!= 0)? SCP_END_NOEDGE : SCP_END_EDGEIN;
+		ScpEndType noedge = (getAutoParam(ParamAuto::c_noedge)!= 0)? SCP_END_NOEDGE : SCP_END_EDGEIN;
 		setTermEndtype(term, noedge);
 	}
 	return pdata->getTermPrev(term);

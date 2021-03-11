@@ -14,6 +14,7 @@ CnvStrTime::CnvStrTime(){
 	m_frate_n = 30000;
 	m_frate_d = 1001;
 	m_unitsec = 0;
+	m_delimiter = "\\";
 }
 
 
@@ -61,6 +62,9 @@ int CnvStrTime::getStrFilePathName(string &pathname, string &fname, const string
 				nloc = (int) fullname.rfind("\\", nloc-1);
 			}
 		}
+		if ( flag_find ){
+			m_delimiter = "\\";		// 区切り文字変更
+		}
 	}
 	//--- "/"区切りを検索 ---
 	int nloc_sl = (int) fullname.rfind("/");
@@ -68,6 +72,7 @@ int CnvStrTime::getStrFilePathName(string &pathname, string &fname, const string
 		if (flag_find == false || nloc < nloc_sl){
 			flag_find = true;
 			nloc = nloc_sl;
+			m_delimiter = "/";		// 区切り文字変更
 		}
 	}
 	if (flag_find){
@@ -80,6 +85,13 @@ int CnvStrTime::getStrFilePathName(string &pathname, string &fname, const string
 		nloc = -1;
 	}
 	return nloc;
+}
+
+//---------------------------------------------------------------------
+// ファイルの区切り文字取得
+//---------------------------------------------------------------------
+string CnvStrTime::getStrFileDelimiter(){
+	return m_delimiter;
 }
 
 
@@ -287,6 +299,30 @@ int CnvStrTime::getStrWord(string &dst, const string &cstr, int pos){
 	return pos;
 }
 
+//---------------------------------------------------------------------
+// quoteも区切りで残したまま文字列から１単語を読み込む
+//---------------------------------------------------------------------
+int CnvStrTime::getStrItemWithQuote(string &dst, const string &cstr, int pos){
+	int posbk = pos;
+	pos = getStrItem(dst, cstr, pos);
+	int loc1 = (int)cstr.find("\"", posbk);
+	if ( loc1 < posbk || loc1 >= pos || pos < 0 ){	// quoteがなければ終了
+		return pos;
+	}
+	int locd = (int)dst.find("\"");
+	if ( locd > 0 && locd < pos ){	// 文字列中にquoteなら手前で終了
+		dst = dst.substr(0, locd);
+		pos = loc1;
+		return pos;
+	}
+	int loc2 = (int)cstr.find("\"", loc1 + 1);
+	if ( loc2 > loc1 && loc2 < pos ){
+		dst = cstr.substr(loc1, loc2 - loc1 + 1);
+		pos = loc2 + 1;
+	}
+	return pos;
+}
+
 
 
 //=====================================================================
@@ -444,6 +480,7 @@ int CnvStrTime::getStrValSubDelimit(int &val, const string &cstr, int pos, int u
 	int st, ed;
 
 	pos = getStrItemRange(st, ed, cstr, pos, type);
+	if ( pos < 0 ) return pos;
 	try{
 		val = getStrCalc(cstr, st, ed-1, unitsec);
 	}
@@ -612,6 +649,9 @@ int CnvStrTime::getStrCalcDecode(const string &cstr, int st, int ed, int dsec, i
 				flagTwoOp = 1;
 			}
 		}
+		if ( codeMark_i == D_CALCOP_ERROR ){	// 演算できない文字
+			throw i;
+		}
 		int categMark_i = getMarkCategory(codeMark_i);
 		int priorMark_i = getMarkPrior(codeMark_i);
 		if (codeMark_i == D_CALCOP_PARS){			// 括弧開始
@@ -624,6 +664,17 @@ int CnvStrTime::getStrCalcDecode(const string &cstr, int st, int ed, int dsec, i
 			}
 		}
 		else if (categMark_i == D_CALCCAT_OP1){		// 単項演算子
+			int next_i = ( flagTwoOp > 0 )? i+2 : i+1;
+			if ( next_i > ed ){						// 単項演算子の後に何もない
+				throw i;
+			}
+			if ( codeMark_i == D_CALCOP_SEC ||		// S(秒数)
+			     codeMark_i == D_CALCOP_FRM ){		// F(フレーム数)
+				int codeMarkNext = getStrCalcCodeChar(cstr[next_i], flagHead);
+				if ( codeMarkNext != D_CALCOP_PARS ){
+					throw i;
+				}
+			}
 		}
 		else if (categMark_i == D_CALCCAT_OP2){		// 2項演算子
 			if ((nPar_op == nPar_i && priorMark_op <= priorMark_i) ||
@@ -786,7 +837,7 @@ int CnvStrTime::getStrCalcCodeChar(char ch, int head){
 				codeMark = D_CALCOP_B_OR;
 				break;
 			default:
-				codeMark = -1;
+				codeMark = D_CALCOP_ERROR;
 				break;
 		}
 	}
@@ -984,6 +1035,9 @@ int CnvStrTime::getStrCalcOp2(int din1, int din2, int codeMark){
 			ret = din1 * din2;
 			break;
 		case D_CALCOP_DIV:
+			if ( din2 == 0 ){
+				throw din2;
+			}
 			ret = din1 / din2;
 //			ret = (din1 + (din2/2)) / din2;
 			break;

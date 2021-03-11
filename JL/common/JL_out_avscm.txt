@@ -1,0 +1,52 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：カットする部分だけを残す出力(AVSファイルのTrim記述)
+#       スクリプト動作確認用に作成で未使用。必要ならこのファイルをCallする
+#
+
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+Default file_avscm  "obs_out_avscm.txt"   # 出力ファイル
+Default avscm_remain_min 2.5              # 残す最低期間（小数点で秒）
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+CountUp once_check_out_avscm
+MemOnce ${once_check_out_avscm}  # このファイルのMemory文は一度だけ実行
+
+Memory OUTPUT                  # 出力時自動的に実行
+{
+  #--- 開始終了位置の取得 ---
+  GetList E -final -EdgeS -RegList list_s -local # 通常の終了を開始位置
+  GetList S -final -EdgeE -RegList list_e -local # 通常の開始を終了位置
+  LocalSet pos1 0
+  LocalSet pos2 ${MAXTIME}
+  ListIns 1  -RegList list_s -RegPos pos1  # 最初の開始位置追加
+  ListIns -1 -RegList list_e -RegPos pos2  # 最後の終了位置追加
+
+  #--- リストに結果を順番に追加 ---
+  LocalSet list_r ""
+  LocalSet num 0
+  Repeat ${SIZEHOLD}
+    CountUp num
+    ListGetAt ${num} -RegList list_s -RegPos pos1
+    ListGetAt ${num} -RegList list_e -RegPos pos2
+    #--- 追加処理 ---
+    If ${pos2}-${pos1}>=${avscm_remain_min}
+      If "${list_r}"!=""
+        Set list_r "${list_r} ++ "     # " ++ "を追加
+      EndIf
+      EvalFrame f1 ${pos1}  -local
+      EvalFrame f2 ${pos2}  -local
+      Set list_r "${list_r}Trim(${f1},${f2})"
+    EndIf
+  EndRepeat
+
+  #--- 結果出力 ---
+  FileOpen ${file_avscm}       # 書き込むファイル
+  Echo ${list_r}
+  FileClose
+}
+EndMemory

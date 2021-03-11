@@ -75,43 +75,45 @@ namespace jlsd
 	
 
 	//--- 設定値保持 ---
-	enum ConfigVarType {
-		CONFIG_VAR_msecWLogoTRMax,			// AutoCutコマンドでカット対象とするロゴ期間最大フレーム期間
-		CONFIG_VAR_msecWCompTRMax,			// AutoCutコマンドTRで予告と認識する構成最大フレーム期間
-		CONFIG_VAR_msecWLogoSftMrg,			// Autoコマンド前調整でロゴ切り替わりのずれを許すフレーム期間
-		CONFIG_VAR_msecWCompFirst,			// 先頭構成カット扱いにする構成最大フレーム期間
-		CONFIG_VAR_msecWCompLast,			// 最後構成カット扱いにする構成最大フレーム期間
-		CONFIG_VAR_msecWLogoSumMin,			// ロゴ合計期間が指定フレーム未満の時はロゴなしとして扱う
-		CONFIG_VAR_msecWLogoLgMin,			// CM推測時にロゴ有情報確定と認識する最小ロゴ期間
-		CONFIG_VAR_msecWLogoCmMin,			// CM推測時にロゴ無情報確定と認識する最小ロゴ期間
-		CONFIG_VAR_msecWLogoRevMin,			// ロゴ情報補正する時に本編と認識する最小期間
-		CONFIG_VAR_msecMgnCmDetect,			// CM構成で15秒単位ではない可能性と認識する誤差フレーム期間
-		CONFIG_VAR_msecMgnCmDivide,			// CM構成内分割を許す１秒単位からの誤差フレーム期間
-		CONFIG_VAR_secWCompSPMin,			// Autoコマンド番組提供で標準最小秒数
-		CONFIG_VAR_secWCompSPMax,			// Autoコマンド番組提供で標準最大秒数
-		CONFIG_VAR_flagCutTR,				// 15秒以上番宣をカットする場合は1をセット
-		CONFIG_VAR_flagCutSP,				// 番組提供をカットする場合は1をセット
-		CONFIG_VAR_flagAddLogo,				// ロゴあり通常構成を残す場合は1をセット（現在は未使用）
-		CONFIG_VAR_flagAddUC,				// ロゴなし不明構成を残す場合は1をセット
-		CONFIG_VAR_typeNoSc,				// シーンチェンジなし無音位置のCM判断（0:自動 1:なし 2:あり）
-		CONFIG_VAR_cancelCntSc,				// 無音が多い構成を分離しない処理を1の時は使用しない
-		CONFIG_VAR_LogoLevel,				// ロゴ使用レベル
-		CONFIG_VAR_LogoRevise,				// ロゴからの補正
-		CONFIG_VAR_AutoCmSub,				// ロゴなし時の補助設定
-		CONFIG_VAR_msecPosFirst,			// ロゴ開始位置検出設定期間
-		CONFIG_VAR_msecLgCutFirst,			// ロゴが最初からある時にカット扱いにする構成最大フレーム期間
-		CONFIG_VAR_msecZoneFirst,			// ロゴ無効とする開始位置検出設定期間
-		CONFIG_VAR_msecZoneLast,			// ロゴ無効とする終了位置検出設定期間
-		CONFIG_VAR_priorityPosFirst,		// 最初の位置設定優先度（0:制御なし 1:ロゴあり 2:位置優先 3:Select優先）
-		SIZE_CONFIG_VAR
+	enum class ConfigVarType {
+		msecWLogoTRMax,			// AutoCutコマンドでカット対象とするロゴ期間最大フレーム期間
+		msecWCompTRMax,			// AutoCutコマンドTRで予告と認識する構成最大フレーム期間
+		msecWLogoSftMrg,		// Autoコマンド前調整でロゴ切り替わりのずれを許すフレーム期間
+		msecWCompFirst,			// 先頭構成カット扱いにする構成最大フレーム期間
+		msecWCompLast,			// 最後構成カット扱いにする構成最大フレーム期間
+		msecWLogoSumMin,		// ロゴ合計期間が指定フレーム未満の時はロゴなしとして扱う
+		msecWLogoLgMin,			// CM推測時にロゴ有情報確定と認識する最小ロゴ期間
+		msecWLogoCmMin,			// CM推測時にロゴ無情報確定と認識する最小ロゴ期間
+		msecWLogoRevMin,		// ロゴ情報補正する時に本編と認識する最小期間
+		msecMgnCmDetect,		// CM構成で15秒単位ではない可能性と認識する誤差フレーム期間
+		msecMgnCmDivide,		// CM構成内分割を許す１秒単位からの誤差フレーム期間
+		secWCompSPMin,			// Autoコマンド番組提供で標準最小秒数
+		secWCompSPMax,			// Autoコマンド番組提供で標準最大秒数
+		flagCutTR,				// 15秒以上番宣をカットする場合は1をセット
+		flagCutSP,				// 番組提供をカットする場合は1をセット
+		flagAddLogo,			// ロゴあり通常構成を残す場合は1をセット（現在は未使用）
+		flagAddUC,				// ロゴなし不明構成を残す場合は1をセット
+		typeNoSc,				// シーンチェンジなし無音位置のCM判断（0:自動 1:なし 2:あり）
+		cancelCntSc,			// 無音が多い構成を分離しない処理を1の時は使用しない
+		LogoLevel,				// ロゴ使用レベル
+		LogoRevise,				// ロゴからの補正
+		AutoCmSub,				// ロゴなし時の補助設定
+		msecPosFirst,			// ロゴ開始位置検出設定期間
+		msecLgCutFirst,			// ロゴが最初からある時にカット扱いにする構成最大フレーム期間
+		msecZoneFirst,			// ロゴ無効とする開始位置検出設定期間
+		msecZoneLast,			// ロゴ無効とする終了位置検出設定期間
+		priorityPosFirst,		// 最初の位置設定優先度（0:制御なし 1:ロゴあり 2:位置優先 3:Select優先）
+		MAXSIZE
 	};
-	enum ConfigActType {					// 設定値を動作別に取得用
-		CONFIG_ACT_LogoDelEdge,				// ロゴ端のCM判断
-		CONFIG_ACT_LogoDelMid,				// ロゴ内の15秒単位CM化
-		CONFIG_ACT_LogoDelWide,				// 広域ロゴなし削除
-		CONFIG_ACT_LogoUCRemain,			// ロゴなし不明部分を残す
-		CONFIG_ACT_LogoUCGapCm,				// CM単位から誤差が大きい構成を残す
-		CONFIG_ACT_MuteNoSc					// シーンチェンジなし無音位置のCM判断（1:使用しない 2:使用する）
+    static const int SIZE_CONFIG_VAR = static_cast<int>(ConfigVarType::MAXSIZE);
+
+	enum class ConfigActType {	// 設定値を動作別に取得用
+		LogoDelEdge,			// ロゴ端のCM判断
+		LogoDelMid,				// ロゴ内の15秒単位CM化
+		LogoDelWide,			// 広域ロゴなし削除
+		LogoUCRemain,			// ロゴなし不明部分を残す
+		LogoUCGapCm,			// CM単位から誤差が大きい構成を残す
+		MuteNoSc				// シーンチェンジなし無音位置のCM判断（1:使用しない 2:使用する）
 	};
 
 	//--- 構成候補優先順位(scp.stat) ---
@@ -298,248 +300,347 @@ namespace jlsd
 //---------------------------------------------------------------------
 namespace jlscmd
 {
+	const int SIZE_VARNUM_MAX = 2048;	// 変数の最大数を念のため設定(JlsRegFile)
+	const int SIZE_MEMVARNUM_MAX = 2048;	// 遅延保管文字列の識別名最大数(JlsScrMemBody)
+	const int SIZE_MEMVARLINE_MAX = 4096;	// 遅延保管文字列の各識別名の最大行数(JlsScrMemBody)
+	const int SIZE_REPLINE  = 4096;		// キャッシュ保持最大行数（Repeat用）(JlsScriptState)
+	const int SIZE_MEMLINE  = 8192;		// キャッシュ保持最大行数（Mem/Lazy用）(JlsScrGlobal)
+	const int SIZE_CALL_LOOP = 10;		// Callコマンドの再帰最大回数(JlsScript)
+
 	//--- JLスクリプト命令 ---
-	enum JlcmdSelType {
-		JLCMD_SEL_Nop,
-		JLCMD_SEL_If,
-		JLCMD_SEL_EndIf,
-		JLCMD_SEL_Else,
-		JLCMD_SEL_ElsIf,
-		JLCMD_SEL_Call,
-		JLCMD_SEL_Repeat,
-		JLCMD_SEL_EndRepeat,
-		JLCMD_SEL_Echo,
-		JLCMD_SEL_LogoOff,
-		JLCMD_SEL_OldAdjust,
-		JLCMD_SEL_Set,
-		JLCMD_SEL_Default,
-		JLCMD_SEL_EvalFrame,
-		JLCMD_SEL_EvalTime,
-		JLCMD_SEL_EvalNum,
-		JLCMD_SEL_SetParam,
-		JLCMD_SEL_OptSet,
-		JLCMD_SEL_OptDefault,
-		JLCMD_SEL_UnitSec,
-		JLCMD_SEL_AutoCut,
-		JLCMD_SEL_AutoAdd,
-		JLCMD_SEL_AutoEdge,
-		JLCMD_SEL_AutoCM,
-		JLCMD_SEL_AutoUp,
-		JLCMD_SEL_AutoBorder,
-		JLCMD_SEL_AutoIns,
-		JLCMD_SEL_AutoDel,
-		JLCMD_SEL_Find,
-		JLCMD_SEL_MkLogo,
-		JLCMD_SEL_DivLogo,
-		JLCMD_SEL_Select,
-		JLCMD_SEL_Force,
-		JLCMD_SEL_Abort,
-		JLCMD_SEL_GetPos,
-		JLCMD_SEL_GetList,
-		JLCMD_SEL_NextTail,
-		JLCMD_SEL_DivFile,
-		SIZE_JLCMD_SEL
+	enum class CmdType {
+		Nop,
+		If,
+		EndIf,
+		Else,
+		ElsIf,
+		Call,
+		Repeat,
+		EndRepeat,
+		LocalSt,
+		LocalEd,
+		Exit,
+		Return,
+		FileOpen,
+		FileAppend,
+		FileClose,
+		Echo,
+		LogoOff,
+		OldAdjust,
+		Set,
+		Default,
+		EvalFrame,
+		EvalTime,
+		EvalNum,
+		CountUp,
+		SetParam,
+		OptSet,
+		OptDefault,
+		UnitSec,
+		LocalSet,
+		ListGetAt,
+		ListIns,
+		ListDel,
+		AutoCut,
+		AutoAdd,
+		AutoEdge,
+		AutoCM,
+		AutoUp,
+		AutoBorder,
+		AutoIClear,
+		AutoIns,
+		AutoDel,
+		Find,
+		MkLogo,
+		DivLogo,
+		Select,
+		Force,
+		Abort,
+		GetPos,
+		GetList,
+		NextTail,
+		DivFile,
+		LazyStart,
+		EndLazy,
+		Memory,
+		EndMemory,
+		MemCall,
+		MemErase,
+		MemCopy,
+		MemMove,
+		MemAppend,
+		MemOnce,
+		LazyFlush,
+		LazyAuto,
+		LazyStInit,
+		MemEcho,
+		MemDump,
+		MAXSIZE
 	};
 	//--- JLスクリプト命令種類 ---
-	enum JlcmdCategoryType {
-		JLCMD_CAT_NONE,
-		JLCMD_CAT_COND,
-		JLCMD_CAT_CALL,
-		JLCMD_CAT_REP,
-		JLCMD_CAT_SYS,
-		JLCMD_CAT_REG,
-		JLCMD_CAT_NEXT,
-		JLCMD_CAT_LOGO,
-		JLCMD_CAT_AUTOLOGO,
-		JLCMD_CAT_AUTOEACH,
-		JLCMD_CAT_AUTO
+	enum class CmdCat {
+		NONE,
+		COND,
+		CALL,
+		REP,
+		FLOW,
+		SYS,
+		REG,
+		NEXT,
+		LOGO,
+		AUTOLOGO,
+		AUTOEACH,
+		AUTO,
+		LAZYF,
+		MEMF,
+		MEMEXE,
 	};
-	//--- JLスクリプトオプション種類 ---
-	enum JlOptionCategoryType{
-		JLOPT_CAT_NONE,
-		JLOPT_CAT_NUMLOGO,
-		JLOPT_CAT_FRAME,
-		JLOPT_CAT_SC,
-		JLOPT_CAT_MSECM1,
-		JLOPT_CAT_SEC,
-		JLOPT_CAT_NUM,
-		JLOPT_CAT_FLAG
+	//--- JLスクリプト遅延実行用Cache種類 ---
+	enum class CacheExeType {
+		None,
+		LazyS,
+		LazyA,
+		LazyE,
+		Mem,
 	};
-	//--- JLスクリプトオプション格納変数 ---
-	enum JlOptionDataType {
-		JLOPT_DATA_DUMMY,
-		JLOPT_DATA_TypeNLogo,
-		JLOPT_DATA_TypeFrame,
-		JLOPT_DATA_MsecFrameLeft,
-		JLOPT_DATA_MsecFrameRight,
-		JLOPT_DATA_MsecEndlenC,
-		JLOPT_DATA_MsecEndlenL,
-		JLOPT_DATA_MsecEndlenR,
-		JLOPT_DATA_MsecSftC,
-		JLOPT_DATA_MsecSftL,
-		JLOPT_DATA_MsecSftR,
-		JLOPT_DATA_MsecTLHoldL,
-		JLOPT_DATA_MsecTLHoldR,
-		JLOPT_DATA_MsecLenPMin,
-		JLOPT_DATA_MsecLenPMax,
-		JLOPT_DATA_MsecLenNMin,
-		JLOPT_DATA_MsecLenNMax,
-		JLOPT_DATA_MsecFromAbs,
-		JLOPT_DATA_MsecFromHead,
-		JLOPT_DATA_MsecFromTail,
-		JLOPT_DATA_MsecLogoExtL,
-		JLOPT_DATA_MsecLogoExtR,
-		JLOPT_DATA_MsecEndAbs,
-		JLOPT_DATA_AutopCode,
-		JLOPT_DATA_AutopLimit,
-		JLOPT_DATA_AutopScope,
-		JLOPT_DATA_AutopScopeN,
-		JLOPT_DATA_AutopScopeX,
-		JLOPT_DATA_AutopPeriod,
-		JLOPT_DATA_AutopMaxPrd,
-		JLOPT_DATA_AutopSecNext,
-		JLOPT_DATA_AutopSecPrev,
-		JLOPT_DATA_AutopTrScope,
-		JLOPT_DATA_AutopTrSumPrd,
-		JLOPT_DATA_AutopTr1stPrd,
-		JLOPT_DATA_FlagWide,
-		JLOPT_DATA_FlagFromLast,
-		JLOPT_DATA_FlagWithP,
-		JLOPT_DATA_FlagWithN,
-		JLOPT_DATA_FlagNoEdge,
-		JLOPT_DATA_FlagOverlap,
-		JLOPT_DATA_FlagConfirm,
-		JLOPT_DATA_FlagUnit,
-		JLOPT_DATA_FlagElse,
-		JLOPT_DATA_FlagCont,
-		JLOPT_DATA_FlagReset,
-		JLOPT_DATA_FlagFlat,
-		JLOPT_DATA_FlagForce,
-		JLOPT_DATA_FlagNoForce,
-		JLOPT_DATA_FlagAutoChg,
-		JLOPT_DATA_FlagAutoEach,
-		JLOPT_DATA_FlagEndHead,
-		JLOPT_DATA_FlagEndTail,
-		JLOPT_DATA_FlagEndHold,
-		JLOPT_DATA_FlagRelative,
-		SIZE_JLOPT_DATA
+	//--- JLスクリプトLazy動作種類 ---
+	enum class LazyType {
+		None,
+		FULL,
+		LazyS,
+		LazyA,
+		LazyE,
 	};
-	enum JlOptionArgScType {
-		CMDARG_SC_NONE,
-		CMDARG_SC_SC,
-		CMDARG_SC_NOSC,
-		CMDARG_SC_SM,
-		CMDARG_SC_NOSM,
-		CMDARG_SC_SMA,
-		CMDARG_SC_NOSMA,
-		CMDARG_SC_AC,
-		CMDARG_SC_NOAC
+	//--- JLスクリプトオプション分類 ---
+	enum class OptCat {
+		None,
+		PosSC,
+		NumLG,
+		FRAME,
+		STR,
+		NUM,
 	};
-	enum JlOptionArgLgType {
-		CMDARG_LG_NONE,
-		CMDARG_LG_N,
-		CMDARG_LG_NR,
-		CMDARG_LG_NLOGO,
-		CMDARG_LG_NAUTO
-	};
-	enum JlOptionArgFrType {
-		CMDARG_FR_F,
-		CMDARG_FR_FR,
-		CMDARG_FR_FHEAD,
-		CMDARG_FR_FTAIL,
-		CMDARG_FR_FMID,
-		CMDARG_FR_FHEADX,
-		CMDARG_FR_FTAILX,
-		CMDARG_FR_FMIDX
+	//--- JLスクリプトオプション命令 ---
+	enum class OptType {
+		None,			// 未定義認識用
+		ArrayMIN,		// 開始識別用
+		TypeNumLogo,
+		TypeFrame,
+		TypeFrameSub,
+		MsecFrameL,
+		MsecFrameR,
+		MsecEndlenC,
+		MsecEndlenL,
+		MsecEndlenR,
+		MsecSftC,
+		MsecSftL,
+		MsecSftR,
+		MsecTgtLimL,
+		MsecTgtLimR,
+		MsecLenPMin,
+		MsecLenPMax,
+		MsecLenNMin,
+		MsecLenNMax,
+		MsecLenPEMin,
+		MsecLenPEMax,
+		MsecLenNEMin,
+		MsecLenNEMax,
+		MsecFromAbs,
+		MsecFromHead,
+		MsecFromTail,
+		MsecLogoExtL,
+		MsecLogoExtR,
+		MsecEndAbs,
+		MsecDcenter,
+		MsecDrangeL,
+		MsecDrangeR,
+		MsecDmargin,
+		MsecEmargin,
+		AutopCode,
+		AutopLimit,
+		AutopScope,
+		AutopScopeN,
+		AutopScopeX,
+		AutopPeriod,
+		AutopMaxPrd,
+		AutopSecNext,
+		AutopSecPrev,
+		AutopTrScope,
+		AutopTrSumPrd,
+		AutopTr1stPrd,
+		AutopTrInfo,
+		FlagWide,
+		FlagFromLast,
+		FlagWithP,
+		FlagWithN,
+		FlagNoEdge,
+		FlagOverlap,
+		FlagConfirm,
+		FlagUnit,
+		FlagElse,
+		FlagCont,
+		FlagReset,
+		FlagFlat,
+		FlagForce,
+		FlagNoForce,
+		FlagAutoChg,
+		FlagAutoEach,
+		FlagEndHead,
+		FlagEndTail,
+		FlagEndHold,
+		FlagRelative,
+		FlagLazyS,
+		FlagLazyA,
+		FlagLazyE,
+		FlagNow,
+		FlagNoLap,
+		FlagEdgeS,
+		FlagEdgeE,
+		FlagClear,
+		FlagPair,
+		FlagFinal,
+		FlagLocal,
+		FlagDummy,
+		AbbrEndlen,
+		AbbrSft,
+		AbbrFromHead,
+		AbbrFromTail,
+		ArrayMAX,		// JlsCmdSetでデータ格納する配列はここまで
+
+		ScMIN,
+		ScNone,
+		ScSC,
+		ScNoSC,
+		ScSM,
+		ScNoSM,
+		ScSMA,
+		ScNoSMA,
+		ScAC,
+		ScNoAC,
+		ScMAX,
+
+		LgMIN,
+		LgNone,
+		LgN,
+		LgNR,
+		LgNlogo,
+		LgNauto,
+		LgMAX,
+
+		FrMIN,
+		FrF,
+		FrFR,
+		FrFhead,
+		FrFtail,
+		FrFmid,
+		FrFheadX,
+		FrFtailX,
+		FrFmidX,
+		FrMAX,
+
+		StrMIN,			// JlsCmdSetでデータ格納する文字列オプション開始
+		StrRegPos,
+		StrValPosR,
+		StrValPosW,
+		StrRegList,
+		StrValListR,
+		StrValListW,
+		StrRegSize,
+		StrMAX,			// JlsCmdSetでデータ格納する文字列オプション終了
 	};
 
 	//--- JLスクリプト命令サブ選択 ---
-	enum JlcmdSubType {
-		JLCMD_SUB_TR,
-		JLCMD_SUB_SP,
-		JLCMD_SUB_EC
+	enum CmdTrSpEcID {
+		None,
+		Off,
+		TR,
+		SP,
+		EC,
+		LG,
 	};
 	//--- JLスクリプトデコード結果エラー ---
-	enum JlcmdErrType {
-		JLCMD_ERR_None,
-		JLCMD_ERR_ErrOpt,				// コマンド異常（オプション）
-		JLCMD_ERR_ErrRange,				// コマンド異常（範囲）
-		JLCMD_ERR_ErrSEB,				// コマンド異常（S/E/B選択）
-		JLCMD_ERR_ErrVar,				// コマンド異常（変数関連）
-		JLCMD_ERR_ErrTR,				// コマンド異常（TR/SP/ED選択）
-		JLCMD_ERR_ErrCmd				// コマンド異常（コマンド）
+	enum class CmdErrType {
+		None,
+		ErrOpt,				// コマンド異常（オプション）
+		ErrRange,			// コマンド異常（範囲）
+		ErrSEB,				// コマンド異常（S/E/B選択）
+		ErrVar,				// コマンド異常（変数関連）
+		ErrTR,				// コマンド異常（TR/SP/ED選択）
+		ErrCmd,				// コマンド異常（コマンド）
 	};
 	//--- JLスクリプトAuto系コマンド ---
-	enum JlcmdAutoType {
-		JLCMD_AUTO_None,
-		JLCMD_AUTO_CUTTR,
-		JLCMD_AUTO_CUTEC,
-		JLCMD_AUTO_ADDTR,
-		JLCMD_AUTO_ADDSP,
-		JLCMD_AUTO_ADDEC,
-		JLCMD_AUTO_EDGE,
-		JLCMD_AUTO_ATCM,
-		JLCMD_AUTO_ATUP,
-		JLCMD_AUTO_ATBORDER,
-		JLCMD_AUTO_ATCHG,
-		JLCMD_AUTO_INS,
-		JLCMD_AUTO_DEL
+	enum class CmdAutoType {
+		None,
+		CutTR,
+		CutEC,
+		AddTR,
+		AddSP,
+		AddEC,
+		Edge,
+		AtCM,
+		AtUP,
+		AtBorder,
+		AtIClear,
+		AtChg,
+		Ins,
+		Del,
 	};
 	//--- Autoコマンドパラメータ ---
-	enum JlParamAuto {
+	enum class ParamAuto {
 		// codeパラメータ
-		PARAM_AUTO_c_exe,			// 0:コマンド実行なし 1:コマンド実行
-		PARAM_AUTO_c_search,		// 検索する範囲を選択
-		PARAM_AUTO_c_wmin,			// 構成期間の最小値秒数
-		PARAM_AUTO_c_wmax,			// 構成期間の最大値秒数
-		PARAM_AUTO_c_w15,			// 1:番組構成で15秒を検索
-		PARAM_AUTO_c_lgprev,		// 0:ロゴ・予告の前側を対象外
-		PARAM_AUTO_c_lgpost,		// 0:ロゴ・予告の後側を対象外
-		PARAM_AUTO_c_lgintr,		// 1:予告と番組提供の間のみ対象とする
-		PARAM_AUTO_c_lgsp,			// 1:番組提供が直後にある場合のみ対象
-		PARAM_AUTO_c_cutskip,		// 1:予告カット以降も対象とする
-		PARAM_AUTO_c_in1,			// 1:予告位置に番組提供を入れる
-		PARAM_AUTO_c_chklast,		// 1:本体構成が後にあれば対象外とする
-		PARAM_AUTO_c_lgy,			// 1:ロゴ内を対象とする
-		PARAM_AUTO_c_lgn,			// 1:ロゴ外を対象とする
-		PARAM_AUTO_c_lgbn,			// 1:両隣を含めロゴ外の場合を対象とする
-		PARAM_AUTO_c_limloc,		// 1:標準期間の候補位置のみに限定
-		PARAM_AUTO_c_limtrsum,		// 1:予告期間により無効化する
-		PARAM_AUTO_c_unitcmoff,		// 1:CM分割した構成の検出を強制無効
-		PARAM_AUTO_c_unitcmon,		// 1:CM分割した構成の検出を強制設定
-		PARAM_AUTO_c_wdefmin,		// 標準の構成期間の最小値秒数
-		PARAM_AUTO_c_wdefmax,		// 標準の構成期間の最大値秒数
+		c_exe,			// 0:コマンド実行なし 1:コマンド実行
+		c_search,		// 検索する範囲を選択
+		c_wmin,			// 構成期間の最小値秒数
+		c_wmax,			// 構成期間の最大値秒数
+		c_w15,			// 1:番組構成で15秒を検索
+		c_lgprev,		// 0:ロゴ・予告の前側を対象外
+		c_lgpost,		// 0:ロゴ・予告の後側を対象外
+		c_lgintr,		// 1:予告と番組提供の間のみ対象とする
+		c_lgsp,			// 1:番組提供が直後にある場合のみ対象
+		c_cutskip,		// 1:予告カット以降も対象とする
+		c_in1,			// 1:予告位置に番組提供を入れる
+		c_chklast,		// 1:本体構成が後にあれば対象外とする
+		c_lgy,			// 1:ロゴ内を対象とする
+		c_lgn,			// 1:ロゴ外を対象とする
+		c_lgbn,			// 1:両隣を含めロゴ外の場合を対象とする
+		c_limloc,		// 1:標準期間の候補位置のみに限定
+		c_limtrsum,		// 1:予告期間により無効化する
+		c_unitcmoff,		// 1:CM分割した構成の検出を強制無効
+		c_unitcmon,		// 1:CM分割した構成の検出を強制設定
+		c_wdefmin,		// 標準の構成期間の最小値秒数
+		c_wdefmax,		// 標準の構成期間の最大値秒数
 		// autocut用
-		PARAM_AUTO_c_from,			// cuttr
-		PARAM_AUTO_c_cutst,			// cuttr
-		PARAM_AUTO_c_lgpre,			// cuttr
-		PARAM_AUTO_c_sel,			// cutec
-		PARAM_AUTO_c_cutla,			// cutec
-		PARAM_AUTO_c_cutlp,			// cutec
-		PARAM_AUTO_c_cut30,			// cutec
-		PARAM_AUTO_c_cutsp,			// cutec
+		c_from,			// cuttr
+		c_cutst,			// cuttr
+		c_lgpre,			// cuttr
+		c_sel,			// cutec
+		c_cutla,			// cutec
+		c_cutlp,			// cutec
+		c_cut30,			// cutec
+		c_cutsp,			// cutec
 		// edge用
-		PARAM_AUTO_c_cmpart,
-		PARAM_AUTO_c_add,
-		PARAM_AUTO_c_allcom,
-		PARAM_AUTO_c_noedge,
+		c_cmpart,
+		c_add,
+		c_allcom,
+		c_noedge,
 		// autoins,autodel用
-		PARAM_AUTO_c_restruct,
+		c_restruct,
 		// 数値パラメータ
-		PARAM_AUTO_v_limit,
-		PARAM_AUTO_v_scope,
-		PARAM_AUTO_v_scopen,
-		PARAM_AUTO_v_period,
-		PARAM_AUTO_v_maxprd,
-		PARAM_AUTO_v_trsumprd,
-		PARAM_AUTO_v_secprev,
-		PARAM_AUTO_v_secnext,
+		v_limit,
+		v_scope,
+		v_scopen,
+		v_period,
+		v_maxprd,
+		v_trsumprd,
+		v_secprev,
+		v_secnext,
 		// autocut用
-		PARAM_AUTO_v_trscope,
-		PARAM_AUTO_v_tr1stprd,
+		v_trscope,
+		v_tr1stprd,
+		// autoins,autodel用
+		v_info,
 		// 合計数
-		SIZE_PARAM_AUTO
+		MAXSIZE
 	};
 }
-
 

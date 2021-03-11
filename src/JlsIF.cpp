@@ -202,7 +202,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			numarg = 1;
 		}
 		else if (!_stricmp(strv, "-ver")){
-			printf("join_logo_scp ver3.0\n");
+			printf("join_logo_scp ver4.0\n");
 			return GETONE_EXIT;
 		}
 		else if (!_stricmp(strv, "-F")){
@@ -696,7 +696,7 @@ void JlsIF::pushRecordScp(DataScpIF &dtbs){
 	dtscp.msbk     = dtbs.msbk;
 	dtscp.msmute_s = dtbs.msmute_s;
 	dtscp.msmute_e = dtbs.msmute_e;
-	dtscp.still    = dtbs.still;
+	dtscp.still    = ( dtbs.still != 0 )? true : false;
 
 	pdata->pushRecordScp(dtscp);				// add data
 }
@@ -750,7 +750,7 @@ void JlsIF::setRecordScp(DataScpIF &dtbs, int nsc){
 		dtscp.msbk     = dtbs.msbk;
 		dtscp.msmute_s = dtbs.msmute_s;
 		dtscp.msmute_e = dtbs.msmute_e;
-		dtscp.still    = dtbs.still;
+		dtscp.still    = ( dtbs.still != 0 )? true : false;
 		pdata->setRecordScp(dtscp, nsc);
 	}
 }

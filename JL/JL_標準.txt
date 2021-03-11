@@ -170,6 +170,9 @@ SetParam LogoLevel   $logo_level
 SetParam LogoRevise  $logo_revise
 SetParam AutoCmSub   $autocm_sub
 
+#---iİ’è‘}“üjŒŸõŠJnêŠ ---
+MemCall mbase_first
+
 #----------------------------------------------
 # ŠJnƒ}[ƒWƒ“‘I‘ğ“®ì
 #----------------------------------------------
@@ -186,8 +189,14 @@ SetParam AutoCmSub   $autocm_sub
 #----------------------------------------------
 Default autocm_maxprd 60    # w’è•b‚ğ’´‚¦‚é\¬‚Í15•b’PˆÊ‚Å‚àCMˆµ‚¢‚É‚µ‚È‚¢
 
+#---iİ’è‘}“üj Auto\¬„‘ªŠJn’¼‘O ---
+MemCall mbase_auto_start_before
+
 #--- ƒƒS‚È‚µ‚Ì‚İ15•b’PˆÊ\¬‚ğCM‰» ---
 AutoCM B -code $autocm_code -scope $autocm_scope -scopex $autocm_scopex -maxprd $autocm_maxprd
+
+#---iİ’è‘}“üjAuto\¬„‘ªŠJn’¼Œã ---
+MemCall mbase_auto_start_after
 
 #----------------------------------------------
 # Å‰‚ÌƒƒS•”•ªƒJƒbƒgE‰„’·
@@ -199,11 +208,14 @@ Default fhead_ed     00:13:30  # Å‰‚Ì”Ô‘g’ñ‹Ÿ‚Æ”F¯‚·‚éæ“ªƒtƒŒ[ƒ€‚©‚ç‚ÌˆÊ’u
 Default fhead_name   -Fhead    # ˆÊ’u‚ğ‘O”¼‚Éi‚é
 Default cut1st_direct  0.0     # „‘ª\¬‚ÅŒ©‚Â‚©‚ç‚È‚¢‚ÌÅ‰‚ÌƒƒSæ“ª•”•ªƒJƒbƒgŠúŠÔ
 
+#---iİ’è‘}“üj‘O”¼”Ô‘g’ñ‹Ÿˆ—’¼‘O ---
+MemCall mbase_firstsp_before
+
 #--- æ“ªƒƒS‚ÌƒJƒbƒg ---
-AutoEdge S -N 1 -code $cut1st_code -period $cut1st_period
+AutoEdge S -NR 1 -code $cut1st_code -period $cut1st_period
 If !$LASTEXE                 # ƒJƒbƒg‚µ‚È‚©‚Á‚½ê‡
   If $cut1st_direct > 0.0    # „‘ª\¬‚ğg‚í‚¸ƒJƒbƒg‚µ„‘ª\¬‚É”½‰f‚·‚éˆ—
-    Find S $cut1st_direct -0.5+$cut1st_direct 0.5+$cut1st_direct -N 1 -autochg
+    Find S $cut1st_direct -0.5+$cut1st_direct 0.5+$cut1st_direct -NR 1 -autochg
   EndIf
 EndIf
 
@@ -213,6 +225,9 @@ AutoAdd SP $fhead_name $fhead_st $fhead_ed -code $addsph_code2 -limit 1 -scope $
 AutoAdd SP $fhead_name $fhead_st $fhead_ed -code $addsph_code3 -limit 1 -scope $addsph_scope
 AutoAdd SP $fhead_name $fhead_st $fhead_ed -code $addsph_code4 -limit 1 -scope $addsph_scope
 AutoAdd SP $fhead_name $fhead_st $fhead_ed -code $addsph_code5 -limit 1 -scope $addsph_scope
+
+#---iİ’è‘}“üj‘O”¼”Ô‘g’ñ‹Ÿˆ—’¼Œã ---
+MemCall mbase_firstsp_after
 
 #----------------------------------------------
 # ÅŒã‚ÌƒƒSˆÊ’uƒJƒbƒg
@@ -269,6 +284,9 @@ Else
   Default cuttr_addcode  0    # CM–¾‚¯’¼‘O‚ÌƒƒS‚È‚µ•”•ªi0:ŒŸõ‚È‚µ 100:—\Œó•â‚É’Ç‰Á‹–‰Âj
 EndIf
 
+#---iİ’è‘}“üj—\•”•ªˆ—’¼‘O ---
+MemCall mbase_trailer_before
+
 #--- ƒtƒ@ƒCƒ‹ÅŒã•”•ª‚ÌƒJƒbƒgİ’è ---
 AutoCut TR -Ftail $ftail_st $ftail_ed -code $cuttr_code+$cuttr_addcode -limit $cuttr_limit -trscope $cuttr_trscope -tr1stprd $cuttr_tr1stprd
 If use_add0tr
@@ -299,6 +317,9 @@ If use_autocmtr
   EndIf
 EndIf
 
+#---iİ’è‘}“üj—\•”•ªˆ—’¼Œã ---
+MemCall mbase_trailer_after
+
 #----------------------------------------------
 # ŠeƒƒS‚ÌŠJnEI—¹ˆÊ’uƒJƒbƒg
 #----------------------------------------------
@@ -308,3 +329,6 @@ Default edgeed_frmmin 00:02:00  # ŠeƒƒSI—¹•”•ª‚ÌƒJƒbƒg‘ÎÛ‚Æ‚·‚éƒƒSÅ’áŠúŠÔ
 #--- ƒƒS‚ÌŠJnEI—¹ˆÊ’u‚ÌƒJƒbƒg ---
 AutoEdge S -code $edgest_code -period $edgest_period -LenN $edgest_frmmin -1
 AutoEdge E -code $edgeed_code -period $edgeed_period -LenP $edgeed_frmmin -1
+
+#---iİ’è‘}“üjŒŸõI—¹êŠ ---
+MemCall mbase_last

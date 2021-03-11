@@ -113,6 +113,9 @@ SetParam PosFirst    $param_pos_first
 #SetParam LogoRevise  $logo_revise
 SetParam AutoCmSub   $autocm_sub
 
+#---（設定挿入）検索開始場所 ---
+MemCall mbase_first
+
 #----------------------------------------------
 # 開始マージン選択動作
 #----------------------------------------------
@@ -122,20 +125,35 @@ Select S 0 -1.2 1.2 -fromabs $base
 #----------------------------------------------
 # ロゴなし時の15秒単位CM検出
 #----------------------------------------------
+#---（設定挿入） Auto処理開始直前 ---
+MemCall mbase_auto_start_before
+
 #--- ロゴなし時のみ15秒単位構成をCM化 ---
 AutoCM B -code $autocm_code -scope $autocm_scope
+
+#---（設定挿入）Auto処理開始直後 ---
+MemCall mbase_auto_start_after
 
 #------------------------------------
 # 先頭部分の追加カット
 #------------------------------------
+#---（設定挿入）先頭番組宣伝処理直前 ---
+MemCall mbase_firstsp_before
+
 # ・最初のロゴ表示が１分より前に終わる場合は無視
 Abort E -N  1 -Fhead 0 00:01:01 -WithP -AC -1.2 1.2
+
+#---（設定挿入）先頭番組宣伝処理直後 ---
+MemCall mbase_firstsp_after
 
 #------------------------------------
 # 最後の追加カット
 #------------------------------------
 Default ftail_st      00:00:00  # 最後の番組宣伝と認識する最終フレームからの位置（起点）
 Default ftail_ed      00:10:00  # 最後の番組宣伝と認識する最終フレームからの位置（終点）
+
+#---（設定挿入）番組宣伝部分処理直前 ---
+MemCall mbase_trailer_before
 
 # ・最後のロゴ表示が１分以内に終わる場合は無視
 #   （NHK番組宣伝を想定）
@@ -148,6 +166,9 @@ EndRepeat
 If $lastcut_long
   Abort S -NR -1 -Ftail $ftail_st $ftail_ed -LenN 00:01:01 00:10:01 -WithN -AC -1.2 1.2
 EndIf
+
+#---（設定挿入）番組宣伝部分処理直後 ---
+MemCall mbase_trailer_after
 
 #----------------------------------------------
 # 必須設定
@@ -176,6 +197,9 @@ Default cuttr_limit_lg  3   # （ロゴあり時のみ）予告と認識させる構成数（0:予告な
 Default ftail_st      00:00:00  # 最後の予告以降と認識する最終フレームからの位置（起点）
 Default ftail_ed      00:07:00  # 最後の予告以降と認識する最終フレームからの位置（終点）
 
+#---（設定挿入）Auto構成変換直前 ---
+MemCall mbase_autoup_before
+
 If $NOLOGO
   AutoCut TR -Ftail $ftail_st $ftail_ed -code $cuttr_code -limit $cuttr_limit -trscope $cuttr_trscope -tr1stprd $cuttr_tr1stprd
   AutoAdd TR -Ftail $ftail_st $ftail_ed -code $addtr_code1 -limit $cuttr_limit -period $addtr_period1
@@ -183,3 +207,6 @@ Else
   AutoUp B -code 2
   AutoCut TR -Ftail $ftail_st $ftail_ed -code $cuttr_code -limit $cuttr_limit_lg -trscope $cuttr_trscope -tr1stprd $cuttr_tr1stprd
 EndIf
+
+#---（設定挿入）検索終了場所 ---
+MemCall mbase_last

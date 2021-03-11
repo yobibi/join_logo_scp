@@ -1,0 +1,38 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：分割フレームリスト出力処理
+#       起動時オプション -odiv でファイル名を指定しておく
+#       分割処理で分割位置を変数(divide_pos_list)に設定しておく
+#
+
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+Default divfile_from     2     # 分割で何番目の構成から位置を出力するか
+Default divfile_zero_out 0     # 分割で最初に0を出力(0=しない 1=する)
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+CountUp once_check_out_divfile
+MemOnce ${once_check_out_divfile}  # このファイルのMemory文は一度だけ実行
+
+Memory OUTPUT                  # 出力時自動的に実行
+{
+  Default divide_pos_list ""
+  ListGetAt 0 -RegList divide_pos_list   # 要素数取得
+
+  If ${divfile_zero_out}>0 && ${SIZEHOLD}>0
+    DivFile S 0 -fromabs 0               # 0位置を出力
+  EndIf
+
+  LocalSet num 0
+  Repeat ${SIZEHOLD}
+    Set num ${num}+1
+    If ${num}>=${divfile_from}
+      ListGetAt ${num} -RegList divide_pos_list
+      DivFile S 0 -fromabs ${POSHOLD}
+    EndIf
+  EndRepeat
+}
+EndMemory

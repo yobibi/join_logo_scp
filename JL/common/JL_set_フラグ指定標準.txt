@@ -1,0 +1,685 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：フラグ設定情報を使って不要部分のカットを行う
+#       検索（JL_標準.txt）を実行する前に設定する
+#       標準のフラグ指定動作を追加
+#
+#（標準のフラグ内容）
+#  [flag list]
+## まとめ設定
+#   ANIMAX   : ANIMAX用設定
+## Auto推測前のロゴ設定
+#   TI25    : 最終ロゴ終了から60秒離れた構成25秒をロゴありとして追加
+#   TI15    : 最終ロゴ終了から60秒離れた構成15秒をロゴありとして追加
+#   TIB     : 最終ロゴ終了から60秒離れた所にある3,5,10秒をロゴありとして追加
+#   HI210   : 先頭ロゴから210秒はロゴありとする
+#   HI240   : 先頭ロゴから240秒はロゴありとする
+## 最初のロゴ部分
+#   HC10   : 最初の10秒は不要
+#   HC5    : 最初の5秒は不要
+#   HC4    : 最初の4秒は不要
+#   HC3    : 最初の3秒は不要
+#   HCA    : 最初の3～10秒で無音シーンチェンジがあれば不要
+#   HCCM   : 最初に不要カットするロゴ付番宣（15秒か30秒）から始まる
+#   HCSP   : 最初の番組提供認識をしない
+#   HRSP15 : 最初の番組提供を15秒最優先で検索
+#   HFSPL  : 最初の番組提供認識位置を20分近くまで拡張
+## 番組提供全体
+#   ASPL   : 番組提供は16～25秒を検索
+#   ASPA   : 番組提供は6～13秒のみ認識
+#   ASPN   : 番組提供なし
+#   ALSP   : 番組提供はロゴありに限定
+## 最後のロゴ部分
+#   TCFULL : 最後のロゴ部分はすべてカットする（予告認識部分以降をすべてカット）
+#   TCLAST : 最後のロゴ部分はすべてカットする（予告検出前に実行）
+#   TCLF30 : 最後のロゴ部分が最後から30秒以内に始まる場合カットする（予告検出前に実行）
+#   TCL60  : 最後のロゴ区間が60秒だった時カット（予告検出前に実行）
+#   TC5    : 最後の5秒は不要
+#   TCB    : 最後は自動であるが、終了直前の15秒未満１構成をカット
+#   TCSP   : 最後の番組提供を認識をしない
+#   TCCM   : 最後は不要カットするロゴ付番宣（15秒か30秒）で終わる
+#   TCE    : エンドカードなしとする
+#   TREB   : ロゴ有無に関係なく15秒未満１構成をエンドカードとして残す
+#   TRE    : ロゴ有無に関係なく5秒以下１構成をエンドカードとして残す
+#   TLE    : エンドカードはロゴありのみ検出
+#   TN     : ロゴ通りに出力
+#   TWTRLOW   : 予告検出推測は弱くする
+#   TRSP15    : 最後の番組提供を15秒最優先で検索
+#   TWSP15    : 最後の番組提供が見つからない時15秒で検索
+#   TRSP15EN  : 最後の番組提供を予告後かつロゴ終了直後の15秒で検索
+#   TSC15     : 予告部分のロゴ開始直後15秒はカット（予告検出前に実行）
+#   TEC15     : 予告部分のロゴ終了直前15秒はカット（予告検出前に実行）
+#   TPTRLIM0  : 予告構成数=0
+#   TPTRLIM2  : 予告構成数=2
+#   TPCUTTR0  : 予告等終了後のロゴ付き15秒単位構成を残す
+#   TPCUTTR1  : 予告等終了後のロゴ付き15秒単位構成をカット
+#   TWSP15R60 : 予告から60秒離れた所にある15秒構成を番組提供が見つからない時残す
+#   TWTR15R60 : 予告が見つからない時のロゴなし予告検出に15秒構成を含める
+#   TWTR15A   : TWTR15R60＋条件追加（次の構成が10秒、検索範囲は広げる）
+#   TRE5R180  : ロゴ有無に関係なく5秒１構成をエンドカードとして残す（ロゴから３分以内）
+#   TRTRNL15R0 : （ロゴなし時のみ）最終ロゴ扱い終了直後の構成15秒を予告（２回検索）
+#   TRTRNLR0   : （ロゴなし時のみ）最終ロゴ扱い終了直後の構成15/30秒を予告
+#   TRTRNLR30  : （ロゴなし時のみ）最終ロゴ扱い終了から30秒離れた構成15/30秒を予告
+#   TRTRNLR60  : （ロゴなし時のみ）最終ロゴ扱い終了から60秒離れた構成15/30秒を予告
+#   TRTRNLR90  : （ロゴなし時のみ）最終ロゴ扱い終了から90秒離れた構成15/30秒を予告
+#   TRTRNLR120 : （ロゴなし時のみ）最終ロゴ扱い終了から120秒離れた構成15/30秒を予告
+#   TRTRNLR150 : （ロゴなし時のみ）最終ロゴ扱い終了から150秒離れた構成15/30秒を予告
+## 各ロゴの開始・終了位置部分
+#   SC15   : 途中のロゴ開始直後に15秒不要部分ありカットする
+#   EC15   : 途中のロゴ終了直前に15秒不要部分ありカットする
+#   SC30HT : 途中（中間あたり）のロゴ開始直後に30秒不要部分ありカットする
+#   EC30HT : 途中（中間あたり）のロゴ終了直前に30秒不要部分ありカットする
+#
+
+LazyAuto   # このファイルは自動で実行タイミング制御
+
+CountUp once_check_def_flag_std
+MemOnce ${once_check_def_flag_std}  # このファイルのMemory文は一度だけ実行
+
+#----------------------------------------------
+# フラグまとめ設定
+#----------------------------------------------
+#***************** フラグ内容 ********************************************
+#   ANIMAX   : ANIMAX用設定
+#*************************************************************************
+
+#---（設定記憶）検索開始場所 ---
+Memory mbase_first
+
+# ・ANIMAX用の設定
+If ANIMAX
+  Set ASPN     1               # 番組提供なし
+#  Set TWTR15A  1              # 予告が見つからない時、15秒以下構成で次構成が10秒なら予告にする
+  OptSet -CutMrgIn   150       # 切り替わりからロゴ表示開始までの期間
+  OptSet -CutMrgOut  150       # ロゴ表示終了から切り替わりまでの期間
+  If $NOLOGO
+    Set NLANIMAX      1        # ロゴなしANIMAX設定
+    Set autocm_scopex 120      # 最後から指定秒以降の位置に含まれる60/90/120秒構成はCM扱い
+  EndIf
+EndIf
+
+EndMemory
+
+
+#----------------------------------------------
+# Auto推測前のロゴ設定
+#----------------------------------------------
+#***************** フラグ内容 ********************************************
+#   TI25    : 最終ロゴ終了から60秒離れた構成25秒をロゴありとして追加
+#   TI15    : 最終ロゴ終了から60秒離れた構成15秒をロゴありとして追加
+#   TIB     : 最終ロゴ終了から60秒離れた所にある3,5,10秒をロゴありとして追加
+#   HI210   : 先頭ロゴから210秒はロゴありとする
+#   HI240   : 先頭ロゴから240秒はロゴありとする
+#*************************************************************************
+
+#---（設定記憶）Auto構成推測開始直前 ---
+Memory mbase_auto_start_before
+
+Default ti_scope      60.0  # 検索するロゴからの位置（秒数指定の場合は小数付きで記載）
+
+If TI25
+  MkLogo E $ti_scope $ti_scope-0.2 $ti_scope+0.2 -N -1 -EndLen 25.0 24.8 25.2 -Ftail 00:00:00 00:07:00 -noedge
+EndIf
+
+If TI15
+  MkLogo E $ti_scope $ti_scope-0.2 $ti_scope+0.2 -N -1 -EndLen 15.0 14.8 15.2 -Ftail 00:00:00 00:07:00 -noedge
+EndIf
+
+If TIB
+  MkLogo E $ti_scope $ti_scope-0.2 $ti_scope+0.2 -N -1 -EndLen 5.0 4.8 5.2   -Ftail 00:00:00 00:07:00 -noedge
+  MkLogo E $ti_scope $ti_scope-0.2 $ti_scope+0.2 -N -1 -EndLen 3.0 2.8 3.2   -Ftail 00:00:00 00:07:00 -noedge -else
+  MkLogo E $ti_scope $ti_scope-0.2 $ti_scope+0.2 -N -1 -EndLen 10.0 9.8 10.2 -Ftail 00:00:00 00:07:00 -noedge -else
+EndIf
+
+If HI210
+  MkLogo S 0 -30.0 30.0 -N 1 -EndLen 00:03:30 00:03:26 00:03:34 -overlap -confirm -noedge
+EndIf
+
+If HI240
+  MkLogo S 0 -30.0 30.0 -N 1 -EndLen 00:04:00 00:03:56 00:04:04 -overlap -confirm -noedge
+EndIf
+
+EndMemory
+
+
+#----------------------------------------------
+# 前半番組提供処理前
+#----------------------------------------------
+#***************** フラグ内容 ********************************************
+#   ASPL   : 番組提供は16～25秒を検索
+#   ASPA   : 番組提供は6～13秒のみ認識
+#   ASPN   : 番組提供なし
+#   HC10   : 最初の10秒は不要
+#   HC5    : 最初の5秒は不要
+#   HC4    : 最初の4秒は不要
+#   HC3    : 最初の3秒は不要
+#   HCA    : 最初の3～10秒で無音シーンチェンジがあれば不要
+#   HCCM   : 最初に不要カットするロゴ付番宣（15秒か30秒）から始まる
+#   HCSP   : 最初の番組提供認識をしない
+#   HRSP15 : 最初の番組提供を15秒最優先で検索
+#   HFSPL  : 最初の番組提供認識位置を20分近くまで拡張
+#   ALSP   : 番組提供はロゴありに限定
+#*************************************************************************
+
+#---（設定記憶）前半番組提供処理直前 ---
+Memory mbase_firstsp_before
+
+# ・番組提供を16～25秒で検索
+If ASPL
+  Set addsph_code1    5
+  Set addsph_period1  16
+  Set addsph_maxprd1  25
+EndIf
+
+# ・番組提供は6～13秒のみ認識
+If ASPA
+  Set addsph_code1  1001
+  Set addsph_code2  21
+  Set addsph_code3  0
+  Set addsph_code4  0
+  Set addsph_code5  0
+EndIf
+
+# ・番組提供を15秒で検索
+If HRSP15
+  Set addsph_code1    6
+EndIf
+
+# ・最初にロゴ付番宣が入っている場合のカット（最大30秒で30秒か15秒構成をカット）
+If HCCM
+  AutoEdge S -N 1 -code 1002 -scope 30 -period 30
+  AutoEdge S -N 1 -code 1002 -scope 30 -period 15 -else
+  Set cut1st_code 0     # 動作設定（0:カットなし）
+EndIf
+
+# ・最初のロゴ表示開始直後の10秒無音シーンチェンジはカット（局タイトルを想定）
+If HC10
+  Set cut1st_code   2   # 動作設定（2:指定秒数の構成時カット）
+  Set cut1st_period 10  # カット秒数指定
+EndIf
+
+# ・最初のロゴ表示開始直後の5秒無音シーンチェンジはカット（局タイトルを想定）
+If HC5
+  Set cut1st_code   2   # 動作設定（2:指定秒数の構成時カット）
+  Set cut1st_period 5   # カット秒数指定
+  Set cut1st_direct 5.0 # 推測構成で見つからない時のカット期間指定
+EndIf
+
+# ・最初のロゴ表示開始直後の3秒無音シーンチェンジはカット（局タイトルを想定）
+If HC4
+  Set cut1st_code   2   # 動作設定（2:指定秒数の構成時カット）
+  Set cut1st_period 4   # カット秒数指定
+  Set cut1st_direct 4.0 # 推測構成で見つからない時のカット期間指定
+EndIf
+
+# ・最初のロゴ表示開始直後の3秒無音シーンチェンジはカット（局タイトルを想定）
+If HC3
+  Set cut1st_code   2   # 動作設定（2:指定秒数の構成時カット）
+  Set cut1st_period 3   # カット秒数指定
+  Set cut1st_direct 3.0 # 推測構成で見つからない時のカット期間指定
+EndIf
+
+# ・最初のロゴ表示開始直後の3-10秒無音シーンチェンジはカット
+If HCA
+  Set cut1st_code   1   # 動作設定（1:3-10秒の構成時カット）
+EndIf
+
+# ・最初の番組提供認識をしない
+If HCSP ASPN
+  Set addsph_code1  0
+  Set addsph_code2  0
+  Set addsph_code3  0
+  Set addsph_code4  0
+  Set addsph_code5  0
+EndIf
+
+# ・最初の番組提供認識位置を20分近くまで拡張
+If HFSPL
+  Set fhead_ed     00:20:00  # 最初の予告と認識する先頭フレームからの位置（終点）
+  Set fhead_name   -F        # 前半縛りなし
+EndIf
+
+# ・番組提供はロゴありに限定（先頭部分）３桁目のみ変更で+1,+2を消して+2を改めて追加
+If ALSP
+  EvalNum addsph_code1  200+(${addsph_code1}/1000*1000)+(${addsph_code1}%100)+((${addsph_code1}/100%10&4)*100)
+  EvalNum addsph_code2  200+(${addsph_code2}/1000*1000)+(${addsph_code2}%100)+((${addsph_code2}/100%10&4)*100)
+  EvalNum addsph_code3  200+(${addsph_code3}/1000*1000)+(${addsph_code3}%100)+((${addsph_code3}/100%10&4)*100)
+  EvalNum addsph_code4  200+(${addsph_code4}/1000*1000)+(${addsph_code4}%100)+((${addsph_code4}/100%10&4)*100)
+  EvalNum addsph_code5  200+(${addsph_code5}/1000*1000)+(${addsph_code5}%100)+((${addsph_code5}/100%10&4)*100)
+EndIf
+
+EndMemory
+
+
+#----------------------------------------------
+# 予告部分処理前
+#----------------------------------------------
+#***************** フラグ内容 ********************************************
+#   ASPL   : 番組提供は16～25秒を検索
+#   ASPA   : 番組提供は6～13秒のみ認識
+#   ASPN   : 番組提供なし
+#   TCFULL : 最後のロゴ部分はすべてカットする（予告認識部分以降をすべてカット）
+#   TCLAST : 最後のロゴ部分はすべてカットする（予告検出前に実行）
+#   TCLF30 : 最後のロゴ部分が最後から30秒以内に始まる場合カットする（予告検出前に実行）
+#   TCL60  : 最後のロゴ区間が60秒だった時カット（予告検出前に実行）
+#   TC5    : 最後の5秒は不要
+#   TCB    : 最後は自動であるが、終了直前の15秒未満１構成をカット
+#   TCSP   : 最後の番組提供を認識をしない
+#   TCCM   : 最後は不要カットするロゴ付番宣（15秒か30秒）で終わる
+#   TCE    : エンドカードなしとする
+#   TREB   : ロゴ有無に関係なく15秒未満１構成をエンドカードとして残す
+#   TRE    : ロゴ有無に関係なく5秒以下１構成をエンドカードとして残す
+#   TLE    : エンドカードはロゴありのみ検出
+#   TN     : ロゴ通りに出力
+#   TWTRLOW   : 予告検出推測は弱くする
+#   TRSP15    : 最後の番組提供を15秒最優先で検索
+#   TWSP15    : 最後の番組提供が見つからない時15秒で検索
+#   TRSP15EN  : 最後の番組提供を予告後かつロゴ終了直後の15秒で検索
+#   TSC15     : 予告部分のロゴ開始直後15秒はカット（予告検出前に実行）
+#   TEC15     : 予告部分のロゴ終了直前15秒はカット（予告検出前に実行）
+#   TPTRLIM0  : 予告構成数=0
+#   TPTRLIM2  : 予告構成数=2
+#   TPCUTTR0  : 予告等終了後のロゴ付き15秒単位構成を残す
+#   TPCUTTR1  : 予告等終了後のロゴ付き15秒単位構成をカット
+#   TWSP15R60 : 予告から60秒離れた所にある15秒構成を番組提供が見つからない時残す
+#   TWTR15R60 : 予告が見つからない時のロゴなし予告検出に15秒構成を含める
+#   TWTR15A   : TWTR15R60＋条件追加（次の構成が10秒、検索範囲は広げる）
+#   TRE5R180  : ロゴ有無に関係なく5秒１構成をエンドカードとして残す（ロゴから３分以内）
+#   TRTRNL15R0 : （ロゴなし時のみ）最終ロゴ扱い終了直後の構成15秒を予告（２回検索）
+#   TRTRNLR0   : （ロゴなし時のみ）最終ロゴ扱い終了直後の構成15/30秒を予告
+#   TRTRNLR30  : （ロゴなし時のみ）最終ロゴ扱い終了から30秒離れた構成15/30秒を予告
+#   TRTRNLR60  : （ロゴなし時のみ）最終ロゴ扱い終了から60秒離れた構成15/30秒を予告
+#   TRTRNLR90  : （ロゴなし時のみ）最終ロゴ扱い終了から90秒離れた構成15/30秒を予告
+#   TRTRNLR120 : （ロゴなし時のみ）最終ロゴ扱い終了から120秒離れた構成15/30秒を予告
+#   TRTRNLR150 : （ロゴなし時のみ）最終ロゴ扱い終了から150秒離れた構成15/30秒を予告
+#*************************************************************************
+
+#---（設定記憶）予告部分処理直前 ---
+Memory mbase_trailer_before
+
+# ・最後にロゴ付番宣が入っている場合のカット（最大30秒で30秒か15秒構成をカット）
+If TCCM
+  AutoEdge E -NR -1 -code 1002 -scope 30 -period 30
+  AutoEdge E -NR -1 -code 1002 -scope 30 -period 15 -else
+EndIf
+
+# ・番組提供を16～25秒で検索
+If ASPL
+  Set addspt_code1    5
+  Set addspt_period1  16
+  Set addspt_maxprd1  25
+EndIf
+
+# ・番組提供は6～13秒のみ認識
+If ASPA
+  Set addspt_code1  21
+  Set addspt_code2  0
+  Set addspt_code3  0
+  Set addspt_code4  0
+  Set addspt_code5  0
+EndIf
+
+# ・番組提供を15秒で検索
+If TRSP15
+  Set addspt_code1  6
+  Set ftail_ed      00:10:00  # 最後の予告以降と認識する最終フレームからの位置（終点）
+EndIf
+
+# ・番組提供が見つからない時15秒で検索
+If TWSP15
+  Set addspt_code5  6
+  Set ftail_ed      00:10:00  # 最後の予告以降と認識する最終フレームからの位置（終点）
+EndIf
+
+# ・番組提供を予告後かつロゴ終了直後の15秒で検索
+If TRSP15EN
+  Set addspt_code1  1146      # 予告後(1000)ロゴなし(100)ロゴ隣接(40)15秒(6)
+  Set addspt_code2  1106      # 予告後(1000)ロゴなし(100)予告隣接(00)15秒(6)
+  Set ftail_ed      00:10:00  # 最後の予告以降と認識する最終フレームからの位置（終点）
+EndIf
+
+# ・CM明け以降最後のロゴ部分はすべてカットする
+If TCFULL
+  Set cuttr_code    1    # 動作設定（1:CM明けから数える）
+  Set cuttr_limit   0    # 予告として残す構成数（0:予告なし）
+  Set use_addtr     0    # 予告が見つからない時のロゴなし予告検出（0:検出しない）
+  Set cutec_code    1    # カット動作設定（1:カットあり）
+  Set addec_code1   0    # エンドカード検出1（0:検出しない）
+  Set addec_code2   0    # エンドカード検出2（0:検出しない）
+  Set addec_code3   0    # エンドカード検出3（0:検出しない）
+  Set addec_code4   0    # エンドカード検出4（0:検出しない）
+  Set addec_code5   0    # エンドカード検出5（0:検出しない）
+  Set addtr_limit   0     # 予告が見つからないと判断する必要予告構成数（0:予告なし 1～:構成数）
+  Set cutec_limit   0    # カット位置指定（0:追加なし）
+  Set addspt_code1  0
+  Set addspt_code2  0
+  Set addspt_code3  0
+  Set addspt_code4  0
+  Set addspt_code5  0
+EndIf
+
+# ・最後のロゴ部分はすべてカットする（予告検出前に実行）
+If TCLAST
+  AutoEdge E -N -1 -Ftail $ftail_st $ftail_ed -code 1003 -period 00:07:00
+EndIf
+
+# ・最後のロゴ部分が最後から30秒以内に始まる場合カットする（予告検出前に実行）
+If TCLF30
+  AutoEdge S -N -1 -Ftail 00:00:00 00:00:30 -code 1003 -period 00:07:00
+  # ロゴなし時は最後から30秒を無効にする
+  If $NOLOGO
+    Set ftail_st      00:00:30  # 最後の予告以降と認識する最終フレームからの位置（起点）
+  EndIf
+EndIf
+
+# ・最後のロゴ区間が60秒だった時カット（予告検出前に実行）
+If TCL60
+  AutoEdge E -N -1 -Ftail $ftail_st $ftail_ed -LenP 58.0 62.0 -code 1003 -period 62.0
+EndIf
+
+# ・最後のロゴ区間が120秒だった時カット（予告検出前に実行）
+If TCL120
+  AutoEdge E -N -1 -Ftail $ftail_st $ftail_ed -code 1005 -period 118.0 -maxprd 122.0
+EndIf
+
+
+# ・最後の5秒はカット
+If TC5
+  Set cutec_code   21   # エンドカードカット動作設定（21:最後period秒構成はカット）
+  Set cutec_period 5    # エンドカードカット時に期間指定する場合の秒数
+EndIf
+
+# ・最後のロゴの番組宣伝直前15秒未満１構成をカット
+If TCB
+  Set cutec_code   11   # エンドカードカット動作設定（11:最後の１構成は強制的にカット）
+EndIf
+
+# ・エンドカードなしとする
+If TCE
+  Set cutec_code    1    # カット動作設定（1:カットあり）
+  Set addec_code1   0    # エンドカード検出1（0:検出しない）
+  Set addec_code2   0    # エンドカード検出2（0:検出しない）
+  Set addec_code3   0    # エンドカード検出3（0:検出しない）
+  Set addec_code4   0    # エンドカード検出4（0:検出しない）
+  Set addec_code5   0    # エンドカード検出5（0:検出しない）
+  Set cutec_limit   0    # エンドカードカット位置指定（0:追加なし）
+EndIf
+
+# ・ロゴ有無に関係なく15秒未満１構成をエンドカードとして残す
+If TREB
+  Set cutec_code     1     # カット動作設定（0:カットなし 1:カットあり）
+  Set addec_code1    11023 # エンドカード検出1（23:検索90秒以内構成5秒以下 +10000:構成期間13秒以下で候補となる位置に限定）
+  Set addec_period1  13    # エンドカード検出1の構成指定秒数(構成5秒の所を秒数変更)
+  Set addec_scope1   90    # エンドカード検出1の期間指定時検索終了秒数(code下2桁目=2以上の時使用)
+  Set addec_scopen1  0     # エンドカード検出1の期間指定時検索開始秒数(code下2桁目=2以上の時使用)
+EndIf
+
+# ・ロゴ有無に関係なく5秒（変更可）以下１構成をエンドカードとして残す
+If TRE
+  Set cutec_code     1     # カット動作設定（0:カットなし 1:カットあり）
+  Set addec_code1    11023 # エンドカード検出1（23:検索90秒以内構成5秒以下 +10000:構成期間13秒以下で候補となる位置に限定）
+#  Set addec_period1  5     # エンドカード検出1の構成指定秒数(構成5秒の所を秒数変更)
+  Set addec_scope1   90    # エンドカード検出1の期間指定時検索終了秒数(code下2桁目=2以上の時使用)
+  Set addec_scopen1  0     # エンドカード検出1の期間指定時検索開始秒数(code下2桁目=2以上の時使用)
+EndIf
+
+# ・エンドカードはロゴありのみ検出
+If TLE
+  Set cutec_code    1     # カット動作設定（0:カットなし 1:カットあり）
+  Set addec_code1   0     # エンドカード検出1-優先度1
+  Set addec_code2   11223 # エンドカード検出2-優先度2
+  Set addec_code3   11223 # エンドカード検出3-優先度3
+  Set addec_code4   11203 # エンドカード検出4-優先度4
+  Set addec_code5   0     # エンドカード検出5-優先度5
+  Set addec_period1 5     # エンドカード検出1の構成指定秒数
+  Set addec_period2 5     # エンドカード検出2の構成指定秒数
+  Set addec_period3 3     # エンドカード検出3の構成指定秒数
+  Set addec_period4 10    # エンドカード検出4の構成指定秒数
+  Set addec_period5 5     # エンドカード検出5の構成指定秒数
+EndIf
+
+# ・番組提供認識をしない
+If TCSP ASPN
+  Set addspt_code1  0
+  Set addspt_code2  0
+  Set addspt_code3  0
+  Set addspt_code4  0
+  Set addspt_code5  0
+EndIf
+
+# ・ロゴ通りに出力
+If TN
+  If !$NOLOGO
+    Set cuttr_code   0
+    Set use_addtr    0
+    Set cutec_code   0
+    Set addec_code1  0
+    Set addec_code2  0
+    Set addec_code3  0
+    Set addec_code4  0
+    Set addec_code5  0
+    Set addspt_code1  0
+    Set addspt_code2  0
+    Set addspt_code3  0
+    Set addspt_code4  0
+    Set addspt_code5  0
+  EndIf
+EndIf
+
+# ・TWTRLOW   : 予告検出推測は弱くする
+If TWTRLOW
+  Set use_addtr     0     # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+  Set use_autocmtr  0     # ロゴなし時の予告検出拡張（0:なし 1:あり）
+EndIf
+
+# ・TPTRLIM0 : 予告構成数=0
+If TPTRLIM0
+  Set cuttr_limit   0     # 予告と認識させる構成数（0:予告なし 1～:構成数）
+  Set use_addtr     0     # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+  Set use_autocmtr  0     # ロゴなし時の予告検出拡張（0:なし 1:あり）
+EndIf
+
+# ・TPTRLIM2 : 予告構成数=2
+If TPTRLIM2
+  Set cuttr_limit   2     # 予告と認識させる構成数（0:予告なし 1～:構成数）
+  Set addtr_limit   2     # 予告が見つからないと判断する必要予告構成数（0:制限なし 1～:構成数）
+EndIf
+
+#   TPCUTTR0  : 予告等終了後のロゴ付き15秒単位構成を残す
+If TPCUTTR0
+  Set param_cuttr   0     # 予告等終了後のロゴ付き15秒単位構成（0:残す 1:カット）
+  SetParam CutTR    $param_cuttr
+EndIf
+
+#   TPCUTTR1  : 予告等終了後のロゴ付き15秒単位構成をカット
+If TPCUTTR1
+  Set param_cuttr   1     # 予告等終了後のロゴ付き15秒単位構成（0:残す 1:カット）
+  SetParam CutTR    $param_cuttr
+EndIf
+
+# ・予告部分のロゴ開始直後15秒はカット（予告検出前に実行）
+If TSC15
+  AutoEdge S -Ftail $ftail_st $ftail_ed -code 2 -period 15 -LenN 00:00:15 00:02:00
+EndIf
+
+# ・予告部分のロゴ終了直前15秒はカット（予告検出前に実行）
+If TEC15
+#  AutoEdge E -Ftail $ftail_st $ftail_ed -code 2 -period 15 -LenP 00:00:15 -1
+  AutoEdge E -Ftail $ftail_st $ftail_ed -code 5 -period 14 -maxprd 16 -LenP 00:00:15 -1
+EndIf
+
+# ・予告から60秒離れた所にある15秒構成を番組提供が見つからない時残す
+If TWSP15R60
+  Set addspt_code5   36   # 最後番組提供-優先度5
+  Set addspt_scope   60   # 最後番組提供の期間指定時検索秒数
+EndIf
+
+# ・予告が見つからない時のロゴなし予告検出に15秒構成を含める
+If TWTR15R60
+  Set addtr_code1    25   # 予告が見つからない時のロゴなし予告検出1（0:検出しない 1:隣接15秒未満 25:検索60秒地点構成指定秒）
+  Set addtr_period1  1    # ロゴなし予告検出1の期間指定時構成最小秒数(code下1桁=5の時)
+  Set addtr_maxprd1  15   # ロゴなし予告検出1の期間指定時構成最大秒数(code下1桁=5の時)
+EndIf
+
+# ・予告が見つからない時のロゴなし予告検出に15秒構成を含める（次の構成が10秒、検索範囲は広げる）
+If TWTR15A
+  Set addtr_code1    1025 # 予告が見つからない時のロゴなし予告検出1（0:検出しない 1:隣接15秒未満 25:検索60秒地点構成指定秒）
+  Set addtr_code2    1025 # 予告が見つからない時のロゴなし予告検出1（0:検出しない 1:隣接15秒未満 25:検索60秒地点構成指定秒）
+  Set addtr_period1  3    # ロゴなし予告検出1の期間指定時構成最小秒数(code下1桁=5の時)
+  Set addtr_period2  3    # ロゴなし予告検出1の期間指定時構成最小秒数(code下1桁=5の時)
+  Set addtr_maxprd1  10   # ロゴなし予告検出1の期間指定時構成最大秒数(code下1桁=5の時)
+  Set addtr_maxprd2  15   # ロゴなし予告検出1の期間指定時構成最大秒数(code下1桁=5の時)
+  Set addtr_scope    125  # 予告が見つからない時のロゴなし予告検出検索秒数（最大）
+  Set addtr_scopen   0    # 予告が見つからない時のロゴなし予告検出検索秒数（開始隣接側）
+  Set addtr_secnext  10   # 次の構成を秒数指定で限定する（0の時指定しない）
+EndIf
+
+# ・ロゴ有無に関係なく5秒１構成をエンドカードとして残す（ロゴから３分以内）
+If TRE5R180
+  Set cutec_code     1     # カット動作設定（0:カットなし 1:カットあり）
+  Set addec_code1    1022  # エンドカード検出1（22:検索指定秒以内構成5秒）
+  Set addec_period1  5     # エンドカード検出1の構成指定秒数(構成5秒の所を秒数変更)
+  Set addec_scope1   180   # エンドカード検出1の期間指定時検索終了秒数(code下2桁目=2以上の時使用)
+  Set addec_scopen1  0     # エンドカード検出1の期間指定時検索開始秒数(code下2桁目=2以上の時使用)
+EndIf
+
+#
+# ・ロゴなし時だけの動作
+#
+If $NOLOGO
+# ・最終ロゴ扱い終了直後の構成15秒を予告（２回検索）
+  If TRTRNL15R0
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1102   # 後側(1000)ロゴなし(100)隣接指定期間(2)
+    Set add0tr_code2    1102   # 後側(1000)ロゴなし(100)隣接指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  15     # 指定期間秒数
+    Set use_addtr       1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set addtr_code1     1102   # 後側(1000)ロゴなし(100)隣接指定期間(2)
+    Set addtr_code2     1102   # 後側(1000)ロゴなし(100)隣接指定期間(2)
+    Set addtr_period1   15     # 指定期間秒数
+    Set addtr_period2   15     # 指定期間秒数
+  EndIf
+# ・最終ロゴ扱い終了直後の構成15秒または30秒を予告
+  If TRTRNLR0
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1102   # 後側(1000)ロゴなし(100)隣接指定期間(2)
+    Set add0tr_code2    1102   # 後側(1000)ロゴなし(100)隣接指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  30     # 指定期間秒数
+  EndIf
+# ・最終ロゴ扱い終了から30秒離れた構成15秒または30秒を予告
+  If TRTRNLR30
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_code2    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  30     # 指定期間秒数
+    Set add0tr_scope    30     # 指定検索位置秒数
+  EndIf
+# ・最終ロゴ扱い終了から60秒離れた構成15秒または30秒を予告
+  If TRTRNLR60
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_code2    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  30     # 指定期間秒数
+    Set add0tr_scope    60     # 指定検索位置秒数
+  EndIf
+# ・最終ロゴ扱い終了から90秒離れた構成15秒または30秒を予告
+  If TRTRNLR90
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_code2    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  30     # 指定期間秒数
+    Set add0tr_scope    90     # 指定検索位置秒数
+  EndIf
+# ・最終ロゴ扱い終了から120秒離れた構成15秒または30秒を予告
+  If TRTRNLR120
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_code2    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  30     # 指定期間秒数
+    Set add0tr_scope    120    # 指定検索位置秒数
+  EndIf
+# ・最終ロゴ扱い終了から150秒離れた構成15秒または30秒を予告
+  If TRTRNLR150
+    Set use_add0tr      1      # 予告が見つからない時のロゴなし予告検出（0:検出しない 1:検出する）
+    Set add0tr_code1    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_code2    1132   # 後側(1000)ロゴなし(100)指定検索位置(30)指定期間(2)
+    Set add0tr_period1  15     # 指定期間秒数
+    Set add0tr_period2  30     # 指定期間秒数
+    Set add0tr_scope    150    # 指定検索位置秒数
+  EndIf
+EndIf
+
+# ・ロゴなしでのANIMAX補正
+If NLANIMAX
+  # 先頭の10または5秒、CM直前の5秒はカット
+  AutoEdge S -Fhead -00:01:00 00:02:00 -code 1022 -period 10 -LenN 00:01:15 -1
+  AutoEdge S -Fhead -00:01:00 00:02:00 -code 1022 -period 5  -LenN 00:01:15 -1 -else
+  AutoEdge E -code 1022 -period 5 -LenP 00:03:00 -1
+  Set addtr_maxprd2  30    # ロゴなし予告検出2の期間指定時構成最大秒数(code下1桁=5の時)
+EndIf
+
+# ・番組提供はロゴありに限定（最後部分）
+If ALSP
+  EvalNum addspt_code1  200+(${addspt_code1}/1000*1000)+(${addspt_code1}%100)+((${addspt_code1}/100%10&4)*100)
+  EvalNum addspt_code2  200+(${addspt_code2}/1000*1000)+(${addspt_code2}%100)+((${addspt_code2}/100%10&4)*100)
+  EvalNum addspt_code3  200+(${addspt_code3}/1000*1000)+(${addspt_code3}%100)+((${addspt_code3}/100%10&4)*100)
+  EvalNum addspt_code4  200+(${addspt_code4}/1000*1000)+(${addspt_code4}%100)+((${addspt_code4}/100%10&4)*100)
+  EvalNum addspt_code5  200+(${addspt_code5}/1000*1000)+(${addspt_code5}%100)+((${addspt_code5}/100%10&4)*100)
+EndIf
+
+EndMemory
+
+
+#----------------------------------------------
+# 各ロゴの開始・終了位置カット
+#----------------------------------------------
+#***************** フラグ内容 ********************************************
+#   SC15   : 途中のロゴ開始直後に15秒不要部分ありカットする
+#   EC15   : 途中のロゴ終了直前に15秒不要部分ありカットする
+#   SC30HT : 途中（中間あたり）のロゴ開始直後に30秒不要部分ありカットする
+#   EC30HT : 途中（中間あたり）のロゴ終了直前に30秒不要部分ありカットする
+#*************************************************************************
+
+#---（設定記憶）予告部分処理直後 ---
+Memory mbase_trailer_after
+
+Default edgest_frmmin 00:02:00  # 各ロゴ開始部分のカット対象とするロゴ最低期間
+Default edgeed_frmmin 00:02:00  # 各ロゴ終了部分のカット対象とするロゴ最低期間
+Default fmid_st       00:10:00  # 中間部分の認識開始位置
+Default fmid_ed       00:10:00  # 中間部分の認識終了位置
+
+# ・途中番宣が入っている場合のカット（ロゴ開始直後）
+If SC15
+  Set edgest_code   2
+  Set edgest_period 15
+  Set edgest_frmmin 00:02:00
+EndIf
+
+# ・途中番宣が入っている場合のカット（ロゴ終了直前）
+If EC15
+  Set edgeed_code   2
+  Set edgeed_period 15
+  Set edgeed_frmmin 00:02:00
+EndIf
+
+# ・途中30秒番宣が中間あたりに入っている場合のカット（ロゴ開始直後）
+If SC30HT
+  Set fmid_st    00:10:00
+  Set fmid_ed    00:08:00
+  AutoEdge S -Fmid $fmid_st $fmid_ed -code 1002 -period 30 -LenN $edgest_frmmin -1
+EndIf
+
+# ・途中30秒番宣が中間あたりに入っている場合のカット（ロゴ終了直前）
+If EC30HT
+  Set fmid_st    00:10:00
+  Set fmid_ed    00:08:00
+  AutoEdge E -Fmid $fmid_st $fmid_ed -code 1002 -period 30 -LenP $edgeed_frmmin -1
+EndIf
+
+EndMemory

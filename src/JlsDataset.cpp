@@ -26,35 +26,36 @@ void JlsDataset::initData(){
 	resultTrim.clear();
 
 	//--- 初期設定 ---
-	m_config[CONFIG_VAR_msecWLogoTRMax]      = 120*1000;
-	m_config[CONFIG_VAR_msecWCompTRMax]      = 60*1000;
-	m_config[CONFIG_VAR_msecWLogoSftMrg]     = 4200;
-	m_config[CONFIG_VAR_msecWCompFirst]      = 0;
-	m_config[CONFIG_VAR_msecWCompLast]       = 0;
-	m_config[CONFIG_VAR_msecWLogoSumMin]     = 20*1000;
-	m_config[CONFIG_VAR_msecWLogoLgMin]      = 4500;
-	m_config[CONFIG_VAR_msecWLogoCmMin]      = 40*1000;
-	m_config[CONFIG_VAR_msecWLogoRevMin]     = 185*1000;
-	m_config[CONFIG_VAR_msecMgnCmDetect]     = 1500;
-	m_config[CONFIG_VAR_msecMgnCmDivide]     = 500;
-	m_config[CONFIG_VAR_secWCompSPMin]       = 6;
-	m_config[CONFIG_VAR_secWCompSPMax]       = 13;
-	m_config[CONFIG_VAR_flagCutTR]           = 1;
-	m_config[CONFIG_VAR_flagCutSP]           = 0;
-	m_config[CONFIG_VAR_flagAddLogo]         = 1;
-	m_config[CONFIG_VAR_flagAddUC]           = 0;
-	m_config[CONFIG_VAR_typeNoSc]            = 0;
-	m_config[CONFIG_VAR_cancelCntSc]         = 0;
-	m_config[CONFIG_VAR_LogoLevel]           = 0;
-	m_config[CONFIG_VAR_LogoRevise]          = 0;
-	m_config[CONFIG_VAR_AutoCmSub]           = 0;
-	m_config[CONFIG_VAR_msecPosFirst]        = -1;
-	m_config[CONFIG_VAR_msecLgCutFirst]      = -1;
-	m_config[CONFIG_VAR_msecZoneFirst]       = -1;
-	m_config[CONFIG_VAR_msecZoneLast]        = -1;
-	m_config[CONFIG_VAR_priorityPosFirst]    = 0;
+	setConfig(ConfigVarType::msecWLogoTRMax      , 120*1000);
+	setConfig(ConfigVarType::msecWCompTRMax      , 60*1000);
+	setConfig(ConfigVarType::msecWLogoSftMrg     , 4200 );
+	setConfig(ConfigVarType::msecWCompFirst      , 0    );
+	setConfig(ConfigVarType::msecWCompLast       , 0    );
+	setConfig(ConfigVarType::msecWLogoSumMin     , 20*1000);
+	setConfig(ConfigVarType::msecWLogoLgMin      , 4500 );
+	setConfig(ConfigVarType::msecWLogoCmMin      , 40*1000);
+	setConfig(ConfigVarType::msecWLogoRevMin     , 185*1000);
+	setConfig(ConfigVarType::msecMgnCmDetect     , 1500 );
+	setConfig(ConfigVarType::msecMgnCmDivide     , 500  );
+	setConfig(ConfigVarType::secWCompSPMin       , 6    );
+	setConfig(ConfigVarType::secWCompSPMax       , 13   );
+	setConfig(ConfigVarType::flagCutTR           , 1    );
+	setConfig(ConfigVarType::flagCutSP           , 0    );
+	setConfig(ConfigVarType::flagAddLogo         , 1    );
+	setConfig(ConfigVarType::flagAddUC           , 0    );
+	setConfig(ConfigVarType::typeNoSc            , 0    );
+	setConfig(ConfigVarType::cancelCntSc         , 0    );
+	setConfig(ConfigVarType::LogoLevel           , 0    );
+	setConfig(ConfigVarType::LogoRevise          , 0    );
+	setConfig(ConfigVarType::AutoCmSub           , 0    );
+	setConfig(ConfigVarType::msecPosFirst        , -1   );
+	setConfig(ConfigVarType::msecLgCutFirst      , -1   );
+	setConfig(ConfigVarType::msecZoneFirst       , -1   );
+	setConfig(ConfigVarType::msecZoneLast        , -1   );
+	setConfig(ConfigVarType::priorityPosFirst    , 0    );
 
 	//--- 外部設定オプション ---
+	extOpt = {};		// 念のため個別に初期化
 	extOpt.verbose    = 0;
 	extOpt.msecCutIn  = 0;
 	extOpt.msecCutOut = 0;
@@ -67,8 +68,15 @@ void JlsDataset::initData(){
 	extOpt.fixWidCutI = 0;
 	extOpt.fixWidCutO = 0;
 	extOpt.oldAdjust  = 0;
+	extOpt.fixVLine   = 0;
+	extOpt.fixSubList = 0;
+	extOpt.fixSubPath = 0;
+	extOpt.vLine      = 0;
+	extOpt.subList    = "common";		// 初期検索フォルダ設定
+	extOpt.subPath    = "";
 
 	//--- 状態初期設定 ---
+	recHold = {};		// 念のため個別に初期化
 	recHold.msecSelect1st = -1;
 	recHold.msecTrPoint   = -1;
 	recHold.rmsecHeadTail = {-1, -1};
@@ -98,47 +106,49 @@ void JlsDataset::initData(){
 // config設定
 //---------------------------------------------------------------------
 void JlsDataset::setConfig(ConfigVarType tp, int val){
-	m_config[tp] = val;
+	int nTp = static_cast<int>(tp);
+	m_config[nTp] = val;
 }
 
 //---------------------------------------------------------------------
 // config設定値取得
 //---------------------------------------------------------------------
 int JlsDataset::getConfig(ConfigVarType tp){
-	return m_config[tp];
+	int nTp = static_cast<int>(tp);
+	return m_config[nTp];
 }
 
 int JlsDataset::getConfigAction(ConfigActType acttp){
 	int val;
 	int ret = 0;
 	switch(acttp){
-		case CONFIG_ACT_LogoDelEdge:		// ロゴ端のCM判断
-			val = getConfig(CONFIG_VAR_LogoRevise);
+		case ConfigActType::LogoDelEdge:		// ロゴ端のCM判断
+			val = getConfig(ConfigVarType::LogoRevise);
 			ret = val % 10;
 			break;
-		case CONFIG_ACT_LogoDelMid:			// ロゴ内の15秒単位CM化
-			val = getConfig(CONFIG_VAR_LogoRevise);
+		case ConfigActType::LogoDelMid:			// ロゴ内の15秒単位CM化
+			val = getConfig(ConfigVarType::LogoRevise);
 			ret = ((val / 10 % 10) & 0x1)? 1 : 0;
 			break;
-		case CONFIG_ACT_LogoDelWide:		// 広域ロゴなし削除
-			val = getConfig(CONFIG_VAR_LogoRevise);
+		case ConfigActType::LogoDelWide:		// 広域ロゴなし削除
+			val = getConfig(ConfigVarType::LogoRevise);
 			ret = ((val / 10 % 10) & 0x2)? 1 : 0;
 			{								// AddUC=1の時は無効
-				int tmp = getConfig(CONFIG_VAR_flagAddUC);
+				int tmp = getConfig(ConfigVarType::flagAddUC);
 				if ((tmp % 10) & 0x1) ret = 0;
 			}
 			break;
-		case CONFIG_ACT_LogoUCRemain:		// ロゴなし不明部分を残す
-			val = getConfig(CONFIG_VAR_flagAddUC);
+		case ConfigActType::LogoUCRemain:		// ロゴなし不明部分を残す
+			val = getConfig(ConfigVarType::flagAddUC);
 			ret = val % 10;
 			break;
-		case CONFIG_ACT_LogoUCGapCm:		// CM単位から誤差が大きい構成を残す
-			val = getConfig(CONFIG_VAR_flagAddUC);
+		case ConfigActType::LogoUCGapCm:		// CM単位から誤差が大きい構成を残す
+			val = getConfig(ConfigVarType::flagAddUC);
 			ret = ((val / 10 % 10) & 0x1)? 1 : 0;
 			if ( isUnuseLevelLogo() ) ret = 1;		// ロゴ使用しない場合は常時
 			break;
-		case CONFIG_ACT_MuteNoSc:			// シーンチェンジなし無音位置のCM判断
-			val = getConfig(CONFIG_VAR_typeNoSc);
+		case ConfigActType::MuteNoSc:			// シーンチェンジなし無音位置のCM判断
+			val = getConfig(ConfigVarType::typeNoSc);
 			ret = val;
 			if (val == 0){					// 自動判断
 				ret = ( pdata->isUnuseLevelLogo() )? 1 : 2;
@@ -1544,7 +1554,7 @@ bool JlsDataset::isElgInScpForAll(Nsc nsc, bool flag_border, bool flag_out){
 					ret = true;
 					break;
 				case SCP_AREXT_L_TRCUT :
-					if (getConfig(CONFIG_VAR_flagCutTR) == 1){
+					if (getConfig(ConfigVarType::flagCutTR) == 1){
 						ret = false;
 					}
 					else{
@@ -1552,7 +1562,7 @@ bool JlsDataset::isElgInScpForAll(Nsc nsc, bool flag_border, bool flag_out){
 					}
 					break;
 				case SCP_AREXT_L_SP :
-					if (getConfig(CONFIG_VAR_flagCutSP) == 1){
+					if (getConfig(ConfigVarType::flagCutSP) == 1){
 						ret = false;
 					}
 					else{
@@ -1653,7 +1663,7 @@ bool JlsDataset::isSmuteSameArea(Nsc nsc1, Nsc nsc2){
 // 出力:
 //   返り値： false=範囲なし  true=範囲設定
 //---------------------------------------------------------------------
-bool JlsDataset::limitWideMsecFromRange(WideMsec wmsec, RangeMsec rmsec){
+bool JlsDataset::limitWideMsecFromRange(WideMsec& wmsec, RangeMsec rmsec){
 	if (wmsec.late  < rmsec.st && wmsec.late  >= 0 && rmsec.st >= 0) return false;
 	if (wmsec.early > rmsec.ed && wmsec.early >= 0 && rmsec.ed >= 0) return false;
 	if (rmsec.st >= 0){
@@ -2290,6 +2300,9 @@ void JlsDataset::outputResultTrimGenManual(){
 			resultTrim.push_back( msec_rise );
 			resultTrim.push_back( msec_fall );
 		}
+		if ( nlg_fall == 0 ){	// ロゴが全くない場合は終了
+			nlg_fall = -1;
+		}
 	} while(nlg_fall >= 0);
 }
 
@@ -2406,7 +2419,7 @@ void JlsDataset::outputResultDetailGetLineLabel(string &strBuf, ScpArType arstat
 			pstr_arstat = ":Trailer";
 			break;
 		case SCP_AREXT_L_TRCUT :
-			if (getConfig(CONFIG_VAR_flagCutTR) == 1){
+			if (getConfig(ConfigVarType::flagCutTR) == 1){
 				pstr_arstat = ":Trailer(cut)";
 			}
 			else{
@@ -2414,7 +2427,7 @@ void JlsDataset::outputResultDetailGetLineLabel(string &strBuf, ScpArType arstat
 			}
 			break;
 		case SCP_AREXT_L_SP :
-			if (getConfig(CONFIG_VAR_flagCutSP) == 1){
+			if (getConfig(ConfigVarType::flagCutSP) == 1){
 				pstr_arstat = ":Sponsor(cut)";
 			}
 			else{

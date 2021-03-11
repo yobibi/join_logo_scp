@@ -65,7 +65,7 @@ bool JlsAutoReform::startAutoCM(JlsCmdArg &cmdarg){
 // 入力：
 //    nsc_from：範囲開始位置
 //    nsc_to：  範囲終了位置
-//    logomode：ロゴ設定（0:ロゴなし、1:ロゴあり）
+//    logoon：  ロゴ設定（0:ロゴなし、1:ロゴあり）
 //    resutuct：構成再構築（0:範囲内は単一構成、1:範囲内の構成を再構築）
 // 出力：
 //   pdata(chap,arstat)
@@ -93,9 +93,11 @@ void JlsAutoReform::mkReformTarget(Nsc nsc_from, Nsc nsc_to, bool logoon, int re
 		//--- 手前位置に設定する構成を取得 ---
 		Nsc nsc_chapfrom = pdata->getNscNextScpDecide(nsc_from-1, SCP_END_EDGEIN);
 		ScpArType arstat_from = pdata->getScpArstat(nsc_chapfrom);
+		ScpArExtType arext_from = pdata->getScpArext(nsc_chapfrom);
 		//--- 手前位置の設定 ---
 		pdata->setScpChap(nsc_from, SCP_CHAP_DFORCE);
 		pdata->setScpArstat(nsc_from, arstat_from);
+		pdata->setScpArext(nsc_from, arext_from);
 		//--- 対象間の確定位置を解除 ---
 		while (nsc_chapfrom >= 0 && nsc_chapfrom < nsc_to){
 			if (nsc_chapfrom > nsc_from){
@@ -214,7 +216,7 @@ void JlsAutoReform::mkReformAllLogo(){
 				det = mkReformAllLogoUnit(msec_lg_remain_st, logopt);
 			}
 			//--- CM認識またはロゴ期間が長い場合は次の開始をロゴ終了位置に設定 ---
-			Msec msec_recmin = pdata->getConfig(CONFIG_VAR_msecWLogoLgMin);
+			Msec msec_recmin = pdata->getConfig(ConfigVarType::msecWLogoLgMin);
 			if (flagend == false && (det || (logopt.msecFall - logopt.msecRise) >= msec_recmin)){
 				scope.st = logopt.msecFall;
 			}
@@ -359,9 +361,9 @@ void JlsAutoReform::setReformParam(FormAutoCMArg &param_autocm, JlsCmdArg &cmdar
 	if (rmsec_headtail.st < 0) rmsec_headtail.st = 0;
 	if (rmsec_headtail.ed < 0) rmsec_headtail.ed = pdata->getMsecTotalMax();
 	//--- コマンド有効時 ---
-	if (cmdarg.cmdsel == JLCMD_SEL_AutoCM){
+	if (cmdarg.cmdsel == CmdType::AutoCM){
 		//--- 全体設定時は有効設定のみ更新 ---
-		int tmp_level_cmdet = cmdarg.getOpt(JLOPT_DATA_AutopCode) % 100;
+		int tmp_level_cmdet = cmdarg.getOpt(OptType::AutopCode) % 100;
 		if (reform_all == false || tmp_level_cmdet > 0){
 			level_cmdet = tmp_level_cmdet;
 		}
@@ -370,19 +372,19 @@ void JlsAutoReform::setReformParam(FormAutoCMArg &param_autocm, JlsCmdArg &cmdar
 			pdata->setFlagAutoMode(true);
 		}
 		//--- 最後の位置 ---
-		Sec sectmp_keep = cmdarg.getOpt(JLOPT_DATA_AutopScope);
+		Sec sectmp_keep = cmdarg.getOpt(OptType::AutopScope);
 		msec_tailarea_keep = 0;
 		if (sectmp_keep > 0){
 			msec_tailarea_keep = rmsec_headtail.ed - sectmp_keep * 1000;
 		}
 		//--- 最後の60/90/120秒判断位置 ---
-		Sec sectmp_unit = cmdarg.getOpt(JLOPT_DATA_AutopScopeX);
+		Sec sectmp_unit = cmdarg.getOpt(OptType::AutopScopeX);
 		msec_tailarea_unit = 0;
 		if (sectmp_unit > 0){
 			msec_tailarea_unit = rmsec_headtail.ed - sectmp_unit * 1000;
 		}
 		//--- 期間設定 ---
-		sec_maxcm   = cmdarg.getOpt(JLOPT_DATA_AutopMaxPrd);
+		sec_maxcm   = cmdarg.getOpt(OptType::AutopMaxPrd);
 		if (sec_maxcm <= 0){
 			sec_maxcm = 60;			// 未設定時の初期値
 		}
@@ -423,12 +425,12 @@ void JlsAutoReform::addLogoComponent(int lvlogo){
 //---------------------------------------------------------------------
 void JlsAutoReform::addLogoEdge(){
 	//--- 認識最小期間 ---
-	Msec msec_recmin = pdata->getConfig(CONFIG_VAR_msecWLogoCmMin);
+	Msec msec_recmin = pdata->getConfig(ConfigVarType::msecWLogoCmMin);
 	//--- ロゴ構成区間内の端構成をCM化する処理設定 ---
-	if (pdata->getConfigAction(CONFIG_ACT_LogoDelWide) == 0){
+	if (pdata->getConfigAction(ConfigActType::LogoDelWide) == 0){
 		return;								// カットしない設定では終了
 	}
-	int rev_del_edge = pdata->getConfigAction(CONFIG_ACT_LogoDelEdge);
+	int rev_del_edge = pdata->getConfigAction(ConfigActType::LogoDelEdge);
 	//--- ロゴ位置を順番に検索 ---
 	NrfCurrent logopt = {};
 	bool remain_logo = pdata->getNrfptNext(logopt, LOGO_SELECT_VALID);
@@ -1023,9 +1025,9 @@ bool JlsAutoReform::detectCM(FormAutoCMArg param_autocm){
 	Msec msec_tailarea_unit  = param_autocm.msecTailareaUnit;
 	Sec  sec_maxcm           = param_autocm.secMaxCm;
 	RangeMsec rmsec_headtail = param_autocm.rmsecHeadTail;
-	Msec msec_wlogo_trmax    = pdata->getConfig(CONFIG_VAR_msecWLogoTRMax);
+	Msec msec_wlogo_trmax    = pdata->getConfig(ConfigVarType::msecWLogoTRMax);
 	//--- ロゴ構成区間内の15秒構成をCM化の判断追加設定 ---
-	int sub_autocm = pdata->getConfig(CONFIG_VAR_AutoCmSub);
+	int sub_autocm = pdata->getConfig(ConfigVarType::AutoCmSub);
 	bool is_sub_cmhead = ((sub_autocm % 10) == 1)? true : false;
 	bool is_sub_off45s = ((sub_autocm / 10 % 10) == 1)? true : false;
 
@@ -1595,7 +1597,7 @@ bool JlsAutoReform::mkRangeCM(RangeMsec &bounds, RangeFixMsec fixscope, bool log
 //---------------------------------------------------------------------
 bool JlsAutoReform::mkRangeCMGetLogoEdge(WideMsec &wmsec, int msec_target, bool flag_fix, LogoEdgeType edge){
 	bool detect = false;
-	Msec msec_sftmrg = pdata->getConfig(CONFIG_VAR_msecWLogoSftMrg);
+	Msec msec_sftmrg = pdata->getConfig(ConfigVarType::msecWLogoSftMrg);
 
 	if (msec_target < 0){
 		wmsec.just  = -1;
@@ -1649,14 +1651,14 @@ bool JlsAutoReform::setFirstArea(FormFirstInfo &info_first){
 	FormFirstLoc locinfo;
 	{
 		//--- 先頭優先位置設定を取得 ---
-		locinfo.msec1stSel = pdata->getConfig(CONFIG_VAR_msecPosFirst);
-		locinfo.lvPos1stSel = pdata->getConfig(CONFIG_VAR_priorityPosFirst);
+		locinfo.msec1stSel = pdata->getConfig(ConfigVarType::msecPosFirst);
+		locinfo.lvPos1stSel = pdata->getConfig(ConfigVarType::priorityPosFirst);
 		if (locinfo.lvPos1stSel == 3 && pdata->recHold.msecSelect1st >= 0) {
 			locinfo.msec1stSel = pdata->recHold.msecSelect1st;
 		}
-		locinfo.msec1stZone = pdata->getConfig(CONFIG_VAR_msecZoneFirst);
+		locinfo.msec1stZone = pdata->getConfig(ConfigVarType::msecZoneFirst);
 		//--- 先頭構成カットする最大先頭位置 ---
-		locinfo.msecWcomp1st = pdata->getConfig(CONFIG_VAR_msecWCompFirst);
+		locinfo.msecWcomp1st = pdata->getConfig(ConfigVarType::msecWCompFirst);
 		if (locinfo.msecWcomp1st <= 0){
 			locinfo.msecWcomp1st = 30 * 1000;			// 初期設定
 		}
@@ -1666,7 +1668,7 @@ bool JlsAutoReform::setFirstArea(FormFirstInfo &info_first){
 			locinfo.msecEnd1st += locinfo.msec1stSel;
 		}
 		//--- 先頭ロゴあり時のカットする最大先頭位置 ---
-		locinfo.msecLgCut1st = pdata->getConfig(CONFIG_VAR_msecLgCutFirst);
+		locinfo.msecLgCut1st = pdata->getConfig(ConfigVarType::msecLgCutFirst);
 	}
 	//--- 先頭ロゴと構成確定位置を取得 ---
 	locinfo.nscLogo1st = -1;
@@ -2002,17 +2004,17 @@ bool JlsAutoReform::setFirstAreaUpdate(FormFirstInfo &info_first, FormFirstLoc l
 //---------------------------------------------------------------------
 bool JlsAutoReform::setFinalArea(){
 	int num_scpos = pdata->sizeDataScp();
-	int ret = false;
+	bool ret = false;
 	//--- 最後優先位置設定を取得 ---
 	Nsc  nsc_total_last = num_scpos - 1;
 	Msec msec_total_last  = pdata->getMsecScp(nsc_total_last);
-	Msec msec_var_lastzone = pdata->getConfig(CONFIG_VAR_msecZoneLast);
+	Msec msec_var_lastzone = pdata->getConfig(ConfigVarType::msecZoneLast);
 	Msec msec_lastzone = -1;
 	if (msec_var_lastzone >= 0){
 		msec_lastzone = msec_total_last - msec_var_lastzone;
 	}
 	//--- 優先位置にない時カットする最大最後秒数 ---
-	Msec msec_wcomp_lastloc = msec_total_last - pdata->getConfig(CONFIG_VAR_msecWCompLast);
+	Msec msec_wcomp_lastloc = msec_total_last - pdata->getConfig(ConfigVarType::msecWCompLast);
 	if (msec_wcomp_lastloc >= msec_total_last){
 		msec_wcomp_lastloc = msec_total_last - 30 * 1000;			// 初期設定
 	}
@@ -2224,7 +2226,7 @@ bool JlsAutoReform::setFinalArea(){
 //---------------------------------------------------------------------
 bool JlsAutoReform::setInterLogo(RangeNsc nscbounds, bool cm_inter){
 	//--- ロゴ構成区間内の15秒構成をCM化する処理 ---
-	bool rev_del_mid  = (pdata->getConfigAction(CONFIG_ACT_LogoDelMid))? true : false;
+	bool rev_del_mid  = (pdata->getConfigAction(ConfigActType::LogoDelMid))? true : false;
 	//--- 15秒単位の構成検出 ---
 	bool det = false;
 	if (rev_del_mid && cm_inter){		// 内部のCMを検出
@@ -2368,8 +2370,8 @@ bool JlsAutoReform::setInterLogoUpdate(Nsc nsc_fin, RangeNsc cmterm, bool shortc
 //---------------------------------------------------------------------
 bool JlsAutoReform::setInterMultiCM(RangeNsc nscbounds, int interfill){
 	//--- ロゴなし区間のCM外構成について設定取得 ---
-	Msec msec_rev_logo = pdata->getConfig(CONFIG_VAR_msecWLogoRevMin);
-	int rev_logo = pdata->getConfigAction(CONFIG_ACT_LogoUCRemain);
+	Msec msec_rev_logo = pdata->getConfig(ConfigVarType::msecWLogoRevMin);
+	int rev_logo = pdata->getConfigAction(ConfigActType::LogoUCRemain);
 	bool rev_add = (rev_logo > 0)? true : false;
 
 	int upcnt = 0;
@@ -2538,8 +2540,8 @@ bool JlsAutoReform::setInterpolarDetect(TraceInterpolar &trace, Nsc nsc_cur, Ran
 		}
 	}
 	//--- 許容誤差設定 ---
-	Msec mgn_cm_detect = (Msec) pdata->getConfig(CONFIG_VAR_msecMgnCmDetect);
-	Msec mgn_cm_divide  = (Msec) pdata->getConfig(CONFIG_VAR_msecMgnCmDivide);
+	Msec mgn_cm_detect = (Msec) pdata->getConfig(ConfigVarType::msecMgnCmDetect);
+	Msec mgn_cm_divide  = (Msec) pdata->getConfig(ConfigVarType::msecMgnCmDivide);
 	Msec msec_mgn = mgn_cm_detect;
 	if (mgn_cm_divide < mgn_cm_detect){
 		if (abs(target.msec.ed - target.msec.st) <= 15*1000 + pdata->msecValNear2){
@@ -2616,7 +2618,7 @@ bool JlsAutoReform::setInterpolarDetect(TraceInterpolar &trace, Nsc nsc_cur, Ran
 					}
 				}
 				//--- 無音の判断を無効にする設定の場合 ---
-				bool calcel_cntsc = pdata->getConfig(CONFIG_VAR_cancelCntSc);
+				bool calcel_cntsc = ( pdata->getConfig(ConfigVarType::cancelCntSc) != 0 )? true : false;
 				if (calcel_cntsc){
 					flag_mute = false;
 				}
@@ -2902,7 +2904,7 @@ bool JlsAutoReform::setInterpolarExtra(RangeNscMsec target, bool logomode){
 					CalcDifInfo calc_ed;
 					calcDifSelect(calc_st, msec_i, target.msec.st);
 					calcDifSelect(calc_ed, msec_i, target.msec.ed);
-					Msec msec_prm_gap = pdata->getConfig(CONFIG_VAR_msecMgnCmDivide);
+					Msec msec_prm_gap = pdata->getConfig(ConfigVarType::msecMgnCmDivide);
 					if (calc_st.gap > msec_prm_gap || calc_ed.gap > msec_prm_gap){
 						//--- 5秒単位だった場合は少し制限緩くする ---
 						if ((calc_st.sec % 5)!=0 || (calc_ed.sec % 5)!=0 ||
@@ -2954,7 +2956,7 @@ bool JlsAutoReform::setCMForm(RangeMsec &bounds, RangeWideMsec cmscope, bool log
 		return false;
 	}
 	//--- ロゴ構成区間内の15秒構成をCM化する処理 ---
-	int rev_del_edge = pdata->getConfigAction(CONFIG_ACT_LogoDelEdge);
+	int rev_del_edge = pdata->getConfigAction(ConfigActType::LogoDelEdge);
 
 	//--- 15秒範囲設定 ---
 	RangeWideMsec  findscope = cmscope;
@@ -3097,7 +3099,7 @@ bool JlsAutoReform::setCMForm(RangeMsec &bounds, RangeWideMsec cmscope, bool log
 bool JlsAutoReform::setCMFormDetect(Msec &msec_stpoint, Nsc nsc_base, RangeWideMsec findscope, bool logoon_st){
 	msec_stpoint = -1;				// 一番最初の15秒単位位置（-1の時は存在なし）
 	//--- 設定値読み込み ---
-	int type_nosc = pdata->getConfigAction(CONFIG_ACT_MuteNoSc);	// シーンチェンジなし無音の使用キャンセル
+	int type_nosc = pdata->getConfigAction(ConfigActType::MuteNoSc);	// シーンチェンジなし無音の使用キャンセル
 	//--- 15秒単位位置を後側から確認 ---
 	bool det = false;				// 15秒単位位置の検出有無
 	bool flag_force = false;		// 強制位置設定箇所の有無
@@ -3243,7 +3245,7 @@ bool JlsAutoReform::setCMFormDetect(Msec &msec_stpoint, Nsc nsc_base, RangeWideM
 //---------------------------------------------------------------------
 void JlsAutoReform::setCMFormDetRevise(RangeMsec &bounds, bool fix_mode){
 	//--- 設定値読み込み ---
-	int mgn_cm_detect = pdata->getConfig(CONFIG_VAR_msecMgnCmDetect);
+	int mgn_cm_detect = pdata->getConfig(ConfigVarType::msecMgnCmDetect);
 	//--- 無音位置番号を取得 ---
 	RangeNsc nscbounds;
 	if (pdata->getRangeNscFromRangeMsec(nscbounds, bounds) == false){
@@ -3352,7 +3354,7 @@ void JlsAutoReform::setCMFormDetRevise(RangeMsec &bounds, bool fix_mode){
 				if (ignore1 == false && fix_mode == false){
 					Nsc nsc_delete = -1;
 					//--- 更新（CM単位から誤差大きい時残すならロゴありとしてCMから外す） ---
-					if (pdata->getConfigAction(CONFIG_ACT_LogoUCGapCm) > 0){
+					if (pdata->getConfigAction(ConfigActType::LogoUCGapCm) > 0){
 						//--- 先頭か最後の区切りだった場合は外す ---
 						if (nsc_loc0 == nsc_head){
 							ScpArType arstat_loc0 = pdata->getScpArstat(nsc_loc0);
@@ -3416,7 +3418,7 @@ void JlsAutoReform::setCMFormDetRevise(RangeMsec &bounds, bool fix_mode){
 bool JlsAutoReform::setCMFormByLogo(RangeMsec &bounds, RangeWideMsec cmscope){
 	bool det = false;
 	//--- ロゴ構成区間内の15秒構成をCM化する処理 ---
-	int rev_del_edge = pdata->getConfigAction(CONFIG_ACT_LogoDelEdge);
+	int rev_del_edge = pdata->getConfigAction(ConfigActType::LogoDelEdge);
 	//--- 開始位置の補正 ---
 	if (cmscope.fixSt == false && bounds.st > 0 && cmscope.st.just > 0){
 		int msec_limit = setCMFormByLogoLimit(bounds.st, SEARCH_DIR_PREV);
@@ -3562,7 +3564,7 @@ bool JlsAutoReform::setCMFormByLogoAdd(Msec &msec_result, FormCMByLogo form){
 		return 0;
 	}
 	//--- 設定値読み込み ---
-	int type_nosc = pdata->getConfigAction(CONFIG_ACT_MuteNoSc);	// シーンチェンジなし無音の使用キャンセル
+	int type_nosc = pdata->getConfigAction(ConfigActType::MuteNoSc);	// シーンチェンジなし無音の使用キャンセル
 	//--- 15/30/45/60秒地点の検索 ---
 	bool det = false;
 	Msec msec_set_point = msec_result;					// 確定設定位置
@@ -3598,7 +3600,7 @@ bool JlsAutoReform::setCMFormByLogoAdd(Msec &msec_result, FormCMByLogo form){
 					else if (msec_diftarget >= msec_difrev / 2){
 						match_half = true;
 					}
-					Msec msec_recmin = pdata->getConfig(CONFIG_VAR_msecWLogoLgMin);
+					Msec msec_recmin = pdata->getConfig(ConfigVarType::msecWLogoLgMin);
 					if (msec_difrev - msec_diftarget >= msec_recmin){
 						Msec msec_difcm_max = abs(msec_result - form.msecLogoSide);
 						if (msec_difrev - msec_difcm_max >= msec_recmin){
@@ -3769,7 +3771,7 @@ bool JlsAutoReform::setCMFormEdge(RangeMsec &bounds, RangeWideMsec cmscope, bool
 //---------------------------------------------------------------------
 bool JlsAutoReform::setCMFormEdgeSideInfo(FormCMEdgeSide &sidesel, Msec msec_bounds, WideMsec wmsec_scope, ScpChapType chap_cmp, bool endside){
 	//--- ロゴ構成区間内の端構成をCM化する処理 ---
-	int rev_del_edge = pdata->getConfigAction(CONFIG_ACT_LogoDelEdge);
+	int rev_del_edge = pdata->getConfigAction(ConfigActType::LogoDelEdge);
 	//--- 検索範囲を設定 ---
 	bool valid_detect = true;
 	WideMsec usescope = wmsec_scope;
@@ -4617,7 +4619,7 @@ bool JlsAutoReform::setChapFixedLimit(TraceChap &trace){
 			}
 		}
 		//--- 設定で無音なし扱いにする場合 ---
-		bool calcel_cntsc = pdata->getConfig(CONFIG_VAR_cancelCntSc);
+		bool calcel_cntsc = ( pdata->getConfig(ConfigVarType::cancelCntSc) != 0 )? true : false;
 		if (calcel_cntsc){
 			flag_nomute = true;
 		}
@@ -4973,7 +4975,7 @@ int JlsAutoReform::checkMuteMany(RangeNsc rnsc){
 					}
 				}
 				//--- 無音の判断を無効にする設定の場合 ---
-				bool calcel_cntsc = pdata->getConfig(CONFIG_VAR_cancelCntSc);
+				bool calcel_cntsc = ( pdata->getConfig(ConfigVarType::cancelCntSc) != 0 )? true : false;
 				if (calcel_cntsc){
 					count_smute = 0;
 				}
@@ -4993,7 +4995,7 @@ int JlsAutoReform::checkMuteMany(RangeNsc rnsc){
 				type_mute = 1;
 			}
 		}
-		int type_nosc = pdata->getConfigAction(CONFIG_ACT_MuteNoSc);	// シーンチェンジなし無音の使用キャンセル
+		int type_nosc = pdata->getConfigAction(ConfigActType::MuteNoSc);	// シーンチェンジなし無音の使用キャンセル
 		if (type_mute > 0 && type_nosc == 1){
 			if (pdata->getScpStill(rnsc.st) || pdata->getScpStill(rnsc.ed)){
 				type_mute += 4;
@@ -5011,7 +5013,7 @@ void JlsAutoReform::addCommonComponentOne(Nsc nsc_target, Nsc nsc_side, bool ena
 	//--- 隣接構成なら実行せず終了 ---
 	if (abs(nsc_target - nsc_side) <= 1) return;
 	//--- 設定値取得 ---
-	Msec msec_mgn = pdata->getConfig(CONFIG_VAR_msecMgnCmDivide);
+	Msec msec_mgn = pdata->getConfig(ConfigVarType::msecMgnCmDivide);
 	Msec msec_target = pdata->getMsecScp(nsc_target);
 	Msec msec_side   = pdata->getMsecScp(nsc_side);
 	bool logomode = true;

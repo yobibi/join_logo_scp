@@ -1,1 +1,1 @@
-g++ JlsTop.cpp JlsIF.cpp JlsScript.cpp JlsAutoScript.cpp JlsDataset.cpp JlsCmdSet.cpp JlsReformData.cpp JlsAutoReform.cpp CnvStrTime.cpp -o join_logo_scp.exe -Wall -std=gnu++11 -static-libgcc -static-libstdc++
+g++ JlsTop.cpp JlsIF.cpp JlsScript.cpp JlsAutoScript.cpp JlsDataset.cpp JlsCmdSet.cpp JlsReformData.cpp JlsAutoReform.cpp JlsScrGlobal.cpp JlsScrMem.cpp JlsScrReg.cpp JlsScriptDecode.cpp JlsScriptLimit.cpp JlsScriptState.cpp CnvStrTime.cpp -o join_logo_scp.exe -Wall -std=gnu++11 -static-libgcc -static-libstdc++

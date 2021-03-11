@@ -1,7 +1,7 @@
 join_logo_scp ソースファイル構成
 
 ■コンパイル指定ファイル
-・Visual Studio 2017
+・Visual Studio 2015
   join_logo_scp.sln
 ・MinGW (C++11対応版)
   compile.cmd
@@ -12,8 +12,14 @@ join_logo_scp ソースファイル構成
    |- JlsDataset                 データ保持
    |   |- CnvStrTime             文字列・時間・フレーム位置の変換
    |- JlsScript                  JLスクリプト実行クラス
-       |- JlsRegFile             変数保持
+       |- JlsScrGlobal           JLスクリプト内の状態保持
+         |- JlsScrReg            階層別の変数保持
+             |- JlsRegFile       1階層分の変数保持
+         |- JlsScrMem            遅延実行コマンドの保管
+             |- JlsScrMemArg     遅延実行コマンド内の文字列解析
        |- JlsScriptState         条件分岐処理の制御
+       |- JlsScriptDecode        コマンド文字列の解析
+       |- JlsScriptLimit         コマンド条件からターゲット位置限定
        |- JlsReformData          データ構成初期補正
        |- JlsCmdSet              JLスクリプトのコマンド引数保持
        |- JlsAutoScript          (Auto系) JLスクリプト実行クラス
@@ -27,9 +33,12 @@ join_logo_scp ソースファイル構成
   JlsDataset.hpp
     MAXSIZE_LOGO  = 1024          ロゴデータ数
     MAXSIZE_SCP   = 4096          シーンチェンジ位置数
-  JlsScript.hpp
+  JlsNameSpace.hpp (namespace jlscmd)
     SIZE_VARNUM_MAX = 2048        変数の最大数
+    SIZE_MEMVARNUM_MAX = 2048     遅延保管文字列の識別名最大数
+    SIZE_MEMVARLINE_MAX = 4096    遅延保管文字列の各識別名の最大行数
     SIZE_REPLINE    = 4096        Repeat用キャッシュ保持最大行数
+    SIZE_MEMLINE    = 8192        Mem/Lazy実行待機キャッシュ保持最大行数
     SIZE_CALL_LOOP  = 10          Call文の階層呼び出し最大回数
   CnvStrTime.hpp
     SIZE_BUF_MAX   = 4096         スクリプト解析文字列（１行）最大長
