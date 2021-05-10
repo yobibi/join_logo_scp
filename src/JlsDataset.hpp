@@ -110,6 +110,7 @@ public:
 // ‰Šúİ’è
 	JlsDataset();
 	void initData();
+	void clearDataLogoAll();
 // “®ìİ’è‚Ì•Û‘¶E“Ç‚İo‚µ
 	void setConfig(ConfigVarType tp, int val);
 	int  getConfig(ConfigVarType tp);

@@ -587,13 +587,13 @@ bool JlsAutoScript::startAutoUp(){
 			if (nsc_lastfall < nsc_rise){
 				func_reform.mkReformTarget(nsc_lastfall, nsc_rise, 0, restruct);	// ロゴ無
 			}
-			//--- 前立ち下がりと次立ち上がりが同一位置で連続扱いでない場合は切れ目設定 ---
-			else if (nsc_lastfall == nsc_rise && cont_bk == false && nsc_lastfall > 0){
-				pdata->setScpChap(nsc_lastfall, SCP_CHAP_DUNIT);
-			}
 			//--- ロゴ期間をロゴ有に設定 ---
 			if (nsc_rise < nsc_fall){
 				func_reform.mkReformTarget(nsc_rise, nsc_fall, 1, restruct);		// ロゴ有
+			}
+			//--- 前立ち下がりと次立ち上がりが同一位置で連続扱いでない場合は切れ目設定 ---
+			if (nsc_lastfall == nsc_rise && cont_bk == false && nsc_lastfall > 0){
+				pdata->setScpChap(nsc_lastfall, SCP_CHAP_DUNIT);
 			}
 			nsc_lastfall = nsc_fall;
 			cont_bk = cont_next;			// 次ロゴとの間がロゴが切れ目なしの連続か

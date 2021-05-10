@@ -835,7 +835,8 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 //---------------------------------------------------------------------
 void JlsReformData::adjustLogo(){
 	// ロゴデータ指定がない場合、全体をロゴデータとする
-	if (pdata->sizeDataLogo() == 0){
+	if (pdata->sizeDataLogo() == 0 || pdata->extOpt.flagNoLogo > 0){
+		pdata->clearDataLogoAll();
 		DataLogoRecord dtlogo;
 		pdata->clearRecordLogo(dtlogo);
 		dtlogo.fall   = pdata->getMsecTotalMax();
