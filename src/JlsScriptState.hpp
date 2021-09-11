@@ -24,6 +24,7 @@ private:
 		int  extLineEnd;		// 遅延実行のキャッシュ終了行
 		int  extLineRet;		// 遅延実行のRepeat終了後に戻る行
 		CacheExeType exeType;	// 遅延実行の種類
+		bool extFlagNest;		// 遅延実行のキャッシュ内のRepeatネスト
 	};
 
 public:
@@ -38,6 +39,7 @@ public:
 private:
 	int  repeatBeginNormal(RepDepthHold& holdval, const string& strCmdRepeat);
 	int  repeatBeginExtend(RepDepthHold& holdval, const string& strCmdRepeat);
+	int  repeatBeginExtNest(RepDepthHold& holdval);
 public:
 	int  repeatEnd();
 private:
@@ -81,6 +83,8 @@ public:
 	int   isRemainNest();
 	void  setCmdReturn(bool flag);
 	bool  isCmdReturnExit();
+	bool  isFlowLazy(CmdCat category);
+	bool  isFlowMem(CmdCat category);
 	bool  isNeedRaw(CmdCat category);
 	bool  isNeedFullDecode(CmdType cmdsel, CmdCat category);
 	bool  isSkipCmd();
@@ -92,8 +96,8 @@ private:
 	bool   isRepeatExtType();
 	CacheExeType getRepeatExtType();
 	CacheExeType getCacheExeType();
-	bool  isMemExe();
 public:
+	bool  isMemExe();
 	void   setLazyStartType(LazyType typeLazy);
 	bool   isLazyArea();
 	LazyType getLazyStartType();
@@ -104,6 +108,14 @@ public:
 	bool   isMemArea();
 	string getMemName();
 	void   setMemDupe(bool flag);
+	void   setMemExpand(bool flag);
+	// Call引数用処理
+	void   setArgArea(bool flag);
+	bool   isArgArea();
+	void   addArgName(const string& strName);
+	int    sizeArgNameList();
+	bool   getArgName(string& strName, int num);
+	bool   checkArgRegInsert(CmdType cmdsel);
 
 private:
 	//--- IF文制御 ---
@@ -120,6 +132,7 @@ private:
 	bool					m_flagReturn;		// Returnコマンドによる終了
 	//--- 遅延制御 ---
 	CacheExeType            m_typeCacheExe;		// 実行キャッシュの選択
+	bool                    m_flagCacheRepExt;	// 遅延実行用Repeatキャッシュから読み出し
 	//--- lazy文制御 ---
 	bool                    m_lazyAuto;			// LazyAuto設定状態（0=非設定 1=設定）
 	LazyType                m_lazyStartType;	// LazyStart - EndLazy 期間内のlazy設定
@@ -128,6 +141,12 @@ private:
 	string                  m_memName;			// Memoryコマンドで設定されている識別子
 	bool                    m_memDupe;			// MemOnceコマンドで2回目以上の時
 	bool                    m_memSkip;			// Memoryコマンド重複による省略
+	//--- mem/lazy文制御 ---
+	bool                    m_memExpand;		// Memory/LazyStart内の変数展開
+	//--- 引数名前制御 ---
+	bool                    m_argArea;			// ArgBegin - ArgEnd 期間内ではtrue
+	vector <string>         m_listArgName;		// 引数ローカル変数の名前
+	bool                    m_argInsReady;		// 引数挿入待ち（false=通常 true=待ち状態）
 	//--- lazy/mem 実行キューデータ ---
 	queue <string>  m_cacheExeLazyS;	// 次に実行するlazyから解放されたコマンド文字列(LAZY_S)
 	queue <string>  m_cacheExeLazyA;	// 次に実行するlazyから解放されたコマンド文字列(LAZY_A)

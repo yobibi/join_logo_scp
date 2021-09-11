@@ -69,9 +69,13 @@ void JlsDataset::initData(){
 	extOpt.fixWidCutO = 0;
 	extOpt.oldAdjust  = 0;
 	extOpt.fixVLine   = 0;
+	extOpt.fixFDirect = 0;
+	extOpt.fixNLgExact = 0;
 	extOpt.fixSubList = 0;
 	extOpt.fixSubPath = 0;
 	extOpt.vLine      = 0;
+	extOpt.flagDirect = 0;
+	extOpt.nLgExact   = 0;
 	extOpt.subList    = "common";		// 初期検索フォルダ設定
 	extOpt.subPath    = "";
 
@@ -85,6 +89,8 @@ void JlsDataset::initData(){
 	m_flagSetupAdj  = 0;
 	m_flagSetupAuto = 0;
 	m_nscOutDetail = 0;
+	//--- 保管データ ---
+	backupLogosetSave();
 
 	//--- 固定値設定 ---
 	msecValExact = 100;
@@ -101,6 +107,45 @@ void JlsDataset::initData(){
 //---------------------------------------------------------------------
 void JlsDataset::clearDataLogoAll(){
 	m_logo.clear();
+}
+
+//=====================================================================
+// ロゴ・シーンチェンジデータの保存・読み出し
+//=====================================================================
+
+//---------------------------------------------------------------------
+// バックアップデータ保存
+//---------------------------------------------------------------------
+void JlsDataset::backupLogosetSave(){
+	m_backupData.bak_scp          = m_scp;
+	m_backupData.bak_logo         = m_logo;
+	m_backupData.bak_msecTotalMax = m_msecTotalMax;
+	m_backupData.bak_extOpt       = extOpt;
+}
+
+//---------------------------------------------------------------------
+// バックアップデータ読み出し
+//---------------------------------------------------------------------
+void JlsDataset::backupLogosetLoad(){
+	//--- 読み込みデータ ---
+	m_scp  = m_backupData.bak_scp;
+	m_logo = m_backupData.bak_logo;
+
+	//--- 元の状態に戻す外部設定オプション ---
+	extOpt.flagNoLogo = m_backupData.bak_extOpt.flagNoLogo;
+	extOpt.fixFDirect = m_backupData.bak_extOpt.fixFDirect;
+	extOpt.flagDirect = m_backupData.bak_extOpt.flagDirect;
+
+	//--- 状態初期設定 ---
+	recHold = {};		// 念のため個別に初期化
+	recHold.msecSelect1st = -1;
+	recHold.msecTrPoint   = -1;
+//	recHold.rmsecHeadTail = {-1, -1};
+	m_msecTotalMax    = m_backupData.bak_msecTotalMax;
+	m_levelUseLogo  = 0;
+	m_flagSetupAdj  = 0;
+	m_flagSetupAuto = 0;
+	m_nscOutDetail = 0;
 }
 
 //=====================================================================
@@ -975,7 +1020,9 @@ Nlg JlsDataset::getResultLogoNext(Msec &msec_rise, Msec &msec_fall, bool &cont_n
 				flag_next = true;
 				int msec_next = dtlogo.result_rise;
 				if (msec_fall + msec_val_cont > msec_next){				// 同一ロゴで補正する
-					msec_fall = cnv.getMsecAdjustFrmFromMsec(msec_next, -1);
+					if ( (extOpt.nLgExact & 0x02) != 0 ){
+						msec_fall = cnv.getMsecAdjustFrmFromMsec(msec_next, -1);	// 切れ目なしに補正
+					}
 					if (flag_unit == false){					// 独立ロゴでなければ切れ目なし判定
 						cont_next = true;
 					}
@@ -2070,7 +2117,7 @@ Nsc JlsDataset::insertScpos(Msec msec_dst_s, Msec msec_dst_bk, Nsc nsc_mute, Scp
 }
 
 //---------------------------------------------------------------------
-// 指定位置（ミリ秒）の無音SC番号を取得
+// 指定位置（ミリ秒）の無音SC番号を取得（LogoExact設定により調整有無選択）
 // なければ強制的に作成して設定
 // 入力：
 //   msec_in : 対象位置（ミリ秒）
@@ -2081,6 +2128,24 @@ Nsc JlsDataset::insertScpos(Msec msec_dst_s, Msec msec_dst_bk, Nsc nsc_mute, Scp
 //   データ挿入によるシーンチェンジ番号(nsc)変更あり
 //---------------------------------------------------------------------
 Nsc JlsDataset::getNscForceMsec(Msec msec_in, LogoEdgeType edge){
+	if ( (extOpt.nLgExact & 0x02) != 0 ){		// ロゴ位置調整なし
+		return getNscForceExactFixMsec(msec_in, edge);
+	}
+	return getNscForceMsecOrg(msec_in, edge);
+}
+
+//---------------------------------------------------------------------
+// 指定位置（ミリ秒）の無音SC番号を取得
+// なければ強制的に作成して設定
+// 入力：
+//   msec_in : 対象位置（ミリ秒）
+//   edge    : 選択エッジ（LOGO_EDGE_RISE=開始側、LOGO_EDGE_FALL=終了側）
+// 出力：
+//   返り値：対応する場所番号
+// 注意点：
+//   データ挿入によるシーンチェンジ番号(nsc)変更あり
+//---------------------------------------------------------------------
+Nsc JlsDataset::getNscForceMsecOrg(Msec msec_in, LogoEdgeType edge){
 	Msec msec_clr = msecValNear2;			// 重なった所の確定箇所を解除する範囲
 	int num_scpos = sizeDataScp();
 	bool flag_search = true;
@@ -2148,6 +2213,155 @@ Nsc JlsDataset::getNscForceMsec(Msec msec_in, LogoEdgeType edge){
 		int msec_near_bk = getMsecScpBk(nsc_nearest);
 		if (msec_near_bk <= msec_in_s && msec_in_bk <= msec_near_s){
 			flag_new = false;
+		}
+	}
+	//--- 新規箇所なら挿入 ---
+	if (flag_new){
+		nsc_ret = insertScpos(msec_in_s, msec_in_bk, nsc_mute, SCP_PRIOR_DECIDE);
+	}
+	return nsc_ret;
+}
+
+//---------------------------------------------------------------------
+// 指定位置（ミリ秒）の無音SC番号を取得（位置調整なしで入力を正確な固定位置とする）
+// なければ強制的に作成して設定
+// 入力：
+//   msec_in : 対象位置（ミリ秒）
+//   edge    : 選択エッジ（LOGO_EDGE_RISE=開始側、LOGO_EDGE_FALL=終了側）
+// 出力：
+//   返り値：対応する場所番号
+// 注意点：
+//   データ挿入によるシーンチェンジ番号(nsc)変更あり
+//---------------------------------------------------------------------
+Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
+	Msec msec_clr = msecValNear2;			// 重なった所の確定箇所を解除する範囲
+	int num_scpos = sizeDataScp();
+	bool flag_search = true;
+
+	Nsc nsc_nearest = 0;
+	Msec difmsec_nearest = 0;
+	Nsc nsc_mute = -1;
+	if (msec_in == 0 || msec_in >= getMsecTotalMax()){
+		flag_search = false;
+	}
+	int frmIn = cnv.getFrmFromMsec(msec_in);	// 入力位置のフレーム
+	bool flagExactNearest = false;	// 同一座標判定
+	bool flagFcNearest = false;		// 保持座標は固定
+	Msec msecFcPrev = 0;		// 前側にある固定位置
+	Msec msecFcOver = 0;		// 後側にある固定位置
+	//--- 一番近い所を検索 ---
+	int i = 1;
+	while(flag_search){
+		DataScpRecord dtscp;
+		getRecordScp(dtscp, i);
+		Msec msec_i = getMsecScpEdge(i, edge);
+		Msec difmsec_i = abs(msec_in - msec_i);
+		ScpChapType chap_i = getScpChap(i);
+		bool flagChapFc = ( chap_i == SCP_CHAP_DFORCE || chap_i == SCP_CHAP_DUNIT)? true : false;
+		//--- 位置関係 ---
+		int frmSt = cnv.getFrmFromMsec(dtscp.msec);
+		int frmBk = cnv.getFrmFromMsec(dtscp.msbk);
+		bool flagLocSame = false;
+		if ( frmSt-2 <= frmIn && frmIn <= frmBk+2 ){
+			if ( (frmBk <= frmIn || jlsd::isLogoEdgeRise(edge) == false) &&
+			     (frmSt >= frmIn || jlsd::isLogoEdgeFall(edge) == false) ){
+				flagLocSame = true;
+			}
+		}
+		//--- 一番近い場合の更新 ---
+		if (difmsec_nearest > difmsec_i || nsc_nearest == 0){
+			bool flagErase = false;
+			bool flagChange;
+			if ( flagLocSame ){			// 同一座標
+				flagChange = true;
+				flagExactNearest = true;
+			}else if ( msecFcPrev >= msec_i && msecFcPrev > 0 ){	// 前の固定より前
+				flagChange = false;
+			}else if ( msecFcOver <= msec_i && msecFcOver > 0 ){	// 後の固定より後
+				flagChange = false;
+			}else if ( flagChapFc ){	// 変更不可（固定）位置
+				flagChange = false;
+				if ( msec_i < msec_in && (msecFcPrev < msec_i || msecFcPrev == 0) ){
+					msecFcPrev = msec_i;
+					if ( nsc_nearest > 0 && nsc_nearest < i ){	// 前の候補は削除する
+						flagErase = true;
+					}
+				}else if ( msec_i > msec_in && (msecFcOver > msec_i || msecFcOver == 0) ){
+					msecFcOver = msec_i;
+				}
+			}else{
+				flagChange = true;
+			}
+			if ( flagChange || flagErase ){
+				//--- 重なっている対象外となった場所を外す ---
+				if (nsc_nearest > 0 && difmsec_nearest <= msec_clr && flagFcNearest == false){
+					setScpChap(nsc_nearest, SCP_CHAP_DUPE);
+				}
+				nsc_nearest = 0;	// 候補なし
+			}
+			if ( flagChange ){
+				nsc_nearest = i;
+				difmsec_nearest = difmsec_i;
+				flagFcNearest = flagChapFc;
+			}
+		}
+		else if (difmsec_i <= msec_clr){		// 重なっている所を外す
+			if ( flagChapFc == false ){			// 固定でなければ
+				setScpChap(i, SCP_CHAP_DUPE);
+			}
+		}
+		//--- 無音期間領域の確認 ---
+		if (dtscp.msmute_s <= msec_i && msec_i <= dtscp.msmute_e){
+			if (msec_i <= msec_in || nsc_nearest == i){
+				nsc_mute = i;
+			}
+		}
+		//--- 次の位置設定 ---
+		i ++;
+		if (i >= num_scpos-1 || msec_i >= msec_in + msec_clr){
+			flag_search = false;
+		}
+	}
+	//--- 挿入位置を設定 ---
+	Msec msec_in_s  = msec_in;
+	Msec msec_in_bk = msec_in;
+	if (edge == LOGO_EDGE_RISE){
+		msec_in_bk = cnv.getMsecAdjustFrmFromMsec(msec_in, -1);
+	}
+	else{
+		msec_in_s  = cnv.getMsecAdjustFrmFromMsec(msec_in, +1);
+	}
+	Nsc nsc_ret = nsc_nearest;
+	//--- 既存無音SC箇所か確認 ---
+	bool flag_new = true;
+	if (msec_in == 0 || msec_in >= getMsecTotalMax()){
+		flag_new = false;
+		if (msec_in == 0){
+			nsc_ret = 0;
+		}
+		else{
+			nsc_ret = num_scpos-1;
+		}
+	}
+	else if (nsc_nearest > 0){
+		if ( flagExactNearest ){
+			flag_new = false;
+			//--- 既存内容を修正 ---
+			DataScpRecord dtscp;
+			getRecordScp(dtscp, nsc_nearest);
+			int frmSt = cnv.getFrmFromMsec(dtscp.msec);
+			int frmBk = cnv.getFrmFromMsec(dtscp.msbk);
+			if ( jlsd::isLogoEdgeRise(edge) ){
+				if ( frmSt != frmIn ){
+					dtscp.msec = msec_in;
+				}
+			}
+			if ( jlsd::isLogoEdgeFall(edge) ){
+				if ( frmBk != frmIn ){
+					dtscp.msbk = msec_in;
+				}
+			}
+			setRecordScp(dtscp, nsc_nearest);
 		}
 	}
 	//--- 新規箇所なら挿入 ---

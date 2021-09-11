@@ -118,6 +118,23 @@ int JlsScrGlobal::getRegVarCommon(string& strVal, const string& strCandName, boo
 	return regvar.getRegVar(strVal, strCandName, exact);
 }
 //---------------------------------------------------------------------
+// Callで引数として使われる変数を設定
+// 入力：
+//   strName : 引数に使われる変数名
+//   strVal  : 引数に使われる変数値
+//---------------------------------------------------------------------
+bool JlsScrGlobal::setArgReg(const string& strName, const string& strVal){
+	return regvar.setArgReg(strName, strVal);
+}
+//---------------------------------------------------------------------
+// 読み出しでグローバル変数を見ない設定
+// 入力：
+//   flag : ローカル変数にない時のグローバル変数参照（false=許可  true=禁止）
+//---------------------------------------------------------------------
+void JlsScrGlobal::setLocalOnly(bool flag){
+	regvar.setLocalOnly(flag);
+}
+//---------------------------------------------------------------------
 // エラーメッセージチェック
 //---------------------------------------------------------------------
 void JlsScrGlobal::checkRegError(bool flagDisp){

@@ -228,6 +228,7 @@ int JlsScriptLimit::limitLogoList(JlsCmdSet& cmdset){
 	bool flagLimitRange = false;
 	switch( (OptType)cmdset.arg.getOpt(OptType::TypeNumLogo) ){
 		case OptType::LgN:						// -Nオプション
+		case OptType::LgNFXlogo:				// -NFXlogoオプション
 			typeLogoSel = LOGO_SELECT_ALL;
 			flagLimitRange = false;
 			break;
@@ -242,6 +243,14 @@ int JlsScriptLimit::limitLogoList(JlsCmdSet& cmdset){
 		case OptType::LgNauto:					// -Nautoオプション
 			typeLogoSel = LOGO_SELECT_VALID;
 			flagLimitRange = true;
+			break;
+		case OptType::LgNFlogo:					// -NFlogoオプション
+			typeLogoSel = LOGO_SELECT_VALID;
+			flagLimitRange = false;
+			break;
+		case OptType::LgNFauto:					// -NFautoオプション
+			typeLogoSel = LOGO_SELECT_VALID;
+			flagLimitRange = false;
 			break;
 		default:
 			break;
@@ -427,6 +436,10 @@ bool JlsScriptLimit::limitTargetLogoGet(JlsCmdSet& cmdset, int nlist){
 	//--- コマンド設定情報取得 ---
 	Msec msecTarget  = cmdset.limit.getLogoListMsec(nlist);
 	LogoEdgeType edgeSel = cmdset.limit.getLogoListEdge(nlist);
+	LogoSelectType typeLogoOut = LOGO_SELECT_VALID;	// 出力リストは通常は有効のみ;
+	if ( cmdset.arg.tack.ignoreAbort ){		// ロゴAbort状態でも実行するコマンドの場合
+		typeLogoOut = LOGO_SELECT_ALL;		// 全ロゴをリストに出力
+	}
 	//--- リストがなければ終了 ---
 	if ( msecTarget < 0 ) return false;
 	//--- 基準位置を取得して設定（取得には無効を含めた全ロゴで検索） ---
@@ -437,9 +450,9 @@ bool JlsScriptLimit::limitTargetLogoGet(JlsCmdSet& cmdset, int nlist){
 	infoCmd.msecSel = msecTarget;		// 基準位置のミリ秒情報（対応するロゴ番号を探す）
 	vector<WideMsec> listTmp;			// 不使用仮設定
 	bool det = getLogoInfoList(listTmp, cmdset, infoCmd);	// 基準位置を取得して設定
-	//--- 有効ロゴのみでロゴリストを作成する ---
+	//--- （通常は）有効ロゴのみでロゴリストを作成する ---
 	if ( det ){
-		infoCmd.typeLogo = LOGO_SELECT_VALID;	// 有効ロゴ
+		infoCmd.typeLogo = typeLogoOut;	// 出力するロゴ
 		infoCmd.typeSetBase = ScrLogoSetBase::ValidList;	// ロゴリストの設定
 		getLogoInfoList(listTmp, cmdset, infoCmd);	// 有効ロゴリストの設定
 	}
@@ -462,7 +475,10 @@ bool JlsScriptLimit::limitTargetLogoCheck(JlsCmdSet& cmdset){
 		pdata->getResultLogoAtNrf(msec_tmp, outtype_rf, nrf_base);
 		//--- 確定ロゴ位置も検出するコマンドか ---
 		bool igncomp = cmdset.arg.tack.ignoreComp;
+		bool ignabort = cmdset.arg.tack.ignoreAbort;
 		if (outtype_rf == LOGO_RESULT_NONE || (outtype_rf == LOGO_RESULT_DECIDE && igncomp)){
+		}
+		else if ( outtype_rf == LOGO_RESULT_ABORT && ignabort ){	// Abort無視で実行する場合
 		}
 		else{
 			exeflag = false;
@@ -758,6 +774,11 @@ void JlsScriptLimit::getTargetPoint(JlsCmdSet& cmdset){
 		//--- 対象箇所のオプション制約確認 ---
 		if ( (cmdset.limit.getScpEnable(j) && cmdset.limit.isTargetListed(msec_now)) || 
 			 (j == size_scp-1 && flag_nexttail) ){
+			//--- 現時点の候補より近いか確認 ---
+			bool flag_near = false;
+			if ( val_difmin > val_dif || nsc_scpos_tag < 0 ){
+				flag_near = true;
+			}
 			//--- ロゴからの情報使用時(NextTailコマンド用） ---
 			bool flag_now_logo = false;
 			if (flag_logorise){
@@ -775,11 +796,14 @@ void JlsScriptLimit::getTargetPoint(JlsCmdSet& cmdset){
 				}
 				if (j == size_scp-1) flag_now_logo = true;			// 最終位置はロゴ扱い
 				if (flag_now_logo == false && flag_logo == true){	// 候補と現位置の優先状態判断
-					stat_now = SCP_PRIOR_DUPE;
+					flag_near = false;
+				}
+				if (flag_now_logo == true && flag_logo == false){	// 候補と現位置の優先状態判断
+					flag_near = true;
 				}
 			}
 			//--- 最小差分の位置を探索 ---
-			if (val_difmin > val_dif || nsc_scpos_tag < 0){
+			if ( flag_near ){
 				if (msec_now >= wmsec_target.early && msec_now <= wmsec_target.late){
 					//--- 候補状態の確認 ---
 					bool chk_stat = false;

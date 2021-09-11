@@ -88,6 +88,7 @@ private:
 	bool startAutoDel(JlsCmdLimit &cmdlimit);
 	bool subInsDelGetRange(RangeNscMsec& rangeData, JlsCmdLimit &cmdlimit);
 	Nsc  subInsDelGetBase(JlsCmdLimit &cmdlimit);
+	void subInsDelAddUnit(RangeMsec rmsec, bool flagAdd);
 	void subInsDelChangeArExt(RangeMsec rmsec, bool flagAdd);
 	bool startAutoCutTR(RangeMsec autoscope);
 	Nsc  subCutTRGetLocSt(RangeMsec autoscope);

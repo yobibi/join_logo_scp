@@ -20,6 +20,7 @@ private:
 		bool      needAuto;					// 0:通常  1:Auto構成必要
 		bool      fullFrame;				// 0:通常  1:-F系未定義時は常に全体
 		LazyType  typeLazy;					// 遅延実行設定種類
+		bool      ignoreAbort;				// 0:通常  1:ロゴAbort状態でも実行
 	};
 	struct CmdArgCond {						// 解析時の状態
 		int       numCheckCond;				// 条件式の確認位置（0=不要、1-=確認する引数位置）

@@ -3,88 +3,125 @@
 # 内容：ロゴを使わず無音シーンチェンジだけで前後をカット
 #       ATXを想定した設定
 #
-#----------------------------------------------
-# ロゴは無効化
-#----------------------------------------------
-LogoOff
-#----------------------------------------------
-# 開始マージンの設定
-#----------------------------------------------
-# 開始マージンのフレーム（-1の時は自動設定）
-Default base -1
 
-#---（設定挿入）検索開始場所 ---
-MemCall mbase_first
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+#--- 開始・終了マージン設定 ---
+Default base      -1          # 開始マージンのフレーム（-1の時は自動設定）
+Default lastbase  -1          # 終了マージンのフレーム（-1の時は自動設定）
+Default autobase  00:00:30    # 開始マージンの自動設定で検索する最大時間
 
-# 開始マージン付近に候補があれば優先選択
-Select S 0 -1.3 1.3 -fromabs $base -logoext 0 $base+1.3
+#--- 複数話検出処理の設定 ---
+Default divuse      0         # 複数話分割（0=自動 1=期間固定値分割 2=期間ファイル読込可変分割）
+Default divoff      0         # 複数話分割自動設定で分割判定（0=許可 1=禁止）
+Default len_unit    00:30:00  # 期間固定値分割時の1話期間を設定
+Default divprecise  0         # 設定した分割期間の精度（0=通常 1=正確な期間）
+Default divout_all  0         # 開始終了条件不備の分割出力（0=なし 1=あり）
+Default div15minute 0         # 自動検出で15分固定構成判定（0=なし 1=あり）
+Default div30minute 1         # 自動検出で30分固定構成判定（0=なし 1=あり）
+Default divlastoff  0         # 複数話構成の最終話強制分割（0=許可 1=禁止）
+Default divwide_num 10        # 分割実行時の分割位置検索拡大（0=なし 1-=検索幅拡大）
+Default file_period_list "${JLDATAPATH}list_60分30分.txt"  # 期間読込ファイル名
 
+# 期間読込ファイルは1話から1行ずつ期間記載、記載終了後は最後の期間で以後継続
+
+#--- 先頭カットする長い無音期間（放送休止のお知らせ用）---
+Default len_infohead_list[1] 20.0  # 先頭指定時間無音カット（-1の時は無効）
+Default len_infohead_list[2] 15.0  # 先頭指定時間無音カット。短いケース
+
+
+#----------------------------------------------
+# 内部時間調整用
+#----------------------------------------------
+# 先頭位置検出用の無音期間
 Default len_headmute 1.8         # 先頭認識するシーンチェンジからの無音期間
+Default len_htime    2.0         # 先頭の暗転状態の期間
 
-# 設定ない時の自動検索
-Default autobase 00:00:30        # 自動検索する最大秒数
-If $base == -1
-  Select S 0 0 0 -N 1 -Shift 0 0 $autobase -logoext 0 $autobase+1.3 -SMA 0 $len_headmute
-EndIf
+# 終了位置検出用の無音期間
+Default len_enddetect_aft 4.7    # 実際の終了付近と認識する無音期間（後側）
+Default len_enddetect_bef -1.1   # 実際の終了付近と認識する無音期間（前側）
+
+# 終了位置検索範囲の初期値（最後から手前側にカットする位置検索。後で変更あり）
+Default sft_c   00:03:00       # 終了位置検索範囲（優先位置）
+Default sft_l   00:08:00       # 終了位置検索範囲（手前）
+Default sft_r   00:00:10       # 終了位置検索範囲（最終）
+Default sft_m   $sft_l         # 終了位置検索範囲（無音検索優先位置）
+
+# 複数話期間を自動検出する時の期間位置設定値
+Default len_divdetp_max   00:39:30  # 自動検出する期間検索の最大
+Default len_divdetp_sc2nd 00:22:00  # 途中無音区間を飛ばし検索する時の検索開始
+Default len_divdetp_dif2a 00:10:00  # １話目期間基準の２話目検索幅（後側）
+Default len_divdetp_dif2b 00:10:00  # １話目期間基準の２話目検索幅（前側）
+Default len_divdetp_dif3d 00:00:30  # ３話目で期間決定する期間差
+Default len_divdetp_dif4d 00:03:00  # ４話目で期間決定する期間差
+
+# 複数話期間を自動検出する時の長時間無音設定値
+Default len_divdet_chk[1] 4.7    # １話終了後の無音と認識する期間1（検出用）
+Default len_divdet_bef[1] -1.1   # １話終了後の無音と認識する期間1（前側）
+Default len_divdet_chk[2] 6.1    # １話終了後の無音と認識する期間2（検出用）
+Default len_divdet_bef[2] 0.0    # １話終了後の無音と認識する期間2（前側）
+Default len_divdet_chk[3] 11.0   # １話終了後の無音と認識する期間3（検出用）
+Default len_divdet_bef[3] 0.0    # １話終了後の無音と認識する期間3（前側）
+Default len_divdet_chk[4] 13.0   # １話終了後の無音と認識する期間4（検出用）
+Default len_divdet_bef[4] 0.0    # １話終了後の無音と認識する期間4（前側）
+
+# 複数話分割実行する時の位置確定用に使用する長時間無音設定値
+Default len_divsma_a   4.7       # 分割実行時に区切り判定する無音期間（後側）
+Default len_divsma_b   -2.0      # 分割実行時に区切り判定する無音期間（前側）
+
+# 複数話分割実行で正確な期間設定時と最終話強制分割する時の分割位置検索マージン
+Default len_divmgn_precise_a 2.5        # 正確設定の検索範囲（後側）
+Default len_divmgn_precise_b 2.5        # 正確設定の検索範囲（前側）
+Default len_divmgn_last_a    00:01:05   # 最終話検索範囲（後側）
+Default len_divmgn_last_b    00:01:05   # 最終話検索範囲（前側）
+
+
+#===== 分割処理定義（期間検出） =====
+#----------------------------------------------
+# 分割期間検出（全体）
+#----------------------------------------------
+#--- 期間検出処理の全体 ---
+Memory mdiv_period_select
+{
+  #--- 自動検出 ---
+  If !$divoff && $divuse==0
+    MemCall mdiv_period_detect_a   # 長時間無音間隔から推定（3-4話必要）
+    MemCall mdiv_period_detect_b   # 15分/30分固定で無音から判定（2話必要）
+  EndIf
+  #--- ファイルから分割期間読み込み ---
+  If $divuse==2
+    ReadData "${file_period_list}" -RegList period_list
+  EndIf
+}
 
 #------------------------------------------------------------------
-# 複数話構成の分割を検出(divoff=0の時)
-#   構成が見つからなければ divuse=0になる
+# 複数話構成の分割を検出
+#   構成が見つからなければ divuse=0から変更しない
 #   構成が見つかったらdivuse=1となり、１話期間は$len_unitに設定される
 # 入力（変更なければ事前設定不要）
-#  divoff       : 複数話構成の検出禁止（0:許可 1:禁止）
-#  divlastoff   : 複数話構成の最終話強制分割（0:許可 1:禁止）
 #  len_divdet*  : １話終了後の無音と認識する期間設定
 #  div15minute  : 15分x2話の分割（0:なし 1:検出する）
+#  div30minute  : 30分固定の分割（0:なし 1:検出する）
 # 出力
 #  divuse       : 複数話期間検出（0:なし 1:複数話検出）
 #  len_unit     : 複数話の１話期間
 #------------------------------------------------------------------
-# 分割しない時はここを1に設定するか、divoffを起動オプションのフラグに追加する
-Default divoff   0               # 複数話構成の検出禁止（0:許可 1:禁止）
-# 分割する時に最終話の時間による強制分割いらない時は1を設定する
-Default divlastoff   0           # 複数話構成の最終話強制分割（0:許可 1:禁止）
-
-# 分割を許可する時、等間隔に長時間無音期間（無音期間は下記から自動検出）があるかで複数話構成を検出
-Default len_unit      0.0        # １話期間（後で設定される）
-Default len_divdet1chk 4.7       # １話終了後の無音と認識する期間1（検出用）
-Default len_divdet1aft 4.7       # １話終了後の無音と認識する期間1（後側）
-Default len_divdet1bef -1.1      # １話終了後の無音と認識する期間1（前側）
-Default len_divdet2chk 6.1       # １話終了後の無音と認識する期間2（検出用）
-Default len_divdet2aft 6.0       # １話終了後の無音と認識する期間2（後側）
-Default len_divdet2bef 0.0       # １話終了後の無音と認識する期間2（前側）
-Default len_divdet3chk 11.0      # １話終了後の無音と認識する期間3（検出用）
-Default len_divdet3aft 10.0      # １話終了後の無音と認識する期間3（後側）
-Default len_divdet3bef 0.0       # １話終了後の無音と認識する期間3（前側）
-Default len_divdet4chk 13.0      # １話終了後の無音と認識する期間4（検出用）
-Default len_divdet4aft 12.0      # １話終了後の無音と認識する期間4（後側）
-Default len_divdet4bef 0.0       # １話終了後の無音と認識する期間4（前側）
-
-Default divuse         0         # 複数話期間検出
-# 複数話構成を長時間無音位置から自動検出する処理
-If !$divoff
+#--- 複数話構成を長時間無音位置から自動検出する処理 ---
+Memory mdiv_period_detect_a
 {
+  Default divuse 0
   # 長時間の長さを変えて等間隔の長時間無音を探す
   # 本編中に長時間無音がある場合の対策で5回目は30分番組終了付近から検索
   LocalSet repcount  0
   Repeat 5
-    EvalNum repcount $repcount+1
-    If $repcount==1 || $repcount==5    # 1回目と5回目
-      LocalSet len_check  $len_divdet1chk
-      LocalSet len_after  $len_divdet1aft
-      LocalSet len_before $len_divdet1bef
-    ElsIf $repcount==2                 # 2回目
-      LocalSet len_check  $len_divdet2chk
-      LocalSet len_after  $len_divdet2aft
-      LocalSet len_before $len_divdet2bef
-    ElsIf $repcount==3                 # 3回目
-      LocalSet len_check  $len_divdet3chk
-      LocalSet len_after  $len_divdet3aft
-      LocalSet len_before $len_divdet3bef
-    Else                               # 4回目
-      LocalSet len_check  $len_divdet4chk
-      LocalSet len_after  $len_divdet4aft
-      LocalSet len_before $len_divdet4bef
+    CountUp repcount
+    If $repcount>=5                    # 5回目
+      LocalSet len_check  $len_divdet_chk[$repcount-4]
+      LocalSet len_before $len_divdet_bef[$repcount-4]
+    Else                               # 1回目から4回目
+      LocalSet len_check  $len_divdet_chk[$repcount]
+      LocalSet len_before $len_divdet_bef[$repcount]
     EndIf
     # 最初の終了位置検索を開始する位置設定
     LocalSet det_continue 1
@@ -93,12 +130,12 @@ If !$divoff
       If ($divuse!=0)                 # 既に分割発見している時は検索しない
         Set det_continue 0
       Else
-        Set pos_tmp_end1st 00:22:00   # 5回目用の最初の終了位置検索開始
+        Set pos_tmp_end1st ${len_divdetp_sc2nd}  # 5回目用の最初の終了位置検索開始
       EndIf
     EndIf
     # 最初の長時間無音位置を調査
     If $det_continue
-      GetPos S ${pos_tmp_end1st} ${pos_tmp_end1st} 00:29:30 -N 1 -RSMA $len_before $len_check
+      GetPos S ${pos_tmp_end1st} ${pos_tmp_end1st} ${len_divdetp_max} -N 1 -RSMA $len_before $len_check
       If $LASTEXE
         LocalSet pos_tmp1 $POSHOLD                     # 最初の長時間無音位置
         LocalSet pos_tmp2 $POSHOLD+$POSHOLD            # ２番目の長時間無音位置（予想）
@@ -108,7 +145,12 @@ If !$divoff
     EndIf
     # ２番目の長時間無音位置を調査
     If $det_continue
-      GetPos S ${pos_tmp2}-00:00:30 ${pos_tmp2}-00:02:00 ${pos_tmp2}+00:10:00 -N 1 -RSMA $len_before $len_check
+      LocalSet dif_tmp2a ${len_divdetp_dif2a}
+      LocalSet dif_tmp2b ${len_divdetp_dif2b}
+      If ${dif_tmp2b}>=${pos_tmp1}/2
+        Set dif_tmp2b ${pos_tmp1}/2
+      EndIf
+      GetPos S ${pos_tmp2} ${pos_tmp2}-${dif_tmp2b} ${pos_tmp2}+${dif_tmp2a} -N 1 -RSMA $len_before $len_check
       If $LASTEXE
         LocalSet pos_tmp2 $POSHOLD                 # ２番目の長時間無音位置（確定）
         EvalTime len_tmpu ${pos_tmp2}-${pos_tmp1}  # １話分の期間（確定）
@@ -119,14 +161,22 @@ If !$divoff
     EndIf
     # ３番目の長時間無音位置を調査（予想位置にあれば分割を決定）
     If $det_continue
-      GetPos S ${pos_tmp3} ${pos_tmp3}-00:00:30 ${pos_tmp3}+00:00:30 -N 1 -RSMA $len_before $len_check
+      LocalSet dif_tmp3d  ${len_divdetp_dif3d}
+      LocalSet dif_tmp4d  ${len_divdetp_dif4d}
+      If ${dif_tmp3d}>=${len_tmpu}/2
+        Set dif_tmp3d ${len_tmpu}/2
+      EndIf
+      If ${dif_tmp4d}>=${len_tmpu}/2
+        Set dif_tmp4d ${len_tmpu}/2
+      EndIf
+      GetPos S ${pos_tmp3} ${pos_tmp3}-${dif_tmp3d} ${pos_tmp3}+${dif_tmp3d} -N 1 -RSMA $len_before $len_check
       # ３番目が正確な位置になければ範囲を広げ４番目まで確認する
       If !$LASTEXE && $len_tmpu>00:20:00
-        GetPos S ${pos_tmp3} ${pos_tmp3}-00:03:00 ${pos_tmp3}+00:03:00 -N 1 -RSMA $len_before $len_check
+        GetPos S ${pos_tmp3} ${pos_tmp3}-${dif_tmp4d} ${pos_tmp3}+${dif_tmp4d} -N 1 -RSMA $len_before $len_check
         If $LASTEXE                 # 範囲を広げて存在したら４番目も確認
           LocalSet pos_tmp3  $POSHOLD
           LocalSet pos_tmp4  ${pos_tmp3}+${len_tmpu}  # ４番目の長時間無音位置（予想）
-          GetPos S ${pos_tmp4} ${pos_tmp4}-00:03:00 ${pos_tmp4}+00:03:00 -N 1 -RSMA $len_before $len_check
+          GetPos S ${pos_tmp4} ${pos_tmp4}-${dif_tmp4d} ${pos_tmp4}+${dif_tmp4d} -N 1 -RSMA $len_before $len_check
         EndIf
       EndIf
       If !$LASTEXE
@@ -140,138 +190,371 @@ If !$divoff
     EndIf
   EndRepeat
 }
-EndIf
+EndMemory
 
-# 15分x2話のケース対応（誤検出可能性から通常は未使用。フラグ設定時のみ動作）
-Default div15minute   0       # このフラグを事前に設定した時のみ動作
-If !$divoff && !$divuse
-  If $div15minute
-    GetPos S 00:15:00 00:14:30 00:15:30 -N 1 -LenN 00:20:00 -1 -flat -RSMA 0 $len_headmute
-    If $LASTEXE
-      Set divuse 1            # 複数話構成を検出
-      Set len_unit 00:15:00   # 15分固定
+#--- 事前設定期間の無音状態から複数話構成を判定 ---
+Memory mdiv_period_detect_b
+{
+  # 15分x2話のケース対応（誤検出可能性から通常は未使用。フラグ設定時のみ動作）
+  If $divuse==0
+    If $div15minute
+      GetPos S 00:15:00 00:14:30 00:15:30 -N 1 -LenN 00:20:00 -1 -flat -RSMA 0 $len_headmute
+      If $LASTEXE
+        Set divuse 1            # 複数話構成を検出
+        Set len_unit 00:15:00   # 15分固定
+      EndIf
     EndIf
   EndIf
-EndIf
 
-# 自動検出できなかった場合は30分固定でもう一度検出
-If !$divoff && !$divuse
-  GetPos S 00:30:00 00:29:30 00:30:30 -N 1 -LenN 00:50:00 -1 -flat -RSMA 0 $len_headmute
-  If $LASTEXE
-    Set divuse 1            # 複数話構成を検出
-    Set len_unit 00:30:00   # 30分固定
+  # 自動検出できなかった場合は30分固定でもう一度検出
+  If $divuse==0
+    If $div30minute
+      GetPos S 00:30:00 00:29:30 00:30:30 -N 1 -LenN 00:50:00 -1 -flat -RSMA 0 $len_headmute
+      If $LASTEXE
+        Set divuse 1            # 複数話構成を検出
+        Set len_unit 00:30:00   # 30分固定
+      EndIf
+    EndIf
   EndIf
-EndIf
+}
+EndMemory
 
+
+#===== 分割処理定義（分割動作） =====
 #----------------------------------------------
-# 時間による設定
+# 分割実行（全体）
 #----------------------------------------------
-Default eachframe $MAXTIME
-If $divuse
-  Set eachframe $len_unit
-EndIf
-
-If $eachframe >= 00:14:00
-  Default sft_c   00:03:00       # 終了位置（優先位置）
-  Default sft_l   00:08:00       # 終了位置（手前）
-  Default sft_r   00:00:10       # 終了位置（最終）
-ElsIf $eachframe >= 00:07:00
-  Default sft_c   00:02:00       # 終了位置（優先位置）
-  Default sft_l   00:05:00       # 終了位置（手前）
-  Default sft_r   00:00:10       # 終了位置（最終）
-ElsIf $eachframe >= 00:04:00
-  Default sft_c   00:00:30       # 終了位置（優先位置）
-  Default sft_l   00:03:30       # 終了位置（手前）
-  Default sft_r   00:00:10       # 終了位置（最終）
-Else
-  Default sft_c   00:00:30       # 終了位置（優先位置）
-  Default sft_l   00:02:30       # 終了位置（手前）
-  Default sft_r   00:00:10       # 終了位置（最終）
-EndIf
-
-# 優先する無音位置検索用
-Default sft_m $sft_l             # 終了位置（無音検索優先位置）
-If ($eachframe>=00:22:30 && $eachframe<=00:30:30)  # 短い終了区間の補正
-  EvalTime sft_m $eachframe-00:22:30
-EndIf
-
-# 終了位置検出用の無音期間
-Default len_enddetect_aft 4.7    # 実際の終了付近と認識する無音期間（後側）
-Default len_enddetect_bef -1.1   # 実際の終了付近と認識する無音期間（前側）
+#--- 分割実行の全体処理 ---
+Memory mdiv_divide_start
+  #--- 分割実行 ---
+  If $divuse==1 || $divuse==2
+    MemCall mdiv_divide_main
+  EndIf
+EndMemory
 
 #------------------------------------
 # 複数話構成の分割処理
 # 入力
-#  divuse        : 複数話分割処理（0:なし 1:あり）
+#  divuse        : 複数話分割処理（0:なし 1-:あり）
 #  len_unit      : 複数話の１話期間
+#  divlastoff    : 複数話構成の最終話強制分割（0:許可 1:禁止）
+#  period_list   : 期間可変時の期間リスト
 # 出力
 #  divexe        : 分割実行（0:分割実行なし 1:分割実行）
 #  (各ロゴ)      : ロゴ分割で構成を分割
 #  divide_pos_list : 分割位置リスト
+#  divend_short  : 終了位置長時間無音と次の開始を兼ねていたら1
 #------------------------------------
 # ・複数話構成で区切り地点に２秒($len_headmuteの値)以上の無音があればロゴを分割
-Default divexe   0               # 分割実行確認フラグ
-If $divuse
+# divlastoff:分割する時に最終話の時間による強制分割いらない時は1を設定する
+
+Memory mdiv_divide_main
 {
   Echo 複数話分割を実行（１話あたりの期間 = $len_unit）
-  Set divexe   1                            # 分割実行確認フラグ
-  LocalSet len_uena  $len_unit              # 分割に必要な最小期間
-  LocalSet divmax 0                         # ローカル変数に設定
-  EvalNum divmax ($MAXTIME/$len_unit)+2     # 話数最大検索（時間/時間は整数で実施）
+  Set      divexe        1              # 分割実行確認フラグ
+  Default  divend_short  0              # 長時間無音と次の開始を兼ねていたら1になる
 
-  LocalSet dualflag 0          # 長時間無音と次の開始を兼ねていたら1になる
-  LocalSet numdiv 1
+  #--- 検索する最大話数を取得 ---
+  LocalSet divmax 0                     # ローカル変数に設定
+  MemCall mdiv_divide_divmax
+
+  LocalSet strdiv_range   ""            # ローカル変数に設定
+  LocalSet strdiv_force   ""            # ローカル変数に設定
+  LocalSet strdiv_len_s   ""            # ローカル変数に設定
+  LocalSet strdiv_len_w   ""            # ローカル変数に設定
+  LocalSet strdiv_sma_a   ""            # ローカル変数に設定
+  LocalSet strdiv_sma_b   ""            # ローカル変数に設定
+  LocalSet strdiv_sma_c   ""            # ローカル変数に設定
+  LocalSet strdiv_sma_d   ""            # ローカル変数に設定
+  #--- 期間の更新 ---
+  LocalSet len_unext     ${len_unit}    # 次の１話期間を設定
+  LocalSet numdiv        1              # ロゴ番号=分割番号
+  MemCall mdiv_divide_update_unit       # 期間可変では期間変更
   Repeat $divmax
-    # 繰り返し分割実行（最初は長時間無音にかからないように）
-    DivLogo S $len_unit $len_unit-00:00:15 $len_unit+00:00:15 -N $numdiv -LenN $len_uena -1 -flat -RSMA 0 $len_headmute -RNoSMA -2.0 0.0 -RNoSMA 2.0 4.7
-    If !$LASTEXE          # なかったら長時間無音を気にせず検索
-      DivLogo S $len_unit $len_unit-00:00:15 $len_unit+00:00:15 -N $numdiv -LenN $len_uena -1 -flat -RSMA 0 $len_headmute
-      If $LASTEXE
-        Set dualflag 1    # 長時間無音と次の開始の兼用あり
-      EndIf
-    EndIf
-    If !$LASTEXE          # なかったら範囲を少し広げて検索
-      If $dualflag        # 長時間無音兼用あり構成の検索
-        DivLogo S $len_unit $len_unit-00:01:05 $len_unit+00:01:05 -N $numdiv -LenN $len_uena+$len_unit -1 -flat -RSMA -2.0 $len_headmute -RNoSMA 2.0 4.7
-      EndIf
-      If !$LASTEXE        # なかったら長時間無音兼用なしで検索
-        DivLogo S $len_unit $len_unit-00:01:05 $len_unit+00:01:05 -N $numdiv -LenN $len_uena -1 -flat -RSMA 0 $len_headmute -RNoSMA -2.0 0.0 -RNoSMA 2.0 4.7
-      EndIf
-    EndIf
-    If !$LASTEXE && $len_unit>00:20:00  # なかったら長時間無音にかからないように更に範囲を少し広げて検索
-      If $dualflag        # 長時間無音兼用あり構成で残り期間長ければ長時間無音許可で検索
-        DivLogo S $len_unit $len_unit-00:03:00 $len_unit+00:03:00 -N $numdiv -LenN $len_uena+$len_unit -1 -flat -RSMA -2.0 $len_headmute -RNoSMA 2.0 4.7
-      EndIf
-      If !$LASTEXE        # なかったら長時間無音兼用なしで検索
-        DivLogo S $len_unit $len_unit-00:03:00 $len_unit+00:03:00 -N $numdiv -LenN $len_uena+$len_unit -1 -flat -RSMA 0 $len_headmute -RNoSMA -2.0 0.0 -RNoSMA 2.0 4.7
-      EndIf
-    EndIf
-    EvalNum numdiv ${numdiv}+1
+    #--- 検索＆分割開始 ---
+    MemCall mdiv_divide_diveach
+    #--- 次の分割番号に更新 ---
+    CountUp numdiv
+    #--- 分割毎に期間可変時の期間変更 ---
+    MemCall mdiv_divide_update_unit
   EndRepeat
-  # 一番最後だけは無音区切りがなくても時間で分割
-  If !$divlastoff
-    DivLogo S $len_unit $len_unit-00:01:05 $len_unit+00:01:05 -N -1 -LenN $len_unit -1 -flat -RNoSMA -2.0 0.0
-  EndIf
-  # 長時間無音と次の開始を兼ねていたら終了検索地点も兼用
-  If $dualflag
-    Set sft_r   00:00:00       # 終了位置（最終）
-    Set sft_m   00:01:00       # 終了位置（無音検索優先位置）
+  #--- 一番最後だけは無音区切りがなくても時間で分割 ---
+  If !$divlastoff          # 設定によりこの処理は無効
+    #--- 検索条件を設定 ---
+    LocalSet len_divma    ${len_divmgn_last_a}
+    LocalSet len_divmb    ${len_divmgn_last_b}
+    LocalSet numdiv       -1        # 最後番号
+    MemCall mdiv_divide_condition
+    #--- 検索＆分割開始 ---
+    DivLogo ${strdiv_range} ${strdiv_len_s} ${strdiv_sma_d}
   EndIf
 
   # 分割フレームを変数(divide_pos_list)に設定
   GetList S -RegList divide_pos_list # ロゴ立上り位置リスト
+}
+EndMemory
+
+#----------------------------------------------
+# 分割最大話数を取得
+#   divmax に分割最大話数を設定
+#----------------------------------------------
+Memory mdiv_divide_divmax
+{
+  LocalSet len_now  ${len_unit}    # 1話期間
+  LocalSet len_sum  ${MAXTIME}     # リスト未記載の期間
+  #--- リスト未記載の期間を計算 ---
+  If $#{period_list}>0
+    LocalSet cnti     0
+    Repeat $#{period_list}
+      CountUp cnti
+      Set      len_now  ${period_list[$cnti]}
+      EvalTime len_sum  ${len_sum}-${len_now}
+    EndRepeat
+  EndIf
+  #--- 話数最大検索（時間/時間は整数で実施） ---
+  EvalNum divmax $#{period_list}+2
+  If ${len_sum}>0
+    EvalNum divmax (${len_sum}/${len_now})+${divmax}  # リスト未記載分の追加
+  EndIf
+}
+EndMemory
+
+#----------------------------------------------
+# 分割各話の期間可変処理
+#   len_unit,len_unext を更新
+#----------------------------------------------
+Memory mdiv_divide_update_unit
+  If $#{period_list}>0
+    #--- 期間更新 ---
+    If ${numdiv}<=$#{period_list}  # リストの数だけ順番に、以降最終状態で固定
+      Set len_unit ${period_list[${numdiv}]}
+      Echo 期間再設定（${numdiv}話 = $len_unit）
+    EndIf
+    #--- リストの次位置確認 ---
+    Set len_unext  ${len_unit}
+    If ${numdiv}<$#{period_list}  
+      Set len_unext ${period_list[${numdiv}+1]}
+    EndIf
+  EndIf
+EndMemory
+
+#----------------------------------------------
+# 分割位置判定に使用する条件設定
+#   strdiv_* に条件文字列を設定
+#----------------------------------------------
+Memory mdiv_divide_condition
+  #--- 検索範囲と共通条件 ---
+  #   range  : 通常の設定
+  #   force  : 期間入力が正確として強制設定する場合
+  Set strdiv_range  "S ${len_unit} ${len_unit}-${len_divmb} ${len_unit}+${len_divma} -N ${numdiv} -flat"
+  Set strdiv_force  "S ${len_unit} ${len_unit}-${len_divmb} ${len_unit}+${len_divma} -N ${numdiv} -force"
+  #--- strdiv_len_ : 分割前の期間条件 ---
+  #   s : 分割期間のみ必要
+  #   w : 分割期間＋次の分割期間の合計以上が必要
+  Set strdiv_len_s  "-LenN ${len_unit} -1"
+  Set strdiv_len_w  "-LenN ${len_unit}+${len_unext} -1"
+  #--- strdiv_sma_* : 長時間無音から判定する条件 ---
+  #   a : 長時間無音にかからない開始位置
+  #   b : 開始位置条件のみ
+  #   c : 長時間無音と次の開始を兼ねた開始位置
+  #   d : 長時間無音なしで無音シーンチェンジ（最後の強制分割用）
+  Set strdiv_sma_a  "-RSMA 0 ${len_headmute} -RNoSMA ${len_divsma_b} 0 -RNoSMA ${len_htime} ${len_divsma_a}"
+  Set strdiv_sma_b  "-RSMA 0 ${len_headmute}"
+  Set strdiv_sma_c  "-RSMA ${len_divsma_b} ${len_headmute} -RNoSMA ${len_htime} ${len_divsma_a}"
+  Set strdiv_sma_d  "-RNoSMA ${len_divsma_b} 0"
+EndMemory
+
+#----------------------------------------------
+# 分割位置を探して分割実行
+#----------------------------------------------
+Memory mdiv_divide_diveach
+{
+  #--- 検索範囲設定 ---
+  ListClear -local -RegList len_divma_list  # リスト初期化
+  ListClear -local -RegList len_divmb_list  # リスト初期化
+  MemCall mdiv_divide_scopelist             # 検索範囲を設定
+  #--- 各検索期間条件で順番に分割位置があるか確認 ---
+  LocalSet flag_exediv  0   # 分割実施済みフラグ
+  LocalSet cntd         0   # カウント
+  Repeat $#{len_divma_list}
+    CountUp cntd
+    LocalSet len_divma  ${len_divma_list[$cntd]}  # 検索位置マージン（後側）
+    LocalSet len_divmb  ${len_divmb_list[$cntd]}  # 検索位置マージン（前側）
+    If ${flag_exediv}==0 && ${len_divma}>=0 && ${len_divmb}>=0
+      #--- 検索条件を設定 ---
+      MemCall mdiv_divide_condition
+      #--- 検索開始 ---
+      If ${cntd}==1    # １回目（分割期間が正確な場合の処理）
+        # 繰り返し分割実行（最初は長時間無音にかからないように）
+        DivLogo ${strdiv_range} ${strdiv_len_s} ${strdiv_sma_a}
+        If !$LASTEXE          # なかったら長時間無音を気にせず検索
+          DivLogo ${strdiv_range} ${strdiv_len_s} ${strdiv_sma_b}
+          If $LASTEXE
+            Set divend_short 1    # 長時間無音と次の開始の兼用あり
+          EndIf
+        EndIf
+        If !$LASTEXE          # なかったら期間設定が正確な時は強制
+          If ${divprecise}>0    # 期間設定が正確として分割する場合
+            DivLogo ${strdiv_force} ${strdiv_len_s}
+          EndIf
+        EndIf
+      Else    # 2回目以降（分割位置候補の範囲を広げて検索）
+        If ${divend_short}        # 長時間無音兼用あり構成の検索
+          DivLogo ${strdiv_range} ${strdiv_len_w} ${strdiv_sma_c}
+          If !$LASTEXE            # なかったら長時間無音兼用なしでも検索
+            DivLogo ${strdiv_range} ${strdiv_len_w} ${strdiv_sma_a}
+          EndIf
+        Else                      # 長時間無音兼用なしで検索
+          DivLogo ${strdiv_range} ${strdiv_len_w} ${strdiv_sma_a}
+        EndIf
+        If !$LASTEXE            # なかったら次の条件
+          If ${cntd}==$#{len_divma_list}  # 最後の追加設定なら無音開始条件のみ
+            DivLogo ${strdiv_range} ${strdiv_len_w} ${strdiv_sma_b}
+          EndIf
+        EndIf
+      EndIf
+      If $LASTEXE
+        Set flag_exediv  1   # 分割実施済みフラグ
+      EndIf
+    EndIf
+  EndRepeat
+}
+EndMemory
+
+#----------------------------------------------
+# 分割位置検索を行う範囲を設定
+#   len_divma_list,len_divmb_listに範囲（１回目から順番に）を設定
+#----------------------------------------------
+Memory mdiv_divide_scopelist
+  If ${divprecise}>0    # 期間設定が正確として分割する場合
+    Set len_divma_list[1]  ${len_divmgn_precise_a}
+    Set len_divmb_list[1]  ${len_divmgn_precise_b}
+  Else                  # 期間設定は目安の場合
+    Set len_divma_list[1]  00:00:15
+    Set len_divmb_list[1]  00:00:15
+    Set len_divma_list[2]  00:01:05
+    Set len_divmb_list[2]  00:01:05
+    Set len_divma_list[3]  -1
+    Set len_divmb_list[3]  -1
+    Set len_divma_list[4]  -1
+    Set len_divmb_list[4]  -1
+    If ${len_unit}>00:20:00
+      Set len_divma_list[3]  00:03:00
+      Set len_divmb_list[3]  00:03:00
+    EndIf
+    If ${divwide_num}>0
+      # 拡張時間作成（20分以上の構成で、30秒 * ${divwide_num} + 3分）
+      LocalSet scope_ext ${len_unit}
+      If ${scope_ext}>00:20:00
+        Set scope_ext 00:20:00
+      EndIf
+      EvalTime scope_ext ${scope_ext}*(${divwide_num}+4)/40+00:01:00
+      Set len_divma_list[4]  ${scope_ext}
+      Set len_divmb_list[4]  ${scope_ext}
+    EndIf
+  EndIf
+EndMemory
+
+
+
+#===== 動作開始 =====
+#----------------------------------------------
+# ロゴは無効化
+#----------------------------------------------
+LogoOff
+#----------------------------------------------
+# 開始・終了マージンの設定
+#----------------------------------------------
+#---（設定挿入）検索開始場所 ---
+MemCall mbase_first
+
+If $base == -1
+  # 設定ない時の開始マージン自動検索
+  Select S 0 0 0 -N 1 -Shift 0 0 $autobase -logoext 0 $autobase+1.3 -SMA 0 $len_headmute
+Else
+  # 開始マージン付近に候補があれば優先選択
+  #Select S 0 -1.3 1.3 -fromabs $base -logoext 0 $base+1.3
+  Select S 0 -$base 1.3 -fromabs $base -logoext 0 $base+1.3 -SMA 0 $len_headmute
 EndIf
+
+# 終了マージン指定あれば候補を探し優先選択（終了側の自動検索は何も設定しない）
+If ${lastbase}>0
+  Select E 0 -1.3 ${lastbase} -fromabs ${MAXTIME}-${lastbase} -logoext -${lastbase}-1.3 0 -SMA 0 $len_headmute
+EndIf
+
+#----------------------------------------------
+# 分割期間の検出
+#----------------------------------------------
+ListClear -default -RegList period_list  # ファイル読み込み用（初期設定）
+MemCall mdiv_period_select
+
+#----------------------------------------------
+# 分割実行
+#----------------------------------------------
+#---（設定挿入）分割前 ---
+MemCall mbase_divide_before
+
+Default divexe   0               # 分割実行確認フラグ
+MemCall mdiv_divide_start
 
 #---（設定挿入）分割後 ---
 MemCall mbase_divide_after
 
+#----------------------------------------------
+# 時間による補正（終了位置検索用）
+#----------------------------------------------
+# 検索位置を手動設定する場合は1に設定しておく
+Default stay_endloc_sft 0   # 終了位置検索位置の自動変更（0=許可 1=禁止）
+
+# 期間により終了検索位置を補正する（分割時は最後に設定された分割期間を参照）
+Default eachframe $MAXTIME
+If $divexe
+  Set eachframe $len_unit
+EndIf
+
+If ${stay_endloc_sft}==0
+  If $eachframe >= 00:14:00
+#    標準設定を使用する
+#    Set sft_c   00:03:00       # 終了位置（優先位置）
+#    Set sft_l   00:08:00       # 終了位置（手前）
+#    Set sft_r   00:00:10       # 終了位置（最終）
+  ElsIf $eachframe >= 00:07:00
+    Set sft_c   00:02:00       # 終了位置（優先位置）
+    Set sft_l   00:05:00       # 終了位置（手前）
+#   Set sft_r   00:00:10       # 終了位置（最終）
+  ElsIf $eachframe >= 00:04:00
+    Set sft_c   00:00:30       # 終了位置（優先位置）
+    Set sft_l   00:03:30       # 終了位置（手前）
+#   Set sft_r   00:00:10       # 終了位置（最終）
+  Else
+    Set sft_c   00:00:30       # 終了位置（優先位置）
+    Set sft_l   00:02:30       # 終了位置（手前）
+#   Set sft_r   00:00:10       # 終了位置（最終）
+  EndIf
+
+  # 優先する無音位置検索用
+  Set sft_m $sft_l             # 終了位置（無音検索優先位置）
+  If ($eachframe>=00:22:30 && $eachframe<=00:30:30)  # 短い終了区間の補正
+    EvalTime sft_m $eachframe-00:22:30
+  EndIf
+EndIf
+
+# ・終了位置長時間無音と次の開始を兼ねていた時は無条件で位置補正
+Default divend_short  0        # 未設定時は0
+If ${divend_short}==1
+    Set sft_r   00:00:00       # 終了位置（最終）
+    Set sft_m   00:01:00       # 終了位置（無音検索優先位置）
+EndIf
+
 # ・45分以上で分割なければ終了位置を多めに検索
-If $MAXTIME >= 00:45:00
-  If !$divexe
-    Set sft_c   00:03:00       # 終了位置（優先位置）
-    Set sft_l   00:14:00       # 終了位置（手前）
-    Set sft_r   00:00:10       # 終了位置（最終）
-    Set sft_m   $sft_l         # 終了位置（無音検索優先位置）
+If ${stay_endloc_sft}==0
+  If $MAXTIME >= 00:45:00
+    If !$divexe
+      Set sft_c   00:03:00       # 終了位置（優先位置）
+      Set sft_l   00:14:00       # 終了位置（手前）
+#     Set sft_r   00:00:10       # 終了位置（最終）
+      Set sft_m   $sft_l         # 終了位置（無音検索優先位置）
+    EndIf
   EndIf
 EndIf
 
@@ -281,14 +564,23 @@ EndIf
 #---（設定挿入）先頭部分処理開始直前 ---
 MemCall mbase_header_before
 
-# ・20秒無音が続き正確に20秒後無音シーンチェンジあれば開始位置として設定
-Find S 20.0 19.8 20.2 -SMA 0.0 18.0+$len_headmute
-# ・20秒以上無音が続けば開始位置として設定（放送休止のお知らせをカット）
-Force S 20.0 -SMA 0 18.0+$len_headmute
+{ # 放送休止のお知らせのカット処理
+  LocalSet cnt 1
+  Repeat $#{len_infohead_list}
+    LocalSet lentmp ${len_infohead_list[${cnt}]}
+    If ${lentmp}>0
+      # ・x秒無音が続き正確にx秒後無音シーンチェンジあれば開始位置として設定
+      Find S ${lentmp} ${lentmp}-0.2 ${lentmp}+0.2 -SMA 0.0 ${lentmp}-${len_htime}+${len_headmute}
+      # ・x秒以上無音が続けば開始位置として設定
+      Force S ${lentmp} -SMA 0 ${lentmp}-${len_htime}+${len_headmute}
+    EndIf
+    CountUp cnt
+  EndRepeat
+}
 # ・正確に２秒後無音シーンチェンジあれば開始位置として設定
-Find S 2.0 1.8 2.2
+Find S ${len_htime} ${len_htime}-0.2 ${len_htime}+0.2
 # ・２秒以上無音が続けば開始位置として設定
-Force S 2.0 -SMA 0 $len_headmute
+Force S ${len_htime} -SMA 0 $len_headmute
 # ・開始位置を設定
 Find S 0 -1.3 1.3
 
@@ -390,9 +682,17 @@ If $divexe
   Abort E -N -1 -WithP
 EndIf
 
+# ・ 複数話構成で開始終了条件不備でも出力する場合
+If $divexe
+  If ${divout_all}>0
+    Force B
+  EndIf
+EndIf
+
 # ・末尾に一番近い無音シーンチェンジで終了
 Find E 0 -1.2 0 -noedge
 Find E 0 -120.0 0
+
 
 #----------------------------------------------
 # 予告構成の推測
@@ -407,6 +707,16 @@ MemCall mbase_autoup_before
 
 AutoUp B -code 2
 AutoCut TR -autoeach -code $cuttr_code -limit $cuttr_limit -trscope $cuttr_trscope
+
+#--- 不要な最後の分割を削除 ---
+If $divexe
+  If $#{divide_pos_list}>1
+    GetPos E -final -N -1
+    If ${LASTEXE} && ${POSHOLD}<=${divide_pos_list[-1]}
+      ListDel -1 -RegList divide_pos_list  # 最後の分割をやめる
+    EndIf
+  EndIf
+EndIf
 
 #---（設定挿入）検索終了場所 ---
 MemCall mbase_last

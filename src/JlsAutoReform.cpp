@@ -2048,6 +2048,85 @@ bool JlsAutoReform::setFinalArea(){
 		}
 	}
 
+	//--- 最後ロゴ期間が長い場合の構成作成追加 ---
+	{
+		Msec msec_bound = msec_wcomp_lastloc;
+		if ( msec_lastzone < msec_wcomp_lastloc ){
+			msec_bound = msec_lastzone;
+		}
+		ScpArType arstat_last = pdata->getScpArstat(nsc_total_last);
+		bool flag_last_logo = jlsd::isScpArTypeLogo(arstat_last);
+		Nsc  nsc_last_decide = pdata->getNscPrevScpChap(nsc_total_last, SCP_CHAP_DECIDE);
+		Msec msec_last_decide = pdata->getMsecScp(nsc_last_decide);
+		Msec msec_thr_decide  = msec_last_decide + 60*1000;		// 長いロゴ期間
+		//--- 最後の構成がロゴで期間が長い場合 ---
+		if ( nsc_last_decide > 0 && msec_thr_decide < msec_bound && flag_last_logo ){
+			//--- 候補となる位置リスト作成 ---
+			vector<Nsc> list_nsc_chk;
+			int num_chk_total = 0;		// 候補全体
+			int num_chk_bnd   = 0;		// カット位置まで
+			int num_chk_lim   = 0;		// 検索元とする位置まで
+			{
+				Msec msec_thr_lim = msec_bound - 60*1000;	// 検索元とする限界位置
+				Nsc nsc_tmp = nsc_total_last;
+				do{
+					nsc_tmp = pdata->getNscPrevScpChap(nsc_tmp, SCP_CHAP_NONE);
+					if ( nsc_tmp > 0 ){
+						Msec msec_tmp = pdata->getMsecScp(nsc_tmp);
+						if ( msec_thr_decide >= msec_tmp ){		// 検索範囲超え
+							nsc_tmp = -1;
+						}else{
+							list_nsc_chk.push_back(nsc_tmp);	// 追加
+							num_chk_total ++;
+							if ( msec_bound < msec_tmp ){		// カット位置まで
+								num_chk_bnd = num_chk_total;
+							}
+							if ( msec_thr_lim < msec_tmp ){		// 検索元位置まで
+								num_chk_lim = num_chk_total;
+							}
+						}
+					}
+				}while( nsc_tmp > 0 );
+			}
+			//--- 構成となる区切り位置を取得し構成を確定 ---
+			if ( num_chk_total >= 2 && num_chk_lim >= 1 ){
+				Nsc nsc_chk_det = -1;
+				bool flag_posit_det = false;	// 候補可能性高い構成
+				bool flag_cont = true;
+				for( int i1=0; i1 < num_chk_lim; i1++ ){
+					if ( flag_cont ){
+						for( int i2=i1+1; i2 < num_chk_total; i2++ ){
+							Nsc nsc_i1 = list_nsc_chk[i1];
+							Nsc nsc_i2 = list_nsc_chk[i2];
+							bool flag_posit_tmp = false;
+							if ( pdata->getScpChap(nsc_i1) != SCP_CHAP_NONE &&
+								 pdata->getScpChap(nsc_i2) != SCP_CHAP_NONE ){
+								flag_posit_tmp = true;	// 候補可能性高い
+							}
+							if ( flag_posit_det == false || flag_posit_tmp == true ){
+								Msec msec_chk_from = pdata->getMsecScp(nsc_i1);
+								Msec msec_chk_to   = pdata->getMsecScp(nsc_i2);
+								CalcDifInfo calcdif;
+								int diftype = calcDifSelect(calcdif, msec_chk_from, msec_chk_to);
+								if ( diftype > 0 ){		// 構成検出
+									nsc_chk_det = nsc_i2;	// 手前位置を確定候補
+									flag_posit_det = flag_posit_tmp;	// 可能性高い構成か記憶
+									if ( i1 >= num_chk_bnd ){	// カット位置を超えたら終了
+										flag_cont = false;
+									}
+								}
+							}
+						}
+					}
+				}
+				if ( nsc_chk_det > 0 ){	// 構成検出時は手前位置を確定
+					pdata->setScpChap(nsc_chk_det, SCP_CHAP_DFIX);
+					pdata->setScpArstat(nsc_chk_det, SCP_AR_L_OTHER);
+				}
+			}
+		}
+	}
+
 	//--- 最後構成の内部分割処理 ---
 	if (msec_var_lastzone >= 0){			// -1設定時は処理しない
 		ScpArType arstat_last = pdata->getScpArstat(nsc_total_last);

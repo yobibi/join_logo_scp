@@ -202,7 +202,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			numarg = 1;
 		}
 		else if (!_stricmp(strv, "-ver")){
-			printf("join_logo_scp ver4.0\n");
+			printf("join_logo_scp ver4.1\n");
 			return GETONE_EXIT;
 		}
 		else if (!_stricmp(strv, "-F")){

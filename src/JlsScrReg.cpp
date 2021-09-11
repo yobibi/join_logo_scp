@@ -156,6 +156,13 @@ int JlsScrReg::createLocal(bool flagBase){
 	layer.base   = flagBase;
 	//--- ローカル変数階層を作成 ---
 	layerReg.push_back(layer);
+	//--- 最上位階層扱いのCallであれば引数をローカル変数に格納 ---
+	if ( flagBase ){
+		setRegFromArg();
+	}else{
+		clearArgReg();			// 使わなかった引数削除
+	}
+
 	return (int) layerReg.size();
 }
 //---------------------------------------------------------------------
@@ -171,6 +178,7 @@ int JlsScrReg::releaseLocal(bool flagBase){
 		numLayer = (int) (layerReg.size() - 1);
 		if ( flagBase || (layerReg[numLayer].base == false) ){	// 終了条件
 			layerReg.pop_back();
+			clearArgReg();			// 使わなかった引数削除
 			numLayer = (int) (layerReg.size() + 1);	
 		}
 	}
@@ -244,13 +252,37 @@ int JlsScrReg::getRegVar(string& strVal, const string& strCandName, bool exact){
 	int numLayer;
 	int numMatch = getLayerRegVar(numLayer, strVal, strCandName, exact);
 	//--- ローカル変数になければグローバル変数読み込み ---
-	if ( numLayer < 0 ){
+	if ( numLayer < 0 && onlyLocal == false ){
 		numMatch = globalReg.getRegVar(strVal, strCandName, exact);
 		if ( numMatch > 0 ){
 			popErrLower(globalReg);
 		}
 	}
 	return numMatch;
+}
+//---------------------------------------------------------------------
+// Callで引数として使われる変数を設定
+// 入力：
+//   strName : 引数に使われる変数名
+//   strVal  : 引数に使われる変数値
+//---------------------------------------------------------------------
+bool JlsScrReg::setArgReg(const string& strName, const string& strVal){
+	//--- 引数リストに追加 ---
+	if ( listArg.size() >= INT_MAX/4 ){		// 念のためサイズ制約
+		msgErr += "error:too many create arg-registers\n";
+		return false;
+	}
+	listArg.push_back(strName);
+	listArg.push_back(strVal);
+	return true;
+}
+//---------------------------------------------------------------------
+// 読み出しでグローバル変数を見ない設定
+// 入力：
+//   flag : ローカル変数にない時のグローバル変数参照（false=許可  true=禁止）
+//---------------------------------------------------------------------
+void JlsScrReg::setLocalOnly(bool flag){
+	onlyLocal = flag;
 }
 //---------------------------------------------------------------------
 // エラーメッセージが存在したら取り出す
@@ -297,6 +329,28 @@ int JlsScrReg::getLayerRegVar(int& numLayer, string& strVal, const string& strCa
 		}
 	}
 	return numMatch;
+}
+//---------------------------------------------------------------------
+// 引数格納データを削除
+//---------------------------------------------------------------------
+void JlsScrReg::clearArgReg(){
+	//--- 引数リストを削除 ---
+	listArg.clear();
+}
+//---------------------------------------------------------------------
+// 引数をローカル変数に設定
+//---------------------------------------------------------------------
+void JlsScrReg::setRegFromArg(){
+	int sizeList = (int) listArg.size();
+	if ( sizeList > 0 ){
+		//--- 引数リストをローカル変数に設定 ---
+		bool overwrite = true;
+		for(int i=0; i<sizeList-1; i+=2){
+			setLocalRegVar(listArg[i], listArg[i+1], overwrite);
+		}
+		//--- 引数リストを削除 ---
+		clearArgReg();
+	}
 }
 //---------------------------------------------------------------------
 // 変数名の最低限の違反文字確認

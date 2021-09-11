@@ -93,9 +93,13 @@ private:
 		int		oldAdjust;				// 0:旧方式調整なし 1:旧方式調整あり
 		// 追加
 		int     fixVLine;				// 0:vLine指定なし  1:vLine指定あり
+		int     fixFDirect;				// 0:指定なし  1:指定あり  flagDirect
+		int     fixNLgExact;			// 0:指定なし  1:指定あり  nLgExact
 		int     fixSubList;				// 0:subDir指定なし 1:subDir指定あり
 		int     fixSubPath;				// 0:subPath指定なし 1:subPath指定あり
 		int     vLine;					// 読み込み行表示用
+		int     flagDirect;				// 0:通常の検出ロゴ 1:ロゴ位置を直接指定
+		int     nLgExact;				// 0:通常 1:ロゴ補正最小限
 		string  subList;				// サブフォルダリスト指定
 		string  subPath;				// サブフォルダパス指定
 	};
@@ -105,12 +109,22 @@ private:
 		Msec	msecTrPoint;			// CutTRコマンドの設定位置（CM構成内部分割の位置判断用）
 		RangeMsec	rmsecHeadTail;		// $HEADTIME,$TAILTIME制約
 	};
+	//--- ロゴリセット用バックアップで保管するデータ ---
+	struct RecordBackupLogo {
+		vector<DataScpRecord>   bak_scp;
+		vector<DataLogoRecord>  bak_logo;
+		int                     bak_msecTotalMax;	// 最大フレーム期間
+		DtExtOptRecord          bak_extOpt;
+	};
 
 public:
 // 初期設定
 	JlsDataset();
 	void initData();
 	void clearDataLogoAll();
+// ロゴ・シーンチェンジデータの保存・読み出し
+	void backupLogosetSave();
+	void backupLogosetLoad();
 // 動作設定の保存・読み出し
 	void setConfig(ConfigVarType tp, int val);
 	int  getConfig(ConfigVarType tp);
@@ -230,6 +244,8 @@ public:
 	Nsc  insertLogo(Msec msec_st, Msec msec_ed, bool overlap, bool confirm, bool unit);
 	Nsc  insertScpos(Msec msec_dst_s, Msec msec_dst_bk, Nsc nsc_mute, ScpPriorType stat_scpos_dst);
 	Nsc  getNscForceMsec(Msec msec_in, LogoEdgeType edge);
+	Nsc  getNscForceMsecOrg(Msec msec_in, LogoEdgeType edge);
+	Nsc  getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge);
 // 構成内のロゴ表示期間の取得
 	Sec  getSecLogoComponent(Msec msec_s, Msec msec_e);
 	Sec  getSecLogoComponentFromLogo(Msec msec_s, Msec msec_e);
@@ -279,4 +295,6 @@ private:
 	int		m_flagSetupAuto;
 	// 結果出力用
 	int		m_nscOutDetail;
+	// バックアップ保管データ
+	RecordBackupLogo m_backupData;
 };

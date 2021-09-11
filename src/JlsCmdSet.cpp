@@ -30,6 +30,7 @@ void JlsCmdArg::clear(){
 	tack.onePoint    = false;
 	tack.needAuto    = false;
 	tack.typeLazy    = LazyType::None;
+	tack.ignoreAbort = false;
 	cond = {};		// îOÇÃÇΩÇﬂå¬ï Ç…èâä˙âª
 	cond.numCheckCond = 0;
 	cond.flagCond     = false;
@@ -76,6 +77,8 @@ void JlsCmdArg::clear(){
 	setStrOptDefault(OptType::StrValListR, "");
 	setStrOptDefault(OptType::StrValListW, "");
 	setStrOptDefault(OptType::StrRegSize,  "SIZEHOLD");
+	setStrOptDefault(OptType::StrRegEnv,   "");
+	setStrOptDefault(OptType::StrArgVal,   "");
 }
 
 //---------------------------------------------------------------------

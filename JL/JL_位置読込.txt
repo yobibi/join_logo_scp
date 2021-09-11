@@ -1,0 +1,56 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：位置情報をファイルから読み込む動作
+#       読み込んだ位置情報に何も加工せず出力（-o,-odivオプションで出力先指定）
+#
+
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+GetEnv JL_MYDATA_PATH -RegEnv path_read      # 環境変数に設定していたら使用
+Default path_read    ""                      # 読み込みファイルのpath
+Default file_div     "${path_read}div.txt"   # 分割位置記載の入力ファイル名
+Default file_trim    "${path_read}trim.avs"  # Trim位置記載の入力ファイル名
+Default use_divfile  1      # ファイル分割使用（0=なし 1=使用）
+Default type_trim_in 2      # ロゴ位置入力ファイル（0=なし 1=list 2=avs-Trim）
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+ListClear -RegList divide_pos_list    # 分割リスト初期化
+ListClear -RegList trim_list          # Trimリスト初期化
+
+#--- 分割ファイル読み込み処理 ---
+If ${use_divfile}>0
+  ReadData "${file_div}"  -RegList divide_pos_list
+
+  Set divfile_from     1        # 分割で何番目の構成から位置を出力するか
+  Set divfile_zero_out 0        # 分割で最初に0を出力(0=しない 1=する)
+  Call "JL_out_divfile.txt"     # 分割フレームリスト出力処理
+EndIf
+
+#--- ロゴ位置読み込み処理 ---
+If ${type_trim_in}==1           # 1行1データのリスト形式ファイルから読み込み
+  ReadData "${file_trim}" -RegList trim_list
+ElsIf ${type_trim_in}==2        # avisynth形式ファイルのTrimから読み込み
+  ReadTrim "${file_trim}" -RegList trim_list
+ElsIf $#{divide_pos_list}>0     # 分割ファイル設定をロゴ位置として使用
+  ListIns -1 -RegList trim_list -val 0     # 先頭ロゴ開始位置
+  LocalSet cnt 0
+  Repeat $#{divide_pos_list}    # 分割リストを順番に読み込み
+    CountUp cnt
+    LocalSet pos_tmp ${divide_pos_list[$cnt]}          # リスト記載のデータ
+    If ${pos_tmp}>0 && ${pos_tmp}<${MAXTIME}
+      EvalFrame frame_num ${pos_tmp} -local            # フレーム番号
+      EvalNum   frame_pre ${frame_num}-1 -local        # 1つ前のフレーム番号
+      ListIns -1 -RegList trim_list -val ${frame_pre}  # ロゴ終了位置
+      ListIns -1 -RegList trim_list -val ${frame_num}  # ロゴ開始位置
+    EndIf
+  EndRepeat
+  ListIns -1 -RegList trim_list -val ${MAXFRAME}  # 最後ロゴ終了位置
+EndIf
+
+#--- 位置確定処理 ---
+LogoDirect -RegList trim_list   # 読み込みデータ位置をロゴ位置として直接設定
+Force B        # ロゴ位置をそのまま確定
+AutoUp -code 1 # Auto処理化

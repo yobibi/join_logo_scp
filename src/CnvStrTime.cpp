@@ -24,6 +24,24 @@ CnvStrTime::CnvStrTime(){
 //=====================================================================
 
 //---------------------------------------------------------------------
+// 文字列はすべてパス部分として最後に区切りがなければ付加
+// 付加した場合は返り値をtrue、そのままならfalse
+// 入力：
+//   pathname : パス名
+// 出力：
+//   pathname : パス名（最後は区切り文字）
+//---------------------------------------------------------------------
+bool CnvStrTime::getStrFileAllPath(string &pathname){
+	string strTmp;
+	getStrFilePath(strTmp, pathname);	// 区切りまでの文字取得
+	if ( strTmp != pathname ){		// 区切りまでの文字が全体か確認
+		string delimiter = getStrFileDelimiter();	// 区切り文字
+		pathname += delimiter;
+		return true;
+	}
+	return false;
+}
+//---------------------------------------------------------------------
 // 文字列からファイルパス部分とファイル名部分を分離
 // 読み終わった位置を返り値とする（失敗時は-1）
 // 入力：
@@ -321,6 +339,51 @@ int CnvStrTime::getStrItemWithQuote(string &dst, const string &cstr, int pos){
 		pos = loc2 + 1;
 	}
 	return pos;
+}
+
+//---------------------------------------------------------------------
+// コメントを除いて文字列取得
+//---------------------------------------------------------------------
+int CnvStrTime::getStrWithoutComment(string &dst, const string &cstr){
+	int poscmt = getStrPosComment(cstr, 0);
+	if ( poscmt > 0 ){
+		dst = cstr.substr(0, poscmt);
+	}else if ( poscmt == 0 ){
+		dst = "";
+	}else{
+		dst = cstr;
+	}
+	return poscmt;
+}
+//---------------------------------------------------------------------
+// コメントとしての#位置を取得
+//---------------------------------------------------------------------
+int CnvStrTime::getStrPosComment(const string &cstr, int pos){
+	int poscmt = -1;
+	int posdol = -1;
+	int len = (int) cstr.length();
+	bool flagQw = false;
+	for(int i=0; i<len; i++){
+		if ( poscmt < 0 ){
+			switch( cstr[i] ){
+				case '#' :
+					if ( (i >= pos && flagQw == false) &&
+						 (posdol < 0 || posdol+1 != i) ){
+							poscmt = i;
+					}
+					break;
+				case '$' :
+					posdol = i;
+					break;
+				case '\"' :
+					flagQw = (flagQw)? false : true;
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	return poscmt;
 }
 
 

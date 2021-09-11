@@ -42,11 +42,54 @@ void JlsScript::checkInitial(){
 	m_funcDecode->checkInitial();
 }
 
+//---------------------------------------------------------------------
+// システムから環境変数取得
+//---------------------------------------------------------------------
+bool JlsScript::getEnvString(string& strVal, const string& strEnvName){
+	//--- 環境変数から取得 ---
+	// getenvは unsafe warning が出るので getenv_s
+	// VS2005以降対応、標準では C11 対応でC++は個別対応みたい
+#ifdef OLD_UNSAFE
+	const char *pstr = getenv(strEnvName.c_str());
+	if ( pstr != nullptr ){
+		strVal = pstr;
+		return true;
+	}
+#else
+	char buffer[1024];
+	size_t retSize;
+	getenv_s(&retSize, buffer, sizeof(buffer)-1, strEnvName.c_str());
+	if ( retSize > 0 ){
+		strVal = buffer;
+		return true;
+	}
+#endif
+	strVal = "";
+	return false;
+}
+
 
 //=====================================================================
 // レジスタアクセス処理
 //=====================================================================
 
+//---------------------------------------------------------------------
+// Call実行した時にローカル変数設定される引数を設定
+// 入力：
+//   strName   : 変数名
+//   strVal    : 変数値
+//---------------------------------------------------------------------
+bool JlsScript::setArgReg(const string& strName, const string& strVal){
+	if ( strName.empty() ) return false;
+	//--- リスト変数の要素で引数設定は非対応 ---
+	auto locSt = strName.find("[");
+	if ( locSt != string::npos ){
+		globalState.addMsgError("error: argument array " + strName + "\n");
+		return false;
+	}
+	bool success = globalState.setArgReg(strName, strVal);
+	return success;
+}
 //---------------------------------------------------------------------
 // 変数を設定
 // 入力：
@@ -69,8 +112,16 @@ bool JlsScript::setJlsRegVarLocal(const string& strName, const string& strVal, b
 //--- 通常の変数とローカル変数を選択して設定 ---
 bool JlsScript::setJlsRegVarWithLocal(const string& strName, const string& strVal, bool overwrite, bool flagLocal){
 	if ( strName.empty() ) return false;
-	bool success = globalState.setRegVarCommon(strName, strVal, overwrite, flagLocal);
-	setJlsRegVarCouple(strName, strVal);
+	//--- リスト変数対応 ---
+	string strNameWrite = strName;
+	string strValWrite  = strVal;
+	bool   flagOvwWrite = overwrite;
+	bool success = checkJlsRegVarWrite(strNameWrite, strValWrite, flagOvwWrite);
+	//--- 書き込み処理 ---
+	if ( success ){
+		success = globalState.setRegVarCommon(strNameWrite, strValWrite, flagOvwWrite, flagLocal);
+		setJlsRegVarCouple(strNameWrite, strVal);
+	}
 	return success;
 }
 //--- 変数設定後のシステム変数更新 ---
@@ -130,8 +181,133 @@ void JlsScript::setJlsRegVarCouple(const string& strName, const string& strVal){
 //   strVal  : 変数値
 //---------------------------------------------------------------------
 int JlsScript::getJlsRegVar(string& strVal, const string& strCandName, bool exact){
+	//--- リスト変数のチェック ---
+	string strNamePart = strCandName;
+	bool flagNum = false;
+	if ( strCandName[0] == '#' ){		// リストの要素数
+		flagNum = true;
+		strNamePart = strCandName.substr(1);
+	}
+	int numItem;
+	int lenFullVar;
+	bool flagList = checkJlsRegVarList(strNamePart, numItem, lenFullVar);
+
 	//--- 通常のレジスタ読み出し ---
-	return globalState.getRegVarCommon(strVal, strCandName, exact);
+	int lenVar = globalState.getRegVarCommon(strVal, strNamePart, exact);
+
+	//--- リスト変数時の補正 ---
+	if ( flagList ){
+		if ( (int)strNamePart.length() == lenVar ){	// 要素数前までの文字列と読み込み変数が一致する場合
+			string strList = strVal;
+			if ( getListStrElement(strVal, strList, numItem) == false ){
+				globalState.addMsgError("error: out of range " + strList + "[" + to_string(numItem) + "]\n");
+			}
+			lenVar = lenFullVar;		// [項目番号]込みの変数文字列長にする
+		}
+	}
+	if ( flagNum ){		// リストの要素数取得
+		int numList = getListStrSize(strVal);
+		strVal = to_string(numList);
+	}
+	return lenVar;
+}
+//---------------------------------------------------------------------
+// リスト変数の要素かチェック。要素だった時は変数名と配列で指定された数値に分離
+// 入力：
+//   strNamePart : 変数名（[番号]込み）
+// 出力：
+//   返り値  : true=リスト変数の要素  false=通常の変数
+//   strNamePart : 変数名（[番号]は除く）
+//   numItem     : 番号
+//   lenFullVar  : [番号]込みの変数文字列長
+//---------------------------------------------------------------------
+bool JlsScript::checkJlsRegVarList(string& strNamePart, int& numItem, int& lenFullVar){
+	//--- 変数名[項目番号] ならリスト変数の要素 ---
+	bool flagList = false;
+	string strItem;
+	{
+		auto locSt = strNamePart.find("[");
+		if ( locSt != string::npos && locSt != 0 ){
+			auto locEd = strNamePart.find("]", locSt+1);
+			if ( locEd != string::npos && locEd != locSt+1 ){
+				auto locCt = strNamePart.find("$");
+				if ( locCt != string::npos && locCt < locSt ){	// [の前に$があれば今回の変数ではない
+				}else{
+					int dup = 0;
+					locEd = locSt + 1;		// ネストを調べるため再度位置確認
+					while( (strNamePart[locEd] != ']' || dup > 0) && strNamePart[locEd] != '\0' ){
+						if ( strNamePart[locEd] == ']' ){
+							dup --;
+						}else if ( strNamePart[locEd] == '[' ){
+							dup ++;
+						}
+						locEd ++;
+					}
+					if ( strNamePart[locEd] == ']' ){	// []内の文字列を取得し、その中の変数置換を実施
+						string strAryBuf = strNamePart.substr(locSt + 1, locEd - locSt - 1);
+						replaceBufVar(strItem, strAryBuf);
+						strNamePart = strNamePart.substr(0, locSt);
+						lenFullVar = (int) locEd + 1;
+						flagList    = true;
+					}
+				}
+			}
+		}
+	}
+	//--- リスト変数の要素だった時の要素位置取得 ---
+	if ( flagList ){
+		//--- 項目番号の取得 ---
+		if ( pdata->cnv.getStrValNum(numItem, strItem, 0) < 0 ){
+			globalState.addMsgError("error: [value] must be integer in " + strNamePart + "[" + strItem + "]\n");
+			flagList = false;
+		}
+	}
+	return flagList;
+}
+//---------------------------------------------------------------------
+// 書き込みデータを（リスト要素だった場合は）リスト全体の書き込みデータに補正
+// 入力：
+//   strNameWrite : 変数名（[番号]込み）
+//   strValWrite  : 書き込みデータ
+//   overwrite    : 0=未定義時のみ設定  1=上書き許可設定
+// 出力：
+//   返り値  : true=書き込みできる  false=失敗
+//   strNameWrite : 変数名（[番号]は除く）
+//   strValWrite  : 書き込みデータ（リスト全体）
+//   overwrite    : 基本入力から変更なし。リストの新規要素時のみ1が強制設定
+//---------------------------------------------------------------------
+bool JlsScript::checkJlsRegVarWrite(string& strNameWrite, string& strValWrite, bool& overwrite){
+	bool success = true;
+	//--- リスト変数のチェック ---
+	int numItem;
+	int lenFullVar;
+	bool flagList = checkJlsRegVarList(strNameWrite, numItem, lenFullVar);
+
+	//--- リスト変数の要素だった時の処理 ---
+	if ( flagList ){
+		success = false;
+		string strList = "";
+		if ( getJlsRegVar(strList, strNameWrite, true) > 0 ){	// 変数読み出し（リスト全体の値）
+			int numList = getListStrSize(strList);
+			if ( (numItem > 0 && numItem <= numList) || (numItem < 0 && numList + numItem >= 0) ){
+				success = setListStrRep(strList, strValWrite, numItem);		// データを置換
+			}else if ( numList + 1 == numItem ){
+				success = setListStrIns(strList, strValWrite, numItem);		// データを追加
+				overwrite = true;		// 上書き禁止でも設定要素は新規なので書き込み許可
+			}
+		}else{
+			if ( numItem == 1 ){
+				success = setListStrIns(strList, strValWrite, numItem);		// データを追加
+				success = true;
+			}
+		}
+		if ( success ){
+			strValWrite = strList;		// 書き込む変数データ（リスト全体）
+		}else{
+			globalState.addMsgError("error: out of range " + strNameWrite + "[" + to_string(numItem) + "]\n");
+		}
+	}
+	return success;
 }
 
 
@@ -377,17 +553,10 @@ bool JlsScript::makeFullPath(string& strFull, const string& strSrc, bool flagFul
 	bool decide = makeFullPathIsExist(strFull.c_str());
 	//--- 見つからなかったらサブフォルダ検索 ---
 	if ( decide == false ){
-		//--- 区切り文字設定 ---
-		string delimiter = pdata->cnv.getStrFileDelimiter();
 		//--- サブフォルダのパス指定あれば変更 ---
 		if ( pdata->extOpt.subPath.empty() == false ){
 			strPathOnly = pdata->extOpt.subPath;
-			string strTmp;
-			pdata->cnv.getStrFilePath(strTmp, strPathOnly);
-			delimiter = pdata->cnv.getStrFileDelimiter();	// 区切り再確認
-			if ( strTmp != strPathOnly ){		// 最後が区切り文字か確認
-				strPathOnly = strPathOnly + delimiter;
-			}
+			pdata->cnv.getStrFileAllPath(strPathOnly);	// 最後に区切り付加
 		}
 		//--- -sublist設定からコンマ区切りで1つずつ確認 ---
 		string remain = pdata->extOpt.subList;		// 事前設定のサブフォルダ取得
@@ -407,9 +576,7 @@ bool JlsScript::makeFullPath(string& strFull, const string& strSrc, bool flagFul
 				subname = remain;
 				remain = "";
 			}
-			if ( subname.empty() == false ){
-				subname = subname + delimiter;
-			}
+			pdata->cnv.getStrFileAllPath(subname);	// 最後に区切り付加
 			string strTry = strPathOnly + subname + strName;
 			decide = makeFullPathIsExist(strTry);
 			if ( decide ){			// サブフォルダのパス存在で結果更新
@@ -442,6 +609,9 @@ int JlsScript::startCmd(const string& fname){
 
 	//--- システム変数の初期値を設定 ---
 	setSystemRegInit();
+
+	//--- ロゴリセット時のバックアップデータ保存 ---
+	pdata->backupLogosetSave();
 
 	//--- JLスクリプト実行 ---
 	int errnum = startCmdLoop(nameFullPath, 0);
@@ -601,6 +771,7 @@ void JlsScript::startCmdLoopSub(JlsScriptState& state, const string& strBufOrg, 
 		}
 	}
 	//--- コマンド実行処理 ---
+	bool update_exe = false;
 	if (enable_exe){
 		bool success = true;
 		switch( cmdset.arg.category ){
@@ -622,10 +793,11 @@ void JlsScript::startCmdLoopSub(JlsScriptState& state, const string& strBufOrg, 
 				success = setCmdSys(cmdset.arg);
 				break;
 			case CmdCat::REG:						// 変数設定
-				success = setCmdReg(cmdset.arg);
+				success = setCmdReg(cmdset.arg, state);
 				break;
 			case CmdCat::LAZYF:						// Lazy制御
 			case CmdCat::MEMF:						// Memory制御
+			case CmdCat::MEMLAZYF:					// Memory/Lazy共通制御
 				success = setCmdMemFlow(cmdset.arg, state);
 				break;
 			case CmdCat::MEMEXE:					// 遅延設定実行動作
@@ -643,6 +815,7 @@ void JlsScript::startCmdLoopSub(JlsScriptState& state, const string& strBufOrg, 
 					}
 				}
 				exe_command = exeCmd(cmdset);
+				update_exe  = true;
 				break;
 		}
 		if ( success == false ){
@@ -655,7 +828,9 @@ void JlsScript::startCmdLoopSub(JlsScriptState& state, const string& strBufOrg, 
 	}
 	startCmdDispErr(strBuf, errval);
 	//--- debug ---
-	if ( pdata->extOpt.vLine > 0 ){
+	if ( pdata->extOpt.vLine == 2 ){
+		cout << enable_exe << update_exe << exe_command << ":" << strBuf << endl;
+	}else if ( pdata->extOpt.vLine > 0 ){
 		cout << enable_exe << exe_command << ":" << strBuf << endl;
 	}
 
@@ -789,12 +964,17 @@ bool JlsScript::replaceBufVar(string& dstBuf, const string& srcBuf){
 
 	dstBuf.clear();
 	bool success = true;
-	int pos_cmt = (int) srcBuf.find("#");
+	int pos_cmt = pdata->cnv.getStrPosComment(srcBuf, 0);
 	int pos_base = 0;
 	while(pos_base >= 0){
 		//--- 変数部分の置換 ---
 		pos_var = (int) srcBuf.find("$", pos_base);
 		if (pos_var >= 0){
+			//--- コメント領域確認 ---
+			bool flagCmt = ( pos_var >= pos_cmt && pos_cmt >= 0 )? true : false;
+			if ( flagCmt ){
+				globalState.stopAddMsgError(true);	// エラー出力停止
+			}
 			//--- $手前までの文字列を確定 ---
 			if (pos_var > pos_base){
 				dstBuf += srcBuf.substr(pos_base, pos_var-pos_base);
@@ -807,11 +987,14 @@ bool JlsScript::replaceBufVar(string& dstBuf, const string& srcBuf){
 				pos_base += len_var;
 			}
 			else{
-				if (pos_var < pos_cmt || pos_cmt < 0){		// コメントでなければ置換失敗
+				if ( flagCmt == false ){		// コメントでなければ置換失敗
 					success = false;
 					globalState.addMsgError("error: not defined variable in " + srcBuf + "\n");
 				}
 				pos_var = -1;
+			}
+			if ( flagCmt ){
+				globalState.stopAddMsgError(true);	// エラー出力再開
 			}
 		}
 		//--- 変数がなければ残りすべてコピー ---
@@ -835,16 +1018,27 @@ bool JlsScript::replaceBufVar(string& dstBuf, const string& srcBuf){
 int JlsScript::replaceRegVarInBuf(string& strVal, const string& strBuf, int pos){
 	int var_st, var_ed;
 	bool exact;
+	bool flagNum = false;
 
 	int ret = 0;
 	if (strBuf[pos] == '$'){
 		//--- 変数部分を取得 ---
 		pos ++;
+		if ( strBuf[pos] == '#' ){		// $#はリスト要素数
+			flagNum = true;
+			pos ++;
+		}
 		if (strBuf[pos] == '{'){		// ${変数名}フォーマット時の処理
 			exact = true;
 			pos ++;
+			int dup = 0;
 			var_st = pos;
-			while(strBuf[pos] != '}' && strBuf[pos] != '\0'){
+			while( (strBuf[pos] != '}' || dup > 0) && strBuf[pos] != '\0' ){
+				if ( strBuf[pos] == '}' ){
+					dup --;
+				}else if ( strBuf[pos] == '{' ){
+					dup ++;
+				}
 				pos ++;
 			}
 		}
@@ -862,9 +1056,18 @@ int JlsScript::replaceRegVarInBuf(string& strVal, const string& strBuf, int pos)
 		//--- 変数読み出し実行 ---
 		if (var_st <= var_ed){
 			string strCandName = strBuf.substr(var_st, var_ed-var_st+1);
+			if ( flagNum ){			// リスト要素数
+				strCandName = "#" + strCandName;
+			}
 			int nmatch = getJlsRegVar(strVal, strCandName, exact);
 			if (nmatch > 0){
-				ret = nmatch + 1 + (exact*2);	// 変数名数 + $ + {}
+				ret = nmatch + 1;	// 変数名数 + $
+				if ( flagNum ){
+					ret += 1;		// #
+				}
+				if ( exact ){
+					ret += 2;		// {}
+				}
 			}
 		}
 	}
@@ -894,14 +1097,20 @@ bool JlsScript::setStateMem(JlsScriptState& state, JlsCmdArg& cmdarg, const stri
 	}
 	//--- Memory期間中ならMemory期間制御以外の文字列は記憶領域に格納 ---
 	else if ( state.isMemArea() ){
-		if ( cmdarg.category != CmdCat::MEMF ){
+		if ( state.isFlowMem(cmdarg.category) == false ){	// Memory制御は除く
 			enable_exe = state.setMemStore(state.getMemName(), strBuf);
 		}
 	}
 	//--- Memory期間中以外はLazy処理確認 ---
 	else{
-		if ( cmdarg.category != CmdCat::LAZYF ){	// LazyStart,EndLazyは除く
+		if ( state.isFlowLazy(cmdarg.category) == false ){	// Lazy制御は除く
 			enable_exe = setStateMemLazy(state, cmdarg, strBuf);
+		}
+	}
+	//--- 引数変数挿入を行う処理 ---
+	if ( state.isMemArea() || state.isLazyArea() ){
+		if ( state.checkArgRegInsert(cmdarg.cmdsel) ){	// 引数変数挿入チェック
+			setArgStateInsertReg(state);				// 必要あれば引数変数設定を挿入
 		}
 	}
 
@@ -924,7 +1133,9 @@ bool JlsScript::setStateMemLazy(JlsScriptState& state, JlsCmdArg& cmdarg, const 
 		//--- Lazy種類取得 ---
 		LazyType typeLazy = state.getLazyStartType();	// LazyStartによる区間Lazyタイプ取得
 		//--- Lazy種類補正 ---
-		setStateMemLazyRevise(typeLazy, state, cmdarg);	// 現コマンドの必要な状態
+		if ( state.isLazyArea() == false ){		// LazyStartによる区間内の補正は実行時行うため除く
+			setStateMemLazyRevise(typeLazy, state, cmdarg);	// 現コマンドの必要な状態
+		}
 		//--- lazy設定 ---
 		switch( typeLazy ){
 			case LazyType::LazyS:				// -lazy_s
@@ -1087,7 +1298,6 @@ bool JlsScript::expandDecodeCmd(JlsScriptState& state, JlsCmdArg& cmdarg, const 
 // 文字列対象位置以降のフラグを判定
 // 入力：
 //   strBuf : 文字列
-//   pos    : 認識開始位置
 // 出力：
 //   返り値  : 成功
 //   flagCond  ：フラグ判定（0=false  1=true）
@@ -1095,12 +1305,9 @@ bool JlsScript::expandDecodeCmd(JlsScriptState& state, JlsCmdArg& cmdarg, const 
 bool JlsScript::getCondFlag(bool& flagCond, const string& strBuf){
 	string strItem;
 	string strCalc = "";
-	string strBufRev = strBuf;
 	//--- コメントカット ---
-	int ntmp = (int) strBuf.find("#");
-	if (ntmp >= 0){
-		strBufRev = strBuf.substr(0, ntmp);
-	}
+	string strBufRev;
+	pdata->cnv.getStrWithoutComment(strBufRev, strBuf);
 	//--- １単語ずつ確認 ---
 	int pos = 0;
 	while(pos >= 0){
@@ -1226,6 +1433,11 @@ void JlsScript::getDecodeReg(JlsCmdArg& cmdarg){
 			cmdarg.setStrOpt(OptType::StrValPosW, strVal);	// 変更
 			cmdarg.clearStrOptUpdate(OptType::StrValPosW);	// レジスタ更新不要
 		}
+		//--- -valオプション定義時のPOSHOLD読み出し値変更 ---
+		if ( cmdarg.isSetStrOpt(OptType::StrArgVal) ){
+			strVal = cmdarg.getStrOpt(OptType::StrArgVal);
+			cmdarg.setStrOpt(OptType::StrValPosR, strVal);	// 変更
+		}
 
 		//--- LISTHOLDの値を設定 ---
 		if ( getJlsRegVar(strVal, strRegList, true) > 0 ){	// 変数取得
@@ -1243,6 +1455,9 @@ void JlsScript::getDecodeReg(JlsCmdArg& cmdarg){
 			}
 			break;
 		case CmdType::GetList:
+		case CmdType::ReadData:
+		case CmdType::ReadTrim:
+		case CmdType::ReadString:
 			{
 				cmdarg.setStrOpt(OptType::StrValListW, strDefaultList);	// 変更
 			}
@@ -1276,6 +1491,27 @@ void JlsScript::setSystemRegUpdate(){
 	setJlsRegVar("MAXFRAME", str_val, true);
 	setJlsRegVar("MAXTIME", str_time, true);
 	setJlsRegVar("NOLOGO", to_string(pdata->extOpt.flagNoLogo), true);
+	setSystemRegFilePath();
+}
+//---------------------------------------------------------------------
+// Path関連の現在値による変更
+//---------------------------------------------------------------------
+void JlsScript::setSystemRegFilePath(){
+	string strDataLast = "data";		// リストデータ読み込み用JLサブパスからの位置
+
+	//--- JLサブパス読み込み ---
+	string strPathSub;
+	if ( pdata->extOpt.subPath.empty() == false ){
+		strPathSub = pdata->extOpt.subPath;
+	}else{
+		strPathSub = globalState.getPathNameJL();
+	}
+	pdata->cnv.getStrFileAllPath(strPathSub);	// 最後に区切り付加
+	//--- JLデータパス ---
+	string strPathData = strPathSub + strDataLast;
+	pdata->cnv.getStrFileAllPath(strPathData);	// 最後に区切り付加
+	//--- 初期設定変数の変更 ---
+	setJlsRegVar("JLDATAPATH", strPathData, true);
 }
 
 //---------------------------------------------------------------------
@@ -1383,6 +1619,7 @@ bool JlsScript::setSystemRegOptions(const string& strBuf, int pos, bool overwrit
 			i ++;
 		}
 	}
+	setSystemRegUpdate();	// Path情報の更新（念のため初期設定変数全体）
 	return true;
 }
 
@@ -1397,7 +1634,7 @@ void JlsScript::updateResultRegWrite(JlsCmdArg& cmdarg){
 	if ( cmdarg.isUpdateStrOpt(OptType::StrValPosW) ){
 		string strName   = cmdarg.getStrOpt(OptType::StrRegPos);	// 変数名($POSHOLD)
 		string strVal    = cmdarg.getStrOpt(OptType::StrValPosW);
-		bool   overwrite = true;
+		bool   overwrite = ( cmdarg.getOpt(OptType::FlagDefault) == 0 )? true : false;
 		bool   flagLocal = ( cmdarg.getOpt(OptType::FlagLocal) > 0 )? true : false;
 		setJlsRegVarWithLocal(strName, strVal, overwrite, flagLocal);	// $POSHOLD
 		cmdarg.clearStrOptUpdate(OptType::StrValPosW);	// 更新完了通知
@@ -1406,7 +1643,7 @@ void JlsScript::updateResultRegWrite(JlsCmdArg& cmdarg){
 	if ( cmdarg.isUpdateStrOpt(OptType::StrValListW) ){
 		string strName   = cmdarg.getStrOpt(OptType::StrRegList);	// 変数名($LISTHOLD)
 		string strList   = cmdarg.getStrOpt(OptType::StrValListW);
-		bool   overwrite = true;
+		bool   overwrite = ( cmdarg.getOpt(OptType::FlagDefault) == 0 )? true : false;
 		bool   flagLocal = ( cmdarg.getOpt(OptType::FlagLocal) > 0 )? true : false;
 		setJlsRegVarWithLocal(strName, strList, overwrite, flagLocal);	// $LISTHOLD
 		cmdarg.clearStrOptUpdate(OptType::StrValListW);	// 更新完了通知
@@ -1417,7 +1654,7 @@ void JlsScript::setResultRegWriteSize(JlsCmdArg& cmdarg, const string& strList){
 	string strSizeName = cmdarg.getStrOpt(OptType::StrRegSize);	// 変数名($SIZEHOLD)
 	int    numList     = getListStrSize(strList);		// 項目数取得
 	string strNumList  = std::to_string(numList);
-	bool   overwrite   = true;
+	bool   overwrite   = ( cmdarg.getOpt(OptType::FlagDefault) == 0 )? true : false;
 	bool   flagLocal   = ( cmdarg.getOpt(OptType::FlagLocal) > 0 )? true : false;
 	setJlsRegVarWithLocal(strSizeName, strNumList, overwrite, flagLocal);	// $SIZEHOLD
 }
@@ -1491,70 +1728,206 @@ void JlsScript::setResultRegListDel(JlsCmdArg& cmdarg, int numItem){
 	//--- リスト数更新 ---
 	setResultRegWriteSize(cmdarg, strList);
 }
+//--- ListSetAtによる更新 ---
+void JlsScript::setResultRegListRep(JlsCmdArg& cmdarg, int numItem){
+	//--- レジスタの現在値を取得 ---
+	string strList   = cmdarg.getStrOpt(OptType::StrValListR);
+	string strValPos = cmdarg.getStrOpt(OptType::StrValPosR);
+	//--- Replace処理 ---
+	if ( setListStrRep(strList, strValPos, numItem) ){
+		//--- ListHoldに設定 ---
+		cmdarg.setStrOpt(OptType::StrValListW, strList);		// $LISTHOLD write
+		updateResultRegWrite(cmdarg);
+	}
+	//--- リスト数更新 ---
+	setResultRegWriteSize(cmdarg, strList);
+}
+//--- ListClearによるリスト変数内容を消去 ---
+void JlsScript::setResultRegListClear(JlsCmdArg& cmdarg){
+	//--- リスト変数の初期値 ---
+	string strList   = "";
+	//--- ListHoldに設定 ---
+	cmdarg.setStrOpt(OptType::StrValListW, strList);		// $LISTHOLD write
+	updateResultRegWrite(cmdarg);
+	//--- リスト数更新 ---
+	setResultRegWriteSize(cmdarg, strList);
+}
+//--- ListSortによる更新 ---
+void JlsScript::setResultRegListSort(JlsCmdArg& cmdarg){
+	//--- レジスタの現在値を取得 ---
+	string strList   = cmdarg.getStrOpt(OptType::StrValListR);
+	bool   flagUni   = ( cmdarg.getOpt(OptType::FlagUnique)>0 )? true : false;
+	//--- sort処理 ---
+	setListStrSort(strList, flagUni);
+	//--- ListHoldに設定 ---
+	cmdarg.setStrOpt(OptType::StrValListW, strList);		// $LISTHOLD write
+	updateResultRegWrite(cmdarg);
+	//--- リスト数更新 ---
+	setResultRegWriteSize(cmdarg, strList);
+}
+
+
+//=====================================================================
+// リスト共通処理
+//=====================================================================
+
 //--- リストの項目数を返す ---
 int JlsScript::getListStrSize(const string& strList){
 	int numList = 0;
 	//--- リスト項目数を取得 ---
 	if ( strList.empty() == false ){
+		//--- Comma格納用特殊文字列の確認 ---
+		int posCmmSt;
+		int posCmmEd;
+		bool flagComma = getListStrCommaCheck(posCmmSt, posCmmEd, strList, 0);
+		bool flagNoDetect = false;
+		//--- 順番に検索 ---
 		numList = 1;
+		bool flagFirstChar = true;
 		for(int i=0; i < (int)strList.size(); i++){
-			if ( strList[i] == ',' ) numList++;
+			//--- Comma格納用特殊文字列の確認 ---
+			if ( flagNoDetect ){		// 特殊文字列期間中
+				if ( i == posCmmEd ){
+					flagNoDetect = false;
+				}
+			}else{
+				if ( flagComma ){	// 特殊文字列あり
+					if ( i == posCmmSt && flagFirstChar ){
+						flagNoDetect = true;
+					}else if ( i > posCmmSt ){	// 次の特殊文字列を取得
+						flagComma = getListStrCommaCheck(posCmmSt, posCmmEd, strList, i);
+					}
+				}
+				if ( strList[i] == ',' ){
+					numList++;
+					flagFirstChar = true;
+				}else{
+					flagFirstChar = false;
+				}
+			}
 		}
 	}
 	return numList;
 }
-//--- リストの指定項目位置が文字列の何番目か取得 ---
-int JlsScript::getListStrPos(const string& strList, int num, bool flagIns){
+
+//--- Commaがリスト変数内に含む場合の特殊文字列開始から終了までの文字列位置取得 ---
+bool JlsScript::getListStrCommaCheck(int& posSt, int& posEd, const string& strList, int pos){
+	bool flagComma = false;
+	posSt = -1;
+	posEd = -1;
+	auto posIn = strList.find(DefStrCommaIn, pos);
+	if ( posIn != string::npos ){
+		auto posOut = strList.find(DefStrCommaOut, posIn);
+		if ( posOut != string::npos ){
+			flagComma = true;
+			posSt = (int) posIn;
+			posEd = (int) (posOut + DefStrCommaOut.length() - 1);
+		}
+	}
+	return flagComma;
+}
+//--- リスト変数に入れる要素文字列を取得（Comma対策を付加） ---
+void JlsScript::getListStrBaseStore(string& strStore, const string& strRaw){
+	//--- Commaが含まれていたら特殊文字列にする ---
+	if ( strRaw.find(",") != string::npos ){
+		strStore = DefStrCommaIn + strRaw + DefStrCommaOut;
+	}else{
+		strStore = strRaw;
+	}
+}
+//--- リスト変数から要素文字列を取り出し（Comma対策を解除） ---
+void JlsScript::getListStrBaseLoad(string& strRaw, const string& strStore){
+	strRaw = strStore;
+	//--- 特殊文字列確認 ---
+	if ( strStore.find(DefStrCommaIn) == 0 ){
+		auto pos = strStore.find(DefStrCommaOut);
+		if ( pos != string::npos ){
+			auto len = DefStrCommaIn.length();
+			strRaw = strStore.substr(len, pos-len);
+		}
+	}
+}
+//--- 指定項目のある開始位置と文字列長を返す。項目数num>0のみ対応 ---
+bool JlsScript::getListStrBasePosItem(int& posItem, int& lenItem, const string& strList, int num){
+	//--- Comma格納用特殊文字列の確認 ---
+	int posCmmSt;
+	int posCmmEd;
+	bool flagComma = getListStrCommaCheck(posCmmSt, posCmmEd, strList, 0);
+	//--- 順番に位置確認 ---
+	int nCur = 0;
+	int pos = -1;
+	int posNext = 0;
+	while ( posNext >= 0 && nCur < num && num > 0 ){
+		pos = posNext;
+		//--- 次の特殊文字列を取得 ---
+		if ( pos > posCmmSt && flagComma ){
+			flagComma = getListStrCommaCheck(posCmmSt, posCmmEd, strList, pos);
+		}
+		//--- 次の項目位置 ---
+		int posSend = pos;
+		if ( pos == posCmmSt && flagComma ){
+			posSend = posCmmEd;
+		}
+		auto posFind = strList.find(",", posSend);
+		if ( posFind == string::npos ){
+			posNext = -1;
+		}else{
+			posNext = (int) posFind + 1;
+		}
+		nCur ++;
+	}
+	//--- 結果位置の格納 ---
+	if ( pos >= 0 && nCur == num ){
+		posItem = pos;
+		if ( pos <= posNext ){
+			lenItem = posNext - pos - 1;
+		}else{
+			lenItem = (int) strList.length() - pos;
+		}
+		return true;
+	}
+	posItem = -1;
+	lenItem = 0;
+	return false;
+}
+//--- リストの指定項目位置が文字列の何番目および文字列長を取得 ---
+bool JlsScript::getListStrPosItem(int& posItem, int& lenItem, const string& strList, int num, bool flagIns){
 	int numList = getListStrSize(strList);	// 項目数取得
 	//--- 項目を取得 ---
 	int numAbs = ( num >= 0 )? num : numList + num + 1;
 	if ( flagIns && num < 0 ){		// Ins時は最大項目数が１多い
 		numAbs += 1;
 	}
+	//--- 挿入時の最後尾 ---
+	if ( numAbs > 0 && (numAbs == numList + 1) && flagIns ){
+		posItem = (int)strList.size();
+		lenItem = 0;
+		return true;
+	}else if ( numAbs > numList || numAbs == 0 ){
+		return false;
+	}
 	//--- 位置を取得 ---
-	int pos = -1;
-	if ( numAbs > 0 && numAbs <= numList ){
-		pos = 0;
-		int nc = 1;
-		for(int i=0; i < (int)strList.size(); i++){
-			if ( strList[i] == ',' ){
-				nc ++;
-				if ( nc == numAbs ){
-					pos = i + 1;
-				}
-			}
-		}
-	}else if ( numAbs > 0 && (numAbs == numList + 1) && flagIns ){
-		pos = (int)strList.size();
-	}
-	return pos;
+	return getListStrBasePosItem(posItem, lenItem, strList, numAbs);
 }
-//--- リストの指定項目位置からの項目が何文字か取得 ---
-int JlsScript::getListStrPosLen(const string& strList, int pos){
-	bool det = false;
-	int len = 0;
-	int posMax = (int)strList.length();
-	while ( pos >= 0 && pos < posMax && det == false ){
-		if ( strList[pos] == ',' ){
-			det = true;
-		}else{
-			len ++;
-		}
-		pos ++;
+//--- リストの指定項目位置が文字列の何番目か取得 ---
+int JlsScript::getListStrPosHead(const string& strList, int num, bool flagIns){
+	int posItem;
+	int lenItem;
+	if ( getListStrPosItem(posItem, lenItem, strList, num, flagIns) ){
+		return posItem;
 	}
-	return len;
+	return -1;
 }
 //--- リストの指定項目位置にある文字列を返す ---
 bool JlsScript::getListStrElement(string& strItem, const string& strList, int num){
 	strItem = "";
 	bool flagIns = false;
-	int locSt   = getListStrPos(strList, num, flagIns);
-	if ( locSt < 0 ){
-		return false;
-	}
-	int lenItem = getListStrPosLen(strList, locSt);
-	if ( lenItem > 0 ){			// 1文字以上取得で成功
-		strItem = strList.substr(locSt, lenItem);
+	//--- リスト内の位置取得 ---
+	int posItem;
+	int lenItem;
+	if ( getListStrPosItem(posItem, lenItem, strList, num, flagIns) ){
+		string strStore = strList.substr(posItem, lenItem);
+		getListStrBaseLoad(strItem, strStore);		// リスト保管用特殊文字列から復元
 		return true;
 	}
 	return false;
@@ -1564,25 +1937,28 @@ bool JlsScript::setListStrIns(string& strList, const string& strItem, int num){
 	int lenList = (int)strList.length();
 	//--- 対象項目の先頭位置取得 ---
 	bool flagIns = true;
-	int locSt   = getListStrPos(strList, num, flagIns);
+	int locSt   = getListStrPosHead(strList, num, flagIns);
 	if ( locSt < 0 ){
 		return false;
 	}
+	//--- 保管用文字列作成 ---
+	string strStore;
+	getListStrBaseStore(strStore, strItem);
 	//--- 挿入処理 ---
 	if ( locSt == 0 ){			// 先頭項目
 		if ( strList.empty() ){	// 最初の項目
-			strList = strItem;
+			strList = strStore;
 		}else{
-			strList = strItem + "," + strList;
+			strList = strStore + "," + strList;
 		}
 	}else if ( locSt == lenList ){	// 最後
-		strList = strList + "," + strItem;
+		strList = strList + "," + strStore;
 	}else{
 		string strTmp = strList.substr(locSt-1);
 		if ( locSt == 1 ){
-			strList = "," + strItem + strTmp;
+			strList = "," + strStore + strTmp;
 		}else{
-			strList = strList.substr(0, locSt-1) + "," + strItem + strTmp;
+			strList = strList.substr(0, locSt-1) + "," + strStore + strTmp;
 		}
 	}
 	return true;
@@ -1592,28 +1968,448 @@ bool JlsScript::setListStrDel(string& strList, int num){
 	int lenList = (int)strList.length();
 	//--- 対象項目の先頭位置と文字数を取得 ---
 	bool flagIns = false;
-	int locSt   = getListStrPos(strList, num, flagIns);
-	if ( locSt < 0 ){
+	//--- リスト内の位置取得 ---
+	int posItem;
+	int lenItem;
+	if ( getListStrPosItem(posItem, lenItem, strList, num, flagIns) == false ){
 		return false;
 	}
-	int lenItem = getListStrPosLen(strList, locSt);
 	//--- 削除処理 ---
-	if ( locSt == 0 ){
+	if ( posItem == 0 ){
 		if ( lenItem + 1 >= lenList ){
 			strList.clear();
 		}else{
 			strList = strList.substr(lenItem + 1);
 		}
-	}else if ( locSt == 1 ){
+	}else if ( posItem == 1 ){
 		strList = strList.substr(lenItem + 1);
 	}else{
 		string strTmp = "";
-		if ( locSt + lenItem < lenList ){
-			strTmp = strList.substr(locSt + lenItem);
+		if ( posItem + lenItem < lenList ){
+			strTmp = strList.substr(posItem + lenItem);
 		}
-		strList = strList.substr(0, locSt-1) + strTmp;
+		strList = strList.substr(0, posItem-1) + strTmp;
 	}
 	return true;
+}
+//--- リストの指定項目位置の文字列を置換 ---
+bool JlsScript::setListStrRep(string& strList, const string& strItem, int num){
+	if ( setListStrDel(strList, num) ){
+		if ( setListStrIns(strList, strItem, num) ){
+			return true;
+		}
+	}
+	return false;
+}
+
+//--- リストデータを昇順にソート ---
+bool JlsScript::setListStrSort(string& strList, bool flagUni){
+	//--- ソート用 ---
+	struct data_t {
+		Msec ms;
+		string str;
+		bool operator<( const data_t& right ) const {
+			return ms < right.ms;
+		}
+		bool operator==( const data_t& right ) const {
+			return ms == right.ms;
+		}
+	};
+	//--- リスト内データ数 ---
+	int numList = getListStrSize(strList);	// 項目数取得
+	//--- リストデータを取得し比較用の値に変換 ---
+	vector<data_t>  listSort;
+	for(int i=1; i<=numList; i++){
+		string strItem;
+		if ( getListStrElement(strItem, strList, i) ){
+			Msec msecVal;
+			if ( pdata->cnv.getStrValMsec(msecVal, strItem, 0) >= 0 ){
+				data_t dItem;
+				dItem.ms  = msecVal;
+				dItem.str = strItem;
+				listSort.push_back( dItem );
+			}
+		}
+	}
+	//--- ソート ---
+	std::sort(listSort.begin(), listSort.end());
+	if ( flagUni ){		// 重複要素の削除
+		listSort.erase(std::unique(listSort.begin(), listSort.end()), listSort.end());
+	}
+	//--- リスト書き換え ---
+	bool success = false;
+	strList.clear();
+	int numSort = (int)listSort.size();
+	if ( numSort > 0 ){
+		success = true;
+		for(int i=0; i < numSort; i++){
+			setListStrIns(strList, listSort[i].str, -1);
+		}
+	}
+	return success;
+}
+
+//=====================================================================
+// データ用ファイル読み込み
+//=====================================================================
+
+//---------------------------------------------------------------------
+// リストデータ（数値）をファイルから読み込み（１行１データ）
+//---------------------------------------------------------------------
+bool JlsScript::readDataList(JlsCmdArg& cmdarg, const string& fname){
+	bool flagNum = true;	// 数値を読み込み
+	return readDataListCommon(cmdarg, fname, flagNum);
+}
+//---------------------------------------------------------------------
+// リストデータ（文字列）をファイルから読み込み（１行１データ）
+//---------------------------------------------------------------------
+bool JlsScript::readDataString(JlsCmdArg& cmdarg, const string& fname){
+	bool flagNum = false;	// 文字列を読み込み
+	return readDataListCommon(cmdarg, fname, flagNum);
+}
+//---------------------------------------------------------------------
+// リストデータをファイルから読み込みの共通処理
+//---------------------------------------------------------------------
+bool JlsScript::readDataListCommon(JlsCmdArg& cmdarg, const string& fname, bool flagNum){
+	//--- リストデータクリア ---
+	updateResultRegWrite(cmdarg);	// 変数($LISTHOLD)クリア
+	//--- ファイル読み込み ---
+	ifstream ifs(fname.c_str());
+	if (ifs.fail()){
+		globalState.fileOutput("warning: file not found(" + fname + ")\n");
+		return false;
+	}
+	//--- データ読み込み ---
+	bool success = false;
+	bool cont = true;
+	while( cont ){
+		cont = false;
+		string strLine;
+		cont = readDataFileLine(strLine, ifs);	// １行読み込み
+		if ( cont ){
+			if ( flagNum ){		// 数値のみ
+				string sdata;
+				if ( pdata->cnv.getStrItem(sdata, strLine, 0) > 0 ){	// 1項目取得
+					int val;
+					if ( pdata->cnv.getStrValNum(val, sdata, 0) > 0 ){	// 項目が数値
+						readDataStrAdd(cmdarg, sdata);
+						success = true;
+					}
+				}
+			}else{		// 文字列データ
+				readDataStrAdd(cmdarg, strLine);
+				success = true;
+			}
+		}
+	}
+	return success;
+}
+//---------------------------------------------------------------------
+// リストデータをAVSファイルのTrimから読み込み
+//---------------------------------------------------------------------
+bool JlsScript::readDataTrim(JlsCmdArg& cmdarg, const string& fname){
+	//--- リストデータクリア ---
+	updateResultRegWrite(cmdarg);	// 変数($LISTHOLD)クリア
+	//--- ファイル読み込み ---
+	ifstream ifs(fname.c_str());
+	if (ifs.fail()){
+		globalState.fileOutput("warning: file not found(" + fname + ")\n");
+		return false;
+	}
+	//--- データ読み込み ---
+	bool success = false;
+	string strCmd;
+	if ( readDataFileTrim(strCmd, ifs) ){
+		bool cont = true;
+		while( cont ){			// Trimの数だけ継続
+			string strLocSt;
+			string strLocEd;
+			cont = readDataStrTrimGet(strLocSt, strLocEd, strCmd);
+			if ( cont ){
+				readDataStrAdd(cmdarg, strLocSt);
+				readDataStrAdd(cmdarg, strLocEd);
+				success = true;
+			}
+		}
+	}
+	return success;
+}
+
+//---------------------------------------------------------------------
+// リストに１項目追加
+//---------------------------------------------------------------------
+void JlsScript::readDataStrAdd(JlsCmdArg& cmdarg, const string& sdata){
+	//--- レジスタの現在値を取得 ---
+	string strList = cmdarg.getStrOpt(OptType::StrValListW);	// write変数値
+	cmdarg.setStrOpt(OptType::StrValListR, strList);
+	cmdarg.setStrOpt(OptType::StrValPosR, sdata);
+	setResultRegListIns(cmdarg, -1);
+}
+//---------------------------------------------------------------------
+// Trim文字列の開始・終了位置を取得して文字列は次の位置に移行
+//---------------------------------------------------------------------
+bool JlsScript::readDataStrTrimGet(string& strLocSt, string& strLocEd, string& strTarget){
+	std::regex re(DefRegExpTrim, std::regex_constants::icase);
+	std::smatch m;
+	bool success = std::regex_search(strTarget, m, re);
+	if ( success ){
+		strLocSt = m[1].str();
+		strLocEd = m[2].str();
+		strTarget = m.suffix();
+	}
+	return success;
+}
+//---------------------------------------------------------------------
+// Trim文字列の存在確認
+//---------------------------------------------------------------------
+bool JlsScript::readDataStrTrimDetect(const string& strLine){
+	string strTarget = strLine;
+	string strLocSt;
+	string strLocEd;
+	return readDataStrTrimGet(strLocSt, strLocEd, strTarget);
+}
+
+//---------------------------------------------------------------------
+// データ１行読み込み
+//---------------------------------------------------------------------
+bool JlsScript::readDataFileLine(string& strLine, ifstream& ifs){
+	strLine = "";
+	string buf;
+	if ( getline(ifs, buf) ){
+		auto len = buf.length();
+		if ( len >= INT_MAX/4 ){		// 面倒事は最初にカット
+			return false;
+		}
+		strLine = buf;
+		return true;
+	}
+	return false;
+}
+//---------------------------------------------------------------------
+// AVSファイルTrim行読み込み
+//---------------------------------------------------------------------
+bool JlsScript::readDataFileTrim(string& strCmd, ifstream& ifs){
+	strCmd = "";
+	bool flagTrim = false;
+	bool flagKeepNext = false;
+	bool cont = true;
+	while( cont ){
+		string strLine;
+		cont = readDataFileLine(strLine, ifs);	// １行読み込み
+		if ( cont ){
+			int len = (int) strLine.length();
+			//--- 継続確認 ---
+			bool flagKeepCur = flagKeepNext;
+			flagKeepNext = false;
+			if ( len >= 1 ){
+				if ( strLine.substr(0,1) == R"(\)" ){	// 最初に継続文字
+					flagKeepCur = true;
+					strLine = strLine.substr(1);
+					len = (int) strLine.length();
+				}
+			}
+			if ( len >= 1 ){
+				if ( strLine.substr(len-1) == R"(\)" ){	// 最後に継続文字
+					flagKeepNext = true;
+					strLine = strLine.substr(0, len-1);
+					len = (int) strLine.length();
+				}
+			}
+			//--- 継続時は無条件に追加 ---
+			if ( flagKeepCur ){
+				strCmd += strLine;
+			}else{
+				//--- 取り込み済みの時は終了 ---
+				if ( flagTrim ){
+					cont = false;
+				}else{
+					strCmd = strLine;
+				}
+			}
+		}
+		//--- Trim文字列確認 ---
+		if ( cont ){
+			if ( flagTrim == false ){
+				flagTrim = readDataStrTrimDetect(strCmd);
+			}
+		}
+	}
+	return flagTrim;
+}
+
+//---------------------------------------------------------------------
+// 環境変数からデータ取得
+//---------------------------------------------------------------------
+bool JlsScript::readDataEnvGet(JlsCmdArg& cmdarg, const string& strEnvName){
+	//--- 値を取得して変数に設定 ---
+	string strVal;
+	bool success = getEnvString(strVal, strEnvName);
+	//--- オプション取得 ---
+	string strName   = cmdarg.getStrOpt(OptType::StrRegEnv);	// 変数名
+	bool   overwrite = ( cmdarg.getOpt(OptType::FlagDefault) == 0 )? true : false;
+	bool   flagLocal = ( cmdarg.getOpt(OptType::FlagLocal) > 0 )? true : false;
+	bool   flagClear = ( cmdarg.getOpt(OptType::FlagClear) > 0 )? true : false;
+	//--- 変数設定 ---
+	if ( success || flagClear ){
+		bool flagW = setJlsRegVarWithLocal(strName, strVal, overwrite, flagLocal);	// 変数設定
+		if ( flagW == false ){
+			success = false;
+		}
+	}
+	return success;
+}
+
+
+//=====================================================================
+// ロゴ直接設定
+//=====================================================================
+
+//---------------------------------------------------------------------
+// リスト変数からロゴ位置を直接設定
+//---------------------------------------------------------------------
+void JlsScript::setLogoDirect(JlsCmdArg& cmdarg){
+	//--- レジスタの現在値を取得 ---
+	string strList   = cmdarg.getStrOpt(OptType::StrValListR);
+	setLogoDirectString(strList);
+}
+void JlsScript::setLogoDirectString(const string& strList){
+	//--- リスト項目数を取得 ---
+	int numList = getListStrSize(strList);
+
+	//--- 既にLogoOffが設定されていた場合は解除 ---
+	if ( pdata->extOpt.flagNoLogo ){
+		pdata->extOpt.flagNoLogo = 0;	// ロゴは読み込みに設定
+		setSystemRegUpdate();
+	}
+
+	//--- ロゴデータ情報削除更新 ---
+	pdata->clearDataLogoAll();		// 現在のロゴは削除
+	pdata->extOpt.flagDirect = 1;	// ロゴ直接設定値
+	pdata->extOpt.fixFDirect = 1;	// ロゴ直接設定済み
+	pdata->extOpt.nLgExact = 3;		// ロゴ位置は正確として扱う
+
+	//--- ロゴデータ設定 ---
+	Msec msecLast = 0;
+	bool flagFall = false;
+	for(int i=0; i<numList; i++){
+		Msec msecCur;
+		bool flagValid = false;
+		{
+			string strCur;
+			if ( getListStrElement(strCur, strList, i+1) ){
+				if ( pdata->cnv.getStrValMsec(msecCur, strCur, 0) >= 0 ){
+					flagValid = true;
+				}
+			}
+		}
+		if ( flagValid && (msecLast <= msecCur) ){
+			if ( (flagFall == false) && (i%2 == 0) ){
+				msecLast = msecCur;
+				flagFall = true;
+			}else if ( flagFall && (i%2 != 0) ){
+				struct DataLogoRecord dtlogo;
+				pdata->clearRecordLogo(dtlogo);
+				Msec msecRise = msecLast;
+				Msec msecFall = msecCur;
+				dtlogo.rise   = msecRise;
+				dtlogo.fall   = msecFall;
+				dtlogo.rise_l = msecRise;
+				dtlogo.rise_r = msecRise;
+				dtlogo.fall_l = msecFall;
+				dtlogo.fall_r = msecFall;
+				dtlogo.org_rise   = msecRise;
+				dtlogo.org_fall   = msecFall;
+				dtlogo.org_rise_l = msecRise;
+				dtlogo.org_rise_r = msecRise;
+				dtlogo.org_fall_l = msecFall;
+				dtlogo.org_fall_r = msecFall;
+				dtlogo.unit       = LOGO_UNIT_DIVIDE;	// Trim出力はロゴ別に分離
+				pdata->pushRecordLogo(dtlogo);			// add data
+				msecLast = msecCur;
+				flagFall = false;
+			}
+		}
+	}
+}
+
+//---------------------------------------------------------------------
+// ロゴ状態を開始時に戻す再設定
+//---------------------------------------------------------------------
+void JlsScript::setLogoReset(){
+	pdata->backupLogosetLoad();		// ロゴを保存状態に戻す
+	globalState.setExe1st(true);	// 検索実行前に状態を戻す
+}
+
+
+//=====================================================================
+// Call用引数追加処理
+//=====================================================================
+
+//---------------------------------------------------------------------
+// 引数設定領域で変数設定した時の処理
+//---------------------------------------------------------------------
+bool JlsScript::setArgStateSetCmd(JlsCmdArg& cmdarg, JlsScriptState& state){
+	//--- Defaultコマンド以外は無関係 ---
+	if ( cmdarg.cmdsel != CmdType::Default ){
+		return false;
+	}
+	//--- 引数設定領域以外は無関係 ---
+	if ( state.isArgArea() == false ){
+		return false;
+	}
+	//--- 引数として設定する変数の処理 ---
+	string strName = cmdarg.getStrArg(1);
+	string strVal;
+	{	// Default値の読み込み
+		bool exact = true;
+		if ( getJlsRegVar(strVal, strName, exact) <= 0 ){
+			strVal  = cmdarg.getStrArg(2);
+		}
+	}
+	bool overwrite = true;		// Defaultでも値を読み込んだ上で再設定
+	bool flagLocal = true;		// ローカル変数として設定
+	bool success = setJlsRegVarWithLocal(strName, strVal, overwrite, flagLocal);
+	if ( success ){
+		state.addArgName(strName);	// 変数名を引数として記憶
+	}
+	return success;
+}
+//---------------------------------------------------------------------
+// 変数展開を後で行う領域であれば最初に引数変数を挿入
+//---------------------------------------------------------------------
+bool JlsScript::setArgStateInsertReg(JlsScriptState& state){
+	//--- 引数保管があれば遅延実行バッファに現在の変数設定を追加する ---
+	bool flagExe = false;
+	int numArg = state.sizeArgNameList();
+	if ( numArg > 0 ){
+		//--- 現在の格納エリアを取得 ---
+		LazyType typeLazy = state.getLazyStartType();
+		string strMemName;
+		if ( state.isMemArea() ){
+		  strMemName = state.getMemName();
+		}
+		//--- 引数の数だけ挿入 ---
+		for(int i=0; i<numArg; i++){
+			string strName;
+			string strVal;
+			bool cont = state.getArgName(strName, i);	// 変数名
+			if ( cont ){
+				bool exact = true;
+				if ( getJlsRegVar(strVal, strName, exact) <= 0 ){	// 変数値
+					cont = false;
+				}
+			}
+			if ( cont ){
+				string strBuf = "LocalSet " + strName + " " + strVal;
+				if ( typeLazy != LazyType::None ){
+					flagExe = state.setLazyStore(typeLazy, strBuf);
+				}else if ( strMemName.empty() == false ){
+					flagExe = state.setMemStore(strMemName, strBuf);
+				}
+			}
+		}
+	}
+	return flagExe;
 }
 
 
@@ -1725,6 +2521,16 @@ bool JlsScript::setCmdFlow(JlsCmdArg& cmdarg, JlsScriptState& state){
 		case CmdType::LocalEd:
 			globalState.setLocalRegReleaseOne();
 			break;
+		case CmdType::ArgBegin:
+			state.setArgArea(true);
+			if ( cmdarg.getOpt(OptType::FlagLocal) > 0 ){	// -localオプション
+				globalState.setLocalOnly(true);
+			}
+			break;
+		case CmdType::ArgEnd:
+			state.setArgArea(false);
+			globalState.setLocalOnly(false);
+			break;
 		case CmdType::Exit:
 			globalState.setCmdExit(true);
 			break;
@@ -1767,6 +2573,31 @@ bool JlsScript::setCmdSys(JlsCmdArg& cmdarg){
 				pdata->extOpt.oldAdjust = val;
 			}
 			break;
+		case CmdType::LogoDirect:
+			setLogoDirect(cmdarg);
+			break;
+		case CmdType::LogoExact:
+			{
+				int val = cmdarg.getValStrArg(1);
+				pdata->extOpt.nLgExact = val;
+				pdata->extOpt.fixNLgExact = 1;
+			}
+			break;
+		case CmdType::LogoReset:
+			setLogoReset();
+			break;
+		case CmdType::ReadData:
+			readDataList(cmdarg, cmdarg.getStrArg(1));
+			break;
+		case CmdType::ReadTrim:
+			readDataTrim(cmdarg, cmdarg.getStrArg(1));
+			break;
+		case CmdType::ReadString:
+			readDataString(cmdarg, cmdarg.getStrArg(1));
+			break;
+		case CmdType::EnvGet:
+			readDataEnvGet(cmdarg, cmdarg.getStrArg(1));
+			break;
 		default:
 			globalState.addMsgError("error:internal setting\n");
 			success = false;
@@ -1778,8 +2609,13 @@ bool JlsScript::setCmdSys(JlsCmdArg& cmdarg){
 //---------------------------------------------------------------------
 // レジスタ設定関連処理
 //---------------------------------------------------------------------
-bool JlsScript::setCmdReg(JlsCmdArg& cmdarg){
+bool JlsScript::setCmdReg(JlsCmdArg& cmdarg, JlsScriptState& state){
 	bool success = true;
+
+	//--- 引数設定処理だった場合は実行して完了 ---
+	if ( setArgStateSetCmd(cmdarg, state) ){
+		return true;
+	}
 
 	switch( cmdarg.cmdsel ){
 		case CmdType::Default:
@@ -1793,6 +2629,9 @@ bool JlsScript::setCmdReg(JlsCmdArg& cmdarg){
 				bool flagLocal = ( cmdarg.cmdsel == CmdType::LocalSet )? true : false;
 				if ( cmdarg.getOpt(OptType::FlagLocal) > 0 ){	// -localオプション
 					flagLocal = true;
+				}
+				if ( cmdarg.getOpt(OptType::FlagDefault) > 0 ){	// -defaultオプション
+					overwrite = false;
 				}
 				success = setJlsRegVarWithLocal(cmdarg.getStrArg(1), cmdarg.getStrArg(2), overwrite, flagLocal);
 			}
@@ -1835,6 +2674,9 @@ bool JlsScript::setCmdReg(JlsCmdArg& cmdarg){
 				setSystemRegUpdate();
 			}
 			break;
+		case CmdType::ArgSet:
+			success = setArgReg(cmdarg.getStrArg(1), cmdarg.getStrArg(2));
+			break;
 		case CmdType::ListGetAt:
 			setResultRegListGetAt(cmdarg, cmdarg.getValStrArg(1));
 			break;
@@ -1843,6 +2685,15 @@ bool JlsScript::setCmdReg(JlsCmdArg& cmdarg){
 			break;
 		case CmdType::ListDel:
 			setResultRegListDel(cmdarg, cmdarg.getValStrArg(1));
+			break;
+		case CmdType::ListSetAt:
+			setResultRegListRep(cmdarg, cmdarg.getValStrArg(1));
+			break;
+		case CmdType::ListClear:
+			setResultRegListClear(cmdarg);
+			break;
+		case CmdType::ListSort:
+			setResultRegListSort(cmdarg);
 			break;
 		default:
 			globalState.addMsgError("error:internal setting(RegCmd)\n");
@@ -1866,6 +2717,7 @@ bool JlsScript::setCmdMemFlow(JlsCmdArg& cmdarg, JlsScriptState& state){
 					typeLazy = cmdarg.tack.typeLazy;
 				}
 				state.setLazyStartType(typeLazy);		// lazy設定
+				state.checkArgRegInsert(cmdarg.cmdsel);	// 引数変数の挿入のための処理
 			}
 			break;
 		case CmdType::EndLazy:				// EndLazy文
@@ -1873,9 +2725,16 @@ bool JlsScript::setCmdMemFlow(JlsCmdArg& cmdarg, JlsScriptState& state){
 			break;
 		case CmdType::Memory:				// Memory文
 			state.startMemArea(cmdarg.getStrArg(1));
+			state.checkArgRegInsert(cmdarg.cmdsel);	// 引数変数の挿入のための処理
 			break;
 		case CmdType::EndMemory:			// EndMemory文
 			state.endMemArea();
+			break;
+		case CmdType::ExpandOn:
+			state.setMemExpand(true);
+			break;
+		case CmdType::ExpandOff:
+			state.setMemExpand(false);
 			break;
 		default:
 			globalState.addMsgError("error:internal setting(LazyCategory)\n");

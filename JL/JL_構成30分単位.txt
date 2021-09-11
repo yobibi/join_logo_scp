@@ -16,6 +16,12 @@ Default divnext_use_auto 0      # 分割に推測構成使用（0=使用しない 1=使用）
 
 Default nextcall_divide  "JL_フラグ指定.txt"   # 次にCallするファイル
 
+#--- 可変期間分割時の設定（リスト記載分だけ可変で以降そのまま期間固定） ---
+Default fdiv_variable  0        # 分割の期間（0=固定 1=ファイル読込可変）
+Default fdiv_mgn_min 00:05:00   # 各期間で確定位置検索の最小側範囲
+Default fdiv_mgn_max 00:05:00   # 各期間で確定位置検索の最大側範囲
+Default file_period_list "${JLDATAPATH}list_60分30分.txt"  # 期間ファイル名
+
 #----------------------------------------------
 # 実行処理の設定
 #----------------------------------------------
@@ -27,6 +33,18 @@ LazyAuto   # このファイルは自動で実行タイミング制御
   #---（設定記憶）分割場所決定 ---
   Memory mfunc_divnext_command
   {
+    If ${fdiv_variable}==1           # 分割期間ファイル読み込み
+    {
+      Default period_list ""         # ファイル読み込み用（事前設定）
+      If ${cntdiv}<=$#{period_list}  # リストの数だけ順番に設定、以降固定
+        LocalSet period_reg ${period_list[$cntdiv]}
+        EvalTime fdiv_typ  ${period_reg}
+        EvalTime fdiv_min  ${period_reg}-${fdiv_mgn_min}
+        EvalTime fdiv_max  ${period_reg}+${fdiv_mgn_max}
+        Echo 期間再設定（${cntdiv}話 = ${period_reg}）
+      EndIf
+    }
+    EndIf
     LocalSet str_range "${fdiv_typ} ${fdiv_min} ${fdiv_max}"
     If ${divnext_force} == 1          # 標準期間で強制区切り
       Set str_range "${fdiv_typ} -force"
@@ -47,6 +65,9 @@ LazyAuto   # このファイルは自動で実行タイミング制御
     AutoIClear                      # 各分割で設定するので予告・番組提供等は消去
     LazyFlush                       # 遅延実行を完了させる
     Set divide_pos_list ""          # 分割位置リスト初期化
+    If ${fdiv_variable}==1          # 分割期間ファイル読み込み
+      ReadData "${file_period_list}" -RegList period_list
+    EndIf
   EndMemory
 
   #---（設定記憶）各分割実行時の設定 ---
@@ -75,12 +96,14 @@ Else                              # 分割設定
 
   Set TAILTIME   ${divpos_first}  # 最初の位置移動
 
+  LocalSet cntdiv 1               # 分割カウント
   Repeat $numdiv
     #---（設定挿入）分割場所決定 ---
     MemCall mfunc_divnext_command
     If $LASTEXE
       #---（設定挿入）各複数話分割 ---
       MemCall mfunc_divide_each
+      CountUp cntdiv
     EndIf
   EndRepeat
 
@@ -89,6 +112,7 @@ Else                              # 分割設定
     Set TAILTIME -1
     #---（設定挿入）複数話分割 ---
     MemCall mfunc_divide_each
+    CountUp cntdiv
   EndIf
 
   Set HEADTIME   -1               # 念のため初期設定に戻す

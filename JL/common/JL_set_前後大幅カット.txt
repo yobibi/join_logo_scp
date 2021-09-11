@@ -8,6 +8,7 @@
 # 設定
 #----------------------------------------------
 Default longcut_by_logo   1    # ロゴ切れ目よるカット(0=しない 1=する)
+Default longcut_by_logofc 0    # ロゴの位置による強制カット(0=しない 1=する)
 Default longcut_by_auto   0    # 推測構成区切りによるカット(0=しない 1=する)
 
 Default longcut_len_first 00:05:00  # ファイル先頭の最大カット期間
@@ -23,6 +24,31 @@ LazyAuto   # このファイルは自動で実行タイミング制御
 If ${longcut_by_logo}==1
   Abort E -F -1 ${longcut_len_first} -WithP
   Abort S -F ${MAXTIME}-${longcut_len_last} -1 -WithN
+EndIf
+
+#--- ロゴ位置再設定を使ったロゴカット動作 ---
+If ${longcut_by_logofc}==1  # ロゴの位置によるロゴ情報強制カット
+{
+  Find B -Dmargin 2.5             # 各位置の補正あれば記載
+  LazyFlush                       # 設定済み補正内容をここで実行
+  LocalSet pos_s ${longcut_len_first}           # カット先頭
+  LocalSet pos_e ${MAXTIME}-${longcut_len_last} # カット最後
+  Set HEADTIME ${pos_s}+1.2       # 範囲設定
+  Set TAILTIME ${pos_e}-1.2       # 範囲設定
+  GetList B -Nlogo 0 -pair -noforce -RegList tmp_list -local -now
+  Set HEADTIME -1                 # 範囲初期化
+  Set TAILTIME -1                 # 範囲初期化
+  If $#{tmp_list}>0
+    If ${tmp_list[1]}<${pos_s}    # 位置によるカット
+      Set tmp_list[1] ${pos_s}
+    EndIf
+    If ${tmp_list[-1]}>${pos_e}   # 位置によるカット
+      Set tmp_list[-1] ${pos_e}
+    EndIf
+  EndIf
+  LogoReset                       # 実行前状態に戻す
+  LogoDirect -RegList tmp_list    # 範囲外カットされたロゴ位置を指定
+}
 EndIf
 
 If ${longcut_by_auto}==1

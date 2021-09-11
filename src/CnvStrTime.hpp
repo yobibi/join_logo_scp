@@ -62,8 +62,9 @@ private:
 public:
 	CnvStrTime();
 	//--- ファイル名解析 ---
-	int getStrFilePathName(string &pathname, string &fname, const string &fullname);
+	bool getStrFileAllPath(string &pathname);
 	int getStrFilePath(string &pathname, const string &fullname);
+	int getStrFilePathName(string &pathname, string &fname, const string &fullname);
 	string getStrFileDelimiter();
 	//--- 時間とフレーム位置の変換 ---
 	int getFrmFromMsec(int msec);
@@ -85,6 +86,8 @@ public:
 	int getStrItem(string &dst, const string &cstr, int pos);
 	int getStrWord(string &dst, const string &cstr, int pos);
 	int getStrItemWithQuote(string &dst, const string &cstr, int pos);
+	int getStrWithoutComment(string &dst, const string &cstr);
+	int getStrPosComment(const string &cstr, int pos);
 	//--- 時間を文字列（フレームまたはミリ秒）に変換 ---
 	string getStringMsecM1(int msec_val);
 	string getStringFrameMsecM1(int msec_val);

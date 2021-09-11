@@ -30,12 +30,17 @@ void JlsScriptState::clear(){
 	m_listRepExtCache.clear();
 	m_flagReturn = false;
 	m_typeCacheExe = CacheExeType::None;
+	m_flagCacheRepExt = false;
 	m_lazyAuto = false;
 	m_lazyStartType = LazyType::None;
 	m_memArea = false;
 	m_memName = "";
 	m_memDupe = false;
 	m_memSkip = false;
+	m_memExpand = false;
+	m_argArea = false;
+	m_listArgName.clear();
+	m_argInsReady = false;
 	queue<string>().swap(m_cacheExeLazyS);
 	queue<string>().swap(m_cacheExeLazyA);
 	queue<string>().swap(m_cacheExeLazyE);
@@ -159,7 +164,11 @@ int JlsScriptState::repeatBegin(int num){
 	//--- 遅延実行処理の拡張 ---
 	int errval = 0;
 	if ( isLazyExe() || isMemExe() ){
-		errval = repeatBeginExtend(holdval, strCmdRepeat);
+		if ( m_flagCacheRepExt ){			// 遅延実行内repeat中にRepeatネスト
+			errval = repeatBeginExtNest(holdval);
+		}else{
+			errval = repeatBeginExtend(holdval, strCmdRepeat);
+		}
 	}else{
 		errval = repeatBeginNormal(holdval, strCmdRepeat);
 	}
@@ -188,6 +197,7 @@ int JlsScriptState::repeatBeginNormal(RepDepthHold& holdval, const string& strCm
 	holdval.extLineEnd = 0;
 	holdval.extLineRet = 0;
 	holdval.exeType = CacheExeType::None;
+	holdval.extFlagNest = false;
 	return 0;
 }
 //--- 遅延実行中のRepeat設定 ---
@@ -201,6 +211,7 @@ int JlsScriptState::repeatBeginExtend(RepDepthHold& holdval, const string& strCm
 	m_listRepExtCache.push_back(strCmdRepeat);
 	holdval.lineStart  = (int)m_listRepExtCache.size();
 	holdval.exeType    = getCacheExeType();
+	holdval.extFlagNest = false;
 	int errval = 1;
 	switch( holdval.exeType ){
 		case CacheExeType::LazyS :
@@ -228,6 +239,15 @@ int JlsScriptState::repeatBeginExtend(RepDepthHold& holdval, const string& strCm
 		m_repLineExtRCache = holdval.lineStart;
 	}
 	return errval;
+}
+//--- 遅延実行内repeat中にRepeatネストした場合の設定 ---
+int JlsScriptState::repeatBeginExtNest(RepDepthHold& holdval){
+	holdval.lineStart  = m_repLineExtRCache;	// 遅延実行内repeat中の位置
+	holdval.exeType    = getCacheExeType();		// 遅延実行中のRepeatに設定
+	holdval.extLineEnd = 0;		// 不使用
+	holdval.extLineRet = 0;		// 不使用
+	holdval.extFlagNest = true;	// 遅延実行内repeat中にRepeatネストを設定
+	return 0;
 }
 //---------------------------------------------------------------------
 // EndRepeat文設定
@@ -273,6 +293,10 @@ int JlsScriptState::repeatEnd(){
 void JlsScriptState::repeatEndExtend(RepDepthHold& holdval){
 	int nNext = m_repLineExtRCache;
 	int nEnd  = holdval.extLineEnd;
+	//--- 遅延実行中Repeat内Repeatネストの時はそのまま終了 ---
+	if ( holdval.extFlagNest ){
+		return;
+	}
 	//--- 未実行部分をqueueに戻す ---
 	if ( nNext <= nEnd ){
 		switch( holdval.exeType ){
@@ -509,9 +533,11 @@ bool JlsScriptState::popCacheExeLazyMem(string& strBuf){
 	}
 	//--- Cache読み出し ---
 	bool flagRead = false;
+	bool flagExtRead = false;
 	if ( typeRead != CacheExeType::None ){
 		if ( flagExt ){
 			flagRead = readRepeatExtCache(strBuf);	// 遅延実行用Repeatキャッシュから読み出し
+			flagExtRead = true;
 		}else{
 			switch( typeRead ){
 				case CacheExeType::LazyS :
@@ -533,6 +559,7 @@ bool JlsScriptState::popCacheExeLazyMem(string& strBuf){
 		}
 	}
 	m_typeCacheExe = typeRead;		// 読み出し先キャッシュ設定
+	m_flagCacheRepExt = flagExtRead;	// 遅延実行用Repeatキャッシュから読み出し
 	return flagRead;
 }
 //---------------------------------------------------------------------
@@ -724,18 +751,37 @@ bool JlsScriptState::isCmdReturnExit(){
 	return m_flagReturn || pGlobalState->isCmdExit();
 }
 //---------------------------------------------------------------------
+// 指定した制御命令か
+//---------------------------------------------------------------------
+bool JlsScriptState::isFlowLazy(CmdCat category){
+	if ( category == CmdCat::LAZYF || category == CmdCat::MEMLAZYF ){
+		return true;
+	}
+	return false;
+}
+bool JlsScriptState::isFlowMem(CmdCat category){
+	if ( category == CmdCat::MEMF || category == CmdCat::MEMLAZYF ){
+		return true;
+	}
+	return false;
+}
+//---------------------------------------------------------------------
 // 変数展開しない区間中判定
 //---------------------------------------------------------------------
 bool JlsScriptState::isNeedRaw(CmdCat category){
 	bool flagNeed = false;
 	if ( isLazyArea() ){
-		if ( category != CmdCat::LAZYF ){
-			flagNeed = true;
+		if ( isFlowLazy(category) == false ){
+			if ( m_memExpand == false ){
+				flagNeed = true;
+			}
 		}
 	}
 	if ( isMemArea() ){
-		if ( category != CmdCat::MEMF ){
-			flagNeed = true;
+		if ( isFlowMem(category) == false ){
+			if ( m_memExpand == false ){
+				flagNeed = true;
+			}
 		}
 	}
 	return flagNeed;
@@ -765,7 +811,7 @@ bool JlsScriptState::isNeedFullDecode(CmdType cmdsel, CmdCat category){
 						if ( depth <= 1 ){
 							flagNeed = true;
 						}else{
-							if ( m_listIfState[depth-1] == CondIfState::RUNNING ){
+							if ( m_listIfState[depth-2] == CondIfState::RUNNING ){
 								flagNeed = true;
 							}else{
 								flagNeed = false;
@@ -811,12 +857,12 @@ bool JlsScriptState::isInvalidCmdLine(CmdCat category){
 		}
 	}
 	if ( isLazyArea() ){	// LazyStart-End skip中
-		if ( category != CmdCat::LAZYF ){
+		if ( isFlowLazy(category) == false ){
 			flagInvalid = true;
 		}
 	}
 	if ( isMemArea() ){		// Memory-End skip中
-		if ( category != CmdCat::MEMF ){
+		if ( isFlowMem(category) == false ){
 			flagInvalid = true;
 		}
 	}
@@ -952,4 +998,76 @@ string JlsScriptState::getMemName(){
 //---------------------------------------------------------------------
 void JlsScriptState::setMemDupe(bool flag){
 	m_memDupe = flag;
+}
+//---------------------------------------------------------------------
+// Memory/LazyStart内の変数展開
+//---------------------------------------------------------------------
+void JlsScriptState::setMemExpand(bool flag){
+	m_memExpand = flag;
+}
+//---------------------------------------------------------------------
+// 引数ローカル変数の名前を保管
+//---------------------------------------------------------------------
+//--- ArgBegin - ArgEnd 区間を設定 ---
+void JlsScriptState::setArgArea(bool flag){
+	m_argArea = flag;
+}
+//--- ArgBegin - ArgEnd 区間中判定 ---
+bool JlsScriptState::isArgArea(){
+	return m_argArea;
+}
+//--- 引数変数名を追加 ---
+void JlsScriptState::addArgName(const string& strName){
+	if ( m_listArgName.size() < INT_MAX/4 ){
+		m_listArgName.push_back(strName);
+	}
+}
+//--- 引数変数の総数を取得 ---
+int JlsScriptState::sizeArgNameList(){
+	return (int)m_listArgName.size();
+}
+//--- 指定した番号の引数変数名を取得 ---
+bool JlsScriptState::getArgName(string& strName, int num){
+	if ( num >= 0 && num < (int)m_listArgName.size() ){
+		strName = m_listArgName[num];
+		if ( strName.empty() == false ){
+			return true;
+		}
+	}
+	return false;
+}
+//---------------------------------------------------------------------
+// 引数ローカル変数の追加設定
+//---------------------------------------------------------------------
+bool JlsScriptState::checkArgRegInsert(CmdType cmdsel){
+	//--- 引数変数がなければ対象外 ---
+	if ( sizeArgNameList() == 0 ){
+		return false;
+	}
+	//--- 遅延後実行中の場合は対象外 ---
+	if ( isLazyExe() || isMemExe() ){
+		return false;
+	}
+	//--- コマンドを確認 ---
+	bool needIns = false;
+	switch( cmdsel ){
+		case CmdType::LazyStart:
+		case CmdType::Memory:
+			m_argInsReady = true;	// 挿入タイミング待ち
+			break;
+		case CmdType::LocalSt:		// { コマンド
+			if ( m_argInsReady ){
+				needIns = true;		// 挿入タイミング
+				m_argInsReady = false;	// 待ち解除
+			}
+			break;
+		case CmdType::LocalEd:
+		case CmdType::EndLazy:
+		case CmdType::EndMemory:
+			m_argInsReady = false;	// 待ち解除
+			break;
+		default:
+			break;
+	}
+	return needIns;
 }

@@ -33,6 +33,8 @@ public:
 	int  setLocalRegReleaseOne();
 	bool setRegVarCommon(const string& strName, const string& strVal, bool overwrite, bool flagLocal);
 	int  getRegVarCommon(string& strVal, const string& strCandName, bool exact);
+	bool setArgReg(const string& strName, const string& strVal);
+	void setLocalOnly(bool flag);
 	void checkRegError(bool flagDisp);
 	void clearRegError();
 
@@ -64,6 +66,7 @@ public:
 	string getPathNameJL();
 	void addMsgError(const string& msg);
 	void checkMsgError(bool flagDisp);
+	void stopAddMsgError(bool flag);
 
 private:
 	//--- 保持データクラス ---
@@ -74,6 +77,7 @@ private:
 	bool m_exe1st         = true;	// 実行初回の設定用
 	bool m_exit           = false;	// Exit終了フラグ
 	bool m_lazyStIniAuto  = false;	// LazyFlushによる強制Auto未実行状態
+	bool m_stopMsgErr     = false;	// エラーメッセージ追加を一時的に停止
 	string m_pathNameJL   = "";		// JLスクリプトのPath
 	string m_msgErr       = "";		// エラーメッセージ
 	//--- ファイル出力用 ---
@@ -107,11 +111,16 @@ inline string JlsScrGlobal::getPathNameJL(){
 	return m_pathNameJL;
 }
 inline void JlsScrGlobal::addMsgError(const string& msg){
-	m_msgErr += msg;
+	if ( m_stopMsgErr == false ){
+		m_msgErr += msg;
+	}
 }
 inline void JlsScrGlobal::checkMsgError(bool flagDisp){
 	if ( flagDisp ){
 		cerr << m_msgErr;
 	}
 	m_msgErr = "";
+}
+inline void JlsScrGlobal::stopAddMsgError(bool flag){
+	m_stopMsgErr = flag;
 }

@@ -319,6 +319,8 @@ namespace jlscmd
 		EndRepeat,
 		LocalSt,
 		LocalEd,
+		ArgBegin,
+		ArgEnd,
 		Exit,
 		Return,
 		FileOpen,
@@ -327,6 +329,13 @@ namespace jlscmd
 		Echo,
 		LogoOff,
 		OldAdjust,
+		LogoDirect,
+		LogoExact,
+		LogoReset,
+		ReadData,
+		ReadTrim,
+		ReadString,
+		EnvGet,
 		Set,
 		Default,
 		EvalFrame,
@@ -338,9 +347,13 @@ namespace jlscmd
 		OptDefault,
 		UnitSec,
 		LocalSet,
+		ArgSet,
 		ListGetAt,
 		ListIns,
 		ListDel,
+		ListSetAt,
+		ListClear,
+		ListSort,
 		AutoCut,
 		AutoAdd,
 		AutoEdge,
@@ -375,6 +388,8 @@ namespace jlscmd
 		LazyStInit,
 		MemEcho,
 		MemDump,
+		ExpandOn,
+		ExpandOff,
 		MAXSIZE
 	};
 	//--- JLスクリプト命令種類 ---
@@ -394,6 +409,7 @@ namespace jlscmd
 		LAZYF,
 		MEMF,
 		MEMEXE,
+		MEMLAZYF,
 	};
 	//--- JLスクリプト遅延実行用Cache種類 ---
 	enum class CacheExeType {
@@ -500,6 +516,8 @@ namespace jlscmd
 		FlagPair,
 		FlagFinal,
 		FlagLocal,
+		FlagDefault,
+		FlagUnique,
 		FlagDummy,
 		AbbrEndlen,
 		AbbrSft,
@@ -525,6 +543,9 @@ namespace jlscmd
 		LgNR,
 		LgNlogo,
 		LgNauto,
+		LgNFlogo,
+		LgNFauto,
+		LgNFXlogo,
 		LgMAX,
 
 		FrMIN,
@@ -546,6 +567,8 @@ namespace jlscmd
 		StrValListR,
 		StrValListW,
 		StrRegSize,
+		StrRegEnv,
+		StrArgVal,
 		StrMAX,			// JlsCmdSetでデータ格納する文字列オプション終了
 	};
 
@@ -625,6 +648,7 @@ namespace jlscmd
 		c_noedge,
 		// autoins,autodel用
 		c_restruct,
+		c_unit,
 		// 数値パラメータ
 		v_limit,
 		v_scope,

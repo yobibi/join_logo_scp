@@ -345,6 +345,7 @@ void JlsAutoArg::setParamInsDel(JlsCmdArg &cmdarg){
 	if ( !cmdarg.isSetOpt(OptType::AutopCode) ){
 		autop_code   = 1;								// -code未設定時の初期値
 	}
+	int prm_c_unit   = cmdarg.getOpt(OptType::FlagUnit);
 	int prm_v_info   = cmdarg.getOpt(OptType::AutopTrInfo);
 	int tmp_c_w      = autop_code % 10;					// 中間値
 	//--- 実行判断 ---
@@ -355,6 +356,7 @@ void JlsAutoArg::setParamInsDel(JlsCmdArg &cmdarg){
 	setVal(ParamAuto::c_exe      , prm_c_exe      );
 	setVal(ParamAuto::c_restruct , prm_c_restruct );
 	setVal(ParamAuto::c_noedge   , prm_c_noedge   );
+	setVal(ParamAuto::c_unit     , prm_c_unit     );
 	setVal(ParamAuto::v_info     , prm_v_info     );
 }
 
@@ -805,6 +807,7 @@ bool JlsAutoScript::startAutoIns(JlsCmdLimit &cmdlimit){
 		exeflag = true;
 		//--- 属性情報の追加変更 ---
 		bool flagAdd = true;		// 追加
+		subInsDelAddUnit(rangeData.msec, flagAdd);
 		subInsDelChangeArExt(rangeData.msec, flagAdd);
 	}
 	return exeflag;
@@ -834,6 +837,7 @@ bool JlsAutoScript::startAutoDel(JlsCmdLimit &cmdlimit){
 		exeflag = true;
 		//--- 属性情報の追加変更 ---
 		bool flagAdd = false;			// 追加ではなく削除
+		subInsDelAddUnit(rangeData.msec, flagAdd);
 		subInsDelChangeArExt(rangeData.msec, flagAdd);
 	}
 	return exeflag;
@@ -899,6 +903,27 @@ Nsc JlsAutoScript::subInsDelGetBase(JlsCmdLimit &cmdlimit){
 //		nsc_base = getNscElgFromNrf(limit_nrfbase);
 	}
 	return nsc_base;
+}
+//---------------------------------------------------------------------
+// AutoIns / AutoDel用 独立構成の設定
+//---------------------------------------------------------------------
+void JlsAutoScript::subInsDelAddUnit(RangeMsec rmsec, bool flagAdd){
+	//--- -unitオプション指定時のみ動作 ---
+	int nUnit = getAutoParam(ParamAuto::c_unit);
+	if ( nUnit > 0 ){
+		//--- 位置情報取得 ---
+		Nsc nscFrom = pdata->getNscFromMsecAllEdgein(rmsec.st);
+		Nsc nscTo   = pdata->getNscFromMsecAllEdgein(rmsec.ed);
+		//--- 設定内容（AutoInsは独立追加／AutoDelは独立解除） ---
+		ScpChapType chapType = ( flagAdd )? SCP_CHAP_DUNIT : SCP_CHAP_DFORCE;
+		//--- 実施 ---
+		if ( nscFrom > 0 ){
+			pdata->setScpChap(nscFrom, chapType);
+		}
+		if ( nscTo > 0 ){
+			pdata->setScpChap(nscTo, chapType);
+		}
+	}
 }
 //---------------------------------------------------------------------
 // AutoIns / AutoDel用 追加属性情報の設定

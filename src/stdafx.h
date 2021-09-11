@@ -21,6 +21,7 @@
 #include <queue>
 #include <unordered_map>
 #include <memory>
+#include <regex>
 #include <algorithm>
 #include <stdlib.h>
 #include <string.h>

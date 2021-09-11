@@ -82,6 +82,8 @@ const JlscrCmdRecord  CmdDefine[SIZE_JLCMD_SEL] = {
 	{ CmdType::EndRepeat,  CmdCat::REP,      0,0,0,0, "EndRepeat"  },
 	{ CmdType::LocalSt,    CmdCat::FLOW,     0,0,0,0, "{"          },
 	{ CmdType::LocalEd,    CmdCat::FLOW,     0,0,0,0, "}"          },
+	{ CmdType::ArgBegin,   CmdCat::FLOW,     0,0,0,1, "ArgBegin"   },
+	{ CmdType::ArgEnd,     CmdCat::FLOW,     0,0,0,0, "ArgEnd"     },
 	{ CmdType::Exit,       CmdCat::FLOW,     0,0,0,0, "Exit"       },
 	{ CmdType::Return,     CmdCat::FLOW,     0,0,0,0, "Return"     },
 	{ CmdType::FileOpen,   CmdCat::SYS,      1,0,0,0, "FileOpen"   },
@@ -90,6 +92,13 @@ const JlscrCmdRecord  CmdDefine[SIZE_JLCMD_SEL] = {
 	{ CmdType::Echo,       CmdCat::SYS,      9,0,0,0, "Echo"       },
 	{ CmdType::LogoOff,    CmdCat::SYS,      0,0,0,0, "LogoOff"    },
 	{ CmdType::OldAdjust,  CmdCat::SYS,      1,0,0,0, "OldAdjust"  },
+	{ CmdType::LogoDirect, CmdCat::SYS,      0,0,0,1, "LogoDirect" },
+	{ CmdType::LogoExact,  CmdCat::SYS,      0,0,0,1, "LogoExact"  },
+	{ CmdType::LogoReset,  CmdCat::SYS,      0,0,0,1, "LogoReset"  },
+	{ CmdType::ReadData,   CmdCat::SYS,      1,0,0,1, "ReadData"   },
+	{ CmdType::ReadTrim,   CmdCat::SYS,      1,0,0,1, "ReadTrim"   },
+	{ CmdType::ReadString, CmdCat::SYS,      1,0,0,1, "ReadString" },
+	{ CmdType::EnvGet,     CmdCat::SYS,      1,0,0,1, "EnvGet"     },
 	{ CmdType::Set,        CmdCat::REG,      2,0,0,1, "Set"        },
 	{ CmdType::Default,    CmdCat::REG,      2,0,0,1, "Default"    },
 	{ CmdType::EvalFrame,  CmdCat::REG,      2,0,0,1, "EvalFrame"  },
@@ -101,9 +110,13 @@ const JlscrCmdRecord  CmdDefine[SIZE_JLCMD_SEL] = {
 	{ CmdType::OptDefault, CmdCat::REG,      9,0,0,0, "OptDefault" },
 	{ CmdType::UnitSec,    CmdCat::REG,      1,0,0,0, "UnitSec"    },
 	{ CmdType::LocalSet,   CmdCat::REG,      2,0,0,0, "LocalSet"   },
+	{ CmdType::ArgSet,     CmdCat::REG,      2,0,0,0, "ArgSet"     },
 	{ CmdType::ListGetAt,  CmdCat::REG,      1,0,0,1, "ListGetAt"  },
 	{ CmdType::ListIns,    CmdCat::REG,      1,0,0,1, "ListIns"    },
 	{ CmdType::ListDel,    CmdCat::REG,      1,0,0,1, "ListDel"    },
+	{ CmdType::ListSetAt,  CmdCat::REG,      1,0,0,1, "ListSetAt"  },
+	{ CmdType::ListClear,  CmdCat::REG,      0,0,0,1, "ListClear"  },
+	{ CmdType::ListSort,   CmdCat::REG,      0,0,0,1, "ListSort"   },
 	{ CmdType::AutoCut,    CmdCat::AUTO,     0,2,0,1, "AutoCut"    },
 	{ CmdType::AutoAdd,    CmdCat::AUTO,     0,2,0,1, "AutoAdd"    },
 	{ CmdType::AutoEdge,   CmdCat::AUTOLOGO, 0,1,0,1, "AutoEdge"   },
@@ -138,6 +151,8 @@ const JlscrCmdRecord  CmdDefine[SIZE_JLCMD_SEL] = {
 	{ CmdType::LazyStInit, CmdCat::MEMEXE,   0,0,0,0, "LazyStInit" },
 	{ CmdType::MemEcho,    CmdCat::MEMEXE,   1,0,0,0, "MemEcho"    },
 	{ CmdType::MemDump,    CmdCat::MEMEXE,   0,0,0,0, "MemDump"    },
+	{ CmdType::ExpandOn,   CmdCat::MEMLAZYF, 0,0,0,0, "ExpandOn"   },
+	{ CmdType::ExpandOff,  CmdCat::MEMLAZYF, 0,0,0,0, "ExpandOff"  },
 };
 //--- 別名設定 ---
 static const int SIZE_JLSCR_CMDALIAS = 2;
@@ -147,7 +162,7 @@ const JlscrCmdAlias CmdAlias[SIZE_JLSCR_CMDALIAS] = {
 };
 
 //--- コマンド別の引数演算加工（コマンド名、引数位置、演算内容） ---
-static const int SIZE_JLCMD_CALC_DEFINE = 13;
+static const int SIZE_JLCMD_CALC_DEFINE = 15;
 const JlScrCmdCalcRecord CmdCalcDefine[SIZE_JLCMD_CALC_DEFINE] = {
 	{ CmdType::If,         1, ConvStrType::CondIF  },
 	{ CmdType::ElsIf,      1, ConvStrType::CondIF  },
@@ -162,19 +177,26 @@ const JlScrCmdCalcRecord CmdCalcDefine[SIZE_JLCMD_CALC_DEFINE] = {
 	{ CmdType::ListIns,    1, ConvStrType::Num     },
 	{ CmdType::ListDel,    1, ConvStrType::Num     },
 	{ CmdType::MemOnce,    1, ConvStrType::Num     },
+	{ CmdType::ListSetAt,  1, ConvStrType::Num     },
+	{ CmdType::LogoExact,  1, ConvStrType::Num     },
 };
 
 //--- コマンドオプション ---
 // （コマンド、補助設定、入力引数、最低必要引数、省略時設定、並び替え設定、変換種類、コマンド文字列）
-static const int SIZE_JLOPT_DEFINE = 105;		// OptDefineの項目数を設定（項目数変更時は変更必須）
+static const int SIZE_JLOPT_DEFINE = 112;		// OptDefineの項目数を設定（項目数変更時は変更必須）
 const JlOptionRecord  OptDefine[SIZE_JLOPT_DEFINE] = {
 	{ OptType::StrRegPos,     0, 1,1,0,  0, ConvStrType::None,   "-RegPos"   },
 	{ OptType::StrRegList,    0, 1,1,0,  0, ConvStrType::None,   "-RegList"  },
 	{ OptType::StrRegSize,    0, 1,1,0,  0, ConvStrType::None,   "-RegSize"  },
+	{ OptType::StrRegEnv,     0, 1,1,0,  0, ConvStrType::None,   "-RegEnv"   },
+	{ OptType::StrArgVal,     0, 1,1,0,  0, ConvStrType::None,   "-val"      },
 	{ OptType::LgN,           0, 1,1,0,  0, ConvStrType::None,   "-N"        },
 	{ OptType::LgNR,          0, 1,1,0,  0, ConvStrType::None,   "-NR"       },
 	{ OptType::LgNlogo,       0, 1,1,0,  0, ConvStrType::None,   "-Nlogo"    },
 	{ OptType::LgNauto,       0, 1,1,0,  0, ConvStrType::None,   "-Nauto"    },
+	{ OptType::LgNFlogo,      0, 1,1,0,  0, ConvStrType::None,   "-NFlogo"   },
+	{ OptType::LgNFauto,      0, 1,1,0,  0, ConvStrType::None,   "-NFauto"   },
+	{ OptType::LgNFXlogo,     0, 1,1,0,  0, ConvStrType::None,   "-NFXlogo"  },
 	{ OptType::FrF,           0, 2,2,0, 12, ConvStrType::MsecM1, "-F"        },
 	{ OptType::FrFR,          0, 2,2,0, 12, ConvStrType::MsecM1, "-FR"       },
 	{ OptType::FrFhead,       0, 2,1,2, 12, ConvStrType::MsecM1, "-Fhead"    },
@@ -272,6 +294,8 @@ const JlOptionRecord  OptDefine[SIZE_JLOPT_DEFINE] = {
 	{ OptType::FlagPair,      0, 0,0,0,  0, ConvStrType::None,   "-pair"     },
 	{ OptType::FlagFinal,     0, 0,0,0,  0, ConvStrType::None,   "-final"    },
 	{ OptType::FlagLocal,     0, 0,0,0,  0, ConvStrType::None,   "-local"    },
+	{ OptType::FlagDefault,   0, 0,0,0,  0, ConvStrType::None,   "-default"  },
+	{ OptType::FlagUnique,    0, 0,0,0,  0, ConvStrType::None,   "-unique"   },
 	{ OptType::FlagDummy,     0, 0,0,0,  0, ConvStrType::None,   "-dummy"    }
 };
 

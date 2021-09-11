@@ -1,0 +1,89 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：指定した一部構成のみ構成を分離する
+#       最後のロゴ後半85秒だけ構成を分離する設定
+#       起動時オプション -odiv でファイル名を指定しておく
+#       設定値を変えた複数回Callに対応している
+#
+
+#----------------------------------------------
+# 設定（設定値を変えた複数回Callに対応）
+#----------------------------------------------
+ArgBegin
+Default divone_num   -1     # 分離起点のロゴ番号（最後から数える時はマイナス）
+Default divone_ch    E      # 分離起点（S=ロゴ開始位置  E=ロゴ終了位置）
+Default divone_len_s 0.0    # 分離起点からの構成始点位置
+Default divone_len_e -85.0  # 分離起点からの構成終点位置
+Default divone_div_s 0      # -odiv で始点の分割出力（0=なし 1=あり）
+Default divone_div_e 1      # -odiv で終点の分割出力（0=なし 1=あり）
+Default divone_deltr 0      # 予告等検出前に構成一時削除（0=なし 1=あり）
+Default divone_mgn   1.2    # 構成位置の無音シーンチェンジ検索範囲
+Default divone_num_e ${divone_num}   # 終点用（定義なければ始点と同じ）
+Default divone_ch_e  ${divone_ch}    # 終点用（定義なければ始点と同じ）
+ArgEnd
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+# 使用するグローバル変数
+#  divide_pos_list  : -odiv で出力される分割出力リスト
+#  restore_pos_list : 分離する独立構成位置（開始と終了でセット）
+
+LazyAuto   # このファイルは自動で実行タイミング制御
+
+Call "JL_out_divfile.txt"     # 分割フレームリスト出力処理
+
+
+#--- 対象構成が見つかったら予告等検出前に処理実行 ---
+LazyStart -lazy_a
+{
+  #--- 分離位置リスト未作成時の初期化 ---
+  ListClear -default -RegList divide_pos_list
+  ListClear -default -RegList restore_pos_list
+  #--- 始点と終点の無音シーンチェンジ位置を取得 ---
+  GetPos ${divone_ch} ${divone_len_s} -Dm ${divone_mgn} -Nauto ${divone_num} -RegPos pos_s -local -clear
+  GetPos ${divone_ch_e} ${divone_len_e} -Dm ${divone_mgn} -Nauto ${divone_num_e} -RegPos pos_e -local -clear
+  #--- 見つかったら分割処理を開始 ---
+  If ${pos_s}>=0 && ${pos_e}>=0
+    #--- 分割リスト出力設定に従ってリストに追加 ---
+    If ${divone_div_s}>0         # 始点を分割位置で出力
+      GetPos S -fromabs ${pos_s}
+      ListIns -1 -RegList divide_pos_list    # 分割リストに追加
+    EndIf
+    If ${divone_div_e}>0         # 終点を分割位置で出力
+      GetPos S -fromabs ${pos_e}
+      ListIns -1 -RegList divide_pos_list    # 分割リストに追加
+    EndIf
+    If $#{divide_pos_list}>0    # 分割リスト存在
+      ListIns  1 -RegList divide_pos_list -val 0   # 分割リスト先頭ダミーデータ
+      ListSort   -RegList divide_pos_list -unique  # 昇順に並び替え
+    EndIf
+    #--- 領域を保存し設定によって一度削除 ---
+    If ${pos_s}<${pos_e}     # 領域の開始・終了位置関係
+      GetPos S -fromabs ${pos_s} -RegPos pos_rs -local
+      GetPos E -fromabs ${pos_e} -RegPos pos_re -local
+    Else
+      GetPos S -fromabs ${pos_e} -RegPos pos_rs -local
+      GetPos E -fromabs ${pos_s} -RegPos pos_re -local
+    EndIf
+    ListIns -1 -RegList restore_pos_list -RegPos pos_rs  # 開始位置保存
+    ListIns -1 -RegList restore_pos_list -RegPos pos_re  # 終了位置保存
+    If ${divone_deltr}>0
+      AutoDel S -fromabs ${pos_rs} -EndAbs ${pos_re}     # 領域を削除
+    EndIf
+  EndIf
+}
+EndLazy
+
+#--- 独立構成位置リストの記載に従って、最後に独立構成として追加する ---
+LazyStart -lazy_e
+{
+  If $#{restore_pos_list}>1    # 保存領域セットが存在する場合
+    Repeat $#{restore_pos_list}/2
+      AutoIns S -fromabs ${restore_pos_list[1]} -EndAbs ${restore_pos_list[2]} -unit
+      ListDel 1 -RegList restore_pos_list
+      ListDel 1 -RegList restore_pos_list  # 先頭２項目削除
+    EndRepeat
+  EndIf
+}
+EndLazy

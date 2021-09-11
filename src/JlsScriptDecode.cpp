@@ -260,8 +260,12 @@ int JlsScriptDecode::decodeCmdArgMust(JlsCmdArg& cmdarg, CmdErrType& errval, con
 //---------------------------------------------------------------------
 int JlsScriptDecode::decodeCmdArgOpt(JlsCmdArg& cmdarg, CmdErrType& errval, const string& strBuf, int pos){
 	m_listKeepSc.clear();		// -SC系のオプションデータを一時保持の初期化
+	//--- コメント除去 ---
+	string strNewBuf;
+	pdata->cnv.getStrWithoutComment(strNewBuf, strBuf);
+	//--- 各引数取得 ---
 	while(pos >= 0){
-		pos = decodeCmdArgOptOne(cmdarg, errval, strBuf, pos);
+		pos = decodeCmdArgOptOne(cmdarg, errval, strNewBuf, pos);
 	}
 	reviseCmdRange(cmdarg);		// オプションによる範囲補正
 	setCmdTackOpt(cmdarg);		// 実行オプション設定
@@ -279,16 +283,6 @@ int JlsScriptDecode::decodeCmdArgOpt(JlsCmdArg& cmdarg, CmdErrType& errval, cons
 int JlsScriptDecode::decodeCmdArgOptOne(JlsCmdArg& cmdarg, CmdErrType& errval, const string& strBuf, int pos){
 	string strWord;
 	pos = pdata->cnv.getStrItem(strWord, strBuf, pos);
-	if (pos >= 0){
-		//--- コメント除去 ---
-		int poscut = (int) strWord.find("#");
-		if (poscut == 0){
-			pos = -1;
-		}
-		else if (poscut > 0){
-			strWord = strWord.substr(0, poscut);
-		}
-	}
 	int optsel = -1;
 	if (pos >= 0){
 		//--- オプション識別 ---
@@ -395,7 +389,12 @@ int JlsScriptDecode::decodeCmdArgOptOneSub(JlsCmdArg& cmdarg, int optsel, const 
 					if ( strSub[0] != '-' ){
 						cmdarg.setStrOpt(optType, strSub);
 					}else{
-						pos = -1;				// 次が"-"だった時はオプション用文字列ではない
+						int tmpval;
+						if ( pdata->cnv.getStrValNum(tmpval, strSub, 0) >= 0 ){	// '-'でも数値なら続行
+							cmdarg.setStrOpt(optType, strSub);
+						}else{
+							pos = -1;				// 次が"-"だった時はオプション用文字列ではない
+						}
 					}
 				}
 			}
@@ -896,13 +895,33 @@ void JlsScriptDecode::setCmdTackOpt(JlsCmdArg& cmdarg){
 			vtlogo = true;
 		}
 		if (category == CmdCat::AUTOLOGO &&				// ロゴも見るAuto系
-			(OptType)cmdarg.getOpt(OptType::TypeNumLogo) != OptType::LgNlogo){	// -Nlogo以外
+			((OptType)cmdarg.getOpt(OptType::TypeNumLogo) != OptType::LgNlogo &&	// -Nlogo以外
+			 (OptType)cmdarg.getOpt(OptType::TypeNumLogo) != OptType::LgNFlogo &&	// -NFlogo以外
+			 (OptType)cmdarg.getOpt(OptType::TypeNumLogo) != OptType::LgNFXlogo) ){	// -NFXlogo以外
 			vtlogo = true;
+		}
+		if ( (OptType)cmdarg.getOpt(OptType::TypeNumLogo) == OptType::LgNauto ||	// -Nauto
+			 (OptType)cmdarg.getOpt(OptType::TypeNumLogo) == OptType::LgNFauto ){	// -NFauto
+			if ( cmdsel == CmdType::GetPos  ||
+				 cmdsel == CmdType::GetList ){
+				vtlogo = true;
+			}
 		}
 		if ( cmdarg.getOpt(OptType::FlagFinal) > 0 ){		// -final
 			vtlogo = true;
 		}
 		cmdarg.tack.virtualLogo = vtlogo;
+	}
+	//--- ロゴAbort状態でも実行するコマンド ---
+	{
+		bool ignabort = false;
+		if ( (OptType)cmdarg.getOpt(OptType::TypeNumLogo) == OptType::LgNFXlogo ){	// -NFXlogo
+			if ( cmdsel == CmdType::GetPos  ||
+				 cmdsel == CmdType::GetList ){
+				ignabort = true;
+			}
+		}
+		cmdarg.tack.ignoreAbort = ignabort;
 	}
 	//--- ロゴ確定状態でも実行するコマンド ---
 	{
