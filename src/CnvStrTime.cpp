@@ -4,6 +4,7 @@
 #include "stdafx.h"
 
 using namespace std;
+using Msec = int;
 #include "CnvStrTime.hpp"
 
 
@@ -14,7 +15,7 @@ CnvStrTime::CnvStrTime(){
 	m_frate_n = 30000;
 	m_frate_d = 1001;
 	m_unitsec = 0;
-	m_delimiter = "\\";
+	m_delimiter = "\\";		// パス区切りは起動時指定パスの使用文字で自動的に切り替わる
 }
 
 
@@ -68,21 +69,8 @@ int CnvStrTime::getStrFilePathName(string &pathname, string &fname, const string
 	//--- "\"区切りを検索 ---
 	int nloc = (int) fullname.rfind("\\");
 	if (nloc >= 0){
-		//--- Shift-JISの2バイト目ではない"\"を検索 ---
-		while(nloc >= 0 && flag_find == false){
-			if (nloc == 0){
-				flag_find = true;			// 先頭が"\"のファイル区切り
-			}
-			else if (isStrSjisSecond(fullname, nloc) == false){
-				flag_find = true;			// 前文字からの２バイト文字でないので区切り
-			}
-			else{							// ２バイト文字の一部だったら次を検索
-				nloc = (int) fullname.rfind("\\", nloc-1);
-			}
-		}
-		if ( flag_find ){
-			m_delimiter = "\\";		// 区切り文字変更
-		}
+		flag_find = true;
+		m_delimiter = "\\";		// 区切り文字変更
 	}
 	//--- "/"区切りを検索 ---
 	int nloc_sl = (int) fullname.rfind("/");
@@ -112,7 +100,205 @@ string CnvStrTime::getStrFileDelimiter(){
 	return m_delimiter;
 }
 
+//---------------------------------------------------------------------
+// バッファサイズ取得
+//---------------------------------------------------------------------
+int CnvStrTime::getBufLineSize(){
+	return SIZE_BUF_MAX;
+}
+//---------------------------------------------------------------------
+// 関数タイプの引数モジュール名であるか確認
+//---------------------------------------------------------------------
+bool CnvStrTime::isStrFuncModule(const string &cstr, int pos){
+	//--- モジュール名 ---
+	string strWord;
+	pos = getStrItemHubFunc(strWord, cstr, pos, DELIMIT_FUNC_NAME);
+	if ( pos < 0 ) return false;
+	//--- 引数先頭取得 ---
+	string strNext;
+	int posnext = getStrItemHubFunc(strNext, cstr, pos, DELIMIT_FUNC_ARGS);
+	if ( posnext < 0 ) return false;
+	if ( strNext[0] != '(' ) return false;		// "("以外なら関数ではない
+	//--- モジュール名簡易確認 ---
+	bool match = true;
+	for(int i=0; i<(int)strWord.length(); i++){
+		char ch = strWord[i];
+		if ( ch >= 0 && ch <= 0x7F ){
+			if ( (ch >= '0' && ch <= '9') ||
+			     (ch >= 'A' && ch <= 'Z') ||
+			     (ch >= 'a' && ch <= 'z') ||
+			     (ch == '_') ){
+			}else{
+				match = false;
+			}
+		}
+	}
+	return match;
+}
+//---------------------------------------------------------------------
+// モジュール名と引数のリストを取得 フォーマット： モジュール名(引数 引数 ...)
+//---------------------------------------------------------------------
+int CnvStrTime::getListModuleArg(vector<string>& listMod, const string &cstr, int pos){
+	listMod.clear();
+	string strWord;
+	//--- モジュール名設定 ---
+	pos = getStrItemHubFunc(strWord, cstr, pos, DELIMIT_FUNC_NAME);
+	if ( pos < 0 ) return pos;
+	listMod.push_back(strWord);
+	//--- 引数先頭取得 ---
+	int posBak = pos;
+	pos = skipCharSpace(cstr, pos);
+	if ( cstr[pos] != '(' ){		// "("以外なら引数なしで終了
+		return posBak;
+	}
+	pos = getStrItemHubFunc(strWord, cstr, pos+1, DELIMIT_FUNC_ARGS);
+	//--- 引数設定 ---
+	bool cont = true;
+	while( cont && pos >= 0 ){
+		if ( strWord == ")" ){
+			listMod.push_back("");	// 最後に空文字列を格納
+			cont = false;
+		}else{
+			listMod.push_back(strWord);
+			pos = getStrItemHubFunc(strWord, cstr, pos, DELIMIT_FUNC_ARGS);
+		}
+	}
+	return pos;
+}
+//---------------------------------------------------------------------
+// パスで分割した文字列を取得
+// 入力：
+//   strDiv   : フルパス名
+//   selHead  : 分割の出力（true=前側、false=後側）
+//   withDelim : true=前側出力時に区切り位置の区切りも出力
+// 出力：
+//   返り値 : 区切り存在有無
+//   strDiv   : 区切り分割後文字列（Head=前側。Tail=後側）
+//---------------------------------------------------------------------
+bool CnvStrTime::getStrDivPath(string& strDiv, bool selHead, bool withDelim){
+	int pos = getStrPosPath(strDiv);
+	if ( selHead ){
+		if ( pos < 0 ){
+			strDiv.clear();
+			return false;
+		}
+		if ( withDelim ){	// 区切り含む
+			pos ++;
+		}
+		if ( pos == 0 ){
+			strDiv.clear();
+		}else{
+			strDiv = strDiv.substr(0, pos);
+		}
+	}else{
+		if ( pos < 0 ){
+			return false;
+		}
+		pos ++;		// 区切りを除く
+		if ( pos >= (int) strDiv.length() ){
+			strDiv.clear();
+		}else{
+			strDiv = strDiv.substr(pos);
+		}
+	}
+	return true;
+}
+//---------------------------------------------------------------------
+// 区切りで分割した文字列を取得（拡張子取得用）
+// 入力：
+//   strDiv   : フルパス名
+//   strDelim : 区切り文字
+//   selHead  : 分割の出力（true=前側、false=後側）
+//   typePath : パス後に限定する時はtrue
+// 出力：
+//   返り値 : 区切り存在有無
+//   strDiv   : 区切り分割後文字列（Head=前側。Tail=後側）
+//---------------------------------------------------------------------
+bool CnvStrTime::getStrDivide(string& strDiv, const string& strDelim, bool selHead, bool typePath){
+	int posdiv = getStrPosDivide(strDiv, strDelim, typePath);
+	if ( selHead ){
+		if ( posdiv < 0 ){
+			return false;
+		}
+		if ( posdiv == 0 ){
+			strDiv.clear();
+		}else{
+			strDiv = strDiv.substr(0, posdiv);
+		}
+	}else{
+		if ( posdiv < 0 ){
+			strDiv.clear();
+			return false;
+		}
+		posdiv += (int) strDelim.length();
+		if ( posdiv >= (int) strDiv.length() ){
+			strDiv.clear();
+		}else{
+			strDiv = strDiv.substr(posdiv);
+		}
+	}
+	return true;
+}
 
+//---------------------------------------------------------------------
+// パス区切り位置を取得
+//---------------------------------------------------------------------
+int CnvStrTime::getStrPosPath(const string& fullname){
+	bool reverse = true;
+	int pos = getStrPosDivideCore(fullname, "\\", reverse);
+	int postmp = getStrPosDivideCore(fullname, "/", reverse);
+	if ( pos < postmp ){
+		pos = postmp;
+	}
+	return pos;
+}
+//---------------------------------------------------------------------
+// 区切り文字の位置取得
+// 入力：
+//   fullpath : フルパス名
+//   strDelim : 区切り文字
+//   typePath : パス後に限定する時はtrue
+// 出力：
+//   返り値 : 区切り位置（見つからない時はマイナス）
+//---------------------------------------------------------------------
+int CnvStrTime::getStrPosDivide(const string& fullname, const string& strDelim, bool typePath){
+	//--- パス後の時はパス位置を取得 ---
+	int posmin = -1;
+	if ( typePath ){
+		posmin = getStrPosPath(fullname);
+	}
+	//--- 対象位置取得 ---
+	int posr = getStrPosDivideCore(fullname, strDelim, typePath);
+	if ( posr < posmin ){
+		posr = -1;
+	}
+	return posr;
+}
+//---------------------------------------------------------------------
+// 区切り文字の位置を取得
+// 入力：
+//   fullpath : フルパス名
+//   strDelim : 区切り文字
+//   reverse  : true=後側から false=前側から
+// 出力：
+//   返り値 : 区切り位置（見つからない時は-1）
+//---------------------------------------------------------------------
+int CnvStrTime::getStrPosDivideCore(const string& fullname, const string& strDelim, bool reverse){
+	int pos = -1;
+	//--- 区切りを検索 ---
+	if ( reverse ){
+		auto posFind = fullname.rfind(strDelim);
+		if ( posFind != string::npos ){
+			pos = (int) posFind;
+		}
+	}else{
+		auto posFind = fullname.find(strDelim);
+		if ( posFind != string::npos ){
+			pos = (int) posFind;
+		}
+	}
+	return pos;
+}
 
 //=====================================================================
 //  時間とフレーム位置の変換
@@ -122,7 +308,7 @@ string CnvStrTime::getStrFileDelimiter(){
 //---------------------------------------------------------------------
 // ミリ秒をフレーム数に変換
 //---------------------------------------------------------------------
-int CnvStrTime::getFrmFromMsec(int msec){
+int CnvStrTime::getFrmFromMsec(Msec msec){
 	int r = ((((long long)abs(msec) * m_frate_n) + (m_frate_d*1000/2)) / (m_frate_d*1000));
 	return (msec >= 0)? r : -r;
 }
@@ -138,7 +324,7 @@ int CnvStrTime::getMsecFromFrm(int frm){
 //---------------------------------------------------------------------
 // ミリ秒を一度フレーム数に換算した後ミリ秒に変換（フレーム単位になるように）
 //---------------------------------------------------------------------
-int CnvStrTime::getMsecAlignFromMsec(int msec){
+int CnvStrTime::getMsecAlignFromMsec(Msec msec){
 	int frm = getFrmFromMsec(msec);
 	return getMsecFromFrm(frm);
 }
@@ -146,7 +332,7 @@ int CnvStrTime::getMsecAlignFromMsec(int msec){
 //---------------------------------------------------------------------
 // ミリ秒を一度フレーム数に換算した後微調整してミリ秒に変換
 //---------------------------------------------------------------------
-int CnvStrTime::getMsecAdjustFrmFromMsec(int msec, int frm){
+int CnvStrTime::getMsecAdjustFrmFromMsec(Msec msec, int frm){
 	int frm_new = getFrmFromMsec(msec) + frm;
 	return getMsecFromFrm(frm_new);
 }
@@ -154,7 +340,7 @@ int CnvStrTime::getMsecAdjustFrmFromMsec(int msec, int frm){
 //---------------------------------------------------------------------
 // ミリ秒を秒数に変換
 //---------------------------------------------------------------------
-int CnvStrTime::getSecFromMsec(int msec){
+int CnvStrTime::getSecFromMsec(Msec msec){
 	if (msec < 0){
 		return -1 * ((-msec + 500) / 1000);
 	}
@@ -213,21 +399,21 @@ int CnvStrTime::getStrValNum(int &val, const string &cstr, int pos){
 //---------------------------------------------------------------------
 // １単語を読み込み数値（ミリ秒）として出力（数値以外があれば読み込み失敗を返す）
 //---------------------------------------------------------------------
-int CnvStrTime::getStrValMsec(int &val, const string &cstr, int pos){
+int CnvStrTime::getStrValMsec(Msec &val, const string &cstr, int pos){
 	return getStrValSub(val, cstr, pos, m_unitsec);
 }
 
 //---------------------------------------------------------------------
 // 数値（ミリ秒）を返すが、整数入力は設定にかかわらずフレーム数として扱う
 //---------------------------------------------------------------------
-int CnvStrTime::getStrValMsecFromFrm(int &val, const string &cstr, int pos){
+int CnvStrTime::getStrValMsecFromFrm(Msec &val, const string &cstr, int pos){
 	return getStrValSub(val, cstr, pos, 0);			// unitsec=0:整数時はフレーム数
 }
 
 //---------------------------------------------------------------------
 // 数値（ミリ秒）を返すが、マイナス１の時は特殊扱いで変換せずそのまま返す
 //---------------------------------------------------------------------
-int CnvStrTime::getStrValMsecM1(int &val, const string &cstr, int pos){
+int CnvStrTime::getStrValMsecM1(Msec &val, const string &cstr, int pos){
 	int posnew = getStrValSub(val, cstr, pos, m_unitsec);
 	if ((m_unitsec == 0 && getFrmFromMsec(val) == -1) ||
 		(m_unitsec == 1 && val == -1000)){
@@ -268,6 +454,56 @@ int CnvStrTime::getStrValSecFromSec(int &val, const string &cstr, int pos){
 	return pos;
 }
 
+//---------------------------------------------------------------------
+// 関数引数文字列を取得して、結果の数値を返す
+//---------------------------------------------------------------------
+int CnvStrTime::getStrValFuncNum(int &val, const string &cstr, int pos){
+	string dstr;
+	pos = getStrItemHubFunc(dstr, cstr, pos, DELIMIT_FUNC_CALC);
+	if ( getStrValNum(val, dstr, 0) < 0 ){
+		return -1;
+	}
+	return pos;
+}
+
+//=====================================================================
+// リストデータ取得
+//=====================================================================
+
+//---------------------------------------------------------------------
+// リスト文字列から全項目の時間情報（ミリ秒）をリストで取得
+//---------------------------------------------------------------------
+//--- -1の特殊扱いなし ---
+bool CnvStrTime::getListValMsec(vector<Msec>& listMsec, const string& strList){
+	int pos = 0;
+	string dstr;
+	listMsec.clear();
+	while( (pos = getStrWord(dstr, strList, pos)) > 0 ){
+		int val;
+		if ( getStrValMsec(val, dstr, 0) > 0 ){
+			listMsec.push_back(val);
+		}
+		while ( strList[pos] == ',' ) pos++;
+	}
+	if ( listMsec.empty() ) return false;
+	return true;
+}
+//--- -1は特殊扱いでそのまま ---
+bool CnvStrTime::getListValMsecM1(vector<Msec>& listMsec, const string& strList){
+	int pos = 0;
+	string dstr;
+	listMsec.clear();
+	while( (pos = getStrWord(dstr, strList, pos)) > 0 ){
+		int val;
+		if ( getStrValMsecM1(val, dstr, 0) > 0 ){
+			listMsec.push_back(val);
+		}
+		while ( strList[pos] == ',' ) pos++;
+	}
+	if ( listMsec.empty() ) return false;
+	return true;
+}
+
 
 
 //=====================================================================
@@ -284,61 +520,89 @@ int CnvStrTime::getStrValSecFromSec(int &val, const string &cstr, int pos){
 //   dst    : 出力文字列
 //=====================================================================
 
-//---------------------------------------------------------------------
-// 文字列からスペース区切りで１単語を読み込む
-//---------------------------------------------------------------------
+// getStrItem    : 先頭からのquoteは認識、途中文字からのquoteは無視
+// getStrWord    : スペース+コンマ区切り、コンマ自体は飛ばして読む
+// getStrCsv     : CSV形式の1項目を取得
+// getStrItemCmd : コマンド読み込み用
+// getStrItemArg : 引数用。quote囲みを続けて連結を許可
+// getStrItemMonitor : 表示用。quoteは消さない
+// getStrItemWithQuote : 最初と最後のquoteを残す。文字列条件の判定用
+
+//--- 文字列からスペース区切りで１単語を読み込む ---
 int CnvStrTime::getStrItem(string &dst, const string &cstr, int pos){
-	int st, ed;
-
-	pos = getStrItemRange(st, ed, cstr, pos, DELIMIT_SPACE_QUOTE);
-	if (pos >= 0){
-		if (ed > st) {
-			dst = cstr.substr(st, ed - st);
-		}
-		else {
-			dst.clear();
-		}
-	}
-
-	return pos;
+	ArgItemType itype = {};
+	itype.dstype = DELIMIT_SPACE_QUOTE;
+	itype.concat = false;
+	itype.separate = false;
+	itype.remain = false;
+	itype.defstr = false;
+	itype.qdisp  = false;
+	itype.emptyok = false;
+	return getStrItemHubStr(dst, cstr, pos, itype);
 }
-
-//---------------------------------------------------------------------
-// 文字列から１単語を読み込む（スペース以外に","を区切りとして認識）
-//---------------------------------------------------------------------
+//--- 文字列から１単語を読み込む（スペース以外に","を区切りとして認識） ---
 int CnvStrTime::getStrWord(string &dst, const string &cstr, int pos){
-	int st, ed;
-
-	pos = getStrItemRange(st, ed, cstr, pos, DELIMIT_SPACE_COMMA);
-	if (pos >= 0){
-		dst = cstr.substr(st, ed-st);
-	}
-
-	return pos;
+	ArgItemType itype = {};
+	itype.dstype = DELIMIT_SPACE_COMMA;
+	itype.concat = false;
+	itype.separate = false;
+	itype.remain = false;
+	itype.defstr = false;
+	itype.qdisp  = false;
+	itype.emptyok = false;
+	return getStrItemHubStr(dst, cstr, pos, itype);
 }
-
-//---------------------------------------------------------------------
-// quoteも区切りで残したまま文字列から１単語を読み込む
-//---------------------------------------------------------------------
+//--- 文字列からCSV形式の1項目を取得 ---
+int CnvStrTime::getStrCsv(string &dst, const string &cstr, int pos){
+	ArgItemType itype = {};
+	itype.dstype = DELIMIT_CSV;
+	itype.concat = true;		// ダブルクォート結合（特殊処理）あり
+	itype.separate = false;
+	itype.remain = false;
+	itype.defstr = false;
+	itype.qdisp  = false;
+	itype.emptyok = true;		// データなしも許可
+	return getStrItemHubStr(dst, cstr, pos, itype);
+}
+//--- 文字列からスペース区切りで１単語を読み込む（コマンド取得用） ---
+int CnvStrTime::getStrItemCmd(string &dst, const string &cstr, int pos){
+	return getStrItemHubFunc(dst, cstr, pos, DELIMIT_FUNC_NAME);
+}
+//--- 文字列からスペース区切りで１単語を読み込む（quote前後に区切りなければ結合） ---
+int CnvStrTime::getStrItemArg(string &dst, const string &cstr, int pos){
+	ArgItemType itype = {};
+	itype.dstype = DELIMIT_SPACE_QUOTE;
+	itype.concat = true;		// 結合あり
+	itype.separate = false;
+	itype.remain = false;
+	itype.defstr = false;
+	itype.qdisp  = false;
+	itype.emptyok = false;
+	return getStrItemHubStr(dst, cstr, pos, itype);
+}
+//--- quoteはそのまま表示する ---
+int CnvStrTime::getStrItemMonitor(string &dst, const string &cstr, int pos){
+	ArgItemType itype = {};
+	itype.dstype = DELIMIT_SPACE_QUOTE;
+	itype.concat = true;		// 結合あり
+	itype.separate = false;
+	itype.remain = true;		// 先頭最後quoteはそのまま出力
+	itype.defstr = false;
+	itype.qdisp  = true;		// 内部のquoteはそのまま出力
+	itype.emptyok = false;
+	return getStrItemHubStr(dst, cstr, pos, itype);
+}
+//--- quoteも区切りで残したまま文字列から１単語を読み込む（連続quoteの場合のみ結合） ---
 int CnvStrTime::getStrItemWithQuote(string &dst, const string &cstr, int pos){
-	int posbk = pos;
-	pos = getStrItem(dst, cstr, pos);
-	int loc1 = (int)cstr.find("\"", posbk);
-	if ( loc1 < posbk || loc1 >= pos || pos < 0 ){	// quoteがなければ終了
-		return pos;
-	}
-	int locd = (int)dst.find("\"");
-	if ( locd > 0 && locd < pos ){	// 文字列中にquoteなら手前で終了
-		dst = dst.substr(0, locd);
-		pos = loc1;
-		return pos;
-	}
-	int loc2 = (int)cstr.find("\"", loc1 + 1);
-	if ( loc2 > loc1 && loc2 < pos ){
-		dst = cstr.substr(loc1, loc2 - loc1 + 1);
-		pos = loc2 + 1;
-	}
-	return pos;
+	ArgItemType itype = {};
+	itype.dstype = DELIMIT_SPACE_QUOTE;
+	itype.concat = true;		// 結合あり
+	itype.separate = true;		// "aa"=="bb"のケースで==の前後で分離
+	itype.remain = true;		// 項目の先頭と最後のqyoteは残す
+	itype.defstr = false;
+	itype.qdisp  = false;
+	itype.emptyok = false;
+	return getStrItemHubStr(dst, cstr, pos, itype);
 }
 
 //---------------------------------------------------------------------
@@ -359,35 +623,166 @@ int CnvStrTime::getStrWithoutComment(string &dst, const string &cstr){
 // コメントとしての#位置を取得
 //---------------------------------------------------------------------
 int CnvStrTime::getStrPosComment(const string &cstr, int pos){
+	return getStrPosChar(cstr, '#', false, pos);
+}
+//---------------------------------------------------------------------
+// 変数としての$位置を取得
+//---------------------------------------------------------------------
+int CnvStrTime::getStrPosReplaceVar(const string &cstr, int pos){
+	return getStrPosChar(cstr, '$', true, pos);
+}
+//---------------------------------------------------------------------
+// 指定制御文字がpos以降で最初に現れる位置を取得（展開しない引用符内は除く）
+//   expand : true=ダブルクォート内は展開する
+//---------------------------------------------------------------------
+int CnvStrTime::getStrPosChar(const string &cstr, char chsel, bool expand, int pos){
+	int possel = -1;
 	int poscmt = -1;
-	int posdol = -1;
-	int len = (int) cstr.length();
 	bool flagQw = false;
+	bool flagQs = false;
+	bool nextSp = false;
+	int len = (int) cstr.length();
 	for(int i=0; i<len; i++){
-		if ( poscmt < 0 ){
-			switch( cstr[i] ){
-				case '#' :
-					if ( (i >= pos && flagQw == false) &&
-						 (posdol < 0 || posdol+1 != i) ){
-							poscmt = i;
+		char cht = cstr[i];
+		if ( nextSp ){		// 特殊文字処理
+			if ( cht == '#' ){	// $#は特殊処理
+				nextSp = false;
+				continue;
+			}
+		}
+		bool check = ( expand || flagQw == false ) && ( flagQs == false );
+		if ( check && i >= pos && cht == chsel ){
+			if ( chsel == '$' ){	// 変数検索時の特殊処理
+				char chn = cstr[i+1];
+				if ( (0x00 <= chn && chn <  '0' ) ||
+				     ( '9' <  chn && chn <  'A' ) ||
+				     ( 'Z' <  chn && chn <  'a' ) ||
+				     ( 'z' <  chn && chn <= 0x7F) ){
+					if ( chn != '#' && chn != '{' && chn != '_' ){
+						continue;		// $直後が変数と無関係の記号であれば変数と認識しない
 					}
+				}
+			}
+			possel = i;
+			break;			// 結果格納したら終了
+		}
+		else if ( flagQw ){
+			if ( cht == '\"' ) flagQw = false;
+		}
+		else if ( flagQs ){
+			if ( cht == '\'' ) flagQs = false;
+		}
+		else{
+			switch( cht ){
+				case '#' :
+					if ( poscmt < 0 ) poscmt = i;	// コメント位置
 					break;
 				case '$' :
-					posdol = i;
+					nextSp = true;
 					break;
 				case '\"' :
-					flagQw = (flagQw)? false : true;
+					flagQw = true;
+					break;
+				case '\'' :
+					flagQs = true;
 					break;
 				default:
 					break;
 			}
 		}
 	}
-	return poscmt;
+	return possel;
 }
+//---------------------------------------------------------------------
+// 文字列から .. による範囲指定を含む整数を取得して文字列として返す
+// 取得できなかった時は返り値がマイナスになるが、正常終了ならdstが空、異常なら文字列が入る
+//---------------------------------------------------------------------
+int CnvStrTime::getStrMultiNum(string &dst, const string &cstr, int pos){
+	int posBak = pos;
+	string strTmp;
+	pos = getStrWord(strTmp, cstr, pos);
+	if ( pos >= 0 ){
+		int rloc = (int)strTmp.find("..");
+		if ( rloc != (int)string::npos ){			// ..による範囲設定時
+			string strSt = strTmp.substr(0, rloc);
+			string strEd = strTmp.substr(rloc+2);
+			int valSt;
+			int valEd;
+			int posSt = getStrValNum(valSt, strSt, 0);
+			int posEd = getStrValNum(valEd, strEd, 0);
+			if ( posSt >= 0 && posEd >= 0 ){
+				string strValSt = std::to_string(valSt);
+				string strValEd = std::to_string(valEd);
+				dst = strValSt + ".." + strValEd;
+			}else{
+				pos = -1;
+				dst = strTmp;
+			}
+		}else if ( strTmp == "odd" || strTmp == "even" ){
+			dst = strTmp;
+		}else{
+			int val1;
+			if ( getStrValNum(val1, strTmp, 0) >= 0 ){
+				dst = std::to_string(val1);
+			}else{
+				pos = -1;
+				dst = strTmp;
+			}
+		}
+	}else{
+		pos = getStrItem(strTmp, cstr, posBak);
+		if ( pos >= 0 ){		// リストで取得できないデータが残っている時は文字を入れる
+			pos = -1;
+			dst = strTmp;
+		}else{					// データ終了なら空文字列
+			dst.clear();
+		}
+	}
+	return pos;
+}
+//---------------------------------------------------------------------
+// 最大値maxNumの範囲あり数値文字列内にcurNumが存在するか
+//---------------------------------------------------------------------
+bool CnvStrTime::isStrMultiNumIn(const string &cstr, int curNum, int maxNum){
+	bool exist = false;
+	int pos = 0;
+	while( pos >= 0 && !exist ){
+		string strVal;
+		pos = getStrWord(strVal, cstr, pos);
+		if ( pos < 0 ) break;
 
-
-
+		int rloc = (int)strVal.find("..");
+		if ( rloc == (int)string::npos ){		// 通常の数値
+			int val = stoi(strVal);
+			if ( (val == 0) || (val == curNum) || (maxNum + val + 1 == curNum) ){
+				exist = true;
+			}
+		}else if ( strVal == "odd" ){
+			if ( curNum % 2 == 1 ){
+				exist = true;
+			}
+		}else if ( strVal == "even" ){
+			if ( curNum % 2 == 0 ){
+				exist = true;
+			}
+		}else{								// 範囲指定
+			string strSt = strVal.substr(0, rloc);
+			string strEd = strVal.substr(rloc+2);
+			int valSt = stoi(strSt);
+			int valEd = stoi(strEd);
+			if ( valSt < 0 ){
+				valSt = maxNum + valSt + 1;
+			}
+			if ( valEd < 0 ){
+				valEd = maxNum + valEd + 1;
+			}
+			if ( (valSt <= curNum) && (curNum <= valEd) ){
+				exist = true;
+			}
+		}
+	}
+	return exist;
+}
 //=====================================================================
 // 時間を文字列（フレームまたはミリ秒）に変換
 //=====================================================================
@@ -395,7 +790,7 @@ int CnvStrTime::getStrPosComment(const string &cstr, int pos){
 //---------------------------------------------------------------------
 // フレーム数または時間表記（-1はそのまま残す）
 //---------------------------------------------------------------------
-string CnvStrTime::getStringMsecM1(int msec_val){
+string CnvStrTime::getStringMsecM1(Msec msec_val){
 	bool type_frm = false;
 	if (m_unitsec == 0){
 		type_frm = true;
@@ -406,21 +801,21 @@ string CnvStrTime::getStringMsecM1(int msec_val){
 //---------------------------------------------------------------------
 // フレーム表記（-1はそのまま残す）
 //---------------------------------------------------------------------
-string CnvStrTime::getStringFrameMsecM1(int msec_val){
+string CnvStrTime::getStringFrameMsecM1(Msec msec_val){
 	return getStringMsecM1All(msec_val, true);
 }
 
 //---------------------------------------------------------------------
 // 時間表記（-1はそのまま残す）
 //---------------------------------------------------------------------
-string CnvStrTime::getStringTimeMsecM1(int msec_val){
+string CnvStrTime::getStringTimeMsecM1(Msec msec_val){
 	return getStringMsecM1All(msec_val, false);
 }
 
 //---------------------------------------------------------------------
 // 時間を文字列（フレームまたは時間表記）に変換
 //---------------------------------------------------------------------
-string CnvStrTime::getStringMsecM1All(int msec_val, bool type_frm){
+string CnvStrTime::getStringMsecM1All(Msec msec_val, bool type_frm){
 	string str_val;
 	if (msec_val == -1){
 		str_val = to_string(-1);
@@ -472,54 +867,51 @@ string CnvStrTime::getStringZeroRight(int val, int len){
 // 文字列処理の内部関数
 //
 //=====================================================================
-
-//---------------------------------------------------------------------
-// 対象位置がシフトJISの2バイト目か判別
-//---------------------------------------------------------------------
-bool CnvStrTime::isStrSjisSecond(const string &str, int n){
-	//--- 最初から2バイト認識していたら除く ---
-	for(int i=0; i < (int) str.length(); i++){
-		int code = str[n];
-		if (code < -128 || code > 255) return false;
-	}
-	//--- 文字位置を順番にチェック ---
-	{
-		int i = 0;
-		while(i < n){
-			if ( isStrSjisMultiByte(str, i) ){
-				i++;
-			}
-			i++;
-		}
-		if (i != n) return true;
-	}
-	return false;
+//--- 指定位置の文字（マルチバイト）バイト数を返す ---
+int CnvStrTime::getMbStrSize(const string& str, int n){
+	return getMbStrSizeUtf8(str, n);
 }
-
-//---------------------------------------------------------------------
-// Shift-JISの２バイト文字チェック
-// 2バイト文字だった時は1を返り値とする（1バイト文字は0）
-//---------------------------------------------------------------------
-bool CnvStrTime::isStrSjisMultiByte(const string &str, int n){
-	int code = str[n];
-	if (code < 0){
-		code = code & 0xFF;
-	}
-	else if (code >= 0x80){
-		return false;
-	}
-//printf("code:%x\n", code);
+int CnvStrTime::getMbStrSizeSjis(const string& str, int n){
+	int len = (int)str.length();
+	if ( n >= len || n < 0) return 0;
+	if ( n >= len-1 ) return 1;
+	unsigned char code = (unsigned char) str[n];
 	if ((code >= 0x81 && code <= 0x9F) ||
 		(code >= 0xE0 && code <= 0xFC)){		// Shift-JIS 1st-byte
-		code = (str[n+1] & 0xFF);
+		code = (unsigned char) str[n+1];
 		if ((code >= 0x40 && code <= 0x7E) ||
 			(code >= 0x80 && code <= 0xFC)){	// Shift-JIS 2nd-byte
-			return true;
+			return 2;
 		}
 	}
-	return false;
+	return 1;
 }
-
+int CnvStrTime::getMbStrSizeUtf8(const string& str, int n){
+	int len = (int)str.length();
+	if ( n >= len || n < 0 ) return 0;
+	unsigned char code = (unsigned char) str[n];
+	if ( (code & 0x80) == 0 ) return 1;
+	for(int i=1; i<4; i++){
+		if ( n+i >= len ) return i;
+		code = (unsigned char) str[n+i];
+		if ( (code & 0xC0) != 0x80 ) return i;
+	}
+	return 4;
+}
+//--- n文字目がマルチバイトで2番目以降の文字であればtrueを返す ---
+bool CnvStrTime::isStrMbSecond(const string& str, int n){
+	if ( n >= (int)str.length() ) return false;	// 異常を除く
+	std::mblen(nullptr, 0);		// 変換状態をリセット
+	int i = 0;
+	while( i<n && i>=0 ){
+		int mbsize = getMbStrSize(str, i);
+		if ( mbsize <= 0 ){
+			return false;
+		}
+		i += mbsize;
+	}
+	return ( i != n );
+}
 
 //---------------------------------------------------------------------
 // 文字列から１単語を読み込み数値（ミリ秒）として格納（数値以外があれば読み込み失敗を返す）
@@ -542,7 +934,7 @@ int CnvStrTime::getStrValSub(int &val, const string &cstr, int pos, int unitsec)
 int CnvStrTime::getStrValSubDelimit(int &val, const string &cstr, int pos, int unitsec, DelimtStrType type){
 	int st, ed;
 
-	pos = getStrItemRange(st, ed, cstr, pos, type);
+	pos = getStrItemHubRange(st, ed, cstr, pos, type);
 	if ( pos < 0 ) return pos;
 	try{
 		val = getStrCalc(cstr, st, ed-1, unitsec);
@@ -567,64 +959,260 @@ int CnvStrTime::getStrValSubDelimit(int &val, const string &cstr, int pos, int u
 //   st   : 認識開始位置
 //   ed   : 認識終了位置
 //---------------------------------------------------------------------
-int CnvStrTime::getStrItemRange(int &st, int &ed, const string &cstr, int pos, DelimtStrType type){
+int CnvStrTime::getStrItemHubRange(int &st, int &ed, const string &cstr, int pos, DelimtStrType type){
+	ArgItemType itype = {};
+	itype.dstype = type;
+	itype.concat = false;
+	itype.separate = false;
+	itype.remain = false;
+	itype.defstr = false;
+	itype.qdisp  = false;
+	itype.emptyok = false;
+	string strDmy;
+	return getStrItemCommon(strDmy, st, ed, cstr, pos, itype);
+}
+//---------------------------------------------------------------------
+// 関数タイプ１項目の文字列取得
+//---------------------------------------------------------------------
+int CnvStrTime::getStrItemHubFunc(string& dstr, const string &cstr, int pos, DelimtStrType dstype){
+	ArgItemType itype = {};
+	if ( dstype == DELIMIT_FUNC_NAME ){		// 関数名前部分
+		itype.dstype = dstype;
+		itype.concat = false;
+		itype.separate = false;
+		itype.remain = false;
+		itype.defstr = false;
+		itype.qdisp  = false;
+		itype.emptyok = false;
+	}else{
+		itype.dstype = dstype;
+		itype.concat = true;
+		itype.separate = false;
+		itype.remain = true;
+		itype.defstr = true;
+		itype.qdisp  = false;
+		itype.emptyok = false;
+	}
+	int st, ed;
+	return getStrItemCommon(dstr, st, ed, cstr, pos, itype);
+}
+//--- 取得位置不要で文字列と終了位置を返す ---
+int CnvStrTime::getStrItemHubStr(string& dstr, const string &cstr, int pos, ArgItemType itype){
+	int st, ed;
+	return getStrItemCommon(dstr, st, ed, cstr, pos, itype);
+}
+//---------------------------------------------------------------------
+// １項目の文字列を取得
+//---------------------------------------------------------------------
+// 文字列と範囲を取得（共通設定）
+int CnvStrTime::getStrItemCommon(string& dstr, int &st, int &ed, const string &cstr, int pos, ArgItemType itype){
 	if (pos < 0) return pos;
 
-	char ch;
-	int flag_quote = 0;
-	int len = 0;
+	int pos_before = pos;
+	QuoteType qtype = {};
 
-	//--- trim left ---
-	while( isCharTypeSpace(cstr[pos]) ){
-		pos ++;
+	//--- trim left（空白が区切りの場合、次の項目先頭まで移動） ---
+	if ( isCharTypeDelim(' ', itype.dstype) ){
+		pos = skipCharSpace(cstr, pos);
 	}
 	//--- check quote ---
-	if (cstr[pos] == '\"' && type == DELIMIT_SPACE_QUOTE){
-		flag_quote ++;
-		pos ++;
+	dstr.clear();
+	bool validDquote = isCharValidDquote(itype.dstype);
+	bool validSquote = isCharValidSquote(itype.dstype);
+	if ( validDquote || validSquote ){
+		char ch = cstr[pos];
+		bool flagPos = false;
+		if ( ch == '\"' && validDquote ){
+			flagPos = true;
+			qtype.flagQw = true;
+			qtype.existQ = true;
+			qtype.edgeQw = true;
+		}else if ( ch == '\''  && validSquote ){
+			flagPos = true;
+			qtype.flagQs = true;
+			qtype.existQ = true;
+			qtype.edgeQw = false;
+		}
+		if ( flagPos ){
+			pos ++;
+			if ( itype.qdisp ){
+				dstr += ch;
+			}
+		}
 	}
 	//--- 開始位置設定 ---
 	st = pos;
+	ed = pos;
 	//--- データ位置確認 ---
-	int flag_end = 0;
+	bool flagEnd = false;
 	do{
-		ch = cstr[pos];
-		if (ch == '\"' && flag_quote > 0){				// 引用符２回目
-			flag_quote ++;
-			flag_end = 1;
+		char ch = cstr[pos];
+		if (ch == '\0' || dstr.length() >= SIZE_BUF_MAX-1){	// 強制終了条件
+			break;
 		}
-		else if (isCharTypeSpace(ch) ||				// スペース
-			(ch == ',' && type == DELIMIT_SPACE_COMMA) ||					// コンマ
-			((ch < '0' || ch > '9') && type == DELIMIT_SPACE_EXNUM)){		// 数字以外
-			if (type != DELIMIT_SPACE_QUOTE || flag_quote != 1){
-				flag_end = 1;				// type=DELIMIT_SPACE_QUOTEでは引用中確認
+		QuoteState qstate;
+		flagEnd = getStrItemCommonCh(qstate, qtype, ch, dstr.empty(), itype);
+		if ( qstate.add ){
+			dstr += ch;
+			ed = pos + 1;
+		}
+		if ( qstate.pos || !flagEnd ){
+			pos ++;
+		}
+	} while( !flagEnd );
+	//--- 終了位置設定 ---
+	if ( qtype.flagQw || qtype.flagQs ) {				// QUOTE異常
+		pos = -1;
+	}
+	else if ( qtype.existQ ){		// QUOTEで囲まれた文字列
+		if ( itype.remain && !itype.qdisp ){	// 内部quoteは消すが前後囲みは残す場合
+			if ( qtype.edgeQw ){
+				dstr = "\"" + dstr + "\"";
+			}else{
+				dstr = "\'" + dstr + "\'";
+			}
+		}else if ( !itype.remain && itype.qdisp ){	// 内部quoteは残すが外周quoteは残さない場合
+			auto len = dstr.length();
+			if ( len == 2 ){
+				dstr.clear();
+			}else if ( len >= 2){
+				char ch = dstr[dstr.length()-1];
+				if ( ch == '\"' || ch == '\'' ){
+					dstr = dstr.substr(1,len-2);
+				}
 			}
 		}
-		else if (ch == '\0' || len >= SIZE_BUF_MAX-1){	// 強制終了条件
-			flag_end = 1;
+		if ( itype.defstr ){
+			if ( dstr.empty() && pos > st+1 ){
+				dstr = "\"\"";		// 出力なしでQUOTE内にQUOTEある場合はQUOTE
+			}
 		}
-		if (flag_end == 0){
-			pos ++;
-			len ++;
+	}
+	else if ( dstr.empty() ){	// 読み込みデータない場合
+		if ( itype.emptyok ){
+			if ( pos == pos_before ){	// データなし許可時は最初から文字列最後の場合のみ無効
+				pos = -1;
+			}
+		}else{
+			pos = -1;
 		}
-	} while(flag_end == 0);
-	//--- 終了位置設定 ---
-	ed = pos;
-	if (flag_quote == 1) {					// QUOTE異常
-		pos = -1;
 	}
-	else if (st == ed && flag_quote <= 1){	// 読み込みデータない場合
-		pos = -1;
+	return pos;
+}
+//--- 文字認識 ---
+bool CnvStrTime::getStrItemCommonCh(QuoteState& qstate, QuoteType& qtype, char ch, bool yet, ArgItemType itype){
+	//--- 引用中は区切り以外はチェックせず出力 ---
+	if ( qtype.flagQw || qtype.flagQs ){
+		qstate.end = false;
+		qstate.add = true;
+		qstate.pos = true;
+		if ( (qtype.flagQw && ch != '\"') ||
+		     (qtype.flagQs && ch != '\'') ){
+			return qstate.end;
+		}
 	}
-	else if (ch == ',' || ch == '\"'){		// 区切り文字は次回スキップ
+	//--- 通常の区切り判定 ---
+	qstate.end = isCharTypeDelim(ch, itype.dstype);
+	qstate.add = !qstate.end;
+	qstate.pos = !qstate.end;
+	//--- 特殊文字処理 ---
+	bool refind_dq = ( isCharValidDquote(itype.dstype) && (itype.concat || itype.separate) );
+	bool refind_sq = ( isCharValidSquote(itype.dstype) && (itype.concat || itype.separate) );
+	switch(ch){
+		case '\"':
+			if ( qtype.flagQw ){				// 引用符２回目
+				qstate.add = false;
+				qstate.pos = true;
+				qtype.flagQw = false;
+				qtype.edgeQw = true;
+				if ( itype.separate || !itype.concat ){
+					qstate.end = true;
+				}
+			}
+			else if ( refind_dq ){			// 途中から引用符１回目
+				qstate.add = false;
+				if ( itype.separate ){		// QUOTEで分離する時
+					qstate.end = true;
+					qstate.pos = false;
+				}else{
+					qstate.pos = true;
+					qtype.flagQw = true;
+					qtype.existQ = true;
+					qtype.edgeQw = true;
+					if ( itype.dstype == DELIMIT_CSV ){
+						qstate.add = true;
+					}
+				}
+			}
+			if ( itype.qdisp && qstate.pos ){
+				qstate.add = true;
+			}
+			break;
+		case '\'':
+			if ( qtype.flagQs ){				// 引用符２回目
+				qstate.add = false;
+				qstate.pos = true;
+				qtype.flagQs = false;
+				qtype.edgeQw = false;
+				if ( itype.separate || !itype.concat ){
+					qstate.end = true;
+				}
+			}
+			else if ( refind_sq ){			// 途中から引用符１回目
+				qstate.add = false;
+				if ( itype.separate ){		// QUOTEで分離する時
+					qstate.end = true;
+					qstate.pos = false;
+				}else{
+					qstate.pos = true;
+					qtype.flagQs = true;
+					qtype.existQ = true;
+					qtype.edgeQw = false;
+				}
+			}
+			if ( itype.qdisp && qstate.pos ){
+				qstate.add = true;
+			}
+			break;
+		case '(':
+			qtype.numPar ++;
+			break;
+		case ')':
+			qtype.numPar --;
+			if ( qtype.numPar < 0 &&
+			    ( itype.dstype == DELIMIT_FUNC_ARGS ||
+			      itype.dstype == DELIMIT_FUNC_CALC )){
+				qstate.end = true;
+				qstate.add = yet;		// 先頭文字の時は追加して終了
+				qstate.pos = qstate.add;
+			}
+			break;
+		case ',':
+			if ( itype.dstype == DELIMIT_SPACE_COMMA ||
+			     itype.dstype == DELIMIT_CSV         ){
+				qstate.pos = true;		// 次回飛ばす区切り文字を認識
+			}
+			break;
+		default:
+			break;
+	}
+	if ( isCharTypeSpace(ch) && itype.dstype == DELIMIT_FUNC_CALC ){
+		qstate.add = false;		// 演算式中のスペースは省略
+	}
+	return qstate.end;
+}
+//--- 空白文字を飛ばす ---
+int CnvStrTime::skipCharSpace(const string &cstr, int pos){
+	//--- trim left（空白が区切りの場合、次の項目先頭まで移動） ---
+	while( isCharTypeSpace(cstr[pos]) ){
 		pos ++;
 	}
 	return pos;
 }
-
 //---------------------------------------------------------------------
 // 文字の種類を取得
 //---------------------------------------------------------------------
+//--- 種類を取得 ---
 CnvStrTime::CharCtrType CnvStrTime::getCharTypeSub(char ch){
 	CharCtrType typeMark;
 
@@ -647,11 +1235,7 @@ CnvStrTime::CharCtrType CnvStrTime::getCharTypeSub(char ch){
 	}
 	return typeMark;
 }
-
-
-//---------------------------------------------------------------------
-// 文字が空白をチェック
-//---------------------------------------------------------------------
+//--- 文字が空白をチェック ---
 bool CnvStrTime::isCharTypeSpace(char ch){
 	CharCtrType typeMark;
 
@@ -661,8 +1245,61 @@ bool CnvStrTime::isCharTypeSpace(char ch){
 	}
 	return false;
 }
+//--- 空白か終了をチェック ---
+bool CnvStrTime::isCharTypeSpaceEnd(char ch){
+	CharCtrType typeMark;
 
-
+	typeMark = getCharTypeSub(ch);
+	if ( typeMark == CHAR_CTR_SPACE || typeMark == CHAR_CTR_NULL ){
+		return true;
+	}
+	return false;
+}
+//--- 区切り文字かチェック ---
+bool CnvStrTime::isCharTypeDelim(char ch, DelimtStrType dstype){
+	bool flagDelim = false;
+	bool typeSpace = isCharTypeSpace(ch);
+	bool typeComma = (ch == ',');
+	bool typeNonum = (ch < '0' || ch > '9');
+	switch( dstype ){
+		case DELIMIT_SPACE_QUOTE:
+		case DELIMIT_SPACE_ONLY:
+		case DELIMIT_FUNC_ARGS:
+			flagDelim = typeSpace;
+			break;
+		case DELIMIT_SPACE_COMMA:
+		case DELIMIT_FUNC_CALC:
+			flagDelim = typeSpace || typeComma;
+			break;
+		case DELIMIT_SPACE_EXNUM:
+			flagDelim = typeSpace || typeNonum;
+			break;
+		case DELIMIT_CSV:
+			flagDelim = typeComma;
+			break;
+		case DELIMIT_FUNC_NAME:
+			flagDelim = typeSpace || typeComma || ch == '(' || ch == ')';
+			break;
+		default:
+			break;
+	}
+	return flagDelim;
+}
+//--- double quoteが有効な検索かチェック ---
+bool CnvStrTime::isCharValidDquote(DelimtStrType dstype){
+	return ( dstype == DELIMIT_SPACE_QUOTE ||
+	         dstype == DELIMIT_SPACE_COMMA ||
+	         dstype == DELIMIT_FUNC_ARGS   ||
+	         dstype == DELIMIT_FUNC_CALC   ||
+	         dstype == DELIMIT_CSV         );
+}
+//--- single quoteのみ無効かチェック ---
+bool CnvStrTime::isCharValidSquote(DelimtStrType dstype){
+	return ( dstype == DELIMIT_SPACE_QUOTE ||
+	         dstype == DELIMIT_SPACE_COMMA ||
+	         dstype == DELIMIT_FUNC_ARGS   ||
+	         dstype == DELIMIT_FUNC_CALC   );
+}
 
 //---------------------------------------------------------------------
 // 文字列を演算処理してミリ時間を取得

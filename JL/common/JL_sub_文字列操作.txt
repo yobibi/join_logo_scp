@@ -1,0 +1,148 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：文字列処理関連のFunction
+#
+#
+
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+Default StrDefZenAlpU "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ"
+Default StrDefZenAlpL "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"
+Default StrDefZenNum  "０１２３４５６７８９"
+Default StrDefHanAlpU "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+Default StrDefHanAlpL "abcdefghijklmnopqrstuvwxyz"
+Default StrDefHanNum  "0123456789"
+Default StrDefZenSym1 "！＃＄％＆’（）＊＋，－．／：；＜＝＞？［￥］＾‘｛｜｝～"
+Default StrDefHanSym1 "!#$%&'()*+,-./:;<=>?[\]^`{|}~"
+Default StrDefCutSymS "☆★"    # 比較不要な記号
+Default StrDefCutSymD "・・"    # 比較不要な記号の変換先（不要とする同じ文字を記載）
+Default StrDefRExpSym ".|[]^"   # 正規表現扱い検出用
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+CountUp once_check_sub_strfunction
+If ${once_check_sub_strfunction}!=1 { Return };  # 1回のみ実行
+
+#
+# データを代入
+#   strReg : 代入先
+#   strAdd : 代入する値（先頭の"@"は代入先データクリア）
+#   delim  : 区切り文字
+#   ins    : 0=上書き代入 1=代入先に追加で代入
+#
+Function StrRegVarAdd( ref(strReg) strAdd delim ins ){
+  If "${strAdd:Xb}"=="" { return };
+  LocalSet val ""
+  If "${strAdd:~0,1}"=="@" {    # 先頭文字"@"の処理
+    Set val "${strAdd:~1:<>}"
+  }elsif ${ins}==0 {
+    Set val "${strAdd:<>}"
+  }else{
+    Set val "${strReg}${delim}${strAdd:<>}"
+    If "${val:~0,1}"=="${delim}" {
+      Set val "${val:~1}"
+    };
+  };
+  SetReg strReg val
+};
+
+#
+# 検索用として半角のみ小文字は大文字に変換
+#
+Function StrConvOnlyHanToUp( ref(strData) ){
+  SetReg EXTCHAR  StrDefHanAlpL -local  # 半角小文字を変換する
+  SetReg EXTCHSUB StrDefHanAlpU -local  # 変換先（半角大文字）
+  Set strData "${strData:Xi}"
+};
+#
+# 単語が一致するか確認
+#   strWord : 検索する単語（正規表現可能）
+#   strData : 文字列データ
+#   返り値 ：1=すべて含まれている 0=それ以外
+#
+Function StrCmpWordWithRegExp( strWord strData ){
+  LocalSet match 0
+  LocalSet ci_rgex 0
+  {
+    SetReg EXTCHAR StrDefRExpSym -local
+    Set ci_rgex ${strWord:Ci}      # 正規表現が含まれているか確認
+  }
+  If ${ci_rgex}>0 {      # 正規表現扱い文字が含まれている場合
+    Set EXTCHAR "${strWord}" -local
+    If ${strData:Cm}>0 { Set match 1 };   # 正規表現で条件に合うか確認
+  }Else{
+    If "${strData}"=="${strWord}" { Set match 1 };
+  };
+  Set StrCmpWordWithRegExp ${match}
+};
+
+#
+# 検索用として文字は半角大文字に変換、記号は全角
+#
+Function StrConvToHanUpSymZen( ref(strData) ){
+  SetReg EXTCHAR  StrDefZenAlpU -local   # 全角大文字を変換する
+  SetReg EXTCHSUB StrDefHanAlpU -local   # 変換先（半角大文字）
+  Set strData "${strData:Xi}"
+  SetReg EXTCHAR  StrDefZenAlpL  # 全角小文字を変換する
+  Set strData "${strData:Xi}"
+  SetReg EXTCHAR  StrDefHanAlpL  # 半角小文字を変換する
+  Set strData "${strData:Xi}"
+  SetReg EXTCHAR  StrDefZenNum   # 全角数字を変換する
+  SetReg EXTCHSUB StrDefHanNum   # 変換先
+  Set strData "${strData:Xi}"
+  SetReg EXTCHAR  StrDefHanSym1  # 半角記号を変換する
+  SetReg EXTCHSUB StrDefZenSym1  # 変換先
+  Set strData "${strData:Xi}"
+  SetReg EXTCHAR  StrDefCutSymS  # 不要記号を変換する
+  SetReg EXTCHSUB StrDefCutSymD  # 変換先
+  Set strData "${strData:Xi}"
+  Set    EXTCHAR  "${StrDefCutSymD:~0,1}"  # 不要記号を変換する
+  Set    EXTCHSUB ""             # 変換先
+  Set strData "${strData:X}"     # 基本動作の置換
+};
+
+#
+# 記載されている検索項目がすべてデータに含まれるか確認
+#   strItem : 空白区切りの検索項目
+#   strData : 文字列データ
+#   返り値 ：1=すべて含まれている 0=それ以外
+#
+Function StrCmpEveryItemAnd( strItem strData ){
+  Fcall StrConvToHanUpSymZen( strItem )   # 検索項目を半角大文字に統一
+  Fcall StrConvToHanUpSymZen( strData )   # データを半角大文字に統一
+  SplitItem -RegArg strItem -RegOut listItem -local
+  LocalSet match 1
+  Repeat $#{listItem} -counter i 1 {    # 各項目それぞれ確認
+    SetReg EXTCHAR listItem[$i] -local
+    If ${strData:C}==0 { Set match 0 };  # データに含まれない
+  };
+  Set StrCmpEveryItemAnd ${match}
+};
+
+#
+# 記載されている検索項目がすべてデータに含まれるか確認
+# （正規表現扱い文字が含まれていたら正規表現として確認）
+#   strItem : 空白区切りの検索項目
+#   strData : 文字列データ
+#   返り値 ：1=すべて含まれている 0=それ以外
+#
+Function StrCmpItemWithRegExp( strItem strData ){
+  LocalSet match 0
+  LocalSet ci_rgex 0
+  If "${strItem:Xb}"=="" {    # 項目未設定は無条件許可
+    Set match 1
+  }Else{
+    SetReg EXTCHAR StrDefRExpSym -local
+    Set ci_rgex ${strItem:Ci}      # 正規表現が含まれているか確認
+  };
+  If ${ci_rgex}>0 {      # 正規表現扱い文字が含まれている場合
+    Set EXTCHAR "${strItem}" -local
+    Fcall StrConvToHanUpSymZen( strData )   # データを半角大文字に統一
+    If ${strData:Cm}>0 { Set match 1 };   # 正規表現で条件に合うか確認
+  }ElsIf ${match}==0 {      # 空白区切りの検索項目として条件に合うか確認
+    Fcall StrCmpEveryItemAnd( strItem strData ) -RegOut match
+  };
+  Set StrCmpItemWithRegExp ${match}
+};

@@ -536,18 +536,22 @@ void JlsReformData::detectCutmrg(){
 	}
 
 	//--- display auto detect CurMrgIn/Out ---
-	if (1){
+	{
 		string str_cutin;
 		string str_cutout;
 		// 検出マージン
 		detectCutmrgDispval(str_cutin,  cutin );
 		detectCutmrgDispval(str_cutout, cutout);
-		printf("auto detect CutMrgIn=%s CutMrgOut=%s\n", str_cutin.c_str(), str_cutout.c_str());
+		string mes1 = "auto detect CutMrgIn=" + str_cutin + " CutMrgOut=" + str_cutout;
 
 		// 設定マージン
 		detectCutmrgDispval(str_cutin,  pdata->extOpt.msecCutIn );
 		detectCutmrgDispval(str_cutout, pdata->extOpt.msecCutOut);
-		printf("current set CutMrgIn=%s CutMrgOut=%s\n", str_cutin.c_str(), str_cutout.c_str());
+		string mes2 = "current set CutMrgIn=" + str_cutin + " CutMrgOut=" + str_cutout;
+
+		// 表示
+		pdata->dispSysMesN(mes1, JlsDataset::SysMesType::CutMrg);
+		pdata->dispSysMesN(mes2, JlsDataset::SysMesType::CutMrg);
 	}
 }
 

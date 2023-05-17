@@ -17,37 +17,116 @@
 
 //--- ファイルオープン ---
 bool JlsScrGlobal::fileOpen(const string& strName, bool flagAppend){
+	//--- 文字コード番号設定があれば更新 ---
+	if ( m_outCodeNum > 0 ){
+		m_ofsScr.setCodeTypeFromNum(m_outCodeNum);
+		m_outCodeNum = 0;		// 設定なしに戻す
+	}
 	//--- 既にOpenしていたらClose ---
-	if ( m_flagOfsScr ){
+	if ( m_ofsScr.is_open() ){
 		m_ofsScr.close();
 	}
 	//--- オープン ---
 	if ( flagAppend ){
-		m_ofsScr.open(strName, ios::app);
+		m_ofsScr.append(strName);
 	}else{
 		m_ofsScr.open(strName);
 	}
 	//--- 確認 ---
-	if ( m_ofsScr ){
-		m_flagOfsScr = true;
-	}else{
-		addMsgError("error : file open(" + strName + ")\n");
+	if ( !m_ofsScr.is_open() ){
 		return false;
 	}
+	return true;
+}
+//--- 標準の文字コード番号を設定 ---
+bool JlsScrGlobal::fileSetCodeDefault(const string& str){
+	int num = LSys.getUtfNumFromStr(str);
+	if ( num < 0 ) return false;
+	LSys.setFileUtfCodeFromNum(num);
+	return true;
+}
+int JlsScrGlobal::fileGetCodeDefaultNum(){
+	return LSys.getFileUtfNum();
+}
+//--- 次に設定する文字コード番号を設定 ---
+bool JlsScrGlobal::fileSetCodeNum(const string& str){
+	int num = LSys.getUtfNumFromStr(str);
+	if ( num < 0 ) return false;
+	m_outCodeNum = num;
 	return true;
 }
 //--- ファイルクローズ ---
 void JlsScrGlobal::fileClose(){
 	m_ofsScr.close();
-	m_flagOfsScr = false;
 }
 //--- 文字列を出力 ---
 void JlsScrGlobal::fileOutput(const string& strBuf){
-	if ( m_flagOfsScr ){
-		m_ofsScr << strBuf;
+	if ( m_ofsScr.is_open() ){
+		m_ofsScr.write(strBuf);
+	}else if ( m_outMemoOnly ){	// 内部メモのみに出力
+		LSys.bufMemoIns(strBuf);
 	}else{
-		cout << strBuf;
+		lcout << strBuf;
 	}
+}
+//--- 標準出力のかわりに内部メモのみに出力する設定 ---
+void JlsScrGlobal::fileMemoOnly(bool flag){
+	m_outMemoOnly = flag;
+}
+//--- 内部メモをファイルに出力 ---
+void JlsScrGlobal::fileMemoFlush(){
+	LSys.bufMemoFlush(m_ofsScr);
+}
+//--- 出力先がファイルか ---
+bool JlsScrGlobal::fileIsOpen(){
+	return ( m_ofsScr.is_open() );
+}
+//=====================================================================
+// ファイル入力処理
+//=====================================================================
+
+//--- ファイルオープン ---
+bool JlsScrGlobal::readGOpen(const string& strName){
+	//--- 既にOpenしていたらClose ---
+	if ( m_ifsScr.is_open() ){
+		m_ifsScr.close();
+	}
+	//--- オープン ---
+	m_ifsScr.open(strName);
+	//--- 確認 ---
+	if ( !m_ifsScr.is_open() ){
+		addMsgError("error : file read open(" + strName + ")\n");
+		return false;
+	}
+	return true;
+}
+//--- ファイルクローズ ---
+void JlsScrGlobal::readGClose(){
+	m_ifsScr.close();
+}
+//--- ファイルの文字コード番号を取得 ---
+int JlsScrGlobal::readGCodeNum(){
+	return m_ifsScr.getCodeNum();
+}
+//--- 文字列を1行入力 ---
+bool JlsScrGlobal::readGLine(string& strLine){
+	if ( !m_ifsScr.is_open() ){
+		return false;
+	}
+	return readLineIfs(strLine, m_ifsScr);
+}
+//--- 文字列を1行入力（ファイル情報指定） ---
+bool JlsScrGlobal::readLineIfs(string& strLine, LocalIfs& ifs){
+	strLine.clear();
+	if ( ifs.getline(strLine) ){
+		auto len = strLine.length();
+		if ( len >= INT_MAX/4 ){		// 面倒事は最初にカット
+			strLine.clear();
+			return false;
+		}
+		return true;
+	}
+	return false;
 }
 
 //=====================================================================
@@ -55,40 +134,43 @@ void JlsScrGlobal::fileOutput(const string& strBuf){
 //=====================================================================
 
 //---------------------------------------------------------------------
-// 最上位階層扱いでローカル変数階層作成
+// 種類指定でローカル変数階層作成
 // 出力：
 //   返り値    : 作成階層（0=失敗、1以上=階層）
 //---------------------------------------------------------------------
-int JlsScrGlobal::setLocalRegCreateBase(){
-	bool flagBase = true;		// 上位階層は検索範囲外とする
-	return regvar.createLocal(flagBase);
+int JlsScrGlobal::setLocalRegCreateCall(){
+	return regvar.createLocalCall();
 }
-//---------------------------------------------------------------------
-// ローカル変数階層作成
-// 出力：
-//   返り値    : 作成階層（0=失敗、1以上=階層）
-//---------------------------------------------------------------------
+int JlsScrGlobal::setLocalRegCreateFunc(){
+	return regvar.createLocalFunc();
+}
 int JlsScrGlobal::setLocalRegCreateOne(){
-	bool flagBase = false;		// 上位階層も検索範囲
-	return regvar.createLocal(flagBase);
+	return regvar.createLocalOne();
 }
 //---------------------------------------------------------------------
-// 最上位階層扱いローカル変数階層の終了
+// 種類指定でローカル変数階層の終了
 // 出力：
 //   返り値    : 終了階層（0=失敗、1以上=階層）
 //---------------------------------------------------------------------
-int JlsScrGlobal::setLocalRegReleaseBase(){
-	bool flagBase = true;		// 上位階層は検索範囲外とする階層を許可
-	return regvar.releaseLocal(flagBase);
+int JlsScrGlobal::setLocalRegReleaseAny(){
+	return regvar.releaseLocalAny();
 }
-//---------------------------------------------------------------------
-// ローカル変数階層の終了
-// 出力：
-//   返り値    : 終了階層（0=失敗、1以上=階層）
-//---------------------------------------------------------------------
+int JlsScrGlobal::setLocalRegReleaseCall(){
+	return regvar.releaseLocalCall();
+}
+int JlsScrGlobal::setLocalRegReleaseFunc(){
+	return regvar.releaseLocalFunc();
+}
 int JlsScrGlobal::setLocalRegReleaseOne(){
-	bool flagBase = false;		// 上位階層も検索範囲の階層
-	return regvar.releaseLocal(flagBase);
+	return regvar.releaseLocalOne();
+}
+//---------------------------------------------------------------------
+// ローカル変数階層の取得
+// 出力：
+//   返り値    : 終了階層（0=失敗、1以上=階層）
+//---------------------------------------------------------------------
+int JlsScrGlobal::getLocalRegLayer(){
+	return regvar.getLocalLayer();
 }
 //---------------------------------------------------------------------
 // 変数を設定（通常、ローカル変数共通利用）
@@ -103,6 +185,10 @@ bool JlsScrGlobal::setRegVarCommon(const string& strName, const string& strVal, 
 		success = regvar.setRegVar(strName, strVal, overwrite);
 	}
 	return success;
+}
+//--- 変数の未定義化 ---
+bool JlsScrGlobal::unsetRegVar(const string& strName, bool flagLocal){
+	return regvar.unsetRegVar(strName, flagLocal);
 }
 //---------------------------------------------------------------------
 // 変数を読み出し
@@ -126,6 +212,14 @@ int JlsScrGlobal::getRegVarCommon(string& strVal, const string& strCandName, boo
 bool JlsScrGlobal::setArgReg(const string& strName, const string& strVal){
 	return regvar.setArgReg(strName, strVal);
 }
+//--- 参照渡しレジスタ設定 ---
+bool JlsScrGlobal::setArgRefReg(const string& strName, const string& strVal){
+	return regvar.setArgRefReg(strName, strVal);
+}
+//---  返り値変数となる関数名を設定 ---
+void JlsScrGlobal::setArgFuncName(const string& strName){
+	regvar.setArgFuncName(strName);
+}
 //---------------------------------------------------------------------
 // 読み出しでグローバル変数を見ない設定
 // 入力：
@@ -134,6 +228,19 @@ bool JlsScrGlobal::setArgReg(const string& strName, const string& strVal){
 void JlsScrGlobal::setLocalOnly(bool flag){
 	regvar.setLocalOnly(flag);
 }
+//--- 変数の大文字小文字を無視するか ---
+void JlsScrGlobal::setIgnoreCase(bool valid){
+	regvar.setIgnoreCase(valid);
+}
+//--- 書き換えにwarningを出すグローバル変数設定 ---
+void JlsScrGlobal::setGlobalLock(const string& strName, bool flag){
+	regvar.setGlobalLock(strName, flag);
+}
+//--- レジスタ名かチェック ---
+bool JlsScrGlobal::checkErrRegName(const string& strName){
+	bool silent = true;		// 使用前のチェックではエラーを表示しない
+	return regvar.checkErrRegName(strName, silent);
+}
 //---------------------------------------------------------------------
 // エラーメッセージチェック
 //---------------------------------------------------------------------
@@ -141,7 +248,7 @@ void JlsScrGlobal::checkRegError(bool flagDisp){
 	string msg;
 	if ( regvar.popMsgError(msg) ){		// エラーメッセージ存在時の出力
 		if ( flagDisp ){
-			cerr << msg;
+			lcerr << msg;
 		}
 	}
 	checkMsgError(flagDisp);
@@ -167,6 +274,31 @@ bool JlsScrGlobal::getListByName(queue <string>& queStr, const string& strName){
 	return memcmd.getListByName(queStr, strName);
 }
 
+//---------------------------------------------------------------------
+// コマンド保管時の実行順位・引数定義を設定
+//---------------------------------------------------------------------
+void JlsScrGlobal::setOrderStore(int order){
+	memcmd.setOrderForPush(order);
+}
+void JlsScrGlobal::resetOrderStore(){
+	memcmd.resetOrderForPush();
+}
+bool JlsScrGlobal::setMemDefArg(vector<string>& argDef){
+	return memcmd.setDefArg(argDef);
+}
+bool JlsScrGlobal::getMemDefArg(vector<string>& argDef, const string& strName){
+	return memcmd.getDefArg(argDef, strName);
+}
+void JlsScrGlobal::setMemUnusedFlag(const string& strName){
+	memcmd.setUnusedFlag(strName);
+}
+void JlsScrGlobal::checkMemUnused(){
+	string msg;
+	if ( memcmd.getUnusedStr(msg) ){
+		addMsgError(msg);
+	}
+	checkMsgError(true);
+}
 //---------------------------------------------------------------------
 // lazy処理によるコマンドの保管
 // 入力：
@@ -250,7 +382,7 @@ void JlsScrGlobal::setMemEcho(const string& strName){
 void JlsScrGlobal::setMemGetMapForDebug(){
 	string strBuf;
 	memcmd.getMapForDebug(strBuf);
-	cout << strBuf;
+	lcout << strBuf;
 }
 
 

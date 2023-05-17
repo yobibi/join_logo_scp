@@ -1,0 +1,343 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：フラグ設定情報を使って不要部分のカットを行う
+#       検索（JL_標準.txt）を実行する前に設定する
+#       ver5.0から追加の（AutoIns/AutoDelを使った）フラグ指定動作
+#
+#----------------------------------------------
+#  [flag list]
+## 予告等検出前の設定
+#   fHCA        : 最初の3～10秒で無音シーンチェンジがあればカット
+#   vHC:n       : 最初のn秒をカット（無音シーンチェンジがある場合）
+#   vHCF:n      : 最初のn秒をカット（無音シーンチェンジなければ強制的に）
+#   fTC30       : 最後の30/15秒構成を不要部分としてカット
+#   fSC30Mid    : 途中のロゴ開始直後30/15秒構成を不要部分としてカット
+#   fEC30Mid    : 途中のロゴ終了直前30/15秒構成を不要部分としてカット
+#   vTC120C1M:n : 後半最後のn分で120秒構成以降カット
+#   vTC90C2M:n  : 後半最後のn分で2回目の90秒構成以降カット
+## 予告等検出後の設定
+#   vTC:n       : 最後のn秒をカット（無音シーンチェンジがある場合）
+#   fTCB        : 最後の15秒未満1構成をカット
+#   fTCE        : エンドカード認識はカット
+#   vTRC5E90M:n : 最後n分内のロゴあり90秒構成後1分以内に無音SC間が5秒の区間あれば手前残し最後までカット
+## ファイル分割設定
+#   vTDLE:n     : ロゴ部分最後のn秒をファイル分割扱いで構成分離処理を行う
+## 構成結合（予告等検出前）
+#   fAMrL15     : ロゴ付き15秒構成結合（条件なし）
+#   fAMrL15A    : ロゴ付き15秒構成結合（5/10秒地点に構成存在時を除く）
+#   fAMrL15B    : ロゴ付き15秒構成結合（12秒地点に構成存在時を除く）
+#   fAMrL30A    : ロゴ付き30秒構成結合（10/15/20/25秒地点に構成存在時を除く）
+#   fAMrL90A    : ロゴ付き90秒構成結合（30/60/75秒地点に構成存在時を除く）
+#   fAMcN15     : ロゴ無し15秒構成結合（条件なし）
+#   fAMcN15A    : ロゴ無し15秒構成結合（5/10秒地点に構成存在時を除く）
+#   fAMcN30A    : ロゴ無し30秒構成結合（15秒地点に構成存在時を除く）
+#   fAMcN60A    : ロゴ無し60秒構成結合（15/30/45秒地点に構成存在時を除く）
+#   fAMcN90A    : ロゴ無し90秒構成結合（30/60/75秒地点に構成存在時を除く）
+#   fAMcN120A   : ロゴ無し120秒構成結合（30/60/90/105秒地点に構成存在時を除く）
+## 構成結合（予告等検出後）
+#   fAMcSpN15   : 番組提供がロゴ無し15秒構成の一部なら結合カット（条件なし）
+#   fAMcSpN15A  : 番組提供がロゴ無し15秒構成の一部なら結合カット（Trailer(add)直後除く）
+#   fAMcSpN15B  : 番組提供がロゴ無し15秒構成の一部なら結合カット（Trailer(add)後100秒除く）
+#   fAMcSpN15C  : 番組提供がロゴ無し15秒構成の一部なら結合カット（最終ロゴ後100秒除く）
+#   fAMcSpNL15  : 番組提供がNologoを合わせると15秒なら結合カット
+#   fAMcSpNL30  : 番組提供がNologoを合わせると30秒なら結合カット
+## ロゴ認識構成変更（予告等検出前）
+#   vAGrCmMg:n    : CM表示で15秒単位からn秒を超えてずれている所は残す（0=無効）
+#   vAGrCmMgS45:n : 40秒以上30秒単位でないCM位置に限定してn秒超えのずれは残す（0=無効）
+#   vAGrNlOv:n    : n秒以上のNologo構成は残す（0=無効）
+#----------------------------------------------
+#
+# 起動時オプションで必要なフラグを設定する。":0"で解除設定も可能。
+#（例）-flags fSC30Mid,vTDLE:90,fAMrL15A:0
+#
+# スクリプト内で指定する場合はSet（またはDefault）コマンドで記載する（フラグ設定時は1）
+#（例）Set vHCF 5
+#
+# 未設定と0設定は同じ
+#
+# 命名メモ
+#  f:フラグ指定 v:値指定
+#  A:全体 H:先頭 T:末尾 S:ロゴ開始 E:ロゴ終了
+#  R:残す C:カット D:分割 Mr:結合+残す Mc:結合+カット Gr:構成一般+残す Gc:構成一般+カット
+#  あとは適当
+#
+
+LazyAuto   # このファイルは自動で実行タイミング制御
+
+CountUp once_check_def_flag_std2
+If ${once_check_def_flag_std2}!=1 { Return };  # このファイルは一度だけ実行
+#MemOnce ${once_check_def_flag_std2}  # このファイルのMemory/MemSet文は一度だけ実行
+
+
+# 共通利用のグローバル変数
+Default g_noedge "-Fmid 2.0 2.0"     # 端部分を除く
+
+#***************** フラグ内容 ********************************************
+#   fHCA        : 最初の3～10秒で無音シーンチェンジがあればカット
+#   vHC:n       : 最初のn秒をカット（無音シーンチェンジがある場合）
+#   vHCF:n      : 最初のn秒をカット（無音シーンチェンジなければ強制的に）
+#   fTC30       : 最後の30/15秒構成を不要部分としてカット
+#   fSC30Mid    : 途中のロゴ開始直後30/15秒構成を不要部分としてカット
+#   fEC30Mid    : 途中のロゴ終了直前30/15秒構成を不要部分としてカット
+#   vTC120C1M:n : 後半最後のn分で120秒構成以降カット
+#   vTC90C2M:n  : 後半最後のn分で2回目の90秒構成以降カット
+#*************************************************************************
+
+If fHCA
+  MemSet AUTO {
+    AutoDel S 3.0 2.5 10.5 -Nauto 1 -fix
+  };
+EndIf
+
+If vHC
+  MemSet AUTO {
+    AutoDel S S(${vHC}) -Nauto 1 -fix
+  };
+EndIf
+
+If vHCF
+  MemSet AUTO {
+    AutoDel S S(${vHCF}) -Nauto 1 -force -fix
+  };
+EndIf
+
+If fTC30
+  MemSet AUTO {
+    AutoDel E -Nauto -1 -Dlist -30.0,-15.0
+  };
+EndIf
+
+If fSC30Mid
+  MemSet AUTO {
+    Default vDefMidFrmSt   00:10:00  # 中間範囲とする先頭からの位置
+    Default vDefMidFrmEd   00:10:00  # 中間範囲とする末尾からの位置
+    Default vDefMidLenLg   00:02:00  # カット対象とするロゴ最低期間
+    AutoDel S -Nauto -Dlist 30.0,15.0 -Fmid ${vDefMidFrmSt} ${vDefMidFrmEd} -LenN ${vDefMidLenLg} -1
+  };
+EndIf
+
+If fEC30Mid
+  MemSet AUTO {
+    Default vDefMidFrmSt   00:10:00  # 中間範囲とする先頭からの位置
+    Default vDefMidFrmEd   00:10:00  # 中間範囲とする末尾からの位置
+    Default vDefMidLenLg   00:02:00  # カット対象とするロゴ最低期間
+    AutoDel E -Nauto -Dlist -30.0,-15.0 -Fmid ${vDefMidFrmSt} ${vDefMidFrmEd} -LenP ${vDefMidLenLg} -1
+  };
+EndIf
+
+If vTC120C1M
+  MemSet AUTO  -order 40 {     # 優先順位を少し上げる
+    AutoDel E -120.0 -fromC -underC -EndTail -Ftail S(${vTC120C1M})*60 -keepC -pick 1
+  };
+EndIf
+
+If vTC90C2M
+  MemSet AUTO  -order 40 {     # 優先順位を少し上げる
+    AutoDel E -90.0 -fromC -underC -EndTail -Ftail S(${vTC90C2M})*60 -keepC -pick 2
+  };
+EndIf
+
+#***************** フラグ内容 ********************************************
+#   vTC:n       : 最後のn秒をカット
+#   fTCB        : 最後の15秒未満1構成をカット
+#   fTCE        : エンドカード認識はカット
+#   vTC5End90M:n : 最後12分内のロゴあり90秒構成後1分以内に5秒区間無音SCあれば最後までカット
+#*************************************************************************
+
+If vTC
+  MemSet mbase_last {
+    AutoDel E -S(${vTC}) -Nauto -1 -final -fix
+  };
+EndIf
+
+If fTCB
+  MemSet mbase_last {
+    AutoDel E -3.0 -14.0 -1.0 -Nauto -1 -final -C -underC -fix
+  };
+EndIf
+
+If fTCE
+  MemSet mbase_last {
+    AutoDel -fromEC -fix
+  };
+EndIf
+
+If vTRC5E90M
+  MemSet mbase_last {
+    GetPos S 90.0 -fromC -underC -Ftail S(${vTRC5E90M})*60 -pick 1 -clear
+    AutoIns 10.0 2.0 61.0 -fromAbs ${POSHOLD} -RSC 5.0 -keepC
+    AutoDel 10.0 2.0 61.0 -fromAbs ${POSHOLD} -RSC 5.0 -EndTail -keepC
+  };
+EndIf
+
+#***************** フラグ内容 ********************************************
+#   vTDLE       : ロゴ部分最後の指定秒をファイル分割扱いで構成分離処理を行う
+#*************************************************************************
+
+#---（設定記憶）検索開始場所 ---
+If vTDLE
+  ArgSet divone_num   -1     # 分離起点のロゴ番号（最後から数える時はマイナス）
+  ArgSet divone_ch    E      # 分離起点（S=ロゴ開始位置  E=ロゴ終了位置）
+  ArgSet divone_len_s 0.0    # 分離起点からの構成始点位置
+  ArgSet divone_len_e -S(${vTDLE})  # 分離起点からの構成終点位置
+  ArgSet divone_deltr 1      # 予告等検出前に構成一時削除（0=なし 1=あり）
+  Call "JL_set_一部構成分離.txt"
+EndIf
+
+
+#***************** フラグ内容 ********************************************
+#   fAMrL15A    : ロゴ付き15秒構成結合（5/10秒地点に構成存在時を除く）
+#   fAMrL15B    : ロゴ付き15秒構成結合（12秒地点に構成存在時を除く）
+#   fAMrL30A    : ロゴ付き30秒構成結合（10/15/20/25秒地点に構成存在時を除く）
+#   fAMrL90A    : ロゴ付き90秒構成結合（30/60/75秒地点に構成存在時を除く）
+#   fAMcN15     : ロゴ無し15秒構成結合（条件なし）
+#   fAMcN15A    : ロゴ無し15秒構成結合（5/10秒地点に構成存在時を除く）
+#   fAMcN30A    : ロゴ無し30秒構成結合（15秒地点に構成存在時を除く）
+#   fAMcN60A    : ロゴ無し60秒構成結合（15/30/45秒地点に構成存在時を除く）
+#   fAMcN90A    : ロゴ無し90秒構成結合（30/60/75秒地点に構成存在時を除く）
+#   fAMcN120A   : ロゴ無し120秒構成結合（30/60/90/105秒地点に構成存在時を除く）
+#*************************************************************************
+
+If fAMrL15A fAMrL15B
+  MemSet AUTO  -order 30 {     # 結合の実行順位は早く
+    LocalSet noac "-Em 0.25"
+    If fAMrL15A
+      Set noac "${noac} -NoAC 5.0 -NoAC 10.0"
+    EndIf
+    If fAMrL15B
+      Set noac "${noac} -NoAC 12.0"
+    EndIf
+    AutoIns 15.0 -Dm 0.25 -fromC -ZoneL -overC ${g_noedge} ${noac}
+  };
+EndIf
+
+If fAMrL30A
+  MemSet AUTO  -order 30 {     # 結合の実行順位は早く
+    LocalSet noac "-Em 0.25 -NoAC 10.0 -NoAC 15.0 -NoAC 20.0 -NoAC 25.0"
+    AutoIns 30.0 -Dm 0.25 -fromC -ZoneL -overC ${g_noedge} ${noac}
+  };
+EndIf
+
+If fAMrL90A
+  MemSet AUTO  -order 30 {     # 結合の実行順位は早く
+    LocalSet noac "-Em 0.25 -NoAC 30.0 -NoAC 60.0 -NoAC 75.0"
+    AutoIns 90.0 -Dm 0.25 -fromC -ZoneL -overC ${g_noedge} ${noac}
+  };
+EndIf
+
+If fAMcN15 fAMcN15A
+  MemSet AUTO  -order 30 {     # 結合の実行順位は早く
+    LocalSet noac "-Em 0.25"
+    If fAMcN15A && !fAMcN15
+      Set noac "${noac} -NoAC 5.0 -NoAC 10.0"
+    EndIf
+    AutoDel 15.0 -Dm 0.25 -fromC -ZoneN ${g_noedge} ${noac}
+  };
+EndIf
+
+If fAMcN30A
+  MemSet AUTO  -order 30 {     # 結合の実行順位は早く
+    LocalSet noac "-Em 0.25 -NoAC 15.0"
+    AutoDel 30.0 -Dm 0.25 -fromC -ZoneN ${g_noedge} ${noac}
+  };
+EndIf
+
+If fAMcN60A
+  MemSet AUTO  -order 30 {     # 結合の実行順位は早く
+    LocalSet noac "-Em 0.25 -NoAC 15.0 -NoAC 30.0 -NoAC 45.0"
+    AutoDel 60.0 -Dm 0.25 -fromC -ZoneN ${g_noedge} ${noac}
+  };
+EndIf
+
+If fAMcN90A
+  MemSet AUTO  -order 30 {     # 結合の実行順位は早く
+    LocalSet noac "-Em 0.25 -NoAC 30.0 -NoAC 60.0 -NoAC 75.0"
+    AutoDel 90.0 -Dm 0.25 -fromC -ZoneN ${g_noedge} ${noac}
+  };
+EndIf
+
+If fAMcN120A
+  MemSet AUTO  -order 30 {     # 結合の実行順位は早く
+    LocalSet noac "-Em 0.25 -NoAC 30.0 -NoAC 60.0 -NoAC 90.0 -NoAC 105.0"
+    AutoDel 120.0 -Dm 0.25 -fromC -ZoneN ${g_noedge} ${noac}
+  };
+EndIf
+
+
+#*************************************************************************
+#   fAMcSpN15    : 番組提供がロゴ無し15秒構成の一部なら結合カット（条件なし）
+#   fAMcSpN15A   : 番組提供がロゴ無し15秒構成の一部なら結合カット（Trailer(add)直後除く）
+#   fAMcSpN15B   : 番組提供がロゴ無し15秒構成の一部なら結合カット（Trailer(add)後100秒除く）
+#   fAMcSpN15C   : 番組提供がロゴ無し15秒構成の一部なら結合カット（最終ロゴ後100秒除く）
+#   fAMcSpNL15   : 番組提供がNologoを合わせると15秒なら結合カット
+#   fAMcSpNL30   : 番組提供がNologoを合わせると30秒なら結合カット
+#*************************************************************************
+
+If fAMcSpN15 fAMcSpN15A fAMcSpN15B fAMcSpN15C
+  MemSet mbase_last  -order 30 {     # 番組提供認識後。結合の実行順位は早く
+    ListClear -RegList lista  -local   # 禁止領域
+    If fAMcSpN15A && !fAMcSpN15  # 予告(add)直後の構成まで結合禁止領域
+      GetList S -fromTRa -DstNextC 2 -holdB -RegOut listtmp -local
+      ListJoin -RegArg listtmp -RegList lista -sort -overlap
+    EndIf
+    If fAMcSpN15B && !fAMcSpN15  # 予告(add)から予告終了の100秒後の区切りまで結合禁止領域
+      GetList S 100.0 0.0 101.2 -fromTRa -DstNextC -holdB -RegOut listtmp -local
+      ListJoin -RegArg listtmp -RegList lista -sort -overlap
+    EndIf
+    If fAMcSpN15C && !fAMcSpN15  # 最終ロゴ以降100秒後の区切りまで結合禁止領域
+      GetList E 100.0 0.0 101.2  -Nauto -1 -C -holdB -RegOut listtmp -local
+      ListJoin -RegArg listtmp -RegList lista -sort -overlap
+    EndIf
+    AutoDel S  15.0 -fromSp -ZoneN -ZoneImmN ${lista} -overC ${g_noedge}  # 番組提供構成前側から後に
+    AutoDel E -15.0 -fromSp -ZoneN -ZoneImmN ${lista} -overC ${g_noedge}  # 番組提供構成後側から前に
+  };
+EndIf
+
+If fAMcSpNL15
+  MemSet mbase_last  -order 30 {     # 番組提供認識後。結合の実行順位は早く
+    GetList B -fromSP -fromNL -merge
+    AutoDel S  15.0 -fromSP -overC -ZoneImmL ${LISTHOLD} ${g_noedge}
+    AutoDel E -15.0 -fromSP -overC -ZoneImmL ${LISTHOLD} ${g_noedge}
+  };
+EndIf
+
+If fAMcSpNL30
+  MemSet mbase_last  -order 30 {     # 番組提供認識後。結合の実行順位は早く
+    GetList B -fromSP -fromNL -merge
+    AutoDel S  30.0 -fromSP -overC -ZoneImmL ${LISTHOLD} ${g_noedge}
+    AutoDel E -30.0 -fromSP -overC -ZoneImmL ${LISTHOLD} ${g_noedge}
+  };
+EndIf
+
+
+#*************************************************************************
+##   vAGrCmMg:n    : CM表示で15秒単位からn秒を超えてずれている所は残す（0=無効）
+##   vAGrCmMgS45:n : 40秒以上30秒単位でないCM位置に限定してn秒超えのずれは残す（0=無効）
+##   vAGrNlOv:n    : n秒以上のNologo構成は残す（0=無効）
+#*************************************************************************
+
+If vAGrCmMg
+  MemSet AUTO {
+    LocalSet listcm 15.0,30.0,45.0,60.0,75.0,90.0,105.0,120.0
+    GetList -fromCM -Dlist ${listcm} -Dm 5.0 -underC -holdB -RegOut lista -local
+    GetList -fromCM -Dlist ${listcm} -Dm S(${vAGrCmMg}) -underC -holdB -RegOut listb -local
+    ListRemove -RegArg listb -RegList lista -overlap  # ずれが小さい位置を除く
+    AutoIns -fromCM -ZoneImmL ${lista} ${g_noedge}
+  };
+EndIf
+
+If vAGrCmMgS45
+  MemSet AUTO {
+    LocalSet listcm 45.0,75.0,105.0
+    GetList -fromCM -Dlist ${listcm} -Dm 5.0 -underC -holdB -RegOut lista -local
+    GetList -fromCM -Dlist ${listcm} -Dm S(${vAGrCmMgS45}) -underC -holdB -RegOut listb -local
+    ListRemove -RegArg listb -RegList lista -overlap  # ずれが小さい位置を除く
+    AutoIns -fromCM -ZoneImmL ${lista} ${g_noedge}
+  };
+EndIf
+
+If vAGrNlOv
+  MemSet AUTO {
+    AutoIns -fromNL -Drange S(${vAGrNlOv}) -1 -underC
+  };
+EndIf

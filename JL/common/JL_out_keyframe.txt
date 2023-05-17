@@ -17,14 +17,11 @@ MemOnce ${once_check_out_keyframe}  # このファイルのMemory文は一度だけ実行
 
 Memory OUTPUT                  # 出力時自動的に実行
 {
-  GetList B -final             # カット位置情報を取得
+  SysDataGet TRIMLIST -RegOut listtr   # カット位置情報を取得
   FileOpen ${file_keyframe}    # 書き込むファイル
-  LocalSet ncount    0
-  Repeat ${SIZEHOLD}           # GetListで取得の要素数
-    Set ncount ${ncount}+1
-    ListGetAt ${ncount}
-    EvalFrame outframe ${POSHOLD} -local
-    Echo ${outframe}
+  Repeat $#{listtr} -counter ncount 1  # 各要素を取得・表示
+    ListGetAt ${ncount} -RegList listtr
+    Echo ${POSHOLD}
   EndRepeat
   FileClose
 }

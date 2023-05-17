@@ -5,6 +5,8 @@
 //
 #pragma once
 
+#include "JlsScriptLimVar.hpp"
+
 class JlsCmdArg;
 class JlsCmdLimit;
 class JlsCmdSet;
@@ -18,16 +20,38 @@ class JlsDataset;
 class JlsScriptLimit
 {
 private:
-	enum class ScrLogoSetBase {
-		None,			// 設定なし
-		BaseLoc,		// 基準位置を設定する動作
-		ValidList		// 有効ロゴリストを設定する動作
+	struct ScrTargetRecord {	// ターゲット位置検索時のデータ
+		// 設定
+		bool flagNoEdge;		// 全体の先頭と最後のフレームは含めない
+		bool flagNextTail;		// NextTailコマンド用
+		bool selectLogoRise;	// NextTailコマンドでロゴ立上り優先
+		// 結果
+		TargetLocInfo tgDst;	// 結果位置
+		TargetLocInfo tgEnd;	// 終了位置
+		int  numListDst;		// 複数候補の中から選択された番号
+		int  numListEnd;		// 複数候補の中から選択された番号
+		int  numListTryDst;		// 複数候補の中から選択された番号（候補検索用）
+		ScpPriorType statDst;	// 構成の優先順位
+		ScpPriorType statEnd;	// 構成の優先順位
+		Msec gapDst;			// 中心からの距離
+		Msec gapEnd;			// 中心からの距離
+		bool flagOnLogo;		// NextTailコマンドのロゴ立上り検出用
 	};
-	struct ScrLogoInfoCmdRecord {	// ロゴリスト取得用に使用
-		LogoSelectType typeLogo;	// LOGO_SELECT_ALL or LOGO_SELECT_VALID
-		ScrLogoSetBase typeSetBase;	// 0=設定なし 1=基準位置の設定 2=有効ロゴリストの設定
-		LogoEdgeType edgeSel;		// 検索する場合の立上り／立下り
-		Msec msecSel;				// 検索する場合の位置
+	struct ScrOptCRecord {		// 推測構成オプション
+		bool exist;
+		bool C;
+		bool Tra;
+		bool Trr;
+		bool Trc;
+		bool Sp;
+		bool Ec;
+		bool Bd;
+		bool Mx;
+		bool Aea;
+		bool Aec;
+		bool Cm;
+		bool Nl;
+		bool L;
 	};
 
 public:
@@ -36,37 +60,60 @@ public:
 	void resizeRangeHeadTail(JlsCmdSet& cmdset, RangeMsec rmsec);
 	int  limitLogoList(JlsCmdSet& cmdset);
 	bool selectTargetByLogo(JlsCmdSet& cmdset, int nlist);
-	void selectTargetByRange(JlsCmdSet& cmdset, WideMsec wmsec, bool force);
+	void selectTargetByRange(JlsCmdSet& cmdset, WideMsec wmsec);
 
 private:
 	//--- コマンド共通の範囲限定 ---
-	void limitHeadTail(JlsCmdSet& cmdset);
-	void limitHeadTailImm(JlsCmdSet& cmdset, RangeMsec rmsec);
-	void limitWindow(JlsCmdSet& cmdset);
-	void limitListForTarget(JlsCmdSet& cmdset);
-	//--- ロゴ位置情報リストを取得 ---
-	bool limitLogoListSub(JlsCmdArg& cmdarg, int curNum, int maxNum);
-	bool limitLogoListRange(int& st, int& ed, vector<WideMsec>& listWmsec, RangeMsec rmsec);
-	//--- 指定ロゴの制約を適用 ---
-	bool limitTargetLogo(JlsCmdSet& cmdset, int nlist);
-	bool limitTargetLogoGet(JlsCmdSet& cmdset, int nlist);
-	bool limitTargetLogoCheck(JlsCmdSet& cmdset);
-	bool limitTargetLogoCheckLength(WideMsec wmsecLg, RangeMsec lenP, RangeMsec lenN);
-	bool limitTargetRangeByLogo(JlsCmdSet& cmdset);
-	void limitTargetRangeByImm(JlsCmdSet& cmdset, WideMsec wmsec, bool force);
+	void limitCustomLogo();
+	void limitHeadTail();
+	void limitHeadTailImm(RangeMsec rmsec);
+	void limitWindow();
+	void updateCommonRange(JlsCmdSet& cmdset);
+	//--- 有効なロゴ位置リストを取得 ---
+	void getLogoListStd(JlsCmdSet& cmdset);
+	bool isLogoListStdNumUse(int curNum, int maxNum);
+	bool getLogoListStdData(vector<Msec>& listMsecLogoIn, int& locStart, int& locEnd);
+	bool getLogoListStdDataRange(int& st, int& ed, vector<Msec>& listMsec, RangeMsec rmsec);
+	void getLogoListDirect(JlsCmdSet& cmdset);
+	void getLogoListDirectCom(JlsCmdSet& cmdset);
+	void getLogoListDirectComOpt(ScrOptCRecord& optC);
+	bool getLogoListDirectComOptSub(bool& data, int n);
+	bool isLogoListDirectComValid(Nsc nscCur, ScrOptCRecord optC);
+	int  getLogoListNearest(JlsCmdSet& cmdset, vector<Msec> listMsec, Msec msecFrom);
+	//--- ロゴ位置リスト内の指定ロゴで基準ロゴデータを作成 ---
+	bool baseLogo(JlsCmdSet& cmdset, int nlist);
+	bool getBaseLogo(JlsCmdSet& cmdset, int nlist);
+	void getBaseLogoForTg(WideMsec& wmsecTg, LogoEdgeType& edgeTg, JlsCmdSet& cmdset, bool flagBase);
+	bool checkBaseLogo(JlsCmdSet& cmdset);
+	bool checkBaseLogoLength(WideMsec wmsecLg, RangeMsec lenP, RangeMsec lenN);
+	//--- ターゲット範囲を取得 ---
+	bool targetRangeByLogo(JlsCmdSet& cmdset);
+	void targetRangeByImm(JlsCmdSet& cmdset, WideMsec wmsec);
+	void updateTargetRange(JlsCmdSet& cmdset, bool fromLogo);
+	void addTargetRangeByLogoShift(WideMsec wmsecBase);
+	void addTargetRangeData(WideMsec wmsecBase);
+	bool findTargetRange(WideMsec& wmsecFind, WideMsec wmsecBase, Msec msecFrom);
+	bool findTargetRangeSetBase(WideMsec& wmsecFind, WideMsec& wmsecAnd, WideMsec wmsecBase, Msec msecFrom);
+	bool findTargetRangeLimit(WideMsec& wmsecFind, WideMsec& wmsecAnd);
 	//--- ターゲット位置を取得 ---
-	void getTargetPoint(JlsCmdSet& cmdset);
-	void getTargetPointOutEdge(JlsCmdSet& cmdset);
-	bool getTargetPointEndResult(int& nsc_scpos_end, JlsCmdArg& cmdarg, int msec_base);
-	Nsc  getTargetPointEndlen(JlsCmdArg& cmdarg, int msec_base);
-	Nsc  getTargetPointEndArg(JlsCmdArg& cmdarg, int msec_base);
-	void getTargetPointSetScpEnable(JlsCmdSet& cmdset);
+	void targetPoint(JlsCmdSet& cmdset);
+	void setTargetPointOutEdge(JlsCmdSet& cmdset);
+	void seekTargetPoint(JlsCmdSet& cmdset);
+	void seekTargetPointFromScp(JlsCmdSet& cmdset, Nsc nscNow, bool lastNsc);
+	bool seekTargetPointEnd(JlsCmdSet& cmdset, Msec msecRef, bool force);
+	void seekTargetPointEndRefer(TargetLocInfo& tgEnd, JlsCmdSet& cmdset, Msec msecIn);
+	bool seekTargetPointEndScp(JlsCmdSet& cmdset, Msec msecIn, Msec msecDst, Nsc nscAnd);
+	void prepTargetPoint(JlsCmdSet& cmdset);
+	void prepTargetPointEnd(JlsCmdSet& cmdset);
+	bool prepTargetPointEndAbs(TargetLocInfo& tgEnd, bool& multiBase, JlsCmdSet& cmdset);
 	//--- 複数処理で使用 ---
-	bool getLogoInfoList(vector<WideMsec>& listWmsecLogo, JlsCmdSet& cmdset, ScrLogoInfoCmdRecord infoCmd);
-	int  getLogoInfoListFind(vector<WideMsec>& listWmsec, Msec msecLogo, LogoEdgeType edge);
-	void getLogoInfoListLg(vector<WideMsec>& listWmsec, vector<Nrf>& listNrf, LogoSelectType type);
-	void getLogoInfoListElg(vector<WideMsec>& listWmsec, vector<Nsc>& listNsc, bool outflag);
-	bool checkOptScpFromMsec(JlsCmdArg &cmdarg, int msec_base, LogoEdgeType edge, bool chk_base, bool chk_rel);
+	// 基準位置からのロゴ前後幅
+	void getWidthLogoFromBase(WideMsec& wmsec, JlsCmdSet& cmdset, int step, bool flagWide);
+	void getWidthLogoFromBaseForTarget(WideMsec& wmsec, JlsCmdSet& cmdset, int step, bool flagWide);
+	void getWidthLogoCommon(WideMsec& wmsec, Msec msecLogo, LogoEdgeType edgeLogo, int step, bool flagWide);
+
+private:
+	JlsScriptLimVar var;
 
 private:
 	JlsDataset *pdata;									// 入力データアクセス

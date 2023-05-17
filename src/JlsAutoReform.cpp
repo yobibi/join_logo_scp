@@ -66,7 +66,7 @@ bool JlsAutoReform::startAutoCM(JlsCmdArg &cmdarg){
 //    nsc_from：範囲開始位置
 //    nsc_to：  範囲終了位置
 //    logoon：  ロゴ設定（0:ロゴなし、1:ロゴあり）
-//    resutuct：構成再構築（0:範囲内は単一構成、1:範囲内の構成を再構築）
+//    resutuct：構成再構築（0:範囲内は単一構成、1:範囲内の構成を再構築 2:範囲内の構成を保持）
 // 出力：
 //   pdata(chap,arstat)
 // 注意点：
@@ -83,10 +83,13 @@ void JlsAutoReform::mkReformTarget(Nsc nsc_from, Nsc nsc_to, bool logoon, int re
 	if (nsc_to < 0){
 		return;
 	}
+	//--- 同一位置の場合は前側のみ（実質動作は区切り＋setScpChap設定） --
+	if (nsc_from == nsc_to && nsc_from >= 0){
+		nsc_to = -1;
+	}
 	//--- 処理開始 ---
 	Msec msec_to = -1;
 	Msec msec_from = -1;
-	Sec  sec_dif = 0;
 	//--- 前側位置の確定処理 ---
 	if (nsc_from >= 0){
 		msec_from = pdata->getMsecScp(nsc_from);
@@ -99,9 +102,17 @@ void JlsAutoReform::mkReformTarget(Nsc nsc_from, Nsc nsc_to, bool logoon, int re
 		pdata->setScpArstat(nsc_from, arstat_from);
 		pdata->setScpArext(nsc_from, arext_from);
 		//--- 対象間の確定位置を解除 ---
+		if ( restruct == 2 ){		// 構成残す時は先に余分をカット
+			bool cutDivUnit = logoon;	// ロゴ有にする時はCM内分割を消す
+			pdata->changeChapDispUnit(nsc_from, nsc_to, cutDivUnit);
+		}
 		while (nsc_chapfrom >= 0 && nsc_chapfrom < nsc_to){
 			if (nsc_chapfrom > nsc_from){
-				pdata->setScpChap(nsc_chapfrom, SCP_CHAP_NONE);
+				if ( restruct == 2 ){
+					pdata->changeLogoOnOff(nsc_chapfrom, logoon);
+				}else{
+					pdata->setScpChap(nsc_chapfrom, SCP_CHAP_NONE);
+				}
 			}
 			nsc_chapfrom = pdata->getNscNextScpDecide(nsc_chapfrom, SCP_END_EDGEIN);
 		}
@@ -109,26 +120,19 @@ void JlsAutoReform::mkReformTarget(Nsc nsc_from, Nsc nsc_to, bool logoon, int re
 	//--- 後側位置の確定処理 ---
 	if (nsc_to >= 0){
 		msec_to = pdata->getMsecScp(nsc_to);
-		//--- 対象間の距離取得 ---
-		ScpArType arstat_to = SCP_AR_L_OTHER;
-		if (nsc_from >= 0){
-			sec_dif = pdata->cnv.getSecFromMsec(msec_to - msec_from);
-		}
 		//--- 後側位置に設定する構成を取得 ---
+		ScpArType arstat_to = SCP_AR_L_OTHER;
 		if (logoon == 0){
-			if (sec_dif > 0 && sec_dif <= 120 && (sec_dif % 15 == 0)){
-				arstat_to = SCP_AR_N_UNIT;
-			}
-			else{
-				arstat_to = SCP_AR_N_OTHER;
-			}
+			arstat_to = SCP_AR_N_OTHER;
 		}
 		//--- 後側位置の設定 ---
 		pdata->setScpChap(nsc_to, SCP_CHAP_DFORCE);
 		pdata->setScpArstat(nsc_to, arstat_to);
 	}
+	//--- 構成変更時の補正処理（前後構成含む） ---
+	pdata->changeChapDispUnitWithSide(nsc_from, nsc_to);
 	//--- ２点間の構成再構築 ---
-	if (nsc_from >= 0 && nsc_to >= 0 && restruct > 0){
+	if (nsc_from >= 0 && nsc_to >= 0 && restruct == 1){
 		//--- ロゴなし再構築 ---
 		if (logoon == 0){
 			RangeFixMsec scope;
@@ -1960,8 +1964,29 @@ bool JlsAutoReform::setFirstAreaUpdate(FormFirstInfo &info_first, FormFirstLoc l
 			else if (chap_i >= SCP_CHAP_DECIDE || lvchap == 2){
 				npoint_i += 15000;
 			}
-			else if (chap_i >= SCP_CHAP_CPOSIT || lvchap == 1){
+			else if ( lvchap == 1){
 				npoint_i += 10000;
+			}else if (chap_i >= SCP_CHAP_CPOSIT){
+				int lvsub = 0;		// 改めて周囲と構成秒数を確認
+				for(int k=1; k < num_scpos-1; k++){
+					Msec msec_k = pdata->getMsecScp(k);
+					if ( msec_k - msec_i >= 200 * 1000 ) break;
+					ScpChapType chap_k = pdata->getScpChap(k);
+					CalcDifInfo calct;
+					int lvtmp = calcDifSelect(calct, msec_i, msec_k);
+					if ( lvtmp >= 2 || (lvtmp == 1 && calct.sec == 5) ){
+						if ( isScpChapTypeDecide(chap_k) ){
+							lvsub = 2;
+						}else if ( chap_k >= SCP_CHAP_CPOSIT){
+							lvsub = 1;
+						}
+					}
+				}
+				if ( lvsub >= 2 || (lvsub == 1 && locinfo.msec1stSel < 0) ){
+					npoint_i += 10000;
+				}else if ( lvsub == 1 ){
+					npoint_i += 2000;
+				}
 			}
 			//--- 最適位置の判断 ---
 			if ((npoint_cand < npoint_i || nsc_cand < 0) && npoint_i > 0){
@@ -4827,6 +4852,8 @@ int JlsAutoReform::getScore(Msec msec_target, RangeMsec scope){
 	int score_m2 = 0;
 	int score_m1 = 0;
 	int score_mt = 0;
+	int score_c2 = 0;
+	int score_c1 = 0;
 	int score_sec5 = 0;
 	Nsc nsc_cur = 0;
 	//--- target位置から前後３分を検索 ---
@@ -4863,6 +4890,8 @@ int JlsAutoReform::getScore(Msec msec_target, RangeMsec scope){
 				smute_det = pdata->isSmuteFromMsec(msec_cmp);
 				still_det = pdata->isStillFromMsec(msec_cmp);
 			}
+			//--- ずれがない認識するケース ---
+			bool flag_core = ( msec_dist_min <= pdata->msecValNear2 && msec_dist_min >= 0 );
 			//--- スコア追加 ---
 			int score_tmp = getScoreTarget(msec_dist_min, sec_width, smute_det, still_det);
 			if (abs(sec_width) > 120){			// 120秒超え
@@ -4870,12 +4899,14 @@ int JlsAutoReform::getScore(Msec msec_target, RangeMsec scope){
 			}
 			else if (abs(sec_width) > 60){		// 60秒超え - 120秒
 				score_m2 += score_tmp;
+				if ( flag_core ) score_c2 += score_tmp;
 			}
 			else if (abs(sec_width) % 15 == 0){	// 60秒まで15秒単位
 				score_m1 += score_tmp;
 				if (abs(sec_width) <= 30){		// 30秒まで15秒単位
 					score_mt += score_tmp;
 				}
+				if ( flag_core ) score_c1 += score_tmp;
 			}
 			else{								// 5秒単位
 				score_sec5 += score_tmp;
@@ -4899,6 +4930,13 @@ int JlsAutoReform::getScore(Msec msec_target, RangeMsec scope){
 			score_all = score_ma;
 		}
 		else{
+			score_all = 50;
+		}
+		//--- スコアが大きい時ずれが大きい場所のスコアを軽減 ---
+		int score_dif = (score_m1 - score_c1);
+		if ( score_m2 > score_c2 ) score_dif += (score_m2 - score_c2);
+		score_all = score_all - (score_dif * 1 / 3);
+		if ( score_all < 50 ){
 			score_all = 50;
 		}
 	}

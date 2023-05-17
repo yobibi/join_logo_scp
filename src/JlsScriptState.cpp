@@ -28,6 +28,7 @@ void JlsScriptState::clear(){
 	m_listRepDepth.clear();
 	m_repLineExtRCache = -1;
 	m_listRepExtCache.clear();
+	m_flagBreak = false;
 	m_flagReturn = false;
 	m_typeCacheExe = CacheExeType::None;
 	m_flagCacheRepExt = false;
@@ -37,10 +38,18 @@ void JlsScriptState::clear(){
 	m_memName = "";
 	m_memDupe = false;
 	m_memSkip = false;
+	m_memOrderVal = 0;
 	m_memExpand = false;
-	m_argArea = false;
-	m_listArgName.clear();
-	m_argInsReady = false;
+	m_listNestECmd.clear();
+	m_listNestECat.clear();
+	m_nestMemNow = 0;
+	m_nestMemLast = 0;
+	m_nestBreakIf = 0;
+	m_nestBreakRep = 0;
+	m_flagArgArEnter = false;
+	m_listArgArName.clear();
+	m_bufCmdDivHold.clear();
+	queue<string>().swap(m_queArgMsBuf);
 	queue<string>().swap(m_cacheExeLazyS);
 	queue<string>().swap(m_cacheExeLazyA);
 	queue<string>().swap(m_cacheExeLazyE);
@@ -159,8 +168,11 @@ int JlsScriptState::repeatBegin(int num){
 		m_repSkip = true;					// コマンドを飛ばす
 	}
 	//--- 設定保存 ---
-	RepDepthHold holdval;
+	RepDepthHold holdval = {};
 	holdval.countLoop = num;				// 繰り返し回数を設定
+	holdval.varStep = 0;					// 念のため初期化
+	holdval.varName.clear();				// 念のため初期化
+	holdval.layerReg = pGlobalState->getLocalRegLayer();	// Break時の回復用
 	//--- 遅延実行処理の拡張 ---
 	int errval = 0;
 	if ( isLazyExe() || isMemExe() ){
@@ -254,12 +266,21 @@ int JlsScriptState::repeatBeginExtNest(RepDepthHold& holdval){
 //   返り値: エラー番号（0=正常終了、1=エラー）
 //---------------------------------------------------------------------
 int JlsScriptState::repeatEnd(){
+	return repeatEndMain(false);
+}
+int JlsScriptState::repeatEndForce(){	// 強制終了（内部処理）
+	return repeatEndMain(true);
+}
+int JlsScriptState::repeatEndMain(bool force){
 	int depth = (int) m_listRepDepth.size();
 	if (depth <= 0){
 		return 1;
 	}
 	if (m_listRepDepth[depth-1].countLoop > 0){		// カウントダウン
 		m_listRepDepth[depth-1].countLoop --;
+		if ( force ){
+			m_listRepDepth[depth-1].countLoop = 0;	// 強制終了
+		}
 	}
 	bool extMode = isRepeatExtType();
 	if (m_listRepDepth[depth-1].countLoop > 0){		// 繰り返し継続の場合
@@ -268,11 +289,26 @@ int JlsScriptState::repeatEnd(){
 		}else{
 			m_repLineReadCache = m_listRepDepth[depth-1].lineStart;	// 読み出し行設定
 		}
+		//--- Repeatのネストを再度設定 ---
+		CmdType cmdtype = CmdType::Repeat;
+		CmdCat  cmdcat  = CmdCat::REP;
+		addNestInfoForEnd(cmdtype, cmdcat);
 	}
 	else{											// 繰り返し終了の場合
 		if ( extMode ){								// 遅延実行モード用
 			repeatEndExtend(m_listRepDepth[depth-1]);
 		}
+		//--- 読み飛ばし時の階層合わせ ---
+		if ( m_repSkip || force ){
+			int layerCur = pGlobalState->getLocalRegLayer();
+			int layerDif = layerCur - m_listRepDepth[depth-1].layerReg;
+			if ( layerDif > 0 ){		// 変数階層のずれを合わせる
+				for(int i=0; i<layerDif; i++){
+					pGlobalState->setLocalRegReleaseOne();
+				}
+			}
+		}
+		//--- 実体削除 ---
 		m_listRepDepth.pop_back();					// リストから削除
 		depth --;
 		//--- 全リピート終了時の処理 ---
@@ -328,7 +364,7 @@ void JlsScriptState::repeatEndExtend(RepDepthHold& holdval){
 //--- queueデータを遅延実行内のリピート用キャッシュに移動 ---
 int JlsScriptState::repeatExtMoveQueue(vector <string>& listCache, queue <string>& queSrc){
 	if ( listCache.size() + queSrc.size() >= SIZE_MEMLINE){		// 最大行数チェック
-		pGlobalState->addMsgError("error: memory cache for repeat overflow\n");
+		pGlobalState->addMsgErrorN("error: memory cache for repeat overflow");
 		return 1;
 	}
 	while( queSrc.empty() == false ){
@@ -340,7 +376,7 @@ int JlsScriptState::repeatExtMoveQueue(vector <string>& listCache, queue <string
 //--- リピート用キャッシュからqueueにデータを戻す ---
 void JlsScriptState::repeatExtBackQueue(queue <string>& queDst, vector <string>& listCache, int nFrom, int nTo){
 	if ( queDst.size() + nTo - nFrom + 1 >= SIZE_MEMLINE ){		// 最大行数チェック
-		pGlobalState->addMsgError("error: memory cache for repeat overflow\n");
+		pGlobalState->addMsgErrorN("error: memory cache for repeat overflow");
 		return;
 	}
 	queue <string> q;
@@ -354,7 +390,44 @@ void JlsScriptState::repeatExtBackQueue(queue <string>& queDst, vector <string>&
 	}
 	return;
 }
-
+//---------------------------------------------------------------------
+// Break文設定
+//   返り値: true=正常終了、false=エラー
+//---------------------------------------------------------------------
+void JlsScriptState::releaseBreak(){
+	m_flagBreak = false;
+}
+bool JlsScriptState::setBreak(){
+	int depth = (int) m_listRepDepth.size();
+	if ( depth > 0 ){
+		m_listRepDepth[depth-1].countLoop = -1;	// 実行なし時の回数は-1にする
+		m_repSkip = true;					// コマンドを飛ばす
+		m_flagBreak = true;					// break設定
+		return true;
+	}
+	return false;
+}
+//---------------------------------------------------------------------
+// 回数連動変数設定
+//   返り値: エラー番号（0=正常終了、1=エラー）
+//---------------------------------------------------------------------
+void JlsScriptState::repeatVarSet(const string& name, int step){
+	int depth = (int) m_listRepDepth.size();
+	if (depth <= 0){
+		return;
+	}
+	m_listRepDepth[depth-1].varName = name;
+	m_listRepDepth[depth-1].varStep = step;
+}
+bool JlsScriptState::repeatVarGet(string& name, int& step){
+	int depth = (int) m_listRepDepth.size();
+	if (depth <= 0){
+		return false;
+	}
+	name = m_listRepDepth[depth-1].varName;
+	step = m_listRepDepth[depth-1].varStep;
+	return ( !name.empty() );
+}
 
 //=====================================================================
 // 遅延実行保管領域へのアクセス
@@ -449,6 +522,24 @@ bool JlsScriptState::setMemCall(const string& strName){
 	bool enable_exe = pGlobalState->getListByName(queStr, strName);
 	addCacheExeMem(queStr);							// Mem実行キャッシュに移動
 	return enable_exe;
+}
+//--- 現在行の遅延コマンド格納用に実行順位を設定 ---
+void JlsScriptState::setMemOrder(int order){
+	m_memOrderVal = order;
+	pGlobalState->setOrderStore(m_memOrderVal);		// 遅延実行保存時の実行順位を設定
+}
+void JlsScriptState::releaseMemOrder(){
+	pGlobalState->resetOrderStore();			// 遅延実行保存時の実行順位を初期化
+}
+//--- Memoryの引数定義 ---
+bool JlsScriptState::setMemDefArg(vector<string>& argDef){
+	return pGlobalState->setMemDefArg(argDef);
+}
+bool JlsScriptState::getMemDefArg(vector<string>& argDef, const string& strName){
+	return pGlobalState->getMemDefArg(argDef, strName);
+}
+void JlsScriptState::setMemUnusedFlag(const string& strName){
+	pGlobalState->setMemUnusedFlag(strName);
 }
 //--- global state側で処理 ---
 bool JlsScriptState::setLazyStore(LazyType typeLazy, const string& strBuf){
@@ -575,6 +666,9 @@ bool JlsScriptState::readRepeatExtCache(string& strBuf){
 		string msgErr = "error: not found EndRepeat at Lazy/Mem cache Line:";
 		msgErr += to_string(m_repLineExtRCache) + "\n";
 		pGlobalState->addMsgError(msgErr);
+		//--- リピートを強制終了 ---
+		repeatEndForce();
+		strBuf = "# end of cache";
 	}
 	return true;
 }
@@ -596,7 +690,7 @@ void JlsScriptState::addCacheExeLazy(queue <string>& queStr, LazyType typeLazy){
 			typeCache = CacheExeType::LazyE;
 			break;
 		default:
-			pGlobalState->addMsgError("error: internal at JlsScriptState::addCacheExeLazy\n");
+			pGlobalState->addMsgErrorN("error: internal at JlsScriptState::addCacheExeLazy");
 			break;
 	}
 	addCacheExeCommon(queStr, typeCache, flagHead);
@@ -629,7 +723,7 @@ void JlsScriptState::addCacheExeCommon(queue <string>& queStr, CacheExeType type
 			addQueue(m_cacheExeMem, queStr, flagHead);
 			break;
 		default :
-			pGlobalState->addMsgError("error: internal at JlsScriptState::addCacheExeCommon\n");
+			pGlobalState->addMsgErrorN("error: internal at JlsScriptState::addCacheExeCommon");
 			break;
 	}
 }
@@ -648,7 +742,7 @@ void JlsScriptState::addQueue(queue <string>& queDst, queue <string>& queSrc, bo
 	queue <string> q;
 	//--- キャッシュ保持最大行数を超えないか確認 ---
 	if ( queDst.size() + queSrc.size() > SIZE_MEMLINE){
-		pGlobalState->addMsgError("error: memory cache overflow\n");
+		pGlobalState->addMsgErrorN("error: memory cache overflow");
 		queDst = q;			// キャッシュクリア
 		return;
 	}
@@ -761,9 +855,14 @@ bool JlsScriptState::isFlowLazy(CmdCat category){
 }
 bool JlsScriptState::isFlowMem(CmdCat category){
 	if ( category == CmdCat::MEMF || category == CmdCat::MEMLAZYF ){
-		return true;
+		if ( !isMemDeepArea() ){		// ネストではない状態
+			return true;
+		}
 	}
 	return false;
+}
+bool JlsScriptState::isMemDeepArea(){
+	return ( m_nestMemNow >= 2 || m_nestMemLast >= 2 );
 }
 //---------------------------------------------------------------------
 // 変数展開しない区間中判定
@@ -867,6 +966,161 @@ bool JlsScriptState::isInvalidCmdLine(CmdCat category){
 		}
 	}
 	return flagInvalid;
+}
+//---------------------------------------------------------------------
+// Memory、End*、}; に対応する情報を設定して、END種類自動判別時は選択
+//---------------------------------------------------------------------
+void JlsScriptState::addNestInfoForEnd(CmdType& cmdsel, CmdCat& category){
+	//--- 更新前の階層保持 ---
+	m_nestMemLast = m_nestMemNow;
+
+	//--- コマンド別の設定 ---
+	bool opAdd = false;
+	bool opRemove = false;
+	CmdType cmdtarget = cmdsel;
+	CmdCat  cattarget = category;
+	switch( cmdsel ){
+		case CmdType::If:
+			opAdd = true;
+			cmdtarget = CmdType::EndIf;
+			break;
+		case CmdType::Repeat:
+			opAdd = true;
+			cmdtarget = CmdType::EndRepeat;
+			break;
+		case CmdType::LazyStart:
+			opAdd = true;
+			cmdtarget = CmdType::EndLazy;
+			break;
+		case CmdType::Memory:
+		case CmdType::MemSet:
+			opAdd = true;
+			cmdtarget = CmdType::EndMemory;
+			break;
+		case CmdType::Function:
+			opAdd = true;
+			cmdtarget = CmdType::EndFunc;
+			break;
+		case CmdType::EndIf:
+		case CmdType::EndRepeat:
+		case CmdType::EndLazy:
+		case CmdType::EndMemory:
+		case CmdType::EndFunc:
+		case CmdType::EndMulti:
+			opRemove = true;
+			break;
+		default:
+			break;
+	}
+	//--- 実行処理 ---
+	if ( opAdd ){
+		m_listNestECmd.push_back(cmdtarget);
+		m_listNestECat.push_back(cattarget);
+		if ( cmdtarget == CmdType::EndMemory ||
+		     cmdtarget == CmdType::EndFunc   ){
+			m_nestMemNow ++;		// Mem階層更新
+			if ( m_nestMemNow > 1 ){
+				if ( cmdsel == CmdType::Memory   ||	// Memoryのネストは禁止
+				     cmdsel == CmdType::Function ){	// Functionのネストは禁止
+					pGlobalState->addMsgErrorN("warning:exist next Memory/Function before End");
+					m_nestMemNow = 1;
+				}
+			}
+		}
+	}
+	if ( opRemove ){
+		addNestInfoForEndRemove(cmdtarget, cattarget, cmdsel);
+		if ( cmdtarget == CmdType::EndMemory ||
+		     cmdtarget == CmdType::EndFunc   ){
+			m_nestMemNow --;		// Mem階層更新
+		}
+	}
+	if ( m_flagBreak ){		// Break中の補正
+		addNestInfoForBreak(cmdtarget, opAdd, opRemove);
+	}
+	if ( cmdsel == CmdType::EndMulti ){		// END種類を自動選択
+		cmdsel   = cmdtarget;
+		category = cattarget;
+	}
+}
+//--- ENDコマンドに対応する階層を削除し、対応したEND種類を取得 ---
+bool JlsScriptState::addNestInfoForEndRemove(CmdType& cmdtarget, CmdCat& cattarget, CmdType cmdsel){
+	//--- 通常の処理 ---
+	bool abort = false;
+	string mesErr;
+	bool done = false;
+	int nsize = (int) m_listNestECmd.size();
+	int num = nsize;
+	while( !done && !abort ){
+		num --;
+		if ( num < 0 ){
+			abort = true;
+		}else{
+			if ( m_listNestECmd[num] == cmdsel || cmdsel == CmdType::EndMulti ){
+				done = true;
+				cmdtarget = m_listNestECmd[num];
+				cattarget = m_listNestECat[num];
+				for(int i=nsize-1; i>=num; i--){
+					m_listNestECmd.pop_back();
+					m_listNestECat.pop_back();
+				}
+			}else{	// Endが一致しない場合のコメント
+				string strCmd;
+				switch( m_listNestECmd[num] ){
+					case CmdType::EndIf :
+						strCmd = " EndIf";
+						break;
+					case CmdType::EndRepeat :
+						strCmd = " EndRepeat";
+						break;
+					case CmdType::EndLazy :
+						strCmd = " EndLazy";
+						break;
+					case CmdType::EndMemory :
+						strCmd = " EndMemory";
+						break;
+					case CmdType::EndFunc :
+						strCmd = " EndFunc";
+						break;
+					default :
+						strCmd = " xxx";
+						break;
+				}
+				mesErr += strCmd;
+			}
+		}
+	}
+	if ( !mesErr.empty() ){
+		pGlobalState->addMsgErrorN("error:not found " + mesErr);
+	}
+	return done;
+}
+//--- Break中の補正 ---
+void JlsScriptState::addNestInfoForBreak(CmdType cmdtarget, bool opAdd, bool opRemove){
+	if ( cmdtarget == CmdType::EndIf ){
+		if ( opAdd ){
+			m_nestBreakIf ++;	// Break内追加分
+		}
+		if ( opRemove ){
+			if ( m_nestBreakIf > 0 ){
+				m_nestBreakIf --;		// Break内追加分をキャンセル
+			}else{
+				ifEnd();	// skipされるので、合わせるため代わりに実行
+			}
+		}
+	}
+	if ( cmdtarget == CmdType::EndRepeat ){
+		if ( opAdd ){
+			m_nestBreakRep ++;	// Break内追加分
+		}
+		if ( opRemove ){
+			if ( m_nestBreakRep > 0 ){
+				m_nestBreakRep --;		// Break内追加分をキャンセル
+			}else{
+				releaseBreak();			// Break処理終了
+			}
+		}
+	}
 }
 //---------------------------------------------------------------------
 // Lazy処理の実行中判別（0=lazy以外の処理  1=lazy動作中）
@@ -980,6 +1234,7 @@ void JlsScriptState::startMemArea(const string& strName){
 void JlsScriptState::endMemArea(){
 	m_memArea = false;
 	m_memSkip = false;
+	releaseMemOrder();		// 実行順位を元に戻す
 }
 //---------------------------------------------------------------------
 // Memory - EndMemory 期間の設定中判定
@@ -1009,27 +1264,27 @@ void JlsScriptState::setMemExpand(bool flag){
 // 引数ローカル変数の名前を保管
 //---------------------------------------------------------------------
 //--- ArgBegin - ArgEnd 区間を設定 ---
-void JlsScriptState::setArgArea(bool flag){
-	m_argArea = flag;
+void JlsScriptState::setArgAreaEnter(bool flag){
+	m_flagArgArEnter = flag;
 }
 //--- ArgBegin - ArgEnd 区間中判定 ---
-bool JlsScriptState::isArgArea(){
-	return m_argArea;
+bool JlsScriptState::isArgAreaEnter(){
+	return m_flagArgArEnter;
 }
 //--- 引数変数名を追加 ---
-void JlsScriptState::addArgName(const string& strName){
-	if ( m_listArgName.size() < INT_MAX/4 ){
-		m_listArgName.push_back(strName);
+void JlsScriptState::addArgAreaName(const string& strName){
+	if ( m_listArgArName.size() < INT_MAX/4 ){
+		m_listArgArName.push_back(strName);
 	}
 }
 //--- 引数変数の総数を取得 ---
-int JlsScriptState::sizeArgNameList(){
-	return (int)m_listArgName.size();
+int JlsScriptState::sizeArgAreaNameList(){
+	return (int)m_listArgArName.size();
 }
 //--- 指定した番号の引数変数名を取得 ---
-bool JlsScriptState::getArgName(string& strName, int num){
-	if ( num >= 0 && num < (int)m_listArgName.size() ){
-		strName = m_listArgName[num];
+bool JlsScriptState::getArgAreaName(string& strName, int num){
+	if ( num >= 0 && num < (int)m_listArgArName.size() ){
+		strName = m_listArgArName[num];
 		if ( strName.empty() == false ){
 			return true;
 		}
@@ -1037,37 +1292,81 @@ bool JlsScriptState::getArgName(string& strName, int num){
 	return false;
 }
 //---------------------------------------------------------------------
-// 引数ローカル変数の追加設定
+// 保管型メモリ引数の制御
 //---------------------------------------------------------------------
-bool JlsScriptState::checkArgRegInsert(CmdType cmdsel){
-	//--- 引数変数がなければ対象外 ---
-	if ( sizeArgNameList() == 0 ){
-		return false;
+//--- 保管型引数をクリア ---
+void JlsScriptState::clearArgMstoreBuf(){
+	queue<string>().swap(m_queArgMsBuf);		// clear
+//	m_margVarName.clear();
+//	m_margVarVal.clear();
+}
+//--- 保管型引数を設定 ---
+void JlsScriptState::addArgMstoreBuf(const string& strBuf){
+	m_queArgMsBuf.push(strBuf);
+}
+//--- 待機中メモリ引数のチェック・挿入 ---
+void JlsScriptState::exeArgMstoreInsert(CmdType cmdsel){
+	//--- 保管型引数変数がなければ対象外 ---
+	if ( isArgMstoreBufEmpty() ){
+		return;
 	}
-	//--- 遅延後実行中の場合は対象外 ---
-	if ( isLazyExe() || isMemExe() ){
-		return false;
+	//--- Memoryネスト中になったら対象外 ---
+	if ( isMemDeepArea() ){
+		clearArgMstoreBuf();
+		return;
 	}
 	//--- コマンドを確認 ---
-	bool needIns = false;
 	switch( cmdsel ){
-		case CmdType::LazyStart:
-		case CmdType::Memory:
-			m_argInsReady = true;	// 挿入タイミング待ち
-			break;
 		case CmdType::LocalSt:		// { コマンド
-			if ( m_argInsReady ){
-				needIns = true;		// 挿入タイミング
-				m_argInsReady = false;	// 待ち解除
-			}
+			useArgMstoreBuf();		// 保管している引数設定を使用
 			break;
 		case CmdType::LocalEd:
 		case CmdType::EndLazy:
 		case CmdType::EndMemory:
-			m_argInsReady = false;	// 待ち解除
+			clearArgMstoreBuf();	// 解除
 			break;
 		default:
 			break;
 	}
-	return needIns;
+	return;
+}
+//--- 保管型引数を使用（メモリ格納先に移管） ---
+void JlsScriptState::useArgMstoreBuf(){
+//	{		// MemCall実行開始時のローカル変数代入処理（未使用）
+//		addCacheExeMem(m_queMargBuf);
+//		clearMargStoreBuf();
+//	}
+	{
+		LazyType typeLazy = getLazyStartType();
+		string strMemName;
+		if ( isMemArea() ){
+		  strMemName = getMemName();
+		}
+		while( !m_queArgMsBuf.empty() ){
+			string strBuf = m_queArgMsBuf.front();
+			m_queArgMsBuf.pop();
+			if ( typeLazy != LazyType::None ){
+				setLazyStore(typeLazy, strBuf);
+			}
+			else if ( !strMemName.empty() ){
+				setMemStore(strMemName, strBuf);
+			}
+		}
+	}
+}
+//--- 保管型引数が空か ---
+bool JlsScriptState::isArgMstoreBufEmpty(){
+	return m_queArgMsBuf.empty();
+}
+//---------------------------------------------------------------------
+// 行内分割コマンド読み込み処理
+//---------------------------------------------------------------------
+void JlsScriptState::pushBufDivCmd(const string& str){
+	m_bufCmdDivHold = str;
+}
+bool JlsScriptState::popBufDivCmd(string& str){
+	if ( m_bufCmdDivHold.empty() ) return false;
+	str = m_bufCmdDivHold;
+	m_bufCmdDivHold.clear();
+	return true;
 }

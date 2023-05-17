@@ -1,9 +1,9 @@
 join_logo_scp ソースファイル構成
 
 ■コンパイル指定ファイル
-・Visual Studio 2015
+・Visual Studio 2022（C++17対応が必要条件）
   join_logo_scp.sln
-・MinGW (C++11対応版)
+・MinGW (C++17対応版)
   compile.cmd
 
 
@@ -17,14 +17,21 @@ join_logo_scp ソースファイル構成
              |- JlsRegFile       1階層分の変数保持
          |- JlsScrMem            遅延実行コマンドの保管
              |- JlsScrMemArg     遅延実行コマンド内の文字列解析
+       |- JlsScrFuncReg          変数アクセス関連処理
+       |- JlsScrFuncList         リストデータ基本処理
        |- JlsScriptState         条件分岐処理の制御
        |- JlsScriptDecode        コマンド文字列の解析
        |- JlsScriptLimit         コマンド条件からターゲット位置限定
+           |- JlsScriptLimVar    ターゲット位置限定用の変数保持
        |- JlsReformData          データ構成初期補正
        |- JlsCmdSet              JLスクリプトのコマンド引数保持
+           |- JlsCmdArg          コマンドライン入力の引数保持
+           |- JlsCmdLimit        ターゲット位置限定結果データ保持
        |- JlsAutoScript          (Auto系) JLスクリプト実行クラス
            |- JlsAutoArg         (Auto系) JLスクリプトのコマンド引数保持
            |- JlsAutoReform      (Auto系) 基本構成推測処理
+
+  Local* (LocalEtc.hpp/cpp)      Unicode関連は全部ここで吸収
 
   JlsTop.cpp   最初に呼び出される関数
 
@@ -39,7 +46,7 @@ join_logo_scp ソースファイル構成
     SIZE_MEMVARLINE_MAX = 4096    遅延保管文字列の各識別名の最大行数
     SIZE_REPLINE    = 4096        Repeat用キャッシュ保持最大行数
     SIZE_MEMLINE    = 8192        Mem/Lazy実行待機キャッシュ保持最大行数
-    SIZE_CALL_LOOP  = 10          Call文の階層呼び出し最大回数
+    SIZE_CALL_LOOP  = 32          Call文の階層呼び出し最大回数
   CnvStrTime.hpp
-    SIZE_BUF_MAX   = 4096         スクリプト解析文字列（１行）最大長
+    SIZE_BUF_MAX   = 16384        スクリプト解析文字列（１行）最大長
 

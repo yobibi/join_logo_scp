@@ -7,323 +7,6 @@
 
 ///////////////////////////////////////////////////////////////////////
 //
-// JLスクリプトコマンド設定値
-//
-///////////////////////////////////////////////////////////////////////
-//---------------------------------------------------------------------
-// 初期設定
-//---------------------------------------------------------------------
-JlsCmdArg::JlsCmdArg(){
-//	this->cmdset = this;
-	clear();
-}
-
-//---------------------------------------------------------------------
-// コマンド保持内容初期化
-//---------------------------------------------------------------------
-void JlsCmdArg::clear(){
-	tack = {};		// 念のため個別に初期化
-	tack.floatBase   = false;
-	tack.virtualLogo = false;
-	tack.ignoreComp  = false;
-	tack.limitByLogo = false;
-	tack.onePoint    = false;
-	tack.needAuto    = false;
-	tack.typeLazy    = LazyType::None;
-	tack.ignoreAbort = false;
-	cond = {};		// 念のため個別に初期化
-	cond.numCheckCond = 0;
-	cond.flagCond     = false;
-
-	cmdsel        = CmdType::Nop;
-	category      = CmdCat::NONE;
-	wmsecDst      = {0, 0, 0};
-	selectEdge    = LOGO_EDGE_RISE;
-	selectAutoSub = CmdTrSpEcID::None;
-	listStrArg.clear();
-
-	listLgVal.clear();
-	listScOpt.clear();
-
-	for(int i=0; i<SIZE_JLOPT_OPTNUM; i++){
-		optdata[i] = 0;
-		flagset[i] = false;
-	}
-	for(int i=0; i<SIZE_JLOPT_OPTSTR; i++){
-		optStrData[i] = "";
-		flagStrSet[i] = false;
-		flagStrUpdate[i] = false;
-	}
-
-	//--- 0以外の設定 ---
-	setOptDefault(OptType::MsecFrameL,   -1);
-	setOptDefault(OptType::MsecFrameR,   -1);
-	setOptDefault(OptType::MsecLenPMin,  -1);
-	setOptDefault(OptType::MsecLenPMax,  -1);
-	setOptDefault(OptType::MsecLenNMin,  -1);
-	setOptDefault(OptType::MsecLenNMax,  -1);
-	setOptDefault(OptType::MsecLenPEMin, -1);
-	setOptDefault(OptType::MsecLenPEMax, -1);
-	setOptDefault(OptType::MsecLenNEMin, -1);
-	setOptDefault(OptType::MsecLenNEMax, -1);
-	setOptDefault(OptType::MsecFromAbs,  -1);
-	setOptDefault(OptType::MsecFromHead, -1);
-	setOptDefault(OptType::MsecFromTail, -1);
-	//--- 初期文字列 ---
-	setStrOptDefault(OptType::StrRegPos,   "POSHOLD");
-	setStrOptDefault(OptType::StrValPosR,  "-1");
-	setStrOptDefault(OptType::StrValPosW,  "-1");
-	setStrOptDefault(OptType::StrRegList,  "LISTHOLD");
-	setStrOptDefault(OptType::StrValListR, "");
-	setStrOptDefault(OptType::StrValListW, "");
-	setStrOptDefault(OptType::StrRegSize,  "SIZEHOLD");
-	setStrOptDefault(OptType::StrRegEnv,   "");
-	setStrOptDefault(OptType::StrArgVal,   "");
-}
-
-//---------------------------------------------------------------------
-// オプションを設定
-//---------------------------------------------------------------------
-//--- オプション数値 ---
-void JlsCmdArg::setOpt(OptType tp, int val){
-	int num;
-	if ( getRangeOptArray(num, tp) ){
-		optdata[num] = val;
-		flagset[num] = true;
-	}
-}
-void JlsCmdArg::setOptDefault(OptType tp, int val){
-	int num;
-	if ( getRangeOptArray(num, tp) ){
-		optdata[num] = val;
-		flagset[num] = false;
-	}
-}
-int JlsCmdArg::getOpt(OptType tp){
-	int num;
-	if ( getRangeOptArray(num, tp) ){
-		return optdata[num];
-	}
-	return false;
-}
-bool JlsCmdArg::isSetOpt(OptType tp){
-	int num;
-	if ( getRangeOptArray(num, tp) ){
-		return flagset[num];
-	}
-	return false;
-}
-
-//--- オプション文字列 ---
-void JlsCmdArg::setStrOpt(OptType tp, const string& str){
-	int num;
-	if ( getRangeStrOpt(num, tp) ){
-		optStrData[num]  = str;
-		flagStrSet[num]  = true;
-		flagStrUpdate[num] = true;
-	}
-}
-void JlsCmdArg::setStrOptDefault(OptType tp, const string& str){
-	int num;
-	if ( getRangeStrOpt(num, tp) ){
-		optStrData[num]  = str;
-		flagStrSet[num]  = false;
-		flagStrUpdate[num] = false;
-	}
-}
-string JlsCmdArg::getStrOpt(OptType tp){
-	int num;
-	if ( getRangeStrOpt(num, tp) ){
-		return optStrData[num];
-	}
-	return "";
-}
-bool JlsCmdArg::isSetStrOpt(OptType tp){
-	int num;
-	if ( getRangeStrOpt(num, tp) ){
-		return flagStrSet[num];
-	}
-	return false;
-}
-void JlsCmdArg::clearStrOptUpdate(OptType tp){
-	int num;
-	if ( getRangeStrOpt(num, tp) ){
-		flagStrUpdate[num] = false;
-	}
-}
-bool JlsCmdArg::isUpdateStrOpt(OptType tp){
-	int num;
-	if ( getRangeStrOpt(num, tp) ){
-		return flagStrUpdate[num];
-	}
-	return false;
-}
-
-//--- オプションのカテゴリ分類 ---
-bool JlsCmdArg::getOptCategory(OptCat& category, OptType tp){
-	int nTp = static_cast<int>(tp);
-	if ( nTp < 0 ){
-		return false;
-	}
-	else if ( nTp > static_cast<int>(OptType::ScMIN) && nTp < static_cast<int>(OptType::ScMAX) ){
-		category = OptCat::PosSC;
-	}
-	else if ( nTp > static_cast<int>(OptType::LgMIN) && nTp < static_cast<int>(OptType::LgMAX) ){
-		category = OptCat::NumLG;
-	}
-	else if ( nTp > static_cast<int>(OptType::FrMIN) && nTp < static_cast<int>(OptType::FrMAX) ){
-		category = OptCat::FRAME;
-	}
-	else if ( nTp > static_cast<int>(OptType::StrMIN) && nTp < static_cast<int>(OptType::StrMAX) ){
-		category = OptCat::STR;
-	}
-	else if ( nTp > static_cast<int>(OptType::ArrayMIN) && nTp < static_cast<int>(OptType::ArrayMAX) ){
-		category = OptCat::NUM;
-	}
-	else{
-		return false;
-	}
-	return true;
-}
-//--- オプションを各カテゴリの0から順番の番号に変換 ---
-bool JlsCmdArg::getRangeOptArray(int& num, OptType tp){
-	int nTp = static_cast<int>(tp);
-	if ( nTp > static_cast<int>(OptType::ArrayMIN) && nTp < static_cast<int>(OptType::ArrayMAX) ){
-		num = nTp - static_cast<int>(OptType::ArrayMIN) - 1;
-		return true;
-	}
-	return false;
-}
-bool JlsCmdArg::getRangeStrOpt(int& num, OptType tp){
-	int nTp = static_cast<int>(tp);
-	if ( nTp > static_cast<int>(OptType::StrMIN) && nTp < static_cast<int>(OptType::StrMAX) ){
-		num = nTp - static_cast<int>(OptType::StrMIN) - 1;
-		return true;
-	}
-	return false;
-}
-
-
-//---------------------------------------------------------------------
-// -SC系オプションの設定追加
-//---------------------------------------------------------------------
-void JlsCmdArg::addScOpt(OptType tp, bool relative, int tmin, int tmax){
-	CmdArgSc scset;
-	scset.type     = tp;
-	scset.relative = relative;
-	scset.min      = tmin;
-	scset.max      = tmax;
-	listScOpt.push_back(scset);
-}
-
-//---------------------------------------------------------------------
-// -SC系オプションを取得
-//---------------------------------------------------------------------
-//--- コマンド取得 ---
-OptType JlsCmdArg::getScOptType(int num){
-	if (num >= 0 && num < (int) listScOpt.size()){
-		return listScOpt[num].type;
-	}
-	return OptType::ScNone;
-}
-//--- 相対位置コマンド(-RSC等）の判別 ---
-bool JlsCmdArg::isScOptRelative(int num){
-	if (num >= 0 && num < (int) listScOpt.size()){
-		return listScOpt[num].relative;
-	}
-	return false;
-}
-//--- 設定範囲取得 ---
-Msec JlsCmdArg::getScOptMin(int num){
-	if (num >= 0 && num < (int) listScOpt.size()){
-		return listScOpt[num].min;
-	}
-	return -1;
-}
-//--- 設定範囲取得 ---
-Msec JlsCmdArg::getScOptMax(int num){
-	if (num >= 0 && num < (int) listScOpt.size()){
-		return listScOpt[num].max;
-	}
-	return -1;
-}
-//--- 格納数取得 ---
-int JlsCmdArg::sizeScOpt(){
-	return (int) listScOpt.size();
-}
-
-//---------------------------------------------------------------------
-// -LG系オプションの設定追加
-//---------------------------------------------------------------------
-void JlsCmdArg::addLgOpt(string strNlg){
-	listLgVal.push_back(strNlg);
-}
-
-//---------------------------------------------------------------------
-// -LG系オプションを取得
-//---------------------------------------------------------------------
-//--- 値取得 ---
-string JlsCmdArg::getLgOpt(int num){
-	if (num >= 0 && num < (int) listLgVal.size()){
-		return listLgVal[num];
-	}
-	return 0;
-}
-//--- 格納数取得 ---
-int JlsCmdArg::sizeLgOpt(){
-	return (int) listLgVal.size();
-}
-
-//---------------------------------------------------------------------
-// 引数取得
-//---------------------------------------------------------------------
-//--- 追加格納 ---
-void JlsCmdArg::addArgString(const string& strArg){
-	listStrArg.push_back(strArg);
-}
-//--- 差し替え ---
-bool JlsCmdArg::replaceArgString(int n, const string& strArg){
-	int num = n - 1;
-	if ( num >= 0 && num < (int) listStrArg.size() ){
-		listStrArg[num] = strArg;
-		return true;
-	}
-	return false;
-}
-//--- 引数取得 ---
-string JlsCmdArg::getStrArg(int n){
-	int num = n - 1;
-	if ( num >= 0 && num < (int) listStrArg.size() ){
-		return listStrArg[num];
-	}
-	return "";
-}
-//--- 引数を数字に変換して取得 ---
-int JlsCmdArg::getValStrArg(int n){
-	int num = n - 1;
-	if ( num >= 0 && num < (int) listStrArg.size() ){
-		return stoi(listStrArg[num]);
-	}
-	return 0;
-}
-//---------------------------------------------------------------------
-// IF条件式用
-//---------------------------------------------------------------------
-void JlsCmdArg::setNumCheckCond(int num){
-	cond.numCheckCond = num;
-}
-int JlsCmdArg::getNumCheckCond(){
-	return cond.numCheckCond;
-}
-void JlsCmdArg::setCondFlag(bool flag){
-	cond.flagCond = flag;
-}
-bool JlsCmdArg::getCondFlag(){
-	return cond.flagCond;
-}
-
-///////////////////////////////////////////////////////////////////////
-//
 // JLスクリプトコマンド設定反映用
 //
 ///////////////////////////////////////////////////////////////////////
@@ -338,20 +21,10 @@ void JlsCmdLimit::clear(){
 	process = 0;
 	rmsecHeadTail = {-1, -1};
 	rmsecFrameLimit = {-1, -1};
-	listValidLogo.clear();
-	nrfBase = -1;
-	nscBase = -1;
-	edgeBase = LOGO_EDGE_RISE;
-	listWmsecLogoBase.clear();
-	locMsecLogoBase = -1;
-	wmsecTarget = {-1, -1, -1};
-	msecTargetFc = -1;
-	fromLogo = false;
-	listTLRange.clear();
-	listScpEnable.clear();
-	nscSel = -1;
-	nscEnd = -1;
-	edgeOutPos = LOGO_EDGE_RISE;
+
+	clearLogoList();	// 有効なロゴ番号リスト
+	clearLogoBase();	// 対象とする基準ロゴ選択
+	clearPickList();	// -pickオプション用保持リスト
 }
 
 //---------------------------------------------------------------------
@@ -394,213 +67,277 @@ bool JlsCmdLimit::setFrameRange(RangeMsec rmsec){
 //---------------------------------------------------------------------
 // 有効なロゴ番号リスト
 //---------------------------------------------------------------------
-Msec JlsCmdLimit::getLogoListMsec(int nlist){
-	if (nlist < 0 || nlist >= (int) listValidLogo.size()){
-		return -1;
-	}
-	return listValidLogo[nlist].msec;
+void JlsCmdLimit::clearLogoList(){
+	listLogoStd.clear();
+	listLogoDir.clear();
+	listLogoOrg.clear();
+	forceLogoStdFix = false;
+	existLogoDirDmy = false;
+	process &= ~ARG_PROCESS_VALIDLOGO;
 }
 
-LogoEdgeType JlsCmdLimit::getLogoListEdge(int nlist){
-	if (nlist < 0 || nlist >= (int) listValidLogo.size()){
-		return LOGO_EDGE_RISE;
-	}
-	return listValidLogo[nlist].edge;
-}
-
-bool JlsCmdLimit::addLogoList(Msec &rmsec, jlsd::LogoEdgeType edge){
+//--- 書き込み（ロゴ番号指定） ---
+bool JlsCmdLimit::addLogoListStd(Msec msec, LogoEdgeType edge){
 	if ((process & ARG_PROCESS_HEADTAIL) == 0){
 		signalInternalError(ARG_PROCESS_VALIDLOGO);
 	}
 	process |= ARG_PROCESS_VALIDLOGO;
-	ArgValidLogo argset = {rmsec, edge};
-	listValidLogo.push_back(argset);
+	ArgLogoList argset = {msec, edge};
+	listLogoStd.push_back(argset);
 	return true;
 }
-
-int JlsCmdLimit::sizeLogoList(){
-	return (int) listValidLogo.size();
+//--- 直接フレーム指定（ただし無効位置）の存在設定 ---
+void JlsCmdLimit::addLogoListDirectDummy(bool flag){
+	existLogoDirDmy = flag;
 }
+//--- 書き込み（直接フレーム指定） ---
+void JlsCmdLimit::addLogoListDirect(Msec msec, LogoEdgeType edge){
+	ArgLogoList argset = {msec, edge};
+	ArgLogoList argset2 = {-1, edge};
+	listLogoDir.push_back(argset);
+	listLogoOrg.push_back(argset2);
+}
+//--- 基準位置付加（直接フレーム指定） ---
+void JlsCmdLimit::attachLogoListOrg(int num, Msec msec, LogoEdgeType edge){
+	if ( num < 0 || num >= (int)listLogoOrg.size() ) return;
+	listLogoOrg[num].msec = msec;
+	listLogoOrg[num].edge = edge;
+}
+//--- 共通呼び出し ---
+Msec JlsCmdLimit::getLogoListMsec(int nlist){	// 設定後基準位置(msec)取得
+	if ( isErrorLogoList(nlist) ) return -1;
+	if ( isLogoListDirect() ){
+		return listLogoDir[nlist].msec;
+	}
+	return listLogoStd[nlist].msec;
+}
+Msec JlsCmdLimit::getLogoListOrgMsec(int nlist){	// 本来の基準位置(msec)取得
+	if ( isErrorLogoList(nlist) ) return -1;
+	if ( isLogoListDirect() ){
+		return listLogoOrg[nlist].msec;
+	}
+	return listLogoStd[nlist].msec;
+}
+LogoEdgeType JlsCmdLimit::getLogoListEdge(int nlist){	// 設定後基準位置（エッジ情報）取得
+	if ( isErrorLogoList(nlist) ) return LogoEdgeType::LOGO_EDGE_RISE;
+	if ( isLogoListDirect() ){
+		return listLogoDir[nlist].edge;
+	}
+	return listLogoStd[nlist].edge;
+}
+LogoEdgeType JlsCmdLimit::getLogoListOrgEdge(int nlist){	// 本来の基準位置（エッジ情報）取得
+	if ( isErrorLogoList(nlist) ) return LogoEdgeType::LOGO_EDGE_RISE;
+	if ( isLogoListDirect() ){
+		return listLogoOrg[nlist].edge;
+	}
+	return listLogoStd[nlist].edge;
+}
+int JlsCmdLimit::sizeLogoList(){		// リスト数取得
+	if ( isLogoListDirect() ){
+		return (int)listLogoDir.size();
+	}
+	return (int)listLogoStd.size();
+}
+//--- フレーム直接指定用の拡張 ---
+bool JlsCmdLimit::isLogoListDirect(){		// 拡張選択状態
+	if ( forceLogoStdFix ) return false;
+	return ( listLogoDir.size() > 0 || existLogoDirDmy );
+}
+void JlsCmdLimit::forceLogoListStd(bool flag){		// 一時的に拡張無効化
+	forceLogoStdFix = flag;
+}
+//--- 内部処理 ---
+bool JlsCmdLimit::isErrorLogoList(int nlist){
+	if ( isLogoListDirect() ){
+		return ( nlist < 0 || nlist >= (int) listLogoDir.size() );
+	}
+	return ( nlist < 0 || nlist >= (int) listLogoStd.size() );;
+}
+
 
 //---------------------------------------------------------------------
 // 対象とする基準ロゴ選択
 //---------------------------------------------------------------------
-Nrf JlsCmdLimit::getLogoBaseNrf(){
-	return nrfBase;
-}
+void JlsCmdLimit::clearLogoBase(){
+	flagBaseNrf = false;
+	nrfBase = -1;
+	nscBase = -1;
+	edgeBase = LOGO_EDGE_RISE;
 
-Nsc JlsCmdLimit::getLogoBaseNsc(){
-	return nscBase;
+	process &= ~ARG_PROCESS_BASELOGO;
 }
-
-LogoEdgeType JlsCmdLimit::getLogoBaseEdge(){
-	return edgeBase;
-}
-
+//--- 本来の基準位置を設定（実ロゴ／推測ロゴどちらか１つのみ設定） ---
 bool JlsCmdLimit::setLogoBaseNrf(Nrf nrf, jlsd::LogoEdgeType edge){
 	if ((process & ARG_PROCESS_VALIDLOGO) == 0){
 		signalInternalError(ARG_PROCESS_BASELOGO);
 	}
 	process |= ARG_PROCESS_BASELOGO;
+	flagBaseNrf = true;
 	nrfBase = nrf;
 	nscBase = -1;
 	edgeBase = edge;
 	return true;
 }
-
 bool JlsCmdLimit::setLogoBaseNsc(Nsc nsc, jlsd::LogoEdgeType edge){
 	if ((process & ARG_PROCESS_VALIDLOGO) == 0){
 		signalInternalError(ARG_PROCESS_BASELOGO);
 	}
 	process |= ARG_PROCESS_BASELOGO;
+	flagBaseNrf = false;
 	nrfBase = -1;
 	nscBase = nsc;
 	edgeBase = edge;
 	return true;
 }
-
-void JlsCmdLimit::setLogoWmsecList(vector<WideMsec>& listWmsec, int locBase){
-	listWmsecLogoBase = listWmsec;
-	locMsecLogoBase = locBase;
+//--- 設定された基準ロゴ位置情報を取得 ---
+bool JlsCmdLimit::isLogoBaseExist(){	// 本来の基準ロゴ位置が存在するか？
+	return ( nrfBase >= 0 || nscBase >= 0 );
 }
-void JlsCmdLimit::getLogoWmsecBase(WideMsec& wmsec, int step, bool flagWide){
-	getLogoWmsecBaseShift(wmsec, step, flagWide, 0);
+bool JlsCmdLimit::isLogoBaseNrf(){		// 本来の基準ロゴ位置が実ロゴか？
+	return flagBaseNrf;
 }
-void JlsCmdLimit::getLogoWmsecBaseShift(WideMsec& wmsec, int step, bool flagWide, int sft){
-	int locMd   = locMsecLogoBase + sft;
-	int locSt   = locMsecLogoBase + sft - step;
-	int locEd   = locMsecLogoBase + sft + step;
-	int locSize = (int)listWmsecLogoBase.size();
-	if ( 0 <= locMd && locMd < locSize ){
-		wmsec.just = listWmsecLogoBase[locMd].just;
-	}else{
-		wmsec.just = -1;
-	}
-	if ( 0 <= locSt && locSt < locSize ){
-		if ( flagWide ){
-			wmsec.early = listWmsecLogoBase[locSt].early;
-		}else{
-			wmsec.early = listWmsecLogoBase[locSt].just;
-		}
-	}else{
-		wmsec.early = -1;
-	}
-	if ( 0 <= locEd && locEd < locSize ){
-		if ( flagWide ){
-			wmsec.late = listWmsecLogoBase[locEd].late;
-		}else{
-			wmsec.late = listWmsecLogoBase[locEd].just;
-		}
-	}else{
-		wmsec.late = -1;
-	}
+Nrf JlsCmdLimit::getLogoBaseNrf(){		// 本来の基準ロゴ位置（実ロゴのロゴ番号）
+	return nrfBase;
 }
-
+Nsc JlsCmdLimit::getLogoBaseNsc(){		// 本来の基準ロゴ位置（推測ロゴのシーンチェンジ番号）
+	return nscBase;
+}
+LogoEdgeType JlsCmdLimit::getLogoBaseEdge(){	// 本来の基準ロゴ立上り／立下り情報
+	return edgeBase;
+}
 //---------------------------------------------------------------------
 // ターゲット選択可能範囲
 //---------------------------------------------------------------------
-WideMsec JlsCmdLimit::getTargetRangeWide(){
-	return wmsecTarget;
-}
+//--- ターゲットデータ消去（キャッシュは除く） ---
+void JlsCmdLimit::clearTargetData(){
+	//--- ターゲット選択可能範囲 ---
+	wmsecTarget   = {-1, -1, -1};
+	fromLogo      = false;
+	//--- ターゲット許可リスト ---
+	targetLocDst = {TargetScpType::None, LOGO_EDGE_RISE, false, false, -1, -1, -1};
+	targetLocEnd = {TargetScpType::None, LOGO_EDGE_RISE, false, false, -1, -1, -1};
 
-Msec JlsCmdLimit::getTargetRangeForce(){
-	return msecTargetFc;
+	process &= ~ARG_PROCESS_TARGETRANGE;
+	process &= ~ARG_PROCESS_RESULT;
 }
-
-bool JlsCmdLimit::isTargetRangeLogo(){
-	return fromLogo;
-}
-
-bool JlsCmdLimit::setTargetRange(WideMsec wmsec, Msec msec_force, bool from_logo){
-	if ((process & ARG_PROCESS_BASELOGO) == 0 && from_logo){
+//--- ターゲット位置設定 ---
+bool JlsCmdLimit::setTargetRange(WideMsec wmsec, bool fromLogo){
+	if ((process & ARG_PROCESS_BASELOGO) == 0 && fromLogo){
 		signalInternalError(ARG_PROCESS_TARGETRANGE);
 	}
 	process |= ARG_PROCESS_TARGETRANGE;
 	wmsecTarget  = wmsec;
-	msecTargetFc = msec_force;
-	fromLogo     = from_logo;
+	fromLogo     = fromLogo;
 	return true;
 }
-
-//--- 出力エッジ設定 ---
-void JlsCmdLimit::setTargetOutEdge(LogoEdgeType edge){
-	edgeOutPos = edge;
+//--- ターゲット位置取得 ---
+WideMsec JlsCmdLimit::getTargetRangeWide(){
+	return wmsecTarget;
 }
-LogoEdgeType JlsCmdLimit::getTargetOutEdge(){
-	return edgeOutPos;
-}
-
-//---------------------------------------------------------------------
-// ターゲット許可リスト
-//---------------------------------------------------------------------
-bool JlsCmdLimit::isTargetListed(Msec msec_target){
-	int nsize = (int) listTLRange.size();
-	//--- リストがなければ無条件で許可 ---
-	if (nsize == 0) return true;
-	//--- 各リスト検索 ---
-	bool det = false;
-	for(int i=0; i<nsize; i++){
-		if (msec_target >= listTLRange[i].st && msec_target <= listTLRange[i].ed){
-			det = true;
-		}
-	}
-	return det;
-}
-
-void JlsCmdLimit::clearTargetList(){
-	listTLRange.clear();
-}
-
-void JlsCmdLimit::addTargetList(RangeMsec rmsec){
-	listTLRange.push_back(rmsec);
-}
-
-//---------------------------------------------------------------------
-// 無音条件判定
-//---------------------------------------------------------------------
-bool JlsCmdLimit::getScpEnable(Nsc nsc){
-	if (nsc < 0 || nsc >= (int) listScpEnable.size()){
-		return false;
-	}
-	return listScpEnable[nsc];
-}
-
-bool JlsCmdLimit::setScpEnable(vector<bool> &listEnable){
-	process |= ARG_PROCESS_SCPENABLE;
-	listScpEnable = listEnable;
-	return true;
-}
-
-int JlsCmdLimit::sizeScpEnable(){
-	return (int) listScpEnable.size();
+bool JlsCmdLimit::isTargetRangeFromLogo(){
+	return fromLogo;
 }
 
 //---------------------------------------------------------------------
 // ターゲットに一番近い位置
 //---------------------------------------------------------------------
-Nsc JlsCmdLimit::getResultTargetSel(){
-	return nscSel;
-}
-
-Nsc JlsCmdLimit::getResultTargetEnd(){
-	return nscEnd;
-}
-
-bool JlsCmdLimit::setResultTarget(Nsc nscSelIn, Nsc nscEndIn){
+//--- 結果位置／終了位置の書き込み ---
+void JlsCmdLimit::setResultDst(TargetLocInfo tgIn){
 	if ((process & ARG_PROCESS_TARGETRANGE) == 0 ||
 		(process & ARG_PROCESS_SCPENABLE  ) == 0){
-		signalInternalError(ARG_PROCESS_RESULT);
+//		signalInternalError(ARG_PROCESS_RESULT);
 	}
-	process |= ARG_PROCESS_RESULT;
-	nscSel = nscSelIn;
-	nscEnd = nscEndIn;
-	return true;
+	setResultSubMake(tgIn);
+	targetLocDst = tgIn;
+}
+void JlsCmdLimit::setResultEnd(TargetLocInfo tgIn){
+	setResultSubMake(tgIn);
+	targetLocEnd = tgIn;
+}
+void JlsCmdLimit::setResultSubMake(TargetLocInfo& tgIn){
+	if ( tgIn.tp == TargetScpType::ScpNum || 
+	     tgIn.tp == TargetScpType::Force ){
+		tgIn.valid = true;
+	}else{
+		tgIn.valid = false;
+	}
+	if ( tgIn.tp == TargetScpType::Invalid ){
+		tgIn.nsc = -1;
+		tgIn.msout = -1;
+	}else if ( tgIn.edge == LogoEdgeType::LOGO_EDGE_FALL ){
+		tgIn.msout = tgIn.msbk;
+	}else{
+		tgIn.msout = tgIn.msec;
+	}
+}
+//--- 結果位置／終了位置の読み出し ---
+TargetLocInfo JlsCmdLimit::getResultDst(){
+	if ( isPickListValid() ){		// -pick対応
+		return getPickListDst();
+	}
+	return targetLocDst;
+}
+TargetLocInfo JlsCmdLimit::getResultEnd(){
+	if ( isPickListValid() ){		// -pick対応
+		return getPickListEnd();
+	}
+	return targetLocEnd;
+}
+Nsc JlsCmdLimit::getResultDstNsc(){
+	TargetLocInfo tgDst = getResultDst();
+	if ( tgDst.tp == TargetScpType::ScpNum ){
+		return tgDst.nsc;
+	}
+	return -1;
+}
+LogoEdgeType JlsCmdLimit::getResultDstEdge(){
+	return getResultDst().edge;
+}
+TargetLocInfo JlsCmdLimit::getResultDstCurrent(){
+	return targetLocDst;
+}
+TargetLocInfo JlsCmdLimit::getResultEndCurrent(){
+	return targetLocEnd;
+}
+
+//---------------------------------------------------------------------
+// -pick処理
+//---------------------------------------------------------------------
+void JlsCmdLimit::clearPickList(){
+	listPickResult.clear();
+	numPickList = 0;
+}
+void JlsCmdLimit::addPickListCurrent(){
+	TargetLocInfoSet dat;
+	dat.d = targetLocDst;
+	dat.e = targetLocEnd;
+	listPickResult.push_back(dat);
+}
+int JlsCmdLimit::sizePickList(){
+	return (int) listPickResult.size();
+}
+void JlsCmdLimit::selectPickList(int num){
+	numPickList = num;
+}
+bool JlsCmdLimit::isPickListValid(){
+	int nsize = sizePickList();
+	if ( nsize > 0 && numPickList > 0 && numPickList <= nsize ){
+		return true;
+	}
+	return false;
+}
+TargetLocInfo JlsCmdLimit::getPickListDst(){
+	return listPickResult[numPickList-1].d;
+}
+TargetLocInfo JlsCmdLimit::getPickListEnd(){
+	return listPickResult[numPickList-1].e;
 }
 
 //---------------------------------------------------------------------
 // エラー確認
 //---------------------------------------------------------------------
 void JlsCmdLimit::signalInternalError(CmdProcessFlag flags){
-	cerr << "error:internal flow at ArgCmdLimit flag=" << flags << ",process=" << process << endl;
+	string mes = "error:internal flow at ArgCmdLimit flag=" + to_string(flags) + ",process=" + to_string(process);
+	lcerr << mes << endl;
 }
 

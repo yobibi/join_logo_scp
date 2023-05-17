@@ -1,0 +1,84 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：join_logo_scp関連ファイル一式を別場所に出力
+#       デバッグ用に必要ファイルのみ保管しておく。必要ならこのファイルをCall
+#
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+# コピー先フォルダが定義なしなら共通部分フォルダをベースにフォルダが作成される
+Default outcopy_folder ""       # コピー先フォルダ
+Default outcopy_folder_base "D:\temp"  # 共通部分フォルダ
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+CountUp once_check_out_copyfile
+If ${once_check_out_copyfile}!=1 { Return };  # 1回のみ実行
+
+MemSet OUTPUT {                 # 出力時自動的に実行
+  #--- 書き込みフォルダ未指定時の場所設定 ---
+  If "${outcopy_folder}"=="" {
+    #--- 固有部分 ---
+    Default file_ts ""
+    LocalSet uname "${file_ts:t:r}"   # 個別データ識別
+    If "${uname}"=="" {
+      Set uname "need_unique_name"    # 未定義時設定
+    };
+    # 共通フォルダに個別データ識別のフォルダを作る
+    Set outcopy_folder "${outcopy_folder_base:/}work_${uname}"
+  };
+  #--- 書き込み可能か確認 ---
+  LocalSet outcopy_write  0
+  SysDataGet FOUTAVS -RegOut filestr -local
+  If "${outcopy_folder}"!="" {
+    LocalSet tmpfile "${outcopy_folder:/}${filestr:t}"
+    FileOpen "${tmpfile}" -silent  # ダミーファイル書き込みで可能か確認
+    Set outcopy_write ${FILEOPEN}
+    FileClose
+    If !${outcopy_write} {
+      Mkdir "${outcopy_folder}"    # 書き込みできなければフォルダ作成
+      FileOpen "${tmpfile}"        # 改めてダミーファイル書き込みで可能か確認
+      Set outcopy_write ${FILEOPEN}
+      FileClose
+    };
+    If !${outcopy_write} { EchoItem "書込不可のためコピーなし（${outcopy_folder}）" };
+  };
+  #--- 出力処理 ---
+  If ${outcopy_write}
+    Echo join_logo_scp関連コピー先: ${outcopy_folder}
+    #--- CMカット情報 ---
+    SysDataGet FOUTAVS -RegOut filestr
+    FileOpen "${outcopy_folder:/}${filestr:t}"
+    EchoOavs
+    FileClose
+    #--- 解析用ファイル ---
+    SysDataGet FOUTSCP -RegOut filestr
+    FileOpen "${outcopy_folder:/}${filestr:t}"
+    EchoOscp
+    FileClose
+    #--- 入力無音シーンチェンジファイル ---
+    SysDataGet FINSCP -RegOut filestr
+    FileCopy "${filestr}" "${outcopy_folder:/}${filestr:t}"
+    #--- 入力ロゴファイル ---
+    SysDataGet FINLOGO -RegOut filestr
+    If "${filestr}" != ""
+      FileCopy "${filestr}" "${outcopy_folder:/}${filestr:t}"
+    EndIf
+    #--- 分割ファイル ---
+    Default divfile_useflag 0   # 設定していたら"JL_out_divfile.txt"を読込済み
+    If ${divfile_useflag}>0
+      SysDataGet FOUTDIV -RegOut filestr
+      FileOpen "${outcopy_folder:/}${filestr:t}"
+      MemCall divfile_echo_odiv    # "JL_out_divfile.txt"使用
+      FileClose
+    EndIf
+  EndIf
+};
+
+MemSet OUTPUT -order 91 {     # 内部メモ出力後にコピー実行
+  Default outmemo_code   0    # 内部メモファイル出力設定
+  If ${outmemo_code}!=0     # 0以外の時に設定
+    FileCopy "${outmemo_fullpath}" "${outcopy_folder:/}${outmemo_fullpath:t}"
+  EndIf
+};

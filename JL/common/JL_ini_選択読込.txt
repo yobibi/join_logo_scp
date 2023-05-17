@@ -1,0 +1,230 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：取得できる情報からJLスクリプトを選択
+#
+# 設定
+#  path_user_rd : データファイルがこのパスにあれば優先して読み込み
+#  file_ini_ch  : サービスIDと放送局略称の対応を記載したファイル
+#  file_ini_t1  : 放送局とタイトルからのパラメータ設定ファイル（主に放送局）
+#  file_ini_t2  : 放送局とタイトルからのパラメータ設定ファイル
+#  file_title   : 検索対象のタイトル文字列
+#  service_id   : 検索対象のサービスID
+#  service_abbr : 検索対象の放送局略称（省略時はfile_ini_ch記載内容から取得）
+#  iniinfo_disp_param : 1=このスクリプトで選択されたパラメータ一覧を表示
+#
+# 出力
+#  jlsi_optstr  : 追加オプション（スクリプトで変更可能な内容のみ）
+#  jlsi_jlrun   : 使用するJLスクリプト名
+#  jlsi_comment : 表示のみ。選択コメント
+#
+
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+Call "JL_ini_外部環境取得.txt"               # 外部設定
+Default path_user_rd "${JLDATAPATH:h:H}user"       # 優先読込フォルダを設定する場合
+Default file_ini_ch  "${JLDATAPATH}ChList.csv"     # 設定データ
+Default file_ini_t1  "${JLDATAPATH}ChParamJL1.csv" # 設定データ
+Default file_ini_t2  "${JLDATAPATH}ChParamJL2.csv" # 設定データ
+Default file_title   ""                      # 初期設定（未定義時のみ更新）
+Default service_id   ""                      # 初期設定（未定義時のみ更新）
+Default service_abbr ""                      # 初期設定（未定義時のみ更新）
+Default jlsi_optstr  ""                      # 起動オプション文字列
+Default jlsi_jlrun   "JL_標準.txt"           # CALLスクリプト
+Default jlsi_comment ""                      # 選択コメント
+
+Default iniinfo_disp_read   1    # Readファイルパス表示（0:なし 1:内部メモ表示 2:ログ表示）
+Default iniinfo_disp_param  0    # 設定されたパラメータ情報表示（0:なし 1:内部メモ表示）
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+Call "JL_sub_文字列操作.txt"   # 文字列操作関数を使用
+
+#--- 優先するフォルダにファイルがあれば場所変更 ---
+Function takeReadPriorityFolder( ref(dfile) folder ){
+  If "${folder}"!=""
+    LocalSet newfile "${folder:/}${dfile:t}"
+    ReadCheck "${newfile}" -RegOut found -local
+    If ${found} { Set dfile "${newfile}" };
+  EndIf
+};
+
+#--- サービスIDに対応する放送局略称を取得 ---
+Function getIniInfoCh( id fname ){
+  LocalSet result ""
+  ReadOpen "${fname}"
+  Repeat 9999 {
+    ReadLine -RegOut str_read -local
+    Break !${READVALID}
+    SplitCsv -RegArg str_read -RegOut list_csv -local
+    If $#{list_csv}>=4      # サービスIDが4項目目と一致したら3項目目を取得
+      If "${list_csv[4]:Xb}"=="${id}"
+        Set result "${list_csv[3]:Xb}"
+        Break 1
+      EndIf
+    EndIf
+  };
+  ReadClose
+  Set getIniInfoCh "${result}"
+};
+
+# 項目1の該当確認（設定された単語にサービスID or 略称と一致あるか）
+Function getIniInfoMatchItem1( buf id abbr ){
+  Fcall StrConvOnlyHanToUp( abbr )      # 大文字に統一
+  Fcall StrConvOnlyHanToUp( buf  )      # 大文字に統一
+  SplitItem -RegArg buf -RegOut list_item -local
+  LocalSet hit 0
+  If $#{list_item}==0
+    Set hit 1     # 未設定は無条件許可
+  ElsIf "${buf:~0,1}"=="#"
+    Set hit 0     # 先頭#は無効
+  Else
+    Repeat $#{list_item} -counter i 1 {
+      Break ${hit}!=0
+      LocalSet name "${list_item[$i]}"
+      Fcall StrCmpWordWithRegExp( name abbr ) -RegOut hit
+      If ${hit}==0
+        Fcall StrCmpWordWithRegExp( name id ) -RegOut hit
+      EndIf
+    };
+  EndIf
+  Set getIniInfoMatchItem1 ${hit}
+};
+
+# 項目2の該当確認（設定された単語がタイトルにすべて含まれるか）（現在未使用）
+Function getIniInfoMatchItem2( buf title ){
+  SplitItem -RegArg buf -RegOut list_item -local
+  LocalSet hit 1
+  Repeat $#{list_item} -counter i 1 {
+    LocalSet EXTCHAR "${list_item[$i]}"
+    If ${title:C}==0 { Set hit 0 };
+  };
+  Set getIniInfoMatchItem2 ${hit}
+};
+
+#--- 放送局とタイトルに該当する項目のパラメータ取得 ---
+#  （結果リストにパラメータ名と値のセットを順番に追加していく）
+Function getIniInfoMatch( ref(result) id abbr title fname ){
+  ReadOpen "${fname}"
+  #--- 1行目で項目名を取得(list_iname) ---
+  ReadLine -RegOut str_read -local
+  If !${READVALID} { return };   # データなし確認
+  SplitCsv -RegArg str_read -RegOut list_csv -local
+  If $#{list_csv}<=2 { return };
+  ListDim $#{list_csv} -RegOut list_iname -local
+  LocalSet flag_cmt 0
+  Repeat $#{list_csv}-2 -counter i 3 {    # 2項目は固定なので3項目目から取得
+    SplitItem -RegArg list_csv[$i] -RegOut listn -local  # 念のため余分を分離
+    Set list_iname[$i] "${listn[1]}"   # 余分を分離した項目を設定
+    If "${list_iname[$i]:~0,1}"=="#"   # 項目先頭 # はコメント
+      If ${flag_cmt}==0    # 最初のコメント項目はCOMMENTの名前で残す
+        Set list_iname[$i] "COMMENT"
+        Set flag_cmt 1
+      Else                 # 2番目以降のコメントは残さない
+        Set list_iname[$i] ""
+      EndIf
+    EndIf
+  };
+  #--- 2行目以降 ---
+  Repeat 9999 {
+    ReadLine -RegOut str_read -local
+    Break !${READVALID}
+    SplitCsv -RegArg str_read -RegOut list_csv -local
+    Fcall getIniInfoMatchItem1( list_csv[1] id abbr ) -RegOut m1 -local
+#    Fcall getIniInfoMatchItem2( list_csv[2] title ) -RegOut m2 -local
+    Fcall StrCmpItemWithRegExp( list_csv[2] title ) -RegOut m2 -local
+    If ${m1} && ${m2}    # 最初の2項目で放送局とタイトルの条件確認
+      Repeat $#{list_csv}-2 -counter j 3 {  # 3項目目以降を取得
+        Set name "${list_iname[$j]}" -local
+        Set val  "${list_csv[$j]:Xq}" -local  # 文字列内引用符を非制御化
+        If "${name}"!=""
+          If "${val:Xb}"!=""
+            LocalSet n $#{result}
+            SetReg result[$n+1] name
+            SetReg result[$n+2] val
+          EndIf
+        EndIf
+      };
+    EndIf
+  };
+  ReadClose
+};
+
+#--- 取得したパラメータを表示 ---
+Function getIniInfoDisp( list_set ){
+  EchoItem "(parameter list)"
+  Repeat $#{list_set}/2 -counter i 1 +2 {
+    EchoItem "${list_set[$i]} : ${list_set[$i+1]}" -restore
+  };
+};
+
+#--- 使用する項目を設定 ---
+Function getIniInfoSet( list_set ){
+  ListClear -RegOut listd -local
+
+  # 設定されるデータ（変数名、区切り文字、追加フラグ）
+  SetList listd[1] "JL_RUN",",",0
+  SetList listd[2] "OPTIONS"," ",1
+  SetList listd[3] "COMMENT",",",1
+  SetList listd[4] "FLAGS",",",1
+
+  ListDim $#{listd} -RegOut listv -local
+  Repeat $#{list_set}/2 -counter i 1 +2 {
+    SetReg name list_set[$i] -local
+    SetReg val  list_set[$i+1] -local
+    Repeat $#{listd} -counter j 1 {
+      SetReg onedata listd[$j] -local
+      If "${name}"=="${onedata[1]}"
+        Fcall StrRegVarAdd( listv[$j] val onedata[2] onedata[3] )
+      EndIf
+    };
+  };
+  SetReg jlsi_jlrun   listv[1]
+  SetReg jlsi_optstr  listv[2]
+  SetReg jlsi_comment listv[3]
+  SetReg stri_flags   listv[4] -local
+
+  # フラグは追加オプションにまとめる
+  If "${stri_flags}"!=""
+    Set jlsi_optstr "-flags ${stri_flags} ${jlsi_optstr:Xq}"
+  EndIf
+  Set jlsi_optstr "${jlsi_optstr:<>}" -restore   # 前後空白除去、引用符戻す
+};
+
+
+#----------------------------------------------
+# 起動シーケンス
+#----------------------------------------------
+#--- 優先するフォルダにファイルがあれ読み込みファイル場所変更 ---
+Fcall takeReadPriorityFolder( file_ini_ch path_user_rd )
+Fcall takeReadPriorityFolder( file_ini_t1 path_user_rd )
+Fcall takeReadPriorityFolder( file_ini_t2 path_user_rd )
+
+#--- 放送局略称をサービスIDから取得 ---
+If "${service_abbr}"=="" && "${service_id}"!="" {
+  Fcall getIniInfoCh(service_id file_ini_ch) -RegOut service_abbr
+};
+#--- 放送局とタイトルからパラメータ取得 ---
+ListClear -RegOut list_set -local
+Fcall getIniInfoMatch(list_set service_id service_abbr file_title file_ini_t1)
+Fcall getIniInfoMatch(list_set service_id service_abbr file_title file_ini_t2)
+
+#--- readファイル表示 ---
+If ${iniinfo_disp_read}>0 {
+  If ${iniinfo_disp_read}==1 {
+    FileToMemo 1
+  };
+  Echo read_path(ChList) : ${file_ini_ch}
+  Echo read_path(ChParamJL1) : ${file_ini_t1}
+  Echo read_path(ChParamJL2) : ${file_ini_t2}
+  FileToMemo 0
+};
+#--- パラメータ表示 ---
+If ${iniinfo_disp_param}==1 {
+  FileToMemo 1
+  Fcall getIniInfoDisp( list_set )
+  FileToMemo 0
+};
+#--- 出力するパラメータ取得 ---
+Fcall getIniInfoSet( list_set )

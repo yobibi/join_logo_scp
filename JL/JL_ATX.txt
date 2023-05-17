@@ -12,6 +12,11 @@ Default base      -1          # 開始マージンのフレーム（-1の時は自動設定）
 Default lastbase  -1          # 終了マージンのフレーム（-1の時は自動設定）
 Default autobase  00:00:30    # 開始マージンの自動設定で検索する最大時間
 
+#--- 優先検索設定 ---
+Default end30pmin   00:22:30  # 30分番組終了検索時間（最小）
+Default end30pavg   00:23:00  # 30分番組終了検索時間（優先）
+Default end30pmax   00:30:30  # 30分番組終了検索時間（最大）
+
 #--- 複数話検出処理の設定 ---
 Default divuse      0         # 複数話分割（0=自動 1=期間固定値分割 2=期間ファイル読込可変分割）
 Default divoff      0         # 複数話分割自動設定で分割判定（0=許可 1=禁止）
@@ -46,7 +51,9 @@ Default len_enddetect_bef -1.1   # 実際の終了付近と認識する無音期間（前側）
 Default sft_c   00:03:00       # 終了位置検索範囲（優先位置）
 Default sft_l   00:08:00       # 終了位置検索範囲（手前）
 Default sft_r   00:00:10       # 終了位置検索範囲（最終）
-Default sft_m   $sft_l         # 終了位置検索範囲（無音検索優先位置）
+Default sft_mc  $sft_l         # 終了位置検索範囲（無音検索優先位置・優先）
+Default sft_ml  $sft_l         # 終了位置検索範囲（無音検索優先位置・手前）
+Default sft_mr  $sft_r         # 終了位置検索範囲（無音検索優先位置・最終）
 
 # 複数話期間を自動検出する時の期間位置設定値
 Default len_divdetp_max   00:39:30  # 自動検出する期間検索の最大
@@ -94,6 +101,7 @@ Memory mdiv_period_select
     ReadData "${file_period_list}" -RegList period_list
   EndIf
 }
+EndMemory
 
 #------------------------------------------------------------------
 # 複数話構成の分割を検出
@@ -470,16 +478,16 @@ MemCall mbase_first
 
 If $base == -1
   # 設定ない時の開始マージン自動検索
-  Select S 0 0 0 -N 1 -Shift 0 0 $autobase -logoext 0 $autobase+1.3 -SMA 0 $len_headmute
+  #Select S 0 0 0 -N 1 -Shift 0 0 $autobase -logoext 0 $autobase+1.3 -SMA 0 $len_headmute
+  Select S 0 0 $autobase -logoext 0 $autobase+1.3 -RSMA 0 $len_headmute
 Else
   # 開始マージン付近に候補があれば優先選択
-  #Select S 0 -1.3 1.3 -fromabs $base -logoext 0 $base+1.3
-  Select S 0 -$base 1.3 -fromabs $base -logoext 0 $base+1.3 -SMA 0 $len_headmute
+  Select S $base 0 $base+1.3 -N 1 -logoext 0 $base+1.3 -RSMA 0 $len_headmute
 EndIf
 
 # 終了マージン指定あれば候補を探し優先選択（終了側の自動検索は何も設定しない）
 If ${lastbase}>0
-  Select E 0 -1.3 ${lastbase} -fromabs ${MAXTIME}-${lastbase} -logoext -${lastbase}-1.3 0 -SMA 0 $len_headmute
+  Select E -${lastbase} -${lastbase}-1.3 0 -logoext -${lastbase}-1.3 0
 EndIf
 
 #----------------------------------------------
@@ -533,9 +541,17 @@ If ${stay_endloc_sft}==0
   EndIf
 
   # 優先する無音位置検索用
-  Set sft_m $sft_l             # 終了位置（無音検索優先位置）
-  If ($eachframe>=00:22:30 && $eachframe<=00:30:30)  # 短い終了区間の補正
-    EvalTime sft_m $eachframe-00:22:30
+  Set sft_mc $sft_c             # 終了位置（無音検索優先位置・優先）
+  Set sft_ml $sft_l             # 終了位置（無音検索優先位置・手前）
+  Set sft_mr $sft_r             # 終了位置（無音検索優先位置・最終）
+  If ($eachframe-$sft_mr>=$end30pavg && $eachframe<=$end30pmax)  # 対象区間の補正
+    EvalTime sft_mc $eachframe-$end30pavg
+    If $sft_ml>=$eachframe-$end30pmin
+      EvalTime sft_ml $eachframe-$end30pmin
+      If $sft_l<$sft_ml         # $end30pmin設定で短い30分番組対応した場合
+        Set $sft_l $sft_ml
+      EndIf
+    EndIf
   EndIf
 EndIf
 
@@ -543,7 +559,8 @@ EndIf
 Default divend_short  0        # 未設定時は0
 If ${divend_short}==1
     Set sft_r   00:00:00       # 終了位置（最終）
-    Set sft_m   00:01:00       # 終了位置（無音検索優先位置）
+    Set sft_mc  00:01:00       # 終了位置（無音検索優先位置・優先）
+    Set sft_mr  $sft_r         # 終了位置（無音検索優先位置・最終）
 EndIf
 
 # ・45分以上で分割なければ終了位置を多めに検索
@@ -553,7 +570,8 @@ If ${stay_endloc_sft}==0
       Set sft_c   00:03:00       # 終了位置（優先位置）
       Set sft_l   00:14:00       # 終了位置（手前）
 #     Set sft_r   00:00:10       # 終了位置（最終）
-      Set sft_m   $sft_l         # 終了位置（無音検索優先位置）
+      Set sft_mc  $sft_l         # 終了位置（無音検索優先位置・優先）
+      Set sft_ml  $sft_l         # 終了位置（無音検索優先位置・手前）
     EndIf
   EndIf
 EndIf
@@ -591,7 +609,7 @@ MemCall mbase_header_after
 # 終了位置検出
 #------------------------------------
 # 終了付近の位置認識
-GetList E -$sft_m -$sft_l -$sft_r -RSMA $len_enddetect_bef $len_enddetect_aft
+GetList E -$sft_mc -$sft_ml -$sft_mr -RSMA $len_enddetect_bef $len_enddetect_aft
 # Echo $LISTHOLD
 
 #---（設定挿入）番組終了部分処理直前 ---

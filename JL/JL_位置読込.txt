@@ -7,11 +7,11 @@
 #----------------------------------------------
 # 設定
 #----------------------------------------------
-GetEnv JL_MYDATA_PATH -RegEnv path_read      # 環境変数に設定していたら使用
-Default path_read    ""                      # 読み込みファイルのpath
-Default file_div     "${path_read}div.txt"   # 分割位置記載の入力ファイル名
-Default file_trim    "${path_read}trim.avs"  # Trim位置記載の入力ファイル名
-Default use_divfile  1      # ファイル分割使用（0=なし 1=使用）
+Call "JL_ini_外部環境取得.txt"               # 外部設定
+Default file_ts      ""                      # 未定義時の初期設定
+Default file_div     "${file_ts}.div.txt"    # 分割位置記載の入力ファイル名
+Default file_trim    "${file_ts}.trim.avs"   # Trim位置記載の入力ファイル名
+Default use_divfile 1       # ファイル分割使用（0=なし 1=使用）
 Default type_trim_in 2      # ロゴ位置入力ファイル（0=なし 1=list 2=avs-Trim）
 
 #----------------------------------------------

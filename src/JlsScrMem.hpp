@@ -22,18 +22,28 @@ private:
 		LAZY_A,
 		LAZY_E,
 		NoData,
+		START,
+		AUTO,
+		END,
 		MAXSIZE
 	};
 	static const int SIZE_MEM_SPECIAL_ID = static_cast<int>(MemSpecialID::MAXSIZE);
 
+	struct StrIDRecord{
+		char          str[8];	// 識別子文字列
+		MemSpecialID  id;		// 実際に使用する文字列の識別子ID
+	};
 	//--- MemSpecialIDに対応する文字列 ---
-	const char MemSpecialString[SIZE_MEM_SPECIAL_ID][8] = {
-		"DUMMY",
-		"LAZY",
-		"LAZY_S",
-		"LAZY_A",
-		"LAZY_E",
-		""
+	const StrIDRecord MemSpecialData[SIZE_MEM_SPECIAL_ID] = {
+		{ "DUMMY",  MemSpecialID::DUMMY },
+		{ "LAZY",   MemSpecialID::LAZY_FULL },
+		{ "LAZY_S", MemSpecialID::LAZY_S },
+		{ "LAZY_A", MemSpecialID::LAZY_A },
+		{ "LAZY_E", MemSpecialID::LAZY_E },
+		{ "",       MemSpecialID::NoData },
+		{ "START",  MemSpecialID::LAZY_S },
+		{ "AUTO",   MemSpecialID::LAZY_A },
+		{ "END",    MemSpecialID::LAZY_E },
 	};
 	const string ScrMemStrLazy = "__LAZY__";	// 通常識別子に追加するLazy用保管文字列
 
@@ -45,6 +55,7 @@ public:
 	bool isExistBaseName();
 	bool isExistExtName();
 	bool isNameDummy();
+	bool isNameSpecial();
 	void getBaseName(string& strName);
 	void getNameList(vector <string>& listName);
 
@@ -56,6 +67,7 @@ private:
 
 private:
 	bool m_flagDummy;
+	bool m_flagSpecial;
 	vector <string> m_listName;
 };
 
@@ -72,9 +84,24 @@ private:
 		bool	add;
 		bool	move;
 	};
+	struct MemDataRecord {
+		int     order;
+		string  buffer;
+	};
+	const int orderInitial = 50;	// 初期実行順位
 
 public:
+	JlsScrMem();
 	bool isLazyExist(LazyType typeLazy);
+	// 格納時の実行順位
+	void setOrderForPush(int order);
+	void resetOrderForPush();
+	int  getOrderForPush();
+	// 引数処理
+	bool setDefArg(vector<string>& argDef);
+	bool getDefArg(vector<string>& argDef, const string& strName);
+	// バッファ処理
+	void setUnusedFlag(const string& strName);
 	bool pushStrByName(const string& strName, const string& strBuf);
 	bool pushStrByLazy(LazyType typeLazy, const string& strBuf);
 	bool getListByName(queue <string>& queStr, const string& strName);
@@ -89,19 +116,30 @@ public:
 
 private:
 	// 共通の引数からコマンド実行
-	bool exeCmdPushStr(JlsScrMemArg& argDst, const string& strBuf);
+	bool exeCmdPushStr(JlsScrMemArg& argDst, const string& strBuf, int order);
 	bool exeCmdGetList(queue <string>& queStr, JlsScrMemArg& argSrc, CopyFlagRecord flags);
 	bool exeCmdEraseMem(JlsScrMemArg& argDst);
 	bool exeCmdCopyMem(JlsScrMemArg& argSrc, JlsScrMemArg& argDst, CopyFlagRecord flags);
 	// 記憶領域の直接操作
-	bool memPushStr(const string& strName, const string& strBuf);
+	bool memPushStr(const string& strName, const string& strBuf, int order);
 	bool memGetList(queue <string>& queStr, const string& strName, CopyFlagRecord flags);
 	bool memErase(const string& strName);
 	bool memCopy(const string& strSrc, const string& strDst, CopyFlagRecord flags);
 	bool memIsExist(const string& strName);
 	bool memIsNameExist(const string& strName);
-	void setQueue(queue <string>& queDst, queue <string>& queSrc, CopyFlagRecord flags);
+	bool memIsNameExistArg(const string& strName);
+	void addQueueLine(queue <MemDataRecord>& queDst, const string& strBuf, int order);
+	void setQueueStr(queue <string>& queDstStr, queue <MemDataRecord>& queSrc, CopyFlagRecord flags);
+	void setQueueFull(queue <MemDataRecord>& queDst, queue <MemDataRecord>& queSrc, CopyFlagRecord flags);
+	// 未使用チェック
+	void setUnused(JlsScrMemArg& marg);
+	void clearUnused(JlsScrMemArg& marg);
+public:
+	bool getUnusedStr(string& strBuf);
 
 private:
-	unordered_map <string, queue<string>> m_mapVar;
+	int  m_orderHold;
+	unordered_map <string, queue<MemDataRecord>> m_mapVar;
+	unordered_map <string, vector<string>> m_mapArg;
+	unordered_map <string, bool> m_mapUnused;
 };

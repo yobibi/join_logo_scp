@@ -1,0 +1,63 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：放送局とタイトル情報からJLスクリプトを選択して読み込む動作
+#
+#       Amatsukazeによる起動想定で、対応する環境変数が定義されている前提。
+#       （hookAmatsukazeCLIを入れるなどで対応）
+#       環境変数設定（CLI_IN_PATHとSERVICE_IDまたはSERVICE_ABBR）があれば
+#       Amatsukaze関係なく使用可能。
+#
+# 次の順番でファイルが存在したら選択される（{CLI_IN_PATH}は環境変数）
+# 1. {CLI_IN_PATH}.trim.avs
+#      trim情報を直接設定。div.txtもあれば使用
+# 2. JL_ini_選択読込.txt
+#      放送局とタイトルの文字列一致から選択
+#
+
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+Call "JL_ini_外部環境取得.txt"               # 外部設定
+Default file_ts      ""                      # 未定義時の初期設定
+Default file_div     "${file_ts}.div.txt"    # 分割位置記載の入力ファイル名
+Default file_trim    "${file_ts}.trim.avs"   # Trim位置記載の入力ファイル名
+Default file_calltr  "JL_位置読込.txt"       # trim情報を直接設定するスクリプト
+Default file_inisel  "JL_ini_選択読込.txt"   # JLスクリプトの選択読込スクリプト
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+#--- Trim直接指定あれば使用する ---
+ReadCheck "${file_trim}" -RegOut found_trim -local
+If ${found_trim}
+  ReadCheck "${file_div}" -RegOut use_divfile  # 分割ファイル使用選択
+  LocalSet msgadd ""
+  If ${use_divfile} { Set msgadd "（分割指定ファイルあり）" };
+  Echo 選択スクリプト : ${file_calltr} ${msgadd}
+  Call "${file_calltr}"  # 実行
+  Return   # 終了
+EndIf
+
+#--- JLスクリプト選択処理 ---
+Call "${file_inisel}"
+
+#--- 上のCallで設定される情報 ---
+Default jlsi_optstr  ""                # 追加オプション文字列
+Default jlsi_jlrun   ""                # CALLスクリプト
+Default jlsi_comment ""                # 選択コメント
+
+Echo 検索対象 : ${file_title}
+Echo 放送局   : ${service_abbr} : ${service_id}
+Echo 選択コメント : ${jlsi_comment}
+Echo 選択スクリプト : ${jlsi_jlrun}
+
+#--- 追加オプション設定 ---
+If "${jlsi_optstr:Xq}"!="" {   # 変数内ダブルクォートは通常文字として認識させる
+  Echo 追加オプション : ${jlsi_optstr}
+  OptSet ${jlsi_optstr}
+};
+
+#--- Call動作 ---
+If "${jlsi_jlrun}"!="" {
+  Call "${jlsi_jlrun}"
+};

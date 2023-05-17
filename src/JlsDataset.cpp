@@ -73,17 +73,21 @@ void JlsDataset::initData(){
 	extOpt.fixNLgExact = 0;
 	extOpt.fixSubList = 0;
 	extOpt.fixSubPath = 0;
+	extOpt.fixSetup   = 0;
 	extOpt.vLine      = 0;
 	extOpt.flagDirect = 0;
 	extOpt.nLgExact   = 0;
-	extOpt.subList    = "common";		// 初期検索フォルダ設定
+	extOpt.dispSysMes = 0;
+	extOpt.subList    = "user,<,common";	// 初期検索フォルダ設定
 	extOpt.subPath    = "";
+	extOpt.setup      = "JL_common.txt";	// 共通先頭実行ファイル
 
 	//--- 状態初期設定 ---
 	recHold = {};		// 念のため個別に初期化
 	recHold.msecSelect1st = -1;
 	recHold.msecTrPoint   = -1;
 	recHold.rmsecHeadTail = {-1, -1};
+	recHold.typeRange     = 0;
 	m_msecTotalMax    = 0;
 	m_levelUseLogo  = 0;
 	m_flagSetupAdj  = 0;
@@ -137,10 +141,14 @@ void JlsDataset::backupLogosetLoad(){
 	extOpt.flagDirect = m_backupData.bak_extOpt.flagDirect;
 
 	//--- 状態初期設定 ---
+	RangeMsec rmsecBak = recHold.rmsecHeadTail;
+	int  typeRangeBak  = recHold.typeRange;
 	recHold = {};		// 念のため個別に初期化
 	recHold.msecSelect1st = -1;
 	recHold.msecTrPoint   = -1;
 //	recHold.rmsecHeadTail = {-1, -1};
+	recHold.rmsecHeadTail = rmsecBak;
+	recHold.typeRange     = typeRangeBak;
 	m_msecTotalMax    = m_backupData.bak_msecTotalMax;
 	m_levelUseLogo  = 0;
 	m_flagSetupAdj  = 0;
@@ -235,6 +243,17 @@ bool JlsDataset::emptyDataLogo(){
 	return m_logo.empty();
 }
 
+//---------------------------------------------------------------------
+// 無音SC全体データ番号取得（端を含むか選択付き）
+//---------------------------------------------------------------------
+RangeNsc JlsDataset::getRangeNscTotal(bool flagNoEdge){
+	int rev = ( flagNoEdge )? 1 : 0;
+	RangeNsc rnsc;
+	rnsc.st = rev;
+	rnsc.ed = sizeDataScp() - 1 - rev;
+	return rnsc;
+}
+
 
 //=====================================================================
 // １データセット単位の処理
@@ -262,7 +281,8 @@ void JlsDataset::clearRecordLogo(DataLogoRecord &dt){
 	dt.intl_fall    = 0;
 	dt.stat_rise    = LOGO_PRIOR_NONE;
 	dt.stat_fall    = LOGO_PRIOR_NONE;
-	dt.unit         = LOGO_UNIT_NORMAL;
+	dt.unit_rise    = LOGO_UNIT_NORMAL;
+	dt.unit_fall    = LOGO_UNIT_NORMAL;
 	dt.outtype_rise = LOGO_RESULT_NONE;
 	dt.outtype_fall = LOGO_RESULT_NONE;
 	dt.result_rise  = 0;
@@ -321,6 +341,14 @@ void JlsDataset::insertRecordLogo(DataLogoRecord &dt, Nlg nlg){
 void JlsDataset::insertRecordScp(DataScpRecord &dt, Nsc nsc){
 	if (nsc >= 0 && nsc <= sizeDataScp()){
 		m_scp.insert(m_scp.begin()+nsc, dt);
+	}
+}
+//---------------------------------------------------------------------
+// １データセット単位削除（指定位置）（無音SCデータ）
+//---------------------------------------------------------------------
+void JlsDataset::deleteRecordScp(Nsc nsc){
+	if (nsc >= 0 && nsc < sizeDataScp()){
+		m_scp.erase(m_scp.begin()+nsc);
 	}
 }
 
@@ -505,6 +533,19 @@ Msec JlsDataset::getMsecScpEdge(Nsc nsc, LogoEdgeType edge){
 		return getMsecScpBk(nsc);
 	}
 	return getMsecScp(nsc);
+}
+
+//---------------------------------------------------------------------
+// ミリ秒データを開始終了幅ありで取得（無音SC位置）
+//---------------------------------------------------------------------
+WideMsec JlsDataset::getWideMsecScp(Nsc nsc){
+	Msec msecT  = getMsecScp(nsc);
+	Msec msecBk = getMsecScpBk(nsc);
+	WideMsec wmsec;
+	wmsec.just  = msecT;	// 中心は基準位置
+	wmsec.early = msecBk;
+	wmsec.late  = msecT;
+	return wmsec;
 }
 
 //---------------------------------------------------------------------
@@ -800,20 +841,25 @@ Nsc JlsDataset::getNscDirElgForAll(Nsc nsc, SearchDirType dr, LogoEdgeType edge,
 	int size_scp = sizeDataScp();
 	int r = -1;
 	int i = nsc;
-	int inext = getNscDirScpDecide(i, dr, SCP_END_EDGEIN);
 	if (dr == SEARCH_DIR_NEXT){			// arstatは２点間の後側を見るための移動
 		i = getNscNextScpDecide(i,  SCP_END_EDGEIN);
 	}
 	//--- 逆エッジ部分まで探索 ---
 	bool inlogo_base = isElgInScpForAll(i, flag_border, flag_out);
-	while(((edge == LOGO_EDGE_RISE && dr == SEARCH_DIR_NEXT && inlogo_base == true) ||
-		   (edge == LOGO_EDGE_RISE && dr == SEARCH_DIR_PREV && inlogo_base == false) ||
-		   (edge == LOGO_EDGE_FALL && dr == SEARCH_DIR_NEXT && inlogo_base == false) ||
-		   (edge == LOGO_EDGE_FALL && dr == SEARCH_DIR_PREV && inlogo_base == true))
-		  && (getScpChap(inext) != SCP_CHAP_DUNIT)
-		  && i >= 0){
-		i = getNscDirScpDecide(i, dr, SCP_END_EDGEIN);
-		inlogo_base = isElgInScpForAll(i, flag_border, flag_out);
+	{
+		int inext = getNscDirScpDecide(i, dr, SCP_END_EDGEIN);
+		int icheck = (dr == SEARCH_DIR_NEXT)? i : inext;
+		while(((edge == LOGO_EDGE_RISE && dr == SEARCH_DIR_NEXT && inlogo_base == true) ||
+			   (edge == LOGO_EDGE_RISE && dr == SEARCH_DIR_PREV && inlogo_base == false) ||
+			   (edge == LOGO_EDGE_FALL && dr == SEARCH_DIR_NEXT && inlogo_base == false) ||
+			   (edge == LOGO_EDGE_FALL && dr == SEARCH_DIR_PREV && inlogo_base == true))
+			  && ( isElgDivScpForAll(icheck, flag_border, flag_out) == false )	// ロゴ強制区切り
+			  && i >= 0){
+			i = inext;
+			inext = getNscDirScpDecide(i, dr, SCP_END_EDGEIN);
+			icheck = (dr == SEARCH_DIR_NEXT)? i : inext;
+			inlogo_base = isElgInScpForAll(i, flag_border, flag_out);
+		}
 	}
 	//--- エッジ部分を探索 ---
 	if ((i > 0 && i < size_scp) ||
@@ -833,7 +879,7 @@ Nsc JlsDataset::getNscDirElgForAll(Nsc nsc, SearchDirType dr, LogoEdgeType edge,
 					flag_end = true;
 					r = iset;
 				}
-				else if (getScpChap(iset) == SCP_CHAP_DUNIT){	// 強制区切り
+				else if ( isElgDivScpForAll(iset, flag_border, flag_out) ){	// ロゴ強制区切り
 					flag_end = true;
 					r = iset;
 				}
@@ -906,7 +952,6 @@ bool JlsDataset::getNrfptNext(NrfCurrent &logopt, LogoSelectType type){
 	if (logopt.nrfFall < 0) return false;
 	return true;
 }
-	
 
 
 //---------------------------------------------------------------------
@@ -931,7 +976,7 @@ bool JlsDataset::getElgptNext(ElgCurrent &elg){
 	elg.msecLastRise = elg.msecRise;
 	elg.msecLastFall = elg.msecFall;
 	//--- rise ---
-	if (isSameLocNextElg(elg.nscFall, LOGO_EDGE_RISE) == false){
+	if ( isElgDivScpForAll(elg.nscFall, elg.border, elg.outflag) == false ){	// ロゴ内分割位置かチェック
 		if (flag1st) elg.nscFall = -1;		// 0位置からチェックするため
 		elg.nscRise = getNscDirElgForAll(elg.nscFall, SEARCH_DIR_NEXT, LOGO_EDGE_RISE, elg.border, elg.outflag);
 	}
@@ -1001,7 +1046,7 @@ Nlg JlsDataset::getResultLogoNext(Msec &msec_rise, Msec &msec_fall, bool &cont_n
 		if (dtlogo.outtype_fall == LOGO_RESULT_DECIDE){				// 確定エッジ
 			flag_fall = true;
 			msec_fall = dtlogo.result_fall;
-			if (dtlogo.unit){
+			if (dtlogo.unit_fall){
 				flag_unit = true;
 			}
 		}
@@ -1024,7 +1069,9 @@ Nlg JlsDataset::getResultLogoNext(Msec &msec_rise, Msec &msec_fall, bool &cont_n
 						msec_fall = cnv.getMsecAdjustFrmFromMsec(msec_next, -1);	// 切れ目なしに補正
 					}
 					if (flag_unit == false){					// 独立ロゴでなければ切れ目なし判定
-						cont_next = true;
+						if ( dtlogo.unit_rise == false ){
+							cont_next = true;
+						}
 					}
 				}
 			}
@@ -1051,6 +1098,125 @@ Nlg JlsDataset::getResultLogoNext(Msec &msec_rise, Msec &msec_fall, bool &cont_n
 	return nlg_ret;
 }
 
+// 出力ロゴ対応
+//---------------------------------------------------------------------
+// 次のロゴ位置取得（立ち上りと立ち下りのセット）
+// 入力：
+//   nrf_fall : ロゴ番号*2 + fall時は1
+//   type     : ALL=すべて  VALID=有効ロゴ
+//   final    : false=通常  true=最終出力
+// 返り値： ロゴ位置取得結果（取得時=true）
+//   logopt   : ロゴ位置情報
+//---------------------------------------------------------------------
+bool JlsDataset::getNrfptOutNext(NrfCurrent &logopt, LogoSelectType type, bool final){
+	//--- initialize ---
+	if (logopt.valid == false){
+		logopt.nrfRise = -1;
+		logopt.nrfFall = -1;
+		logopt.valid = true;
+	}
+	//--- backup ---
+	logopt.nrfLastRise = logopt.nrfRise;
+	logopt.nrfLastFall = logopt.nrfFall;
+	logopt.msecLastRise = logopt.msecRise;
+	logopt.msecLastFall = logopt.msecFall;
+	//--- rise ---
+	logopt.nrfRise = getNrfMsecOutNextLogo(logopt.msecRise, logopt.nrfFall, LOGO_EDGE_RISE, type, final);
+	if (logopt.nrfRise >= 0){
+		logopt.nrfFall = getNrfMsecOutNextLogo(logopt.msecFall, logopt.nrfRise, LOGO_EDGE_FALL, type, final);
+		if ( logopt.nrfFall < 0 ){
+			logopt.nrfFall  = sizeDataLogo()*2-1;
+			logopt.msecFall = getMsecTotalMax();
+		}
+	}
+	else{
+		logopt.nrfFall = -1;
+		return false;
+	}
+	return true;
+}
+// unit設定も考慮した出力用の１つ後のロゴ位置取得
+Nrf JlsDataset::getNrfMsecOutNextLogo(Msec& msecOut, Nrf nrf, LogoEdgeType edge, LogoSelectType type, bool final){
+	int msec_val_cont = 80;					// 同一ロゴとみなす間隔msec
+
+	int r = -1;
+	Msec msecRef = ( nrf >= 0 )? getMsecLogoNrf(nrf) : 0;
+	Nrf nrfNext = nrf;
+	bool flag_end = false;
+	while(flag_end == false){
+		nrfNext = getNrfOutDirLogo(nrfNext, SEARCH_DIR_NEXT, edge, type, final);
+		r = nrfNext;
+		msecOut = getMsecLogoNrf(nrfNext);
+		flag_end = true;
+		if ( nrfNext < 0 || final == false ){
+			break;
+		}
+		//--- 最終出力用処理 ---
+		DataLogoRecord dtlogo1;
+		getRecordLogo(dtlogo1, nlgFromNrf(nrfNext));
+		bool flagRise = isLogoEdgeRiseFromNrf(nrfNext);
+		msecOut = ( flagRise )? dtlogo1.result_rise : dtlogo1.result_fall;
+		if ( msecOut < msecRef ){
+			flag_end = false;
+		}
+		//--- 次のロゴが同一ロゴか確認 ---
+		if ( flagRise == false ){
+			Nrf nrfRise = getNrfOutDirLogo(nrfNext, SEARCH_DIR_NEXT, LOGO_EDGE_RISE, type, final);
+			if ( nrfRise >= 0 ){
+				DataLogoRecord dtlogo2;
+				getRecordLogo(dtlogo2, nlgFromNrf(nrfRise));
+				if ( dtlogo2.result_rise - dtlogo1.result_fall < msec_val_cont ){
+					if ( (extOpt.nLgExact & 0x02) == 0 ){
+						msecOut = cnv.getMsecAdjustFrmFromMsec(dtlogo2.result_rise, -1);	// 切れ目なしに補正
+					}
+					if ( dtlogo1.unit_fall == false && dtlogo2.unit_rise == false ){
+						flag_end = false;	// 同一ロゴのため次を検索
+						nrfNext = nrfRise;
+					}
+				}
+			}
+		}
+	}
+	return r;
+}
+// 出力用の次のロゴ位置取得
+Nrf JlsDataset::getNrfOutDirLogo(Nrf nrf, SearchDirType dr, LogoEdgeType edge, LogoSelectType type, bool final){
+	int size_logo = sizeDataLogo();
+	int r = -1;
+	bool flag_end = false;
+	bool check_rise = isLogoEdgeRise(edge);
+	bool check_fall = isLogoEdgeFall(edge);
+	int i = nrf;
+	int step = (dr == SEARCH_DIR_NEXT)? +1 : -1;
+	while(flag_end == false){
+		i += step;
+		if (i >= 0 && i < size_logo*2){
+			int nlg_i  = nlgFromNrf(i);
+			int edge_i = edgeFromNrf(i);
+			DataLogoRecord dtlogo;
+			getRecordLogo(dtlogo, nlg_i);
+			if (edge_i == LOGO_EDGE_RISE && check_rise){
+				if ( (final == true && dtlogo.outtype_rise == LOGO_RESULT_DECIDE) ||
+					 (final == false && (isValidLogoRise(nlg_i) || type == LOGO_SELECT_ALL)) ){
+					r = i;
+					flag_end = true;
+				}
+			}
+			else if (edge_i == LOGO_EDGE_FALL && check_fall){
+				if ( (final == true && dtlogo.outtype_fall == LOGO_RESULT_DECIDE) ||
+					 (final == false && (isValidLogoFall(nlg_i) || type == LOGO_SELECT_ALL)) ){
+					r = i;
+					flag_end = true;
+				}
+			}
+		}
+		else{
+			flag_end = true;
+		}
+	};
+	return r;
+}
+
 
 
 //=====================================================================
@@ -1075,10 +1241,15 @@ Nsc JlsDataset::getNscDirScpChap(Nsc nsc, SearchDirType dr, ScpChapType chap_th)
 
 // １つ前の位置取得
 Nsc JlsDataset::getNscPrevScpChap(Nsc nsc, ScpChapType chap_th){
+	ScpEndType edgetype = SCP_END_NOEDGE;
+	return getNscPrevScpChapEdge(nsc, chap_th, edgetype);
+}
+Nsc JlsDataset::getNscPrevScpChapEdge(Nsc nsc, ScpChapType chap_th, ScpEndType noedge){
 	int num_scpos = sizeDataScp();
+	int nEdge = ( noedge == SCP_END_NOEDGE )? 1 : 0;
 	int r = -1;
 	if (nsc-1 < num_scpos){
-		for(int i=nsc-1; i>0; i--){
+		for(int i=nsc-1; i>=0+nEdge; i--){
 			ScpChapType chap_i = m_scp[i].chap;
 			if (chap_i >= chap_th){
 				r = i;
@@ -1088,29 +1259,18 @@ Nsc JlsDataset::getNscPrevScpChap(Nsc nsc, ScpChapType chap_th){
 	}
 	return r;
 }
-
 // １つ後の位置取得
 Nsc JlsDataset::getNscNextScpChap(Nsc nsc, ScpChapType chap_th){
-	int num_scpos = sizeDataScp();
-	int r = -1;
-	if (nsc+1 >= 0){
-		for(int i=nsc+1; i<num_scpos-1; i++){
-			ScpChapType chap_i = m_scp[i].chap;
-			if (chap_i >= chap_th){
-				r = i;
-				break;
-			}
-		}
-	}
-	return r;
+	ScpEndType edgetype = SCP_END_NOEDGE;
+	return getNscNextScpChapEdge(nsc, chap_th, edgetype);
 }
-
 // １つ後の位置取得
 Nsc JlsDataset::getNscNextScpChapEdge(Nsc nsc, ScpChapType chap_th, ScpEndType noedge){
 	int num_scpos = sizeDataScp();
+	int nEdge = ( noedge == SCP_END_NOEDGE )? 1 : 0;
 	int r = -1;
 	if (nsc+1 >= 0){
-		for(int i=nsc+1; i<num_scpos-noedge; i++){
+		for(int i=nsc+1; i<num_scpos-nEdge; i++){
 			ScpChapType chap_i = m_scp[i].chap;
 			if (chap_i >= chap_th || i == 0 || i == num_scpos-1){
 				r = i;
@@ -1145,6 +1305,26 @@ Nsc JlsDataset::getNscNextScpCheckCmUnit(Nsc nsc, ScpEndType noedge){
 	if (nsc_cur == nsc){
 		nsc_cur = nsc_next;
 	}
+	return nsc_cur;
+}
+Nsc JlsDataset::getNscPrevScpCheckCmUnit(Nsc nsc, ScpEndType noedge){
+	int nsc_prev = nsc;
+	int nsc_cur;
+	bool overEdge;
+	ScpArType arstat = SCP_AR_UNKNOWN;
+	//--- 2構成以上のCMは最初の位置まで移動 ---
+	do{
+		nsc_cur  = nsc_prev;
+		overEdge = ( nsc_cur == sizeDataScp() && noedge == SCP_END_NOEDGE );
+		ScpEndType adaptEdge = ( overEdge )? SCP_END_EDGEIN : noedge;
+		nsc_prev = getNscPrevScpChapEdge(nsc_cur, SCP_CHAP_DECIDE, adaptEdge);
+		arstat = getScpArstat(nsc_cur);
+	} while( nsc_prev > 0 && (arstat == SCP_AR_N_AUNIT || overEdge) );
+
+	// 2構成以上のCMは最初がSCP_AR_N_BUNIT、以降の連結がSCP_AR_N_AUNIT
+
+	//--- 次の位置に設定 ---
+	nsc_cur = nsc_prev;
 	return nsc_cur;
 }
 
@@ -1194,19 +1374,97 @@ Nsc JlsDataset::getNscNextScpDecide(Nsc nsc, ScpEndType noedge){
 	return r;
 }
 
-// 最終出力用
-Nsc JlsDataset::getNscNextScpOutput(Nsc nsc, ScpEndType noedge){
-	int r = -1;
-	if ( isAutoModeUse() ){
-		r = getNscNextScpCheckCmUnit(nsc, noedge);
+// 表示用の構成
+Nsc JlsDataset::getNscNextScpDisp(Nsc nsc, ScpEndType noedge){
+	Msec msecFrom = -1;
+	if ( isScpChapTypeDecideFromNsc(nsc) ){		// 元位置が区切りなら参照元とする
+		 msecFrom = getMsecScp(nsc);
 	}
-	else{
-		r = getNscNextScpDecide(nsc, noedge);
-	}
+	int r = nsc;
+	bool cont = false;		// 通常は1回で終了
+	do{
+		if ( isAutoModeUse() ){
+			r = getNscNextScpCheckCmUnit(r, noedge);
+		}
+		else{
+			r = getNscNextScpDecide(r, noedge);
+		}
+		cont = false;
+		if ( r>=0 && r<sizeDataScp() && msecFrom>=0 ){
+			if ( msecFrom >= getMsecScp(r) ){	// 現在位置以下は飛ばす
+				cont = true;
+			}
+		}
+	} while( r>=0 && cont );
 	return r;
 }
+Nsc JlsDataset::getNscPrevScpDisp(Nsc nsc, ScpEndType noedge){
+	Msec msecFrom = -1;
+	if ( isScpChapTypeDecideFromNsc(nsc) ){		// 元位置が区切りなら参照元とする
+		msecFrom = getMsecScp(nsc);
+	}
+	int rdet = -1;
+	int r = nsc;
+	bool cont = false;
+	do{
+		if ( isAutoModeUse() ){
+			r = getNscPrevScpCheckCmUnit(r, noedge);
+		}
+		else{
+			r = getNscPrevScpDecide(r, noedge);
+		}
+		cont = false;
+		if ( r >= 0 ){
+			if ( msecFrom < 0 ){	// 参照元なし
+				rdet = r;		// 結果位置にする
+				msecFrom = getMsecScp(r);
+				cont = true;
+			}else{
+				if ( msecFrom <= getMsecScp(r) ){	// 現在位置以上は飛ばす
+					rdet = r;
+					cont = true;
+				}else if ( rdet < 0 ){
+					rdet = r;
+				}
+			}
+		}
+	} while( r>=0 && cont );
+	return rdet;
+}
 
-
+// ミリ秒から区切りが指定数前の位置取得
+Nsc JlsDataset::getNscPrevScpDispFromMsecCount(Msec msec, int nCount, bool clip){
+	Msec msecSrc = msec - msecValExact;
+	WideMsec wmsecTmp;
+	wmsecTmp.just  = msecSrc;
+	wmsecTmp.early = 0;
+	wmsecTmp.late  = msecSrc;
+	Nsc nscT = pdata->getNscFromWideMsecFull(wmsecTmp, SCP_CHAP_DECIDE, SCP_END_EDGEIN);
+	nscT += 1;
+	for(int i=1; i<=nCount; i++){
+		nscT = pdata->getNscPrevScpDisp(nscT, SCP_END_EDGEIN);
+		if ( nscT < 0 ) break;
+	}
+	if ( clip && nscT < 0 ) nscT = 0;
+	return nscT;
+}
+// ミリ秒から区切りが指定数後の位置取得
+Nsc JlsDataset::getNscNextScpDispFromMsecCount(Msec msec, int nCount, bool clip){
+	Msec msecMax = getMsecTotalMax();
+	Msec msecSrc = msec + msecValExact;
+	WideMsec wmsecTmp;
+	wmsecTmp.just  = msecSrc;
+	wmsecTmp.early = msecSrc;
+	wmsecTmp.late  = msecMax;
+	Nsc nscT = pdata->getNscFromWideMsecFull(wmsecTmp, SCP_CHAP_DECIDE, SCP_END_EDGEIN);
+	nscT -= 1;
+	for(int i=1; i<=nCount; i++){
+		nscT = pdata->getNscNextScpDisp(nscT, SCP_END_EDGEIN);
+		if ( nscT < 0 ) break;
+	}
+	if ( clip && nscT < 0 ) nscT = sizeDataScp() - 1;
+	return nscT;
+}
 
 //=====================================================================
 // 位置に対応するデータ取得処理
@@ -1238,6 +1496,49 @@ Nrf JlsDataset::getNrfLogoFromMsec(Msec msec_target, LogoEdgeType edge){
 			if (msec_s <= msec_target && msec_target <= msec_e){
 				r = i*2+1;
 				break;
+			}
+		}
+	}
+	return r;
+}
+Nrf JlsDataset::getNrfLogoFromMsecResult(Msec msec_target, LogoEdgeType edge, bool result){
+	int size_logo = sizeDataLogo();
+	int r = -1;
+	for(int i=0; i<size_logo; i++){
+		if ( isLogoEdgeRise(edge) ){
+			if ( result ){
+				if ( m_logo[i].outtype_rise == LOGO_RESULT_DECIDE ){
+					int msec_s = m_logo[i].result_rise;
+					if ( abs(msec_target - msec_s) <= msecValExact ){
+						r = i*2;
+						break;
+					}
+				}
+			}else{
+				int msec_s = m_logo[i].rise_l;
+				int msec_e = m_logo[i].rise_r;
+				if (msec_s <= msec_target && msec_target <= msec_e){
+					r = i*2;
+					break;
+				}
+			}
+		}
+		if ( isLogoEdgeFall(edge) ){
+			if ( result ){
+				if ( m_logo[i].outtype_fall == LOGO_RESULT_DECIDE ){
+					int msec_s = m_logo[i].result_fall;
+					if ( abs(msec_target - msec_s) <= msecValExact ){
+						r = i*2+1;
+						break;
+					}
+				}
+			}else{
+				int msec_s = m_logo[i].fall_l;
+				int msec_e = m_logo[i].fall_r;
+				if (msec_s <= msec_target && msec_target <= msec_e){
+					r = i*2+1;
+					break;
+				}
 			}
 		}
 	}
@@ -1312,23 +1613,31 @@ Nsc JlsDataset::getNscFromNrf(Nrf nrf_target, Msec msec_th, ScpChapType chap_th,
 Nsc JlsDataset::getNscFromMsecFull(Msec msec_target, Msec msec_th, ScpChapType chap_th, ScpEndType noedge){
 	int num_scpos = sizeDataScp();
 	int r = -1;
-	int msec_min = -1;
+	Msec msec_min = -1;
+	Msec msec_r = -1;
+	bool decide_min = false;
 	for(int i=noedge; i<num_scpos-noedge; i++){
 		int msec_i = m_scp[i].msec;
 		ScpChapType chap_i = m_scp[i].chap;
-		if (chap_i >= chap_th || i == 0 || i == num_scpos-1){
+		bool edge = ( i == 0 || i == num_scpos-1);
+		if (chap_i >= chap_th || edge){
 			//--- 対象位置からの差分最小値箇所を取得 ---
 			int msec_dif = abs(msec_target - msec_i);
 			if (msec_dif <= msec_th || msec_th < 0){
-				if (msec_dif < msec_min || msec_min < 0){
+				bool decide_flag = ( jlsd::isScpChapTypeDecide(chap_i) || edge );
+				bool sameloc = ( abs(msec_i - msec_r) <= msecValExact );
+				bool prefer = ( sameloc && !decide_min && decide_flag);
+				if ( msec_dif < msec_min || msec_min < 0 || prefer ){
 					r = i;
 					msec_min = msec_dif;
+					msec_r   = msec_i;
+					decide_min = decide_flag;
 				}
 			}
-			//--- 対象位置を過ぎたら終了 ---
-			if (msec_i >= msec_target){
-				break;
-			}
+//			//--- 対象位置を過ぎたら終了 ---
+//			if ( msec_i > msec_target + msecValExact ){
+//				break;
+//			}
 		}
 	}
 	return r;
@@ -1339,6 +1648,10 @@ Nsc JlsDataset::getNscFromMsecChap(Msec msec_target, Msec msec_th, ScpChapType c
 	return getNscFromMsecFull(msec_target, msec_th, chap_th, SCP_END_NOEDGE);
 }
 
+// 無音SC位置を取得
+Nsc JlsDataset::getNscFromMsecMgn(Msec msec_target, Msec msec_th, ScpEndType noedge){
+	return getNscFromMsecFull(msec_target, msec_th, SCP_CHAP_DUPE, noedge);
+}
 // 無音SC位置を取得
 Nsc JlsDataset::getNscFromMsecAll(Msec msec_target){
 	return getNscFromMsecFull(msec_target, msecValNear2, SCP_CHAP_DUPE, SCP_END_NOEDGE);
@@ -1375,12 +1688,52 @@ Nsc JlsDataset::getNscFromWideMsecFull(WideMsec wmsec_target, ScpChapType chap_t
 	}
 	return r;
 }
-
 // 範囲内の無音SC位置を取得
 Nsc JlsDataset::getNscFromWideMsecByChap(WideMsec wmsec_target, ScpChapType chap_th){
 	return getNscFromWideMsecFull(wmsec_target, chap_th, SCP_END_NOEDGE);
 }
 
+// 一番近い無音SC位置を取得（表示用の構成区切りのみ）
+Nsc JlsDataset::getNscFromMsecDisp(Msec msec_target, Msec msec_th, ScpEndType noedge){
+	WideMsec wmsec;
+	wmsec.just  = msec_target;
+	wmsec.early = msec_target-msec_th;
+	wmsec.late  = msec_target+msec_th;
+	return getNscFromWideMsecDisp(wmsec, noedge);
+}
+// 範囲内の無音SC位置を取得（表示用の構成区切りのみ）
+Nsc JlsDataset::getNscFromWideMsecDisp(WideMsec wmsec_target, ScpEndType noedge){
+	Term term = {};
+	pdata->setTermEndtype(term, noedge);	// 端を含めて実施するか
+	pdata->setTermForDisp(term, true);		// 表示用の構成
+	Nsc r = -1;
+	Msec msecMin = -1;
+	bool first = true;
+	bool cont = getTermNext(term);
+	while( cont ){
+		Nsc nscNow = ( first )? term.nsc.st : term.nsc.ed;
+		Msec msecNow = ( first )? term.msec.st : term.msec.ed;
+		Msec msecDif = abs(msecNow - wmsec_target.just);
+		if ((wmsec_target.early <= msecNow || wmsec_target.early < 0) &&
+		    (msecNow <= wmsec_target.late  || wmsec_target.late  < 0)){
+			if (msecDif < msecMin || msecMin < 0){
+				r = nscNow;
+				msecMin = msecDif;
+			}
+			//--- 対象位置を過ぎたら終了 ---
+			if (msecNow >= wmsec_target.late){
+				break;
+			}
+		}
+		//--- 次の位置設定 ---
+		if ( first ){
+			first = false;
+		}else{
+			cont = getTermNext(term);
+		}
+	}
+	return r;
+}
 
 //---------------------------------------------------------------------
 // 開始終了位置に対応する無音シーンチェンジ番号を取得
@@ -1531,32 +1884,19 @@ bool JlsDataset::isValidLogoNrf(Nrf nrf){
 
 
 //---------------------------------------------------------------------
-// 次の推測構成ロゴ扱い位置が全く同じ位置になるか判断
-// 入力：
-//   nsc  : シーンチェンジ番号
-//   dr   : 検索方向（前側 / 後側）
-//   edge : ロゴ端（0:立ち上がりエッジ  1:立ち下がりエッジ  2:両エッジ）
-// 返り値： 全く同じ位置になるか（true=同じ位置  false=違う位置）
+// 推測ロゴ分割箇所か判断
 //---------------------------------------------------------------------
-bool JlsDataset::isSameLocDirElg(Nsc nsc, SearchDirType dr, LogoEdgeType edge){
-	//--- 強制区切り ---
-	if (getScpChap(nsc) == SCP_CHAP_DUNIT){
-		if ((dr == SEARCH_DIR_PREV && edge == LOGO_EDGE_FALL) ||
-			(dr == SEARCH_DIR_NEXT && edge == LOGO_EDGE_RISE)){
-			return true;
+bool JlsDataset::isElgDivScpForAll(Nsc nsc, bool flag_border, bool flag_out){
+	bool ret = false;
+	if ( getScpChap(nsc) == SCP_CHAP_DUNIT ){	// 分割構成指定
+		int  nsc2     = getNscNextScpDecide(nsc, SCP_END_EDGEIN);
+		bool inlogo_p = isElgInScpForAll(nsc,  flag_border, flag_out);
+		bool inlogo_n = isElgInScpForAll(nsc2, flag_border, flag_out);
+		if ( inlogo_p && inlogo_n ){	// 前後ともにロゴ扱い領域
+			ret = true;
 		}
 	}
-	return false;
-}
-
-// １つ前の位置取得
-bool JlsDataset::isSameLocPrevElg(Nsc nsc, LogoEdgeType edge){
-	return isSameLocDirElg(nsc, SEARCH_DIR_PREV, edge);
-}
-
-// １つ後の位置取得
-bool JlsDataset::isSameLocNextElg(Nsc nsc, LogoEdgeType edge){
-	return isSameLocDirElg(nsc, SEARCH_DIR_NEXT, edge);
+	return ret;
 }
 
 //---------------------------------------------------------------------
@@ -1580,60 +1920,7 @@ bool JlsDataset::isElgInScpForAll(Nsc nsc, bool flag_border, bool flag_out){
 			}
 		}
 		//--- ロゴ扱い構成か判断 ---
-		ScpArType arstat = getScpArstat(nsc);
-		if (flag_border == false){
-			ret = jlsd::isScpArTypeLogo(arstat);
-		}
-		else{
-			ret = jlsd::isScpArTypeLogoBorder(arstat);
-		}
-		//--- 単純設定とは逆になる出力 ---
-		if (flag_out){
-			switch(arstat){
-				case SCP_AR_B_UNIT  :
-				case SCP_AR_B_OTHER :
-					ret = true;
-					break;
-				default:
-					break;
-			}
-			ScpArExtType arext = getScpArext(nsc);
-			switch(arext){
-				case SCP_AREXT_L_TRKEEP :
-				case SCP_AREXT_L_TRRAW :
-				case SCP_AREXT_L_EC :
-				case SCP_AREXT_L_LGADD :
-					ret = true;
-					break;
-				case SCP_AREXT_L_TRCUT :
-					if (getConfig(ConfigVarType::flagCutTR) == 1){
-						ret = false;
-					}
-					else{
-						ret = true;
-					}
-					break;
-				case SCP_AREXT_L_SP :
-					if (getConfig(ConfigVarType::flagCutSP) == 1){
-						ret = false;
-					}
-					else{
-						ret = true;
-					}
-					break;
-				case SCP_AREXT_N_TRCUT :
-				case SCP_AREXT_L_ECCUT :
-				case SCP_AREXT_L_LGCUT :
-				case SCP_AREXT_N_LGCUT :
-					ret = false;
-					break;
-				case SCP_AREXT_N_LGADD :
-					ret = true;
-					break;
-				default:
-					break;
-			}
-		}
+		ret = isLabelLogoFromNsc(nsc, flag_border, flag_out);
 	}
 	return ret;
 }
@@ -1742,7 +2029,12 @@ void JlsDataset::setTermEndtype(Term &term, ScpEndType endtype){
 	term.endfix = true;
 	term.endtype = endtype;
 }
-
+//---------------------------------------------------------------------
+// 内部用ではなく表示用の構成にするか選択
+//---------------------------------------------------------------------
+void JlsDataset::setTermForDisp(Term &term, bool flag){
+	term.disp = flag;
+}
 //---------------------------------------------------------------------
 // 次の構成を取得
 //---------------------------------------------------------------------
@@ -1759,13 +2051,21 @@ bool JlsDataset::getTermNext(Term &term){
 		}
 		else{
 			term.nsc.ed = -1;
-			term.nsc.ed = pdata->getNscNextScpDecide(term.nsc.ed, term.endtype);
+			if ( term.disp ){
+				term.nsc.ed = pdata->getNscNextScpDisp(term.nsc.ed, term.endtype);
+			}else{
+				term.nsc.ed = pdata->getNscNextScpDecide(term.nsc.ed, term.endtype);
+			}
 		}
 		term.msec.ed = pdata->getMsecScp(term.nsc.ed);;
 	}
 	term.nsc.st = term.nsc.ed;
 	term.msec.st = term.msec.ed;
-	term.nsc.ed = pdata->getNscNextScpDecide(term.nsc.ed, term.endtype);
+	if ( term.disp ){
+		term.nsc.ed = pdata->getNscNextScpDisp(term.nsc.ed, term.endtype);
+	}else{
+		term.nsc.ed = pdata->getNscNextScpDecide(term.nsc.ed, term.endtype);
+	}
 	term.msec.ed = pdata->getMsecScp(term.nsc.ed);
 	if (term.nsc.ed >= 0){
 		ret = true;
@@ -1789,13 +2089,21 @@ bool JlsDataset::getTermPrev(Term &term){
 		}
 		else{
 			term.nsc.st = pdata->sizeDataLogo();
-			term.nsc.st = pdata->getNscPrevScpDecide(term.nsc.st, term.endtype);
+			if ( term.disp ){
+				term.nsc.st = pdata->getNscPrevScpDisp(term.nsc.st, term.endtype);
+			}else{
+				term.nsc.st = pdata->getNscPrevScpDecide(term.nsc.st, term.endtype);
+			}
 		}
 		term.msec.st = pdata->getMsecScp(term.nsc.st);
 	}
 	term.nsc.ed = term.nsc.st;
 	term.msec.ed = term.msec.st;
-	term.nsc.st = pdata->getNscPrevScpDecide(term.nsc.st, term.endtype);
+	if ( term.disp ){
+		term.nsc.st = pdata->getNscPrevScpDisp(term.nsc.st, term.endtype);
+	}else{
+		term.nsc.st = pdata->getNscPrevScpDecide(term.nsc.st, term.endtype);
+	}
 	term.msec.st = pdata->getMsecScp(term.nsc.st);
 	if (term.nsc.st >= 0){
 		ret = true;
@@ -1847,8 +2155,324 @@ bool JlsDataset::checkScopeRange(RangeMsec bounds, RangeMsec scope){
 
 
 //=====================================================================
+// カスタムロゴ作成
+//=====================================================================
+
+//---------------------------------------------------------------------
+// 指定設定でロゴ位置リストを作成して返す（内部データは変更しない）
+//---------------------------------------------------------------------
+void JlsDataset::trialClogo(vector<WideMsec>& listWmsec, LogoCustomType custom){
+	makeClogoMain(listWmsec, custom);
+}
+//---------------------------------------------------------------------
+// 指定設定でロゴ位置リストを作成・格納
+//---------------------------------------------------------------------
+void JlsDataset::makeClogo(LogoCustomType custom){
+	makeClogoMain(m_listClogo, custom);
+	m_customLogo = custom;		// 設定値も保管
+}
+// 指定設定でロゴ位置リストを作成する共通処理
+void JlsDataset::makeClogoMain(vector<WideMsec>& listWmsec, LogoCustomType& custom){
+	if ( custom.extLogo && (isAutoModeUse() == false) ){
+		custom.extLogo = false;		// AutoModeでなければ推測ロゴは使わない
+	}
+	if ( custom.extLogo ){
+		makeClogoFromVirtual(listWmsec, custom);
+	}else{
+		makeClogoFromReal(listWmsec, custom);
+	}
+}
+// 指定設定（実際のロゴ）でロゴ位置リストを作成
+void JlsDataset::makeClogoFromReal(vector<WideMsec>& listWmsec, LogoCustomType custom){
+	listWmsec.clear();		// リスト初期化
+
+	LogoSelectType lgsel = LogoSelectType::LOGO_SELECT_VALID;
+	if ( custom.selectAll ){		// 設定値
+		lgsel = LogoSelectType::LOGO_SELECT_ALL;
+	}
+	bool final = custom.final;		// 設定値
+	//--- 実際のロゴ位置をロゴ番号とする場合のロゴ位置 ---
+	NrfCurrent logopt = {};
+	bool flag_cont = true;
+	while( flag_cont ){
+		flag_cont = getNrfptOutNext(logopt, lgsel, final);
+		if ( flag_cont ){
+			WideMsec wmsecRise;
+			WideMsec wmsecFall;
+			if ( final ){
+				wmsecRise = { logopt.msecRise, logopt.msecRise, logopt.msecRise};
+				wmsecFall = { logopt.msecFall, logopt.msecFall, logopt.msecFall};
+			}else{
+				pdata->getWideMsecLogoNrf(wmsecRise, logopt.nrfRise);
+				pdata->getWideMsecLogoNrf(wmsecFall, logopt.nrfFall);
+			}
+			listWmsec.push_back(wmsecRise);
+			listWmsec.push_back(wmsecFall);
+		}
+	}
+}
+// 指定設定（推測ロゴ）でロゴ位置リストを作成
+void JlsDataset::makeClogoFromVirtual(vector<WideMsec>& listWmsec, LogoCustomType custom){
+	listWmsec.clear();		// リスト初期化
+
+	//--- 推測構成変化点をロゴ番号とする場合のロゴ位置 ---
+	ElgCurrent elgTmp = {};
+	elgTmp.border  = custom.border;		// 設定値
+	elgTmp.outflag = custom.final;		// 設定値
+	bool flag_cont = true;
+	while( flag_cont ){
+		flag_cont = pdata->getElgptNext(elgTmp);
+		if ( flag_cont ){
+			WideMsec wmsecRise = getWideMsecScp(elgTmp.nscRise);
+			WideMsec wmsecFall = getWideMsecScp(elgTmp.nscFall);
+			listWmsec.push_back(wmsecRise);
+			listWmsec.push_back(wmsecFall);
+		}
+	}
+}
+//---------------------------------------------------------------------
+// カスタムロゴリストを取得
+//---------------------------------------------------------------------
+//--- 設定取得 ---
+LogoCustomType JlsDataset::getClogoCustom(){
+	return m_customLogo;
+}
+//--- リスト取得 ---
+vector<WideMsec> JlsDataset::getClogoList(){
+	return m_listClogo;
+}
+//--- サイズ取得 ---
+int JlsDataset::sizeClogoList(){
+	return (int)m_listClogo.size();
+}
+//---------------------------------------------------------------------
+// 現在位置がカスタムロゴの何番目に一番近いか取得
+// 返り値：
+//   -2    : データなし
+//   -1    : 最初の立ち上がりより手前
+//   0以上 : ロゴリスト番号（偶数：立上り、奇数：立下り）
+//  最大番号+1  : 最後の立ち下がりより後
+//---------------------------------------------------------------------
+int JlsDataset::getClogoNumNear(Msec msecLogo, LogoEdgeType edge){
+	vector<WideMsec>& listWmsec = m_listClogo;
+	if ( listWmsec.empty() ){
+		return -2;
+	}
+	int loc = isLogoEdgeRise(edge)? 0 : 1;		// 最初の対応エッジロゴ番号
+	int nmax = (int)listWmsec.size();
+	bool flagCont = true;
+	while( flagCont && (loc+2 < nmax) ){
+		if ( listWmsec[loc+2].just <= msecLogo && listWmsec[loc].just < msecLogo ){
+			loc += 2;
+		}else{
+			flagCont = false;
+			bool flagInC = ( listWmsec[loc].late >= msecLogo )? true : false;
+			bool flagInN = ( listWmsec[loc+2].early <= msecLogo )? true : false;
+			if ( flagInC == true && flagInN == false ){
+				// 現在領域で次の領域ではない
+			}else if ( flagInC == false && flagInN == true ){
+				loc += 2;
+			}else if ( listWmsec[loc+1].just < msecLogo ){
+				loc += 2;
+			}else if ( listWmsec[loc+1].just == msecLogo ){
+				if ( listWmsec[loc+2].just - msecLogo < msecLogo - listWmsec[loc].just ){
+					loc += 2;
+				}
+			}
+		}
+	}
+	if ( loc == nmax-2 ){		// 最後のfall後のrise判別
+		if ( listWmsec[loc+1].just <= msecLogo && listWmsec[loc].just < msecLogo ){
+			loc += 2;
+		}
+	}
+	if ( loc == 1 ){			// 最初のrise前のfall判別
+		if ( listWmsec[loc-1].just >= msecLogo && listWmsec[loc].just > msecLogo ){
+			loc = -1;
+		}
+	}
+	//--- 両エッジ検出対応 ---
+	if ( edge == LogoEdgeType::LOGO_EDGE_BOTH ){
+		if ( loc < 0 ){
+			if ( loc == -1 ) loc = 0;
+		}else if ( loc >= nmax ){
+			if ( loc == nmax ) loc = nmax-1;
+		}else{
+			Msec msecRef = listWmsec[loc].just;
+			int step = ( msecLogo < msecRef )? -1 : +1;
+			if ( 0 <= loc+step && loc+step < nmax ){
+				if ( abs(listWmsec[loc+step].just - msecLogo) < abs(msecRef - msecLogo) ){
+					loc = loc+step;
+				}
+			}
+		}
+	}
+	return loc;
+}
+//---------------------------------------------------------------------
+// 現在位置から１つ前のカスタムロゴを取得（リスト番号）
+//---------------------------------------------------------------------
+int JlsDataset::getClogoNumPrev(Msec msecLogo, LogoEdgeType edge){
+	vector<WideMsec>& listWmsec = m_listClogo;
+	if ( listWmsec.empty() ){
+		return -2;
+	}
+	Msec msecLogoRev = msecLogo - getClogoMsecMgn();
+	int locRef = getClogoNumNear(msecLogoRev, edge);
+	int nmax = (int)listWmsec.size();
+	int step = ( edge == LogoEdgeType::LOGO_EDGE_BOTH )? -1 : -2;
+	if ( locRef < 0 || locRef >= nmax+1 ){
+		return locRef;
+	}else if ( locRef == nmax ){
+		if ( isLogoEdgeFall(edge) ) return nmax-1;
+		return nmax-2;
+	}else{
+		WideMsec wmsecRef = listWmsec[locRef];
+		if ( wmsecRef.late < msecLogoRev ){
+			return locRef;
+		}
+		else if ( locRef+step < 0 ){
+			return -1;
+		}
+	}
+	return locRef+step;
+}
+//---------------------------------------------------------------------
+// 現在位置から１つ後のカスタムロゴを取得（リスト番号）
+//---------------------------------------------------------------------
+int JlsDataset::getClogoNumNext(Msec msecLogo, LogoEdgeType edge){
+	vector<WideMsec>& listWmsec = m_listClogo;
+	if ( listWmsec.empty() ){
+		return -2;
+	}
+	Msec msecLogoRev = msecLogo + getClogoMsecMgn();
+	int locRef = getClogoNumNear(msecLogoRev, edge);
+	int nmax = (int)listWmsec.size();
+	int step = ( edge == LogoEdgeType::LOGO_EDGE_BOTH )? +1 : +2;
+	if ( locRef < -1 || locRef >= nmax ){
+		return locRef;
+	}else if ( locRef == -1 ){
+		if ( jlsd::isLogoEdgeRise(edge) ) return 0;
+		return 1;
+	}else{
+		WideMsec wmsecRef = listWmsec[locRef];
+		if ( msecLogoRev < wmsecRef.early ){
+			return locRef;
+		}
+		else if ( locRef+step >= nmax ){
+			return nmax;
+		}
+	}
+	return locRef+step;
+}
+//---------------------------------------------------------------------
+// 指定回数前後
+//---------------------------------------------------------------------
+int JlsDataset::getClogoNumPrevCount(Msec msecLogo, int nCount){
+	int loc = getClogoNumPrev(msecLogo, LOGO_EDGE_BOTH);
+	loc -= nCount - 1;
+	if ( loc < -1 ) loc = -1;
+	return loc;
+}
+int JlsDataset::getClogoNumNextCount(Msec msecLogo, int nCount){
+	int loc = getClogoNumNext(msecLogo, LOGO_EDGE_BOTH);
+	if ( loc >= -1 ){
+		loc += nCount - 1;
+	}
+	int nsize = sizeClogoList();
+	if ( loc < -1 || loc > nsize ) loc = nsize;
+	return loc;
+}
+//---------------------------------------------------------------------
+// ミリ秒単位で対応するカスタムロゴを取得
+//---------------------------------------------------------------------
+WideMsec JlsDataset::getClogoWmsecFromNum(int num){
+	int nmax = sizeClogoList();
+	if ( nmax == 0 ) return {-1, -1, -1};
+	if ( num == -1 ) return {0, 0, 0};
+	if ( num == nmax ){
+		Msec ms = getMsecTotalMax();
+		return {ms, ms, ms};
+	}
+	if ( 0 <= num && num < nmax ) return m_listClogo[num];
+	return {-1, -1, -1};
+}
+Msec JlsDataset::getClogoMsecFromNum(int num){
+	WideMsec wmsec = getClogoWmsecFromNum(num);
+	return wmsec.just;
+}
+Msec JlsDataset::getClogoMsecNear(Msec msecLogo, LogoEdgeType edge){
+	int num = getClogoNumNear(msecLogo, edge);
+	return getClogoMsecFromNum(num);
+}
+Msec JlsDataset::getClogoMsecPrev(Msec msecLogo, LogoEdgeType edge){
+	int num = getClogoNumPrev(msecLogo, edge);
+	return getClogoMsecFromNum(num);
+}
+Msec JlsDataset::getClogoMsecNext(Msec msecLogo, LogoEdgeType edge){
+	int num = getClogoNumNext(msecLogo, edge);
+	return getClogoMsecFromNum(num);
+}
+//---------------------------------------------------------------------
+// カスタムロゴのロゴ情報取得
+//---------------------------------------------------------------------
+//--- 対象位置がロゴ切替地点か判定 ---
+bool JlsDataset::isClogoMsecExist(Msec msecLogo, LogoEdgeType edge){
+	for(int i=0; i<sizeClogoList(); i++){
+		if ( getClogoMsecFromNum(i) == msecLogo ){
+			if ( i%2 == 0 ){
+				if ( jlsd::isLogoEdgeRise(edge) ) return true;
+			}else{
+				if ( jlsd::isLogoEdgeFall(edge) ) return true;
+			}
+		}
+	}
+	return false;
+}
+//--- 実際のロゴ使用判定 ---
+bool JlsDataset::isClogoReal(){
+	return ( m_customLogo.extLogo == false );
+}
+//--- 通算ロゴ番号（実際のロゴ） ---
+Nrf JlsDataset::getClogoRealNrf(Msec msecLogo, LogoEdgeType edge){
+	if ( m_customLogo.extLogo ) return -1;		// 実際のロゴ以外は無効
+	if ( msecLogo < 0 ) return -1;
+	// 念のため広く番号取得するため最終時は最終以外と両方確認
+	if ( m_customLogo.final ){
+		Nrf nrfTmp = getNrfLogoFromMsecResult(msecLogo, edge, true);
+		if ( nrfTmp >= 0 ) return nrfTmp;
+	}
+	return getNrfLogoFromMsecResult(msecLogo, edge, false);
+}
+//--- ロゴに対応する無音シーンチェンジ位置番号 ---
+Nsc JlsDataset::getClogoNsc(Msec msecLogo){
+	Nsc nscTmp = getNscFromMsecAllEdgein(msecLogo);
+	if ( nscTmp < 0 && isClogoReal() ){		// 実際ロゴは広めに無音SC検索
+		nscTmp = getNscFromMsecMgn(msecLogo, msecValSpc, ScpEndType::SCP_END_EDGEIN);
+	}
+	return nscTmp;
+}
+Msec JlsDataset::getClogoMsecMgn(){
+	if ( isClogoReal() ) return msecValSpc;
+	return msecValExact;
+}
+//=====================================================================
 // データ挿入
 //=====================================================================
+
+//---------------------------------------------------------------------
+// ロゴ区切り挿入
+//   msec_target : ロゴ区切り挿入位置
+//   confirm : 確定も同時に行うか（0=設定のみ  1=確定処理も実行）
+//   unit    : 挿入位置だけで独立構成にするか（0=従来ロゴと混合  1=挿入ロゴだけで独立構成）
+//   edge    : エッジによる位置補正（0=立ち上がりエッジ  1=立ち下がりエッジ）
+// 出力：
+//   返り値： 挿入位置番号 挿入しなかった場合は-1
+//---------------------------------------------------------------------
+Nsc JlsDataset::insertDivLogo(Msec msec_target, bool confirm, bool unit, LogoEdgeType edge){
+	bool overlap = true;
+	return insertLogoEdge(msec_target, msec_target, overlap, confirm, unit, edge);
+}
 
 //---------------------------------------------------------------------
 // ロゴデータ挿入
@@ -1862,8 +2486,36 @@ bool JlsDataset::checkScopeRange(RangeMsec bounds, RangeMsec scope){
 //   返り値： 挿入位置番号 挿入しなかった場合は-1
 //---------------------------------------------------------------------
 Nsc JlsDataset::insertLogo(Msec msec_st, Msec msec_ed, bool overlap, bool confirm, bool unit){
+	return insertLogoEdge(msec_st, msec_ed, overlap, confirm, unit, LOGO_EDGE_RISE);
+}
+
+//---------------------------------------------------------------------
+// ロゴデータ挿入（区切り対応）
+//   edge    : エッジによる位置補正（0=立ち上がりエッジ  1=立ち下がりエッジ）
+//---------------------------------------------------------------------
+Nsc JlsDataset::insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool confirm, bool unit, LogoEdgeType edge){
 	int size_logo = sizeDataLogo();
 	Msec wid_ovl = pdata->msecValSpc;
+
+	if ( msec_st < 0 || msec_ed < 0 || msec_st > getMsecTotalMax() || msec_ed > getMsecTotalMax() ){
+		return -1;		// エラーチェック
+	}
+	bool separator = false;
+	if ( msec_ed <= msec_st ){		// 範囲ではなく区切り指定
+		separator = true;
+		msec_ed = msec_st;
+		if ( jlsd::isLogoEdgeRise(edge) ){		// start edge
+			msec_st = cnv.getMsecAdjustFrmFromMsec(msec_st, -1);
+			if ( msec_st < 0 ){
+				msec_st = 0;
+			}
+		}else{
+			msec_ed = cnv.getMsecAdjustFrmFromMsec(msec_ed, +1);
+			if ( msec_ed > getMsecTotalMax() ){
+				msec_ed =getMsecTotalMax();
+			}
+		}
+	}
 
 	// ロゴ挿入箇所を検索
 	int num_ins = -1;
@@ -1910,11 +2562,32 @@ Nsc JlsDataset::insertLogo(Msec msec_st, Msec msec_ed, bool overlap, bool confir
 			// 挿入ロゴと一致する場合
 			if (msec_st >= dt.rise - wid_ovl && msec_st <= dt.rise + wid_ovl &&
 				msec_ed >= dt.fall - wid_ovl && msec_ed <= dt.fall + wid_ovl){
-				return 0;
+				dt.rise         = msec_st;
+				dt.rise_l       = msec_st;
+				dt.rise_r       = msec_st;
+				dt.fall         = msec_ed;
+				dt.fall_l       = msec_ed;
+				dt.fall_r       = msec_ed;
+				dt.fade_rise   = 0;
+				dt.fade_fall   = 0;
+				dt.intl_rise   = 0;
+				dt.intl_fall   = 0;
+				dt.stat_rise   = LOGO_PRIOR_DECIDE;
+				dt.stat_fall   = LOGO_PRIOR_DECIDE;
+				dt.outtype_rise = LOGO_RESULT_NONE;
+				dt.outtype_fall = LOGO_RESULT_NONE;
+				if (confirm){
+					dt.outtype_rise = LOGO_RESULT_DECIDE;
+					dt.outtype_fall = LOGO_RESULT_DECIDE;
+					dt.result_rise  = msec_st;
+					dt.result_fall  = msec_ed;
+				}
+				setRecordLogo(dt, i);
+				return i;		// 更新のみ
 			}
 			// 挿入ロゴの前半のみロゴと重なる場合
 			if (msec_st > dt.rise + wid_ovl && msec_st < dt.fall &&
-				msec_ed > dt.fall - wid_ovl){
+				msec_ed > dt.fall + wid_ovl){
 				dt.fall         = msec_st;
 				dt.fall_l       = msec_st;
 				dt.fall_r       = msec_st;
@@ -1956,7 +2629,7 @@ Nsc JlsDataset::insertLogo(Msec msec_st, Msec msec_ed, bool overlap, bool confir
 			}
 			// 挿入ロゴ全体がロゴ範囲内に入る場合
 			if (msec_st > dt.rise + wid_ovl && msec_ed < dt.fall - wid_ovl){
-				num_ins = i+1;
+				num_ins = i;
 				total_ins = 2;				// 挿入ロゴが２つになる
 			}
 			// 挿入位置
@@ -1978,6 +2651,9 @@ Nsc JlsDataset::insertLogo(Msec msec_st, Msec msec_ed, bool overlap, bool confir
 		DataLogoRecord dt;
 		if (total_ins == 2){		// 既存ロゴ途中にロゴ挿入して元ロゴを２分割する場合
 			getRecordLogo(dt, num_ins);
+			if ( separator && unit ){		// 区切りの場合はここで-unit設定
+				dt.unit_rise = LOGO_UNIT_DIVIDE;
+			}
 			dt.rise        = msec_ed;
 			dt.rise_l      = msec_ed;
 			dt.rise_r      = msec_ed;
@@ -1995,6 +2671,9 @@ Nsc JlsDataset::insertLogo(Msec msec_st, Msec msec_ed, bool overlap, bool confir
 			insertRecordLogo(dt, num_ins+1);
 
 			getRecordLogo(dt, num_ins);
+			if ( separator && unit ){		// 区切りの場合はここで-unit設定
+				dt.unit_fall    = LOGO_UNIT_DIVIDE;
+			}
 			dt.fall        = msec_st;
 			dt.fall_l      = msec_st;
 			dt.fall_r      = msec_st;
@@ -2046,15 +2725,19 @@ Nsc JlsDataset::insertLogo(Msec msec_st, Msec msec_ed, bool overlap, bool confir
 			dt.outtype_fall = bak_outtype_fall;
 			dt.result_fall  = bak_result_fall;
 		}
-		dt.unit        = LOGO_UNIT_NORMAL;
+		dt.unit_rise        = LOGO_UNIT_NORMAL;
+		dt.unit_fall        = LOGO_UNIT_NORMAL;
 		if (unit){
-			dt.unit    = LOGO_UNIT_DIVIDE;
+			dt.unit_rise    = LOGO_UNIT_DIVIDE;
+			dt.unit_fall    = LOGO_UNIT_DIVIDE;
 		}
-		if (total_ins == 0){
-			setRecordLogo(dt, num_ins);
-		}
-		else{
-			insertRecordLogo(dt, num_ins);
+		if ( separator == false ){		// 2点指定区間の挿入
+			if (total_ins == 0){
+				setRecordLogo(dt, num_ins);
+			}
+			else{
+				insertRecordLogo(dt, num_ins);
+			}
 		}
 	}
 	return retval;
@@ -2122,6 +2805,62 @@ Nsc JlsDataset::insertScpos(Msec msec_dst_s, Msec msec_dst_bk, Nsc nsc_mute, Scp
 // 入力：
 //   msec_in : 対象位置（ミリ秒）
 //   edge    : 選択エッジ（LOGO_EDGE_RISE=開始側、LOGO_EDGE_FALL=終了側）
+//   exact   : false=通常  true=正確な位置指定
+// 出力：
+//   返り値：対応する場所番号
+// 注意点：
+//   データ挿入によるシーンチェンジ番号(nsc)変更あり
+//---------------------------------------------------------------------
+Nsc JlsDataset::getNscForceMsecExact(Msec msec_in, LogoEdgeType edge, bool exact){
+	if ( exact ){
+		return getNscForceExactFixMsec(msec_in, edge);
+	}
+	return getNscForceMsec(msec_in, edge);
+}
+//---------------------------------------------------------------------
+// 不要な重複無音シーンチェンジを削除
+//---------------------------------------------------------------------
+bool JlsDataset::restructScp(){
+	if ( !isAutoModeUse() ) return false;	// Auto推測なければ何もしない
+	int num_scpos = sizeDataScp();
+	Nsc  nscHold = -1;
+	Msec msecHold = -1;
+	bool decideHold = false;
+	bool change = false;
+	for(int i=num_scpos-1; i>=0; i--){
+		Msec msecCur = getMsecScp(i);
+		bool decideCur = jlsd::isScpChapTypeDecide(getScpChap(i));
+		if ( i == 0 || i == num_scpos-1 ){
+			decideCur = true;
+		}
+		bool update = false;
+		if ( nscHold < 0 ){	// 初回
+			update = true;
+		}else if ( abs(msecCur - msecHold) > msecValExact ){	// 前と離れていたら次
+			update = true;
+		}else if ( !decideHold ){	// 同じ位置で後側が未確定なら後側削除
+			deleteRecordScp(nscHold);
+			change = true;
+			update = true;
+		}else if ( !decideCur ){	// 同じ位置で後側確定、前側未確定なら前側削除
+			deleteRecordScp(i);
+			change = true;
+			nscHold -= 1;			// 後側は1つ前にずれる
+		}
+		if ( update ){
+			nscHold = i;
+			msecHold = msecCur;
+			decideHold = decideCur;
+		}
+	}
+	return change;
+}
+//---------------------------------------------------------------------
+// 指定位置（ミリ秒）の無音SC番号を取得（LogoExact設定により調整有無選択）
+// なければ強制的に作成して設定
+// 入力：
+//   msec_in : 対象位置（ミリ秒）
+//   edge    : 選択エッジ（LOGO_EDGE_RISE=開始側、LOGO_EDGE_FALL=終了側）
 // 出力：
 //   返り値：対応する場所番号
 // 注意点：
@@ -2148,16 +2887,20 @@ Nsc JlsDataset::getNscForceMsec(Msec msec_in, LogoEdgeType edge){
 Nsc JlsDataset::getNscForceMsecOrg(Msec msec_in, LogoEdgeType edge){
 	Msec msec_clr = msecValNear2;			// 重なった所の確定箇所を解除する範囲
 	int num_scpos = sizeDataScp();
-	bool flag_search = true;
+
+	if (msec_in <= 0 ){
+		return 0;
+	}
+	if ( msec_in >= getMsecTotalMax() ){
+		return num_scpos-1;
+	}
 
 	Nsc nsc_nearest = 0;
 	Msec difmsec_nearest = 0;
 	Nsc nsc_mute = -1;
-	if (msec_in == 0 || msec_in >= getMsecTotalMax()){
-		flag_search = false;
-	}
 	//--- 一番近い所を検索 ---
 	int i = 1;
+	bool flag_search = true;
 	while(flag_search){
 		DataScpRecord dtscp;
 		getRecordScp(dtscp, i);
@@ -2199,16 +2942,7 @@ Nsc JlsDataset::getNscForceMsecOrg(Msec msec_in, LogoEdgeType edge){
 	Nsc nsc_ret = nsc_nearest;
 	//--- 既存無音SC箇所か確認 ---
 	bool flag_new = true;
-	if (msec_in == 0 || msec_in >= getMsecTotalMax()){
-		flag_new = false;
-		if (msec_in == 0){
-			nsc_ret = 0;
-		}
-		else{
-			nsc_ret = num_scpos-1;
-		}
-	}
-	else if (nsc_nearest > 0){
+	if (nsc_nearest > 0){
 		int msec_near_s  = getMsecScp(nsc_nearest);
 		int msec_near_bk = getMsecScpBk(nsc_nearest);
 		if (msec_near_bk <= msec_in_s && msec_in_bk <= msec_near_s){
@@ -2236,14 +2970,18 @@ Nsc JlsDataset::getNscForceMsecOrg(Msec msec_in, LogoEdgeType edge){
 Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
 	Msec msec_clr = msecValNear2;			// 重なった所の確定箇所を解除する範囲
 	int num_scpos = sizeDataScp();
-	bool flag_search = true;
+
+	if (msec_in <= 0 ){
+		return 0;
+	}
+	if ( msec_in >= getMsecTotalMax() ){
+		return num_scpos-1;
+	}
 
 	Nsc nsc_nearest = 0;
 	Msec difmsec_nearest = 0;
 	Nsc nsc_mute = -1;
-	if (msec_in == 0 || msec_in >= getMsecTotalMax()){
-		flag_search = false;
-	}
+
 	int frmIn = cnv.getFrmFromMsec(msec_in);	// 入力位置のフレーム
 	bool flagExactNearest = false;	// 同一座標判定
 	bool flagFcNearest = false;		// 保持座標は固定
@@ -2251,6 +2989,7 @@ Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
 	Msec msecFcOver = 0;		// 後側にある固定位置
 	//--- 一番近い所を検索 ---
 	int i = 1;
+	bool flag_search = true;
 	while(flag_search){
 		DataScpRecord dtscp;
 		getRecordScp(dtscp, i);
@@ -2334,16 +3073,7 @@ Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
 	Nsc nsc_ret = nsc_nearest;
 	//--- 既存無音SC箇所か確認 ---
 	bool flag_new = true;
-	if (msec_in == 0 || msec_in >= getMsecTotalMax()){
-		flag_new = false;
-		if (msec_in == 0){
-			nsc_ret = 0;
-		}
-		else{
-			nsc_ret = num_scpos-1;
-		}
-	}
-	else if (nsc_nearest > 0){
+	if (nsc_nearest > 0){
 		if ( flagExactNearest ){
 			flag_new = false;
 			//--- 既存内容を修正 ---
@@ -2371,6 +3101,332 @@ Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
 	return nsc_ret;
 }
 
+
+//---------------------------------------------------------------------
+// ロゴあり/なし変更
+//---------------------------------------------------------------------
+void JlsDataset::changeLogoOnOff(Nsc nsc, bool logoOn){
+	ScpArType arStatOrg = getScpArstat(nsc);
+	ScpArType arStatNew;
+	switch( arStatOrg ){
+		case SCP_AR_L_UNIT :
+			arStatNew = (logoOn)? SCP_AR_L_UNIT : SCP_AR_N_BUNIT;
+			break;
+		case SCP_AR_L_OTHER :
+			arStatNew = (logoOn)? SCP_AR_L_OTHER : SCP_AR_N_OTHER;
+			break;
+		case SCP_AR_L_MIXED :
+			arStatNew = (logoOn)? SCP_AR_L_MIXED : SCP_AR_N_OTHER;
+			break;
+		case SCP_AR_N_UNIT :
+			arStatNew = (logoOn)? SCP_AR_L_UNIT : SCP_AR_N_UNIT;
+			break;
+		case SCP_AR_N_OTHER :
+			arStatNew = (logoOn)? SCP_AR_L_OTHER : SCP_AR_N_OTHER;
+			break;
+		case SCP_AR_N_AUNIT :
+			arStatNew = (logoOn)? SCP_AR_L_OTHER : SCP_AR_N_AUNIT;
+			break;
+		case SCP_AR_N_BUNIT :
+			arStatNew = (logoOn)? SCP_AR_L_OTHER : SCP_AR_N_BUNIT;
+			break;
+		case SCP_AR_B_UNIT :
+			arStatNew = (logoOn)? SCP_AR_L_UNIT : SCP_AR_N_UNIT;
+			break;
+		case SCP_AR_B_OTHER :
+			arStatNew = (logoOn)? SCP_AR_L_OTHER : SCP_AR_N_OTHER;
+			break;
+		default :
+			arStatNew = SCP_AR_UNKNOWN;
+			break;
+	}
+	// ロゴありからロゴなしに変更した時は期間でCM判断
+	if ( jlsd::isScpArTypeLogo(arStatOrg) && logoOn == false){
+		Nsc nscPrev = getNscPrevScpDecide(nsc, SCP_END_EDGEIN);
+		if ( isCmLenNscToNsc(nscPrev, nsc) ){
+			arStatNew = SCP_AR_N_UNIT;
+		}else{
+			arStatNew = SCP_AR_N_OTHER;
+		}
+	}
+	setScpArstat(nsc, arStatNew);
+	setScpArext(nsc, SCP_AREXT_NONE);
+}
+//---------------------------------------------------------------------
+// 構成変更時の表示用に補正処理
+//---------------------------------------------------------------------
+void JlsDataset::changeChapDispUnit(Nsc nscFrom, Nsc nscTo, bool cutDivUnit){
+	//--- 対象構成の補正 ---
+	changeChapDispUnitSub(nscFrom, nscTo, cutDivUnit);
+}
+void JlsDataset::changeChapDispUnitWithSide(Nsc nscFrom, Nsc nscTo){
+	//--- 単位構成内分割のカットなし ---
+	bool cutDivUnit = false;
+	//--- 対象構成の補正 ---
+	changeChapDispUnitSub(nscFrom, nscTo, cutDivUnit);
+	//--- 前後構成の補正 ---
+	if ( nscFrom >= 0 ){
+		Nsc nscPrev = getNscPrevScpDisp(nscFrom, SCP_END_EDGEIN);
+		changeChapDispUnitSub(nscPrev, nscFrom, cutDivUnit);
+	}
+	if ( nscTo >= 0 ){
+		Nsc nscNext = getNscNextScpDisp(nscTo, SCP_END_EDGEIN);
+		changeChapDispUnitSub(nscTo, nscNext, cutDivUnit);
+	}
+}
+void JlsDataset::changeChapDispUnitSub(Nsc nscFrom, Nsc nscTo, bool cutDivUnit){
+	if ( nscFrom < 0 ) return;
+
+	bool flagDiv = false;		// 表示用にない分割途中
+	bool flagUnit = false;		// 15秒単位となるCM期間
+	Nsc nscCur  = nscFrom;
+	Nsc nscDisp = nscFrom;
+	Nsc nscPrev = nscFrom;
+	while( nscFrom <= nscCur && nscCur <= nscTo && nscCur >= 0 ){
+		//--- 次の位置を取得 ---
+		if ( nscDisp <= nscCur ){
+			nscPrev = nscDisp;
+			nscDisp = getNscNextScpDisp(nscCur, SCP_END_EDGEIN);	// 表示用次位置
+			flagUnit = isCmLenNscToNsc(nscPrev, nscDisp);
+		}
+		nscCur = getNscNextScpDecide(nscCur, SCP_END_EDGEIN);
+		if ( nscCur < 0 || nscDisp < 0 ) break;
+
+		//--- 表示用にない区切り分割をカット ---
+		if ( nscCur != nscDisp && cutDivUnit ){	// 15/30秒構成内CM分割のカット処理
+			if ( nscCur < nscTo ){			// 念のため範囲内側の時のみ
+				setScpChap(nscCur, SCP_CHAP_NONE);
+			}
+			continue;
+		}
+		//--- 構成区切りの補正 ---
+		ScpArType arstat = pdata->getScpArstat(nscCur);
+		ScpArType arstatRev;
+		switch( arstat ){
+			case SCP_AR_N_UNIT:
+			case SCP_AR_N_OTHER:
+			case SCP_AR_N_AUNIT:
+			case SCP_AR_N_BUNIT:
+				if ( !cutDivUnit && (nscCur != nscDisp || flagDiv) ){
+					if ( !flagUnit ){
+						arstatRev = SCP_AR_N_OTHER;
+					}else if ( flagDiv ){
+						arstatRev = SCP_AR_N_AUNIT;
+					}else{
+						arstatRev = SCP_AR_N_BUNIT;
+					}
+				}else if ( flagUnit ){
+					arstatRev = SCP_AR_N_UNIT;
+				}else{
+					arstatRev = SCP_AR_N_OTHER;
+				}
+				break;
+			default:
+				arstatRev =arstat;
+				break;
+		}
+		if ( arstatRev != arstat ){
+			setScpArstat(nscCur, arstatRev);
+		}
+		flagDiv = ( nscCur != nscDisp );
+	}
+}
+bool JlsDataset::isCmLenNscToNsc(Nsc nscFrom, Nsc nscTo){
+	if ( nscFrom < 0 || nscTo < 0 ) return false;
+	Msec msec1 = getMsecScp(nscFrom);
+	Msec msec2 = getMsecScp(nscTo);
+	int n = cnv.getSecFromMsec(abs(msec1 - msec2));
+	if ( n > 0 && n <= 120 && (n % 15 == 0) ) return true;
+	return false;
+}
+
+//=====================================================================
+// 推測構成ラベル分別
+//=====================================================================
+//---------------------------------------------------------------------
+// コメント種類を取得
+//---------------------------------------------------------------------
+bool JlsDataset::isLabelLogoFromNsc(Nsc nsc, bool flagBorder, bool flagOut){
+	ComLabelType label = getLabelTypeFromNsc(nsc, flagOut);
+	return isLabelLogo(label, flagBorder, flagOut);
+}
+ComLabelType JlsDataset::getLabelTypeFromNsc(Nsc nsc, bool flagOut){
+	ScpArType arstat = getScpArstat(nsc);
+	ScpArExtType arext = getScpArext(nsc);
+	return getLabelTypeFromStat(arstat, arext, flagOut);
+}
+// ロゴ扱いの判定
+bool JlsDataset::isLabelLogo(ComLabelType label, bool flagBorder, bool flagOut){
+	bool logoOn;
+	switch( label ){
+		case ComLabelType::Mix :
+		case ComLabelType::Logo :
+		case ComLabelType::AddNEdge :
+		case ComLabelType::AddLEdge :
+		case ComLabelType::AddTR :
+		case ComLabelType::RawTR :
+		case ComLabelType::CanTR :
+		case ComLabelType::AddSP :
+		case ComLabelType::AddEC :
+			logoOn = true;
+			break;
+		case ComLabelType::Bd :
+		case ComLabelType::Bd15s :
+			logoOn = (flagBorder || flagOut);
+			break;
+		default :
+			logoOn = false;
+			break;
+	}
+	return logoOn;
+}
+// 種類を取得
+ComLabelType JlsDataset::getLabelTypeFromStat(ScpArType arstat, ScpArExtType arext, bool flagOut){
+	ComLabelType label;
+
+	switch( arstat ){
+		case SCP_AR_N_UNIT :
+		case SCP_AR_N_AUNIT :
+		case SCP_AR_N_BUNIT :
+			label = ComLabelType::CM;	// ":CM"
+			break;
+		case SCP_AR_N_OTHER :
+			label = ComLabelType::NoLogo;	// ":Nologo"
+			break;
+		case SCP_AR_B_UNIT  :
+			label = ComLabelType::Bd15s;	// ":Border15s"
+			break;
+		case SCP_AR_B_OTHER :
+			label = ComLabelType::Bd;	// ":Border"
+			break;
+		case SCP_AR_L_UNIT :
+		case SCP_AR_L_OTHER :
+			label = ComLabelType::Logo;	// ":L"
+			break;
+		case SCP_AR_L_MIXED :
+			label = ComLabelType::Mix;	// ":Mix"
+			break;
+		default :
+			label = ComLabelType::None;	// ":"
+			break;
+	}
+	if ( flagOut == false ){
+		return label;
+	}
+	switch( arext ){
+		case SCP_AREXT_L_TRKEEP :
+			label = ComLabelType::AddTR;	// ":Trailer(add)"
+			break;
+		case SCP_AREXT_L_ECCUT :
+			label = ComLabelType::CutTR;	// ":Trailer(cut)"
+			break;
+		case SCP_AREXT_L_TRRAW :
+			label = ComLabelType::RawTR;	// ":Trailer"
+			break;
+		case SCP_AREXT_L_TRCUT :
+			if (getConfig(ConfigVarType::flagCutTR) == 1){
+				label = ComLabelType::CutTR;	// ":Trailer(cut)"
+			}
+			else{
+				label = ComLabelType::CanTR;	// ":Trailer(cut-cancel)"
+			}
+			break;
+		case SCP_AREXT_L_SP :
+			if (getConfig(ConfigVarType::flagCutSP) == 1){
+				label = ComLabelType::CutSP;	// ":Sponsor(cut)"
+			}
+			else{
+				label = ComLabelType::AddSP;	// ":Sponsor(add)"
+			}
+			break;
+		case SCP_AREXT_L_EC :
+			label = ComLabelType::AddEC;	// ":Endcard(add)"
+			break;
+		case SCP_AREXT_L_LGCUT :
+			label = ComLabelType::CutLEdge;	// ":L-Edge(cut)"
+			break;
+		case SCP_AREXT_L_LGADD :
+			label = ComLabelType::AddLEdge;	// ":L-Edge(add)"
+			break;
+		case SCP_AREXT_N_TRCUT :
+			label = ComLabelType::CutNoLogo;	// ":Nologo(cut)"
+			break;
+		case SCP_AREXT_N_LGCUT :
+			label = ComLabelType::CutNEdge;	// ":N-Edge(cut)"
+			break;
+		case SCP_AREXT_N_LGADD :
+			label = ComLabelType::AddNEdge;	// ":N-Edge(add)"
+			break;
+		default:
+			break;
+	}
+	return label;
+}
+// 文字列取得
+string JlsDataset::getLabelStr(ComLabelType label){
+	const char *pstr = "";
+	switch( label ){
+		case ComLabelType::CM :
+			pstr = ":CM";
+			break;
+		case ComLabelType::NoLogo :
+			pstr = ":Nologo";
+			break;
+		case ComLabelType::CutNoLogo :
+			pstr = ":Nologo(cut)";
+			break;
+		case ComLabelType::CutNEdge :
+			pstr = ":N-Edge(cut)";
+			break;
+		case ComLabelType::CutLEdge :
+			pstr = ":L-Edge(cut)";
+			break;
+		case ComLabelType::CutTR :
+			pstr = ":Trailer(cut)";
+			break;
+		case ComLabelType::CutSP :
+			pstr = ":Sponsor(cut)";
+			break;
+		case ComLabelType::Bd :
+			pstr = ":Border";
+			break;
+		case ComLabelType::Bd15s :
+			pstr = ":Border15s";
+			break;
+		case ComLabelType::Mix :
+			pstr = ":Mix";
+			break;
+		case ComLabelType::Logo :
+			pstr = ":L";
+			break;
+		case ComLabelType::AddNEdge :
+			pstr = ":N-Edge(add)";
+			break;
+		case ComLabelType::AddLEdge :
+			pstr = ":L-Edge(add)";
+			break;
+		case ComLabelType::AddTR :
+			pstr = ":Trailer(add)";
+			break;
+		case ComLabelType::RawTR :
+			pstr = ":Trailer";
+			break;
+		case ComLabelType::CanTR :
+			pstr = ":Trailer(cut-cancel)";
+			break;
+		case ComLabelType::AddSP :
+			pstr = ":Sponsor(add)";
+			break;
+		case ComLabelType::AddEC :
+			pstr = ":Endcard(add)";
+			break;
+		default :
+			pstr = ":";
+			break;
+	}
+	string strRet = pstr;
+	return strRet;
+}
 
 
 
@@ -2486,6 +3542,13 @@ Sec JlsDataset::getSecLogoComponentFromElg(Msec msec_s, Msec msec_e){
 
 
 //=====================================================================
+// Trim位置直接設定
+//=====================================================================
+void JlsDataset::setOutDirect(vector<Msec>& listMsec){
+	m_listOutDirect = listMsec;
+}
+
+//=====================================================================
 // 結果Trim作成
 //=====================================================================
 
@@ -2494,35 +3557,33 @@ Sec JlsDataset::getSecLogoComponentFromElg(Msec msec_s, Msec msec_e){
 //---------------------------------------------------------------------
 void JlsDataset::outputResultTrimGen(){
 	resultTrim.clear();
-	if ( isAutoModeUse() ){
-		outputResultTrimGenAuto();
-	}
-	else{
-		outputResultTrimGenManual();
+	if ( m_listOutDirect.empty() ){
+		if ( isAutoModeUse() ){
+			outputResultTrimGenAuto();
+		}else{
+			outputResultTrimGenManual();
+		}
+	}else{		// Trim位置直接設定
+		for(int i=0; i<(int)m_listOutDirect.size(); i++){
+			resultTrim.push_back( m_listOutDirect[i] );
+		}
 	}
 }
 
 // カット結果作成（構成推測しない場合）
 void JlsDataset::outputResultTrimGenManual(){
-	Nlg nlg_fall = 0;
-	do{
-		Msec msec_rise, msec_fall;
-		bool cont_next;
-		nlg_fall = getResultLogoNext(msec_rise, msec_fall, cont_next, nlg_fall);
-		if (nlg_fall >= 0){
-			//--- ロゴが切れ目なく続く場合は連結 ---
-			while(cont_next && nlg_fall >= 0){
-				Msec msec_dmy;
-				nlg_fall = getResultLogoNext(msec_dmy, msec_fall, cont_next, nlg_fall);
-			}
+	LogoSelectType lgsel = LogoSelectType::LOGO_SELECT_VALID;
+	bool final = true;
+	NrfCurrent logopt = {};
+	bool flag_cont = true;
+	while( flag_cont ){
+		flag_cont = getNrfptOutNext(logopt, lgsel, final);
+		if ( flag_cont ){
 			//--- 結果データ追加 ---
-			resultTrim.push_back( msec_rise );
-			resultTrim.push_back( msec_fall );
+			resultTrim.push_back( logopt.msecRise );
+			resultTrim.push_back( logopt.msecFall );
 		}
-		if ( nlg_fall == 0 ){	// ロゴが全くない場合は終了
-			nlg_fall = -1;
-		}
-	} while(nlg_fall >= 0);
+	}
 }
 
 
@@ -2566,7 +3627,7 @@ bool JlsDataset::outputResultDetailGetLine(string &strBuf){
 	//--- 次の位置を取得 ---
 	Msec msec_next;
 	do{
-		i = getNscNextScpOutput(i, SCP_END_EDGEIN);		// 次の構成区切り位置取得（端を含む）
+		i = getNscNextScpDisp(i, SCP_END_EDGEIN);		// 次の構成区切り位置取得（端を含む）
 		msec_next = getMsecScp(i);
 	} while(msec_from == msec_next && i >= 0);
 	//--- 位置を設定 ---
@@ -2583,10 +3644,8 @@ bool JlsDataset::outputResultDetailGetLine(string &strBuf){
 		Msec msec_to  = getMsecScpBk(i);
 		int frm_to   = cnv.getFrmFromMsec( msec_to   );
 		//--- 表示 ---
-		char buffer[80];
-		snprintf(buffer, sizeof(buffer), "%6d %6d %4d %3d %4d ",
+		strBuf = sformat("%6d %6d %4d %3d %4d ",
 					frm_from, frm_to, sec_dif, frm_dif, sec_logo);
-		strBuf = buffer;
 		//--- 構成名称を取得 ---
 		if (m_flagSetupAuto > 1){
 			outputResultDetailGetLineLabel(strBuf, getScpArstat(i), getScpArext(i));
@@ -2596,88 +3655,46 @@ bool JlsDataset::outputResultDetailGetLine(string &strBuf){
 	return 1;		// EOF
 }
 
+
+
+
+
 //---------------------------------------------------------------------
 // 詳細情報結果の文字列作成（推測部分名称）
 //---------------------------------------------------------------------
 void JlsDataset::outputResultDetailGetLineLabel(string &strBuf, ScpArType arstat, ScpArExtType arext){
-	const char *pstr_arstat = "";
-
-	switch(arstat){
-		case SCP_AR_N_UNIT :
-		case SCP_AR_N_AUNIT :
-		case SCP_AR_N_BUNIT :
-			pstr_arstat = ":CM";
-			break;
-		case SCP_AR_N_OTHER :
-			pstr_arstat = ":Nologo";
-			break;
-		case SCP_AR_B_UNIT  :
-			pstr_arstat = ":Border15s";
-			break;
-		case SCP_AR_B_OTHER :
-			pstr_arstat = ":Border";
-			break;
-		case SCP_AR_L_UNIT :
-		case SCP_AR_L_OTHER :
-			pstr_arstat = ":L";
-			break;
-		case SCP_AR_L_MIXED :
-			pstr_arstat = ":Mix";
-			break;
-		default :
-			pstr_arstat = ":";
-	}
-	switch(arext){
-		case SCP_AREXT_L_TRKEEP :
-			pstr_arstat = ":Trailer(add)";
-			break;
-		case SCP_AREXT_L_ECCUT :
-			pstr_arstat = ":Trailer(cut)";
-			break;
-		case SCP_AREXT_L_TRRAW :
-			pstr_arstat = ":Trailer";
-			break;
-		case SCP_AREXT_L_TRCUT :
-			if (getConfig(ConfigVarType::flagCutTR) == 1){
-				pstr_arstat = ":Trailer(cut)";
-			}
-			else{
-				pstr_arstat = ":Trailer(cut-cancel)";
-			}
-			break;
-		case SCP_AREXT_L_SP :
-			if (getConfig(ConfigVarType::flagCutSP) == 1){
-				pstr_arstat = ":Sponsor(cut)";
-			}
-			else{
-				pstr_arstat = ":Sponsor(add)";
-			}
-			break;
-		case SCP_AREXT_L_EC :
-			pstr_arstat = ":Endcard(add)";
-			break;
-		case SCP_AREXT_L_LGCUT :
-			pstr_arstat = ":L-Edge(cut)";
-			break;
-		case SCP_AREXT_L_LGADD :
-			pstr_arstat = ":L-Edge(add)";
-			break;
-		case SCP_AREXT_N_TRCUT :
-			pstr_arstat = ":Nologo(cut)";
-			break;
-		case SCP_AREXT_N_LGCUT :
-			pstr_arstat = ":N-Edge(cut)";
-			break;
-		case SCP_AREXT_N_LGADD :
-			pstr_arstat = ":N-Edge(add)";
-			break;
-		default:
-			break;
-	}
-	strBuf += pstr_arstat;
+	bool flagOut = true;
+	ComLabelType label = getLabelTypeFromStat(arstat, arext, flagOut);
+	strBuf += getLabelStr(label);
 }
 
 
+
+//=====================================================================
+// ログ表示
+//=====================================================================
+void JlsDataset::dispSysMesN(const string& msg, SysMesType typeMsg){
+	bool flagDisp;
+	switch( typeMsg ){
+		case SysMesType::CutMrg :
+			flagDisp = ( (pdata->extOpt.dispSysMes & 0x4) != 0 );
+			break;
+		case SysMesType::OutDirect :
+			flagDisp = ( (pdata->extOpt.dispSysMes & 0x2) != 0 );
+			break;
+		case SysMesType::CallFile :
+			flagDisp = ( (pdata->extOpt.dispSysMes & 0x1) != 0 );
+			break;
+		default :
+			flagDisp = false;
+			break;
+	}
+	if ( flagDisp ){
+		lcout << msg << endl;
+	}else{
+		LSys.bufMemoIns(msg + "\n");
+	}
+}
 
 //=====================================================================
 // デバッグ用表示
@@ -2688,16 +3705,18 @@ void JlsDataset::outputResultDetailGetLineLabel(string &strBuf, ScpArType arstat
 //---------------------------------------------------------------------
 void JlsDataset::displayLogo(){
 	int n = (int) m_logo.size();
+	string buf;
 	for(int i=0; i<n; i++){
-		printf("%3d %6d %6d %6d %6d %6d %6d %d%d%d%d %d %d %d %d %d %6d %6d\n",
+		buf = sformat("%3d %6d %6d %6d %6d %6d %6d %d%d%d%d %d %d %d %d %d %d %6d %6d\n",
 			i, cnv.getFrmFromMsec(m_logo[i].rise), cnv.getFrmFromMsec(m_logo[i].fall),
 			cnv.getFrmFromMsec(m_logo[i].rise_l), cnv.getFrmFromMsec(m_logo[i].rise_r),
 			cnv.getFrmFromMsec(m_logo[i].fall_l), cnv.getFrmFromMsec(m_logo[i].fall_r),
 			m_logo[i].fade_rise, m_logo[i].fade_fall, m_logo[i].intl_rise, m_logo[i].intl_fall,
-			m_logo[i].stat_rise, m_logo[i].stat_fall, m_logo[i].unit,
+			m_logo[i].stat_rise, m_logo[i].stat_fall, m_logo[i].unit_rise, m_logo[i].unit_fall,
 			m_logo[i].outtype_rise, m_logo[i].outtype_fall,
 			cnv.getFrmFromMsec(m_logo[i].result_rise), cnv.getFrmFromMsec(m_logo[i].result_fall)
 		);
+		lcout << buf;
 	};
 }
 
@@ -2706,14 +3725,16 @@ void JlsDataset::displayLogo(){
 //---------------------------------------------------------------------
 void JlsDataset::displayScp(){
 	int n = (int) m_scp.size();
+	string buf;
 	for(int i=0; i<n; i++){
-		printf("%3d %6d %6d %6d %6d %d %d (%8d %8d %8d %8d)%4d %2d %2d %2d)\n",
+		buf = sformat("%3d %6d %6d %6d %6d %d %d (%8d %8d %8d %8d)%4d %2d %2d %2d)\n",
 			i, cnv.getFrmFromMsec(m_scp[i].msec), cnv.getFrmFromMsec(m_scp[i].msbk),
 			cnv.getFrmFromMsec(m_scp[i].msmute_s), cnv.getFrmFromMsec(m_scp[i].msmute_e),
 			m_scp[i].still, m_scp[i].statpos,
 			m_scp[i].msec, m_scp[i].msbk, m_scp[i].msmute_s, m_scp[i].msmute_e,
 			m_scp[i].score, m_scp[i].chap, m_scp[i].arstat, m_scp[i].arext
 		);
+		lcout << buf;
 	}
 }
 

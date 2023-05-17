@@ -6,7 +6,7 @@ class CnvStrTime
 {
 private:
 	// 極端に長い文字列の保険破棄用
-	static const int SIZE_BUF_MAX   = 4096;
+	static const int SIZE_BUF_MAX   = 16384;
 	// 演算分類（演算子定義の分類に対応）
 	static const int D_CALCCAT_IMM  = 0;			// 数値
 	static const int D_CALCCAT_OP2  = 1;			// ２項演算
@@ -49,7 +49,11 @@ private:
 		DELIMIT_SPACE_QUOTE,	// 空白区切りQUOTE可
 		DELIMIT_SPACE_ONLY,		// 空白のみ区切り
 		DELIMIT_SPACE_COMMA,	// 空白＋コンマも区切り
-		DELIMIT_SPACE_EXNUM		// 最初の数字部分のみ
+		DELIMIT_SPACE_EXNUM,	// 最初の数字部分のみ
+		DELIMIT_CSV,			// CSV形式
+		DELIMIT_FUNC_NAME,		// 関数の名前部分
+		DELIMIT_FUNC_ARGS,		// 関数の引数部分（空白区切り）
+		DELIMIT_FUNC_CALC,		// 関数の演算部分（コンマ区切り）
 	};
 	// 文字の制御用種類
 	enum CharCtrType {
@@ -57,6 +61,30 @@ private:
 		CHAR_CTR_CTRL,			// 制御コード
 		CHAR_CTR_SPACE,			// 空白
 		CHAR_CTR_OTHER			// 通常文字
+	};
+	// 文字列区切り種類
+	struct ArgItemType {
+		DelimtStrType dstype;	// 文字の制御用種類
+		bool concat;			// 連続quoteの結合
+		bool separate;			// quote途切れあれば区切り文字なくても区切り
+		bool remain;			// quoteあれば両端に入れる
+		bool defstr;			// 定義用の文字列（quote内空リストを残す）
+		bool qdisp;				// 途中のquote文字はquote認識している時でも残す
+		bool emptyok;			// データなしも許可
+	};
+	// 文字列内クォート種類
+	struct QuoteType {
+		bool flagQw;			// "引用中
+		bool flagQs;			// '引用中
+		bool existQ;			// 端がQUOTE
+		bool edgeQw;			// 端のQUOTEに"使用
+		int  numPar;			// 括弧の数
+	};
+	// 文字列内クォート状態
+	struct QuoteState {
+		bool end;				// 終了予定
+		bool add;				// 追加あり
+		bool pos;				// 読み込み位置移動あり
 	};
 
 public:
@@ -66,43 +94,77 @@ public:
 	int getStrFilePath(string &pathname, const string &fullname);
 	int getStrFilePathName(string &pathname, string &fname, const string &fullname);
 	string getStrFileDelimiter();
+	//--- 文字列分割 ---
+	int  getBufLineSize();
+	bool isStrFuncModule(const string &cstr, int pos);
+	int  getListModuleArg(vector<string>& listMod, const string &cstr, int pos);
+	bool getStrDivPath(string& strDiv, bool selHead, bool withDelim);
+	bool getStrDivide(string& strDiv, const string& strDelim, bool selHead, bool typePath);
+private:
+	int  getStrPosPath(const string& fullname);
+	int  getStrPosDivide(const string& fullname, const string& strDelim, bool typePath);
+	int  getStrPosDivideCore(const string& fullname, const string& strDelim, bool reverse);
+public:
 	//--- 時間とフレーム位置の変換 ---
-	int getFrmFromMsec(int msec);
+	int getFrmFromMsec(Msec msec);
 	int getMsecFromFrm(int frm);
-	int getMsecAlignFromMsec(int msec);
-	int getMsecAdjustFrmFromMsec(int msec, int frm);
-	int getSecFromMsec(int msec);
+	int getMsecAlignFromMsec(Msec msec);
+	int getMsecAdjustFrmFromMsec(Msec msec, int frm);
+	int getSecFromMsec(Msec msec);
 	int changeFrameRate(int n, int d);
 	int changeUnitSec(int n);
 	//--- 文字列から値取得 ---
 	int getStrValNumHead(int &val, const string &cstr, int pos);
 	int getStrValNum(int &val, const string &cstr, int pos);
-	int getStrValMsec(int &val, const string &cstr, int pos);
-	int getStrValMsecFromFrm(int &val, const string &cstr, int pos);
-	int getStrValMsecM1(int &val, const string &cstr, int pos);
+	int getStrValMsec(Msec &val, const string &cstr, int pos);
+	int getStrValMsecFromFrm(Msec &val, const string &cstr, int pos);
+	int getStrValMsecM1(Msec &val, const string &cstr, int pos);
 	int getStrValSec(int &val, const string &cstr, int pos);
 	int getStrValSecFromSec(int &val, const string &cstr, int pos);
+	int getStrValFuncNum(int &val, const string &cstr, int pos);
+	//--- リストデータ取得 ---
+	bool getListValMsec(vector<Msec>& listMsec, const string& strList);
+	bool getListValMsecM1(vector<Msec>& listMsec, const string& strList);
 	//--- 文字列から単語取得 ---
 	int getStrItem(string &dst, const string &cstr, int pos);
 	int getStrWord(string &dst, const string &cstr, int pos);
+	int getStrCsv(string &dst, const string &cstr, int pos);
+	int getStrItemCmd(string &dst, const string &cstr, int pos);
+	int getStrItemArg(string &dst, const string &cstr, int pos);
+	int getStrItemMonitor(string &dst, const string &cstr, int pos);
 	int getStrItemWithQuote(string &dst, const string &cstr, int pos);
 	int getStrWithoutComment(string &dst, const string &cstr);
 	int getStrPosComment(const string &cstr, int pos);
+	int getStrPosReplaceVar(const string &cstr, int pos);
+	int getStrPosChar(const string &cstr, char chsel, bool expand, int pos);
+	int getStrMultiNum(string &dst, const string &cstr, int pos);
+	bool isStrMultiNumIn(const string &cstr, int numCur, int numMax);
 	//--- 時間を文字列（フレームまたはミリ秒）に変換 ---
-	string getStringMsecM1(int msec_val);
-	string getStringFrameMsecM1(int msec_val);
-	string getStringTimeMsecM1(int msec_val);
-	string getStringMsecM1All(int msec_val, bool type_frm);
+	string getStringMsecM1(Msec msec_val);
+	string getStringFrameMsecM1(Msec msec_val);
+	string getStringTimeMsecM1(Msec msec_val);
+	string getStringMsecM1All(Msec msec_val, bool type_frm);
 	string getStringZeroRight(int val, int len);
 
 private:
-	bool isStrSjisSecond(const string &str, int n);
-	bool isStrSjisMultiByte(const string &str, int n);
-	int getStrValSub(int &val, const string &cstr, int pos, int unitsec);
-	int getStrValSubDelimit(int &val, const string &cstr, int pos, int unitsec, DelimtStrType type);
-	int getStrItemRange(int &st, int &ed, const string &cstr, int pos, DelimtStrType type);
+	int  getMbStrSize(const string& str, int n);
+	int  getMbStrSizeSjis(const string& str, int n);
+	int  getMbStrSizeUtf8(const string& str, int n);
+	bool isStrMbSecond(const string& str, int n);
+	int  getStrValSub(int &val, const string &cstr, int pos, int unitsec);
+	int  getStrValSubDelimit(int &val, const string &cstr, int pos, int unitsec, DelimtStrType type);
+	int  getStrItemHubRange(int &st, int &ed, const string &cstr, int pos, DelimtStrType type);
+	int  getStrItemHubFunc(string& dstr, const string &cstr, int pos, DelimtStrType dstype);
+	int  getStrItemHubStr(string& dstr, const string &cstr, int pos, ArgItemType itype);
+	int  getStrItemCommon(string& dstr, int &st, int &ed, const string &cstr, int pos, ArgItemType itype);
+	bool getStrItemCommonCh(QuoteState& qstate, QuoteType& qtype, char ch, bool yet, ArgItemType itype);
 	CnvStrTime::CharCtrType getCharTypeSub(char ch);
+	int  skipCharSpace(const string &cstr, int pos);
 	bool isCharTypeSpace(char ch);
+	bool isCharTypeSpaceEnd(char ch);
+	bool isCharTypeDelim(char ch, DelimtStrType dstype);
+	bool isCharValidDquote(DelimtStrType dstype);
+	bool isCharValidSquote(DelimtStrType dstype);
 
 	int getStrCalc(const string &cstr, int st, int ed, int unitsec);
 	int getStrCalcDecode(const string &cstr, int st, int ed, int dsec, int draw);

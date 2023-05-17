@@ -57,7 +57,8 @@ struct DataLogoRecord {
 // 従来設定調整用
 	LogoPriorType	stat_rise;			// -1:はずれ確定 0:初期 1:候補 2:確定
 	LogoPriorType	stat_fall;			// -1:はずれ確定 0:初期 1:候補 2:確定
-	LogoUnitType	unit;				// 1:独立フレーム
+	LogoUnitType	unit_rise;			// 1:独立フレーム
+	LogoUnitType	unit_fall;			// 1:独立フレーム
 // 従来結果格納用
 	LogoResultType	outtype_rise;		// 0:出力未確定  1:出力確定  2:abort破棄確定
 	LogoResultType	outtype_fall;		// 0:出力未確定  1:出力確定  2:abort破棄確定
@@ -95,19 +96,32 @@ private:
 		int     fixVLine;				// 0:vLine指定なし  1:vLine指定あり
 		int     fixFDirect;				// 0:指定なし  1:指定あり  flagDirect
 		int     fixNLgExact;			// 0:指定なし  1:指定あり  nLgExact
+		int     fixNSysCode;			// 0:指定なし  1:指定あり  nSysCode
 		int     fixSubList;				// 0:subDir指定なし 1:subDir指定あり
 		int     fixSubPath;				// 0:subPath指定なし 1:subPath指定あり
+		int     fixSetup;				// 0:setup指定なし 1:setup指定あり
 		int     vLine;					// 読み込み行表示用
 		int     flagDirect;				// 0:通常の検出ロゴ 1:ロゴ位置を直接指定
 		int     nLgExact;				// 0:通常 1:ロゴ補正最小限
+		int     nSysCode;				// 標準出力/エラーの文字コード番号 1:STD 2:UTF8 3:UTF16
+		int     dispSysMes;				// ログ表示 0:なし 1:CurMrgIn/Out 2:OUTDIRECT 4:CallFile
 		string  subList;				// サブフォルダリスト指定
 		string  subPath;				// サブフォルダパス指定
+		string  setup;					// 共通先頭実行ファイル
+		// 名前保管のみ
+		string  logofile;
+		string  scpfile;
+		string  cmdfile;
+		string  outfile;
+		string  outscpfile;
+		string  outdivfile;
 	};
 	//--- 各行実行時の保持パラメータ ---
 	struct RecordHoldFromCmd {			// コマンドで設定される値で持ち続ける値
 		Msec	msecSelect1st;			// 最初の開始位置候補（Select使用時のみ）
 		Msec	msecTrPoint;			// CutTRコマンドの設定位置（CM構成内部分割の位置判断用）
 		RangeMsec	rmsecHeadTail;		// $HEADTIME,$TAILTIME制約
+		int     typeRange;				// GetPos/GetListのHEADTIME/TAILTIME制約(1=付加)
 	};
 	//--- ロゴリセット用バックアップで保管するデータ ---
 	struct RecordBackupLogo {
@@ -115,6 +129,14 @@ private:
 		vector<DataLogoRecord>  bak_logo;
 		int                     bak_msecTotalMax;	// 最大フレーム期間
 		DtExtOptRecord          bak_extOpt;
+	};
+
+public:
+	//--- 表示種類 ---
+	enum class SysMesType{
+		CutMrg,
+		OutDirect,
+		CallFile,
 	};
 
 public:
@@ -133,6 +155,7 @@ public:
 	int  sizeDataLogo();
 	int  sizeDataScp();
 	bool emptyDataLogo();
+	RangeNsc getRangeNscTotal(bool flagNoEdge);
 // １データセット単位の処理
 	void clearRecordLogo(DataLogoRecord &dt);
 	void clearRecordScp(DataScpRecord &dt);
@@ -141,6 +164,7 @@ public:
 	void popRecordLogo();
 	void insertRecordLogo(DataLogoRecord &dt, Nlg nlg);
 	void insertRecordScp(DataScpRecord &dt, Nsc nsc);
+	void deleteRecordScp(Nsc nsc);
 	void getRecordLogo(DataLogoRecord &dt, Nlg nlg);
 	void setRecordLogo(DataLogoRecord &dt, Nlg nlg);
 	void getRecordScp(DataScpRecord &dt, Nsc nsc);
@@ -155,6 +179,7 @@ public:
 	Msec getMsecScp(Nsc nsc);
 	Msec getMsecScpBk(Nsc nsc);
 	Msec getMsecScpEdge(Nsc nsc, LogoEdgeType edge);
+	WideMsec  getWideMsecScp(Nsc nsc);
 	RangeMsec getRangeMsecFromRangeNsc(RangeNsc rnsc);
 	bool				getScpStill(Nsc nsc);
 	jlsd::ScpPriorType	getScpStatpos(Nsc nsc);
@@ -183,26 +208,40 @@ public:
 	bool getNrfptNext(NrfCurrent &logopt, LogoSelectType type);
 	bool getElgptNext(ElgCurrent &elg);
 	Nlg  getResultLogoNext(Msec &msec_rise, Msec &msec_fall, bool &cont_next, Nlg nlg);
+	bool getNrfptOutNext(NrfCurrent &logopt, LogoSelectType type, bool final);
+private:
+	Nrf  getNrfMsecOutNextLogo(Msec& msecOut, Nrf nrf, LogoEdgeType edge, LogoSelectType type, bool final);
+	Nrf  getNrfOutDirLogo(Nrf nrf, SearchDirType dr, LogoEdgeType edge, LogoSelectType type, bool final);
+public:
 // 前後データ取得処理（無音シーンチェンジ）
 	Nsc  getNscDirScpChap(Nsc nsc, SearchDirType dr, ScpChapType chap_th);
 	Nsc  getNscPrevScpChap(Nsc nsc, ScpChapType chap_th);
+	Nsc  getNscPrevScpChapEdge(Nsc nsc, ScpChapType chap_th, ScpEndType noedge);
 	Nsc  getNscNextScpChap(Nsc nsc, ScpChapType chap_th);
 	Nsc  getNscNextScpChapEdge(Nsc nsc, ScpChapType chap_th, ScpEndType noedge);
 	Nsc  getNscNextScpCheckCmUnit(Nsc nsc, ScpEndType noedge);
+	Nsc  getNscPrevScpCheckCmUnit(Nsc nsc, ScpEndType noedge);
 	Nsc  getNscDirScpDecide(Nsc nsc, SearchDirType dr, ScpEndType noedge);
 	Nsc  getNscPrevScpDecide(Nsc nsc, ScpEndType noedge);
 	Nsc  getNscNextScpDecide(Nsc nsc, ScpEndType noedge);
-	Nsc  getNscNextScpOutput(Nsc nsc, ScpEndType noedge);
+	Nsc  getNscNextScpDisp(Nsc nsc, ScpEndType noedge);
+	Nsc  getNscPrevScpDisp(Nsc nsc, ScpEndType noedge);
+	Nsc  getNscPrevScpDispFromMsecCount(Msec msec, int nCount, bool clip);
+	Nsc  getNscNextScpDispFromMsecCount(Msec msec, int nCount, bool clip);
 // 位置に対応するデータ取得処理
 	Nrf  getNrfLogoFromMsec(Msec msec_target, LogoEdgeType edge);
+	Nrf  getNrfLogoFromMsecResult(Msec msec_target, LogoEdgeType edge, bool result);
 	Nsc  getNscFromNrf(Nrf nrf_target, Msec msec_th, ScpChapType chap_th, bool flat=false);
 	Nsc  getNscFromMsecFull(Msec msec_target, Msec msec_th, ScpChapType chap_th, ScpEndType noedge);
 	Nsc  getNscFromMsecChap(Msec msec_target, Msec msec_th, ScpChapType chap_th);
+	Nsc  getNscFromMsecMgn(Msec msec_target, Msec msec_th, ScpEndType noedge);
 	Nsc  getNscFromMsecAll(Msec msec_target);
 	Nsc  getNscFromMsecAllEdgein(Msec msec_target);
 	Nsc  getNscFromWideMsecFull(WideMsec wmsec_target, ScpChapType chap_th, ScpEndType noedge);
 	Nsc  getNscFromWideMsecByChap(WideMsec wmsec_target, ScpChapType chap_th);
 	bool getRangeNscFromRangeMsec(RangeNsc &rnsc, RangeMsec rmsec);
+	Nsc  getNscFromMsecDisp(Msec msec_target, Msec msec_th, ScpEndType noedge);
+	Nsc  getNscFromWideMsecDisp(WideMsec wmsec_target, ScpEndType noedge);
 // 状態設定
 	void setLevelUseLogo(int level);
 	int  getLevelUseLogo();
@@ -219,9 +258,7 @@ public:
 	bool isValidLogoRise(Nlg nlg);
 	bool isValidLogoFall(Nlg nlg);
 	bool isValidLogoNrf(Nrf nrf);
-	bool isSameLocDirElg(Nsc nsc, SearchDirType dr, LogoEdgeType edge);
-	bool isSameLocPrevElg(Nsc nsc, LogoEdgeType edge);
-	bool isSameLocNextElg(Nsc nsc, LogoEdgeType edge);
+	bool isElgDivScpForAll(Nsc nsc, bool flag_border, bool flag_out);
 	bool isElgInScp(int nsc);
 	bool isElgInScpForAll(Nsc nsc, bool flag_border, bool flag_out);
 	bool isScpChapTypeDecideFromNsc(Nsc nsc);
@@ -231,6 +268,7 @@ public:
 	bool limitWideMsecFromRange(WideMsec& wmsec, RangeMsec rmsec);
 // Term構成処理
 	void setTermEndtype(Term &term, ScpEndType endtype);
+	void setTermForDisp(Term &term, bool flag);
 	bool getTermNext(Term &term);
 	bool getTermPrev(Term &term);
 	jlsd::ScpArType		getScpArstat(Term term);
@@ -240,23 +278,71 @@ public:
 	bool isScpArstatCmUnit(Term term);
 	bool checkScopeTerm(Term term, RangeMsec scope);
 	bool checkScopeRange(RangeMsec bounds, RangeMsec scope);
+// カスタムロゴ作成
+	void trialClogo(vector<WideMsec>& listWmsec, LogoCustomType custom);
+	void makeClogo(LogoCustomType custom);
+private:
+	void makeClogoMain(vector<WideMsec>& listWmsec, LogoCustomType& custom);
+	void makeClogoFromReal(vector<WideMsec>& listWmsec, LogoCustomType custom);
+	void makeClogoFromVirtual(vector<WideMsec>& listWmsec, LogoCustomType custom);
+public:
+	LogoCustomType getClogoCustom();
+	vector<WideMsec> getClogoList();
+	int  sizeClogoList();
+	int  getClogoNumNear(Msec msecLogo, LogoEdgeType edge);
+	int  getClogoNumPrev(Msec msecLogo, LogoEdgeType edge);
+	int  getClogoNumNext(Msec msecLogo, LogoEdgeType edge);
+	int  getClogoNumPrevCount(Msec msecLogo, int nCount);
+	int  getClogoNumNextCount(Msec msecLogo, int nCount);
+	WideMsec getClogoWmsecFromNum(int num);
+	Msec getClogoMsecFromNum(int num);
+	Msec getClogoMsecNear(Msec msecLogo, LogoEdgeType edge);
+	Msec getClogoMsecPrev(Msec msecLogo, LogoEdgeType edge);
+	Msec getClogoMsecNext(Msec msecLogo, LogoEdgeType edge);
+	bool isClogoMsecExist(Msec msecLogo, LogoEdgeType edge);
+	bool isClogoReal();
+	Nrf  getClogoRealNrf(Msec msecLogo, LogoEdgeType edge);
+	Nsc  getClogoNsc(Msec msecLogo);
+	Msec getClogoMsecMgn();
 // データ挿入
+	Nsc  insertDivLogo(Msec msec_target, bool confirm, bool unit, LogoEdgeType edge);
 	Nsc  insertLogo(Msec msec_st, Msec msec_ed, bool overlap, bool confirm, bool unit);
+	Nsc  insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool confirm, bool unit, LogoEdgeType edge);
 	Nsc  insertScpos(Msec msec_dst_s, Msec msec_dst_bk, Nsc nsc_mute, ScpPriorType stat_scpos_dst);
+	bool restructScp();
+	Nsc  getNscForceMsecExact(Msec msec_in, LogoEdgeType edge, bool exact);
 	Nsc  getNscForceMsec(Msec msec_in, LogoEdgeType edge);
 	Nsc  getNscForceMsecOrg(Msec msec_in, LogoEdgeType edge);
 	Nsc  getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge);
+// 推測構成情報の変更
+	void changeLogoOnOff(Nsc nsc, bool logoOn);
+	void changeChapDispUnit(Nsc nscFrom, Nsc nscTo, bool cutDivUnit);
+	void changeChapDispUnitWithSide(Nsc nscFrom, Nsc nscTo);
+	void changeChapDispUnitSub(Nsc nscFrom, Nsc nscTo, bool side);
+	bool isCmLenNscToNsc(Nsc nscFrom, Nsc nscTo);
+// 推測構成ラベル分別
+	bool isLabelLogoFromNsc(Nsc nsc, bool flagBorder, bool flagOut);
+	ComLabelType getLabelTypeFromNsc(Nsc nsc, bool flagOut);
+private:
+	bool isLabelLogo(ComLabelType label, bool flagBorder, bool flagOut);
+	ComLabelType getLabelTypeFromStat(ScpArType arstat, ScpArExtType arext, bool flagOut);
+	string getLabelStr(ComLabelType label);
+public:
 // 構成内のロゴ表示期間の取得
 	Sec  getSecLogoComponent(Msec msec_s, Msec msec_e);
 	Sec  getSecLogoComponentFromLogo(Msec msec_s, Msec msec_e);
+// Trim位置直接設定
+	void setOutDirect(vector<Msec>& listMsec);
 // 出力作成
 	void outputResultTrimGen();
 	void outputResultDetailReset();
 	bool outputResultDetailGetLine(string &strBuf);
+	void dispSysMesN(const string& msg, SysMesType typeMsg);
 	void displayLogo();
 	void displayScp();
 	void setMsecTotalMax(int msec){ m_msecTotalMax = msec; };
 	int  getMsecTotalMax(){ return m_msecTotalMax; };
+	bool isRangeInTotalMax(Msec ms){ return (ms >= 0 && ms <= getMsecTotalMax()); };
 
 	CnvStrTime		cnv;				// 変換処理
 	JlsDataset		*pdata;				// 自分自身へのポインタ
@@ -289,10 +375,14 @@ private:
 	vector<DataLogoRecord>		m_logo;
 	int							m_config[SIZE_CONFIG_VAR];
 	int							m_msecTotalMax;			// 最大フレーム期間
+	LogoCustomType              m_customLogo;		// カスタムロゴ設定
+	vector<WideMsec>            m_listClogo;		// カスタムロゴ位置格納
 	// セットアップ状態格納
 	int		m_levelUseLogo;
 	bool	m_flagSetupAdj;
 	int		m_flagSetupAuto;
+	// Trim位置直接設定
+	vector<Msec>  m_listOutDirect;
 	// 結果出力用
 	int		m_nscOutDetail;
 	// バックアップ保管データ

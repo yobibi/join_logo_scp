@@ -254,6 +254,7 @@ namespace jlsd
 	struct Term {
 		bool valid;
 		bool endfix;
+		bool disp;
 		ScpEndType endtype;
 		Nsc ini;
 		RangeNsc nsc;
@@ -283,6 +284,13 @@ namespace jlsd
 		Msec msecLastRise;
 		Msec msecLastFall;
 	};
+	struct LogoCustomType {
+		bool extLogo;			// false=実際のロゴ  true=推測ロゴ
+		bool selectAll;			// false=通常ロゴ  true=無効化(abort)ロゴ含む
+		bool final;				// false=通常ロゴ  true=最終出力ロゴ
+		bool border;			// false=border含めない  true=border含む
+		
+	};
 	struct CalcDifInfo {
 		int  sgn;
 		Sec  sec;
@@ -293,6 +301,56 @@ namespace jlsd
 		Msec mod05;
 	};
 
+	//--- Auto構成推測ラベル内容 ---
+	enum class ComLabelType {
+		None,		// ":"
+		CM,			// ":CM"
+		NoLogo,		// ":Nologo"
+		CutNoLogo,	// ":Nologo(cut)"
+		CutNEdge,	// ":N-Edge(cut)"
+		CutLEdge,	// ":L-Edge(cut)"
+		CutTR,		// ":Trailer(cut)"
+		CutSP,		// ":Sponsor(cut)"
+		Bd,			// ":Border"
+		Bd15s,		// ":Border15s"
+		Mix,		// ":Mix"
+		Logo,		// ":L"
+		AddNEdge,	// ":N-Edge(add)"
+		AddLEdge,	// ":L-Edge(add)"
+		AddTR,		// ":Trailer(add)"
+		RawTR,		// ":Trailer"
+		CanTR,		// ":Trailer(cut-cancel)"
+		AddSP,		// ":Sponsor(add)"
+		AddEC,		// ":Endcard(add)"
+	};
+	//--- 対象位置の種類定義 ---
+	enum class TargetCatType {
+		None,		// 定義なし
+		Dst,		// 結果位置
+		End,		// 終了位置
+		From,		// 変更後基準ロゴ位置
+		RX,			// 相対選択
+		Shift,		// -SHiftによる基準ロゴ位置
+	};
+	//--- 対象位置設定の種類定義 ---
+	enum class TargetScpType {
+		None,		// 定義なし
+		Invalid,	// 無効設定
+		ScpNum,		// シーンチェンジ番号で管理
+		Direct,		// 直接位置指定
+		Force,		// 強制位置指定
+	};
+	//--- 対象位置のデータ一式 ---
+	struct TargetLocInfo {
+		TargetScpType tp;		// 種類
+		LogoEdgeType edge;		// 立上り／立下り
+		bool valid;				// 有効位置（シーンチェンジ番号存在 or force設定）
+		bool exact;				// true=正確な位置指定
+		Nsc  nsc;				// シーンチェンジ番号
+		Msec msec;				// 位置ミリ秒
+		Msec msbk;				// 位置ミリ秒（終了位置用）
+		Msec msout;				// 位置ミリ秒（出力用）
+	};
 }
 
 //---------------------------------------------------------------------
@@ -305,7 +363,7 @@ namespace jlscmd
 	const int SIZE_MEMVARLINE_MAX = 4096;	// 遅延保管文字列の各識別名の最大行数(JlsScrMemBody)
 	const int SIZE_REPLINE  = 4096;		// キャッシュ保持最大行数（Repeat用）(JlsScriptState)
 	const int SIZE_MEMLINE  = 8192;		// キャッシュ保持最大行数（Mem/Lazy用）(JlsScrGlobal)
-	const int SIZE_CALL_LOOP = 10;		// Callコマンドの再帰最大回数(JlsScript)
+	const int SIZE_CALL_LOOP = 32;		// Callコマンドの再帰最大回数(JlsScript)
 
 	//--- JLスクリプト命令 ---
 	enum class CmdType {
@@ -315,29 +373,54 @@ namespace jlscmd
 		Else,
 		ElsIf,
 		Call,
+		Fcall,
 		Repeat,
 		EndRepeat,
+		Break,
 		LocalSt,
 		LocalEd,
+		LocalEEnd,
+		EndMulti,
 		ArgBegin,
 		ArgEnd,
 		Exit,
 		Return,
+		Mkdir,
+		FileCopy,
 		FileOpen,
 		FileAppend,
 		FileClose,
+		FileCode,
+		FileToMemo,
 		Echo,
+		EchoItem,
+		EchoItemQ,
+		EchoFile,
+		EchoOavs,
+		EchoOscp,
+		EchoMemo,
 		LogoOff,
 		OldAdjust,
+		IgnoreCase,
+		SysMesDisp,
+		SysMemoSel,
+		SysDataGet,
 		LogoDirect,
 		LogoExact,
 		LogoReset,
 		ReadData,
 		ReadTrim,
 		ReadString,
+		ReadCheck,
+		ReadOpen,
+		ReadClose,
+		ReadLine,
 		EnvGet,
+		SetReg,
+		Unset,
 		Set,
 		Default,
+		SetList,
 		EvalFrame,
 		EvalTime,
 		EvalNum,
@@ -347,13 +430,23 @@ namespace jlscmd
 		OptDefault,
 		UnitSec,
 		LocalSet,
+		LocalSetF,
+		LocalSetT,
+		LocalSetN,
 		ArgSet,
+		ArgSetReg,
 		ListGetAt,
 		ListIns,
 		ListDel,
 		ListSetAt,
+		ListJoin,
+		ListRemove,
+		ListSel,
 		ListClear,
+		ListDim,
 		ListSort,
+		SplitCsv,
+		SplitItem,
 		AutoCut,
 		AutoAdd,
 		AutoEdge,
@@ -376,7 +469,10 @@ namespace jlscmd
 		LazyStart,
 		EndLazy,
 		Memory,
+		Function,
 		EndMemory,
+		EndFunc,
+		MemSet,
 		MemCall,
 		MemErase,
 		MemCopy,
@@ -400,6 +496,7 @@ namespace jlscmd
 		REP,
 		FLOW,
 		SYS,
+		READ,
 		REG,
 		NEXT,
 		LOGO,
@@ -448,6 +545,9 @@ namespace jlscmd
 		MsecEndlenC,
 		MsecEndlenL,
 		MsecEndlenR,
+		MsecEndSftC,
+		MsecEndSftL,
+		MsecEndSftR,
 		MsecSftC,
 		MsecSftL,
 		MsecSftR,
@@ -461,17 +561,32 @@ namespace jlscmd
 		MsecLenPEMax,
 		MsecLenNEMin,
 		MsecLenNEMax,
-		MsecFromAbs,
-		MsecFromHead,
-		MsecFromTail,
+		MsecFromAbs,	// 現在未使用
+		MsecFromHead,	// 現在未使用
+		MsecFromTail,	// 現在未使用
 		MsecLogoExtL,
 		MsecLogoExtR,
-		MsecEndAbs,
+		MsecEndAbs,	// 現在未使用
 		MsecDcenter,
 		MsecDrangeL,
 		MsecDrangeR,
 		MsecDmargin,
 		MsecEmargin,
+		NumCounterI,
+		NumCounterS,
+		NumDstNextL,
+		NumDstPrevL,
+		NumDstNextC,
+		NumDstPrevC,
+		NumEndNextL,
+		NumEndPrevL,
+		NumEndNextC,
+		NumEndPrevC,
+		NumZOverC,
+		NumZUnderC,
+		NumStep,
+		NumMaxSize,
+		NumOrder,
 		AutopCode,
 		AutopLimit,
 		AutopScope,
@@ -485,6 +600,30 @@ namespace jlscmd
 		AutopTrSumPrd,
 		AutopTr1stPrd,
 		AutopTrInfo,
+		FnumFromAllC,
+		FnumFromTr,
+		FnumFromSp,
+		FnumFromEc,
+		FnumFromBd,
+		FnumFromMx,
+		FnumFromTra,
+		FnumFromTrr,
+		FnumFromTrc,
+		FnumFromAea,
+		FnumFromAec,
+		FnumFromCm,
+		FnumFromNl,
+		FnumFromL,
+		FlagDstPoint,	// 内部設定用
+		FlagAutopFix,
+		FlagAutopKpC,
+		FlagAutopKpL,
+		FlagScCon,
+		FlagScCoff,
+		FlagScCdst,
+		FlagScCend,
+		FlagSort,
+		FlagSilent,
 		FlagWide,
 		FlagFromLast,
 		FlagWithP,
@@ -512,14 +651,29 @@ namespace jlscmd
 		FlagNoLap,
 		FlagEdgeS,
 		FlagEdgeE,
+		FlagEdgeB,
 		FlagClear,
 		FlagPair,
 		FlagFinal,
 		FlagLocal,
 		FlagDefault,
+		FlagRestore,
 		FlagUnique,
+		FlagFixPos,
+		FlagHoldEnd,
+		FlagHoldBoth,
+		FlagZEnd,
+		FlagZoneL,
+		FlagZoneN,
+		FlagMerge,
+		FlagSftLogo,
+		FlagDstAnd,
+		FlagEndAnd,
+		FlagEndBase,
+		FlagEndBaseL,
 		FlagDummy,
 		AbbrEndlen,
+		AbbrEndSft,
 		AbbrSft,
 		AbbrFromHead,
 		AbbrFromTail,
@@ -535,6 +689,8 @@ namespace jlscmd
 		ScNoSMA,
 		ScAC,
 		ScNoAC,
+		ScACC,
+		ScNoACC,
 		ScMAX,
 
 		LgMIN,
@@ -568,7 +724,27 @@ namespace jlscmd
 		StrValListW,
 		StrRegSize,
 		StrRegEnv,
+		StrRegOut,
+		StrRegArg,
 		StrArgVal,
+		StrCounter,
+		StrFileCode,
+		ListArgVar,
+		ListFromAbs,
+		ListFromHead,
+		ListFromTail,
+		ListTgDst,
+		ListTgEnd,
+		ListEndAbs,
+		ListDstAbs,
+		ListAbsSetFD,
+		ListAbsSetFE,
+		ListAbsSetFX,
+		ListAbsSetXF,
+		ListZoneImmL,
+		ListZoneImmN,
+		ListPickIn,
+		ListPickOut,
 		StrMAX,			// JlsCmdSetでデータ格納する文字列オプション終了
 	};
 
@@ -580,6 +756,8 @@ namespace jlscmd
 		SP,
 		EC,
 		LG,
+		NLG,
+		NTR,
 	};
 	//--- JLスクリプトデコード結果エラー ---
 	enum class CmdErrType {
@@ -663,6 +841,8 @@ namespace jlscmd
 		v_tr1stprd,
 		// autoins,autodel用
 		v_info,
+		v_fix,
+		v_keep,
 		// 合計数
 		MAXSIZE
 	};

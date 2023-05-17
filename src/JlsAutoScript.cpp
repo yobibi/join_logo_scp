@@ -58,8 +58,9 @@ int JlsAutoArg::getParam(ParamAuto type){
 			return m_val_prm[num];
 		}
 	}
-	cerr << "unexpected error JlsAutoArg::GetParam cmdtype=" << static_cast<int>(m_cmdtype);
-	cerr << " type=" << num << endl;
+	string mes = "unexpected error JlsAutoArg::GetParam cmdtype=" + to_string(static_cast<int>(m_cmdtype));
+	mes += " type=" + to_string(num);
+	lcerr << mes << endl;
 	return 0;
 }
 
@@ -345,12 +346,20 @@ void JlsAutoArg::setParamInsDel(JlsCmdArg &cmdarg){
 	if ( !cmdarg.isSetOpt(OptType::AutopCode) ){
 		autop_code   = 1;								// -code未設定時の初期値
 	}
+	if ( cmdarg.getOptFlag(OptType::FlagAutopKpC) ){	// -keepC
+		autop_code   = 3;
+	}
 	int prm_c_unit   = cmdarg.getOpt(OptType::FlagUnit);
 	int prm_v_info   = cmdarg.getOpt(OptType::AutopTrInfo);
+	int prm_v_fix    = ( cmdarg.getOptFlag(OptType::FlagAutopFix)  )? 1 : 0;
+	int prm_v_keep   = ( cmdarg.getOptFlag(OptType::FlagAutopKpL) )? 1 : 0;
 	int tmp_c_w      = autop_code % 10;					// 中間値
 	//--- 実行判断 ---
 	int prm_c_exe      = (tmp_c_w != 0)? 1 : 0;
 	int prm_c_restruct = (tmp_c_w == 2)? 1 : 0;
+	if ( tmp_c_w == 3 ){
+		prm_c_restruct = 2;
+	}
 	int prm_c_noedge   = 1;
 
 	setVal(ParamAuto::c_exe      , prm_c_exe      );
@@ -358,6 +367,8 @@ void JlsAutoArg::setParamInsDel(JlsCmdArg &cmdarg){
 	setVal(ParamAuto::c_noedge   , prm_c_noedge   );
 	setVal(ParamAuto::c_unit     , prm_c_unit     );
 	setVal(ParamAuto::v_info     , prm_v_info     );
+	setVal(ParamAuto::v_fix      , prm_v_fix      );
+	setVal(ParamAuto::v_keep     , prm_v_keep     );
 }
 
 
@@ -448,6 +459,7 @@ bool JlsAutoScript::exeCmdMain(JlsCmdSet &cmdset){
 			{
 				JlsAutoReform func_reform(pdata);
 				exeflag = func_reform.startAutoCM(cmdset.arg);
+				pdata->restructScp();		// 不要な重複無音シーンチェンジを削除
 			}
 			break;
 		case CmdAutoType::AtUP :
@@ -469,7 +481,10 @@ bool JlsAutoScript::exeCmdMain(JlsCmdSet &cmdset){
 			exeflag = startAutoChg(cmdset.limit);
 			break;
 		default :
-			cerr << "error:internal setting (AutoType: " << static_cast<int>(cmdtype) << ")"  << endl;
+			{
+				string mes = "error:internal setting (AutoType: " + to_string(static_cast<int>(cmdtype));
+				lcerr << mes << endl;
+			}
 			break;
 	}
 	return exeflag;
@@ -490,7 +505,7 @@ jlscmd::CmdAutoType JlsAutoScript::exeCmdParam(JlsCmdArg &cmdarg){
 				cmdtype = CmdAutoType::CutEC;
 			}
 			else{
-				cerr << "error: AutoCut is need TR/EC" << endl;
+				lcerr << "error: AutoCut is need TR/EC" << endl;
 			}
 			break;
 		case CmdType::AutoAdd :
@@ -504,7 +519,7 @@ jlscmd::CmdAutoType JlsAutoScript::exeCmdParam(JlsCmdArg &cmdarg){
 				cmdtype = CmdAutoType::AddSP;
 			}
 			else{
-				cerr << "error: AutoAdd is need TR/EC/SP" << endl;
+				lcerr << "error: AutoAdd is need TR/EC/SP" << endl;
 			}
 			break;
 		case CmdType::AutoEdge :
@@ -533,7 +548,8 @@ jlscmd::CmdAutoType JlsAutoScript::exeCmdParam(JlsCmdArg &cmdarg){
 				cmdtype = CmdAutoType::AtChg;
 			}
 			else{
-				cerr << "error:internal setting at autoCmd(Command: " << static_cast<int>(cmdtype) << ")"  << endl;
+				string mes = "error:internal setting at autoCmd(Command: " + to_string(static_cast<int>(cmdtype)) + ")";
+				lcerr << mes << endl;
 			}
 			break;
 	}
@@ -691,10 +707,19 @@ bool JlsAutoScript::startAutoChg(JlsCmdLimit &cmdlimit){
 	if ( nrf_base >= 0 ){
 		edgelogo = jlsd::edgeFromNrf(nrf_base);
 	}
-	Nsc  nsc_target  = cmdlimit.getResultTargetSel();
-	Msec msec_target = cmdlimit.getTargetRangeForce();
-	if (nsc_target < 0 && msec_target >= 0){
-		nsc_target = pdata->getNscForceMsec(msec_target, edgelogo);
+	Nsc  nsc_target = -1;
+	{
+		TargetLocInfo tgDst = cmdlimit.getResultDst();
+		switch( tgDst.tp ){
+			case TargetScpType::ScpNum :
+				nsc_target = tgDst.nsc;
+				break;
+			case TargetScpType::Force :
+				nsc_target = pdata->getNscForceMsecExact(tgDst.msout, tgDst.edge, tgDst.exact);
+				break;
+			default:
+				break;
+		}
 	}
 	//--- ロゴ基準ではない場合(NextTail)の処理 ---
 	if ( nrf_base < 0 ){
@@ -801,14 +826,21 @@ bool JlsAutoScript::startAutoIns(JlsCmdLimit &cmdlimit){
 	RangeNscMsec rangeData;
 	int restruct = getAutoParam(ParamAuto::c_restruct);
 	if ( subInsDelGetRange(rangeData, cmdlimit) ){
+		int v_keep = getAutoParam(ParamAuto::v_keep);
+		if ( v_keep > 0 ){
+			if ( subInsDelIsLogoNow(rangeData.nsc) ){
+				v_keep = 0;		// 元がロゴならロゴなし保持ではない
+			}
+		}
+		bool logoon = ( v_keep == 0 );
 		//--- 構成情報更新 ---
 		JlsAutoReform func_reform(pdata);
-		func_reform.mkReformTarget(rangeData.nsc.st, rangeData.nsc.ed, 1, restruct);	// ロゴ有
+		func_reform.mkReformTarget(rangeData.nsc.st, rangeData.nsc.ed, logoon, restruct);	// ロゴ有
 		exeflag = true;
 		//--- 属性情報の追加変更 ---
 		bool flagAdd = true;		// 追加
 		subInsDelAddUnit(rangeData.msec, flagAdd);
-		subInsDelChangeArExt(rangeData.msec, flagAdd);
+		subInsDelChangeArExt(rangeData.msec, flagAdd, v_keep);
 	}
 	return exeflag;
 }
@@ -831,14 +863,21 @@ bool JlsAutoScript::startAutoDel(JlsCmdLimit &cmdlimit){
 	RangeNscMsec rangeData;
 	int restruct = getAutoParam(ParamAuto::c_restruct);
 	if ( subInsDelGetRange(rangeData, cmdlimit) ){
+		int v_keep = getAutoParam(ParamAuto::v_keep);
+		if ( v_keep > 0 ){
+			if ( !subInsDelIsLogoNow(rangeData.nsc) ){
+				v_keep = 0;		// 元がロゴなしならロゴ保持ではない
+			}
+		}
+		bool logoon = ( v_keep != 0 );
 		//--- 構成情報更新 ---
 		JlsAutoReform func_reform(pdata);
-		func_reform.mkReformTarget(rangeData.nsc.st, rangeData.nsc.ed, 0, restruct);	// ロゴ無
+		func_reform.mkReformTarget(rangeData.nsc.st, rangeData.nsc.ed, logoon, restruct);	// ロゴ無
 		exeflag = true;
 		//--- 属性情報の追加変更 ---
 		bool flagAdd = false;			// 追加ではなく削除
 		subInsDelAddUnit(rangeData.msec, flagAdd);
-		subInsDelChangeArExt(rangeData.msec, flagAdd);
+		subInsDelChangeArExt(rangeData.msec, flagAdd, v_keep);
 	}
 	return exeflag;
 }
@@ -847,34 +886,32 @@ bool JlsAutoScript::startAutoDel(JlsCmdLimit &cmdlimit){
 // AutoIns / AutoDel用 範囲情報取得
 // 出力：
 //  返り値  : 基準位置の存在有無
-//  nsc_target : ターゲットシーンチェンジ番号
-//  nsc_base   : 基準シーンチェンジ番号
+//  rangeData : 取得範囲位置
 // 注意点：
 //   データ挿入によるシーンチェンジ番号(nsc)変更あり
 //---------------------------------------------------------------------
 bool JlsAutoScript::subInsDelGetRange(RangeNscMsec& rangeData, JlsCmdLimit &cmdlimit){
-	LogoEdgeType edge = cmdlimit.getLogoBaseEdge();
-	//--- 基準位置取得 ---
-	Nsc  nsc_base = subInsDelGetBase(cmdlimit);
-	Msec msec_base = pdata->getMsecScpEdge(nsc_base, edge);
-	//--- ターゲット位置取得 ---
-	Nsc  nsc_target  = cmdlimit.getResultTargetSel();
-	Msec msec_target = cmdlimit.getTargetRangeForce();
-	if (nsc_target < 0){
-		if ( msec_target >= 0 ){
-			nsc_target = pdata->getNscForceMsec(msec_target, edge);
+	//--- 結果位置／終了位置取得 ---
+	TargetLocInfo tgDst = cmdlimit.getResultDst();
+	TargetLocInfo tgEnd = cmdlimit.getResultEnd();
+	bool needForceDst = ( tgDst.nsc < 0 && tgDst.valid );
+	bool needForceEnd = ( tgEnd.nsc < 0 && tgEnd.valid );
+	//--- force適用 ---
+	if ( needForceDst || needForceEnd ){
+		if ( needForceDst ){
+			tgDst.nsc = pdata->getNscForceMsecExact(tgDst.msout, tgDst.edge, tgDst.exact);
 		}
-	}else{
-		msec_target = pdata->getMsecScp(nsc_target);
-	}
-	//--- 基準位置の更新（ターゲット位置が新規追加の時変わるため） ---
-	if (nsc_base >= 0){
-		nsc_base = pdata->getNscFromMsecAllEdgein(msec_base);
+		if ( needForceEnd ){
+			tgEnd.nsc = pdata->getNscForceMsecExact(tgEnd.msout, tgEnd.edge, tgEnd.exact);
+		}
+		//--- 位置更新（新規追加の時変わるため） ---
+		tgDst.nsc = pdata->getNscFromMsecAllEdgein(tgDst.msout);
+		tgEnd.nsc = pdata->getNscFromMsecAllEdgein(tgEnd.msout);
 	}
 	//--- 結果代入 ---
-	rangeData.nsc  = { nsc_target,  nsc_base  };
-	rangeData.msec = { msec_target, msec_base };
-	if (nsc_target < 0 || nsc_base < 0){
+	rangeData.nsc  = { tgDst.nsc,   tgEnd.nsc   };
+	rangeData.msec = { tgDst.msout, tgEnd.msout };
+	if ( tgDst.nsc < 0 || tgEnd.nsc < 0){
 		return false;
 	}
 	return true;
@@ -882,20 +919,16 @@ bool JlsAutoScript::subInsDelGetRange(RangeNscMsec& rangeData, JlsCmdLimit &cmdl
 
 
 //---------------------------------------------------------------------
-// AutoIns / AutoDel用 基準位置情報取得
+// AutoEdge用 （End無視の）ロゴ限定基準位置情報取得
 // 出力：
 //  返り値  : 基準位置のシーンチェンジ番号
 //---------------------------------------------------------------------
 Nsc JlsAutoScript::subInsDelGetBase(JlsCmdLimit &cmdlimit){
 	Nsc nsc_base = -1;
-	Nsc limit_nscend  = cmdlimit.getResultTargetEnd();
 	Nsc limit_nscbase = cmdlimit.getLogoBaseNsc();
 	Nrf limit_nrfbase = cmdlimit.getLogoBaseNrf();
 
-	if (limit_nscend >= 0){
-		nsc_base = limit_nscend;
-	}
-	else if (limit_nscbase >= 0){
+	if (limit_nscbase >= 0){
 		nsc_base = limit_nscbase;
 	}
 	else if (limit_nrfbase >= 0){
@@ -903,6 +936,17 @@ Nsc JlsAutoScript::subInsDelGetBase(JlsCmdLimit &cmdlimit){
 //		nsc_base = getNscElgFromNrf(limit_nrfbase);
 	}
 	return nsc_base;
+}
+//--- 挿入・削除しようとしている位置のロゴ有無取得 ---
+bool JlsAutoScript::subInsDelIsLogoNow(RangeNsc rnsc){
+	Nsc nsc_base = rnsc.ed;
+	if ( rnsc.st <= rnsc.ed ){
+		nsc_base -= 1;
+	}
+	if ( nsc_base < 0 ) return false;
+	Nsc nsc_target = pdata->getNscNextScpDecide(nsc_base, SCP_END_EDGEIN);
+	ScpArType arstat = pdata->getScpArstat(nsc_target);
+	return jlsd::isScpArTypeLogo(arstat);
 }
 //---------------------------------------------------------------------
 // AutoIns / AutoDel用 独立構成の設定
@@ -928,15 +972,35 @@ void JlsAutoScript::subInsDelAddUnit(RangeMsec rmsec, bool flagAdd){
 //---------------------------------------------------------------------
 // AutoIns / AutoDel用 追加属性情報の設定
 //---------------------------------------------------------------------
-void JlsAutoScript::subInsDelChangeArExt(RangeMsec rmsec, bool flagAdd){
+void JlsAutoScript::subInsDelChangeArExt(RangeMsec rmsec, bool flagAdd, bool useKeep){
 	//--- 追加の更新有無 ---
 	CmdTrSpEcID idOpt = (CmdTrSpEcID) getAutoParam(ParamAuto::v_info);
-	if ( idOpt == CmdTrSpEcID::None ){
+	bool flagKeep = false;
+	if ( getAutoParam(ParamAuto::v_keep) > 0 ){
+		flagKeep = true;
+	}
+	bool flagFix = false;
+	if ( getAutoParam(ParamAuto::v_fix) > 0 ){
+		flagFix = true;
+	}
+	if ( idOpt == CmdTrSpEcID::None && !flagKeep && !flagFix ){
 		return;
 	}
 	//--- -info設定に対応する属性設定値 ---
 	ScpArExtType arExt = SCP_AREXT_NONE;
-	if ( flagAdd ){
+	if ( flagKeep && useKeep ){		// -keepL オプションで実際にロゴを逆状態で保持
+		if ( flagAdd ){
+			arExt = SCP_AREXT_N_LGADD;
+		}else{
+			arExt = SCP_AREXT_L_LGCUT;
+		}
+	}else if ( flagFix || flagKeep ){		// -fix オプション、-keepLでロゴ同化
+		if ( flagAdd ){
+			arExt = SCP_AREXT_L_LGADD;
+		}else{
+			arExt = SCP_AREXT_N_LGCUT;
+		}
+	}else if ( flagAdd ){
 		switch( idOpt ){
 			case CmdTrSpEcID::TR :
 				arExt = SCP_AREXT_L_TRKEEP;
@@ -949,6 +1013,12 @@ void JlsAutoScript::subInsDelChangeArExt(RangeMsec rmsec, bool flagAdd){
 				break;
 			case CmdTrSpEcID::LG :
 				arExt = SCP_AREXT_L_LGADD;
+				break;
+			case CmdTrSpEcID::NLG :
+				arExt = SCP_AREXT_N_LGADD;
+				break;
+			case CmdTrSpEcID::NTR :
+				arExt = SCP_AREXT_N_TRCUT;
 				break;
 			default :
 				break;
@@ -966,6 +1036,12 @@ void JlsAutoScript::subInsDelChangeArExt(RangeMsec rmsec, bool flagAdd){
 				break;
 			case CmdTrSpEcID::LG :
 				arExt = SCP_AREXT_L_LGCUT;
+				break;
+			case CmdTrSpEcID::NLG :
+				arExt = SCP_AREXT_N_LGCUT;
+				break;
+			case CmdTrSpEcID::NTR :
+				arExt = SCP_AREXT_N_TRCUT;
 				break;
 			default :
 				break;
@@ -1013,7 +1089,6 @@ bool JlsAutoScript::startAutoCutTR(RangeMsec autoscope){
 	if (prm_c_exe == 0){
 		return false;
 	}
-
 	//--- 予告開始位置を取得 ---
 	Nsc nsc_trstart = subCutTRGetLocSt(autoscope);
 	if (nsc_trstart < 0){	// 予告候補が見つからない場合
@@ -1065,8 +1140,9 @@ bool JlsAutoScript::startAutoCutTR(RangeMsec autoscope){
 					state_cut = 1;
 				}
 				//--- カット開始条件判断 ---
+				bool over_trsumprd = ( sec_tr_total >= prm_trsumprd || (prm_trsumprd <= 3 && prm_limit == 0) );
 				bool flag_cut1st = false;
-				if (state_cut == 1 && ncut_rest == 0 && sec_tr_total >= prm_trsumprd && prm_c_cutst != 3){
+				if (state_cut == 1 && ncut_rest == 0 && over_trsumprd && prm_c_cutst != 3){
 					if (((sec_dif_term % 15 == 0) && prm_c_cutst == 0) ||
 						((sec_dif_term >= 15) && prm_c_cutst == 1) ||
 						(prm_c_cutst == 2)){
@@ -1095,9 +1171,9 @@ bool JlsAutoScript::startAutoCutTR(RangeMsec autoscope){
 				}
 				//--- カット開始まで残す処理 ---
 				if (state_cut == 1){
-					if (ncut_rest > 0){
+					if ( ncut_rest > 0 || over_trsumprd == false ){
 						setScpArext(term, SCP_AREXT_L_TRKEEP);
-						ncut_rest --;
+						if ( ncut_rest > 0 ) ncut_rest --;
 						sec_tr_total += sec_dif_term;
 					}
 					else{								// エンドカード判断待ち
@@ -1650,7 +1726,7 @@ int JlsAutoScript::subCutECGetLocSt(vector<int> &local_cntcut, int *r_ovw_force,
 					}
 				}
 			}
-			else if (term.msec.ed > term.msec.ed){
+			else if (term.msec.ed > autoscope.ed){
 				flag_end = true;
 			}
 			//--- 次の位置 ---

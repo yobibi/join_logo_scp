@@ -6,9 +6,10 @@
 #pragma once
 
 #include "targetver.h"
+#include <tchar.h>
 
 #include <stdio.h>
-#include <tchar.h>
+#include <wchar.h>
 
 
 
@@ -23,5 +24,7 @@
 #include <memory>
 #include <regex>
 #include <algorithm>
+#include <climits>
 #include <stdlib.h>
 #include <string.h>
+#include <filesystem>

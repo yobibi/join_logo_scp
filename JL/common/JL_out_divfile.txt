@@ -17,22 +17,36 @@ Default divfile_zero_out 0     # 分割で最初に0を出力(0=しない 1=する)
 CountUp once_check_out_divfile
 MemOnce ${once_check_out_divfile}  # このファイルのMemory文は一度だけ実行
 
-Memory OUTPUT                  # 出力時自動的に実行
-{
-  Default divide_pos_list ""
-  ListGetAt 0 -RegList divide_pos_list   # 要素数取得
+Set divfile_useflag  1    # このファイルを呼ぶことが使用することになる
 
-  If ${divfile_zero_out}>0 && ${SIZEHOLD}>0
-    DivFile S 0 -fromabs 0               # 0位置を出力
+#--- 出力用分割位置リスト(divfile_outut_list)を作成 ---
+Memory divfile_makelist {
+  ListClear -RegOut divfile_output_list   # 結果格納用
+  ListClear -RegOut divide_pos_list -default  # 入力データ
+
+  If ${divfile_zero_out}>0 && $#{divide_pos_list}>0
+    ListIns -1 -val 0 -RegList divfile_output_list  # 0位置を出力
   EndIf
 
-  LocalSet num 0
-  Repeat ${SIZEHOLD}
-    Set num ${num}+1
+  Repeat $#{divide_pos_list} -counter num 1
     If ${num}>=${divfile_from}
-      ListGetAt ${num} -RegList divide_pos_list
-      DivFile S 0 -fromabs ${POSHOLD}
+      ListIns -1 -val ${divide_pos_list[$num]} -RegList divfile_output_list
     EndIf
   EndRepeat
-}
-EndMemory
+};
+
+#--- 結果表示用 ---
+Memory divfile_echo_odiv {
+  MemCall divfile_makelist
+  Repeat $#{divfile_output_list} -counter num 1
+    EchoItem "${divfile_output_list[$num]:f}"
+  EndRepeat
+};
+
+#--- 結果出力用 ---
+MemSet OUTPUT {                 # 出力時自動的に実行
+  MemCall divfile_makelist
+  Repeat $#{divfile_output_list} -counter num 1
+    DivFile S 0 -fromabs ${divfile_output_list[$num]}
+  EndRepeat
+};

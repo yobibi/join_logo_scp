@@ -1,0 +1,31 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：出力AVSのTrimで残す部分を各位置で数フレームカット
+#       スクリプト動作確認用に作成。必要ならこのファイルをCallする
+#
+
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+Default outrev_cutframe 2       # 各位置で内側にカットするフレーム数
+
+Default outrev_cutframe_s ${outrev_cutframe}   # 前側を個別に設定可能
+Default outrev_cutframe_e ${outrev_cutframe}   # 後側を個別に設定可能
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+CountUp once_check_fin_cutframe
+MemOnce ${once_check_fin_cutframe}  # このファイルのMemory/MemSet文は一度だけ実行
+
+MemSet FINALIZE {    # 出力直前で自動的に実行
+  GetList B -final -fixpos -RegList listdata -local
+  LocalSet i 0
+  Repeat $#{listdata}/2
+    CountUp i
+    Set listdata[$i] ${listdata[$i]}+${outrev_cutframe_s}
+    CountUp i
+    Set listdata[$i] ${listdata[$i]}-${outrev_cutframe_e}
+  EndRepeat
+  Set OUTDIRECT $listdata      # 出力として直接設定
+};

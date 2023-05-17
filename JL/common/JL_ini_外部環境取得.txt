@@ -1,0 +1,22 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：事前設定された環境変数を取得
+#
+
+CountUp once_check_extenv_get
+If ${once_check_extenv_get}!=1 { Return };   # 1回のみ実行
+
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+EnvGet CLI_IN_PATH -RegOut file_ts -default    # 環境変数から（変数未定義時のみ更新）
+EnvGet SERVICE_ID -RegOut service_id -default  # 環境変数から（変数未定義時のみ更新）
+
+#--- SERVICE_IDなく直接略称を設定する場合のみ必要 ---
+EnvGet SERVICE_ABBR -RegOut service_abbr -default  # 環境変数から（変数未定義時のみ更新）
+
+#--- ts名が存在したらパスと拡張子を除いたものを識別に使用する ---
+Default file_ts      ""
+If "${file_ts}"!=""
+  Default file_title   "${file_ts:t:r}"     # タイトル名検索用
+EndIf

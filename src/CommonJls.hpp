@@ -15,6 +15,8 @@
 using namespace std;
 
 #include "JlsNameSpace.hpp"
+#include "LocalEtc.hpp"
 
 using namespace jlsd;
 using namespace jlscmd;
+using namespace LocalInc;

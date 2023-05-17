@@ -1,0 +1,30 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：内部メモを出力
+#
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+Default outmemo_code   1     # 内部メモファイル出力（0:出力なし 1:標準文字コード 2:UTF-8 3:UTF-16）
+Default outmemo_name   "jlsmemo.txt"  # 出力ファイル名
+
+#--- フルパス取得 ---
+SysDataGet FOUTSCP -RegOut fout -local  # 解析情報出力ファイル場所
+Default outmemo_fullpath "${fout:H}${outmemo_name}"
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+CountUp once_check_out_memo
+MemOnce ${once_check_out_memo}  # このファイルのMemory/MemSet文は一度だけ実行
+
+SysMemoSel 3    # ログ出力を内部メモに入れる
+
+#--- 出力設定 ---
+MemSet OUTPUT -order 90 {     # 実行順を下げて最後に実行
+  If ${outmemo_code}!=0     # 0以外の時に設定
+    FileOpen "${outmemo_fullpath}" -filecode ${outmemo_code}
+    EchoMemo
+    FileClose
+  EndIf
+};

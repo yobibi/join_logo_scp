@@ -1,0 +1,29 @@
+# join_logo_scp用の実行内容スクリプト
+#
+# 内容：共通で最初に読み込まれる内容
+#
+
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+Default setup_ignore_case   1   # 変数の大文字小文字（0:区別 1:同一扱いでwarning表示）
+Default setup_sysmes_disp   0   # システム表示の出力追加（+1:Callファイル場所 +2:OUTDIRECT +4:CutMrg)
+
+Default outrev_cutframe  0   # 出力Trimを各位置内側にカット補正するフレーム数
+Default outmemo_code     2   # 内部メモファイル出力（0:出力なし 1:標準文字コード 2:UTF-8 3:UTF-16）
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+IgnoreCase ${setup_ignore_case}
+SysMesDisp ${setup_sysmes_disp}
+
+If ${outrev_cutframe}!=0     # 0以外の時に設定
+  Call "JL_set_各framecut出力.txt"
+EndIf
+
+If ${outmemo_code}!=0     # 0以外の時に設定
+  Call "JL_out_内部メモ.txt"
+EndIf
+
+#Call "JL_out_copyファイル一式.txt"
