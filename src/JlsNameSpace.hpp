@@ -1,10 +1,10 @@
-//
-// join_logo_scp ƒf[ƒ^—p’è‹`
+ï»¿//
+// join_logo_scp ãƒ‡ãƒ¼ã‚¿ç”¨å®šç¾©
 //
 #pragma once
 
 //---------------------------------------------------------------------
-// ƒf[ƒ^Ši”[—p
+// ãƒ‡ãƒ¼ã‚¿æ ¼ç´ç”¨
 //---------------------------------------------------------------------
 namespace jlsd
 {
@@ -14,39 +14,39 @@ namespace jlsd
 	using Nrf = int;
 	using Nlg = int;
 
-	//--- Auto\¬‹æØ‚è(scp.chap) ---
+	//--- Autoæ§‹æˆåŒºåˆ‡ã‚Š(scp.chap) ---
 	enum ScpChapType {
-		SCP_CHAP_DUPE = -1,		// d•¡‰ÓŠ
-		SCP_CHAP_NONE,			// ‰Šúó‘Ô
-		SCP_CHAP_CPOSIT,		// 5•b’PˆÊ‰Â”\«•Û
-		SCP_CHAP_CPOSQ,			// 15•b’PˆÊ‰Â”\«•Û
-		SCP_CHAP_CDET,			// 15•b’PˆÊ•Û
-		SCP_CHAP_DINT,			// \¬“à•”®”•b’PˆÊ‹æØ‚è
-		SCP_CHAP_DBORDER,		// –³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚È‚µ‹æØ‚è
-		SCP_CHAP_DFIX,			// \¬‹æØ‚è
-		SCP_CHAP_DFORCE,		// ‹­§‹æØ‚èİ’è‰ÓŠ
-		SCP_CHAP_DUNIT			// Trim‚à‹­§‹æØ‚è
+		SCP_CHAP_DUPE = -1,		// é‡è¤‡ç®‡æ‰€
+		SCP_CHAP_NONE,			// åˆæœŸçŠ¶æ…‹
+		SCP_CHAP_CPOSIT,		// 5ç§’å˜ä½å¯èƒ½æ€§ä¿æŒ
+		SCP_CHAP_CPOSQ,			// 15ç§’å˜ä½å¯èƒ½æ€§ä¿æŒ
+		SCP_CHAP_CDET,			// 15ç§’å˜ä½ä¿æŒ
+		SCP_CHAP_DINT,			// æ§‹æˆå†…éƒ¨æ•´æ•°ç§’å˜ä½åŒºåˆ‡ã‚Š
+		SCP_CHAP_DBORDER,		// ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãªã—åŒºåˆ‡ã‚Š
+		SCP_CHAP_DFIX,			// æ§‹æˆåŒºåˆ‡ã‚Š
+		SCP_CHAP_DFORCE,		// å¼·åˆ¶åŒºåˆ‡ã‚Šè¨­å®šç®‡æ‰€
+		SCP_CHAP_DUNIT			// Trimã‚‚å¼·åˆ¶åŒºåˆ‡ã‚Š
 	};
-	static const ScpChapType SCP_CHAP_DECIDE = SCP_CHAP_DINT;		// Šm’è‰ÓŠè‡’l
+	static const ScpChapType SCP_CHAP_DECIDE = SCP_CHAP_DINT;		// ç¢ºå®šç®‡æ‰€é–¾å€¤
 	inline bool isScpChapTypeDecide(ScpChapType type){
 		return (type >= SCP_CHAP_DECIDE)? true : false;
 	}
 
-	//--- Auto\¬„‘ªŠî–{“à—e(scp.arstat) ---
+	//--- Autoæ§‹æˆæ¨æ¸¬åŸºæœ¬å†…å®¹(scp.arstat) ---
 	enum ScpArType {
-		SCP_AR_UNKNOWN,			// •s–¾
-		SCP_AR_L_UNIT,			// ƒƒS—L ‚P‚T•b’PˆÊ
-		SCP_AR_L_OTHER,			// ƒƒS—L ‚»‚Ì‘¼
-		SCP_AR_L_MIXED,			// ƒƒS—L ƒƒS–³‚à¬‡
-		SCP_AR_N_UNIT,			// ƒƒS–³ ‚P‚T•b’PˆÊ
-		SCP_AR_N_OTHER,			// ƒƒS–³ ‚»‚Ì‘¼
-		SCP_AR_N_AUNIT,			// ƒƒS–³ ‡•¹‚Å‚P‚T•b‚Ì’†ŠÔ’n“_
-		SCP_AR_N_BUNIT,			// ƒƒS–³ ‡•¹‚Å‚P‚T•b‚Ì’[
-		SCP_AR_B_UNIT,			// ƒƒS‹«ŠE ‚P‚T•b’PˆÊ
-		SCP_AR_B_OTHER			// ƒƒS‹«ŠE ‚»‚Ì‘¼
+		SCP_AR_UNKNOWN,			// ä¸æ˜
+		SCP_AR_L_UNIT,			// ãƒ­ã‚´æœ‰ ï¼‘ï¼•ç§’å˜ä½
+		SCP_AR_L_OTHER,			// ãƒ­ã‚´æœ‰ ãã®ä»–
+		SCP_AR_L_MIXED,			// ãƒ­ã‚´æœ‰ ãƒ­ã‚´ç„¡ã‚‚æ··åˆ
+		SCP_AR_N_UNIT,			// ãƒ­ã‚´ç„¡ ï¼‘ï¼•ç§’å˜ä½
+		SCP_AR_N_OTHER,			// ãƒ­ã‚´ç„¡ ãã®ä»–
+		SCP_AR_N_AUNIT,			// ãƒ­ã‚´ç„¡ åˆä½µã§ï¼‘ï¼•ç§’ã®ä¸­é–“åœ°ç‚¹
+		SCP_AR_N_BUNIT,			// ãƒ­ã‚´ç„¡ åˆä½µã§ï¼‘ï¼•ç§’ã®ç«¯
+		SCP_AR_B_UNIT,			// ãƒ­ã‚´å¢ƒç•Œ ï¼‘ï¼•ç§’å˜ä½
+		SCP_AR_B_OTHER			// ãƒ­ã‚´å¢ƒç•Œ ãã®ä»–
 	};
-	static const int SCP_ARR_L_LOW  = SCP_AR_L_UNIT;		// ƒƒS—L‚Ì‰ºŒÀ’l
-	static const int SCP_ARR_L_HIGH = SCP_AR_L_MIXED;		// ƒƒS—L‚ÌãŒÀ’l
+	static const int SCP_ARR_L_LOW  = SCP_AR_L_UNIT;		// ãƒ­ã‚´æœ‰ã®ä¸‹é™å€¤
+	static const int SCP_ARR_L_HIGH = SCP_AR_L_MIXED;		// ãƒ­ã‚´æœ‰ã®ä¸Šé™å€¤
 	inline bool isScpArTypeLogo(ScpArType type){
 		return (type >= SCP_ARR_L_LOW && type <= SCP_ARR_L_HIGH)? true : false;
 	}
@@ -57,116 +57,116 @@ namespace jlsd
 		return ((type >= SCP_ARR_L_LOW && type <= SCP_ARR_L_HIGH) ||
 				(type >= SCP_AR_B_UNIT && type <= SCP_AR_B_OTHER))? true : false;
 	}
-	//--- Auto\¬„‘ªŠg’£“à—e(scp.arext) ---
+	//--- Autoæ§‹æˆæ¨æ¸¬æ‹¡å¼µå†…å®¹(scp.arext) ---
 	enum ScpArExtType {
-		SCP_AREXT_NONE,			// ’Ç‰Á\¬‚È‚µ
-		SCP_AREXT_L_TRKEEP,		// ƒƒS—L c‚·—\
-		SCP_AREXT_L_TRCUT,		// ƒƒS—L ƒJƒbƒg”Ôé
-		SCP_AREXT_L_TRRAW,		// ƒƒS—L ƒGƒ“ƒhƒJ[ƒh”»’f‘O
-		SCP_AREXT_L_ECCUT,		// ƒƒS—L ƒJƒbƒg”Ôé
-		SCP_AREXT_L_EC,			// ƒƒS—L ƒGƒ“ƒhƒJ[ƒh
-		SCP_AREXT_L_SP,			// ƒƒS—L ”Ô‘g’ñ‹Ÿ
-		SCP_AREXT_L_LGCUT,		// ƒƒS—L ƒƒS’[•”•ªƒJƒbƒg
-		SCP_AREXT_L_LGADD,		// ƒƒS—L ƒƒS’[•”•ªc‚·
-		SCP_AREXT_N_TRCUT,		// ƒƒS–³ ƒJƒbƒg”Ôé
-		SCP_AREXT_N_LGCUT,		// ƒƒS–³ ƒƒS’[•”•ªƒJƒbƒg
-		SCP_AREXT_N_LGADD		// ƒƒS–³ ƒƒS’[•”•ªc‚·
+		SCP_AREXT_NONE,			// è¿½åŠ æ§‹æˆãªã—
+		SCP_AREXT_L_TRKEEP,		// ãƒ­ã‚´æœ‰ æ®‹ã™äºˆå‘Š
+		SCP_AREXT_L_TRCUT,		// ãƒ­ã‚´æœ‰ ã‚«ãƒƒãƒˆç•ªå®£
+		SCP_AREXT_L_TRRAW,		// ãƒ­ã‚´æœ‰ ã‚¨ãƒ³ãƒ‰ã‚«ãƒ¼ãƒ‰åˆ¤æ–­å‰
+		SCP_AREXT_L_ECCUT,		// ãƒ­ã‚´æœ‰ ã‚«ãƒƒãƒˆç•ªå®£
+		SCP_AREXT_L_EC,			// ãƒ­ã‚´æœ‰ ã‚¨ãƒ³ãƒ‰ã‚«ãƒ¼ãƒ‰
+		SCP_AREXT_L_SP,			// ãƒ­ã‚´æœ‰ ç•ªçµ„æä¾›
+		SCP_AREXT_L_LGCUT,		// ãƒ­ã‚´æœ‰ ãƒ­ã‚´ç«¯éƒ¨åˆ†ã‚«ãƒƒãƒˆ
+		SCP_AREXT_L_LGADD,		// ãƒ­ã‚´æœ‰ ãƒ­ã‚´ç«¯éƒ¨åˆ†æ®‹ã™
+		SCP_AREXT_N_TRCUT,		// ãƒ­ã‚´ç„¡ ã‚«ãƒƒãƒˆç•ªå®£
+		SCP_AREXT_N_LGCUT,		// ãƒ­ã‚´ç„¡ ãƒ­ã‚´ç«¯éƒ¨åˆ†ã‚«ãƒƒãƒˆ
+		SCP_AREXT_N_LGADD		// ãƒ­ã‚´ç„¡ ãƒ­ã‚´ç«¯éƒ¨åˆ†æ®‹ã™
 	};
 	
 
-	//--- İ’è’l•Û ---
+	//--- è¨­å®šå€¤ä¿æŒ ---
 	enum class ConfigVarType {
-		msecWLogoTRMax,			// AutoCutƒRƒ}ƒ“ƒh‚ÅƒJƒbƒg‘ÎÛ‚Æ‚·‚éƒƒSŠúŠÔÅ‘åƒtƒŒ[ƒ€ŠúŠÔ
-		msecWCompTRMax,			// AutoCutƒRƒ}ƒ“ƒhTR‚Å—\‚Æ”F¯‚·‚é\¬Å‘åƒtƒŒ[ƒ€ŠúŠÔ
-		msecWLogoSftMrg,		// AutoƒRƒ}ƒ“ƒh‘O’²®‚ÅƒƒSØ‚è‘Ö‚í‚è‚Ì‚¸‚ê‚ğ‹–‚·ƒtƒŒ[ƒ€ŠúŠÔ
-		msecWCompFirst,			// æ“ª\¬ƒJƒbƒgˆµ‚¢‚É‚·‚é\¬Å‘åƒtƒŒ[ƒ€ŠúŠÔ
-		msecWCompLast,			// ÅŒã\¬ƒJƒbƒgˆµ‚¢‚É‚·‚é\¬Å‘åƒtƒŒ[ƒ€ŠúŠÔ
-		msecWLogoSumMin,		// ƒƒS‡ŒvŠúŠÔ‚ªw’èƒtƒŒ[ƒ€–¢–‚Ì‚ÍƒƒS‚È‚µ‚Æ‚µ‚Äˆµ‚¤
-		msecWLogoLgMin,			// CM„‘ª‚ÉƒƒS—Lî•ñŠm’è‚Æ”F¯‚·‚éÅ¬ƒƒSŠúŠÔ
-		msecWLogoCmMin,			// CM„‘ª‚ÉƒƒS–³î•ñŠm’è‚Æ”F¯‚·‚éÅ¬ƒƒSŠúŠÔ
-		msecWLogoRevMin,		// ƒƒSî•ñ•â³‚·‚é‚É–{•Ò‚Æ”F¯‚·‚éÅ¬ŠúŠÔ
-		msecMgnCmDetect,		// CM\¬‚Å15•b’PˆÊ‚Å‚Í‚È‚¢‰Â”\«‚Æ”F¯‚·‚éŒë·ƒtƒŒ[ƒ€ŠúŠÔ
-		msecMgnCmDivide,		// CM\¬“à•ªŠ„‚ğ‹–‚·‚P•b’PˆÊ‚©‚ç‚ÌŒë·ƒtƒŒ[ƒ€ŠúŠÔ
-		secWCompSPMin,			// AutoƒRƒ}ƒ“ƒh”Ô‘g’ñ‹Ÿ‚Å•W€Å¬•b”
-		secWCompSPMax,			// AutoƒRƒ}ƒ“ƒh”Ô‘g’ñ‹Ÿ‚Å•W€Å‘å•b”
-		flagCutTR,				// 15•bˆÈã”Ôé‚ğƒJƒbƒg‚·‚éê‡‚Í1‚ğƒZƒbƒg
-		flagCutSP,				// ”Ô‘g’ñ‹Ÿ‚ğƒJƒbƒg‚·‚éê‡‚Í1‚ğƒZƒbƒg
-		flagAddLogo,			// ƒƒS‚ ‚è’Êí\¬‚ğc‚·ê‡‚Í1‚ğƒZƒbƒgiŒ»İ‚Í–¢g—pj
-		flagAddUC,				// ƒƒS‚È‚µ•s–¾\¬‚ğc‚·ê‡‚Í1‚ğƒZƒbƒg
-		typeNoSc,				// ƒV[ƒ“ƒ`ƒFƒ“ƒW‚È‚µ–³‰¹ˆÊ’u‚ÌCM”»’fi0:©“® 1:‚È‚µ 2:‚ ‚èj
-		cancelCntSc,			// –³‰¹‚ª‘½‚¢\¬‚ğ•ª—£‚µ‚È‚¢ˆ—‚ğ1‚Ì‚Íg—p‚µ‚È‚¢
-		LogoLevel,				// ƒƒSg—pƒŒƒxƒ‹
-		LogoRevise,				// ƒƒS‚©‚ç‚Ì•â³
-		AutoCmSub,				// ƒƒS‚È‚µ‚Ì•â•İ’è
-		msecPosFirst,			// ƒƒSŠJnˆÊ’uŒŸoİ’èŠúŠÔ
-		msecLgCutFirst,			// ƒƒS‚ªÅ‰‚©‚ç‚ ‚é‚ÉƒJƒbƒgˆµ‚¢‚É‚·‚é\¬Å‘åƒtƒŒ[ƒ€ŠúŠÔ
-		msecZoneFirst,			// ƒƒS–³Œø‚Æ‚·‚éŠJnˆÊ’uŒŸoİ’èŠúŠÔ
-		msecZoneLast,			// ƒƒS–³Œø‚Æ‚·‚éI—¹ˆÊ’uŒŸoİ’èŠúŠÔ
-		priorityPosFirst,		// Å‰‚ÌˆÊ’uİ’è—Dæ“xi0:§Œä‚È‚µ 1:ƒƒS‚ ‚è 2:ˆÊ’u—Dæ 3:Select—Dæj
+		msecWLogoTRMax,			// AutoCutã‚³ãƒãƒ³ãƒ‰ã§ã‚«ãƒƒãƒˆå¯¾è±¡ã¨ã™ã‚‹ãƒ­ã‚´æœŸé–“æœ€å¤§ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		msecWCompTRMax,			// AutoCutã‚³ãƒãƒ³ãƒ‰TRã§äºˆå‘Šã¨èªè­˜ã™ã‚‹æ§‹æˆæœ€å¤§ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		msecWLogoSftMrg,		// Autoã‚³ãƒãƒ³ãƒ‰å‰èª¿æ•´ã§ãƒ­ã‚´åˆ‡ã‚Šæ›¿ã‚ã‚Šã®ãšã‚Œã‚’è¨±ã™ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		msecWCompFirst,			// å…ˆé ­æ§‹æˆã‚«ãƒƒãƒˆæ‰±ã„ã«ã™ã‚‹æ§‹æˆæœ€å¤§ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		msecWCompLast,			// æœ€å¾Œæ§‹æˆã‚«ãƒƒãƒˆæ‰±ã„ã«ã™ã‚‹æ§‹æˆæœ€å¤§ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		msecWLogoSumMin,		// ãƒ­ã‚´åˆè¨ˆæœŸé–“ãŒæŒ‡å®šãƒ•ãƒ¬ãƒ¼ãƒ æœªæº€ã®æ™‚ã¯ãƒ­ã‚´ãªã—ã¨ã—ã¦æ‰±ã†
+		msecWLogoLgMin,			// CMæ¨æ¸¬æ™‚ã«ãƒ­ã‚´æœ‰æƒ…å ±ç¢ºå®šã¨èªè­˜ã™ã‚‹æœ€å°ãƒ­ã‚´æœŸé–“
+		msecWLogoCmMin,			// CMæ¨æ¸¬æ™‚ã«ãƒ­ã‚´ç„¡æƒ…å ±ç¢ºå®šã¨èªè­˜ã™ã‚‹æœ€å°ãƒ­ã‚´æœŸé–“
+		msecWLogoRevMin,		// ãƒ­ã‚´æƒ…å ±è£œæ­£ã™ã‚‹æ™‚ã«æœ¬ç·¨ã¨èªè­˜ã™ã‚‹æœ€å°æœŸé–“
+		msecMgnCmDetect,		// CMæ§‹æˆã§15ç§’å˜ä½ã§ã¯ãªã„å¯èƒ½æ€§ã¨èªè­˜ã™ã‚‹èª¤å·®ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		msecMgnCmDivide,		// CMæ§‹æˆå†…åˆ†å‰²ã‚’è¨±ã™ï¼‘ç§’å˜ä½ã‹ã‚‰ã®èª¤å·®ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		secWCompSPMin,			// Autoã‚³ãƒãƒ³ãƒ‰ç•ªçµ„æä¾›ã§æ¨™æº–æœ€å°ç§’æ•°
+		secWCompSPMax,			// Autoã‚³ãƒãƒ³ãƒ‰ç•ªçµ„æä¾›ã§æ¨™æº–æœ€å¤§ç§’æ•°
+		flagCutTR,				// 15ç§’ä»¥ä¸Šç•ªå®£ã‚’ã‚«ãƒƒãƒˆã™ã‚‹å ´åˆã¯1ã‚’ã‚»ãƒƒãƒˆ
+		flagCutSP,				// ç•ªçµ„æä¾›ã‚’ã‚«ãƒƒãƒˆã™ã‚‹å ´åˆã¯1ã‚’ã‚»ãƒƒãƒˆ
+		flagAddLogo,			// ãƒ­ã‚´ã‚ã‚Šé€šå¸¸æ§‹æˆã‚’æ®‹ã™å ´åˆã¯1ã‚’ã‚»ãƒƒãƒˆï¼ˆç¾åœ¨ã¯æœªä½¿ç”¨ï¼‰
+		flagAddUC,				// ãƒ­ã‚´ãªã—ä¸æ˜æ§‹æˆã‚’æ®‹ã™å ´åˆã¯1ã‚’ã‚»ãƒƒãƒˆ
+		typeNoSc,				// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãªã—ç„¡éŸ³ä½ç½®ã®CMåˆ¤æ–­ï¼ˆ0:è‡ªå‹• 1:ãªã— 2:ã‚ã‚Šï¼‰
+		cancelCntSc,			// ç„¡éŸ³ãŒå¤šã„æ§‹æˆã‚’åˆ†é›¢ã—ãªã„å‡¦ç†ã‚’1ã®æ™‚ã¯ä½¿ç”¨ã—ãªã„
+		LogoLevel,				// ãƒ­ã‚´ä½¿ç”¨ãƒ¬ãƒ™ãƒ«
+		LogoRevise,				// ãƒ­ã‚´ã‹ã‚‰ã®è£œæ­£
+		AutoCmSub,				// ãƒ­ã‚´ãªã—æ™‚ã®è£œåŠ©è¨­å®š
+		msecPosFirst,			// ãƒ­ã‚´é–‹å§‹ä½ç½®æ¤œå‡ºè¨­å®šæœŸé–“
+		msecLgCutFirst,			// ãƒ­ã‚´ãŒæœ€åˆã‹ã‚‰ã‚ã‚‹æ™‚ã«ã‚«ãƒƒãƒˆæ‰±ã„ã«ã™ã‚‹æ§‹æˆæœ€å¤§ãƒ•ãƒ¬ãƒ¼ãƒ æœŸé–“
+		msecZoneFirst,			// ãƒ­ã‚´ç„¡åŠ¹ã¨ã™ã‚‹é–‹å§‹ä½ç½®æ¤œå‡ºè¨­å®šæœŸé–“
+		msecZoneLast,			// ãƒ­ã‚´ç„¡åŠ¹ã¨ã™ã‚‹çµ‚äº†ä½ç½®æ¤œå‡ºè¨­å®šæœŸé–“
+		priorityPosFirst,		// æœ€åˆã®ä½ç½®è¨­å®šå„ªå…ˆåº¦ï¼ˆ0:åˆ¶å¾¡ãªã— 1:ãƒ­ã‚´ã‚ã‚Š 2:ä½ç½®å„ªå…ˆ 3:Selectå„ªå…ˆï¼‰
 		MAXSIZE
 	};
     static const int SIZE_CONFIG_VAR = static_cast<int>(ConfigVarType::MAXSIZE);
 
-	enum class ConfigActType {	// İ’è’l‚ğ“®ì•Ê‚Éæ“¾—p
-		LogoDelEdge,			// ƒƒS’[‚ÌCM”»’f
-		LogoDelMid,				// ƒƒS“à‚Ì15•b’PˆÊCM‰»
-		LogoDelWide,			// LˆæƒƒS‚È‚µíœ
-		LogoUCRemain,			// ƒƒS‚È‚µ•s–¾•”•ª‚ğc‚·
-		LogoUCGapCm,			// CM’PˆÊ‚©‚çŒë·‚ª‘å‚«‚¢\¬‚ğc‚·
-		MuteNoSc				// ƒV[ƒ“ƒ`ƒFƒ“ƒW‚È‚µ–³‰¹ˆÊ’u‚ÌCM”»’fi1:g—p‚µ‚È‚¢ 2:g—p‚·‚éj
+	enum class ConfigActType {	// è¨­å®šå€¤ã‚’å‹•ä½œåˆ¥ã«å–å¾—ç”¨
+		LogoDelEdge,			// ãƒ­ã‚´ç«¯ã®CMåˆ¤æ–­
+		LogoDelMid,				// ãƒ­ã‚´å†…ã®15ç§’å˜ä½CMåŒ–
+		LogoDelWide,			// åºƒåŸŸãƒ­ã‚´ãªã—å‰Šé™¤
+		LogoUCRemain,			// ãƒ­ã‚´ãªã—ä¸æ˜éƒ¨åˆ†ã‚’æ®‹ã™
+		LogoUCGapCm,			// CMå˜ä½ã‹ã‚‰èª¤å·®ãŒå¤§ãã„æ§‹æˆã‚’æ®‹ã™
+		MuteNoSc				// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãªã—ç„¡éŸ³ä½ç½®ã®CMåˆ¤æ–­ï¼ˆ1:ä½¿ç”¨ã—ãªã„ 2:ä½¿ç”¨ã™ã‚‹ï¼‰
 	};
 
-	//--- \¬Œó•â—Dæ‡ˆÊ(scp.stat) ---
+	//--- æ§‹æˆå€™è£œå„ªå…ˆé †ä½(scp.stat) ---
 	enum ScpPriorType {
-		SCP_PRIOR_DUPE = -1,	// ŠÔˆø‚«
-		SCP_PRIOR_NONE,			// ‰Šúó‘Ô
-		SCP_PRIOR_LV1,			// Œó•â
-		SCP_PRIOR_DECIDE		// Œˆ’è
+		SCP_PRIOR_DUPE = -1,	// é–“å¼•ã
+		SCP_PRIOR_NONE,			// åˆæœŸçŠ¶æ…‹
+		SCP_PRIOR_LV1,			// å€™è£œ
+		SCP_PRIOR_DECIDE		// æ±ºå®š
 	};
 
-	//--- \¬Œó•â—Dæ‡ˆÊ(logo.stat_*) ---
+	//--- æ§‹æˆå€™è£œå„ªå…ˆé †ä½(logo.stat_*) ---
 	enum LogoPriorType {
-		LOGO_PRIOR_DUPE = -1,	// ŠÔˆø‚«
-		LOGO_PRIOR_NONE,		// ‰Šúó‘Ô
-		LOGO_PRIOR_LV1,			// Œó•â
-		LOGO_PRIOR_DECIDE		// Œˆ’è
+		LOGO_PRIOR_DUPE = -1,	// é–“å¼•ã
+		LOGO_PRIOR_NONE,		// åˆæœŸçŠ¶æ…‹
+		LOGO_PRIOR_LV1,			// å€™è£œ
+		LOGO_PRIOR_DECIDE		// æ±ºå®š
 	};
-	//--- ƒƒS•ª—£\¬ó‘Ô(logo.unit_*) ---
+	//--- ãƒ­ã‚´åˆ†é›¢æ§‹æˆçŠ¶æ…‹(logo.unit_*) ---
 	enum LogoUnitType {
-		LOGO_UNIT_NORMAL,		// ’Êí
-		LOGO_UNIT_DIVIDE		// ƒƒS•ª—£
+		LOGO_UNIT_NORMAL,		// é€šå¸¸
+		LOGO_UNIT_DIVIDE		// ãƒ­ã‚´åˆ†é›¢
 	};
-	//--- ƒƒSŒ‹‰ÊŠm’èó‘Ô(logo.flag_*) ---
+	//--- ãƒ­ã‚´çµæœç¢ºå®šçŠ¶æ…‹(logo.flag_*) ---
 	enum LogoResultType {
-		LOGO_RESULT_NONE,		// ‰Šúó‘Ô
-		LOGO_RESULT_DECIDE,		// Šm’è
-		LOGO_RESULT_ABORT		// abort”jŠüŠm’è
+		LOGO_RESULT_NONE,		// åˆæœŸçŠ¶æ…‹
+		LOGO_RESULT_DECIDE,		// ç¢ºå®š
+		LOGO_RESULT_ABORT		// abortç ´æ£„ç¢ºå®š
 	};
 
-	//--- ‘I‘ğ•ûŒü ---
+	//--- é¸æŠæ–¹å‘ ---
 	enum SearchDirType {
 		SEARCH_DIR_PREV,
 		SEARCH_DIR_NEXT
 	};
 
-	//--- ƒƒS‚Ì‘I‘ğƒGƒbƒW ---
+	//--- ãƒ­ã‚´ã®é¸æŠã‚¨ãƒƒã‚¸ ---
 	enum LogoEdgeType {
-		LOGO_EDGE_RISE,			// ƒƒS‚Ì—§‚¿ã‚ª‚èƒGƒbƒW
-		LOGO_EDGE_FALL,			// ƒƒS‚Ì—§‚¿‰º‚ª‚èƒGƒbƒW
-		LOGO_EDGE_BOTH			// ƒƒS‚Ì—¼ƒGƒbƒW
+		LOGO_EDGE_RISE,			// ãƒ­ã‚´ã®ç«‹ã¡ä¸ŠãŒã‚Šã‚¨ãƒƒã‚¸
+		LOGO_EDGE_FALL,			// ãƒ­ã‚´ã®ç«‹ã¡ä¸‹ãŒã‚Šã‚¨ãƒƒã‚¸
+		LOGO_EDGE_BOTH			// ãƒ­ã‚´ã®ä¸¡ã‚¨ãƒƒã‚¸
 	};
-	//--- ƒƒS‚Ì‘I‘ğ ---
+	//--- ãƒ­ã‚´ã®é¸æŠ ---
 	enum LogoSelectType {
-		LOGO_SELECT_ALL,		// ‘S‘I‘ğ
-		LOGO_SELECT_VALID		// —LŒø‚Ì‚İ‘I‘ğ
+		LOGO_SELECT_ALL,		// å…¨é¸æŠ
+		LOGO_SELECT_VALID		// æœ‰åŠ¹ã®ã¿é¸æŠ
 	};
-	//--- ƒV[ƒ“ƒ`ƒFƒ“ƒW‚Å‘S‘Ì‚Ìæ“ªÅŒã‚ğœ‚­‘I‘ğ ---
+	//--- ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã§å…¨ä½“ã®å…ˆé ­æœ€å¾Œã‚’é™¤ãé¸æŠ ---
 	enum ScpEndType {
-		SCP_END_EDGEIN,			// ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†‚Ìæ“ªÅŒãŠÜ‚Ş
-		SCP_END_NOEDGE			// ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†‚Ìæ“ªÅŒãœ‚­
+		SCP_END_EDGEIN,			// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·ã®å…ˆé ­æœ€å¾Œå«ã‚€
+		SCP_END_NOEDGE			// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·ã®å…ˆé ­æœ€å¾Œé™¤ã
 	};
 
-	//--- ƒƒS‚ÌƒGƒbƒW•ûŒü”F¯ ---
+	//--- ãƒ­ã‚´ã®ã‚¨ãƒƒã‚¸æ–¹å‘èªè­˜ ---
 	inline bool isLogoEdgeRise(LogoEdgeType type){
 		return (type == LOGO_EDGE_RISE || type == LOGO_EDGE_BOTH)? true : false;
 	}
@@ -179,7 +179,7 @@ namespace jlsd
 	inline bool isLogoEdgeRiseFromNrf(int nrf){
 		return (nrf % 2 == 0)? true : false;
 	}
-	//--- ƒƒS”Ô†•ÏŠ·inrf - nlgj ---
+	//--- ãƒ­ã‚´ç•ªå·å¤‰æ›ï¼ˆnrf - nlgï¼‰ ---
 	inline LogoEdgeType edgeFromNrf(int nrf){
 		return (nrf % 2 == 0)? LOGO_EDGE_RISE : LOGO_EDGE_FALL;
 	}
@@ -198,12 +198,12 @@ namespace jlsd
 	inline int nrfFromNlgFall(int nlg){
 		return nlg*2+1;
 	}
-	//--- —Dæ‡ˆÊ‚Ì•ÏŠ· ---
+	//--- å„ªå…ˆé †ä½ã®å¤‰æ› ---
 	inline LogoPriorType priorLogoFromScp(ScpPriorType n){
 		return (LogoPriorType) n;
 	}
 
-	//--- •Ûİ’è’l‚Ìƒtƒ‰ƒO’l’è‹` ---
+	//--- ä¿æŒè¨­å®šå€¤ã®ãƒ•ãƒ©ã‚°å€¤å®šç¾© ---
 	enum ConfigBitType {
 		CONFIG_LOGO_LEVEL_DEFAULT   = 0,
 		CONFIG_LOGO_LEVEL_UNUSE_ALL = 1,
@@ -216,7 +216,7 @@ namespace jlsd
 		CONFIG_LOGO_LEVEL_USE_MAX   = 8
 	};
 
-	//--- \‘¢‘Ì ---
+	//--- æ§‹é€ ä½“ ---
 	struct RangeNsc {
 		Nsc st;
 		Nsc ed;
@@ -237,15 +237,15 @@ namespace jlsd
 	struct RangeFixMsec {
 		Msec st;
 		Msec ed;
-		bool fixSt;				// true=Šm’èŠJn’n“_
-		bool fixEd;				// true=Šm’èI—¹’n“_
+		bool fixSt;				// true=ç¢ºå®šé–‹å§‹åœ°ç‚¹
+		bool fixEd;				// true=ç¢ºå®šçµ‚äº†åœ°ç‚¹
 	};
 	struct RangeWideMsec {
 		WideMsec st;
 		WideMsec ed;
-		bool fixSt;				// true=Šm’èŠJn’n“_
-		bool fixEd;				// true=Šm’èI—¹’n“_
-		bool logomode;			// false=CMŠúŠÔ  true=ƒƒSŠúŠÔ
+		bool fixSt;				// true=ç¢ºå®šé–‹å§‹åœ°ç‚¹
+		bool fixEd;				// true=ç¢ºå®šçµ‚äº†åœ°ç‚¹
+		bool logomode;			// false=CMæœŸé–“  true=ãƒ­ã‚´æœŸé–“
 	};
 	struct RangeNscMsec {
 		RangeNsc  nsc;
@@ -261,7 +261,7 @@ namespace jlsd
 		RangeMsec msec;
 	};
 	struct NrfCurrent {
-		bool valid;				// 0=ƒf[ƒ^Ši”[‚È‚µ  1=ƒf[ƒ^Ši”[‚ ‚è
+		bool valid;				// 0=ãƒ‡ãƒ¼ã‚¿æ ¼ç´ãªã—  1=ãƒ‡ãƒ¼ã‚¿æ ¼ç´ã‚ã‚Š
 		Nrf nrfRise;
 		Nrf nrfFall;
 		Nrf nrfLastRise;
@@ -272,9 +272,9 @@ namespace jlsd
 		Msec msecLastFall;
 	};
 	struct ElgCurrent {
-		bool valid;				// 0=ƒf[ƒ^Ši”[‚È‚µ  1=ƒf[ƒ^Ši”[‚ ‚è
-		bool border;			// 0=borderŠÜ‚ß‚È‚¢  1=borderŠÜ‚Ş
-		bool outflag;			// 0=“à•”“®ì 1=ÅIo—Í“®ì
+		bool valid;				// 0=ãƒ‡ãƒ¼ã‚¿æ ¼ç´ãªã—  1=ãƒ‡ãƒ¼ã‚¿æ ¼ç´ã‚ã‚Š
+		bool border;			// 0=borderå«ã‚ãªã„  1=borderå«ã‚€
+		bool outflag;			// 0=å†…éƒ¨å‹•ä½œ 1=æœ€çµ‚å‡ºåŠ›å‹•ä½œ
 		Nsc nscRise;
 		Nsc nscFall;
 		Nsc nscLastRise;
@@ -285,10 +285,10 @@ namespace jlsd
 		Msec msecLastFall;
 	};
 	struct LogoCustomType {
-		bool extLogo;			// false=ÀÛ‚ÌƒƒS  true=„‘ªƒƒS
-		bool selectAll;			// false=’ÊíƒƒS  true=–³Œø‰»(abort)ƒƒSŠÜ‚Ş
-		bool final;				// false=’ÊíƒƒS  true=ÅIo—ÍƒƒS
-		bool border;			// false=borderŠÜ‚ß‚È‚¢  true=borderŠÜ‚Ş
+		bool extLogo;			// false=å®Ÿéš›ã®ãƒ­ã‚´  true=æ¨æ¸¬ãƒ­ã‚´
+		bool selectAll;			// false=é€šå¸¸ãƒ­ã‚´  true=ç„¡åŠ¹åŒ–(abort)ãƒ­ã‚´å«ã‚€
+		bool final;				// false=é€šå¸¸ãƒ­ã‚´  true=æœ€çµ‚å‡ºåŠ›ãƒ­ã‚´
+		bool border;			// false=borderå«ã‚ãªã„  true=borderå«ã‚€
 		
 	};
 	struct CalcDifInfo {
@@ -301,7 +301,7 @@ namespace jlsd
 		Msec mod05;
 	};
 
-	//--- Auto\¬„‘ªƒ‰ƒxƒ‹“à—e ---
+	//--- Autoæ§‹æˆæ¨æ¸¬ãƒ©ãƒ™ãƒ«å†…å®¹ ---
 	enum class ComLabelType {
 		None,		// ":"
 		CM,			// ":CM"
@@ -323,49 +323,49 @@ namespace jlsd
 		AddSP,		// ":Sponsor(add)"
 		AddEC,		// ":Endcard(add)"
 	};
-	//--- ‘ÎÛˆÊ’u‚Ìí—Ş’è‹` ---
+	//--- å¯¾è±¡ä½ç½®ã®ç¨®é¡å®šç¾© ---
 	enum class TargetCatType {
-		None,		// ’è‹`‚È‚µ
-		Dst,		// Œ‹‰ÊˆÊ’u
-		End,		// I—¹ˆÊ’u
-		From,		// •ÏXŒãŠî€ƒƒSˆÊ’u
-		RX,			// ‘Š‘Î‘I‘ğ
-		Shift,		// -SHift‚É‚æ‚éŠî€ƒƒSˆÊ’u
+		None,		// å®šç¾©ãªã—
+		Dst,		// çµæœä½ç½®
+		End,		// çµ‚äº†ä½ç½®
+		From,		// å¤‰æ›´å¾ŒåŸºæº–ãƒ­ã‚´ä½ç½®
+		RX,			// ç›¸å¯¾é¸æŠ
+		Shift,		// -SHiftã«ã‚ˆã‚‹åŸºæº–ãƒ­ã‚´ä½ç½®
 	};
-	//--- ‘ÎÛˆÊ’uİ’è‚Ìí—Ş’è‹` ---
+	//--- å¯¾è±¡ä½ç½®è¨­å®šã®ç¨®é¡å®šç¾© ---
 	enum class TargetScpType {
-		None,		// ’è‹`‚È‚µ
-		Invalid,	// –³Œøİ’è
-		ScpNum,		// ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†‚ÅŠÇ—
-		Direct,		// ’¼ÚˆÊ’uw’è
-		Force,		// ‹­§ˆÊ’uw’è
+		None,		// å®šç¾©ãªã—
+		Invalid,	// ç„¡åŠ¹è¨­å®š
+		ScpNum,		// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·ã§ç®¡ç†
+		Direct,		// ç›´æ¥ä½ç½®æŒ‡å®š
+		Force,		// å¼·åˆ¶ä½ç½®æŒ‡å®š
 	};
-	//--- ‘ÎÛˆÊ’u‚Ìƒf[ƒ^ˆê® ---
+	//--- å¯¾è±¡ä½ç½®ã®ãƒ‡ãƒ¼ã‚¿ä¸€å¼ ---
 	struct TargetLocInfo {
-		TargetScpType tp;		// í—Ş
-		LogoEdgeType edge;		// —§ã‚è^—§‰º‚è
-		bool valid;				// —LŒøˆÊ’uiƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†‘¶İ or forceİ’èj
-		bool exact;				// true=³Šm‚ÈˆÊ’uw’è
-		Nsc  nsc;				// ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-		Msec msec;				// ˆÊ’uƒ~ƒŠ•b
-		Msec msbk;				// ˆÊ’uƒ~ƒŠ•biI—¹ˆÊ’u—pj
-		Msec msout;				// ˆÊ’uƒ~ƒŠ•bio—Í—pj
+		TargetScpType tp;		// ç¨®é¡
+		LogoEdgeType edge;		// ç«‹ä¸Šã‚Šï¼ç«‹ä¸‹ã‚Š
+		bool valid;				// æœ‰åŠ¹ä½ç½®ï¼ˆã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·å­˜åœ¨ or forceè¨­å®šï¼‰
+		bool exact;				// true=æ­£ç¢ºãªä½ç½®æŒ‡å®š
+		Nsc  nsc;				// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+		Msec msec;				// ä½ç½®ãƒŸãƒªç§’
+		Msec msbk;				// ä½ç½®ãƒŸãƒªç§’ï¼ˆçµ‚äº†ä½ç½®ç”¨ï¼‰
+		Msec msout;				// ä½ç½®ãƒŸãƒªç§’ï¼ˆå‡ºåŠ›ç”¨ï¼‰
 	};
 }
 
 //---------------------------------------------------------------------
-// JLƒXƒNƒŠƒvƒg‚Ìˆø”ŠÖ˜A•Û
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã®å¼•æ•°é–¢é€£ä¿æŒ
 //---------------------------------------------------------------------
 namespace jlscmd
 {
-	const int SIZE_VARNUM_MAX = 2048;	// •Ï”‚ÌÅ‘å”‚ğ”O‚Ì‚½‚ßİ’è(JlsRegFile)
-	const int SIZE_MEMVARNUM_MAX = 2048;	// ’x‰„•ÛŠÇ•¶š—ñ‚Ì¯•Ê–¼Å‘å”(JlsScrMemBody)
-	const int SIZE_MEMVARLINE_MAX = 4096;	// ’x‰„•ÛŠÇ•¶š—ñ‚ÌŠe¯•Ê–¼‚ÌÅ‘ås”(JlsScrMemBody)
-	const int SIZE_REPLINE  = 4096;		// ƒLƒƒƒbƒVƒ…•ÛÅ‘ås”iRepeat—pj(JlsScriptState)
-	const int SIZE_MEMLINE  = 8192;		// ƒLƒƒƒbƒVƒ…•ÛÅ‘ås”iMem/Lazy—pj(JlsScrGlobal)
-	const int SIZE_CALL_LOOP = 32;		// CallƒRƒ}ƒ“ƒh‚ÌÄ‹AÅ‘å‰ñ”(JlsScript)
+	const int SIZE_VARNUM_MAX = 2048;	// å¤‰æ•°ã®æœ€å¤§æ•°ã‚’å¿µã®ãŸã‚è¨­å®š(JlsRegFile)
+	const int SIZE_MEMVARNUM_MAX = 2048;	// é…å»¶ä¿ç®¡æ–‡å­—åˆ—ã®è­˜åˆ¥åæœ€å¤§æ•°(JlsScrMemBody)
+	const int SIZE_MEMVARLINE_MAX = 4096;	// é…å»¶ä¿ç®¡æ–‡å­—åˆ—ã®å„è­˜åˆ¥åã®æœ€å¤§è¡Œæ•°(JlsScrMemBody)
+	const int SIZE_REPLINE  = 4096;		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ä¿æŒæœ€å¤§è¡Œæ•°ï¼ˆRepeatç”¨ï¼‰(JlsScriptState)
+	const int SIZE_MEMLINE  = 8192;		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ä¿æŒæœ€å¤§è¡Œæ•°ï¼ˆMem/Lazyç”¨ï¼‰(JlsScrGlobal)
+	const int SIZE_CALL_LOOP = 32;		// Callã‚³ãƒãƒ³ãƒ‰ã®å†å¸°æœ€å¤§å›æ•°(JlsScript)
 
-	//--- JLƒXƒNƒŠƒvƒg–½—ß ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆå‘½ä»¤ ---
 	enum class CmdType {
 		Nop,
 		If,
@@ -488,7 +488,7 @@ namespace jlscmd
 		ExpandOff,
 		MAXSIZE
 	};
-	//--- JLƒXƒNƒŠƒvƒg–½—ßí—Ş ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆå‘½ä»¤ç¨®é¡ ---
 	enum class CmdCat {
 		NONE,
 		COND,
@@ -508,7 +508,7 @@ namespace jlscmd
 		MEMEXE,
 		MEMLAZYF,
 	};
-	//--- JLƒXƒNƒŠƒvƒg’x‰„Às—pCacheí—Ş ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆé…å»¶å®Ÿè¡Œç”¨Cacheç¨®é¡ ---
 	enum class CacheExeType {
 		None,
 		LazyS,
@@ -516,7 +516,7 @@ namespace jlscmd
 		LazyE,
 		Mem,
 	};
-	//--- JLƒXƒNƒŠƒvƒgLazy“®ìí—Ş ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆLazyå‹•ä½œç¨®é¡ ---
 	enum class LazyType {
 		None,
 		FULL,
@@ -524,7 +524,7 @@ namespace jlscmd
 		LazyA,
 		LazyE,
 	};
-	//--- JLƒXƒNƒŠƒvƒgƒIƒvƒVƒ‡ƒ“•ª—Ş ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚ªãƒ—ã‚·ãƒ§ãƒ³åˆ†é¡ ---
 	enum class OptCat {
 		None,
 		PosSC,
@@ -533,10 +533,10 @@ namespace jlscmd
 		STR,
 		NUM,
 	};
-	//--- JLƒXƒNƒŠƒvƒgƒIƒvƒVƒ‡ƒ“–½—ß ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚ªãƒ—ã‚·ãƒ§ãƒ³å‘½ä»¤ ---
 	enum class OptType {
-		None,			// –¢’è‹`”F¯—p
-		ArrayMIN,		// ŠJn¯•Ê—p
+		None,			// æœªå®šç¾©èªè­˜ç”¨
+		ArrayMIN,		// é–‹å§‹è­˜åˆ¥ç”¨
 		TypeNumLogo,
 		TypeFrame,
 		TypeFrameSub,
@@ -561,12 +561,12 @@ namespace jlscmd
 		MsecLenPEMax,
 		MsecLenNEMin,
 		MsecLenNEMax,
-		MsecFromAbs,	// Œ»İ–¢g—p
-		MsecFromHead,	// Œ»İ–¢g—p
-		MsecFromTail,	// Œ»İ–¢g—p
+		MsecFromAbs,	// ç¾åœ¨æœªä½¿ç”¨
+		MsecFromHead,	// ç¾åœ¨æœªä½¿ç”¨
+		MsecFromTail,	// ç¾åœ¨æœªä½¿ç”¨
 		MsecLogoExtL,
 		MsecLogoExtR,
-		MsecEndAbs,	// Œ»İ–¢g—p
+		MsecEndAbs,	// ç¾åœ¨æœªä½¿ç”¨
 		MsecDcenter,
 		MsecDrangeL,
 		MsecDrangeR,
@@ -614,7 +614,7 @@ namespace jlscmd
 		FnumFromCm,
 		FnumFromNl,
 		FnumFromL,
-		FlagDstPoint,	// “à•”İ’è—p
+		FlagDstPoint,	// å†…éƒ¨è¨­å®šç”¨
 		FlagAutopFix,
 		FlagAutopKpC,
 		FlagAutopKpL,
@@ -677,7 +677,7 @@ namespace jlscmd
 		AbbrSft,
 		AbbrFromHead,
 		AbbrFromTail,
-		ArrayMAX,		// JlsCmdSet‚Åƒf[ƒ^Ši”[‚·‚é”z—ñ‚Í‚±‚±‚Ü‚Å
+		ArrayMAX,		// JlsCmdSetã§ãƒ‡ãƒ¼ã‚¿æ ¼ç´ã™ã‚‹é…åˆ—ã¯ã“ã“ã¾ã§
 
 		ScMIN,
 		ScNone,
@@ -715,7 +715,7 @@ namespace jlscmd
 		FrFmidX,
 		FrMAX,
 
-		StrMIN,			// JlsCmdSet‚Åƒf[ƒ^Ši”[‚·‚é•¶š—ñƒIƒvƒVƒ‡ƒ“ŠJn
+		StrMIN,			// JlsCmdSetã§ãƒ‡ãƒ¼ã‚¿æ ¼ç´ã™ã‚‹æ–‡å­—åˆ—ã‚ªãƒ—ã‚·ãƒ§ãƒ³é–‹å§‹
 		StrRegPos,
 		StrValPosR,
 		StrValPosW,
@@ -745,10 +745,10 @@ namespace jlscmd
 		ListZoneImmN,
 		ListPickIn,
 		ListPickOut,
-		StrMAX,			// JlsCmdSet‚Åƒf[ƒ^Ši”[‚·‚é•¶š—ñƒIƒvƒVƒ‡ƒ“I—¹
+		StrMAX,			// JlsCmdSetã§ãƒ‡ãƒ¼ã‚¿æ ¼ç´ã™ã‚‹æ–‡å­—åˆ—ã‚ªãƒ—ã‚·ãƒ§ãƒ³çµ‚äº†
 	};
 
-	//--- JLƒXƒNƒŠƒvƒg–½—ßƒTƒu‘I‘ğ ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆå‘½ä»¤ã‚µãƒ–é¸æŠ ---
 	enum CmdTrSpEcID {
 		None,
 		Off,
@@ -759,17 +759,17 @@ namespace jlscmd
 		NLG,
 		NTR,
 	};
-	//--- JLƒXƒNƒŠƒvƒgƒfƒR[ƒhŒ‹‰ÊƒGƒ‰[ ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆãƒ‡ã‚³ãƒ¼ãƒ‰çµæœã‚¨ãƒ©ãƒ¼ ---
 	enum class CmdErrType {
 		None,
-		ErrOpt,				// ƒRƒ}ƒ“ƒhˆÙíiƒIƒvƒVƒ‡ƒ“j
-		ErrRange,			// ƒRƒ}ƒ“ƒhˆÙíi”ÍˆÍj
-		ErrSEB,				// ƒRƒ}ƒ“ƒhˆÙíiS/E/B‘I‘ğj
-		ErrVar,				// ƒRƒ}ƒ“ƒhˆÙíi•Ï”ŠÖ˜Aj
-		ErrTR,				// ƒRƒ}ƒ“ƒhˆÙíiTR/SP/ED‘I‘ğj
-		ErrCmd,				// ƒRƒ}ƒ“ƒhˆÙíiƒRƒ}ƒ“ƒhj
+		ErrOpt,				// ã‚³ãƒãƒ³ãƒ‰ç•°å¸¸ï¼ˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ï¼‰
+		ErrRange,			// ã‚³ãƒãƒ³ãƒ‰ç•°å¸¸ï¼ˆç¯„å›²ï¼‰
+		ErrSEB,				// ã‚³ãƒãƒ³ãƒ‰ç•°å¸¸ï¼ˆS/E/Bé¸æŠï¼‰
+		ErrVar,				// ã‚³ãƒãƒ³ãƒ‰ç•°å¸¸ï¼ˆå¤‰æ•°é–¢é€£ï¼‰
+		ErrTR,				// ã‚³ãƒãƒ³ãƒ‰ç•°å¸¸ï¼ˆTR/SP/EDé¸æŠï¼‰
+		ErrCmd,				// ã‚³ãƒãƒ³ãƒ‰ç•°å¸¸ï¼ˆã‚³ãƒãƒ³ãƒ‰ï¼‰
 	};
-	//--- JLƒXƒNƒŠƒvƒgAutoŒnƒRƒ}ƒ“ƒh ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆAutoç³»ã‚³ãƒãƒ³ãƒ‰ ---
 	enum class CmdAutoType {
 		None,
 		CutTR,
@@ -786,31 +786,31 @@ namespace jlscmd
 		Ins,
 		Del,
 	};
-	//--- AutoƒRƒ}ƒ“ƒhƒpƒ‰ƒ[ƒ^ ---
+	//--- Autoã‚³ãƒãƒ³ãƒ‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ ---
 	enum class ParamAuto {
-		// codeƒpƒ‰ƒ[ƒ^
-		c_exe,			// 0:ƒRƒ}ƒ“ƒhÀs‚È‚µ 1:ƒRƒ}ƒ“ƒhÀs
-		c_search,		// ŒŸõ‚·‚é”ÍˆÍ‚ğ‘I‘ğ
-		c_wmin,			// \¬ŠúŠÔ‚ÌÅ¬’l•b”
-		c_wmax,			// \¬ŠúŠÔ‚ÌÅ‘å’l•b”
-		c_w15,			// 1:”Ô‘g\¬‚Å15•b‚ğŒŸõ
-		c_lgprev,		// 0:ƒƒSE—\‚Ì‘O‘¤‚ğ‘ÎÛŠO
-		c_lgpost,		// 0:ƒƒSE—\‚ÌŒã‘¤‚ğ‘ÎÛŠO
-		c_lgintr,		// 1:—\‚Æ”Ô‘g’ñ‹Ÿ‚ÌŠÔ‚Ì‚İ‘ÎÛ‚Æ‚·‚é
-		c_lgsp,			// 1:”Ô‘g’ñ‹Ÿ‚ª’¼Œã‚É‚ ‚éê‡‚Ì‚İ‘ÎÛ
-		c_cutskip,		// 1:—\ƒJƒbƒgˆÈ~‚à‘ÎÛ‚Æ‚·‚é
-		c_in1,			// 1:—\ˆÊ’u‚É”Ô‘g’ñ‹Ÿ‚ğ“ü‚ê‚é
-		c_chklast,		// 1:–{‘Ì\¬‚ªŒã‚É‚ ‚ê‚Î‘ÎÛŠO‚Æ‚·‚é
-		c_lgy,			// 1:ƒƒS“à‚ğ‘ÎÛ‚Æ‚·‚é
-		c_lgn,			// 1:ƒƒSŠO‚ğ‘ÎÛ‚Æ‚·‚é
-		c_lgbn,			// 1:—¼—×‚ğŠÜ‚ßƒƒSŠO‚Ìê‡‚ğ‘ÎÛ‚Æ‚·‚é
-		c_limloc,		// 1:•W€ŠúŠÔ‚ÌŒó•âˆÊ’u‚Ì‚İ‚ÉŒÀ’è
-		c_limtrsum,		// 1:—\ŠúŠÔ‚É‚æ‚è–³Œø‰»‚·‚é
-		c_unitcmoff,		// 1:CM•ªŠ„‚µ‚½\¬‚ÌŒŸo‚ğ‹­§–³Œø
-		c_unitcmon,		// 1:CM•ªŠ„‚µ‚½\¬‚ÌŒŸo‚ğ‹­§İ’è
-		c_wdefmin,		// •W€‚Ì\¬ŠúŠÔ‚ÌÅ¬’l•b”
-		c_wdefmax,		// •W€‚Ì\¬ŠúŠÔ‚ÌÅ‘å’l•b”
-		// autocut—p
+		// codeãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+		c_exe,			// 0:ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œãªã— 1:ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œ
+		c_search,		// æ¤œç´¢ã™ã‚‹ç¯„å›²ã‚’é¸æŠ
+		c_wmin,			// æ§‹æˆæœŸé–“ã®æœ€å°å€¤ç§’æ•°
+		c_wmax,			// æ§‹æˆæœŸé–“ã®æœ€å¤§å€¤ç§’æ•°
+		c_w15,			// 1:ç•ªçµ„æ§‹æˆã§15ç§’ã‚’æ¤œç´¢
+		c_lgprev,		// 0:ãƒ­ã‚´ãƒ»äºˆå‘Šã®å‰å´ã‚’å¯¾è±¡å¤–
+		c_lgpost,		// 0:ãƒ­ã‚´ãƒ»äºˆå‘Šã®å¾Œå´ã‚’å¯¾è±¡å¤–
+		c_lgintr,		// 1:äºˆå‘Šã¨ç•ªçµ„æä¾›ã®é–“ã®ã¿å¯¾è±¡ã¨ã™ã‚‹
+		c_lgsp,			// 1:ç•ªçµ„æä¾›ãŒç›´å¾Œã«ã‚ã‚‹å ´åˆã®ã¿å¯¾è±¡
+		c_cutskip,		// 1:äºˆå‘Šã‚«ãƒƒãƒˆä»¥é™ã‚‚å¯¾è±¡ã¨ã™ã‚‹
+		c_in1,			// 1:äºˆå‘Šä½ç½®ã«ç•ªçµ„æä¾›ã‚’å…¥ã‚Œã‚‹
+		c_chklast,		// 1:æœ¬ä½“æ§‹æˆãŒå¾Œã«ã‚ã‚Œã°å¯¾è±¡å¤–ã¨ã™ã‚‹
+		c_lgy,			// 1:ãƒ­ã‚´å†…ã‚’å¯¾è±¡ã¨ã™ã‚‹
+		c_lgn,			// 1:ãƒ­ã‚´å¤–ã‚’å¯¾è±¡ã¨ã™ã‚‹
+		c_lgbn,			// 1:ä¸¡éš£ã‚’å«ã‚ãƒ­ã‚´å¤–ã®å ´åˆã‚’å¯¾è±¡ã¨ã™ã‚‹
+		c_limloc,		// 1:æ¨™æº–æœŸé–“ã®å€™è£œä½ç½®ã®ã¿ã«é™å®š
+		c_limtrsum,		// 1:äºˆå‘ŠæœŸé–“ã«ã‚ˆã‚Šç„¡åŠ¹åŒ–ã™ã‚‹
+		c_unitcmoff,		// 1:CMåˆ†å‰²ã—ãŸæ§‹æˆã®æ¤œå‡ºã‚’å¼·åˆ¶ç„¡åŠ¹
+		c_unitcmon,		// 1:CMåˆ†å‰²ã—ãŸæ§‹æˆã®æ¤œå‡ºã‚’å¼·åˆ¶è¨­å®š
+		c_wdefmin,		// æ¨™æº–ã®æ§‹æˆæœŸé–“ã®æœ€å°å€¤ç§’æ•°
+		c_wdefmax,		// æ¨™æº–ã®æ§‹æˆæœŸé–“ã®æœ€å¤§å€¤ç§’æ•°
+		// autocutç”¨
 		c_from,			// cuttr
 		c_cutst,			// cuttr
 		c_lgpre,			// cuttr
@@ -819,15 +819,15 @@ namespace jlscmd
 		c_cutlp,			// cutec
 		c_cut30,			// cutec
 		c_cutsp,			// cutec
-		// edge—p
+		// edgeç”¨
 		c_cmpart,
 		c_add,
 		c_allcom,
 		c_noedge,
-		// autoins,autodel—p
+		// autoins,autodelç”¨
 		c_restruct,
 		c_unit,
-		// ”’lƒpƒ‰ƒ[ƒ^
+		// æ•°å€¤ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 		v_limit,
 		v_scope,
 		v_scopen,
@@ -836,14 +836,14 @@ namespace jlscmd
 		v_trsumprd,
 		v_secprev,
 		v_secnext,
-		// autocut—p
+		// autocutç”¨
 		v_trscope,
 		v_tr1stprd,
-		// autoins,autodel—p
+		// autoins,autodelç”¨
 		v_info,
 		v_fix,
 		v_keep,
-		// ‡Œv”
+		// åˆè¨ˆæ•°
 		MAXSIZE
 	};
 }

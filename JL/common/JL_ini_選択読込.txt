@@ -1,47 +1,47 @@
-# join_logo_scp—p‚ÌÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eFæ“¾‚Å‚«‚éî•ñ‚©‚çJLƒXƒNƒŠƒvƒg‚ğ‘I‘ğ
+# å†…å®¹ï¼šå–å¾—ã§ãã‚‹æƒ…å ±ã‹ã‚‰JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’é¸æŠ
 #
-# İ’è
-#  path_user_rd : ƒf[ƒ^ƒtƒ@ƒCƒ‹‚ª‚±‚ÌƒpƒX‚É‚ ‚ê‚Î—Dæ‚µ‚Ä“Ç‚İ‚İ
-#  file_ini_ch  : ƒT[ƒrƒXID‚Æ•ú‘—‹Ç—ªÌ‚Ì‘Î‰‚ğ‹LÚ‚µ‚½ƒtƒ@ƒCƒ‹
-#  file_ini_t1  : •ú‘—‹Ç‚Æƒ^ƒCƒgƒ‹‚©‚ç‚Ìƒpƒ‰ƒ[ƒ^İ’èƒtƒ@ƒCƒ‹iå‚É•ú‘—‹Çj
-#  file_ini_t2  : •ú‘—‹Ç‚Æƒ^ƒCƒgƒ‹‚©‚ç‚Ìƒpƒ‰ƒ[ƒ^İ’èƒtƒ@ƒCƒ‹
-#  file_title   : ŒŸõ‘ÎÛ‚Ìƒ^ƒCƒgƒ‹•¶š—ñ
-#  service_id   : ŒŸõ‘ÎÛ‚ÌƒT[ƒrƒXID
-#  service_abbr : ŒŸõ‘ÎÛ‚Ì•ú‘—‹Ç—ªÌiÈ—ª‚Ífile_ini_ch‹LÚ“à—e‚©‚çæ“¾j
-#  iniinfo_disp_param : 1=‚±‚ÌƒXƒNƒŠƒvƒg‚Å‘I‘ğ‚³‚ê‚½ƒpƒ‰ƒ[ƒ^ˆê——‚ğ•\¦
+# è¨­å®š
+#  path_user_rd : ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ãŒã“ã®ãƒ‘ã‚¹ã«ã‚ã‚Œã°å„ªå…ˆã—ã¦èª­ã¿è¾¼ã¿
+#  file_ini_ch  : ã‚µãƒ¼ãƒ“ã‚¹IDã¨æ”¾é€å±€ç•¥ç§°ã®å¯¾å¿œã‚’è¨˜è¼‰ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«
+#  file_ini_t1  : æ”¾é€å±€ã¨ã‚¿ã‚¤ãƒˆãƒ«ã‹ã‚‰ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆä¸»ã«æ”¾é€å±€ï¼‰
+#  file_ini_t2  : æ”¾é€å±€ã¨ã‚¿ã‚¤ãƒˆãƒ«ã‹ã‚‰ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«
+#  file_title   : æ¤œç´¢å¯¾è±¡ã®ã‚¿ã‚¤ãƒˆãƒ«æ–‡å­—åˆ—
+#  service_id   : æ¤œç´¢å¯¾è±¡ã®ã‚µãƒ¼ãƒ“ã‚¹ID
+#  service_abbr : æ¤œç´¢å¯¾è±¡ã®æ”¾é€å±€ç•¥ç§°ï¼ˆçœç•¥æ™‚ã¯file_ini_chè¨˜è¼‰å†…å®¹ã‹ã‚‰å–å¾—ï¼‰
+#  iniinfo_disp_param : 1=ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã§é¸æŠã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ä¸€è¦§ã‚’è¡¨ç¤º
 #
-# o—Í
-#  jlsi_optstr  : ’Ç‰ÁƒIƒvƒVƒ‡ƒ“iƒXƒNƒŠƒvƒg‚Å•ÏX‰Â”\‚È“à—e‚Ì‚İj
-#  jlsi_jlrun   : g—p‚·‚éJLƒXƒNƒŠƒvƒg–¼
-#  jlsi_comment : •\¦‚Ì‚İB‘I‘ğƒRƒƒ“ƒg
+# å‡ºåŠ›
+#  jlsi_optstr  : è¿½åŠ ã‚ªãƒ—ã‚·ãƒ§ãƒ³ï¼ˆã‚¹ã‚¯ãƒªãƒ—ãƒˆã§å¤‰æ›´å¯èƒ½ãªå†…å®¹ã®ã¿ï¼‰
+#  jlsi_jlrun   : ä½¿ç”¨ã™ã‚‹JLã‚¹ã‚¯ãƒªãƒ—ãƒˆå
+#  jlsi_comment : è¡¨ç¤ºã®ã¿ã€‚é¸æŠã‚³ãƒ¡ãƒ³ãƒˆ
 #
 
 #----------------------------------------------
-# İ’è
+# è¨­å®š
 #----------------------------------------------
-Call "JL_ini_ŠO•”ŠÂ‹«æ“¾.txt"               # ŠO•”İ’è
-Default path_user_rd "${JLDATAPATH:h:H}user"       # —Dæ“ÇƒtƒHƒ‹ƒ_‚ğİ’è‚·‚éê‡
-Default file_ini_ch  "${JLDATAPATH}ChList.csv"     # İ’èƒf[ƒ^
-Default file_ini_t1  "${JLDATAPATH}ChParamJL1.csv" # İ’èƒf[ƒ^
-Default file_ini_t2  "${JLDATAPATH}ChParamJL2.csv" # İ’èƒf[ƒ^
-Default file_title   ""                      # ‰Šúİ’èi–¢’è‹`‚Ì‚İXVj
-Default service_id   ""                      # ‰Šúİ’èi–¢’è‹`‚Ì‚İXVj
-Default service_abbr ""                      # ‰Šúİ’èi–¢’è‹`‚Ì‚İXVj
-Default jlsi_optstr  ""                      # ‹N“®ƒIƒvƒVƒ‡ƒ“•¶š—ñ
-Default jlsi_jlrun   "JL_•W€.txt"           # CALLƒXƒNƒŠƒvƒg
-Default jlsi_comment ""                      # ‘I‘ğƒRƒƒ“ƒg
+Call "JL_ini_å¤–éƒ¨ç’°å¢ƒå–å¾—.txt"               # å¤–éƒ¨è¨­å®š
+Default path_user_rd "${JLDATAPATH:h:H}user"       # å„ªå…ˆèª­è¾¼ãƒ•ã‚©ãƒ«ãƒ€ã‚’è¨­å®šã™ã‚‹å ´åˆ
+Default file_ini_ch  "${JLDATAPATH}ChList.csv"     # è¨­å®šãƒ‡ãƒ¼ã‚¿
+Default file_ini_t1  "${JLDATAPATH}ChParamJL1.csv" # è¨­å®šãƒ‡ãƒ¼ã‚¿
+Default file_ini_t2  "${JLDATAPATH}ChParamJL2.csv" # è¨­å®šãƒ‡ãƒ¼ã‚¿
+Default file_title   ""                      # åˆæœŸè¨­å®šï¼ˆæœªå®šç¾©æ™‚ã®ã¿æ›´æ–°ï¼‰
+Default service_id   ""                      # åˆæœŸè¨­å®šï¼ˆæœªå®šç¾©æ™‚ã®ã¿æ›´æ–°ï¼‰
+Default service_abbr ""                      # åˆæœŸè¨­å®šï¼ˆæœªå®šç¾©æ™‚ã®ã¿æ›´æ–°ï¼‰
+Default jlsi_optstr  ""                      # èµ·å‹•ã‚ªãƒ—ã‚·ãƒ§ãƒ³æ–‡å­—åˆ—
+Default jlsi_jlrun   "JL_æ¨™æº–.txt"           # CALLã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+Default jlsi_comment ""                      # é¸æŠã‚³ãƒ¡ãƒ³ãƒˆ
 
-Default iniinfo_disp_read   1    # Readƒtƒ@ƒCƒ‹ƒpƒX•\¦i0:‚È‚µ 1:“à•”ƒƒ‚•\¦ 2:ƒƒO•\¦j
-Default iniinfo_disp_param  0    # İ’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^î•ñ•\¦i0:‚È‚µ 1:“à•”ƒƒ‚•\¦j
+Default iniinfo_disp_read   1    # Readãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹è¡¨ç¤ºï¼ˆ0:ãªã— 1:å†…éƒ¨ãƒ¡ãƒ¢è¡¨ç¤º 2:ãƒ­ã‚°è¡¨ç¤ºï¼‰
+Default iniinfo_disp_param  0    # è¨­å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æƒ…å ±è¡¨ç¤ºï¼ˆ0:ãªã— 1:å†…éƒ¨ãƒ¡ãƒ¢è¡¨ç¤ºï¼‰
 
 #----------------------------------------------
-# “®ì
+# å‹•ä½œ
 #----------------------------------------------
-Call "JL_sub_•¶š—ñ‘€ì.txt"   # •¶š—ñ‘€ìŠÖ”‚ğg—p
+Call "JL_sub_æ–‡å­—åˆ—æ“ä½œ.txt"   # æ–‡å­—åˆ—æ“ä½œé–¢æ•°ã‚’ä½¿ç”¨
 
-#--- —Dæ‚·‚éƒtƒHƒ‹ƒ_‚Éƒtƒ@ƒCƒ‹‚ª‚ ‚ê‚ÎêŠ•ÏX ---
+#--- å„ªå…ˆã™ã‚‹ãƒ•ã‚©ãƒ«ãƒ€ã«ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚Œã°å ´æ‰€å¤‰æ›´ ---
 Function takeReadPriorityFolder( ref(dfile) folder ){
   If "${folder}"!=""
     LocalSet newfile "${folder:/}${dfile:t}"
@@ -50,7 +50,7 @@ Function takeReadPriorityFolder( ref(dfile) folder ){
   EndIf
 };
 
-#--- ƒT[ƒrƒXID‚É‘Î‰‚·‚é•ú‘—‹Ç—ªÌ‚ğæ“¾ ---
+#--- ã‚µãƒ¼ãƒ“ã‚¹IDã«å¯¾å¿œã™ã‚‹æ”¾é€å±€ç•¥ç§°ã‚’å–å¾— ---
 Function getIniInfoCh( id fname ){
   LocalSet result ""
   ReadOpen "${fname}"
@@ -58,7 +58,7 @@ Function getIniInfoCh( id fname ){
     ReadLine -RegOut str_read -local
     Break !${READVALID}
     SplitCsv -RegArg str_read -RegOut list_csv -local
-    If $#{list_csv}>=4      # ƒT[ƒrƒXID‚ª4€–Ú–Ú‚Æˆê’v‚µ‚½‚ç3€–Ú–Ú‚ğæ“¾
+    If $#{list_csv}>=4      # ã‚µãƒ¼ãƒ“ã‚¹IDãŒ4é …ç›®ç›®ã¨ä¸€è‡´ã—ãŸã‚‰3é …ç›®ç›®ã‚’å–å¾—
       If "${list_csv[4]:Xb}"=="${id}"
         Set result "${list_csv[3]:Xb}"
         Break 1
@@ -69,16 +69,16 @@ Function getIniInfoCh( id fname ){
   Set getIniInfoCh "${result}"
 };
 
-# €–Ú1‚ÌŠY“–Šm”Fiİ’è‚³‚ê‚½’PŒê‚ÉƒT[ƒrƒXID or —ªÌ‚Æˆê’v‚ ‚é‚©j
+# é …ç›®1ã®è©²å½“ç¢ºèªï¼ˆè¨­å®šã•ã‚ŒãŸå˜èªã«ã‚µãƒ¼ãƒ“ã‚¹ID or ç•¥ç§°ã¨ä¸€è‡´ã‚ã‚‹ã‹ï¼‰
 Function getIniInfoMatchItem1( buf id abbr ){
-  Fcall StrConvOnlyHanToUp( abbr )      # ‘å•¶š‚É“ˆê
-  Fcall StrConvOnlyHanToUp( buf  )      # ‘å•¶š‚É“ˆê
+  Fcall StrConvOnlyHanToUp( abbr )      # å¤§æ–‡å­—ã«çµ±ä¸€
+  Fcall StrConvOnlyHanToUp( buf  )      # å¤§æ–‡å­—ã«çµ±ä¸€
   SplitItem -RegArg buf -RegOut list_item -local
   LocalSet hit 0
   If $#{list_item}==0
-    Set hit 1     # –¢İ’è‚Í–³ğŒ‹–‰Â
+    Set hit 1     # æœªè¨­å®šã¯ç„¡æ¡ä»¶è¨±å¯
   ElsIf "${buf:~0,1}"=="#"
-    Set hit 0     # æ“ª#‚Í–³Œø
+    Set hit 0     # å…ˆé ­#ã¯ç„¡åŠ¹
   Else
     Repeat $#{list_item} -counter i 1 {
       Break ${hit}!=0
@@ -92,7 +92,7 @@ Function getIniInfoMatchItem1( buf id abbr ){
   Set getIniInfoMatchItem1 ${hit}
 };
 
-# €–Ú2‚ÌŠY“–Šm”Fiİ’è‚³‚ê‚½’PŒê‚ªƒ^ƒCƒgƒ‹‚É‚·‚×‚ÄŠÜ‚Ü‚ê‚é‚©jiŒ»İ–¢g—pj
+# é …ç›®2ã®è©²å½“ç¢ºèªï¼ˆè¨­å®šã•ã‚ŒãŸå˜èªãŒã‚¿ã‚¤ãƒˆãƒ«ã«ã™ã¹ã¦å«ã¾ã‚Œã‚‹ã‹ï¼‰ï¼ˆç¾åœ¨æœªä½¿ç”¨ï¼‰
 Function getIniInfoMatchItem2( buf title ){
   SplitItem -RegArg buf -RegOut list_item -local
   LocalSet hit 1
@@ -103,30 +103,30 @@ Function getIniInfoMatchItem2( buf title ){
   Set getIniInfoMatchItem2 ${hit}
 };
 
-#--- •ú‘—‹Ç‚Æƒ^ƒCƒgƒ‹‚ÉŠY“–‚·‚é€–Ú‚Ìƒpƒ‰ƒ[ƒ^æ“¾ ---
-#  iŒ‹‰ÊƒŠƒXƒg‚Éƒpƒ‰ƒ[ƒ^–¼‚Æ’l‚ÌƒZƒbƒg‚ğ‡”Ô‚É’Ç‰Á‚µ‚Ä‚¢‚­j
+#--- æ”¾é€å±€ã¨ã‚¿ã‚¤ãƒˆãƒ«ã«è©²å½“ã™ã‚‹é …ç›®ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å–å¾— ---
+#  ï¼ˆçµæœãƒªã‚¹ãƒˆã«ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åã¨å€¤ã®ã‚»ãƒƒãƒˆã‚’é †ç•ªã«è¿½åŠ ã—ã¦ã„ãï¼‰
 Function getIniInfoMatch( ref(result) id abbr title fname ){
   ReadOpen "${fname}"
-  #--- 1s–Ú‚Å€–Ú–¼‚ğæ“¾(list_iname) ---
+  #--- 1è¡Œç›®ã§é …ç›®åã‚’å–å¾—(list_iname) ---
   ReadLine -RegOut str_read -local
-  If !${READVALID} { return };   # ƒf[ƒ^‚È‚µŠm”F
+  If !${READVALID} { return };   # ãƒ‡ãƒ¼ã‚¿ãªã—ç¢ºèª
   SplitCsv -RegArg str_read -RegOut list_csv -local
   If $#{list_csv}<=2 { return };
   ListDim $#{list_csv} -RegOut list_iname -local
   LocalSet flag_cmt 0
-  Repeat $#{list_csv}-2 -counter i 3 {    # 2€–Ú‚ÍŒÅ’è‚È‚Ì‚Å3€–Ú–Ú‚©‚çæ“¾
-    SplitItem -RegArg list_csv[$i] -RegOut listn -local  # ”O‚Ì‚½‚ß—]•ª‚ğ•ª—£
-    Set list_iname[$i] "${listn[1]}"   # —]•ª‚ğ•ª—£‚µ‚½€–Ú‚ğİ’è
-    If "${list_iname[$i]:~0,1}"=="#"   # €–Úæ“ª # ‚ÍƒRƒƒ“ƒg
-      If ${flag_cmt}==0    # Å‰‚ÌƒRƒƒ“ƒg€–Ú‚ÍCOMMENT‚Ì–¼‘O‚Åc‚·
+  Repeat $#{list_csv}-2 -counter i 3 {    # 2é …ç›®ã¯å›ºå®šãªã®ã§3é …ç›®ç›®ã‹ã‚‰å–å¾—
+    SplitItem -RegArg list_csv[$i] -RegOut listn -local  # å¿µã®ãŸã‚ä½™åˆ†ã‚’åˆ†é›¢
+    Set list_iname[$i] "${listn[1]}"   # ä½™åˆ†ã‚’åˆ†é›¢ã—ãŸé …ç›®ã‚’è¨­å®š
+    If "${list_iname[$i]:~0,1}"=="#"   # é …ç›®å…ˆé ­ # ã¯ã‚³ãƒ¡ãƒ³ãƒˆ
+      If ${flag_cmt}==0    # æœ€åˆã®ã‚³ãƒ¡ãƒ³ãƒˆé …ç›®ã¯COMMENTã®åå‰ã§æ®‹ã™
         Set list_iname[$i] "COMMENT"
         Set flag_cmt 1
-      Else                 # 2”Ô–ÚˆÈ~‚ÌƒRƒƒ“ƒg‚Íc‚³‚È‚¢
+      Else                 # 2ç•ªç›®ä»¥é™ã®ã‚³ãƒ¡ãƒ³ãƒˆã¯æ®‹ã•ãªã„
         Set list_iname[$i] ""
       EndIf
     EndIf
   };
-  #--- 2s–ÚˆÈ~ ---
+  #--- 2è¡Œç›®ä»¥é™ ---
   Repeat 9999 {
     ReadLine -RegOut str_read -local
     Break !${READVALID}
@@ -134,10 +134,10 @@ Function getIniInfoMatch( ref(result) id abbr title fname ){
     Fcall getIniInfoMatchItem1( list_csv[1] id abbr ) -RegOut m1 -local
 #    Fcall getIniInfoMatchItem2( list_csv[2] title ) -RegOut m2 -local
     Fcall StrCmpItemWithRegExp( list_csv[2] title ) -RegOut m2 -local
-    If ${m1} && ${m2}    # Å‰‚Ì2€–Ú‚Å•ú‘—‹Ç‚Æƒ^ƒCƒgƒ‹‚ÌğŒŠm”F
-      Repeat $#{list_csv}-2 -counter j 3 {  # 3€–Ú–ÚˆÈ~‚ğæ“¾
+    If ${m1} && ${m2}    # æœ€åˆã®2é …ç›®ã§æ”¾é€å±€ã¨ã‚¿ã‚¤ãƒˆãƒ«ã®æ¡ä»¶ç¢ºèª
+      Repeat $#{list_csv}-2 -counter j 3 {  # 3é …ç›®ç›®ä»¥é™ã‚’å–å¾—
         Set name "${list_iname[$j]}" -local
-        Set val  "${list_csv[$j]:Xq}" -local  # •¶š—ñ“àˆø—p•„‚ğ”ñ§Œä‰»
+        Set val  "${list_csv[$j]:Xq}" -local  # æ–‡å­—åˆ—å†…å¼•ç”¨ç¬¦ã‚’éåˆ¶å¾¡åŒ–
         If "${name}"!=""
           If "${val:Xb}"!=""
             LocalSet n $#{result}
@@ -151,7 +151,7 @@ Function getIniInfoMatch( ref(result) id abbr title fname ){
   ReadClose
 };
 
-#--- æ“¾‚µ‚½ƒpƒ‰ƒ[ƒ^‚ğ•\¦ ---
+#--- å–å¾—ã—ãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¡¨ç¤º ---
 Function getIniInfoDisp( list_set ){
   EchoItem "(parameter list)"
   Repeat $#{list_set}/2 -counter i 1 +2 {
@@ -159,11 +159,11 @@ Function getIniInfoDisp( list_set ){
   };
 };
 
-#--- g—p‚·‚é€–Ú‚ğİ’è ---
+#--- ä½¿ç”¨ã™ã‚‹é …ç›®ã‚’è¨­å®š ---
 Function getIniInfoSet( list_set ){
   ListClear -RegOut listd -local
 
-  # İ’è‚³‚ê‚éƒf[ƒ^i•Ï”–¼A‹æØ‚è•¶šA’Ç‰Áƒtƒ‰ƒOj
+  # è¨­å®šã•ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ï¼ˆå¤‰æ•°åã€åŒºåˆ‡ã‚Šæ–‡å­—ã€è¿½åŠ ãƒ•ãƒ©ã‚°ï¼‰
   SetList listd[1] "JL_RUN",",",0
   SetList listd[2] "OPTIONS"," ",1
   SetList listd[3] "COMMENT",",",1
@@ -185,32 +185,32 @@ Function getIniInfoSet( list_set ){
   SetReg jlsi_comment listv[3]
   SetReg stri_flags   listv[4] -local
 
-  # ƒtƒ‰ƒO‚Í’Ç‰ÁƒIƒvƒVƒ‡ƒ“‚É‚Ü‚Æ‚ß‚é
+  # ãƒ•ãƒ©ã‚°ã¯è¿½åŠ ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã«ã¾ã¨ã‚ã‚‹
   If "${stri_flags}"!=""
     Set jlsi_optstr "-flags ${stri_flags} ${jlsi_optstr:Xq}"
   EndIf
-  Set jlsi_optstr "${jlsi_optstr:<>}" -restore   # ‘OŒã‹ó”’œ‹Aˆø—p•„–ß‚·
+  Set jlsi_optstr "${jlsi_optstr:<>}" -restore   # å‰å¾Œç©ºç™½é™¤å»ã€å¼•ç”¨ç¬¦æˆ»ã™
 };
 
 
 #----------------------------------------------
-# ‹N“®ƒV[ƒPƒ“ƒX
+# èµ·å‹•ã‚·ãƒ¼ã‚±ãƒ³ã‚¹
 #----------------------------------------------
-#--- —Dæ‚·‚éƒtƒHƒ‹ƒ_‚Éƒtƒ@ƒCƒ‹‚ª‚ ‚ê“Ç‚İ‚İƒtƒ@ƒCƒ‹êŠ•ÏX ---
+#--- å„ªå…ˆã™ã‚‹ãƒ•ã‚©ãƒ«ãƒ€ã«ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚Œèª­ã¿è¾¼ã¿ãƒ•ã‚¡ã‚¤ãƒ«å ´æ‰€å¤‰æ›´ ---
 Fcall takeReadPriorityFolder( file_ini_ch path_user_rd )
 Fcall takeReadPriorityFolder( file_ini_t1 path_user_rd )
 Fcall takeReadPriorityFolder( file_ini_t2 path_user_rd )
 
-#--- •ú‘—‹Ç—ªÌ‚ğƒT[ƒrƒXID‚©‚çæ“¾ ---
+#--- æ”¾é€å±€ç•¥ç§°ã‚’ã‚µãƒ¼ãƒ“ã‚¹IDã‹ã‚‰å–å¾— ---
 If "${service_abbr}"=="" && "${service_id}"!="" {
   Fcall getIniInfoCh(service_id file_ini_ch) -RegOut service_abbr
 };
-#--- •ú‘—‹Ç‚Æƒ^ƒCƒgƒ‹‚©‚çƒpƒ‰ƒ[ƒ^æ“¾ ---
+#--- æ”¾é€å±€ã¨ã‚¿ã‚¤ãƒˆãƒ«ã‹ã‚‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å–å¾— ---
 ListClear -RegOut list_set -local
 Fcall getIniInfoMatch(list_set service_id service_abbr file_title file_ini_t1)
 Fcall getIniInfoMatch(list_set service_id service_abbr file_title file_ini_t2)
 
-#--- readƒtƒ@ƒCƒ‹•\¦ ---
+#--- readãƒ•ã‚¡ã‚¤ãƒ«è¡¨ç¤º ---
 If ${iniinfo_disp_read}>0 {
   If ${iniinfo_disp_read}==1 {
     FileToMemo 1
@@ -220,11 +220,11 @@ If ${iniinfo_disp_read}>0 {
   Echo read_path(ChParamJL2) : ${file_ini_t2}
   FileToMemo 0
 };
-#--- ƒpƒ‰ƒ[ƒ^•\¦ ---
+#--- ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿è¡¨ç¤º ---
 If ${iniinfo_disp_param}==1 {
   FileToMemo 1
   Fcall getIniInfoDisp( list_set )
   FileToMemo 0
 };
-#--- o—Í‚·‚éƒpƒ‰ƒ[ƒ^æ“¾ ---
+#--- å‡ºåŠ›ã™ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å–å¾— ---
 Fcall getIniInfoSet( list_set )

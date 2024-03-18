@@ -1,9 +1,9 @@
-//
-// ÀsƒXƒNƒŠƒvƒgƒRƒ}ƒ“ƒh•¶š—ñ‰ğÍ
-//  JlsScriptDecode : ƒRƒ}ƒ“ƒh•¶š—ñ‰ğÍ
-//  o—ÍF
+ï»¿//
+// å®Ÿè¡Œã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—è§£æ
+//  JlsScriptDecode : ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—è§£æ
+//  å‡ºåŠ›ï¼š
 //    JlsCmdArg &cmdarg
-//  pdata‚Í•¶š—ñEŠÔ•ÏŠ·‹@”\(cnv)‚Ì‚İg—p
+//  pdataã¯æ–‡å­—åˆ—ãƒ»æ™‚é–“å¤‰æ›æ©Ÿèƒ½(cnv)ã®ã¿ä½¿ç”¨
 //
 #pragma once
 
@@ -13,56 +13,56 @@ class JlsScrFuncList;
 
 ///////////////////////////////////////////////////////////////////////
 //
-// ÀsƒXƒNƒŠƒvƒgƒRƒ}ƒ“ƒh•¶š—ñ‰ğÍƒNƒ‰ƒX
+// å®Ÿè¡Œã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—è§£æã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsScriptDecode
 {
 private:
-	static const int msecDecodeMargin = 1200;	// ”ÍˆÍw’è‚ÌƒfƒtƒHƒ‹ƒgƒ}[ƒWƒ“
+	static const int msecDecodeMargin = 1200;	// ç¯„å›²æŒ‡å®šæ™‚ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒãƒ¼ã‚¸ãƒ³
 
-	// –½—ßƒZƒbƒg\¬
+	// å‘½ä»¤ã‚»ãƒƒãƒˆæ§‹æˆ
 	enum class ConvStrType {
-		None,			// •ÏŠ·‚µ‚È‚¢
-		Msec,			// ƒ~ƒŠ•bæ“¾
-		MsecM1,			// ƒ~ƒŠ•bæ“¾iƒ}ƒCƒiƒX‚P‚Í‚»‚Ì‚Ü‚Üc‚·j
-		Sec,			// •bæ“¾i®”“ü—Í‚Í•b‚Æ‚µ‚Äˆµ‚¤j
-		Num,			// ”’læ“¾
-		Frame,			// ƒtƒŒ[ƒ€”•\‹Læ“¾
-		Time,			// ŠÔ•\‹Læ“¾
-		TrSpEc,			// TR/SP/EC‘I‘ğ
-		Param,			// setParam•Ê‚Ì‰‰Z
-		CondIF,			// IF•¶”»’è®
-		NumR,			// •¡”E”ÍˆÍw’è‚ ‚è”’lƒŠƒXƒg
+		None,			// å¤‰æ›ã—ãªã„
+		Msec,			// ãƒŸãƒªç§’å–å¾—
+		MsecM1,			// ãƒŸãƒªç§’å–å¾—ï¼ˆãƒã‚¤ãƒŠã‚¹ï¼‘ã¯ãã®ã¾ã¾æ®‹ã™ï¼‰
+		Sec,			// ç§’å–å¾—ï¼ˆæ•´æ•°å…¥åŠ›ã¯ç§’ã¨ã—ã¦æ‰±ã†ï¼‰
+		Num,			// æ•°å€¤å–å¾—
+		Frame,			// ãƒ•ãƒ¬ãƒ¼ãƒ æ•°è¡¨è¨˜å–å¾—
+		Time,			// æ™‚é–“è¡¨è¨˜å–å¾—
+		TrSpEc,			// TR/SP/ECé¸æŠ
+		Param,			// setParamåˆ¥ã®æ¼”ç®—
+		CondIF,			// IFæ–‡åˆ¤å®šå¼
+		NumR,			// è¤‡æ•°ãƒ»ç¯„å›²æŒ‡å®šã‚ã‚Šæ•°å€¤ãƒªã‚¹ãƒˆ
 	};
 
 	struct JlscrCmdRecord {
-		string	cmdname;			// ƒRƒ}ƒ“ƒh•¶š—ñ
-		CmdType cmdsel;				// ‘I‘ğƒRƒ}ƒ“ƒh
-		CmdCat  category;			// ƒRƒ}ƒ“ƒhí•Ê
-		int     muststr;			// •K{ƒIƒvƒVƒ‡ƒ“•¶š—ñæ“¾i0-3=æ“¾” 9=c‚è‘S‘Ìj
-		int		mustchar;			// •K{ƒIƒvƒVƒ‡ƒ“•¶ši0=‚È‚µ 1=S/E/B 2=TR/SP/EC 3=BÈ—ª‰Âj
-		int		mustrange;			// ŠúŠÔw’èi0=‚È‚µ  1=center  3=center+left+rightj
-		int		needopt;			// ’Ç‰ÁƒIƒvƒVƒ‡ƒ“i0=‚È‚µ  1=“Ç‚İ‚İj
+		string	cmdname;			// ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—
+		CmdType cmdsel;				// é¸æŠã‚³ãƒãƒ³ãƒ‰
+		CmdCat  category;			// ã‚³ãƒãƒ³ãƒ‰ç¨®åˆ¥
+		int     muststr;			// å¿…é ˆã‚ªãƒ—ã‚·ãƒ§ãƒ³æ–‡å­—åˆ—å–å¾—ï¼ˆ0-3=å–å¾—æ•° 9=æ®‹ã‚Šå…¨ä½“ï¼‰
+		int		mustchar;			// å¿…é ˆã‚ªãƒ—ã‚·ãƒ§ãƒ³æ–‡å­—ï¼ˆ0=ãªã— 1=S/E/B 2=TR/SP/EC 3=Bçœç•¥å¯ï¼‰
+		int		mustrange;			// æœŸé–“æŒ‡å®šï¼ˆ0=ãªã—  1=center  3=center+left+rightï¼‰
+		int		needopt;			// è¿½åŠ ã‚ªãƒ—ã‚·ãƒ§ãƒ³ï¼ˆ0=ãªã—  1=èª­ã¿è¾¼ã¿ï¼‰
 	};
 	struct JlscrCmdAlias {
-		string	cmdname;			// ƒRƒ}ƒ“ƒh•Ê–¼•¶š—ñ
-		CmdType cmdsel;				// ‘I‘ğƒRƒ}ƒ“ƒh
+		string	cmdname;			// ã‚³ãƒãƒ³ãƒ‰åˆ¥åæ–‡å­—åˆ—
+		CmdType cmdsel;				// é¸æŠã‚³ãƒãƒ³ãƒ‰
 	};
 	struct JlScrCmdCalcRecord {
-		CmdType     cmdsel;			// ‘I‘ğƒRƒ}ƒ“ƒh
-		int         numArg;			// ˆø”ˆÊ’u
-		ConvStrType typeVal;		// •ÏŠ·í—Ş
+		CmdType     cmdsel;			// é¸æŠã‚³ãƒãƒ³ãƒ‰
+		int         numArg;			// å¼•æ•°ä½ç½®
+		ConvStrType typeVal;		// å¤‰æ›ç¨®é¡
 	};
 	struct JlOptionRecord {
-		string       optname;		// ƒRƒ}ƒ“ƒh•¶š—ñ
-		OptType      optType;		// ƒIƒvƒVƒ‡ƒ“‚Ìí—Ş
-		int          subType;		// í—Ş•â•İ’è
-		int          numArg;		// ˆø”“ü—Í”
-		int          minArg;		// ˆø”Å¬•K—v”
-		int          numFrom;		// ˆø”È—ªŠJn”Ô†İ’è
-		int          sort;			// ˆø”•À‚Ñ‘Ö‚¦(12=1‚Æ2, 23=2‚Æ3)
-		ConvStrType  convType;		// ˆø”‚Ì•ÏŠ·ˆ—
+		string       optname;		// ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—
+		OptType      optType;		// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ç¨®é¡
+		int          subType;		// ç¨®é¡è£œåŠ©è¨­å®š
+		int          numArg;		// å¼•æ•°å…¥åŠ›æ•°
+		int          minArg;		// å¼•æ•°æœ€å°å¿…è¦æ•°
+		int          numFrom;		// å¼•æ•°çœç•¥æ™‚é–‹å§‹ç•ªå·è¨­å®š
+		int          sort;			// å¼•æ•°ä¸¦ã³æ›¿ãˆ(12=1ã¨2, 23=2ã¨3)
+		ConvStrType  convType;		// å¼•æ•°ã®å¤‰æ›å‡¦ç†
 	};
 	struct ConfigDataRecord {
 		string         namestr;
@@ -70,13 +70,13 @@ private:
 		ConvStrType    valsel;
 	};
 	struct JlOptMirrorRecord {
-		CmdType      cmdsel;		// ‘I‘ğƒRƒ}ƒ“ƒh
-		OptType      optTypeTo;		// ƒIƒvƒVƒ‡ƒ“‚Ìí—Ş
-		OptType      optTypeFrom;	// ƒIƒvƒVƒ‡ƒ“‚Ìí—Ş
+		CmdType      cmdsel;		// é¸æŠã‚³ãƒãƒ³ãƒ‰
+		OptType      optTypeTo;		// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ç¨®é¡
+		OptType      optTypeFrom;	// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ç¨®é¡
 	};
 
-//--- ƒRƒ}ƒ“ƒhƒŠƒXƒgi•¶š—ñAƒRƒ}ƒ“ƒhAí•ÊA•¶š—ñˆø”A•¶šˆø”ƒ^ƒCƒvAˆø””ÍˆÍ”AƒIƒvƒVƒ‡ƒ“—L–³j ---
-//--- ˆø”ƒ^ƒCƒvF 0=‚È‚µ 1=S/E/B 2=TR/SP/EC 3=BÈ—ª‰Â 9=c‚è‘S‘Ì 11=1ˆø” 12=2ˆø” ---
+//--- ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆï¼ˆæ–‡å­—åˆ—ã€ã‚³ãƒãƒ³ãƒ‰ã€ç¨®åˆ¥ã€æ–‡å­—åˆ—å¼•æ•°ã€æ–‡å­—å¼•æ•°ã‚¿ã‚¤ãƒ—ã€å¼•æ•°ç¯„å›²æ•°ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³æœ‰ç„¡ï¼‰ ---
+//--- å¼•æ•°ã‚¿ã‚¤ãƒ—ï¼š 0=ãªã— 1=S/E/B 2=TR/SP/EC 3=Bçœç•¥å¯ 9=æ®‹ã‚Šå…¨ä½“ 11=1å¼•æ•° 12=2å¼•æ•° ---
 const vector<JlscrCmdRecord> CmdDefine = {
 	{ "Nop"          , CmdType::Nop,        CmdCat::NONE,     0,0,0,0 },
 	{ "If"           , CmdType::If,         CmdCat::COND,     9,0,0,0 },
@@ -198,7 +198,7 @@ const vector<JlscrCmdRecord> CmdDefine = {
 	{ "ExpandOn"     , CmdType::ExpandOn,   CmdCat::MEMLAZYF, 0,0,0,0 },
 	{ "ExpandOff"    , CmdType::ExpandOff,  CmdCat::MEMLAZYF, 0,0,0,0 },
 };
-//--- •Ê–¼İ’è ---
+//--- åˆ¥åè¨­å®š ---
 const vector<JlscrCmdAlias> CmdAlias = {
 	{ "AutoInsert"   , CmdType::AutoIns    },
 	{ "AutoDelete"   , CmdType::AutoDel    },
@@ -207,7 +207,7 @@ const vector<JlscrCmdAlias> CmdAlias = {
 	{ "SetN"         , CmdType::EvalNum    },
 };
 
-//--- ƒRƒ}ƒ“ƒh•Ê‚Ìˆø”‰‰Z‰ÁHiƒRƒ}ƒ“ƒh–¼Aˆø”ˆÊ’uA‰‰Z“à—ej ---
+//--- ã‚³ãƒãƒ³ãƒ‰åˆ¥ã®å¼•æ•°æ¼”ç®—åŠ å·¥ï¼ˆã‚³ãƒãƒ³ãƒ‰åã€å¼•æ•°ä½ç½®ã€æ¼”ç®—å†…å®¹ï¼‰ ---
 const vector<JlScrCmdCalcRecord> CmdCalcDefine = {
 	{ CmdType::If,         1, ConvStrType::CondIF  },
 	{ CmdType::ElsIf,      1, ConvStrType::CondIF  },
@@ -236,8 +236,8 @@ const vector<JlScrCmdCalcRecord> CmdCalcDefine = {
 	{ CmdType::ListSel,    1, ConvStrType::NumR    },
 };
 
-//--- ƒRƒ}ƒ“ƒhƒIƒvƒVƒ‡ƒ“ ---
-// iƒRƒ}ƒ“ƒh•¶š—ñAƒRƒ}ƒ“ƒhA•â•İ’èA“ü—Íˆø”AÅ’á•K—vˆø”AÈ—ªİ’èA•À‚Ñ‘Ö‚¦İ’èA•ÏŠ·í—Şj
+//--- ã‚³ãƒãƒ³ãƒ‰ã‚ªãƒ—ã‚·ãƒ§ãƒ³ ---
+// ï¼ˆã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—ã€ã‚³ãƒãƒ³ãƒ‰ã€è£œåŠ©è¨­å®šã€å…¥åŠ›å¼•æ•°ã€æœ€ä½å¿…è¦å¼•æ•°ã€çœç•¥æ™‚è¨­å®šã€ä¸¦ã³æ›¿ãˆè¨­å®šã€å¤‰æ›ç¨®é¡ï¼‰
 const vector<JlOptionRecord> OptDefine = {
 	{ "-RegPos"   , OptType::StrRegPos,     0, 1,1,0,  0, ConvStrType::None   },
 	{ "-RegList"  , OptType::StrRegList,    0, 1,1,0,  0, ConvStrType::None   },
@@ -459,7 +459,7 @@ const vector<JlOptionRecord> OptDefine = {
 	{ "-dummy"    , OptType::FlagDummy,     0, 0,0,0,  0, ConvStrType::None   }
 };
 
-//--- setParamƒRƒ}ƒ“ƒh‚É‚æ‚éİ’è iƒf[ƒ^‰Šú’l‚Ídataset‚Å’è‹`j ---
+//--- setParamã‚³ãƒãƒ³ãƒ‰ã«ã‚ˆã‚‹è¨­å®š ï¼ˆãƒ‡ãƒ¼ã‚¿åˆæœŸå€¤ã¯datasetã§å®šç¾©ï¼‰ ---
 const vector<ConfigDataRecord> ConfigDefine = {
 	{ "WLogoTRMax"   , ConfigVarType::msecWLogoTRMax,      ConvStrType::Msec   },
 	{ "WCompTRMax"   , ConfigVarType::msecWCompTRMax,      ConvStrType::Msec   },
@@ -489,8 +489,8 @@ const vector<ConfigDataRecord> ConfigDefine = {
 	{ "ZoneLast"     , ConfigVarType::msecZoneLast,        ConvStrType::MsecM1 },
 	{ "LvPosFirst"   , ConfigVarType::priorityPosFirst,    ConvStrType::Num    },
 };
-//--- ƒIƒvƒVƒ‡ƒ“‚Ì–¢w’è•¡Ê ---
-// i‘ÎÛƒRƒ}ƒ“ƒhA•¡ÊæƒIƒvƒVƒ‡ƒ“A•¡ÊŒ³ƒIƒvƒVƒ‡ƒ“j
+//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®æœªæŒ‡å®šæ™‚è¤‡å†™ ---
+// ï¼ˆå¯¾è±¡ã‚³ãƒãƒ³ãƒ‰ã€è¤‡å†™å…ˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ã€è¤‡å†™å…ƒã‚ªãƒ—ã‚·ãƒ§ãƒ³ï¼‰
 const vector<JlOptMirrorRecord> OptCmdMirror = {
 	{ CmdType::ReadData,   OptType::StrRegOut,     OptType::StrRegList    },
 	{ CmdType::ReadTrim,   OptType::StrRegOut,     OptType::StrRegList    },
@@ -510,20 +510,20 @@ const vector<JlOptMirrorRecord> OptCmdMirror = {
 	{ CmdType::GetList,    OptType::StrRegOut,     OptType::StrRegList    },
 };
 
-struct JlscrDecodeRangeRecord {		// •¶š—ñ‚©‚çw’è€–Ú‚Ìƒ~ƒŠ•b”’læ“¾—p
-	int  numRead;		// “Ç‚İ‚Şƒf[ƒ^”
-	int  needs;			// “Ç‚İ‚İÅ’á•K—v”
-	int  numFrom;		// È—ªŠJn”Ô†İ’è
-	bool flagM1;		// -1‚Í‚»‚Ì‚Ü‚Üc‚·İ’èi0=“Á•Êˆµ‚¢‚È‚µ•ÏŠ·A1=-1‚Í•ÏŠ·‚µ‚È‚¢j
-	bool flagSort;		// ¬‚³‚¢‡•À‚Ñ‘Ö‚¦i0=‚µ‚È‚¢A1=‚·‚éj
-	int  numAbbr;		// iŒ‹‰ÊjÈ—ªƒf[ƒ^”
-	WideMsec wmsecVal;	// iŒ‹‰ÊjÅ‘å‚R€–Úæ“¾ƒ~ƒŠ•b
+struct JlscrDecodeRangeRecord {		// æ–‡å­—åˆ—ã‹ã‚‰æŒ‡å®šé …ç›®ã®ãƒŸãƒªç§’æ•°å€¤å–å¾—ç”¨
+	int  numRead;		// èª­ã¿è¾¼ã‚€ãƒ‡ãƒ¼ã‚¿æ•°
+	int  needs;			// èª­ã¿è¾¼ã¿æœ€ä½å¿…è¦æ•°
+	int  numFrom;		// çœç•¥æ™‚é–‹å§‹ç•ªå·è¨­å®š
+	bool flagM1;		// -1ã¯ãã®ã¾ã¾æ®‹ã™è¨­å®šï¼ˆ0=ç‰¹åˆ¥æ‰±ã„ãªã—å¤‰æ›ã€1=-1ã¯å¤‰æ›ã—ãªã„ï¼‰
+	bool flagSort;		// å°ã•ã„é †ä¸¦ã³æ›¿ãˆï¼ˆ0=ã—ãªã„ã€1=ã™ã‚‹ï¼‰
+	int  numAbbr;		// ï¼ˆçµæœï¼‰çœç•¥ãƒ‡ãƒ¼ã‚¿æ•°
+	WideMsec wmsecVal;	// ï¼ˆçµæœï¼‰æœ€å¤§ï¼“é …ç›®å–å¾—ãƒŸãƒªç§’
 };
-struct JlscrDecodeKeepSc {	// -SCŒn‚ÌƒIƒvƒVƒ‡ƒ“ƒf[ƒ^‚ğˆê•Û
+struct JlscrDecodeKeepSc {	// -SCç³»ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ã‚’ä¸€æ™‚ä¿æŒ
 	OptType   type;
-	int       subtype;		// ‘ÎÛˆÊ’uî•ñ
-	WideMsec  wmsec;		// ”ÍˆÍî•ñ
-	int       abbr;			// ˆø”È—ª”
+	int       subtype;		// å¯¾è±¡ä½ç½®æƒ…å ±
+	WideMsec  wmsec;		// ç¯„å›²æƒ…å ±
+	int       abbr;			// å¼•æ•°çœç•¥æ•°
 };
 
 public:
@@ -533,7 +533,7 @@ public:
 	string getErrItem(){ return m_strErrItem; };
 
 private:
-	// ƒfƒR[ƒhˆ—
+	// ãƒ‡ã‚³ãƒ¼ãƒ‰å‡¦ç†
 	int  decodeCmdName(JlscrCmdRecord& cmddef, CmdErrType& errval, const string& strBuf);
 	int  decodeCmdNameId(const string& cstr);
 	int  decodeCmdArgMust(JlsCmdArg& cmdarg, CmdErrType& errval, const string& strBuf, int pos, const JlscrCmdRecord& cmddef);
@@ -548,22 +548,22 @@ private:
 	void setRangeMargin(WideMsec& wmsecVal, Msec margin);
 	bool getListStrNumFromStr(vector<string>& listStrNum, const string& strBuf);
 	void sortTwoValM1(int& val_a, int& val_b);
-	// ƒfƒR[ƒhŒã‚Ì’Ç‰Áˆ—
+	// ãƒ‡ã‚³ãƒ¼ãƒ‰å¾Œã®è¿½åŠ å‡¦ç†
 	void reviseCmdRange(JlsCmdArg& cmdarg);
 	void setCmdTackOpt(JlsCmdArg& cmdarg);
 	void setArgScOpt(JlsCmdArg& cmdarg);
 	void mirrorOptToUndef(JlsCmdArg& cmdarg);
 	bool calcCmdArg(JlsCmdArg& cmdarg);
-	// •¶š—ñ•ÏŠ·ˆ—
+	// æ–‡å­—åˆ—å¤‰æ›å‡¦ç†
 	bool convertStringFromListStr(string& strBuf, ConvStrType typeVal);
 	bool convertStringRegParam(string& strName, string& strVal);
 	bool convertStringValue(string& strVal, ConvStrType typeVal);
-	// ƒGƒ‰[“à—e•Û
+	// ã‚¨ãƒ©ãƒ¼å†…å®¹ä¿æŒ
 	void setErrItem(const string& str){ m_strErrItem = str; };
 
 private:
-	JlsDataset *pdata;								// “ü—Íƒf[ƒ^ƒAƒNƒZƒX
-	JlsScrFuncList *pFuncList;						// ƒŠƒXƒgˆ—
-	vector<JlscrDecodeKeepSc> m_listKeepSc;			// -SCŒn‚ÌƒIƒvƒVƒ‡ƒ“ƒf[ƒ^‚ğˆê•Û
+	JlsDataset *pdata;								// å…¥åŠ›ãƒ‡ãƒ¼ã‚¿ã‚¢ã‚¯ã‚»ã‚¹
+	JlsScrFuncList *pFuncList;						// ãƒªã‚¹ãƒˆå‡¦ç†
+	vector<JlscrDecodeKeepSc> m_listKeepSc;			// -SCç³»ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ã‚’ä¸€æ™‚ä¿æŒ
 	string m_strErrItem = "";
 };

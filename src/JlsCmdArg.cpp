@@ -1,5 +1,5 @@
-//
-// JLƒXƒNƒŠƒvƒg—pƒRƒ}ƒ“ƒh“à—eŠi”[ƒf[ƒ^
+ï»¿//
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆç”¨ã‚³ãƒãƒ³ãƒ‰å†…å®¹æ ¼ç´ãƒ‡ãƒ¼ã‚¿
 //
 #include "stdafx.h"
 #include "CommonJls.hpp"
@@ -7,11 +7,11 @@
 
 ///////////////////////////////////////////////////////////////////////
 //
-// JLƒXƒNƒŠƒvƒgƒRƒ}ƒ“ƒhİ’è’l
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚³ãƒãƒ³ãƒ‰è¨­å®šå€¤
 //
 ///////////////////////////////////////////////////////////////////////
 //---------------------------------------------------------------------
-// ‰Šúİ’è
+// åˆæœŸè¨­å®š
 //---------------------------------------------------------------------
 JlsCmdArg::JlsCmdArg(){
 //	this->cmdset = this;
@@ -19,10 +19,10 @@ JlsCmdArg::JlsCmdArg(){
 }
 
 //---------------------------------------------------------------------
-// ƒRƒ}ƒ“ƒh•Û“à—e‰Šú‰»
+// ã‚³ãƒãƒ³ãƒ‰ä¿æŒå†…å®¹åˆæœŸåŒ–
 //---------------------------------------------------------------------
 void JlsCmdArg::clear(){
-	tack = {};		// ”O‚Ì‚½‚ßŒÂ•Ê‚É‰Šú‰»
+	tack = {};		// å¿µã®ãŸã‚å€‹åˆ¥ã«åˆæœŸåŒ–
 	tack.comFrom     = false;
 	tack.useScC      = false;
 	tack.floatBase   = false;
@@ -39,7 +39,7 @@ void JlsCmdArg::clear(){
 	tack.forcePos    = false;
 	tack.pickIn      = false;
 	tack.pickOut     = false;
-	cond = {};		// ”O‚Ì‚½‚ßŒÂ•Ê‚É‰Šú‰»
+	cond = {};		// å¿µã®ãŸã‚å€‹åˆ¥ã«åˆæœŸåŒ–
 	cond.numCheckCond = 0;
 	cond.flagCond     = false;
 
@@ -63,7 +63,7 @@ void JlsCmdArg::clear(){
 		flagStrUpdate[i] = false;
 	}
 
-	//--- 0ˆÈŠO‚Ìİ’è ---
+	//--- 0ä»¥å¤–ã®è¨­å®š ---
 	setOptDefault(OptType::MsecFrameL,   -1);
 	setOptDefault(OptType::MsecFrameR,   -1);
 	setOptDefault(OptType::MsecLenPMin,  -1);
@@ -77,7 +77,7 @@ void JlsCmdArg::clear(){
 	setOptDefault(OptType::MsecFromAbs,  -1);
 	setOptDefault(OptType::MsecFromHead, -1);
 	setOptDefault(OptType::MsecFromTail, -1);
-	//--- ‰Šú•¶š—ñ ---
+	//--- åˆæœŸæ–‡å­—åˆ— ---
 	setStrOptDefault(OptType::StrRegPos,   "POSHOLD");
 	setStrOptDefault(OptType::StrValPosR,  "-1");
 	setStrOptDefault(OptType::StrValPosW,  "-1");
@@ -108,9 +108,9 @@ void JlsCmdArg::clear(){
 }
 
 //---------------------------------------------------------------------
-// ƒIƒvƒVƒ‡ƒ“‚ğİ’è
+// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è¨­å®š
 //---------------------------------------------------------------------
-//--- ƒIƒvƒVƒ‡ƒ“”’l ---
+//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³æ•°å€¤ ---
 void JlsCmdArg::setOpt(OptType tp, int val){
 	int num;
 	if ( getRangeOptArray(num, tp) ){
@@ -149,7 +149,7 @@ bool JlsCmdArg::isSetOpt(OptType tp){
 	return false;
 }
 
-//--- ƒIƒvƒVƒ‡ƒ“•¶š—ñ ---
+//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³æ–‡å­—åˆ— ---
 void JlsCmdArg::setStrOpt(OptType tp, const string& str){
 	int num;
 	if ( getRangeStrOpt(num, tp) ){
@@ -194,7 +194,7 @@ bool JlsCmdArg::isUpdateStrOpt(OptType tp){
 	return false;
 }
 
-//--- ƒIƒvƒVƒ‡ƒ“‚ÌƒJƒeƒSƒŠ•ª—Ş ---
+//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ã‚«ãƒ†ã‚´ãƒªåˆ†é¡ ---
 bool JlsCmdArg::getOptCategory(OptCat& category, OptType tp){
 	int nTp = static_cast<int>(tp);
 	if ( nTp < 0 ){
@@ -220,7 +220,7 @@ bool JlsCmdArg::getOptCategory(OptCat& category, OptType tp){
 	}
 	return true;
 }
-//--- ƒIƒvƒVƒ‡ƒ“‚ğŠeƒJƒeƒSƒŠ‚Ì0‚©‚ç‡”Ô‚Ì”Ô†‚É•ÏŠ· ---
+//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å„ã‚«ãƒ†ã‚´ãƒªã®0ã‹ã‚‰é †ç•ªã®ç•ªå·ã«å¤‰æ› ---
 bool JlsCmdArg::getRangeOptArray(int& num, OptType tp){
 	int nTp = static_cast<int>(tp);
 	if ( nTp > static_cast<int>(OptType::ArrayMIN) && nTp < static_cast<int>(OptType::ArrayMAX) ){
@@ -245,7 +245,7 @@ void JlsCmdArg::signalInternalRegError(string msg, OptType tp){
 }
 
 //---------------------------------------------------------------------
-// -SCŒnƒIƒvƒVƒ‡ƒ“‚Ìİ’è’Ç‰Á
+// -SCç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®è¨­å®šè¿½åŠ 
 //---------------------------------------------------------------------
 void JlsCmdArg::addScOpt(OptType tp, TargetCatType tgcat, int tmin, int tmax){
 	CmdArgSc scset;
@@ -257,9 +257,9 @@ void JlsCmdArg::addScOpt(OptType tp, TargetCatType tgcat, int tmin, int tmax){
 }
 
 //---------------------------------------------------------------------
-// -SCŒnƒIƒvƒVƒ‡ƒ“‚ğæ“¾
+// -SCç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å–å¾—
 //---------------------------------------------------------------------
-//--- ƒRƒ}ƒ“ƒhæ“¾ ---
+//--- ã‚³ãƒãƒ³ãƒ‰å–å¾— ---
 OptType JlsCmdArg::getScOptType(int num){
 	if (num >= 0 && num < (int) listScOpt.size()){
 		return listScOpt[num].type;
@@ -272,36 +272,36 @@ TargetCatType JlsCmdArg::getScOptCategory(int num){
 	}
 	return TargetCatType::None;
 }
-//--- İ’è”ÍˆÍæ“¾ ---
+//--- è¨­å®šç¯„å›²å–å¾— ---
 Msec JlsCmdArg::getScOptMin(int num){
 	if (num >= 0 && num < (int) listScOpt.size()){
 		return listScOpt[num].min;
 	}
 	return -1;
 }
-//--- İ’è”ÍˆÍæ“¾ ---
+//--- è¨­å®šç¯„å›²å–å¾— ---
 Msec JlsCmdArg::getScOptMax(int num){
 	if (num >= 0 && num < (int) listScOpt.size()){
 		return listScOpt[num].max;
 	}
 	return -1;
 }
-//--- Ši”[”æ“¾ ---
+//--- æ ¼ç´æ•°å–å¾— ---
 int JlsCmdArg::sizeScOpt(){
 	return (int) listScOpt.size();
 }
 
 //---------------------------------------------------------------------
-// -LGŒnƒIƒvƒVƒ‡ƒ“‚Ìİ’è’Ç‰Á
+// -LGç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®è¨­å®šè¿½åŠ 
 //---------------------------------------------------------------------
 void JlsCmdArg::addLgOpt(string strNlg){
 	listLgVal.push_back(strNlg);
 }
 
 //---------------------------------------------------------------------
-// -LGŒnƒIƒvƒVƒ‡ƒ“‚ğæ“¾
+// -LGç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å–å¾—
 //---------------------------------------------------------------------
-//--- ’læ“¾ ---
+//--- å€¤å–å¾— ---
 string JlsCmdArg::getLgOpt(int num){
 	if (num >= 0 && num < (int) listLgVal.size()){
 		return listLgVal[num];
@@ -316,19 +316,19 @@ string JlsCmdArg::getLgOptAll(){
 	}
 	return str;
 }
-//--- Ši”[”æ“¾ ---
+//--- æ ¼ç´æ•°å–å¾— ---
 int JlsCmdArg::sizeLgOpt(){
 	return (int) listLgVal.size();
 }
 
 //---------------------------------------------------------------------
-// ˆø”æ“¾
+// å¼•æ•°å–å¾—
 //---------------------------------------------------------------------
-//--- ’Ç‰ÁŠi”[ ---
+//--- è¿½åŠ æ ¼ç´ ---
 void JlsCmdArg::addArgString(const string& strArg){
 	listStrArg.push_back(strArg);
 }
-//--- ·‚µ‘Ö‚¦ ---
+//--- å·®ã—æ›¿ãˆ ---
 bool JlsCmdArg::replaceArgString(int n, const string& strArg){
 	int num = n - 1;
 	if ( num >= 0 && num < (int) listStrArg.size() ){
@@ -337,7 +337,7 @@ bool JlsCmdArg::replaceArgString(int n, const string& strArg){
 	}
 	return false;
 }
-//--- ˆø”æ“¾ ---
+//--- å¼•æ•°å–å¾— ---
 string JlsCmdArg::getStrArg(int n){
 	int num = n - 1;
 	if ( num >= 0 && num < (int) listStrArg.size() ){
@@ -345,7 +345,7 @@ string JlsCmdArg::getStrArg(int n){
 	}
 	return "";
 }
-//--- ˆø”‚ğ”š‚É•ÏŠ·‚µ‚Äæ“¾ ---
+//--- å¼•æ•°ã‚’æ•°å­—ã«å¤‰æ›ã—ã¦å–å¾— ---
 int JlsCmdArg::getValStrArg(int n){
 	int num = n - 1;
 	if ( num >= 0 && num < (int) listStrArg.size() ){
@@ -353,13 +353,13 @@ int JlsCmdArg::getValStrArg(int n){
 	}
 	return 0;
 }
-//--- ˆø”‚ğ‚Ü‚Æ‚ß‚Äæ“¾ ---
+//--- å¼•æ•°ã‚’ã¾ã¨ã‚ã¦å–å¾— ---
 int JlsCmdArg::getListStrArgs(vector<string>& listStr){
 	listStr = listStrArg;
 	return (int) listStrArg.size();
 }
 //---------------------------------------------------------------------
-// IFğŒ®—p
+// IFæ¡ä»¶å¼ç”¨
 //---------------------------------------------------------------------
 void JlsCmdArg::setNumCheckCond(int num){
 	cond.numCheckCond = num;

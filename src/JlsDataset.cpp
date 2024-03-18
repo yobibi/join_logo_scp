@@ -1,5 +1,5 @@
-//
-// join_logo_scp ƒf[ƒ^Ši”[ƒNƒ‰ƒX
+ï»¿//
+// join_logo_scp ãƒ‡ãƒ¼ã‚¿æ ¼ç´ã‚¯ãƒ©ã‚¹
 //
 
 #include "stdafx.h"
@@ -7,25 +7,25 @@
 #include "JlsDataset.hpp"
 
 //=====================================================================
-// ‰Šúİ’è
+// åˆæœŸè¨­å®š
 //=====================================================================
 
 JlsDataset::JlsDataset(){
-	//--- ŠÖ”ƒ|ƒCƒ“ƒ^ì¬ ---
+	//--- é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ä½œæˆ ---
 	this->pdata = this;
-	//--- ƒf[ƒ^‰Šú‰» ---
+	//--- ãƒ‡ãƒ¼ã‚¿åˆæœŸåŒ– ---
 	initData();
 }
 
 //---------------------------------------------------------------------
-// ‰Šú’lİ’è
+// åˆæœŸå€¤è¨­å®š
 //---------------------------------------------------------------------
 void JlsDataset::initData(){
 	m_scp.clear();
 	m_logo.clear();
 	resultTrim.clear();
 
-	//--- ‰Šúİ’è ---
+	//--- åˆæœŸè¨­å®š ---
 	setConfig(ConfigVarType::msecWLogoTRMax      , 120*1000);
 	setConfig(ConfigVarType::msecWCompTRMax      , 60*1000);
 	setConfig(ConfigVarType::msecWLogoSftMrg     , 4200 );
@@ -54,8 +54,8 @@ void JlsDataset::initData(){
 	setConfig(ConfigVarType::msecZoneLast        , -1   );
 	setConfig(ConfigVarType::priorityPosFirst    , 0    );
 
-	//--- ŠO•”İ’èƒIƒvƒVƒ‡ƒ“ ---
-	extOpt = {};		// ”O‚Ì‚½‚ßŒÂ•Ê‚É‰Šú‰»
+	//--- å¤–éƒ¨è¨­å®šã‚ªãƒ—ã‚·ãƒ§ãƒ³ ---
+	extOpt = {};		// å¿µã®ãŸã‚å€‹åˆ¥ã«åˆæœŸåŒ–
 	extOpt.verbose    = 0;
 	extOpt.msecCutIn  = 0;
 	extOpt.msecCutOut = 0;
@@ -78,12 +78,12 @@ void JlsDataset::initData(){
 	extOpt.flagDirect = 0;
 	extOpt.nLgExact   = 0;
 	extOpt.dispSysMes = 0;
-	extOpt.subList    = "user,<,common";	// ‰ŠúŒŸõƒtƒHƒ‹ƒ_İ’è
+	extOpt.subList    = "user,<,common";	// åˆæœŸæ¤œç´¢ãƒ•ã‚©ãƒ«ãƒ€è¨­å®š
 	extOpt.subPath    = "";
-	extOpt.setup      = "JL_common.txt";	// ‹¤’Êæ“ªÀsƒtƒ@ƒCƒ‹
+	extOpt.setup      = "JL_common.txt";	// å…±é€šå…ˆé ­å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«
 
-	//--- ó‘Ô‰Šúİ’è ---
-	recHold = {};		// ”O‚Ì‚½‚ßŒÂ•Ê‚É‰Šú‰»
+	//--- çŠ¶æ…‹åˆæœŸè¨­å®š ---
+	recHold = {};		// å¿µã®ãŸã‚å€‹åˆ¥ã«åˆæœŸåŒ–
 	recHold.msecSelect1st = -1;
 	recHold.msecTrPoint   = -1;
 	recHold.rmsecHeadTail = {-1, -1};
@@ -93,10 +93,10 @@ void JlsDataset::initData(){
 	m_flagSetupAdj  = 0;
 	m_flagSetupAuto = 0;
 	m_nscOutDetail = 0;
-	//--- •ÛŠÇƒf[ƒ^ ---
+	//--- ä¿ç®¡ãƒ‡ãƒ¼ã‚¿ ---
 	backupLogosetSave();
 
-	//--- ŒÅ’è’lİ’è ---
+	//--- å›ºå®šå€¤è¨­å®š ---
 	msecValExact = 100;
 	msecValNear1 = 200;
 	msecValNear2 = 400;
@@ -107,18 +107,18 @@ void JlsDataset::initData(){
 };
 
 //---------------------------------------------------------------------
-// ƒƒSƒf[ƒ^‘SÁ‹
+// ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿å…¨æ¶ˆå»
 //---------------------------------------------------------------------
 void JlsDataset::clearDataLogoAll(){
 	m_logo.clear();
 }
 
 //=====================================================================
-// ƒƒSEƒV[ƒ“ƒ`ƒFƒ“ƒWƒf[ƒ^‚Ì•Û‘¶E“Ç‚İo‚µ
+// ãƒ­ã‚´ãƒ»ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãƒ‡ãƒ¼ã‚¿ã®ä¿å­˜ãƒ»èª­ã¿å‡ºã—
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒoƒbƒNƒAƒbƒvƒf[ƒ^•Û‘¶
+// ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ã‚¿ä¿å­˜
 //---------------------------------------------------------------------
 void JlsDataset::backupLogosetSave(){
 	m_backupData.bak_scp          = m_scp;
@@ -128,22 +128,22 @@ void JlsDataset::backupLogosetSave(){
 }
 
 //---------------------------------------------------------------------
-// ƒoƒbƒNƒAƒbƒvƒf[ƒ^“Ç‚İo‚µ
+// ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ã‚¿èª­ã¿å‡ºã—
 //---------------------------------------------------------------------
 void JlsDataset::backupLogosetLoad(){
-	//--- “Ç‚İ‚İƒf[ƒ^ ---
+	//--- èª­ã¿è¾¼ã¿ãƒ‡ãƒ¼ã‚¿ ---
 	m_scp  = m_backupData.bak_scp;
 	m_logo = m_backupData.bak_logo;
 
-	//--- Œ³‚Ìó‘Ô‚É–ß‚·ŠO•”İ’èƒIƒvƒVƒ‡ƒ“ ---
+	//--- å…ƒã®çŠ¶æ…‹ã«æˆ»ã™å¤–éƒ¨è¨­å®šã‚ªãƒ—ã‚·ãƒ§ãƒ³ ---
 	extOpt.flagNoLogo = m_backupData.bak_extOpt.flagNoLogo;
 	extOpt.fixFDirect = m_backupData.bak_extOpt.fixFDirect;
 	extOpt.flagDirect = m_backupData.bak_extOpt.flagDirect;
 
-	//--- ó‘Ô‰Šúİ’è ---
+	//--- çŠ¶æ…‹åˆæœŸè¨­å®š ---
 	RangeMsec rmsecBak = recHold.rmsecHeadTail;
 	int  typeRangeBak  = recHold.typeRange;
-	recHold = {};		// ”O‚Ì‚½‚ßŒÂ•Ê‚É‰Šú‰»
+	recHold = {};		// å¿µã®ãŸã‚å€‹åˆ¥ã«åˆæœŸåŒ–
 	recHold.msecSelect1st = -1;
 	recHold.msecTrPoint   = -1;
 //	recHold.rmsecHeadTail = {-1, -1};
@@ -157,11 +157,11 @@ void JlsDataset::backupLogosetLoad(){
 }
 
 //=====================================================================
-// “®ìİ’è‚Ì•Û‘¶E“Ç‚İo‚µ
+// å‹•ä½œè¨­å®šã®ä¿å­˜ãƒ»èª­ã¿å‡ºã—
 //=====================================================================
 
 //---------------------------------------------------------------------
-// configİ’è
+// configè¨­å®š
 //---------------------------------------------------------------------
 void JlsDataset::setConfig(ConfigVarType tp, int val){
 	int nTp = static_cast<int>(tp);
@@ -169,7 +169,7 @@ void JlsDataset::setConfig(ConfigVarType tp, int val){
 }
 
 //---------------------------------------------------------------------
-// configİ’è’læ“¾
+// configè¨­å®šå€¤å–å¾—
 //---------------------------------------------------------------------
 int JlsDataset::getConfig(ConfigVarType tp){
 	int nTp = static_cast<int>(tp);
@@ -180,35 +180,35 @@ int JlsDataset::getConfigAction(ConfigActType acttp){
 	int val;
 	int ret = 0;
 	switch(acttp){
-		case ConfigActType::LogoDelEdge:		// ƒƒS’[‚ÌCM”»’f
+		case ConfigActType::LogoDelEdge:		// ãƒ­ã‚´ç«¯ã®CMåˆ¤æ–­
 			val = getConfig(ConfigVarType::LogoRevise);
 			ret = val % 10;
 			break;
-		case ConfigActType::LogoDelMid:			// ƒƒS“à‚Ì15•b’PˆÊCM‰»
+		case ConfigActType::LogoDelMid:			// ãƒ­ã‚´å†…ã®15ç§’å˜ä½CMåŒ–
 			val = getConfig(ConfigVarType::LogoRevise);
 			ret = ((val / 10 % 10) & 0x1)? 1 : 0;
 			break;
-		case ConfigActType::LogoDelWide:		// LˆæƒƒS‚È‚µíœ
+		case ConfigActType::LogoDelWide:		// åºƒåŸŸãƒ­ã‚´ãªã—å‰Šé™¤
 			val = getConfig(ConfigVarType::LogoRevise);
 			ret = ((val / 10 % 10) & 0x2)? 1 : 0;
-			{								// AddUC=1‚Ì‚Í–³Œø
+			{								// AddUC=1ã®æ™‚ã¯ç„¡åŠ¹
 				int tmp = getConfig(ConfigVarType::flagAddUC);
 				if ((tmp % 10) & 0x1) ret = 0;
 			}
 			break;
-		case ConfigActType::LogoUCRemain:		// ƒƒS‚È‚µ•s–¾•”•ª‚ğc‚·
+		case ConfigActType::LogoUCRemain:		// ãƒ­ã‚´ãªã—ä¸æ˜éƒ¨åˆ†ã‚’æ®‹ã™
 			val = getConfig(ConfigVarType::flagAddUC);
 			ret = val % 10;
 			break;
-		case ConfigActType::LogoUCGapCm:		// CM’PˆÊ‚©‚çŒë·‚ª‘å‚«‚¢\¬‚ğc‚·
+		case ConfigActType::LogoUCGapCm:		// CMå˜ä½ã‹ã‚‰èª¤å·®ãŒå¤§ãã„æ§‹æˆã‚’æ®‹ã™
 			val = getConfig(ConfigVarType::flagAddUC);
 			ret = ((val / 10 % 10) & 0x1)? 1 : 0;
-			if ( isUnuseLevelLogo() ) ret = 1;		// ƒƒSg—p‚µ‚È‚¢ê‡‚Íí
+			if ( isUnuseLevelLogo() ) ret = 1;		// ãƒ­ã‚´ä½¿ç”¨ã—ãªã„å ´åˆã¯å¸¸æ™‚
 			break;
-		case ConfigActType::MuteNoSc:			// ƒV[ƒ“ƒ`ƒFƒ“ƒW‚È‚µ–³‰¹ˆÊ’u‚ÌCM”»’f
+		case ConfigActType::MuteNoSc:			// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãªã—ç„¡éŸ³ä½ç½®ã®CMåˆ¤æ–­
 			val = getConfig(ConfigVarType::typeNoSc);
 			ret = val;
-			if (val == 0){					// ©“®”»’f
+			if (val == 0){					// è‡ªå‹•åˆ¤æ–­
 				ret = ( pdata->isUnuseLevelLogo() )? 1 : 2;
 			}
 			break;
@@ -220,31 +220,31 @@ int JlsDataset::getConfigAction(ConfigActType acttp){
 
 
 //=====================================================================
-// ƒf[ƒ^ƒTƒCƒYæ“¾
+// ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºå–å¾—
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒƒSƒf[ƒ^ƒTƒCƒYæ“¾
+// ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºå–å¾—
 //---------------------------------------------------------------------
 int JlsDataset::sizeDataLogo(){
 	return (int) m_logo.size();
 }
 //---------------------------------------------------------------------
-// –³‰¹SCƒf[ƒ^ƒTƒCƒYæ“¾
+// ç„¡éŸ³SCãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºå–å¾—
 //---------------------------------------------------------------------
 int JlsDataset::sizeDataScp(){
 	return (int) m_scp.size();
 }
 
 //---------------------------------------------------------------------
-// ƒƒSƒf[ƒ^‚ª‹óH
+// ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ãŒç©ºï¼Ÿ
 //---------------------------------------------------------------------
 bool JlsDataset::emptyDataLogo(){
 	return m_logo.empty();
 }
 
 //---------------------------------------------------------------------
-// –³‰¹SC‘S‘Ìƒf[ƒ^”Ô†æ“¾i’[‚ğŠÜ‚Ş‚©‘I‘ğ•t‚«j
+// ç„¡éŸ³SCå…¨ä½“ãƒ‡ãƒ¼ã‚¿ç•ªå·å–å¾—ï¼ˆç«¯ã‚’å«ã‚€ã‹é¸æŠä»˜ãï¼‰
 //---------------------------------------------------------------------
 RangeNsc JlsDataset::getRangeNscTotal(bool flagNoEdge){
 	int rev = ( flagNoEdge )? 1 : 0;
@@ -256,11 +256,11 @@ RangeNsc JlsDataset::getRangeNscTotal(bool flagNoEdge){
 
 
 //=====================================================================
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊ‚Ìˆ—
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½ã®å‡¦ç†
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊ‰Šú‰»iƒƒSƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½åˆæœŸåŒ–ï¼ˆãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::clearRecordLogo(DataLogoRecord &dt){
 	dt.org_rise     = 0;
@@ -290,7 +290,7 @@ void JlsDataset::clearRecordLogo(DataLogoRecord &dt){
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊ‰Šú‰»i–³‰¹SCƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½åˆæœŸåŒ–ï¼ˆç„¡éŸ³SCãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::clearRecordScp(DataScpRecord &dt){
 	dt.msec     = 0;
@@ -306,28 +306,28 @@ void JlsDataset::clearRecordScp(DataScpRecord &dt){
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊ‘}“üiÅŒã‚ÌˆÊ’ujiƒƒSƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½æŒ¿å…¥ï¼ˆæœ€å¾Œã®ä½ç½®ï¼‰ï¼ˆãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::pushRecordLogo(DataLogoRecord &dt){
 	m_logo.push_back(dt);						// add data
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊ‘}“üiÅŒã‚ÌˆÊ’uji–³‰¹SCƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½æŒ¿å…¥ï¼ˆæœ€å¾Œã®ä½ç½®ï¼‰ï¼ˆç„¡éŸ³SCãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::pushRecordScp(DataScpRecord &dt){
 	m_scp.push_back(dt);						// add data
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊíœiÅŒã‚ÌˆÊ’ujiƒƒSƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½å‰Šé™¤ï¼ˆæœ€å¾Œã®ä½ç½®ï¼‰ï¼ˆãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::popRecordLogo(){
 	m_logo.pop_back();							// delete data
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊ‘}“üiw’èˆÊ’ujiƒƒSƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½æŒ¿å…¥ï¼ˆæŒ‡å®šä½ç½®ï¼‰ï¼ˆãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::insertRecordLogo(DataLogoRecord &dt, Nlg nlg){
 	if (nlg >= 0 && nlg <= sizeDataLogo()){
@@ -336,7 +336,7 @@ void JlsDataset::insertRecordLogo(DataLogoRecord &dt, Nlg nlg){
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊ‘}“üiw’èˆÊ’uji–³‰¹SCƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½æŒ¿å…¥ï¼ˆæŒ‡å®šä½ç½®ï¼‰ï¼ˆç„¡éŸ³SCãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::insertRecordScp(DataScpRecord &dt, Nsc nsc){
 	if (nsc >= 0 && nsc <= sizeDataScp()){
@@ -344,7 +344,7 @@ void JlsDataset::insertRecordScp(DataScpRecord &dt, Nsc nsc){
 	}
 }
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊíœiw’èˆÊ’uji–³‰¹SCƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½å‰Šé™¤ï¼ˆæŒ‡å®šä½ç½®ï¼‰ï¼ˆç„¡éŸ³SCãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::deleteRecordScp(Nsc nsc){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -353,7 +353,7 @@ void JlsDataset::deleteRecordScp(Nsc nsc){
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊæ“¾iƒƒSƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½å–å¾—ï¼ˆãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::getRecordLogo(DataLogoRecord &dt, Nsc nlg){
 	if (nlg >= 0 && nlg < sizeDataLogo()){
@@ -362,7 +362,7 @@ void JlsDataset::getRecordLogo(DataLogoRecord &dt, Nsc nlg){
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊ•ÏXiƒƒSƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½å¤‰æ›´ï¼ˆãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::setRecordLogo(DataLogoRecord &dt, Nlg nlg){
 	if (nlg >= 0 && nlg < sizeDataLogo()){
@@ -371,7 +371,7 @@ void JlsDataset::setRecordLogo(DataLogoRecord &dt, Nlg nlg){
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊæ“¾i–³‰¹SCƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½å–å¾—ï¼ˆç„¡éŸ³SCãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::getRecordScp(DataScpRecord &dt, Nsc nsc){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -380,7 +380,7 @@ void JlsDataset::getRecordScp(DataScpRecord &dt, Nsc nsc){
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊ•ÏXi–³‰¹SCƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½å¤‰æ›´ï¼ˆç„¡éŸ³SCãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::setRecordScp(DataScpRecord &dt, Nsc nsc){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -391,11 +391,11 @@ void JlsDataset::setRecordScp(DataScpRecord &dt, Nsc nsc){
 
 
 //=====================================================================
-// ‚P—v‘f’PˆÊ‚Ìˆ—
+// ï¼‘è¦ç´ å˜ä½ã®å‡¦ç†
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•bƒf[ƒ^æ“¾iƒƒSƒf[ƒ^—§‚¿ã‚ª‚èj
+// ãƒŸãƒªç§’ãƒ‡ãƒ¼ã‚¿å–å¾—ï¼ˆãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ç«‹ã¡ä¸ŠãŒã‚Šï¼‰
 //---------------------------------------------------------------------
 Msec JlsDataset::getMsecLogoRise(Nlg nlg){
 	if (nlg >= 0 && nlg < sizeDataLogo()){
@@ -405,7 +405,7 @@ Msec JlsDataset::getMsecLogoRise(Nlg nlg){
 }
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•bƒf[ƒ^æ“¾iƒƒSƒf[ƒ^—§‚¿‰º‚ª‚èj
+// ãƒŸãƒªç§’ãƒ‡ãƒ¼ã‚¿å–å¾—ï¼ˆãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ç«‹ã¡ä¸‹ãŒã‚Šï¼‰
 //---------------------------------------------------------------------
 Msec JlsDataset::getMsecLogoFall(Nlg nlg){
 	if (nlg >= 0 && nlg < sizeDataLogo()){
@@ -415,7 +415,7 @@ Msec JlsDataset::getMsecLogoFall(Nlg nlg){
 }
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•bƒf[ƒ^æ“¾iƒƒSƒf[ƒ^ƒGƒbƒWj
+// ãƒŸãƒªç§’ãƒ‡ãƒ¼ã‚¿å–å¾—ï¼ˆãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ã‚¨ãƒƒã‚¸ï¼‰
 //---------------------------------------------------------------------
 Msec JlsDataset::getMsecLogoNrf(Nrf nrf){
 	Nlg n = nrf/2;
@@ -431,7 +431,7 @@ Msec JlsDataset::getMsecLogoNrf(Nrf nrf){
 }
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•bƒf[ƒ^æ“¾i•s–¾Šm—Ìˆæ‚ğŠÜ‚ß‚½ƒƒSƒf[ƒ^j
+// ãƒŸãƒªç§’ãƒ‡ãƒ¼ã‚¿å–å¾—ï¼ˆä¸æ˜ç¢ºé ˜åŸŸã‚’å«ã‚ãŸãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::getMsecLogoNrfWide(int &msec_c, int &msec_l, int &msec_r, Nrf nrf){
 	Nlg n = nrf/2;
@@ -455,7 +455,7 @@ void JlsDataset::getMsecLogoNrfWide(int &msec_c, int &msec_l, int &msec_r, Nrf n
 }
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•bƒf[ƒ^æ“¾i•s–¾Šm—Ìˆæ‚ğŠÜ‚ß‚½ƒƒSƒf[ƒ^j
+// ãƒŸãƒªç§’ãƒ‡ãƒ¼ã‚¿å–å¾—ï¼ˆä¸æ˜ç¢ºé ˜åŸŸã‚’å«ã‚ãŸãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::getWideMsecLogoNrf(WideMsec &wmsec, Nrf nrf){
 	Nlg n = nrf/2;
@@ -479,7 +479,7 @@ void JlsDataset::getWideMsecLogoNrf(WideMsec &wmsec, Nrf nrf){
 }
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•bƒf[ƒ^•ÏXiƒƒSƒf[ƒ^ƒGƒbƒWj
+// ãƒŸãƒªç§’ãƒ‡ãƒ¼ã‚¿å¤‰æ›´ï¼ˆãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ã‚¨ãƒƒã‚¸ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::setMsecLogoNrf(Nrf nrf, Msec val){
 	int n = nrf/2;
@@ -506,7 +506,7 @@ void JlsDataset::setMsecLogoNrf(Nrf nrf, Msec val){
 }
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•bƒf[ƒ^æ“¾i–³‰¹SCˆÊ’uj
+// ãƒŸãƒªç§’ãƒ‡ãƒ¼ã‚¿å–å¾—ï¼ˆç„¡éŸ³SCä½ç½®ï¼‰
 //---------------------------------------------------------------------
 Msec JlsDataset::getMsecScp(Nsc nsc){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -516,7 +516,7 @@ Msec JlsDataset::getMsecScp(Nsc nsc){
 }
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•bƒf[ƒ^æ“¾i–³‰¹SC ’¼‘OI—¹ˆÊ’uj
+// ãƒŸãƒªç§’ãƒ‡ãƒ¼ã‚¿å–å¾—ï¼ˆç„¡éŸ³SC ç›´å‰çµ‚äº†ä½ç½®ï¼‰
 //---------------------------------------------------------------------
 Msec JlsDataset::getMsecScpBk(Nsc nsc){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -526,7 +526,7 @@ Msec JlsDataset::getMsecScpBk(Nsc nsc){
 }
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•bƒf[ƒ^æ“¾i–³‰¹SC ŠJn^’¼‘OI—¹ˆÊ’u‚Ì‘I‘ğ•t‚«j
+// ãƒŸãƒªç§’ãƒ‡ãƒ¼ã‚¿å–å¾—ï¼ˆç„¡éŸ³SC é–‹å§‹ï¼ç›´å‰çµ‚äº†ä½ç½®ã®é¸æŠä»˜ãï¼‰
 //---------------------------------------------------------------------
 Msec JlsDataset::getMsecScpEdge(Nsc nsc, LogoEdgeType edge){
 	if (edge == LOGO_EDGE_FALL){
@@ -536,20 +536,20 @@ Msec JlsDataset::getMsecScpEdge(Nsc nsc, LogoEdgeType edge){
 }
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•bƒf[ƒ^‚ğŠJnI—¹•‚ ‚è‚Åæ“¾i–³‰¹SCˆÊ’uj
+// ãƒŸãƒªç§’ãƒ‡ãƒ¼ã‚¿ã‚’é–‹å§‹çµ‚äº†å¹…ã‚ã‚Šã§å–å¾—ï¼ˆç„¡éŸ³SCä½ç½®ï¼‰
 //---------------------------------------------------------------------
 WideMsec JlsDataset::getWideMsecScp(Nsc nsc){
 	Msec msecT  = getMsecScp(nsc);
 	Msec msecBk = getMsecScpBk(nsc);
 	WideMsec wmsec;
-	wmsec.just  = msecT;	// ’†S‚ÍŠî€ˆÊ’u
+	wmsec.just  = msecT;	// ä¸­å¿ƒã¯åŸºæº–ä½ç½®
 	wmsec.early = msecBk;
 	wmsec.late  = msecT;
 	return wmsec;
 }
 
 //---------------------------------------------------------------------
-// ”ÍˆÍƒ~ƒŠ•bƒf[ƒ^æ“¾i”ÍˆÍ–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†‚©‚çj
+// ç¯„å›²ãƒŸãƒªç§’ãƒ‡ãƒ¼ã‚¿å–å¾—ï¼ˆç¯„å›²ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·ã‹ã‚‰ï¼‰
 //---------------------------------------------------------------------
 RangeMsec JlsDataset::getRangeMsecFromRangeNsc(RangeNsc rnsc){
 	RangeMsec rmsec;
@@ -561,7 +561,7 @@ RangeMsec JlsDataset::getRangeMsecFromRangeNsc(RangeNsc rnsc){
 }
 
 //---------------------------------------------------------------------
-// ‰æ‘œ•Ï‰»‚È‚µƒtƒ‰ƒOæ“¾
+// ç”»åƒå¤‰åŒ–ãªã—ãƒ•ãƒ©ã‚°å–å¾—
 //---------------------------------------------------------------------
 bool JlsDataset::getScpStill(Nsc nsc){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -571,7 +571,7 @@ bool JlsDataset::getScpStill(Nsc nsc){
 }
 
 //---------------------------------------------------------------------
-// ‹æØ‚èó‘Ôæ“¾
+// åŒºåˆ‡ã‚ŠçŠ¶æ…‹å–å¾—
 //---------------------------------------------------------------------
 jlsd::ScpPriorType JlsDataset::getScpStatpos(Nsc nsc){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -581,7 +581,7 @@ jlsd::ScpPriorType JlsDataset::getScpStatpos(Nsc nsc){
 }
 
 //---------------------------------------------------------------------
-// \¬„‘ª—p ƒXƒRƒAæ“¾
+// æ§‹æˆæ¨æ¸¬ç”¨ ã‚¹ã‚³ã‚¢å–å¾—
 //---------------------------------------------------------------------
 int JlsDataset::getScpScore(Nsc nsc){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -591,7 +591,7 @@ int JlsDataset::getScpScore(Nsc nsc){
 }
 
 //---------------------------------------------------------------------
-// \¬„‘ª—p ‹æØ‚èó‘Ôæ“¾
+// æ§‹æˆæ¨æ¸¬ç”¨ åŒºåˆ‡ã‚ŠçŠ¶æ…‹å–å¾—
 //---------------------------------------------------------------------
 jlsd::ScpChapType JlsDataset::getScpChap(Nsc nsc){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -601,7 +601,7 @@ jlsd::ScpChapType JlsDataset::getScpChap(Nsc nsc){
 }
 
 //---------------------------------------------------------------------
-// \¬„‘ª—p \¬“à—eæ“¾
+// æ§‹æˆæ¨æ¸¬ç”¨ æ§‹æˆå†…å®¹å–å¾—
 //---------------------------------------------------------------------
 jlsd::ScpArType JlsDataset::getScpArstat(Nsc nsc){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -611,7 +611,7 @@ jlsd::ScpArType JlsDataset::getScpArstat(Nsc nsc){
 }
 
 //---------------------------------------------------------------------
-// \¬„‘ª—p \¬“à—eæ“¾
+// æ§‹æˆæ¨æ¸¬ç”¨ æ§‹æˆå†…å®¹å–å¾—
 //---------------------------------------------------------------------
 jlsd::ScpArExtType JlsDataset::getScpArext(Nsc nsc){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -621,7 +621,7 @@ jlsd::ScpArExtType JlsDataset::getScpArext(Nsc nsc){
 }
 
 //---------------------------------------------------------------------
-// ƒƒSŒ‹‰Êæ“¾
+// ãƒ­ã‚´çµæœå–å¾—
 //---------------------------------------------------------------------
 bool JlsDataset::getResultLogoAtNrf(Msec &msec, LogoResultType &outtype, Nrf nrf){
 	if (nrf >= 0 && nrf/2 < sizeDataLogo()){
@@ -639,7 +639,7 @@ bool JlsDataset::getResultLogoAtNrf(Msec &msec, LogoResultType &outtype, Nrf nrf
 }
 
 //---------------------------------------------------------------------
-// ‹æØ‚èó‘Ôİ’è
+// åŒºåˆ‡ã‚ŠçŠ¶æ…‹è¨­å®š
 //---------------------------------------------------------------------
 void JlsDataset::setScpStatpos(Nsc nsc, ScpPriorType val){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -648,7 +648,7 @@ void JlsDataset::setScpStatpos(Nsc nsc, ScpPriorType val){
 }
 
 //---------------------------------------------------------------------
-// \¬„‘ª—p ƒXƒRƒAİ’è
+// æ§‹æˆæ¨æ¸¬ç”¨ ã‚¹ã‚³ã‚¢è¨­å®š
 //---------------------------------------------------------------------
 void JlsDataset::setScpScore(Nsc nsc, int val){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -657,7 +657,7 @@ void JlsDataset::setScpScore(Nsc nsc, int val){
 }
 
 //---------------------------------------------------------------------
-// \¬„‘ª—p ‹æØ‚èó‘Ôİ’è
+// æ§‹æˆæ¨æ¸¬ç”¨ åŒºåˆ‡ã‚ŠçŠ¶æ…‹è¨­å®š
 //---------------------------------------------------------------------
 void JlsDataset::setScpChap(Nsc nsc, ScpChapType val){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -666,17 +666,17 @@ void JlsDataset::setScpChap(Nsc nsc, ScpChapType val){
 }
 
 //---------------------------------------------------------------------
-// \¬„‘ª—p \¬“à—eİ’è
+// æ§‹æˆæ¨æ¸¬ç”¨ æ§‹æˆå†…å®¹è¨­å®š
 //---------------------------------------------------------------------
 void JlsDataset::setScpArstat(Nsc nsc, ScpArType val){
 	if (nsc >= 0 && nsc < sizeDataScp()){
 		m_scp[nsc].arstat = val;
-		m_scp[nsc].arext  = SCP_AREXT_NONE;		// Šg’£‚à‰Šú‰»‚·‚é
+		m_scp[nsc].arext  = SCP_AREXT_NONE;		// æ‹¡å¼µã‚‚åˆæœŸåŒ–ã™ã‚‹
 	}
 }
 
 //---------------------------------------------------------------------
-// \¬„‘ª—p \¬“à—eŠg’£İ’è
+// æ§‹æˆæ¨æ¸¬ç”¨ æ§‹æˆå†…å®¹æ‹¡å¼µè¨­å®š
 //---------------------------------------------------------------------
 void JlsDataset::setScpArext(Nsc nsc, ScpArExtType val){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -686,7 +686,7 @@ void JlsDataset::setScpArext(Nsc nsc, ScpArExtType val){
 
 
 //---------------------------------------------------------------------
-// ƒƒSŒ‹‰Êİ’è
+// ãƒ­ã‚´çµæœè¨­å®š
 //---------------------------------------------------------------------
 void JlsDataset::setResultLogoAtNrf(Msec msec, LogoResultType outtype, Nrf nrf){
 	if (nrf >= 0 && nrf/2 < sizeDataLogo()){
@@ -704,11 +704,11 @@ void JlsDataset::setResultLogoAtNrf(Msec msec, LogoResultType outtype, Nrf nrf){
 
 
 //=====================================================================
-// —Dæ“xæ“¾ˆ—
+// å„ªå…ˆåº¦å–å¾—å‡¦ç†
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒƒSƒf[ƒ^‚ÌŒó•â‚Æ‚µ‚Ä—Dæ“xæ“¾
+// ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ã®å€™è£œã¨ã—ã¦å„ªå…ˆåº¦å–å¾—
 //---------------------------------------------------------------------
 jlsd::LogoPriorType JlsDataset::getPriorLogo(Nrf nrf){
 	int n = nrf/2;
@@ -724,8 +724,8 @@ jlsd::LogoPriorType JlsDataset::getPriorLogo(Nrf nrf){
 }
 
 //---------------------------------------------------------------------
-// –³‰¹SC‚ÌŒó•â‚Æ‚µ‚Ä—Dæ“xæ“¾
-// AutoƒRƒ}ƒ“ƒh‚É‚æ‚é„‘ª—L–³‚Åæ“¾ƒf[ƒ^‚ğ•ÏX
+// ç„¡éŸ³SCã®å€™è£œã¨ã—ã¦å„ªå…ˆåº¦å–å¾—
+// Autoã‚³ãƒãƒ³ãƒ‰ã«ã‚ˆã‚‹æ¨æ¸¬æœ‰ç„¡ã§å–å¾—ãƒ‡ãƒ¼ã‚¿ã‚’å¤‰æ›´
 //---------------------------------------------------------------------
 jlsd::ScpPriorType JlsDataset::getPriorScp(Nsc nsc){
 	if (nsc >= 0 && nsc < (int) m_scp.size()){
@@ -750,17 +750,17 @@ jlsd::ScpPriorType JlsDataset::getPriorScp(Nsc nsc){
 
 
 //=====================================================================
-// ‘OŒãƒf[ƒ^æ“¾ˆ—iƒƒSj
+// å‰å¾Œãƒ‡ãƒ¼ã‚¿å–å¾—å‡¦ç†ï¼ˆãƒ­ã‚´ï¼‰
 //=====================================================================
 
 //---------------------------------------------------------------------
-// Ÿ‚ÌƒƒSˆÊ’uæ“¾
-// “ü—ÍF
-//   nrf  : ƒƒS”Ô†*2 + fall‚Í1
-//   dr   : ŒŸõ•ûŒüi‘O‘¤ / Œã‘¤j
-//   edge : ƒƒS’[i0:—§‚¿ã‚ª‚èƒGƒbƒW  1:—§‚¿‰º‚ª‚èƒGƒbƒW  2:—¼ƒGƒbƒWj
-//   type : 0:‚·‚×‚Ä  1:—LŒøƒƒS
-// •Ô‚è’lF Ÿ‚ÌƒƒSˆÊ’ui‚È‚¢ê‡‚Í-1j
+// æ¬¡ã®ãƒ­ã‚´ä½ç½®å–å¾—
+// å…¥åŠ›ï¼š
+//   nrf  : ãƒ­ã‚´ç•ªå·*2 + fallæ™‚ã¯1
+//   dr   : æ¤œç´¢æ–¹å‘ï¼ˆå‰å´ / å¾Œå´ï¼‰
+//   edge : ãƒ­ã‚´ç«¯ï¼ˆ0:ç«‹ã¡ä¸ŠãŒã‚Šã‚¨ãƒƒã‚¸  1:ç«‹ã¡ä¸‹ãŒã‚Šã‚¨ãƒƒã‚¸  2:ä¸¡ã‚¨ãƒƒã‚¸ï¼‰
+//   type : 0:ã™ã¹ã¦  1:æœ‰åŠ¹ãƒ­ã‚´
+// è¿”ã‚Šå€¤ï¼š æ¬¡ã®ãƒ­ã‚´ä½ç½®ï¼ˆãªã„å ´åˆã¯-1ï¼‰
 //---------------------------------------------------------------------
 Nrf JlsDataset::getNrfDirLogo(Nrf nrf, SearchDirType dr, LogoEdgeType edge, LogoSelectType type){
 	int size_logo = sizeDataLogo();
@@ -795,24 +795,24 @@ Nrf JlsDataset::getNrfDirLogo(Nrf nrf, SearchDirType dr, LogoEdgeType edge, Logo
 	return r;
 }
 
-// ‚P‚Â‘O‚ÌƒƒSˆÊ’uæ“¾
+// ï¼‘ã¤å‰ã®ãƒ­ã‚´ä½ç½®å–å¾—
 Nrf JlsDataset::getNrfPrevLogo(Nrf nrf, LogoEdgeType edge, LogoSelectType type){
 	return getNrfDirLogo(nrf, SEARCH_DIR_PREV, edge, type);
 }
 
-// ‚P‚ÂŒã‚ÌƒƒSˆÊ’uæ“¾
+// ï¼‘ã¤å¾Œã®ãƒ­ã‚´ä½ç½®å–å¾—
 Nrf JlsDataset::getNrfNextLogo(Nrf nrf, LogoEdgeType edge, LogoSelectType type){
 	return getNrfDirLogo(nrf, SEARCH_DIR_NEXT, edge, type);
 }
 
 //---------------------------------------------------------------------
-// Ÿ‚ÌƒƒSˆÊ’uæ“¾i—§‚¿ã‚è‚Æ—§‚¿‰º‚è‚ÌƒZƒbƒgj
-// “ü—ÍF
-//   nfall : ƒƒS”Ô†*2 + fall‚Í1
-//   type  : 0:‚·‚×‚Ä  1:—LŒøƒƒS
-// •Ô‚è’lF ƒƒSˆÊ’uæ“¾Œ‹‰Êiæ“¾:truej
-//   nrise : Ÿ‚Ì—§ã‚èƒƒSˆÊ’ui‚È‚¢ê‡‚Í-1j
-//   nfall : Ÿ‚Ì—§‰º‚èƒƒSˆÊ’ui‚È‚¢ê‡‚Í-1j
+// æ¬¡ã®ãƒ­ã‚´ä½ç½®å–å¾—ï¼ˆç«‹ã¡ä¸Šã‚Šã¨ç«‹ã¡ä¸‹ã‚Šã®ã‚»ãƒƒãƒˆï¼‰
+// å…¥åŠ›ï¼š
+//   nfall : ãƒ­ã‚´ç•ªå·*2 + fallæ™‚ã¯1
+//   type  : 0:ã™ã¹ã¦  1:æœ‰åŠ¹ãƒ­ã‚´
+// è¿”ã‚Šå€¤ï¼š ãƒ­ã‚´ä½ç½®å–å¾—çµæœï¼ˆå–å¾—æ™‚:trueï¼‰
+//   nrise : æ¬¡ã®ç«‹ä¸Šã‚Šãƒ­ã‚´ä½ç½®ï¼ˆãªã„å ´åˆã¯-1ï¼‰
+//   nfall : æ¬¡ã®ç«‹ä¸‹ã‚Šãƒ­ã‚´ä½ç½®ï¼ˆãªã„å ´åˆã¯-1ï¼‰
 //---------------------------------------------------------------------
 bool JlsDataset::getNrfNextLogoSet(Nrf &nrf_rise, Nrf &nrf_fall, LogoSelectType type){
 	nrf_rise = getNrfNextLogo(nrf_fall, LOGO_EDGE_RISE, type);
@@ -828,23 +828,23 @@ bool JlsDataset::getNrfNextLogoSet(Nrf &nrf_rise, Nrf &nrf_fall, LogoSelectType 
 
 
 //---------------------------------------------------------------------
-// Ÿ‚Ì„‘ª\¬ƒƒSˆµ‚¢ˆÊ’uæ“¾iÅIo—Í”»’è“ü—Í‚Â‚«j
-// “ü—ÍF
-//   nsc  : ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-//   dr   : ŒŸõ•ûŒüi‘O‘¤ / Œã‘¤j
-//   edge : ƒƒS’[i0:—§‚¿ã‚ª‚èƒGƒbƒW  1:—§‚¿‰º‚ª‚èƒGƒbƒW  2:—¼ƒGƒbƒWj
-//   flag_border : Border—Ìˆæ‚ğƒƒS‚ÉŠÜ‚ß‚é
-//   flag_out    : o—Í—pi0:“à•”\’z—p\¬  1:o—Í—p\¬j
-// •Ô‚è’lF Ÿ‚ÌƒƒSˆÊ’ui‚È‚¢ê‡‚Í-1j
+// æ¬¡ã®æ¨æ¸¬æ§‹æˆãƒ­ã‚´æ‰±ã„ä½ç½®å–å¾—ï¼ˆæœ€çµ‚å‡ºåŠ›åˆ¤å®šå…¥åŠ›ã¤ãï¼‰
+// å…¥åŠ›ï¼š
+//   nsc  : ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+//   dr   : æ¤œç´¢æ–¹å‘ï¼ˆå‰å´ / å¾Œå´ï¼‰
+//   edge : ãƒ­ã‚´ç«¯ï¼ˆ0:ç«‹ã¡ä¸ŠãŒã‚Šã‚¨ãƒƒã‚¸  1:ç«‹ã¡ä¸‹ãŒã‚Šã‚¨ãƒƒã‚¸  2:ä¸¡ã‚¨ãƒƒã‚¸ï¼‰
+//   flag_border : Borderé ˜åŸŸã‚’ãƒ­ã‚´ã«å«ã‚ã‚‹
+//   flag_out    : å‡ºåŠ›ç”¨ï¼ˆ0:å†…éƒ¨æ§‹ç¯‰ç”¨æ§‹æˆ  1:å‡ºåŠ›ç”¨æ§‹æˆï¼‰
+// è¿”ã‚Šå€¤ï¼š æ¬¡ã®ãƒ­ã‚´ä½ç½®ï¼ˆãªã„å ´åˆã¯-1ï¼‰
 //---------------------------------------------------------------------
 Nsc JlsDataset::getNscDirElgForAll(Nsc nsc, SearchDirType dr, LogoEdgeType edge, bool flag_border, bool flag_out){
 	int size_scp = sizeDataScp();
 	int r = -1;
 	int i = nsc;
-	if (dr == SEARCH_DIR_NEXT){			// arstat‚Í‚Q“_ŠÔ‚ÌŒã‘¤‚ğŒ©‚é‚½‚ß‚ÌˆÚ“®
+	if (dr == SEARCH_DIR_NEXT){			// arstatã¯ï¼’ç‚¹é–“ã®å¾Œå´ã‚’è¦‹ã‚‹ãŸã‚ã®ç§»å‹•
 		i = getNscNextScpDecide(i,  SCP_END_EDGEIN);
 	}
-	//--- ‹tƒGƒbƒW•”•ª‚Ü‚Å’Tõ ---
+	//--- é€†ã‚¨ãƒƒã‚¸éƒ¨åˆ†ã¾ã§æ¢ç´¢ ---
 	bool inlogo_base = isElgInScpForAll(i, flag_border, flag_out);
 	{
 		int inext = getNscDirScpDecide(i, dr, SCP_END_EDGEIN);
@@ -853,7 +853,7 @@ Nsc JlsDataset::getNscDirElgForAll(Nsc nsc, SearchDirType dr, LogoEdgeType edge,
 			   (edge == LOGO_EDGE_RISE && dr == SEARCH_DIR_PREV && inlogo_base == false) ||
 			   (edge == LOGO_EDGE_FALL && dr == SEARCH_DIR_NEXT && inlogo_base == false) ||
 			   (edge == LOGO_EDGE_FALL && dr == SEARCH_DIR_PREV && inlogo_base == true))
-			  && ( isElgDivScpForAll(icheck, flag_border, flag_out) == false )	// ƒƒS‹­§‹æØ‚è
+			  && ( isElgDivScpForAll(icheck, flag_border, flag_out) == false )	// ãƒ­ã‚´å¼·åˆ¶åŒºåˆ‡ã‚Š
 			  && i >= 0){
 			i = inext;
 			inext = getNscDirScpDecide(i, dr, SCP_END_EDGEIN);
@@ -861,7 +861,7 @@ Nsc JlsDataset::getNscDirElgForAll(Nsc nsc, SearchDirType dr, LogoEdgeType edge,
 			inlogo_base = isElgInScpForAll(i, flag_border, flag_out);
 		}
 	}
-	//--- ƒGƒbƒW•”•ª‚ğ’Tõ ---
+	//--- ã‚¨ãƒƒã‚¸éƒ¨åˆ†ã‚’æ¢ç´¢ ---
 	if ((i > 0 && i < size_scp) ||
 		(i == 0 && dr == SEARCH_DIR_NEXT) ||
 		(i == size_scp && dr == SEARCH_DIR_PREV)){
@@ -873,20 +873,20 @@ Nsc JlsDataset::getNscDirElgForAll(Nsc nsc, SearchDirType dr, LogoEdgeType edge,
 				bool inlogo_i = isElgInScpForAll(i, flag_border, flag_out);
 				int  iset = i;
 				if (dr == SEARCH_DIR_NEXT){
-					iset = ilast;					// ‚Q“_ŠÔ‚Ì‘O‘¤
+					iset = ilast;					// ï¼’ç‚¹é–“ã®å‰å´
 				}
-				if (inlogo_i != inlogo_base){		// ƒGƒbƒW•Ï‰»‚ ‚ê‚ÎŠm’è
+				if (inlogo_i != inlogo_base){		// ã‚¨ãƒƒã‚¸å¤‰åŒ–ã‚ã‚Œã°ç¢ºå®š
 					flag_end = true;
 					r = iset;
 				}
-				else if ( isElgDivScpForAll(iset, flag_border, flag_out) ){	// ƒƒS‹­§‹æØ‚è
+				else if ( isElgDivScpForAll(iset, flag_border, flag_out) ){	// ãƒ­ã‚´å¼·åˆ¶åŒºåˆ‡ã‚Š
 					flag_end = true;
 					r = iset;
 				}
 			}
 			else{
 				flag_end = true;
-				if (inlogo_base == true){			// ƒƒS“à‚ÅI—¹‚µ‚½‚ç’[İ’è
+				if (inlogo_base == true){			// ãƒ­ã‚´å†…ã§çµ‚äº†ã—ãŸã‚‰ç«¯è¨­å®š
 					if (dr == SEARCH_DIR_NEXT){
 						r = size_scp-1;
 					}
@@ -902,30 +902,30 @@ Nsc JlsDataset::getNscDirElgForAll(Nsc nsc, SearchDirType dr, LogoEdgeType edge,
 
 
 //---------------------------------------------------------------------
-// Ÿ‚Ì„‘ª\¬ƒƒSˆµ‚¢ˆÊ’uæ“¾
-// “ü—ÍF
-//   nsc  : ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-//   edge : ƒƒS’[i0:—§‚¿ã‚ª‚èƒGƒbƒW  1:—§‚¿‰º‚ª‚èƒGƒbƒW  2:—¼ƒGƒbƒWj
-// •Ô‚è’lF Ÿ‚ÌƒƒSˆÊ’ui‚È‚¢ê‡‚Í-1j
+// æ¬¡ã®æ¨æ¸¬æ§‹æˆãƒ­ã‚´æ‰±ã„ä½ç½®å–å¾—
+// å…¥åŠ›ï¼š
+//   nsc  : ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+//   edge : ãƒ­ã‚´ç«¯ï¼ˆ0:ç«‹ã¡ä¸ŠãŒã‚Šã‚¨ãƒƒã‚¸  1:ç«‹ã¡ä¸‹ãŒã‚Šã‚¨ãƒƒã‚¸  2:ä¸¡ã‚¨ãƒƒã‚¸ï¼‰
+// è¿”ã‚Šå€¤ï¼š æ¬¡ã®ãƒ­ã‚´ä½ç½®ï¼ˆãªã„å ´åˆã¯-1ï¼‰
 //---------------------------------------------------------------------
-// ‚P‚Â‘O‚ÌˆÊ’uæ“¾
+// ï¼‘ã¤å‰ã®ä½ç½®å–å¾—
 Nsc JlsDataset::getNscPrevElg(Nsc nsc, LogoEdgeType edge){
 	return getNscDirElgForAll(nsc, SEARCH_DIR_PREV, edge, false, false);
 }
 
-// ‚P‚ÂŒã‚ÌˆÊ’uæ“¾
+// ï¼‘ã¤å¾Œã®ä½ç½®å–å¾—
 Nsc JlsDataset::getNscNextElg(Nsc nsc, LogoEdgeType edge){
 	return getNscDirElgForAll(nsc, SEARCH_DIR_NEXT, edge, false, false);
 }
 
 //---------------------------------------------------------------------
-// Ÿ‚ÌƒƒSˆÊ’uæ“¾i—§‚¿ã‚è‚Æ—§‚¿‰º‚è‚ÌƒZƒbƒgj
-// “ü—ÍF
-//   nrf_fall : ƒƒS”Ô†*2 + fall‚Í1
-//   type     : 0:‚·‚×‚Ä  1:—LŒøƒƒS
-// •Ô‚è’lF ƒƒSˆÊ’uæ“¾Œ‹‰Êiæ“¾:truej
-//   nrf_rise : Ÿ‚Ì—§ã‚èƒƒSˆÊ’ui‚È‚¢ê‡‚Í-1j
-//   nrf_fall : Ÿ‚Ì—§‰º‚èƒƒSˆÊ’ui‚È‚¢ê‡‚Í-1j
+// æ¬¡ã®ãƒ­ã‚´ä½ç½®å–å¾—ï¼ˆç«‹ã¡ä¸Šã‚Šã¨ç«‹ã¡ä¸‹ã‚Šã®ã‚»ãƒƒãƒˆï¼‰
+// å…¥åŠ›ï¼š
+//   nrf_fall : ãƒ­ã‚´ç•ªå·*2 + fallæ™‚ã¯1
+//   type     : 0:ã™ã¹ã¦  1:æœ‰åŠ¹ãƒ­ã‚´
+// è¿”ã‚Šå€¤ï¼š ãƒ­ã‚´ä½ç½®å–å¾—çµæœï¼ˆå–å¾—æ™‚:trueï¼‰
+//   nrf_rise : æ¬¡ã®ç«‹ä¸Šã‚Šãƒ­ã‚´ä½ç½®ï¼ˆãªã„å ´åˆã¯-1ï¼‰
+//   nrf_fall : æ¬¡ã®ç«‹ä¸‹ã‚Šãƒ­ã‚´ä½ç½®ï¼ˆãªã„å ´åˆã¯-1ï¼‰
 //---------------------------------------------------------------------
 bool JlsDataset::getNrfptNext(NrfCurrent &logopt, LogoSelectType type){
 	//--- initialize ---
@@ -955,12 +955,12 @@ bool JlsDataset::getNrfptNext(NrfCurrent &logopt, LogoSelectType type){
 
 
 //---------------------------------------------------------------------
-// Ÿ‚Ì„‘ª\¬ƒƒSˆµ‚¢ˆÊ’uæ“¾i—§‚¿ã‚è‚Æ—§‚¿‰º‚è‚ÌƒZƒbƒgj
-// “ü—ÍF
-//   nsc_fall : ‘O‚Ì—§‚¿‰º‚ª‚èƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-// •Ô‚è’lF ƒƒSˆÊ’uæ“¾Œ‹‰Êiæ“¾:truej
-//   nsc_rise : Ÿ‚Ì—§ã‚èƒƒSˆÊ’ui‚È‚¢ê‡‚Í-1j
-//   nsc_fall : Ÿ‚Ì—§‰º‚èƒƒSˆÊ’ui‚È‚¢ê‡‚Í-1j
+// æ¬¡ã®æ¨æ¸¬æ§‹æˆãƒ­ã‚´æ‰±ã„ä½ç½®å–å¾—ï¼ˆç«‹ã¡ä¸Šã‚Šã¨ç«‹ã¡ä¸‹ã‚Šã®ã‚»ãƒƒãƒˆï¼‰
+// å…¥åŠ›ï¼š
+//   nsc_fall : å‰ã®ç«‹ã¡ä¸‹ãŒã‚Šã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+// è¿”ã‚Šå€¤ï¼š ãƒ­ã‚´ä½ç½®å–å¾—çµæœï¼ˆå–å¾—æ™‚:trueï¼‰
+//   nsc_rise : æ¬¡ã®ç«‹ä¸Šã‚Šãƒ­ã‚´ä½ç½®ï¼ˆãªã„å ´åˆã¯-1ï¼‰
+//   nsc_fall : æ¬¡ã®ç«‹ä¸‹ã‚Šãƒ­ã‚´ä½ç½®ï¼ˆãªã„å ´åˆã¯-1ï¼‰
 //---------------------------------------------------------------------
 bool JlsDataset::getElgptNext(ElgCurrent &elg){
 	bool flag1st = false;
@@ -976,8 +976,8 @@ bool JlsDataset::getElgptNext(ElgCurrent &elg){
 	elg.msecLastRise = elg.msecRise;
 	elg.msecLastFall = elg.msecFall;
 	//--- rise ---
-	if ( isElgDivScpForAll(elg.nscFall, elg.border, elg.outflag) == false ){	// ƒƒS“à•ªŠ„ˆÊ’u‚©ƒ`ƒFƒbƒN
-		if (flag1st) elg.nscFall = -1;		// 0ˆÊ’u‚©‚çƒ`ƒFƒbƒN‚·‚é‚½‚ß
+	if ( isElgDivScpForAll(elg.nscFall, elg.border, elg.outflag) == false ){	// ãƒ­ã‚´å†…åˆ†å‰²ä½ç½®ã‹ãƒã‚§ãƒƒã‚¯
+		if (flag1st) elg.nscFall = -1;		// 0ä½ç½®ã‹ã‚‰ãƒã‚§ãƒƒã‚¯ã™ã‚‹ãŸã‚
 		elg.nscRise = getNscDirElgForAll(elg.nscFall, SEARCH_DIR_NEXT, LOGO_EDGE_RISE, elg.border, elg.outflag);
 	}
 	else{
@@ -991,10 +991,10 @@ bool JlsDataset::getElgptNext(ElgCurrent &elg){
 	else{
 		elg.nscFall = -1;
 	}
-	if (elg.outflag){					// ÅIo—Í‚Í³Šm‚É—§‚¿‰º‚ª‚èˆÊ’u
+	if (elg.outflag){					// æœ€çµ‚å‡ºåŠ›æ™‚ã¯æ­£ç¢ºã«ç«‹ã¡ä¸‹ãŒã‚Šä½ç½®
 		elg.msecFall = getMsecScpBk(elg.nscFall);
 	}
-	else{								// ’Êí‚ÍƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†‚Å‹¤’ÊˆÊ’u”F¯
+	else{								// é€šå¸¸ã¯ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·ã§å…±é€šä½ç½®èªè­˜
 		elg.msecFall = getMsecScp(elg.nscFall);
 	}
 	//--- end ---
@@ -1003,29 +1003,29 @@ bool JlsDataset::getElgptNext(ElgCurrent &elg){
 }
 
 //---------------------------------------------------------------------
-// ƒƒS‚ÌŒ‹‰ÊˆÊ’uiŸ‚ÌˆÊ’uj‚ğæ“¾
-// “ü—ÍF
-//   nlg    : ŒŸõ‚ğŠJn‚·‚éƒƒS”Ô†iw’èˆÊ’u‚ğŠÜ‚Şj
-// o—ÍF
-//   •Ô‚è’lFæ“¾‚µ‚½ƒƒS‚ÌŸ‚ÌƒƒS”Ô†i-1‚Ì‚ÍŠY“–‚È‚µj
-//   msec_rise : —§‚¿ã‚ª‚èˆÊ’uiƒ~ƒŠ•bj
-//   msec_rise : —§‚¿‰º‚ª‚èˆÊ’uiƒ~ƒŠ•bj
-//   cont_next : Ÿ‚ÌƒƒS‚ªØ‚ê–Ú‚È‚µ‚Ì˜A‘±‚©
+// ãƒ­ã‚´ã®çµæœä½ç½®ï¼ˆæ¬¡ã®ä½ç½®ï¼‰ã‚’å–å¾—
+// å…¥åŠ›ï¼š
+//   nlg    : æ¤œç´¢ã‚’é–‹å§‹ã™ã‚‹ãƒ­ã‚´ç•ªå·ï¼ˆæŒ‡å®šä½ç½®ã‚’å«ã‚€ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼šå–å¾—ã—ãŸãƒ­ã‚´ã®æ¬¡ã®ãƒ­ã‚´ç•ªå·ï¼ˆ-1ã®æ™‚ã¯è©²å½“ãªã—ï¼‰
+//   msec_rise : ç«‹ã¡ä¸ŠãŒã‚Šä½ç½®ï¼ˆãƒŸãƒªç§’ï¼‰
+//   msec_rise : ç«‹ã¡ä¸‹ãŒã‚Šä½ç½®ï¼ˆãƒŸãƒªç§’ï¼‰
+//   cont_next : æ¬¡ã®ãƒ­ã‚´ãŒåˆ‡ã‚Œç›®ãªã—ã®é€£ç¶šã‹
 //---------------------------------------------------------------------
 Nlg JlsDataset::getResultLogoNext(Msec &msec_rise, Msec &msec_fall, bool &cont_next, Nlg nlg){
-	int msec_val_cont = 80;					// “¯ˆêƒƒS‚Æ‚İ‚È‚·ŠÔŠumsec
+	int msec_val_cont = 80;					// åŒä¸€ãƒ­ã‚´ã¨ã¿ãªã™é–“éš”msec
 
 	int size_logo = sizeDataLogo();
 	cont_next = false;
 	msec_rise = -1;
 	msec_fall = -1;
-	//--- —§‚¿ã‚ª‚èƒGƒbƒWŒŸõ ---
+	//--- ç«‹ã¡ä¸ŠãŒã‚Šã‚¨ãƒƒã‚¸æ¤œç´¢æ™‚ ---
 	Nlg nlg_rise = nlg;
 	bool flag_rise = false;
 	while(nlg_rise >= 0 && nlg_rise < size_logo && flag_rise == false){
 		DataLogoRecord dtlogo;
 		getRecordLogo(dtlogo, nlg_rise);
-		if (dtlogo.outtype_rise == LOGO_RESULT_DECIDE){				// Šm’èƒGƒbƒW
+		if (dtlogo.outtype_rise == LOGO_RESULT_DECIDE){				// ç¢ºå®šã‚¨ãƒƒã‚¸
 			flag_rise = true;
 			msec_rise = dtlogo.result_rise;
 		}
@@ -1033,7 +1033,7 @@ Nlg JlsDataset::getResultLogoNext(Msec &msec_rise, Msec &msec_fall, bool &cont_n
 			nlg_rise ++;
 		}
 	}
-	//--- —§‚¿‰º‚ª‚èƒGƒbƒWŒŸõ ---
+	//--- ç«‹ã¡ä¸‹ãŒã‚Šã‚¨ãƒƒã‚¸æ¤œç´¢æ™‚ ---
 	Nlg nlg_fall = nlg_rise;
 	bool flag_fall = false;
 	bool flag_unit = false;
@@ -1043,7 +1043,7 @@ Nlg JlsDataset::getResultLogoNext(Msec &msec_rise, Msec &msec_fall, bool &cont_n
 	while(nlg_fall >= 0 && nlg_fall < size_logo && flag_fall == false){
 		DataLogoRecord dtlogo;
 		getRecordLogo(dtlogo, nlg_fall);
-		if (dtlogo.outtype_fall == LOGO_RESULT_DECIDE){				// Šm’èƒGƒbƒW
+		if (dtlogo.outtype_fall == LOGO_RESULT_DECIDE){				// ç¢ºå®šã‚¨ãƒƒã‚¸
 			flag_fall = true;
 			msec_fall = dtlogo.result_fall;
 			if (dtlogo.unit_fall){
@@ -1054,21 +1054,21 @@ Nlg JlsDataset::getResultLogoNext(Msec &msec_rise, Msec &msec_fall, bool &cont_n
 			nlg_fall ++;
 		}
 	}
-	//--- Ÿ‚ÌƒƒS‚ª“¯ˆêƒƒS‚©Šm”F ---
+	//--- æ¬¡ã®ãƒ­ã‚´ãŒåŒä¸€ãƒ­ã‚´ã‹ç¢ºèª ---
 	if (flag_fall){
 		Nlg  nlg_next = nlg_fall + 1;
 		bool flag_next = false;
 		while(nlg_next >= 0 && nlg_next < size_logo && flag_next == false){
 			DataLogoRecord dtlogo;
 			getRecordLogo(dtlogo, nlg_next);
-			if (dtlogo.outtype_rise == LOGO_RESULT_DECIDE){				// Šm’èƒGƒbƒW
+			if (dtlogo.outtype_rise == LOGO_RESULT_DECIDE){				// ç¢ºå®šã‚¨ãƒƒã‚¸
 				flag_next = true;
 				int msec_next = dtlogo.result_rise;
-				if (msec_fall + msec_val_cont > msec_next){				// “¯ˆêƒƒS‚Å•â³‚·‚é
+				if (msec_fall + msec_val_cont > msec_next){				// åŒä¸€ãƒ­ã‚´ã§è£œæ­£ã™ã‚‹
 					if ( (extOpt.nLgExact & 0x02) != 0 ){
-						msec_fall = cnv.getMsecAdjustFrmFromMsec(msec_next, -1);	// Ø‚ê–Ú‚È‚µ‚É•â³
+						msec_fall = cnv.getMsecAdjustFrmFromMsec(msec_next, -1);	// åˆ‡ã‚Œç›®ãªã—ã«è£œæ­£
 					}
-					if (flag_unit == false){					// “Æ—§ƒƒS‚Å‚È‚¯‚ê‚ÎØ‚ê–Ú‚È‚µ”»’è
+					if (flag_unit == false){					// ç‹¬ç«‹ãƒ­ã‚´ã§ãªã‘ã‚Œã°åˆ‡ã‚Œç›®ãªã—åˆ¤å®š
 						if ( dtlogo.unit_rise == false ){
 							cont_next = true;
 						}
@@ -1078,19 +1078,19 @@ Nlg JlsDataset::getResultLogoNext(Msec &msec_rise, Msec &msec_fall, bool &cont_n
 			nlg_next ++;
 		}
 	}
-	//--- Œ‹‰Ê ---
+	//--- çµæœ ---
 	Nlg nlg_ret = -1;
-	//--- ³íæ“¾ ---
+	//--- æ­£å¸¸å–å¾—æ™‚ ---
 	if (flag_rise == true && flag_fall == true){
 		nlg_ret = nlg_fall + 1;
 	}
 	else{
-		//--- —§‚¿‰º‚ª‚è‚ª‚È‚¢ê‡ ---
+		//--- ç«‹ã¡ä¸‹ãŒã‚ŠãŒãªã„å ´åˆ ---
 		if ((flag_rise == true || nlg == 0) && flag_fall == false){
 			nlg_ret = size_logo;
 			msec_fall = getMsecTotalMax();
 		}
-		//--- Å‰‚©‚çƒƒS‚ª‘S‚­‚È‚¢ê‡ ---
+		//--- æœ€åˆã‹ã‚‰ãƒ­ã‚´ãŒå…¨ããªã„å ´åˆ ---
 		if (nlg == 0){
 			msec_rise = 0;
 		}
@@ -1098,15 +1098,15 @@ Nlg JlsDataset::getResultLogoNext(Msec &msec_rise, Msec &msec_fall, bool &cont_n
 	return nlg_ret;
 }
 
-// o—ÍƒƒS‘Î‰
+// å‡ºåŠ›ãƒ­ã‚´å¯¾å¿œ
 //---------------------------------------------------------------------
-// Ÿ‚ÌƒƒSˆÊ’uæ“¾i—§‚¿ã‚è‚Æ—§‚¿‰º‚è‚ÌƒZƒbƒgj
-// “ü—ÍF
-//   nrf_fall : ƒƒS”Ô†*2 + fall‚Í1
-//   type     : ALL=‚·‚×‚Ä  VALID=—LŒøƒƒS
-//   final    : false=’Êí  true=ÅIo—Í
-// •Ô‚è’lF ƒƒSˆÊ’uæ“¾Œ‹‰Êiæ“¾=truej
-//   logopt   : ƒƒSˆÊ’uî•ñ
+// æ¬¡ã®ãƒ­ã‚´ä½ç½®å–å¾—ï¼ˆç«‹ã¡ä¸Šã‚Šã¨ç«‹ã¡ä¸‹ã‚Šã®ã‚»ãƒƒãƒˆï¼‰
+// å…¥åŠ›ï¼š
+//   nrf_fall : ãƒ­ã‚´ç•ªå·*2 + fallæ™‚ã¯1
+//   type     : ALL=ã™ã¹ã¦  VALID=æœ‰åŠ¹ãƒ­ã‚´
+//   final    : false=é€šå¸¸  true=æœ€çµ‚å‡ºåŠ›
+// è¿”ã‚Šå€¤ï¼š ãƒ­ã‚´ä½ç½®å–å¾—çµæœï¼ˆå–å¾—æ™‚=trueï¼‰
+//   logopt   : ãƒ­ã‚´ä½ç½®æƒ…å ±
 //---------------------------------------------------------------------
 bool JlsDataset::getNrfptOutNext(NrfCurrent &logopt, LogoSelectType type, bool final){
 	//--- initialize ---
@@ -1135,9 +1135,9 @@ bool JlsDataset::getNrfptOutNext(NrfCurrent &logopt, LogoSelectType type, bool f
 	}
 	return true;
 }
-// unitİ’è‚àl—¶‚µ‚½o—Í—p‚Ì‚P‚ÂŒã‚ÌƒƒSˆÊ’uæ“¾
+// unitè¨­å®šã‚‚è€ƒæ…®ã—ãŸå‡ºåŠ›ç”¨ã®ï¼‘ã¤å¾Œã®ãƒ­ã‚´ä½ç½®å–å¾—
 Nrf JlsDataset::getNrfMsecOutNextLogo(Msec& msecOut, Nrf nrf, LogoEdgeType edge, LogoSelectType type, bool final){
-	int msec_val_cont = 80;					// “¯ˆêƒƒS‚Æ‚İ‚È‚·ŠÔŠumsec
+	int msec_val_cont = 80;					// åŒä¸€ãƒ­ã‚´ã¨ã¿ãªã™é–“éš”msec
 
 	int r = -1;
 	Msec msecRef = ( nrf >= 0 )? getMsecLogoNrf(nrf) : 0;
@@ -1151,7 +1151,7 @@ Nrf JlsDataset::getNrfMsecOutNextLogo(Msec& msecOut, Nrf nrf, LogoEdgeType edge,
 		if ( nrfNext < 0 || final == false ){
 			break;
 		}
-		//--- ÅIo—Í—pˆ— ---
+		//--- æœ€çµ‚å‡ºåŠ›ç”¨å‡¦ç† ---
 		DataLogoRecord dtlogo1;
 		getRecordLogo(dtlogo1, nlgFromNrf(nrfNext));
 		bool flagRise = isLogoEdgeRiseFromNrf(nrfNext);
@@ -1159,7 +1159,7 @@ Nrf JlsDataset::getNrfMsecOutNextLogo(Msec& msecOut, Nrf nrf, LogoEdgeType edge,
 		if ( msecOut < msecRef ){
 			flag_end = false;
 		}
-		//--- Ÿ‚ÌƒƒS‚ª“¯ˆêƒƒS‚©Šm”F ---
+		//--- æ¬¡ã®ãƒ­ã‚´ãŒåŒä¸€ãƒ­ã‚´ã‹ç¢ºèª ---
 		if ( flagRise == false ){
 			Nrf nrfRise = getNrfOutDirLogo(nrfNext, SEARCH_DIR_NEXT, LOGO_EDGE_RISE, type, final);
 			if ( nrfRise >= 0 ){
@@ -1167,10 +1167,10 @@ Nrf JlsDataset::getNrfMsecOutNextLogo(Msec& msecOut, Nrf nrf, LogoEdgeType edge,
 				getRecordLogo(dtlogo2, nlgFromNrf(nrfRise));
 				if ( dtlogo2.result_rise - dtlogo1.result_fall < msec_val_cont ){
 					if ( (extOpt.nLgExact & 0x02) == 0 ){
-						msecOut = cnv.getMsecAdjustFrmFromMsec(dtlogo2.result_rise, -1);	// Ø‚ê–Ú‚È‚µ‚É•â³
+						msecOut = cnv.getMsecAdjustFrmFromMsec(dtlogo2.result_rise, -1);	// åˆ‡ã‚Œç›®ãªã—ã«è£œæ­£
 					}
 					if ( dtlogo1.unit_fall == false && dtlogo2.unit_rise == false ){
-						flag_end = false;	// “¯ˆêƒƒS‚Ì‚½‚ßŸ‚ğŒŸõ
+						flag_end = false;	// åŒä¸€ãƒ­ã‚´ã®ãŸã‚æ¬¡ã‚’æ¤œç´¢
 						nrfNext = nrfRise;
 					}
 				}
@@ -1179,7 +1179,7 @@ Nrf JlsDataset::getNrfMsecOutNextLogo(Msec& msecOut, Nrf nrf, LogoEdgeType edge,
 	}
 	return r;
 }
-// o—Í—p‚ÌŸ‚ÌƒƒSˆÊ’uæ“¾
+// å‡ºåŠ›ç”¨ã®æ¬¡ã®ãƒ­ã‚´ä½ç½®å–å¾—
 Nrf JlsDataset::getNrfOutDirLogo(Nrf nrf, SearchDirType dr, LogoEdgeType edge, LogoSelectType type, bool final){
 	int size_logo = sizeDataLogo();
 	int r = -1;
@@ -1220,17 +1220,17 @@ Nrf JlsDataset::getNrfOutDirLogo(Nrf nrf, SearchDirType dr, LogoEdgeType edge, L
 
 
 //=====================================================================
-// ‘OŒãƒf[ƒ^æ“¾ˆ—i–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWj
+// å‰å¾Œãƒ‡ãƒ¼ã‚¿å–å¾—å‡¦ç†ï¼ˆç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ï¼‰
 //=====================================================================
 
 //---------------------------------------------------------------------
-// Ÿ‚Ì\¬ˆÊ’u‚ğæ“¾
-// “ü—ÍF
-//   nsc  : ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-//   dr   : ŒŸõ•ûŒüi‘O‘¤ / Œã‘¤j
-//   chap_th : ‹æØ‚è‚Æ‚·‚éó‘Ôè‡’l
-// o—ÍF
-//   •Ô‚è’lF è‘O\¬‹æØ‚è‚ÌˆÊ’u”Ô†i-1‚Ì‚ÍŠY“–‚È‚µj
+// æ¬¡ã®æ§‹æˆä½ç½®ã‚’å–å¾—
+// å…¥åŠ›ï¼š
+//   nsc  : ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+//   dr   : æ¤œç´¢æ–¹å‘ï¼ˆå‰å´ / å¾Œå´ï¼‰
+//   chap_th : åŒºåˆ‡ã‚Šã¨ã™ã‚‹çŠ¶æ…‹é–¾å€¤
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š æ‰‹å‰æ§‹æˆåŒºåˆ‡ã‚Šã®ä½ç½®ç•ªå·ï¼ˆ-1ã®æ™‚ã¯è©²å½“ãªã—ï¼‰
 //---------------------------------------------------------------------
 Nsc JlsDataset::getNscDirScpChap(Nsc nsc, SearchDirType dr, ScpChapType chap_th){
 	if (dr == SEARCH_DIR_PREV){
@@ -1239,7 +1239,7 @@ Nsc JlsDataset::getNscDirScpChap(Nsc nsc, SearchDirType dr, ScpChapType chap_th)
 	return getNscNextScpChap(nsc, chap_th);
 }
 
-// ‚P‚Â‘O‚ÌˆÊ’uæ“¾
+// ï¼‘ã¤å‰ã®ä½ç½®å–å¾—
 Nsc JlsDataset::getNscPrevScpChap(Nsc nsc, ScpChapType chap_th){
 	ScpEndType edgetype = SCP_END_NOEDGE;
 	return getNscPrevScpChapEdge(nsc, chap_th, edgetype);
@@ -1259,12 +1259,12 @@ Nsc JlsDataset::getNscPrevScpChapEdge(Nsc nsc, ScpChapType chap_th, ScpEndType n
 	}
 	return r;
 }
-// ‚P‚ÂŒã‚ÌˆÊ’uæ“¾
+// ï¼‘ã¤å¾Œã®ä½ç½®å–å¾—
 Nsc JlsDataset::getNscNextScpChap(Nsc nsc, ScpChapType chap_th){
 	ScpEndType edgetype = SCP_END_NOEDGE;
 	return getNscNextScpChapEdge(nsc, chap_th, edgetype);
 }
-// ‚P‚ÂŒã‚ÌˆÊ’uæ“¾
+// ï¼‘ã¤å¾Œã®ä½ç½®å–å¾—
 Nsc JlsDataset::getNscNextScpChapEdge(Nsc nsc, ScpChapType chap_th, ScpEndType noedge){
 	int num_scpos = sizeDataScp();
 	int nEdge = ( noedge == SCP_END_NOEDGE )? 1 : 0;
@@ -1282,18 +1282,18 @@ Nsc JlsDataset::getNscNextScpChapEdge(Nsc nsc, ScpChapType chap_th, ScpEndType n
 }
 
 //---------------------------------------------------------------------
-// Ÿ‚Ì\¬ˆÊ’u‚ğæ“¾i2\¬ˆÈã‚ÌCM‚ÍŒ‹‡j
-// “ü—ÍF
-//   nsc  : ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-//   noedge : 0ƒtƒŒ[ƒ€‚ÆÅIƒtƒŒ[ƒ€‚ğœ‚­İ’è
-// o—ÍF
-//   •Ô‚è’lF Ÿ‚Ì\¬‹æØ‚èˆÊ’u”Ô†i-1‚Ì‚ÍŠY“–‚È‚µj
+// æ¬¡ã®æ§‹æˆä½ç½®ã‚’å–å¾—ï¼ˆ2æ§‹æˆä»¥ä¸Šã®CMã¯çµåˆï¼‰
+// å…¥åŠ›ï¼š
+//   nsc  : ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+//   noedge : 0ãƒ•ãƒ¬ãƒ¼ãƒ ã¨æœ€çµ‚ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’é™¤ãè¨­å®š
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š æ¬¡ã®æ§‹æˆåŒºåˆ‡ã‚Šä½ç½®ç•ªå·ï¼ˆ-1ã®æ™‚ã¯è©²å½“ãªã—ï¼‰
 //---------------------------------------------------------------------
 Nsc JlsDataset::getNscNextScpCheckCmUnit(Nsc nsc, ScpEndType noedge){
 	int nsc_next = nsc;
 	int nsc_cur;
 	ScpArType arstat = SCP_AR_UNKNOWN;
-	//--- 2\¬ˆÈã‚ÌCM‚ÍÅŒã‚ÌˆÊ’u‚Ü‚ÅˆÚ“® ---
+	//--- 2æ§‹æˆä»¥ä¸Šã®CMã¯æœ€å¾Œã®ä½ç½®ã¾ã§ç§»å‹• ---
 	do{
 		nsc_cur  = nsc_next;
 		nsc_next = getNscNextScpChapEdge(nsc_cur, SCP_CHAP_DECIDE, noedge);
@@ -1301,7 +1301,7 @@ Nsc JlsDataset::getNscNextScpCheckCmUnit(Nsc nsc, ScpEndType noedge){
 	} while(nsc_next > 0 &&
 			(arstat == SCP_AR_N_AUNIT ||
 			(arstat == SCP_AR_N_BUNIT && nsc_cur == nsc)));
-	//--- Ÿ‚ÌˆÊ’u‚Éİ’è ---
+	//--- æ¬¡ã®ä½ç½®ã«è¨­å®š ---
 	if (nsc_cur == nsc){
 		nsc_cur = nsc_next;
 	}
@@ -1312,7 +1312,7 @@ Nsc JlsDataset::getNscPrevScpCheckCmUnit(Nsc nsc, ScpEndType noedge){
 	int nsc_cur;
 	bool overEdge;
 	ScpArType arstat = SCP_AR_UNKNOWN;
-	//--- 2\¬ˆÈã‚ÌCM‚ÍÅ‰‚ÌˆÊ’u‚Ü‚ÅˆÚ“® ---
+	//--- 2æ§‹æˆä»¥ä¸Šã®CMã¯æœ€åˆã®ä½ç½®ã¾ã§ç§»å‹• ---
 	do{
 		nsc_cur  = nsc_prev;
 		overEdge = ( nsc_cur == sizeDataScp() && noedge == SCP_END_NOEDGE );
@@ -1321,21 +1321,21 @@ Nsc JlsDataset::getNscPrevScpCheckCmUnit(Nsc nsc, ScpEndType noedge){
 		arstat = getScpArstat(nsc_cur);
 	} while( nsc_prev > 0 && (arstat == SCP_AR_N_AUNIT || overEdge) );
 
-	// 2\¬ˆÈã‚ÌCM‚ÍÅ‰‚ªSCP_AR_N_BUNITAˆÈ~‚Ì˜AŒ‹‚ªSCP_AR_N_AUNIT
+	// 2æ§‹æˆä»¥ä¸Šã®CMã¯æœ€åˆãŒSCP_AR_N_BUNITã€ä»¥é™ã®é€£çµãŒSCP_AR_N_AUNIT
 
-	//--- Ÿ‚ÌˆÊ’u‚Éİ’è ---
+	//--- æ¬¡ã®ä½ç½®ã«è¨­å®š ---
 	nsc_cur = nsc_prev;
 	return nsc_cur;
 }
 
 //---------------------------------------------------------------------
-// Ÿ‚Ì\¬ˆÊ’u‚ğæ“¾
-// “ü—ÍF
-//   nsc  : ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-//   dr   : ŒŸõ•ûŒüi‘O‘¤ / Œã‘¤j
-//   noedge : 0ƒtƒŒ[ƒ€‚ÆÅIƒtƒŒ[ƒ€‚ğœ‚­İ’è
-// o—ÍF
-//   •Ô‚è’lF Ÿ‚Ì\¬‹æØ‚èˆÊ’u”Ô†i-1‚Ì‚ÍŠY“–‚È‚µj
+// æ¬¡ã®æ§‹æˆä½ç½®ã‚’å–å¾—
+// å…¥åŠ›ï¼š
+//   nsc  : ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+//   dr   : æ¤œç´¢æ–¹å‘ï¼ˆå‰å´ / å¾Œå´ï¼‰
+//   noedge : 0ãƒ•ãƒ¬ãƒ¼ãƒ ã¨æœ€çµ‚ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’é™¤ãè¨­å®š
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š æ¬¡ã®æ§‹æˆåŒºåˆ‡ã‚Šä½ç½®ç•ªå·ï¼ˆ-1ã®æ™‚ã¯è©²å½“ãªã—ï¼‰
 //---------------------------------------------------------------------
 Nsc JlsDataset::getNscDirScpDecide(Nsc nsc, SearchDirType dr, ScpEndType noedge){
 	if (dr == SEARCH_DIR_PREV){
@@ -1344,7 +1344,7 @@ Nsc JlsDataset::getNscDirScpDecide(Nsc nsc, SearchDirType dr, ScpEndType noedge)
 	return getNscNextScpDecide(nsc, noedge);
 }
 
-// ‚P‚Â‘O‚ÌˆÊ’uæ“¾
+// ï¼‘ã¤å‰ã®ä½ç½®å–å¾—
 int JlsDataset::getNscPrevScpDecide(int nsc, ScpEndType noedge){
 	int num_scpos = sizeDataScp();
 	int r = -1;
@@ -1359,7 +1359,7 @@ int JlsDataset::getNscPrevScpDecide(int nsc, ScpEndType noedge){
 	return r;
 }
 
-// ‚P‚ÂŒã‚ÌˆÊ’uæ“¾
+// ï¼‘ã¤å¾Œã®ä½ç½®å–å¾—
 Nsc JlsDataset::getNscNextScpDecide(Nsc nsc, ScpEndType noedge){
 	int num_scpos = sizeDataScp();
 	int r = -1;
@@ -1374,14 +1374,14 @@ Nsc JlsDataset::getNscNextScpDecide(Nsc nsc, ScpEndType noedge){
 	return r;
 }
 
-// •\¦—p‚Ì\¬
+// è¡¨ç¤ºç”¨ã®æ§‹æˆ
 Nsc JlsDataset::getNscNextScpDisp(Nsc nsc, ScpEndType noedge){
 	Msec msecFrom = -1;
-	if ( isScpChapTypeDecideFromNsc(nsc) ){		// Œ³ˆÊ’u‚ª‹æØ‚è‚È‚çQÆŒ³‚Æ‚·‚é
+	if ( isScpChapTypeDecideFromNsc(nsc) ){		// å…ƒä½ç½®ãŒåŒºåˆ‡ã‚Šãªã‚‰å‚ç…§å…ƒã¨ã™ã‚‹
 		 msecFrom = getMsecScp(nsc);
 	}
 	int r = nsc;
-	bool cont = false;		// ’Êí‚Í1‰ñ‚ÅI—¹
+	bool cont = false;		// é€šå¸¸ã¯1å›ã§çµ‚äº†
 	do{
 		if ( isAutoModeUse() ){
 			r = getNscNextScpCheckCmUnit(r, noedge);
@@ -1391,7 +1391,7 @@ Nsc JlsDataset::getNscNextScpDisp(Nsc nsc, ScpEndType noedge){
 		}
 		cont = false;
 		if ( r>=0 && r<sizeDataScp() && msecFrom>=0 ){
-			if ( msecFrom >= getMsecScp(r) ){	// Œ»İˆÊ’uˆÈ‰º‚Í”ò‚Î‚·
+			if ( msecFrom >= getMsecScp(r) ){	// ç¾åœ¨ä½ç½®ä»¥ä¸‹ã¯é£›ã°ã™
 				cont = true;
 			}
 		}
@@ -1400,7 +1400,7 @@ Nsc JlsDataset::getNscNextScpDisp(Nsc nsc, ScpEndType noedge){
 }
 Nsc JlsDataset::getNscPrevScpDisp(Nsc nsc, ScpEndType noedge){
 	Msec msecFrom = -1;
-	if ( isScpChapTypeDecideFromNsc(nsc) ){		// Œ³ˆÊ’u‚ª‹æØ‚è‚È‚çQÆŒ³‚Æ‚·‚é
+	if ( isScpChapTypeDecideFromNsc(nsc) ){		// å…ƒä½ç½®ãŒåŒºåˆ‡ã‚Šãªã‚‰å‚ç…§å…ƒã¨ã™ã‚‹
 		msecFrom = getMsecScp(nsc);
 	}
 	int rdet = -1;
@@ -1415,12 +1415,12 @@ Nsc JlsDataset::getNscPrevScpDisp(Nsc nsc, ScpEndType noedge){
 		}
 		cont = false;
 		if ( r >= 0 ){
-			if ( msecFrom < 0 ){	// QÆŒ³‚È‚µ
-				rdet = r;		// Œ‹‰ÊˆÊ’u‚É‚·‚é
+			if ( msecFrom < 0 ){	// å‚ç…§å…ƒãªã—
+				rdet = r;		// çµæœä½ç½®ã«ã™ã‚‹
 				msecFrom = getMsecScp(r);
 				cont = true;
 			}else{
-				if ( msecFrom <= getMsecScp(r) ){	// Œ»İˆÊ’uˆÈã‚Í”ò‚Î‚·
+				if ( msecFrom <= getMsecScp(r) ){	// ç¾åœ¨ä½ç½®ä»¥ä¸Šã¯é£›ã°ã™
 					rdet = r;
 					cont = true;
 				}else if ( rdet < 0 ){
@@ -1432,7 +1432,7 @@ Nsc JlsDataset::getNscPrevScpDisp(Nsc nsc, ScpEndType noedge){
 	return rdet;
 }
 
-// ƒ~ƒŠ•b‚©‚ç‹æØ‚è‚ªw’è”‘O‚ÌˆÊ’uæ“¾
+// ãƒŸãƒªç§’ã‹ã‚‰åŒºåˆ‡ã‚ŠãŒæŒ‡å®šæ•°å‰ã®ä½ç½®å–å¾—
 Nsc JlsDataset::getNscPrevScpDispFromMsecCount(Msec msec, int nCount, bool clip){
 	Msec msecSrc = msec - msecValExact;
 	WideMsec wmsecTmp;
@@ -1448,7 +1448,7 @@ Nsc JlsDataset::getNscPrevScpDispFromMsecCount(Msec msec, int nCount, bool clip)
 	if ( clip && nscT < 0 ) nscT = 0;
 	return nscT;
 }
-// ƒ~ƒŠ•b‚©‚ç‹æØ‚è‚ªw’è”Œã‚ÌˆÊ’uæ“¾
+// ãƒŸãƒªç§’ã‹ã‚‰åŒºåˆ‡ã‚ŠãŒæŒ‡å®šæ•°å¾Œã®ä½ç½®å–å¾—
 Nsc JlsDataset::getNscNextScpDispFromMsecCount(Msec msec, int nCount, bool clip){
 	Msec msecMax = getMsecTotalMax();
 	Msec msecSrc = msec + msecValExact;
@@ -1467,16 +1467,16 @@ Nsc JlsDataset::getNscNextScpDispFromMsecCount(Msec msec, int nCount, bool clip)
 }
 
 //=====================================================================
-// ˆÊ’u‚É‘Î‰‚·‚éƒf[ƒ^æ“¾ˆ—
+// ä½ç½®ã«å¯¾å¿œã™ã‚‹ãƒ‡ãƒ¼ã‚¿å–å¾—å‡¦ç†
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ‘ÎÛˆÊ’u‚ªŠÜ‚Ü‚ê‚éƒƒS”Ô†‚ğæ“¾
-// “ü—ÍF
-//   msec_target : ‘ÎÛˆÊ’u
-//   edge        : 0=—§‚¿ã‚ª‚èƒGƒbƒW  1=—§‚¿‰º‚ª‚èƒGƒbƒW  2=—¼ƒGƒbƒW
-// o—ÍF
-//   •Ô‚è’lF ƒƒS”Ô†*2 + fall‚Í1i-1‚Ì‚ÍŠY“–‚È‚µj
+// å¯¾è±¡ä½ç½®ãŒå«ã¾ã‚Œã‚‹ãƒ­ã‚´ç•ªå·ã‚’å–å¾—
+// å…¥åŠ›ï¼š
+//   msec_target : å¯¾è±¡ä½ç½®
+//   edge        : 0=ç«‹ã¡ä¸ŠãŒã‚Šã‚¨ãƒƒã‚¸  1=ç«‹ã¡ä¸‹ãŒã‚Šã‚¨ãƒƒã‚¸  2=ä¸¡ã‚¨ãƒƒã‚¸
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š ãƒ­ã‚´ç•ªå·*2 + fallæ™‚ã¯1ï¼ˆ-1ã®æ™‚ã¯è©²å½“ãªã—ï¼‰
 //---------------------------------------------------------------------
 Nrf JlsDataset::getNrfLogoFromMsec(Msec msec_target, LogoEdgeType edge){
 	int size_logo = sizeDataLogo();
@@ -1546,24 +1546,24 @@ Nrf JlsDataset::getNrfLogoFromMsecResult(Msec msec_target, LogoEdgeType edge, bo
 }
 
 //---------------------------------------------------------------------
-// ƒƒSØ‚è‘Ö‚í‚èˆÊ’u‚Ì–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWæ“¾
-// “ü—ÍF
-//   nrf_target   : ‘ÎÛƒƒS”Ô†
-//   msec_th      : ŒŸõ”ÍˆÍi-1‚Ì‚Í§ŒÀ‚È‚µj
-//   chap_th      : ‘ÎÛ‚Æ‚·‚é\¬‹æØ‚èó‘Ôè‡’l
-// o—ÍF
-//   •Ô‚è’lF ‘ÎÛˆÊ’u‚Éˆê”Ô‹ß‚¢\¬‹æØ‚è‚ÌˆÊ’u”Ô†i-1‚Ì‚ÍŠY“–‚È‚µj
+// ãƒ­ã‚´åˆ‡ã‚Šæ›¿ã‚ã‚Šä½ç½®ã®ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸å–å¾—
+// å…¥åŠ›ï¼š
+//   nrf_target   : å¯¾è±¡ãƒ­ã‚´ç•ªå·
+//   msec_th      : æ¤œç´¢ç¯„å›²ï¼ˆ-1ã®æ™‚ã¯åˆ¶é™ãªã—ï¼‰
+//   chap_th      : å¯¾è±¡ã¨ã™ã‚‹æ§‹æˆåŒºåˆ‡ã‚ŠçŠ¶æ…‹é–¾å€¤
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š å¯¾è±¡ä½ç½®ã«ä¸€ç•ªè¿‘ã„æ§‹æˆåŒºåˆ‡ã‚Šã®ä½ç½®ç•ªå·ï¼ˆ-1ã®æ™‚ã¯è©²å½“ãªã—ï¼‰
 //---------------------------------------------------------------------
 Nsc JlsDataset::getNscFromNrf(Nrf nrf_target, Msec msec_th, ScpChapType chap_th, bool flat){
 	if (nrf_target < 0 || nrf_target >= sizeDataLogo()*2){
 		return -1;
 	}
-	//--- ƒƒS‰Â”\«”ÍˆÍæ“¾ ---
+	//--- ãƒ­ã‚´å¯èƒ½æ€§ç¯„å›²å–å¾— ---
 	int msec_lg_c = -1;
 	int msec_lg_l = -1;
 	int msec_lg_r = -1;;
 	getMsecLogoNrfWide(msec_lg_c, msec_lg_l, msec_lg_r, nrf_target);
-	//--- ˆê”Ô‹ß‚¢ˆÊ’u‚Ìæ“¾ ---
+	//--- ä¸€ç•ªè¿‘ã„ä½ç½®ã®å–å¾— ---
 	int nsc_det  = -1;
 	int msec_dif_det = -1;
 	ScpChapType chap_det;
@@ -1577,7 +1577,7 @@ Nsc JlsDataset::getNscFromNrf(Nrf nrf_target, Msec msec_th, ScpChapType chap_th,
 			if (flat){
 				chap_i = SCP_CHAP_NONE;
 			}
-			else if (chap_i >= SCP_CHAP_DECIDE){		// Šm’è‚È‚ç“¯‚¶ƒŒƒxƒ‹‚Éİ’è
+			else if (chap_i >= SCP_CHAP_DECIDE){		// ç¢ºå®šãªã‚‰åŒã˜ãƒ¬ãƒ™ãƒ«ã«è¨­å®š
 				chap_i = SCP_CHAP_DECIDE;
 			}
 			if (msec_i > msec_lg_r + msecValNear3){
@@ -1601,14 +1601,14 @@ Nsc JlsDataset::getNscFromNrf(Nrf nrf_target, Msec msec_th, ScpChapType chap_th,
 }
 
 //---------------------------------------------------------------------
-// ‘ÎÛˆÊ’u‚Éˆê”Ô‹ß‚¢ˆÊ’u‚ğŒŸõ
-// “ü—ÍF
-//   msec_target  : ‘ÎÛˆÊ’u
-//   msec_th      : ŒŸõ”ÍˆÍi-1‚Ì‚Í§ŒÀ‚È‚µj
-//   chap_th      : ‘ÎÛ‚Æ‚·‚é\¬‹æØ‚èó‘Ôè‡’l
-//   noedge       : 0ƒtƒŒ[ƒ€‚ÆÅIƒtƒŒ[ƒ€‚ğœ‚­İ’è
-// o—ÍF
-//   •Ô‚è’lF ‘ÎÛˆÊ’u‚Éˆê”Ô‹ß‚¢\¬‹æØ‚è‚ÌˆÊ’u”Ô†i-1‚Ì‚ÍŠY“–‚È‚µj
+// å¯¾è±¡ä½ç½®ã«ä¸€ç•ªè¿‘ã„ä½ç½®ã‚’æ¤œç´¢
+// å…¥åŠ›ï¼š
+//   msec_target  : å¯¾è±¡ä½ç½®
+//   msec_th      : æ¤œç´¢ç¯„å›²ï¼ˆ-1ã®æ™‚ã¯åˆ¶é™ãªã—ï¼‰
+//   chap_th      : å¯¾è±¡ã¨ã™ã‚‹æ§‹æˆåŒºåˆ‡ã‚ŠçŠ¶æ…‹é–¾å€¤
+//   noedge       : 0ãƒ•ãƒ¬ãƒ¼ãƒ ã¨æœ€çµ‚ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’é™¤ãè¨­å®š
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š å¯¾è±¡ä½ç½®ã«ä¸€ç•ªè¿‘ã„æ§‹æˆåŒºåˆ‡ã‚Šã®ä½ç½®ç•ªå·ï¼ˆ-1ã®æ™‚ã¯è©²å½“ãªã—ï¼‰
 //---------------------------------------------------------------------
 Nsc JlsDataset::getNscFromMsecFull(Msec msec_target, Msec msec_th, ScpChapType chap_th, ScpEndType noedge){
 	int num_scpos = sizeDataScp();
@@ -1621,7 +1621,7 @@ Nsc JlsDataset::getNscFromMsecFull(Msec msec_target, Msec msec_th, ScpChapType c
 		ScpChapType chap_i = m_scp[i].chap;
 		bool edge = ( i == 0 || i == num_scpos-1);
 		if (chap_i >= chap_th || edge){
-			//--- ‘ÎÛˆÊ’u‚©‚ç‚Ì·•ªÅ¬’l‰ÓŠ‚ğæ“¾ ---
+			//--- å¯¾è±¡ä½ç½®ã‹ã‚‰ã®å·®åˆ†æœ€å°å€¤ç®‡æ‰€ã‚’å–å¾— ---
 			int msec_dif = abs(msec_target - msec_i);
 			if (msec_dif <= msec_th || msec_th < 0){
 				bool decide_flag = ( jlsd::isScpChapTypeDecide(chap_i) || edge );
@@ -1634,7 +1634,7 @@ Nsc JlsDataset::getNscFromMsecFull(Msec msec_target, Msec msec_th, ScpChapType c
 					decide_min = decide_flag;
 				}
 			}
-//			//--- ‘ÎÛˆÊ’u‚ğ‰ß‚¬‚½‚çI—¹ ---
+//			//--- å¯¾è±¡ä½ç½®ã‚’éããŸã‚‰çµ‚äº† ---
 //			if ( msec_i > msec_target + msecValExact ){
 //				break;
 //			}
@@ -1643,26 +1643,26 @@ Nsc JlsDataset::getNscFromMsecFull(Msec msec_target, Msec msec_th, ScpChapType c
 	return r;
 }
 
-// \¬‹æØ‚è‚ğæ“¾
+// æ§‹æˆåŒºåˆ‡ã‚Šã‚’å–å¾—
 Nsc JlsDataset::getNscFromMsecChap(Msec msec_target, Msec msec_th, ScpChapType chap_th){
 	return getNscFromMsecFull(msec_target, msec_th, chap_th, SCP_END_NOEDGE);
 }
 
-// –³‰¹SCˆÊ’u‚ğæ“¾
+// ç„¡éŸ³SCä½ç½®ã‚’å–å¾—
 Nsc JlsDataset::getNscFromMsecMgn(Msec msec_target, Msec msec_th, ScpEndType noedge){
 	return getNscFromMsecFull(msec_target, msec_th, SCP_CHAP_DUPE, noedge);
 }
-// –³‰¹SCˆÊ’u‚ğæ“¾
+// ç„¡éŸ³SCä½ç½®ã‚’å–å¾—
 Nsc JlsDataset::getNscFromMsecAll(Msec msec_target){
 	return getNscFromMsecFull(msec_target, msecValNear2, SCP_CHAP_DUPE, SCP_END_NOEDGE);
 }
 
-// –³‰¹SCˆÊ’u‚ğæ“¾
+// ç„¡éŸ³SCä½ç½®ã‚’å–å¾—
 Nsc JlsDataset::getNscFromMsecAllEdgein(Msec msec_target){
 	return getNscFromMsecFull(msec_target, msecValNear2, SCP_CHAP_DUPE, SCP_END_EDGEIN);
 }
 
-// ”ÍˆÍ“à‚Ì–³‰¹SCˆÊ’u‚ğæ“¾
+// ç¯„å›²å†…ã®ç„¡éŸ³SCä½ç½®ã‚’å–å¾—
 Nsc JlsDataset::getNscFromWideMsecFull(WideMsec wmsec_target, ScpChapType chap_th, ScpEndType noedge){
 	int num_scpos = sizeDataScp();
 	int r = -1;
@@ -1671,7 +1671,7 @@ Nsc JlsDataset::getNscFromWideMsecFull(WideMsec wmsec_target, ScpChapType chap_t
 		Msec msec_i = m_scp[i].msec;
 		ScpChapType chap_i = m_scp[i].chap;
 		if (chap_i >= chap_th || i == 0 || i == num_scpos-1){
-			//--- ‘ÎÛˆÊ’u‚©‚ç‚Ì·•ªÅ¬’l‰ÓŠ‚ğæ“¾ ---
+			//--- å¯¾è±¡ä½ç½®ã‹ã‚‰ã®å·®åˆ†æœ€å°å€¤ç®‡æ‰€ã‚’å–å¾— ---
 			int msec_dif = abs(wmsec_target.just - msec_i);
 			if ((wmsec_target.early <= msec_i || wmsec_target.early < 0) &&
 				(msec_i <= wmsec_target.late  || wmsec_target.late  < 0)){
@@ -1680,7 +1680,7 @@ Nsc JlsDataset::getNscFromWideMsecFull(WideMsec wmsec_target, ScpChapType chap_t
 					msec_min = msec_dif;
 				}
 			}
-			//--- ‘ÎÛˆÊ’u‚ğ‰ß‚¬‚½‚çI—¹ ---
+			//--- å¯¾è±¡ä½ç½®ã‚’éããŸã‚‰çµ‚äº† ---
 			if (msec_i >= wmsec_target.late){
 				break;
 			}
@@ -1688,12 +1688,12 @@ Nsc JlsDataset::getNscFromWideMsecFull(WideMsec wmsec_target, ScpChapType chap_t
 	}
 	return r;
 }
-// ”ÍˆÍ“à‚Ì–³‰¹SCˆÊ’u‚ğæ“¾
+// ç¯„å›²å†…ã®ç„¡éŸ³SCä½ç½®ã‚’å–å¾—
 Nsc JlsDataset::getNscFromWideMsecByChap(WideMsec wmsec_target, ScpChapType chap_th){
 	return getNscFromWideMsecFull(wmsec_target, chap_th, SCP_END_NOEDGE);
 }
 
-// ˆê”Ô‹ß‚¢–³‰¹SCˆÊ’u‚ğæ“¾i•\¦—p‚Ì\¬‹æØ‚è‚Ì‚İj
+// ä¸€ç•ªè¿‘ã„ç„¡éŸ³SCä½ç½®ã‚’å–å¾—ï¼ˆè¡¨ç¤ºç”¨ã®æ§‹æˆåŒºåˆ‡ã‚Šã®ã¿ï¼‰
 Nsc JlsDataset::getNscFromMsecDisp(Msec msec_target, Msec msec_th, ScpEndType noedge){
 	WideMsec wmsec;
 	wmsec.just  = msec_target;
@@ -1701,11 +1701,11 @@ Nsc JlsDataset::getNscFromMsecDisp(Msec msec_target, Msec msec_th, ScpEndType no
 	wmsec.late  = msec_target+msec_th;
 	return getNscFromWideMsecDisp(wmsec, noedge);
 }
-// ”ÍˆÍ“à‚Ì–³‰¹SCˆÊ’u‚ğæ“¾i•\¦—p‚Ì\¬‹æØ‚è‚Ì‚İj
+// ç¯„å›²å†…ã®ç„¡éŸ³SCä½ç½®ã‚’å–å¾—ï¼ˆè¡¨ç¤ºç”¨ã®æ§‹æˆåŒºåˆ‡ã‚Šã®ã¿ï¼‰
 Nsc JlsDataset::getNscFromWideMsecDisp(WideMsec wmsec_target, ScpEndType noedge){
 	Term term = {};
-	pdata->setTermEndtype(term, noedge);	// ’[‚ğŠÜ‚ß‚ÄÀ{‚·‚é‚©
-	pdata->setTermForDisp(term, true);		// •\¦—p‚Ì\¬
+	pdata->setTermEndtype(term, noedge);	// ç«¯ã‚’å«ã‚ã¦å®Ÿæ–½ã™ã‚‹ã‹
+	pdata->setTermForDisp(term, true);		// è¡¨ç¤ºç”¨ã®æ§‹æˆ
 	Nsc r = -1;
 	Msec msecMin = -1;
 	bool first = true;
@@ -1720,12 +1720,12 @@ Nsc JlsDataset::getNscFromWideMsecDisp(WideMsec wmsec_target, ScpEndType noedge)
 				r = nscNow;
 				msecMin = msecDif;
 			}
-			//--- ‘ÎÛˆÊ’u‚ğ‰ß‚¬‚½‚çI—¹ ---
+			//--- å¯¾è±¡ä½ç½®ã‚’éããŸã‚‰çµ‚äº† ---
 			if (msecNow >= wmsec_target.late){
 				break;
 			}
 		}
-		//--- Ÿ‚ÌˆÊ’uİ’è ---
+		//--- æ¬¡ã®ä½ç½®è¨­å®š ---
 		if ( first ){
 			first = false;
 		}else{
@@ -1736,10 +1736,10 @@ Nsc JlsDataset::getNscFromWideMsecDisp(WideMsec wmsec_target, ScpEndType noedge)
 }
 
 //---------------------------------------------------------------------
-// ŠJnI—¹ˆÊ’u‚É‘Î‰‚·‚é–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†‚ğæ“¾
+// é–‹å§‹çµ‚äº†ä½ç½®ã«å¯¾å¿œã™ã‚‹ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·ã‚’å–å¾—
 //---------------------------------------------------------------------
 bool JlsDataset::getRangeNscFromRangeMsec(RangeNsc &rnsc, RangeMsec rmsec){
-	//--- ˆÊ’u‚©‚ç³Šm‚ÈƒƒS”Ô†‚ğæ“¾‚·‚é ---
+	//--- ä½ç½®ã‹ã‚‰æ­£ç¢ºãªãƒ­ã‚´ç•ªå·ã‚’å–å¾—ã™ã‚‹ ---
 	bool det = true;
 	rnsc.st = -1;
 	rnsc.ed = -1;
@@ -1764,11 +1764,11 @@ bool JlsDataset::getRangeNscFromRangeMsec(RangeNsc &rnsc, RangeMsec rmsec){
 
 
 //=====================================================================
-// ó‘Ôİ’è
+// çŠ¶æ…‹è¨­å®š
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒƒSƒŒƒxƒ‹İ’èE“Ç‚İo‚µ
+// ãƒ­ã‚´ãƒ¬ãƒ™ãƒ«è¨­å®šãƒ»èª­ã¿å‡ºã—
 //---------------------------------------------------------------------
 void JlsDataset::setLevelUseLogo(int level){
 	m_levelUseLogo = level;
@@ -1778,14 +1778,14 @@ int JlsDataset::getLevelUseLogo(){
 }
 
 //---------------------------------------------------------------------
-// ]—ˆ‚©‚ç•K—v‚È‰Šú’²®
+// å¾“æ¥ã‹ã‚‰å¿…è¦ãªåˆæœŸèª¿æ•´
 //---------------------------------------------------------------------
 void JlsDataset::setFlagSetupAdj(bool flag){
 	m_flagSetupAdj = flag;
 }
 
 //---------------------------------------------------------------------
-// ©“®\¬„‘ª‚Ìƒ‚[ƒhİ’è
+// è‡ªå‹•æ§‹æˆæ¨æ¸¬ã®ãƒ¢ãƒ¼ãƒ‰è¨­å®š
 //---------------------------------------------------------------------
 void JlsDataset::setFlagAutoMode(bool flag){
 	if (flag){
@@ -1799,18 +1799,18 @@ void JlsDataset::setFlagAutoMode(bool flag){
 
 
 //=====================================================================
-// ó‘Ô”»’è
+// çŠ¶æ…‹åˆ¤å®š
 //=====================================================================
 
 //---------------------------------------------------------------------
-// “Ç‚İ‚ñ‚¾ƒƒS‚ª‘¶İ‚·‚é‚©”»’f
+// èª­ã¿è¾¼ã‚“ã ãƒ­ã‚´ãŒå­˜åœ¨ã™ã‚‹ã‹åˆ¤æ–­
 //---------------------------------------------------------------------
 bool JlsDataset::isExistLogo(){
 	return (pdata->extOpt.flagNoLogo > 0)? false : true;
 }
 
 //---------------------------------------------------------------------
-// ƒƒS‚ğ‚ª‘¶İ‚·‚é‚©”»’f
+// ãƒ­ã‚´ã‚’ãŒå­˜åœ¨ã™ã‚‹ã‹åˆ¤æ–­
 //---------------------------------------------------------------------
 bool JlsDataset::isUnuseLogo(){
 	return (m_levelUseLogo == CONFIG_LOGO_LEVEL_UNUSE_ALL)? true : false;
@@ -1820,35 +1820,35 @@ bool JlsDataset::isUnuseLevelLogo(){
 }
 
 //---------------------------------------------------------------------
-// Auto\¬‚ª‰Šúó‘Ô‚©Šm”F
+// Autoæ§‹æˆãŒåˆæœŸçŠ¶æ…‹ã‹ç¢ºèª
 //---------------------------------------------------------------------
 bool JlsDataset::isSetupAdjInitial(){
 	return (m_flagSetupAdj == 0)? true : false;
 }
 
 //---------------------------------------------------------------------
-// Auto\¬‚ª‰Šúó‘Ô‚©Šm”F
+// Autoæ§‹æˆãŒåˆæœŸçŠ¶æ…‹ã‹ç¢ºèª
 //---------------------------------------------------------------------
 bool JlsDataset::isAutoModeInitial(){
 	return (m_flagSetupAuto == 0)? true : false;
 }
 
 //---------------------------------------------------------------------
-// Auto\¬‚ğg—p‚·‚éƒ‚[ƒh‚©Šm”F
+// Autoæ§‹æˆã‚’ä½¿ç”¨ã™ã‚‹ãƒ¢ãƒ¼ãƒ‰ã‹ç¢ºèª
 //---------------------------------------------------------------------
 bool JlsDataset::isAutoModeUse(){
 	return (m_flagSetupAuto == 2)? true : false;
 }
 
 //---------------------------------------------------------------------
-// ÀƒƒS‚ğg‚í‚¸\¬„‘ªƒƒS‚ª—LŒø‚Èƒ‚[ƒh‚©Šm”F
+// å®Ÿãƒ­ã‚´ã‚’ä½¿ã‚ãšæ§‹æˆæ¨æ¸¬ãƒ­ã‚´ãŒæœ‰åŠ¹ãªãƒ¢ãƒ¼ãƒ‰ã‹ç¢ºèª
 //---------------------------------------------------------------------
 bool JlsDataset::isAutoLogoOnly(){
 	return (m_flagSetupAuto > 0 && isUnuseLevelLogo())? true : false;
 }
 
 //---------------------------------------------------------------------
-// ‘ÎÛˆÊ’u‚ÌƒƒS‚ª—LŒø‚©”»’fiƒƒS—§‚¿ã‚ª‚èj
+// å¯¾è±¡ä½ç½®ã®ãƒ­ã‚´ãŒæœ‰åŠ¹ã‹åˆ¤æ–­ï¼ˆãƒ­ã‚´ç«‹ã¡ä¸ŠãŒã‚Šï¼‰
 //---------------------------------------------------------------------
 bool JlsDataset::isValidLogoRise(Nlg nlg){
 	if (nlg >= 0 && nlg < sizeDataLogo()){
@@ -1860,7 +1860,7 @@ bool JlsDataset::isValidLogoRise(Nlg nlg){
 }
 
 //---------------------------------------------------------------------
-// ‘ÎÛˆÊ’u‚ÌƒƒS‚ª—LŒø‚©”»’fiƒƒS—§‚¿‰º‚ª‚èj
+// å¯¾è±¡ä½ç½®ã®ãƒ­ã‚´ãŒæœ‰åŠ¹ã‹åˆ¤æ–­ï¼ˆãƒ­ã‚´ç«‹ã¡ä¸‹ãŒã‚Šï¼‰
 //---------------------------------------------------------------------
 bool JlsDataset::isValidLogoFall(Nlg nlg){
 	if (nlg >= 0 && nlg < sizeDataLogo()){
@@ -1872,7 +1872,7 @@ bool JlsDataset::isValidLogoFall(Nlg nlg){
 }
 
 //---------------------------------------------------------------------
-// ‘ÎÛˆÊ’u‚ÌƒƒS‚ª—LŒø‚©”»’fiƒƒS—§‚¿‰º‚ª‚èj
+// å¯¾è±¡ä½ç½®ã®ãƒ­ã‚´ãŒæœ‰åŠ¹ã‹åˆ¤æ–­ï¼ˆãƒ­ã‚´ç«‹ã¡ä¸‹ãŒã‚Šï¼‰
 //---------------------------------------------------------------------
 bool JlsDataset::isValidLogoNrf(Nrf nrf){
 	Nlg nlg = nlgFromNrf(nrf);
@@ -1884,15 +1884,15 @@ bool JlsDataset::isValidLogoNrf(Nrf nrf){
 
 
 //---------------------------------------------------------------------
-// „‘ªƒƒS•ªŠ„‰ÓŠ‚©”»’f
+// æ¨æ¸¬ãƒ­ã‚´åˆ†å‰²ç®‡æ‰€ã‹åˆ¤æ–­
 //---------------------------------------------------------------------
 bool JlsDataset::isElgDivScpForAll(Nsc nsc, bool flag_border, bool flag_out){
 	bool ret = false;
-	if ( getScpChap(nsc) == SCP_CHAP_DUNIT ){	// •ªŠ„\¬w’è
+	if ( getScpChap(nsc) == SCP_CHAP_DUNIT ){	// åˆ†å‰²æ§‹æˆæŒ‡å®š
 		int  nsc2     = getNscNextScpDecide(nsc, SCP_END_EDGEIN);
 		bool inlogo_p = isElgInScpForAll(nsc,  flag_border, flag_out);
 		bool inlogo_n = isElgInScpForAll(nsc2, flag_border, flag_out);
-		if ( inlogo_p && inlogo_n ){	// ‘OŒã‚Æ‚à‚ÉƒƒSˆµ‚¢—Ìˆæ
+		if ( inlogo_p && inlogo_n ){	// å‰å¾Œã¨ã‚‚ã«ãƒ­ã‚´æ‰±ã„é ˜åŸŸ
 			ret = true;
 		}
 	}
@@ -1900,33 +1900,33 @@ bool JlsDataset::isElgDivScpForAll(Nsc nsc, bool flag_border, bool flag_out){
 }
 
 //---------------------------------------------------------------------
-// ’¼‘O‚ª„‘ª\¬‚ÌƒƒSˆµ‚¢\¬‚©”»’fi“à•”\’z—pj
+// ç›´å‰ãŒæ¨æ¸¬æ§‹æˆã®ãƒ­ã‚´æ‰±ã„æ§‹æˆã‹åˆ¤æ–­ï¼ˆå†…éƒ¨æ§‹ç¯‰ç”¨ï¼‰
 //---------------------------------------------------------------------
 bool JlsDataset::isElgInScp(Nsc nsc){
 	return isElgInScpForAll(nsc, false, false);
 }
 
 //---------------------------------------------------------------------
-// ’¼‘O‚ª„‘ª\¬‚ÌƒƒSˆµ‚¢\¬‚©”»’fi‘I‘ğ•t‚«j
+// ç›´å‰ãŒæ¨æ¸¬æ§‹æˆã®ãƒ­ã‚´æ‰±ã„æ§‹æˆã‹åˆ¤æ–­ï¼ˆé¸æŠä»˜ãï¼‰
 //---------------------------------------------------------------------
 bool JlsDataset::isElgInScpForAll(Nsc nsc, bool flag_border, bool flag_out){
 	bool ret = false;
 	int num_scpos = sizeDataScp();
 	if (nsc > 0 && nsc < num_scpos){
-		//--- \¬‹æØ‚è‚Å‚È‚¯‚ê‚ÎŸ‚ÌˆÊ’uæ“¾ ---
+		//--- æ§‹æˆåŒºåˆ‡ã‚Šã§ãªã‘ã‚Œã°æ¬¡ã®ä½ç½®å–å¾— ---
 		if (isScpChapTypeDecide( getScpChap(nsc) ) == false){
 			if (nsc < num_scpos-1){
 				nsc = getNscNextScpDecide(nsc, SCP_END_EDGEIN);
 			}
 		}
-		//--- ƒƒSˆµ‚¢\¬‚©”»’f ---
+		//--- ãƒ­ã‚´æ‰±ã„æ§‹æˆã‹åˆ¤æ–­ ---
 		ret = isLabelLogoFromNsc(nsc, flag_border, flag_out);
 	}
 	return ret;
 }
 
 //---------------------------------------------------------------------
-// w’èˆÊ’u‚ÌAuto‹æØ‚è‚ªŠm’èó‘Ô‚©”»’f
+// æŒ‡å®šä½ç½®ã®AutoåŒºåˆ‡ã‚ŠãŒç¢ºå®šçŠ¶æ…‹ã‹åˆ¤æ–­
 //---------------------------------------------------------------------
 bool JlsDataset::isScpChapTypeDecideFromNsc(Nsc nsc){
 	ScpChapType chap_nsc = getScpChap(nsc);
@@ -1934,7 +1934,7 @@ bool JlsDataset::isScpChapTypeDecideFromNsc(Nsc nsc){
 }
 
 //---------------------------------------------------------------------
-// w’èˆÊ’u‚Ì–³‰¹\¬‚ª“®‚«‚È‚µ‚©”»’f
+// æŒ‡å®šä½ç½®ã®ç„¡éŸ³æ§‹æˆãŒå‹•ããªã—ã‹åˆ¤æ–­
 //---------------------------------------------------------------------
 bool JlsDataset::isStillFromMsec(Msec msec_target){
 	int num_scpos = sizeDataScp();
@@ -1958,7 +1958,7 @@ bool JlsDataset::isStillFromMsec(Msec msec_target){
 }
 
 //---------------------------------------------------------------------
-// w’èˆÊ’u‚ª–³‰¹\¬‚©”»’f
+// æŒ‡å®šä½ç½®ãŒç„¡éŸ³æ§‹æˆã‹åˆ¤æ–­
 //---------------------------------------------------------------------
 bool JlsDataset::isSmuteFromMsec(Msec msec_target){
 	int num_scpos = sizeDataScp();
@@ -1980,7 +1980,7 @@ bool JlsDataset::isSmuteFromMsec(Msec msec_target){
 }
 
 //---------------------------------------------------------------------
-// ‚Q’n“_‚ª“¯‚¶–³‰¹‹æŠÔ‚Ìƒf[ƒ^‚©”»’f
+// ï¼’åœ°ç‚¹ãŒåŒã˜ç„¡éŸ³åŒºé–“ã®ãƒ‡ãƒ¼ã‚¿ã‹åˆ¤æ–­
 //---------------------------------------------------------------------
 bool JlsDataset::isSmuteSameArea(Nsc nsc1, Nsc nsc2){
 	int num_scpos = sizeDataScp();
@@ -1994,13 +1994,13 @@ bool JlsDataset::isSmuteSameArea(Nsc nsc1, Nsc nsc2){
 }
 
 //---------------------------------------------------------------------
-// ”ÍˆÍ‚ğŒÀ’è
-// “ü—ÍF
-//    rmsec  : ŒÀ’è‚·‚é”ÍˆÍ
-// “üo—ÍF
-//    wmsec  : ‘ÎÛƒf[ƒ^i”ÍˆÍ‚È‚µ‚Ì‚Í‘‚«Š·‚¦‚È‚¢j
-// o—Í:
-//   •Ô‚è’lF false=”ÍˆÍ‚È‚µ  true=”ÍˆÍİ’è
+// ç¯„å›²ã‚’é™å®š
+// å…¥åŠ›ï¼š
+//    rmsec  : é™å®šã™ã‚‹ç¯„å›²
+// å…¥å‡ºåŠ›ï¼š
+//    wmsec  : å¯¾è±¡ãƒ‡ãƒ¼ã‚¿ï¼ˆç¯„å›²ãªã—ã®æ™‚ã¯æ›¸ãæ›ãˆãªã„ï¼‰
+// å‡ºåŠ›:
+//   è¿”ã‚Šå€¤ï¼š false=ç¯„å›²ãªã—  true=ç¯„å›²è¨­å®š
 //---------------------------------------------------------------------
 bool JlsDataset::limitWideMsecFromRange(WideMsec& wmsec, RangeMsec rmsec){
 	if (wmsec.late  < rmsec.st && wmsec.late  >= 0 && rmsec.st >= 0) return false;
@@ -2019,34 +2019,34 @@ bool JlsDataset::limitWideMsecFromRange(WideMsec& wmsec, RangeMsec rmsec){
 
 
 //=====================================================================
-// Term\¬ˆ—
+// Termæ§‹æˆå‡¦ç†
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ŒŸõ‚É’[‚ğŠÜ‚ß‚é‚©‘I‘ğ
+// æ¤œç´¢æ™‚ã«ç«¯ã‚’å«ã‚ã‚‹ã‹é¸æŠ
 //---------------------------------------------------------------------
 void JlsDataset::setTermEndtype(Term &term, ScpEndType endtype){
 	term.endfix = true;
 	term.endtype = endtype;
 }
 //---------------------------------------------------------------------
-// “à•”—p‚Å‚Í‚È‚­•\¦—p‚Ì\¬‚É‚·‚é‚©‘I‘ğ
+// å†…éƒ¨ç”¨ã§ã¯ãªãè¡¨ç¤ºç”¨ã®æ§‹æˆã«ã™ã‚‹ã‹é¸æŠ
 //---------------------------------------------------------------------
 void JlsDataset::setTermForDisp(Term &term, bool flag){
 	term.disp = flag;
 }
 //---------------------------------------------------------------------
-// Ÿ‚Ì\¬‚ğæ“¾
+// æ¬¡ã®æ§‹æˆã‚’å–å¾—
 //---------------------------------------------------------------------
 bool JlsDataset::getTermNext(Term &term){
 	bool ret = false;
-	if (!term.valid){				// ‰‰ñÀs
+	if (!term.valid){				// åˆå›å®Ÿè¡Œ
 		term.valid = true;
 		if (!term.endfix){
 			term.endfix = true;
 			term.endtype = SCP_END_NOEDGE;
 		}
-		if (term.ini > 0){		// ŠJnˆÊ’uİ’è
+		if (term.ini > 0){		// é–‹å§‹ä½ç½®è¨­å®šæ™‚
 			term.nsc.ed = term.ini;
 		}
 		else{
@@ -2074,17 +2074,17 @@ bool JlsDataset::getTermNext(Term &term){
 }
 
 //---------------------------------------------------------------------
-// ‘O‚Ì\¬‚ğæ“¾
+// å‰ã®æ§‹æˆã‚’å–å¾—
 //---------------------------------------------------------------------
 bool JlsDataset::getTermPrev(Term &term){
 	bool ret = false;
-	if (!term.valid){				// ‰‰ñÀs
+	if (!term.valid){				// åˆå›å®Ÿè¡Œ
 		term.valid = true;
 		if (!term.endfix){
 			term.endfix = true;
 			term.endtype = SCP_END_NOEDGE;
 		}
-		if (term.ini > 0){		// ŠJnˆÊ’uİ’è
+		if (term.ini > 0){		// é–‹å§‹ä½ç½®è¨­å®šæ™‚
 			term.nsc.st = term.ini;
 		}
 		else{
@@ -2112,7 +2112,7 @@ bool JlsDataset::getTermPrev(Term &term){
 }
 
 //---------------------------------------------------------------------
-// Še—v‘f‚Ìİ’èEæ“¾
+// å„è¦ç´ ã®è¨­å®šãƒ»å–å¾—
 //---------------------------------------------------------------------
 ScpArType JlsDataset::getScpArstat(Term term){
 	return pdata->getScpArstat(term.nsc.ed);
@@ -2128,7 +2128,7 @@ void JlsDataset::setScpArext(Term term, ScpArExtType arext){
 }
 
 //---------------------------------------------------------------------
-// CM\¬‚©”»•Ê
+// CMæ§‹æˆã‹åˆ¤åˆ¥
 //---------------------------------------------------------------------
 bool JlsDataset::isScpArstatCmUnit(Term term){
 	ScpArType arstat_term = getScpArstat(term);
@@ -2141,7 +2141,7 @@ bool JlsDataset::isScpArstatCmUnit(Term term){
 }
 
 //---------------------------------------------------------------------
-// ŒŸõ”ÍˆÍ“à‚É‚ ‚é‚©”»•Ê
+// æ¤œç´¢ç¯„å›²å†…ã«ã‚ã‚‹ã‹åˆ¤åˆ¥
 //---------------------------------------------------------------------
 bool JlsDataset::checkScopeTerm(Term term, RangeMsec scope){
 	int msec_spc  = pdata->msecValSpc;
@@ -2155,26 +2155,26 @@ bool JlsDataset::checkScopeRange(RangeMsec bounds, RangeMsec scope){
 
 
 //=====================================================================
-// ƒJƒXƒ^ƒ€ƒƒSì¬
+// ã‚«ã‚¹ã‚¿ãƒ ãƒ­ã‚´ä½œæˆ
 //=====================================================================
 
 //---------------------------------------------------------------------
-// w’èİ’è‚ÅƒƒSˆÊ’uƒŠƒXƒg‚ğì¬‚µ‚Ä•Ô‚·i“à•”ƒf[ƒ^‚Í•ÏX‚µ‚È‚¢j
+// æŒ‡å®šè¨­å®šã§ãƒ­ã‚´ä½ç½®ãƒªã‚¹ãƒˆã‚’ä½œæˆã—ã¦è¿”ã™ï¼ˆå†…éƒ¨ãƒ‡ãƒ¼ã‚¿ã¯å¤‰æ›´ã—ãªã„ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::trialClogo(vector<WideMsec>& listWmsec, LogoCustomType custom){
 	makeClogoMain(listWmsec, custom);
 }
 //---------------------------------------------------------------------
-// w’èİ’è‚ÅƒƒSˆÊ’uƒŠƒXƒg‚ğì¬EŠi”[
+// æŒ‡å®šè¨­å®šã§ãƒ­ã‚´ä½ç½®ãƒªã‚¹ãƒˆã‚’ä½œæˆãƒ»æ ¼ç´
 //---------------------------------------------------------------------
 void JlsDataset::makeClogo(LogoCustomType custom){
 	makeClogoMain(m_listClogo, custom);
-	m_customLogo = custom;		// İ’è’l‚à•ÛŠÇ
+	m_customLogo = custom;		// è¨­å®šå€¤ã‚‚ä¿ç®¡
 }
-// w’èİ’è‚ÅƒƒSˆÊ’uƒŠƒXƒg‚ğì¬‚·‚é‹¤’Êˆ—
+// æŒ‡å®šè¨­å®šã§ãƒ­ã‚´ä½ç½®ãƒªã‚¹ãƒˆã‚’ä½œæˆã™ã‚‹å…±é€šå‡¦ç†
 void JlsDataset::makeClogoMain(vector<WideMsec>& listWmsec, LogoCustomType& custom){
 	if ( custom.extLogo && (isAutoModeUse() == false) ){
-		custom.extLogo = false;		// AutoMode‚Å‚È‚¯‚ê‚Î„‘ªƒƒS‚Íg‚í‚È‚¢
+		custom.extLogo = false;		// AutoModeã§ãªã‘ã‚Œã°æ¨æ¸¬ãƒ­ã‚´ã¯ä½¿ã‚ãªã„
 	}
 	if ( custom.extLogo ){
 		makeClogoFromVirtual(listWmsec, custom);
@@ -2182,16 +2182,16 @@ void JlsDataset::makeClogoMain(vector<WideMsec>& listWmsec, LogoCustomType& cust
 		makeClogoFromReal(listWmsec, custom);
 	}
 }
-// w’èİ’èiÀÛ‚ÌƒƒSj‚ÅƒƒSˆÊ’uƒŠƒXƒg‚ğì¬
+// æŒ‡å®šè¨­å®šï¼ˆå®Ÿéš›ã®ãƒ­ã‚´ï¼‰ã§ãƒ­ã‚´ä½ç½®ãƒªã‚¹ãƒˆã‚’ä½œæˆ
 void JlsDataset::makeClogoFromReal(vector<WideMsec>& listWmsec, LogoCustomType custom){
-	listWmsec.clear();		// ƒŠƒXƒg‰Šú‰»
+	listWmsec.clear();		// ãƒªã‚¹ãƒˆåˆæœŸåŒ–
 
 	LogoSelectType lgsel = LogoSelectType::LOGO_SELECT_VALID;
-	if ( custom.selectAll ){		// İ’è’l
+	if ( custom.selectAll ){		// è¨­å®šå€¤
 		lgsel = LogoSelectType::LOGO_SELECT_ALL;
 	}
-	bool final = custom.final;		// İ’è’l
-	//--- ÀÛ‚ÌƒƒSˆÊ’u‚ğƒƒS”Ô†‚Æ‚·‚éê‡‚ÌƒƒSˆÊ’u ---
+	bool final = custom.final;		// è¨­å®šå€¤
+	//--- å®Ÿéš›ã®ãƒ­ã‚´ä½ç½®ã‚’ãƒ­ã‚´ç•ªå·ã¨ã™ã‚‹å ´åˆã®ãƒ­ã‚´ä½ç½® ---
 	NrfCurrent logopt = {};
 	bool flag_cont = true;
 	while( flag_cont ){
@@ -2211,14 +2211,14 @@ void JlsDataset::makeClogoFromReal(vector<WideMsec>& listWmsec, LogoCustomType c
 		}
 	}
 }
-// w’èİ’èi„‘ªƒƒSj‚ÅƒƒSˆÊ’uƒŠƒXƒg‚ğì¬
+// æŒ‡å®šè¨­å®šï¼ˆæ¨æ¸¬ãƒ­ã‚´ï¼‰ã§ãƒ­ã‚´ä½ç½®ãƒªã‚¹ãƒˆã‚’ä½œæˆ
 void JlsDataset::makeClogoFromVirtual(vector<WideMsec>& listWmsec, LogoCustomType custom){
-	listWmsec.clear();		// ƒŠƒXƒg‰Šú‰»
+	listWmsec.clear();		// ãƒªã‚¹ãƒˆåˆæœŸåŒ–
 
-	//--- „‘ª\¬•Ï‰»“_‚ğƒƒS”Ô†‚Æ‚·‚éê‡‚ÌƒƒSˆÊ’u ---
+	//--- æ¨æ¸¬æ§‹æˆå¤‰åŒ–ç‚¹ã‚’ãƒ­ã‚´ç•ªå·ã¨ã™ã‚‹å ´åˆã®ãƒ­ã‚´ä½ç½® ---
 	ElgCurrent elgTmp = {};
-	elgTmp.border  = custom.border;		// İ’è’l
-	elgTmp.outflag = custom.final;		// İ’è’l
+	elgTmp.border  = custom.border;		// è¨­å®šå€¤
+	elgTmp.outflag = custom.final;		// è¨­å®šå€¤
 	bool flag_cont = true;
 	while( flag_cont ){
 		flag_cont = pdata->getElgptNext(elgTmp);
@@ -2231,34 +2231,34 @@ void JlsDataset::makeClogoFromVirtual(vector<WideMsec>& listWmsec, LogoCustomTyp
 	}
 }
 //---------------------------------------------------------------------
-// ƒJƒXƒ^ƒ€ƒƒSƒŠƒXƒg‚ğæ“¾
+// ã‚«ã‚¹ã‚¿ãƒ ãƒ­ã‚´ãƒªã‚¹ãƒˆã‚’å–å¾—
 //---------------------------------------------------------------------
-//--- İ’èæ“¾ ---
+//--- è¨­å®šå–å¾— ---
 LogoCustomType JlsDataset::getClogoCustom(){
 	return m_customLogo;
 }
-//--- ƒŠƒXƒgæ“¾ ---
+//--- ãƒªã‚¹ãƒˆå–å¾— ---
 vector<WideMsec> JlsDataset::getClogoList(){
 	return m_listClogo;
 }
-//--- ƒTƒCƒYæ“¾ ---
+//--- ã‚µã‚¤ã‚ºå–å¾— ---
 int JlsDataset::sizeClogoList(){
 	return (int)m_listClogo.size();
 }
 //---------------------------------------------------------------------
-// Œ»İˆÊ’u‚ªƒJƒXƒ^ƒ€ƒƒS‚Ì‰½”Ô–Ú‚Éˆê”Ô‹ß‚¢‚©æ“¾
-// •Ô‚è’lF
-//   -2    : ƒf[ƒ^‚È‚µ
-//   -1    : Å‰‚Ì—§‚¿ã‚ª‚è‚æ‚èè‘O
-//   0ˆÈã : ƒƒSƒŠƒXƒg”Ô†i‹ô”F—§ã‚èAŠï”F—§‰º‚èj
-//  Å‘å”Ô†+1  : ÅŒã‚Ì—§‚¿‰º‚ª‚è‚æ‚èŒã
+// ç¾åœ¨ä½ç½®ãŒã‚«ã‚¹ã‚¿ãƒ ãƒ­ã‚´ã®ä½•ç•ªç›®ã«ä¸€ç•ªè¿‘ã„ã‹å–å¾—
+// è¿”ã‚Šå€¤ï¼š
+//   -2    : ãƒ‡ãƒ¼ã‚¿ãªã—
+//   -1    : æœ€åˆã®ç«‹ã¡ä¸ŠãŒã‚Šã‚ˆã‚Šæ‰‹å‰
+//   0ä»¥ä¸Š : ãƒ­ã‚´ãƒªã‚¹ãƒˆç•ªå·ï¼ˆå¶æ•°ï¼šç«‹ä¸Šã‚Šã€å¥‡æ•°ï¼šç«‹ä¸‹ã‚Šï¼‰
+//  æœ€å¤§ç•ªå·+1  : æœ€å¾Œã®ç«‹ã¡ä¸‹ãŒã‚Šã‚ˆã‚Šå¾Œ
 //---------------------------------------------------------------------
 int JlsDataset::getClogoNumNear(Msec msecLogo, LogoEdgeType edge){
 	vector<WideMsec>& listWmsec = m_listClogo;
 	if ( listWmsec.empty() ){
 		return -2;
 	}
-	int loc = isLogoEdgeRise(edge)? 0 : 1;		// Å‰‚Ì‘Î‰ƒGƒbƒWƒƒS”Ô†
+	int loc = isLogoEdgeRise(edge)? 0 : 1;		// æœ€åˆã®å¯¾å¿œã‚¨ãƒƒã‚¸ãƒ­ã‚´ç•ªå·
 	int nmax = (int)listWmsec.size();
 	bool flagCont = true;
 	while( flagCont && (loc+2 < nmax) ){
@@ -2269,7 +2269,7 @@ int JlsDataset::getClogoNumNear(Msec msecLogo, LogoEdgeType edge){
 			bool flagInC = ( listWmsec[loc].late >= msecLogo )? true : false;
 			bool flagInN = ( listWmsec[loc+2].early <= msecLogo )? true : false;
 			if ( flagInC == true && flagInN == false ){
-				// Œ»İ—Ìˆæ‚ÅŸ‚Ì—Ìˆæ‚Å‚Í‚È‚¢
+				// ç¾åœ¨é ˜åŸŸã§æ¬¡ã®é ˜åŸŸã§ã¯ãªã„
 			}else if ( flagInC == false && flagInN == true ){
 				loc += 2;
 			}else if ( listWmsec[loc+1].just < msecLogo ){
@@ -2281,17 +2281,17 @@ int JlsDataset::getClogoNumNear(Msec msecLogo, LogoEdgeType edge){
 			}
 		}
 	}
-	if ( loc == nmax-2 ){		// ÅŒã‚ÌfallŒã‚Ìrise”»•Ê
+	if ( loc == nmax-2 ){		// æœ€å¾Œã®fallå¾Œã®riseåˆ¤åˆ¥
 		if ( listWmsec[loc+1].just <= msecLogo && listWmsec[loc].just < msecLogo ){
 			loc += 2;
 		}
 	}
-	if ( loc == 1 ){			// Å‰‚Ìrise‘O‚Ìfall”»•Ê
+	if ( loc == 1 ){			// æœ€åˆã®riseå‰ã®fallåˆ¤åˆ¥
 		if ( listWmsec[loc-1].just >= msecLogo && listWmsec[loc].just > msecLogo ){
 			loc = -1;
 		}
 	}
-	//--- —¼ƒGƒbƒWŒŸo‘Î‰ ---
+	//--- ä¸¡ã‚¨ãƒƒã‚¸æ¤œå‡ºå¯¾å¿œ ---
 	if ( edge == LogoEdgeType::LOGO_EDGE_BOTH ){
 		if ( loc < 0 ){
 			if ( loc == -1 ) loc = 0;
@@ -2310,7 +2310,7 @@ int JlsDataset::getClogoNumNear(Msec msecLogo, LogoEdgeType edge){
 	return loc;
 }
 //---------------------------------------------------------------------
-// Œ»İˆÊ’u‚©‚ç‚P‚Â‘O‚ÌƒJƒXƒ^ƒ€ƒƒS‚ğæ“¾iƒŠƒXƒg”Ô†j
+// ç¾åœ¨ä½ç½®ã‹ã‚‰ï¼‘ã¤å‰ã®ã‚«ã‚¹ã‚¿ãƒ ãƒ­ã‚´ã‚’å–å¾—ï¼ˆãƒªã‚¹ãƒˆç•ªå·ï¼‰
 //---------------------------------------------------------------------
 int JlsDataset::getClogoNumPrev(Msec msecLogo, LogoEdgeType edge){
 	vector<WideMsec>& listWmsec = m_listClogo;
@@ -2338,7 +2338,7 @@ int JlsDataset::getClogoNumPrev(Msec msecLogo, LogoEdgeType edge){
 	return locRef+step;
 }
 //---------------------------------------------------------------------
-// Œ»İˆÊ’u‚©‚ç‚P‚ÂŒã‚ÌƒJƒXƒ^ƒ€ƒƒS‚ğæ“¾iƒŠƒXƒg”Ô†j
+// ç¾åœ¨ä½ç½®ã‹ã‚‰ï¼‘ã¤å¾Œã®ã‚«ã‚¹ã‚¿ãƒ ãƒ­ã‚´ã‚’å–å¾—ï¼ˆãƒªã‚¹ãƒˆç•ªå·ï¼‰
 //---------------------------------------------------------------------
 int JlsDataset::getClogoNumNext(Msec msecLogo, LogoEdgeType edge){
 	vector<WideMsec>& listWmsec = m_listClogo;
@@ -2366,7 +2366,7 @@ int JlsDataset::getClogoNumNext(Msec msecLogo, LogoEdgeType edge){
 	return locRef+step;
 }
 //---------------------------------------------------------------------
-// w’è‰ñ”‘OŒã
+// æŒ‡å®šå›æ•°å‰å¾Œ
 //---------------------------------------------------------------------
 int JlsDataset::getClogoNumPrevCount(Msec msecLogo, int nCount){
 	int loc = getClogoNumPrev(msecLogo, LOGO_EDGE_BOTH);
@@ -2384,7 +2384,7 @@ int JlsDataset::getClogoNumNextCount(Msec msecLogo, int nCount){
 	return loc;
 }
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•b’PˆÊ‚Å‘Î‰‚·‚éƒJƒXƒ^ƒ€ƒƒS‚ğæ“¾
+// ãƒŸãƒªç§’å˜ä½ã§å¯¾å¿œã™ã‚‹ã‚«ã‚¹ã‚¿ãƒ ãƒ­ã‚´ã‚’å–å¾—
 //---------------------------------------------------------------------
 WideMsec JlsDataset::getClogoWmsecFromNum(int num){
 	int nmax = sizeClogoList();
@@ -2414,9 +2414,9 @@ Msec JlsDataset::getClogoMsecNext(Msec msecLogo, LogoEdgeType edge){
 	return getClogoMsecFromNum(num);
 }
 //---------------------------------------------------------------------
-// ƒJƒXƒ^ƒ€ƒƒS‚ÌƒƒSî•ñæ“¾
+// ã‚«ã‚¹ã‚¿ãƒ ãƒ­ã‚´ã®ãƒ­ã‚´æƒ…å ±å–å¾—
 //---------------------------------------------------------------------
-//--- ‘ÎÛˆÊ’u‚ªƒƒSØ‘Ö’n“_‚©”»’è ---
+//--- å¯¾è±¡ä½ç½®ãŒãƒ­ã‚´åˆ‡æ›¿åœ°ç‚¹ã‹åˆ¤å®š ---
 bool JlsDataset::isClogoMsecExist(Msec msecLogo, LogoEdgeType edge){
 	for(int i=0; i<sizeClogoList(); i++){
 		if ( getClogoMsecFromNum(i) == msecLogo ){
@@ -2429,25 +2429,25 @@ bool JlsDataset::isClogoMsecExist(Msec msecLogo, LogoEdgeType edge){
 	}
 	return false;
 }
-//--- ÀÛ‚ÌƒƒSg—p”»’è ---
+//--- å®Ÿéš›ã®ãƒ­ã‚´ä½¿ç”¨åˆ¤å®š ---
 bool JlsDataset::isClogoReal(){
 	return ( m_customLogo.extLogo == false );
 }
-//--- ’ÊZƒƒS”Ô†iÀÛ‚ÌƒƒSj ---
+//--- é€šç®—ãƒ­ã‚´ç•ªå·ï¼ˆå®Ÿéš›ã®ãƒ­ã‚´ï¼‰ ---
 Nrf JlsDataset::getClogoRealNrf(Msec msecLogo, LogoEdgeType edge){
-	if ( m_customLogo.extLogo ) return -1;		// ÀÛ‚ÌƒƒSˆÈŠO‚Í–³Œø
+	if ( m_customLogo.extLogo ) return -1;		// å®Ÿéš›ã®ãƒ­ã‚´ä»¥å¤–ã¯ç„¡åŠ¹
 	if ( msecLogo < 0 ) return -1;
-	// ”O‚Ì‚½‚ßL‚­”Ô†æ“¾‚·‚é‚½‚ßÅI‚ÍÅIˆÈŠO‚Æ—¼•ûŠm”F
+	// å¿µã®ãŸã‚åºƒãç•ªå·å–å¾—ã™ã‚‹ãŸã‚æœ€çµ‚æ™‚ã¯æœ€çµ‚ä»¥å¤–ã¨ä¸¡æ–¹ç¢ºèª
 	if ( m_customLogo.final ){
 		Nrf nrfTmp = getNrfLogoFromMsecResult(msecLogo, edge, true);
 		if ( nrfTmp >= 0 ) return nrfTmp;
 	}
 	return getNrfLogoFromMsecResult(msecLogo, edge, false);
 }
-//--- ƒƒS‚É‘Î‰‚·‚é–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u”Ô† ---
+//--- ãƒ­ã‚´ã«å¯¾å¿œã™ã‚‹ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ç•ªå· ---
 Nsc JlsDataset::getClogoNsc(Msec msecLogo){
 	Nsc nscTmp = getNscFromMsecAllEdgein(msecLogo);
-	if ( nscTmp < 0 && isClogoReal() ){		// ÀÛƒƒS‚ÍL‚ß‚É–³‰¹SCŒŸõ
+	if ( nscTmp < 0 && isClogoReal() ){		// å®Ÿéš›ãƒ­ã‚´ã¯åºƒã‚ã«ç„¡éŸ³SCæ¤œç´¢
 		nscTmp = getNscFromMsecMgn(msecLogo, msecValSpc, ScpEndType::SCP_END_EDGEIN);
 	}
 	return nscTmp;
@@ -2457,17 +2457,17 @@ Msec JlsDataset::getClogoMsecMgn(){
 	return msecValExact;
 }
 //=====================================================================
-// ƒf[ƒ^‘}“ü
+// ãƒ‡ãƒ¼ã‚¿æŒ¿å…¥
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒƒS‹æØ‚è‘}“ü
-//   msec_target : ƒƒS‹æØ‚è‘}“üˆÊ’u
-//   confirm : Šm’è‚à“¯‚És‚¤‚©i0=İ’è‚Ì‚İ  1=Šm’èˆ—‚àÀsj
-//   unit    : ‘}“üˆÊ’u‚¾‚¯‚Å“Æ—§\¬‚É‚·‚é‚©i0=]—ˆƒƒS‚Æ¬‡  1=‘}“üƒƒS‚¾‚¯‚Å“Æ—§\¬j
-//   edge    : ƒGƒbƒW‚É‚æ‚éˆÊ’u•â³i0=—§‚¿ã‚ª‚èƒGƒbƒW  1=—§‚¿‰º‚ª‚èƒGƒbƒWj
-// o—ÍF
-//   •Ô‚è’lF ‘}“üˆÊ’u”Ô† ‘}“ü‚µ‚È‚©‚Á‚½ê‡‚Í-1
+// ãƒ­ã‚´åŒºåˆ‡ã‚ŠæŒ¿å…¥
+//   msec_target : ãƒ­ã‚´åŒºåˆ‡ã‚ŠæŒ¿å…¥ä½ç½®
+//   confirm : ç¢ºå®šã‚‚åŒæ™‚ã«è¡Œã†ã‹ï¼ˆ0=è¨­å®šã®ã¿  1=ç¢ºå®šå‡¦ç†ã‚‚å®Ÿè¡Œï¼‰
+//   unit    : æŒ¿å…¥ä½ç½®ã ã‘ã§ç‹¬ç«‹æ§‹æˆã«ã™ã‚‹ã‹ï¼ˆ0=å¾“æ¥ãƒ­ã‚´ã¨æ··åˆ  1=æŒ¿å…¥ãƒ­ã‚´ã ã‘ã§ç‹¬ç«‹æ§‹æˆï¼‰
+//   edge    : ã‚¨ãƒƒã‚¸ã«ã‚ˆã‚‹ä½ç½®è£œæ­£ï¼ˆ0=ç«‹ã¡ä¸ŠãŒã‚Šã‚¨ãƒƒã‚¸  1=ç«‹ã¡ä¸‹ãŒã‚Šã‚¨ãƒƒã‚¸ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š æŒ¿å…¥ä½ç½®ç•ªå· æŒ¿å…¥ã—ãªã‹ã£ãŸå ´åˆã¯-1
 //---------------------------------------------------------------------
 Nsc JlsDataset::insertDivLogo(Msec msec_target, bool confirm, bool unit, LogoEdgeType edge){
 	bool overlap = true;
@@ -2475,33 +2475,33 @@ Nsc JlsDataset::insertDivLogo(Msec msec_target, bool confirm, bool unit, LogoEdg
 }
 
 //---------------------------------------------------------------------
-// ƒƒSƒf[ƒ^‘}“ü
-// “ü—ÍF
-//   msec_st : ƒƒSƒf[ƒ^‘}“üŠJnˆÊ’u
-//   msec_ed : ƒƒSƒf[ƒ^‘}“üI—¹ˆÊ’u
-//   overlap : Šù‘¶ƒƒS‚Æd•¡‹–‰Âi0=–³Œø  1=d•¡‹–‰Âj
-//   confirm : Šm’è‚à“¯‚És‚¤‚©i0=İ’è‚Ì‚İ  1=Šm’èˆ—‚àÀsj
-//   unit    : ‘}“üˆÊ’u‚¾‚¯‚Å“Æ—§\¬‚É‚·‚é‚©i0=]—ˆƒƒS‚Æ¬‡  1=‘}“üƒƒS‚¾‚¯‚Å“Æ—§\¬j
-// o—ÍF
-//   •Ô‚è’lF ‘}“üˆÊ’u”Ô† ‘}“ü‚µ‚È‚©‚Á‚½ê‡‚Í-1
+// ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿æŒ¿å…¥
+// å…¥åŠ›ï¼š
+//   msec_st : ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿æŒ¿å…¥é–‹å§‹ä½ç½®
+//   msec_ed : ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿æŒ¿å…¥çµ‚äº†ä½ç½®
+//   overlap : æ—¢å­˜ãƒ­ã‚´ã¨é‡è¤‡è¨±å¯ï¼ˆ0=ç„¡åŠ¹  1=é‡è¤‡è¨±å¯ï¼‰
+//   confirm : ç¢ºå®šã‚‚åŒæ™‚ã«è¡Œã†ã‹ï¼ˆ0=è¨­å®šã®ã¿  1=ç¢ºå®šå‡¦ç†ã‚‚å®Ÿè¡Œï¼‰
+//   unit    : æŒ¿å…¥ä½ç½®ã ã‘ã§ç‹¬ç«‹æ§‹æˆã«ã™ã‚‹ã‹ï¼ˆ0=å¾“æ¥ãƒ­ã‚´ã¨æ··åˆ  1=æŒ¿å…¥ãƒ­ã‚´ã ã‘ã§ç‹¬ç«‹æ§‹æˆï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š æŒ¿å…¥ä½ç½®ç•ªå· æŒ¿å…¥ã—ãªã‹ã£ãŸå ´åˆã¯-1
 //---------------------------------------------------------------------
 Nsc JlsDataset::insertLogo(Msec msec_st, Msec msec_ed, bool overlap, bool confirm, bool unit){
 	return insertLogoEdge(msec_st, msec_ed, overlap, confirm, unit, LOGO_EDGE_RISE);
 }
 
 //---------------------------------------------------------------------
-// ƒƒSƒf[ƒ^‘}“üi‹æØ‚è‘Î‰j
-//   edge    : ƒGƒbƒW‚É‚æ‚éˆÊ’u•â³i0=—§‚¿ã‚ª‚èƒGƒbƒW  1=—§‚¿‰º‚ª‚èƒGƒbƒWj
+// ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿æŒ¿å…¥ï¼ˆåŒºåˆ‡ã‚Šå¯¾å¿œï¼‰
+//   edge    : ã‚¨ãƒƒã‚¸ã«ã‚ˆã‚‹ä½ç½®è£œæ­£ï¼ˆ0=ç«‹ã¡ä¸ŠãŒã‚Šã‚¨ãƒƒã‚¸  1=ç«‹ã¡ä¸‹ãŒã‚Šã‚¨ãƒƒã‚¸ï¼‰
 //---------------------------------------------------------------------
 Nsc JlsDataset::insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool confirm, bool unit, LogoEdgeType edge){
 	int size_logo = sizeDataLogo();
 	Msec wid_ovl = pdata->msecValSpc;
 
 	if ( msec_st < 0 || msec_ed < 0 || msec_st > getMsecTotalMax() || msec_ed > getMsecTotalMax() ){
-		return -1;		// ƒGƒ‰[ƒ`ƒFƒbƒN
+		return -1;		// ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
 	}
 	bool separator = false;
-	if ( msec_ed <= msec_st ){		// ”ÍˆÍ‚Å‚Í‚È‚­‹æØ‚èw’è
+	if ( msec_ed <= msec_st ){		// ç¯„å›²ã§ã¯ãªãåŒºåˆ‡ã‚ŠæŒ‡å®š
 		separator = true;
 		msec_ed = msec_st;
 		if ( jlsd::isLogoEdgeRise(edge) ){		// start edge
@@ -2517,7 +2517,7 @@ Nsc JlsDataset::insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool co
 		}
 	}
 
-	// ƒƒS‘}“ü‰ÓŠ‚ğŒŸõ
+	// ãƒ­ã‚´æŒ¿å…¥ç®‡æ‰€ã‚’æ¤œç´¢
 	int num_ins = -1;
 	for(int i=1; i<size_logo; i++){
 		if (msec_st >= getMsecLogoFall(i-1) && msec_ed <= getMsecLogoRise(i)){
@@ -2537,18 +2537,18 @@ Nsc JlsDataset::insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool co
 	}
 
 	int total_ins = 1;
-	// ‘}“ü‰ÓŠ‚Æ“¯‚¶ˆÊ’u‚ÌŠm’èî•ñ•Û‘¶—p
+	// æŒ¿å…¥ç®‡æ‰€ã¨åŒã˜ä½ç½®ã®ç¢ºå®šæƒ…å ±ä¿å­˜ç”¨
 	Msec bak_result_rise, bak_result_fall;
 	bool flag_bak_rise = false;
 	bool flag_bak_fall = false;
 	LogoResultType bak_outtype_rise = LOGO_RESULT_NONE;
 	LogoResultType bak_outtype_fall = LOGO_RESULT_NONE;
-	// overlap‹–‰Â‚Ì’Ç‰ÁŒŸõ
+	// overlapè¨±å¯æ™‚ã®è¿½åŠ æ¤œç´¢
 	if (overlap && num_ins < 0 && size_logo < MAXSIZE_LOGO){
 		for(int i=0; i<size_logo; i++){
 			DataLogoRecord dt;
 			getRecordLogo(dt, i);
-			// ‘}“ü‰ÓŠ‚Æ“¯‚¶ˆÊ’u‚ÌŠm’èî•ñ•Û‘¶
+			// æŒ¿å…¥ç®‡æ‰€ã¨åŒã˜ä½ç½®ã®ç¢ºå®šæƒ…å ±ä¿å­˜
 			if (abs(msec_st - dt.rise) <= wid_ovl){
 				flag_bak_rise    = true;
 				bak_outtype_rise = dt.outtype_rise;
@@ -2559,7 +2559,7 @@ Nsc JlsDataset::insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool co
 				bak_outtype_fall = dt.outtype_fall;
 				bak_result_fall  = dt.result_fall;
 			}
-			// ‘}“üƒƒS‚Æˆê’v‚·‚éê‡
+			// æŒ¿å…¥ãƒ­ã‚´ã¨ä¸€è‡´ã™ã‚‹å ´åˆ
 			if (msec_st >= dt.rise - wid_ovl && msec_st <= dt.rise + wid_ovl &&
 				msec_ed >= dt.fall - wid_ovl && msec_ed <= dt.fall + wid_ovl){
 				dt.rise         = msec_st;
@@ -2583,9 +2583,9 @@ Nsc JlsDataset::insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool co
 					dt.result_fall  = msec_ed;
 				}
 				setRecordLogo(dt, i);
-				return i;		// XV‚Ì‚İ
+				return i;		// æ›´æ–°ã®ã¿
 			}
-			// ‘}“üƒƒS‚Ì‘O”¼‚Ì‚İƒƒS‚Æd‚È‚éê‡
+			// æŒ¿å…¥ãƒ­ã‚´ã®å‰åŠã®ã¿ãƒ­ã‚´ã¨é‡ãªã‚‹å ´åˆ
 			if (msec_st > dt.rise + wid_ovl && msec_st < dt.fall &&
 				msec_ed > dt.fall + wid_ovl){
 				dt.fall         = msec_st;
@@ -2600,7 +2600,7 @@ Nsc JlsDataset::insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool co
 					setResultLogoAtNrf(dt.fall, LOGO_RESULT_DECIDE, i*2+1);
 				}
 			}
-			// ‘}“üƒƒS‚ÌŒã”¼‚Ì‚İƒƒS‚Æd‚È‚éê‡
+			// æŒ¿å…¥ãƒ­ã‚´ã®å¾ŒåŠã®ã¿ãƒ­ã‚´ã¨é‡ãªã‚‹å ´åˆ
 			if (msec_st < dt.rise + wid_ovl &&
 				msec_ed > dt.rise && msec_ed < dt.fall - wid_ovl){
 				dt.rise         = msec_ed;
@@ -2615,7 +2615,7 @@ Nsc JlsDataset::insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool co
 					setResultLogoAtNrf(dt.rise, LOGO_RESULT_DECIDE, i*2);
 				}
 			}
-			// ‘}“üƒƒS“à‚ÉƒƒS‘S‘Ì‚ª“ü‚éê‡
+			// æŒ¿å…¥ãƒ­ã‚´å†…ã«ãƒ­ã‚´å…¨ä½“ãŒå…¥ã‚‹å ´åˆ
 			if (msec_st - wid_ovl <= dt.rise && msec_ed + wid_ovl >= dt.fall){
 					dt.outtype_rise = LOGO_RESULT_ABORT;			// abort
 					dt.outtype_fall = LOGO_RESULT_ABORT;			// abort
@@ -2624,15 +2624,15 @@ Nsc JlsDataset::insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool co
 					setRecordLogo(dt, i);
 					if (num_ins < 0){
 						num_ins = i;
-						total_ins = 0;		// ‘}“üƒƒS‚Íã‘‚«‚·‚é
+						total_ins = 0;		// æŒ¿å…¥ãƒ­ã‚´ã¯ä¸Šæ›¸ãã™ã‚‹
 					}
 			}
-			// ‘}“üƒƒS‘S‘Ì‚ªƒƒS”ÍˆÍ“à‚É“ü‚éê‡
+			// æŒ¿å…¥ãƒ­ã‚´å…¨ä½“ãŒãƒ­ã‚´ç¯„å›²å†…ã«å…¥ã‚‹å ´åˆ
 			if (msec_st > dt.rise + wid_ovl && msec_ed < dt.fall - wid_ovl){
 				num_ins = i;
-				total_ins = 2;				// ‘}“üƒƒS‚ª‚Q‚Â‚É‚È‚é
+				total_ins = 2;				// æŒ¿å…¥ãƒ­ã‚´ãŒï¼’ã¤ã«ãªã‚‹
 			}
-			// ‘}“üˆÊ’u
+			// æŒ¿å…¥ä½ç½®
 			if (num_ins < 0 && msec_st <= dt.rise){
 				num_ins = i;
 			}
@@ -2645,13 +2645,13 @@ Nsc JlsDataset::insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool co
 		num_ins = -1;
 	}
 
-	// Œ‹‰Ê‚ğŠi”[
+	// çµæœã‚’æ ¼ç´
 	int retval = -1;
 	if (num_ins >= 0){
 		DataLogoRecord dt;
-		if (total_ins == 2){		// Šù‘¶ƒƒS“r’†‚ÉƒƒS‘}“ü‚µ‚ÄŒ³ƒƒS‚ğ‚Q•ªŠ„‚·‚éê‡
+		if (total_ins == 2){		// æ—¢å­˜ãƒ­ã‚´é€”ä¸­ã«ãƒ­ã‚´æŒ¿å…¥ã—ã¦å…ƒãƒ­ã‚´ã‚’ï¼’åˆ†å‰²ã™ã‚‹å ´åˆ
 			getRecordLogo(dt, num_ins);
-			if ( separator && unit ){		// ‹æØ‚è‚Ìê‡‚Í‚±‚±‚Å-unitİ’è
+			if ( separator && unit ){		// åŒºåˆ‡ã‚Šã®å ´åˆã¯ã“ã“ã§-unitè¨­å®š
 				dt.unit_rise = LOGO_UNIT_DIVIDE;
 			}
 			dt.rise        = msec_ed;
@@ -2671,7 +2671,7 @@ Nsc JlsDataset::insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool co
 			insertRecordLogo(dt, num_ins+1);
 
 			getRecordLogo(dt, num_ins);
-			if ( separator && unit ){		// ‹æØ‚è‚Ìê‡‚Í‚±‚±‚Å-unitİ’è
+			if ( separator && unit ){		// åŒºåˆ‡ã‚Šã®å ´åˆã¯ã“ã“ã§-unitè¨­å®š
 				dt.unit_fall    = LOGO_UNIT_DIVIDE;
 			}
 			dt.fall        = msec_st;
@@ -2731,7 +2731,7 @@ Nsc JlsDataset::insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool co
 			dt.unit_rise    = LOGO_UNIT_DIVIDE;
 			dt.unit_fall    = LOGO_UNIT_DIVIDE;
 		}
-		if ( separator == false ){		// 2“_w’è‹æŠÔ‚Ì‘}“ü
+		if ( separator == false ){		// 2ç‚¹æŒ‡å®šåŒºé–“ã®æŒ¿å…¥
 			if (total_ins == 0){
 				setRecordLogo(dt, num_ins);
 			}
@@ -2745,34 +2745,34 @@ Nsc JlsDataset::insertLogoEdge(Msec msec_st, Msec msec_ed, bool overlap, bool co
 
 
 //---------------------------------------------------------------------
-// ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ğ‘}“ü
-// “ü—ÍF
-//   msec_dst_s  : ‘}“üˆÊ’u
-//   msec_dst_bk : ’¼‘OI—¹ˆÊ’u
-//   nsc_mute    : –³‰¹ˆÊ’uŠÖŒW‚Ìî•ñ‚ğƒRƒs[‚·‚é–³‰¹SC”Ô†i-1‚Ì–³Œøj
-//   stat_scpos_dst : ‘}“ü\¬‚Éİ’è‚·‚é—Dæ“x
-// o—ÍF
-//   •Ô‚è’lF‘}“ü‚µ‚½êŠ”Ô†
+// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã‚’æŒ¿å…¥
+// å…¥åŠ›ï¼š
+//   msec_dst_s  : æŒ¿å…¥ä½ç½®
+//   msec_dst_bk : ç›´å‰çµ‚äº†ä½ç½®
+//   nsc_mute    : ç„¡éŸ³ä½ç½®é–¢ä¿‚ã®æƒ…å ±ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹ç„¡éŸ³SCç•ªå·ï¼ˆ-1ã®æ™‚ç„¡åŠ¹ï¼‰
+//   stat_scpos_dst : æŒ¿å…¥æ§‹æˆã«è¨­å®šã™ã‚‹å„ªå…ˆåº¦
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼šæŒ¿å…¥ã—ãŸå ´æ‰€ç•ªå·
 //---------------------------------------------------------------------
 Nsc JlsDataset::insertScpos(Msec msec_dst_s, Msec msec_dst_bk, Nsc nsc_mute, ScpPriorType stat_scpos_dst){
 	int num_scpos = sizeDataScp();
-	if (num_scpos <= 1){		// ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ğ“Ç‚İ‚İ‚Å‚«‚Ä‚È‚¢ê‡
+	if (num_scpos <= 1){		// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã‚’èª­ã¿è¾¼ã¿ã§ãã¦ãªã„å ´åˆ
 		return -1;
 	}
 
-	// ‘}“üêŠ‚ğŒŸõ
+	// æŒ¿å…¥å ´æ‰€ã‚’æ¤œç´¢
 	Nsc nsc_ins = 1;
 	while( getMsecScp(nsc_ins) < msec_dst_s && nsc_ins < num_scpos - 1){
 		nsc_ins ++;
 	}
 
-	// ‘}“üêŠ‚ğŠm•Û
+	// æŒ¿å…¥å ´æ‰€ã‚’ç¢ºä¿
 	bool flag_ins = 0;
 	if ( getMsecScp(nsc_ins) != msec_dst_s || nsc_ins == num_scpos - 1){
 		flag_ins = true;
 	}
 
-	// ‘‚«‚İˆÊ’u‘I‘ğ
+	// æ›¸ãè¾¼ã¿ä½ç½®é¸æŠ
 	DataScpRecord  dtscp;
 	if (flag_ins){
 		clearRecordScp(dtscp);
@@ -2789,27 +2789,27 @@ Nsc JlsDataset::insertScpos(Msec msec_dst_s, Msec msec_dst_bk, Nsc nsc_mute, Scp
 			dtscp.msmute_e = msec_dst_s;
 		}
 		dtscp.statpos = stat_scpos_dst;
-		insertRecordScp(dtscp, nsc_ins);			// ‘}“ü‚É‚æ‚éXV
+		insertRecordScp(dtscp, nsc_ins);			// æŒ¿å…¥ã«ã‚ˆã‚‹æ›´æ–°
 	}
 	else{
 		getRecordScp(dtscp, nsc_ins);
 		dtscp.statpos = stat_scpos_dst;
-		setRecordScp(dtscp, nsc_ins);				// ‘‚«Š·‚¦‚É‚æ‚éXV
+		setRecordScp(dtscp, nsc_ins);				// æ›¸ãæ›ãˆã«ã‚ˆã‚‹æ›´æ–°
 	}
 	return nsc_ins;
 }
 
 //---------------------------------------------------------------------
-// w’èˆÊ’uiƒ~ƒŠ•bj‚Ì–³‰¹SC”Ô†‚ğæ“¾iLogoExactİ’è‚É‚æ‚è’²®—L–³‘I‘ğj
-// ‚È‚¯‚ê‚Î‹­§“I‚Éì¬‚µ‚Äİ’è
-// “ü—ÍF
-//   msec_in : ‘ÎÛˆÊ’uiƒ~ƒŠ•bj
-//   edge    : ‘I‘ğƒGƒbƒWiLOGO_EDGE_RISE=ŠJn‘¤ALOGO_EDGE_FALL=I—¹‘¤j
-//   exact   : false=’Êí  true=³Šm‚ÈˆÊ’uw’è
-// o—ÍF
-//   •Ô‚è’lF‘Î‰‚·‚éêŠ”Ô†
-// ’ˆÓ“_F
-//   ƒf[ƒ^‘}“ü‚É‚æ‚éƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†(nsc)•ÏX‚ ‚è
+// æŒ‡å®šä½ç½®ï¼ˆãƒŸãƒªç§’ï¼‰ã®ç„¡éŸ³SCç•ªå·ã‚’å–å¾—ï¼ˆLogoExactè¨­å®šã«ã‚ˆã‚Šèª¿æ•´æœ‰ç„¡é¸æŠï¼‰
+// ãªã‘ã‚Œã°å¼·åˆ¶çš„ã«ä½œæˆã—ã¦è¨­å®š
+// å…¥åŠ›ï¼š
+//   msec_in : å¯¾è±¡ä½ç½®ï¼ˆãƒŸãƒªç§’ï¼‰
+//   edge    : é¸æŠã‚¨ãƒƒã‚¸ï¼ˆLOGO_EDGE_RISE=é–‹å§‹å´ã€LOGO_EDGE_FALL=çµ‚äº†å´ï¼‰
+//   exact   : false=é€šå¸¸  true=æ­£ç¢ºãªä½ç½®æŒ‡å®š
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼šå¯¾å¿œã™ã‚‹å ´æ‰€ç•ªå·
+// æ³¨æ„ç‚¹ï¼š
+//   ãƒ‡ãƒ¼ã‚¿æŒ¿å…¥ã«ã‚ˆã‚‹ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·(nsc)å¤‰æ›´ã‚ã‚Š
 //---------------------------------------------------------------------
 Nsc JlsDataset::getNscForceMsecExact(Msec msec_in, LogoEdgeType edge, bool exact){
 	if ( exact ){
@@ -2818,10 +2818,10 @@ Nsc JlsDataset::getNscForceMsecExact(Msec msec_in, LogoEdgeType edge, bool exact
 	return getNscForceMsec(msec_in, edge);
 }
 //---------------------------------------------------------------------
-// •s—v‚Èd•¡–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ğíœ
+// ä¸è¦ãªé‡è¤‡ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã‚’å‰Šé™¤
 //---------------------------------------------------------------------
 bool JlsDataset::restructScp(){
-	if ( !isAutoModeUse() ) return false;	// Auto„‘ª‚È‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
+	if ( !isAutoModeUse() ) return false;	// Autoæ¨æ¸¬ãªã‘ã‚Œã°ä½•ã‚‚ã—ãªã„
 	int num_scpos = sizeDataScp();
 	Nsc  nscHold = -1;
 	Msec msecHold = -1;
@@ -2834,18 +2834,18 @@ bool JlsDataset::restructScp(){
 			decideCur = true;
 		}
 		bool update = false;
-		if ( nscHold < 0 ){	// ‰‰ñ
+		if ( nscHold < 0 ){	// åˆå›
 			update = true;
-		}else if ( abs(msecCur - msecHold) > msecValExact ){	// ‘O‚Æ—£‚ê‚Ä‚¢‚½‚çŸ
+		}else if ( abs(msecCur - msecHold) > msecValExact ){	// å‰ã¨é›¢ã‚Œã¦ã„ãŸã‚‰æ¬¡
 			update = true;
-		}else if ( !decideHold ){	// “¯‚¶ˆÊ’u‚ÅŒã‘¤‚ª–¢Šm’è‚È‚çŒã‘¤íœ
+		}else if ( !decideHold ){	// åŒã˜ä½ç½®ã§å¾Œå´ãŒæœªç¢ºå®šãªã‚‰å¾Œå´å‰Šé™¤
 			deleteRecordScp(nscHold);
 			change = true;
 			update = true;
-		}else if ( !decideCur ){	// “¯‚¶ˆÊ’u‚ÅŒã‘¤Šm’èA‘O‘¤–¢Šm’è‚È‚ç‘O‘¤íœ
+		}else if ( !decideCur ){	// åŒã˜ä½ç½®ã§å¾Œå´ç¢ºå®šã€å‰å´æœªç¢ºå®šãªã‚‰å‰å´å‰Šé™¤
 			deleteRecordScp(i);
 			change = true;
-			nscHold -= 1;			// Œã‘¤‚Í1‚Â‘O‚É‚¸‚ê‚é
+			nscHold -= 1;			// å¾Œå´ã¯1ã¤å‰ã«ãšã‚Œã‚‹
 		}
 		if ( update ){
 			nscHold = i;
@@ -2856,36 +2856,36 @@ bool JlsDataset::restructScp(){
 	return change;
 }
 //---------------------------------------------------------------------
-// w’èˆÊ’uiƒ~ƒŠ•bj‚Ì–³‰¹SC”Ô†‚ğæ“¾iLogoExactİ’è‚É‚æ‚è’²®—L–³‘I‘ğj
-// ‚È‚¯‚ê‚Î‹­§“I‚Éì¬‚µ‚Äİ’è
-// “ü—ÍF
-//   msec_in : ‘ÎÛˆÊ’uiƒ~ƒŠ•bj
-//   edge    : ‘I‘ğƒGƒbƒWiLOGO_EDGE_RISE=ŠJn‘¤ALOGO_EDGE_FALL=I—¹‘¤j
-// o—ÍF
-//   •Ô‚è’lF‘Î‰‚·‚éêŠ”Ô†
-// ’ˆÓ“_F
-//   ƒf[ƒ^‘}“ü‚É‚æ‚éƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†(nsc)•ÏX‚ ‚è
+// æŒ‡å®šä½ç½®ï¼ˆãƒŸãƒªç§’ï¼‰ã®ç„¡éŸ³SCç•ªå·ã‚’å–å¾—ï¼ˆLogoExactè¨­å®šã«ã‚ˆã‚Šèª¿æ•´æœ‰ç„¡é¸æŠï¼‰
+// ãªã‘ã‚Œã°å¼·åˆ¶çš„ã«ä½œæˆã—ã¦è¨­å®š
+// å…¥åŠ›ï¼š
+//   msec_in : å¯¾è±¡ä½ç½®ï¼ˆãƒŸãƒªç§’ï¼‰
+//   edge    : é¸æŠã‚¨ãƒƒã‚¸ï¼ˆLOGO_EDGE_RISE=é–‹å§‹å´ã€LOGO_EDGE_FALL=çµ‚äº†å´ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼šå¯¾å¿œã™ã‚‹å ´æ‰€ç•ªå·
+// æ³¨æ„ç‚¹ï¼š
+//   ãƒ‡ãƒ¼ã‚¿æŒ¿å…¥ã«ã‚ˆã‚‹ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·(nsc)å¤‰æ›´ã‚ã‚Š
 //---------------------------------------------------------------------
 Nsc JlsDataset::getNscForceMsec(Msec msec_in, LogoEdgeType edge){
-	if ( (extOpt.nLgExact & 0x02) != 0 ){		// ƒƒSˆÊ’u’²®‚È‚µ
+	if ( (extOpt.nLgExact & 0x02) != 0 ){		// ãƒ­ã‚´ä½ç½®èª¿æ•´ãªã—
 		return getNscForceExactFixMsec(msec_in, edge);
 	}
 	return getNscForceMsecOrg(msec_in, edge);
 }
 
 //---------------------------------------------------------------------
-// w’èˆÊ’uiƒ~ƒŠ•bj‚Ì–³‰¹SC”Ô†‚ğæ“¾
-// ‚È‚¯‚ê‚Î‹­§“I‚Éì¬‚µ‚Äİ’è
-// “ü—ÍF
-//   msec_in : ‘ÎÛˆÊ’uiƒ~ƒŠ•bj
-//   edge    : ‘I‘ğƒGƒbƒWiLOGO_EDGE_RISE=ŠJn‘¤ALOGO_EDGE_FALL=I—¹‘¤j
-// o—ÍF
-//   •Ô‚è’lF‘Î‰‚·‚éêŠ”Ô†
-// ’ˆÓ“_F
-//   ƒf[ƒ^‘}“ü‚É‚æ‚éƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†(nsc)•ÏX‚ ‚è
+// æŒ‡å®šä½ç½®ï¼ˆãƒŸãƒªç§’ï¼‰ã®ç„¡éŸ³SCç•ªå·ã‚’å–å¾—
+// ãªã‘ã‚Œã°å¼·åˆ¶çš„ã«ä½œæˆã—ã¦è¨­å®š
+// å…¥åŠ›ï¼š
+//   msec_in : å¯¾è±¡ä½ç½®ï¼ˆãƒŸãƒªç§’ï¼‰
+//   edge    : é¸æŠã‚¨ãƒƒã‚¸ï¼ˆLOGO_EDGE_RISE=é–‹å§‹å´ã€LOGO_EDGE_FALL=çµ‚äº†å´ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼šå¯¾å¿œã™ã‚‹å ´æ‰€ç•ªå·
+// æ³¨æ„ç‚¹ï¼š
+//   ãƒ‡ãƒ¼ã‚¿æŒ¿å…¥ã«ã‚ˆã‚‹ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·(nsc)å¤‰æ›´ã‚ã‚Š
 //---------------------------------------------------------------------
 Nsc JlsDataset::getNscForceMsecOrg(Msec msec_in, LogoEdgeType edge){
-	Msec msec_clr = msecValNear2;			// d‚È‚Á‚½Š‚ÌŠm’è‰ÓŠ‚ğ‰ğœ‚·‚é”ÍˆÍ
+	Msec msec_clr = msecValNear2;			// é‡ãªã£ãŸæ‰€ã®ç¢ºå®šç®‡æ‰€ã‚’è§£é™¤ã™ã‚‹ç¯„å›²
 	int num_scpos = sizeDataScp();
 
 	if (msec_in <= 0 ){
@@ -2898,7 +2898,7 @@ Nsc JlsDataset::getNscForceMsecOrg(Msec msec_in, LogoEdgeType edge){
 	Nsc nsc_nearest = 0;
 	Msec difmsec_nearest = 0;
 	Nsc nsc_mute = -1;
-	//--- ˆê”Ô‹ß‚¢Š‚ğŒŸõ ---
+	//--- ä¸€ç•ªè¿‘ã„æ‰€ã‚’æ¤œç´¢ ---
 	int i = 1;
 	bool flag_search = true;
 	while(flag_search){
@@ -2906,31 +2906,31 @@ Nsc JlsDataset::getNscForceMsecOrg(Msec msec_in, LogoEdgeType edge){
 		getRecordScp(dtscp, i);
 		Msec msec_i = getMsecScpEdge(i, edge);
 		Msec difmsec_i = abs(msec_in - msec_i);
-		//--- ˆê”Ô‹ß‚¢ê‡‚ÌXV ---
+		//--- ä¸€ç•ªè¿‘ã„å ´åˆã®æ›´æ–° ---
 		if (difmsec_nearest > difmsec_i || nsc_nearest == 0){
-			//--- d‚È‚Á‚Ä‚¢‚é‘ÎÛŠO‚Æ‚È‚Á‚½êŠ‚ğŠO‚· ---
+			//--- é‡ãªã£ã¦ã„ã‚‹å¯¾è±¡å¤–ã¨ãªã£ãŸå ´æ‰€ã‚’å¤–ã™ ---
 			if (nsc_nearest > 0 && difmsec_nearest <= msec_clr){
 				setScpChap(nsc_nearest, SCP_CHAP_DUPE);
 			}
 			nsc_nearest = i;
 			difmsec_nearest = difmsec_i;
 		}
-		else if (difmsec_i <= msec_clr){		// d‚È‚Á‚Ä‚¢‚éŠ‚ğŠO‚·
+		else if (difmsec_i <= msec_clr){		// é‡ãªã£ã¦ã„ã‚‹æ‰€ã‚’å¤–ã™
 			setScpChap(i, SCP_CHAP_DUPE);
 		}
-		//--- –³‰¹ŠúŠÔ—Ìˆæ‚ÌŠm”F ---
+		//--- ç„¡éŸ³æœŸé–“é ˜åŸŸã®ç¢ºèª ---
 		if (dtscp.msmute_s <= msec_i && msec_i <= dtscp.msmute_e){
 			if (msec_i <= msec_in || nsc_nearest == i){
 				nsc_mute = i;
 			}
 		}
-		//--- Ÿ‚ÌˆÊ’uİ’è ---
+		//--- æ¬¡ã®ä½ç½®è¨­å®š ---
 		i ++;
 		if (i >= num_scpos-1 || msec_i >= msec_in + msec_clr){
 			flag_search = false;
 		}
 	}
-	//--- ‘}“üˆÊ’u‚ğİ’è ---
+	//--- æŒ¿å…¥ä½ç½®ã‚’è¨­å®š ---
 	Msec msec_in_s  = msec_in;
 	Msec msec_in_bk = msec_in;
 	if (edge == LOGO_EDGE_RISE){
@@ -2940,7 +2940,7 @@ Nsc JlsDataset::getNscForceMsecOrg(Msec msec_in, LogoEdgeType edge){
 		msec_in_s  = cnv.getMsecAdjustFrmFromMsec(msec_in, +1);
 	}
 	Nsc nsc_ret = nsc_nearest;
-	//--- Šù‘¶–³‰¹SC‰ÓŠ‚©Šm”F ---
+	//--- æ—¢å­˜ç„¡éŸ³SCç®‡æ‰€ã‹ç¢ºèª ---
 	bool flag_new = true;
 	if (nsc_nearest > 0){
 		int msec_near_s  = getMsecScp(nsc_nearest);
@@ -2949,7 +2949,7 @@ Nsc JlsDataset::getNscForceMsecOrg(Msec msec_in, LogoEdgeType edge){
 			flag_new = false;
 		}
 	}
-	//--- V‹K‰ÓŠ‚È‚ç‘}“ü ---
+	//--- æ–°è¦ç®‡æ‰€ãªã‚‰æŒ¿å…¥ ---
 	if (flag_new){
 		nsc_ret = insertScpos(msec_in_s, msec_in_bk, nsc_mute, SCP_PRIOR_DECIDE);
 	}
@@ -2957,18 +2957,18 @@ Nsc JlsDataset::getNscForceMsecOrg(Msec msec_in, LogoEdgeType edge){
 }
 
 //---------------------------------------------------------------------
-// w’èˆÊ’uiƒ~ƒŠ•bj‚Ì–³‰¹SC”Ô†‚ğæ“¾iˆÊ’u’²®‚È‚µ‚Å“ü—Í‚ğ³Šm‚ÈŒÅ’èˆÊ’u‚Æ‚·‚éj
-// ‚È‚¯‚ê‚Î‹­§“I‚Éì¬‚µ‚Äİ’è
-// “ü—ÍF
-//   msec_in : ‘ÎÛˆÊ’uiƒ~ƒŠ•bj
-//   edge    : ‘I‘ğƒGƒbƒWiLOGO_EDGE_RISE=ŠJn‘¤ALOGO_EDGE_FALL=I—¹‘¤j
-// o—ÍF
-//   •Ô‚è’lF‘Î‰‚·‚éêŠ”Ô†
-// ’ˆÓ“_F
-//   ƒf[ƒ^‘}“ü‚É‚æ‚éƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†(nsc)•ÏX‚ ‚è
+// æŒ‡å®šä½ç½®ï¼ˆãƒŸãƒªç§’ï¼‰ã®ç„¡éŸ³SCç•ªå·ã‚’å–å¾—ï¼ˆä½ç½®èª¿æ•´ãªã—ã§å…¥åŠ›ã‚’æ­£ç¢ºãªå›ºå®šä½ç½®ã¨ã™ã‚‹ï¼‰
+// ãªã‘ã‚Œã°å¼·åˆ¶çš„ã«ä½œæˆã—ã¦è¨­å®š
+// å…¥åŠ›ï¼š
+//   msec_in : å¯¾è±¡ä½ç½®ï¼ˆãƒŸãƒªç§’ï¼‰
+//   edge    : é¸æŠã‚¨ãƒƒã‚¸ï¼ˆLOGO_EDGE_RISE=é–‹å§‹å´ã€LOGO_EDGE_FALL=çµ‚äº†å´ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼šå¯¾å¿œã™ã‚‹å ´æ‰€ç•ªå·
+// æ³¨æ„ç‚¹ï¼š
+//   ãƒ‡ãƒ¼ã‚¿æŒ¿å…¥ã«ã‚ˆã‚‹ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·(nsc)å¤‰æ›´ã‚ã‚Š
 //---------------------------------------------------------------------
 Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
-	Msec msec_clr = msecValNear2;			// d‚È‚Á‚½Š‚ÌŠm’è‰ÓŠ‚ğ‰ğœ‚·‚é”ÍˆÍ
+	Msec msec_clr = msecValNear2;			// é‡ãªã£ãŸæ‰€ã®ç¢ºå®šç®‡æ‰€ã‚’è§£é™¤ã™ã‚‹ç¯„å›²
 	int num_scpos = sizeDataScp();
 
 	if (msec_in <= 0 ){
@@ -2982,12 +2982,12 @@ Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
 	Msec difmsec_nearest = 0;
 	Nsc nsc_mute = -1;
 
-	int frmIn = cnv.getFrmFromMsec(msec_in);	// “ü—ÍˆÊ’u‚ÌƒtƒŒ[ƒ€
-	bool flagExactNearest = false;	// “¯ˆêÀ•W”»’è
-	bool flagFcNearest = false;		// •ÛÀ•W‚ÍŒÅ’è
-	Msec msecFcPrev = 0;		// ‘O‘¤‚É‚ ‚éŒÅ’èˆÊ’u
-	Msec msecFcOver = 0;		// Œã‘¤‚É‚ ‚éŒÅ’èˆÊ’u
-	//--- ˆê”Ô‹ß‚¢Š‚ğŒŸõ ---
+	int frmIn = cnv.getFrmFromMsec(msec_in);	// å…¥åŠ›ä½ç½®ã®ãƒ•ãƒ¬ãƒ¼ãƒ 
+	bool flagExactNearest = false;	// åŒä¸€åº§æ¨™åˆ¤å®š
+	bool flagFcNearest = false;		// ä¿æŒåº§æ¨™ã¯å›ºå®š
+	Msec msecFcPrev = 0;		// å‰å´ã«ã‚ã‚‹å›ºå®šä½ç½®
+	Msec msecFcOver = 0;		// å¾Œå´ã«ã‚ã‚‹å›ºå®šä½ç½®
+	//--- ä¸€ç•ªè¿‘ã„æ‰€ã‚’æ¤œç´¢ ---
 	int i = 1;
 	bool flag_search = true;
 	while(flag_search){
@@ -2997,7 +2997,7 @@ Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
 		Msec difmsec_i = abs(msec_in - msec_i);
 		ScpChapType chap_i = getScpChap(i);
 		bool flagChapFc = ( chap_i == SCP_CHAP_DFORCE || chap_i == SCP_CHAP_DUNIT)? true : false;
-		//--- ˆÊ’uŠÖŒW ---
+		//--- ä½ç½®é–¢ä¿‚ ---
 		int frmSt = cnv.getFrmFromMsec(dtscp.msec);
 		int frmBk = cnv.getFrmFromMsec(dtscp.msbk);
 		bool flagLocSame = false;
@@ -3007,22 +3007,22 @@ Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
 				flagLocSame = true;
 			}
 		}
-		//--- ˆê”Ô‹ß‚¢ê‡‚ÌXV ---
+		//--- ä¸€ç•ªè¿‘ã„å ´åˆã®æ›´æ–° ---
 		if (difmsec_nearest > difmsec_i || nsc_nearest == 0){
 			bool flagErase = false;
 			bool flagChange;
-			if ( flagLocSame ){			// “¯ˆêÀ•W
+			if ( flagLocSame ){			// åŒä¸€åº§æ¨™
 				flagChange = true;
 				flagExactNearest = true;
-			}else if ( msecFcPrev >= msec_i && msecFcPrev > 0 ){	// ‘O‚ÌŒÅ’è‚æ‚è‘O
+			}else if ( msecFcPrev >= msec_i && msecFcPrev > 0 ){	// å‰ã®å›ºå®šã‚ˆã‚Šå‰
 				flagChange = false;
-			}else if ( msecFcOver <= msec_i && msecFcOver > 0 ){	// Œã‚ÌŒÅ’è‚æ‚èŒã
+			}else if ( msecFcOver <= msec_i && msecFcOver > 0 ){	// å¾Œã®å›ºå®šã‚ˆã‚Šå¾Œ
 				flagChange = false;
-			}else if ( flagChapFc ){	// •ÏX•s‰ÂiŒÅ’èjˆÊ’u
+			}else if ( flagChapFc ){	// å¤‰æ›´ä¸å¯ï¼ˆå›ºå®šï¼‰ä½ç½®
 				flagChange = false;
 				if ( msec_i < msec_in && (msecFcPrev < msec_i || msecFcPrev == 0) ){
 					msecFcPrev = msec_i;
-					if ( nsc_nearest > 0 && nsc_nearest < i ){	// ‘O‚ÌŒó•â‚Ííœ‚·‚é
+					if ( nsc_nearest > 0 && nsc_nearest < i ){	// å‰ã®å€™è£œã¯å‰Šé™¤ã™ã‚‹
 						flagErase = true;
 					}
 				}else if ( msec_i > msec_in && (msecFcOver > msec_i || msecFcOver == 0) ){
@@ -3032,11 +3032,11 @@ Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
 				flagChange = true;
 			}
 			if ( flagChange || flagErase ){
-				//--- d‚È‚Á‚Ä‚¢‚é‘ÎÛŠO‚Æ‚È‚Á‚½êŠ‚ğŠO‚· ---
+				//--- é‡ãªã£ã¦ã„ã‚‹å¯¾è±¡å¤–ã¨ãªã£ãŸå ´æ‰€ã‚’å¤–ã™ ---
 				if (nsc_nearest > 0 && difmsec_nearest <= msec_clr && flagFcNearest == false){
 					setScpChap(nsc_nearest, SCP_CHAP_DUPE);
 				}
-				nsc_nearest = 0;	// Œó•â‚È‚µ
+				nsc_nearest = 0;	// å€™è£œãªã—
 			}
 			if ( flagChange ){
 				nsc_nearest = i;
@@ -3044,24 +3044,24 @@ Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
 				flagFcNearest = flagChapFc;
 			}
 		}
-		else if (difmsec_i <= msec_clr){		// d‚È‚Á‚Ä‚¢‚éŠ‚ğŠO‚·
-			if ( flagChapFc == false ){			// ŒÅ’è‚Å‚È‚¯‚ê‚Î
+		else if (difmsec_i <= msec_clr){		// é‡ãªã£ã¦ã„ã‚‹æ‰€ã‚’å¤–ã™
+			if ( flagChapFc == false ){			// å›ºå®šã§ãªã‘ã‚Œã°
 				setScpChap(i, SCP_CHAP_DUPE);
 			}
 		}
-		//--- –³‰¹ŠúŠÔ—Ìˆæ‚ÌŠm”F ---
+		//--- ç„¡éŸ³æœŸé–“é ˜åŸŸã®ç¢ºèª ---
 		if (dtscp.msmute_s <= msec_i && msec_i <= dtscp.msmute_e){
 			if (msec_i <= msec_in || nsc_nearest == i){
 				nsc_mute = i;
 			}
 		}
-		//--- Ÿ‚ÌˆÊ’uİ’è ---
+		//--- æ¬¡ã®ä½ç½®è¨­å®š ---
 		i ++;
 		if (i >= num_scpos-1 || msec_i >= msec_in + msec_clr){
 			flag_search = false;
 		}
 	}
-	//--- ‘}“üˆÊ’u‚ğİ’è ---
+	//--- æŒ¿å…¥ä½ç½®ã‚’è¨­å®š ---
 	Msec msec_in_s  = msec_in;
 	Msec msec_in_bk = msec_in;
 	if (edge == LOGO_EDGE_RISE){
@@ -3071,12 +3071,12 @@ Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
 		msec_in_s  = cnv.getMsecAdjustFrmFromMsec(msec_in, +1);
 	}
 	Nsc nsc_ret = nsc_nearest;
-	//--- Šù‘¶–³‰¹SC‰ÓŠ‚©Šm”F ---
+	//--- æ—¢å­˜ç„¡éŸ³SCç®‡æ‰€ã‹ç¢ºèª ---
 	bool flag_new = true;
 	if (nsc_nearest > 0){
 		if ( flagExactNearest ){
 			flag_new = false;
-			//--- Šù‘¶“à—e‚ğC³ ---
+			//--- æ—¢å­˜å†…å®¹ã‚’ä¿®æ­£ ---
 			DataScpRecord dtscp;
 			getRecordScp(dtscp, nsc_nearest);
 			int frmSt = cnv.getFrmFromMsec(dtscp.msec);
@@ -3094,7 +3094,7 @@ Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
 			setRecordScp(dtscp, nsc_nearest);
 		}
 	}
-	//--- V‹K‰ÓŠ‚È‚ç‘}“ü ---
+	//--- æ–°è¦ç®‡æ‰€ãªã‚‰æŒ¿å…¥ ---
 	if (flag_new){
 		nsc_ret = insertScpos(msec_in_s, msec_in_bk, nsc_mute, SCP_PRIOR_DECIDE);
 	}
@@ -3103,7 +3103,7 @@ Nsc JlsDataset::getNscForceExactFixMsec(Msec msec_in, LogoEdgeType edge){
 
 
 //---------------------------------------------------------------------
-// ƒƒS‚ ‚è/‚È‚µ•ÏX
+// ãƒ­ã‚´ã‚ã‚Š/ãªã—å¤‰æ›´
 //---------------------------------------------------------------------
 void JlsDataset::changeLogoOnOff(Nsc nsc, bool logoOn){
 	ScpArType arStatOrg = getScpArstat(nsc);
@@ -3140,7 +3140,7 @@ void JlsDataset::changeLogoOnOff(Nsc nsc, bool logoOn){
 			arStatNew = SCP_AR_UNKNOWN;
 			break;
 	}
-	// ƒƒS‚ ‚è‚©‚çƒƒS‚È‚µ‚É•ÏX‚µ‚½‚ÍŠúŠÔ‚ÅCM”»’f
+	// ãƒ­ã‚´ã‚ã‚Šã‹ã‚‰ãƒ­ã‚´ãªã—ã«å¤‰æ›´ã—ãŸæ™‚ã¯æœŸé–“ã§CMåˆ¤æ–­
 	if ( jlsd::isScpArTypeLogo(arStatOrg) && logoOn == false){
 		Nsc nscPrev = getNscPrevScpDecide(nsc, SCP_END_EDGEIN);
 		if ( isCmLenNscToNsc(nscPrev, nsc) ){
@@ -3153,18 +3153,18 @@ void JlsDataset::changeLogoOnOff(Nsc nsc, bool logoOn){
 	setScpArext(nsc, SCP_AREXT_NONE);
 }
 //---------------------------------------------------------------------
-// \¬•ÏX‚Ì•\¦—p‚É•â³ˆ—
+// æ§‹æˆå¤‰æ›´æ™‚ã®è¡¨ç¤ºç”¨ã«è£œæ­£å‡¦ç†
 //---------------------------------------------------------------------
 void JlsDataset::changeChapDispUnit(Nsc nscFrom, Nsc nscTo, bool cutDivUnit){
-	//--- ‘ÎÛ\¬‚Ì•â³ ---
+	//--- å¯¾è±¡æ§‹æˆã®è£œæ­£ ---
 	changeChapDispUnitSub(nscFrom, nscTo, cutDivUnit);
 }
 void JlsDataset::changeChapDispUnitWithSide(Nsc nscFrom, Nsc nscTo){
-	//--- ’PˆÊ\¬“à•ªŠ„‚ÌƒJƒbƒg‚È‚µ ---
+	//--- å˜ä½æ§‹æˆå†…åˆ†å‰²ã®ã‚«ãƒƒãƒˆãªã— ---
 	bool cutDivUnit = false;
-	//--- ‘ÎÛ\¬‚Ì•â³ ---
+	//--- å¯¾è±¡æ§‹æˆã®è£œæ­£ ---
 	changeChapDispUnitSub(nscFrom, nscTo, cutDivUnit);
-	//--- ‘OŒã\¬‚Ì•â³ ---
+	//--- å‰å¾Œæ§‹æˆã®è£œæ­£ ---
 	if ( nscFrom >= 0 ){
 		Nsc nscPrev = getNscPrevScpDisp(nscFrom, SCP_END_EDGEIN);
 		changeChapDispUnitSub(nscPrev, nscFrom, cutDivUnit);
@@ -3177,29 +3177,29 @@ void JlsDataset::changeChapDispUnitWithSide(Nsc nscFrom, Nsc nscTo){
 void JlsDataset::changeChapDispUnitSub(Nsc nscFrom, Nsc nscTo, bool cutDivUnit){
 	if ( nscFrom < 0 ) return;
 
-	bool flagDiv = false;		// •\¦—p‚É‚È‚¢•ªŠ„“r’†
-	bool flagUnit = false;		// 15•b’PˆÊ‚Æ‚È‚éCMŠúŠÔ
+	bool flagDiv = false;		// è¡¨ç¤ºç”¨ã«ãªã„åˆ†å‰²é€”ä¸­
+	bool flagUnit = false;		// 15ç§’å˜ä½ã¨ãªã‚‹CMæœŸé–“
 	Nsc nscCur  = nscFrom;
 	Nsc nscDisp = nscFrom;
 	Nsc nscPrev = nscFrom;
 	while( nscFrom <= nscCur && nscCur <= nscTo && nscCur >= 0 ){
-		//--- Ÿ‚ÌˆÊ’u‚ğæ“¾ ---
+		//--- æ¬¡ã®ä½ç½®ã‚’å–å¾— ---
 		if ( nscDisp <= nscCur ){
 			nscPrev = nscDisp;
-			nscDisp = getNscNextScpDisp(nscCur, SCP_END_EDGEIN);	// •\¦—pŸˆÊ’u
+			nscDisp = getNscNextScpDisp(nscCur, SCP_END_EDGEIN);	// è¡¨ç¤ºç”¨æ¬¡ä½ç½®
 			flagUnit = isCmLenNscToNsc(nscPrev, nscDisp);
 		}
 		nscCur = getNscNextScpDecide(nscCur, SCP_END_EDGEIN);
 		if ( nscCur < 0 || nscDisp < 0 ) break;
 
-		//--- •\¦—p‚É‚È‚¢‹æØ‚è•ªŠ„‚ğƒJƒbƒg ---
-		if ( nscCur != nscDisp && cutDivUnit ){	// 15/30•b\¬“àCM•ªŠ„‚ÌƒJƒbƒgˆ—
-			if ( nscCur < nscTo ){			// ”O‚Ì‚½‚ß”ÍˆÍ“à‘¤‚Ì‚Ì‚İ
+		//--- è¡¨ç¤ºç”¨ã«ãªã„åŒºåˆ‡ã‚Šåˆ†å‰²ã‚’ã‚«ãƒƒãƒˆ ---
+		if ( nscCur != nscDisp && cutDivUnit ){	// 15/30ç§’æ§‹æˆå†…CMåˆ†å‰²ã®ã‚«ãƒƒãƒˆå‡¦ç†
+			if ( nscCur < nscTo ){			// å¿µã®ãŸã‚ç¯„å›²å†…å´ã®æ™‚ã®ã¿
 				setScpChap(nscCur, SCP_CHAP_NONE);
 			}
 			continue;
 		}
-		//--- \¬‹æØ‚è‚Ì•â³ ---
+		//--- æ§‹æˆåŒºåˆ‡ã‚Šã®è£œæ­£ ---
 		ScpArType arstat = pdata->getScpArstat(nscCur);
 		ScpArType arstatRev;
 		switch( arstat ){
@@ -3241,10 +3241,10 @@ bool JlsDataset::isCmLenNscToNsc(Nsc nscFrom, Nsc nscTo){
 }
 
 //=====================================================================
-// „‘ª\¬ƒ‰ƒxƒ‹•ª•Ê
+// æ¨æ¸¬æ§‹æˆãƒ©ãƒ™ãƒ«åˆ†åˆ¥
 //=====================================================================
 //---------------------------------------------------------------------
-// ƒRƒƒ“ƒgí—Ş‚ğæ“¾
+// ã‚³ãƒ¡ãƒ³ãƒˆç¨®é¡ã‚’å–å¾—
 //---------------------------------------------------------------------
 bool JlsDataset::isLabelLogoFromNsc(Nsc nsc, bool flagBorder, bool flagOut){
 	ComLabelType label = getLabelTypeFromNsc(nsc, flagOut);
@@ -3255,7 +3255,7 @@ ComLabelType JlsDataset::getLabelTypeFromNsc(Nsc nsc, bool flagOut){
 	ScpArExtType arext = getScpArext(nsc);
 	return getLabelTypeFromStat(arstat, arext, flagOut);
 }
-// ƒƒSˆµ‚¢‚Ì”»’è
+// ãƒ­ã‚´æ‰±ã„ã®åˆ¤å®š
 bool JlsDataset::isLabelLogo(ComLabelType label, bool flagBorder, bool flagOut){
 	bool logoOn;
 	switch( label ){
@@ -3280,7 +3280,7 @@ bool JlsDataset::isLabelLogo(ComLabelType label, bool flagBorder, bool flagOut){
 	}
 	return logoOn;
 }
-// í—Ş‚ğæ“¾
+// ç¨®é¡ã‚’å–å¾—
 ComLabelType JlsDataset::getLabelTypeFromStat(ScpArType arstat, ScpArExtType arext, bool flagOut){
 	ComLabelType label;
 
@@ -3362,7 +3362,7 @@ ComLabelType JlsDataset::getLabelTypeFromStat(ScpArType arstat, ScpArExtType are
 	}
 	return label;
 }
-// •¶š—ñæ“¾
+// æ–‡å­—åˆ—å–å¾—
 string JlsDataset::getLabelStr(ComLabelType label){
 	const char *pstr = "";
 	switch( label ){
@@ -3431,25 +3431,25 @@ string JlsDataset::getLabelStr(ComLabelType label){
 
 
 //=====================================================================
-// \¬“à‚ÌƒƒS•\¦ŠúŠÔ‚Ìæ“¾
+// æ§‹æˆå†…ã®ãƒ­ã‚´è¡¨ç¤ºæœŸé–“ã®å–å¾—
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ”ÍˆÍ“à‚É‚ ‚éƒƒS•\¦ŠúŠÔ‚Ì•b”‚ğæ“¾
+// ç¯„å›²å†…ã«ã‚ã‚‹ãƒ­ã‚´è¡¨ç¤ºæœŸé–“ã®ç§’æ•°ã‚’å–å¾—
 //---------------------------------------------------------------------
 Sec JlsDataset::getSecLogoComponent(Msec msec_s, Msec msec_e){
-	//--- ÀƒƒSƒf[ƒ^‚ğg‚í‚È‚¢ê‡‚ÌƒƒSŠúŠÔİ’è ---
+	//--- å®Ÿãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ã‚’ä½¿ã‚ãªã„å ´åˆã®ãƒ­ã‚´æœŸé–“è¨­å®š ---
 	if ( isAutoLogoOnly() ){
 		return getSecLogoComponentFromElg(msec_s, msec_e);
 	}
 	return getSecLogoComponentFromLogo(msec_s, msec_e);
 }
 
-// ÀƒƒSƒf[ƒ^‚©‚ç
+// å®Ÿãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰
 Sec JlsDataset::getSecLogoComponentFromLogo(Msec msec_s, Msec msec_e){
 	NrfCurrent logopt = {};
 	Msec sum_msec = 0;
-	//--- \¬‚Ì’[•”•ª‚ğÌ‚Ä‚é”»•ÊŠúŠÔ ---
+	//--- æ§‹æˆã®ç«¯éƒ¨åˆ†ã‚’æ¨ã¦ã‚‹åˆ¤åˆ¥æœŸé–“ ---
 	Msec msec_dif_mid = abs(msec_e - msec_s) / 2;
 	Msec msec_dif_min = abs(msec_e - msec_s) / 4;
 	if (msec_dif_mid > 11500){
@@ -3459,11 +3459,11 @@ Sec JlsDataset::getSecLogoComponentFromLogo(Msec msec_s, Msec msec_e){
 		msec_dif_min = 4500;
 	}
 	while( getNrfptNext(logopt, LOGO_SELECT_VALID) ){
-		//--- ”ÍˆÍ“à‚ÉƒƒS•\¦ŠúŠÔ‚ª‚ ‚éê‡ ---
+		//--- ç¯„å›²å†…ã«ãƒ­ã‚´è¡¨ç¤ºæœŸé–“ãŒã‚ã‚‹å ´åˆ ---
 		if (logopt.msecRise + msecValSpc < msec_e && logopt.msecFall > msec_s + msecValSpc){
 			Msec tmp_s = (logopt.msecRise < msec_s)? msec_s : logopt.msecRise;
 			Msec tmp_e = (logopt.msecFall > msec_e)? msec_e : logopt.msecFall;
-			//--- ’[•”•ª‚Ìˆ—(rise) ---
+			//--- ç«¯éƒ¨åˆ†ã®å‡¦ç†(rise) ---
 			{
 				WideMsec wmsec;
 				getWideMsecLogoNrf(wmsec, logopt.nrfRise);
@@ -3481,7 +3481,7 @@ Sec JlsDataset::getSecLogoComponentFromLogo(Msec msec_s, Msec msec_e){
 					}
 				}
 			}
-			//--- ’[•”•ª‚Ìˆ—(fall) ---
+			//--- ç«¯éƒ¨åˆ†ã®å‡¦ç†(fall) ---
 			{
 				WideMsec wmsec;
 				getWideMsecLogoNrf(wmsec, logopt.nrfFall);
@@ -3499,22 +3499,22 @@ Sec JlsDataset::getSecLogoComponentFromLogo(Msec msec_s, Msec msec_e){
 					}
 				}
 			}
-			// ƒƒS•\¦ŠúŠÔ‚ğ’Ç‰Á
+			// ãƒ­ã‚´è¡¨ç¤ºæœŸé–“ã‚’è¿½åŠ 
 			if (tmp_s < tmp_e){
 				sum_msec += (tmp_e - tmp_s);
 			}
 		}
 	}
-	// •b”‚É•ÏŠ·‚µ‚ÄƒŠƒ^[ƒ“
+	// ç§’æ•°ã«å¤‰æ›ã—ã¦ãƒªã‚¿ãƒ¼ãƒ³
 	return cnv.getSecFromMsec(sum_msec);
 }
 
-// „‘ª\¬‚ÌƒƒSˆµ‚¢‚©‚ç
+// æ¨æ¸¬æ§‹æˆã®ãƒ­ã‚´æ‰±ã„ã‹ã‚‰
 Sec JlsDataset::getSecLogoComponentFromElg(Msec msec_s, Msec msec_e){
 	Msec sum_msec = 0;
 	ElgCurrent elg = {};
 	while( getElgptNext(elg) ){
-		// ”ÍˆÍ“à‚ÉƒƒS•\¦ŠúŠÔ‚ª‚ ‚éê‡
+		// ç¯„å›²å†…ã«ãƒ­ã‚´è¡¨ç¤ºæœŸé–“ãŒã‚ã‚‹å ´åˆ
 		if (elg.msecRise + msecValSpc < msec_e && elg.msecFall > msec_s + msecValSpc){
 			Msec tmp_s, tmp_e;
 			if (elg.msecRise < msec_s){
@@ -3529,31 +3529,31 @@ Sec JlsDataset::getSecLogoComponentFromElg(Msec msec_s, Msec msec_e){
 			else{
 				tmp_e = elg.msecFall;
 			}
-			// ƒƒS•\¦ŠúŠÔ‚ğ’Ç‰Á
+			// ãƒ­ã‚´è¡¨ç¤ºæœŸé–“ã‚’è¿½åŠ 
 			if (tmp_s < tmp_e){
 				sum_msec += (tmp_e - tmp_s);
 			}
 		}
 	}
-	// •b”‚É•ÏŠ·‚µ‚ÄƒŠƒ^[ƒ“
+	// ç§’æ•°ã«å¤‰æ›ã—ã¦ãƒªã‚¿ãƒ¼ãƒ³
 	return cnv.getSecFromMsec(sum_msec);
 }
 
 
 
 //=====================================================================
-// TrimˆÊ’u’¼Úİ’è
+// Trimä½ç½®ç›´æ¥è¨­å®š
 //=====================================================================
 void JlsDataset::setOutDirect(vector<Msec>& listMsec){
 	m_listOutDirect = listMsec;
 }
 
 //=====================================================================
-// Œ‹‰ÊTrimì¬
+// çµæœTrimä½œæˆ
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒJƒbƒgŒ‹‰Êì¬
+// ã‚«ãƒƒãƒˆçµæœä½œæˆ
 //---------------------------------------------------------------------
 void JlsDataset::outputResultTrimGen(){
 	resultTrim.clear();
@@ -3563,14 +3563,14 @@ void JlsDataset::outputResultTrimGen(){
 		}else{
 			outputResultTrimGenManual();
 		}
-	}else{		// TrimˆÊ’u’¼Úİ’è
+	}else{		// Trimä½ç½®ç›´æ¥è¨­å®š
 		for(int i=0; i<(int)m_listOutDirect.size(); i++){
 			resultTrim.push_back( m_listOutDirect[i] );
 		}
 	}
 }
 
-// ƒJƒbƒgŒ‹‰Êì¬i\¬„‘ª‚µ‚È‚¢ê‡j
+// ã‚«ãƒƒãƒˆçµæœä½œæˆï¼ˆæ§‹æˆæ¨æ¸¬ã—ãªã„å ´åˆï¼‰
 void JlsDataset::outputResultTrimGenManual(){
 	LogoSelectType lgsel = LogoSelectType::LOGO_SELECT_VALID;
 	bool final = true;
@@ -3579,7 +3579,7 @@ void JlsDataset::outputResultTrimGenManual(){
 	while( flag_cont ){
 		flag_cont = getNrfptOutNext(logopt, lgsel, final);
 		if ( flag_cont ){
-			//--- Œ‹‰Êƒf[ƒ^’Ç‰Á ---
+			//--- çµæœãƒ‡ãƒ¼ã‚¿è¿½åŠ  ---
 			resultTrim.push_back( logopt.msecRise );
 			resultTrim.push_back( logopt.msecFall );
 		}
@@ -3587,10 +3587,10 @@ void JlsDataset::outputResultTrimGenManual(){
 }
 
 
-// ƒJƒbƒgŒ‹‰Êì¬i\¬„‘ª‚·‚éê‡j
+// ã‚«ãƒƒãƒˆçµæœä½œæˆï¼ˆæ§‹æˆæ¨æ¸¬ã™ã‚‹å ´åˆï¼‰
 void JlsDataset::outputResultTrimGenAuto(){
 	ElgCurrent elg = {};
-	elg.outflag = true;					// ÅIo—Í—p‚Ìİ’è
+	elg.outflag = true;					// æœ€çµ‚å‡ºåŠ›ç”¨ã®è¨­å®š
 	while ( getElgptNext(elg) ){
 		resultTrim.push_back( elg.msecRise );
 		resultTrim.push_back( elg.msecFall );
@@ -3600,53 +3600,53 @@ void JlsDataset::outputResultTrimGenAuto(){
 
 
 //=====================================================================
-// Ú×î•ño—Íì¬
+// è©³ç´°æƒ…å ±å‡ºåŠ›ä½œæˆ
 //=====================================================================
 
 //---------------------------------------------------------------------
-// Ú×î•ñŒ‹‰Ê‚Ì“Ç‚İo‚µˆÊ’uƒŠƒZƒbƒg
+// è©³ç´°æƒ…å ±çµæœã®èª­ã¿å‡ºã—ä½ç½®ãƒªã‚»ãƒƒãƒˆ
 //---------------------------------------------------------------------
 void JlsDataset::outputResultDetailReset(){
 	m_nscOutDetail = 0;
 }
 
 //---------------------------------------------------------------------
-// Ú×î•ñŒ‹‰Ê‚Ì•¶š—ñì¬
-// o—Í
-//   •Ô‚è’lF 0=³í  1=I—¹
-//   strBufF o—Í•¶š—ñ
+// è©³ç´°æƒ…å ±çµæœã®æ–‡å­—åˆ—ä½œæˆ
+// å‡ºåŠ›
+//   è¿”ã‚Šå€¤ï¼š 0=æ­£å¸¸  1=çµ‚äº†
+//   strBufï¼š å‡ºåŠ›æ–‡å­—åˆ—
 //---------------------------------------------------------------------
 bool JlsDataset::outputResultDetailGetLine(string &strBuf){
 	int num_scpos = sizeDataScp();
-	//--- Œ»İˆÊ’u‚ğæ“¾ ---
+	//--- ç¾åœ¨ä½ç½®ã‚’å–å¾— ---
 	Nsc i = m_nscOutDetail;
 	if (i < 0 || i >= num_scpos-1){
 		return 1;
 	}
 	Msec msec_from = getMsecScp(i);
-	//--- Ÿ‚ÌˆÊ’u‚ğæ“¾ ---
+	//--- æ¬¡ã®ä½ç½®ã‚’å–å¾— ---
 	Msec msec_next;
 	do{
-		i = getNscNextScpDisp(i, SCP_END_EDGEIN);		// Ÿ‚Ì\¬‹æØ‚èˆÊ’uæ“¾i’[‚ğŠÜ‚Şj
+		i = getNscNextScpDisp(i, SCP_END_EDGEIN);		// æ¬¡ã®æ§‹æˆåŒºåˆ‡ã‚Šä½ç½®å–å¾—ï¼ˆç«¯ã‚’å«ã‚€ï¼‰
 		msec_next = getMsecScp(i);
 	} while(msec_from == msec_next && i >= 0);
-	//--- ˆÊ’u‚ğİ’è ---
+	//--- ä½ç½®ã‚’è¨­å®š ---
 	m_nscOutDetail = i;
 	if (i >= 0){
-		//--- ‘OŒãŠÔŠu‚ÌŠúŠÔæ“¾ ---
+		//--- å‰å¾Œé–“éš”ã®æœŸé–“å–å¾— ---
 		Msec msec_dif = msec_next - msec_from;
 		Sec  sec_dif  = cnv.getSecFromMsec( msec_dif  );
 		int frm_from = cnv.getFrmFromMsec( msec_from );
 		int frm_next = cnv.getFrmFromMsec( msec_next );
 		int frm_dif  = frm_next - cnv.getFrmFromMsec(sec_dif*1000 + msec_from);
 		Sec sec_logo = getSecLogoComponent(msec_from, msec_next);
-		//--- I—¹’n“_‚ğæ“¾ ---
+		//--- çµ‚äº†åœ°ç‚¹ã‚’å–å¾— ---
 		Msec msec_to  = getMsecScpBk(i);
 		int frm_to   = cnv.getFrmFromMsec( msec_to   );
-		//--- •\¦ ---
+		//--- è¡¨ç¤º ---
 		strBuf = sformat("%6d %6d %4d %3d %4d ",
 					frm_from, frm_to, sec_dif, frm_dif, sec_logo);
-		//--- \¬–¼Ì‚ğæ“¾ ---
+		//--- æ§‹æˆåç§°ã‚’å–å¾— ---
 		if (m_flagSetupAuto > 1){
 			outputResultDetailGetLineLabel(strBuf, getScpArstat(i), getScpArext(i));
 		}
@@ -3660,7 +3660,7 @@ bool JlsDataset::outputResultDetailGetLine(string &strBuf){
 
 
 //---------------------------------------------------------------------
-// Ú×î•ñŒ‹‰Ê‚Ì•¶š—ñì¬i„‘ª•”•ª–¼Ìj
+// è©³ç´°æƒ…å ±çµæœã®æ–‡å­—åˆ—ä½œæˆï¼ˆæ¨æ¸¬éƒ¨åˆ†åç§°ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::outputResultDetailGetLineLabel(string &strBuf, ScpArType arstat, ScpArExtType arext){
 	bool flagOut = true;
@@ -3671,7 +3671,7 @@ void JlsDataset::outputResultDetailGetLineLabel(string &strBuf, ScpArType arstat
 
 
 //=====================================================================
-// ƒƒO•\¦
+// ãƒ­ã‚°è¡¨ç¤º
 //=====================================================================
 void JlsDataset::dispSysMesN(const string& msg, SysMesType typeMsg){
 	bool flagDisp;
@@ -3697,11 +3697,11 @@ void JlsDataset::dispSysMesN(const string& msg, SysMesType typeMsg){
 }
 
 //=====================================================================
-// ƒfƒoƒbƒO—p•\¦
+// ãƒ‡ãƒãƒƒã‚°ç”¨è¡¨ç¤º
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒfƒoƒbƒO—p•\¦iƒƒSƒf[ƒ^j
+// ãƒ‡ãƒãƒƒã‚°ç”¨è¡¨ç¤ºï¼ˆãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::displayLogo(){
 	int n = (int) m_logo.size();
@@ -3721,7 +3721,7 @@ void JlsDataset::displayLogo(){
 }
 
 //---------------------------------------------------------------------
-// ƒfƒoƒbƒO—p•\¦i–³‰¹SCƒf[ƒ^j
+// ãƒ‡ãƒãƒƒã‚°ç”¨è¡¨ç¤ºï¼ˆç„¡éŸ³SCãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsDataset::displayScp(){
 	int n = (int) m_scp.size();

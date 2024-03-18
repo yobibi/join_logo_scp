@@ -1,29 +1,29 @@
-# join_logo_scp—p‚ÌÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eF‹¤’Ê‚ÅÅ‰‚É“Ç‚İ‚Ü‚ê‚é“à—e
+# å†…å®¹ï¼šå…±é€šã§æœ€åˆã«èª­ã¿è¾¼ã¾ã‚Œã‚‹å†…å®¹
 #
 
 #----------------------------------------------
-# İ’è
+# è¨­å®š
 #----------------------------------------------
-Default setup_ignore_case   1   # •Ï”‚Ì‘å•¶š¬•¶ši0:‹æ•Ê 1:“¯ˆêˆµ‚¢‚Åwarning•\¦j
-Default setup_sysmes_disp   0   # ƒVƒXƒeƒ€•\¦‚Ìo—Í’Ç‰Ái+1:Callƒtƒ@ƒCƒ‹êŠ +2:OUTDIRECT +4:CutMrg)
+Default setup_ignore_case   1   # å¤‰æ•°ã®å¤§æ–‡å­—å°æ–‡å­—ï¼ˆ0:åŒºåˆ¥ 1:åŒä¸€æ‰±ã„ã§warningè¡¨ç¤ºï¼‰
+Default setup_sysmes_disp   0   # ã‚·ã‚¹ãƒ†ãƒ è¡¨ç¤ºã®å‡ºåŠ›è¿½åŠ ï¼ˆ+1:Callãƒ•ã‚¡ã‚¤ãƒ«å ´æ‰€ +2:OUTDIRECT +4:CutMrg)
 
-Default outrev_cutframe  0   # o—ÍTrim‚ğŠeˆÊ’u“à‘¤‚ÉƒJƒbƒg•â³‚·‚éƒtƒŒ[ƒ€”
-Default outmemo_code     2   # “à•”ƒƒ‚ƒtƒ@ƒCƒ‹o—Íi0:o—Í‚È‚µ 1:•W€•¶šƒR[ƒh 2:UTF-8 3:UTF-16j
+Default outrev_cutframe  0   # å‡ºåŠ›Trimã‚’å„ä½ç½®å†…å´ã«ã‚«ãƒƒãƒˆè£œæ­£ã™ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+Default outmemo_code     2   # å†…éƒ¨ãƒ¡ãƒ¢ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ï¼ˆ0:å‡ºåŠ›ãªã— 1:æ¨™æº–æ–‡å­—ã‚³ãƒ¼ãƒ‰ 2:UTF-8 3:UTF-16ï¼‰
 
 #----------------------------------------------
-# “®ì
+# å‹•ä½œ
 #----------------------------------------------
 IgnoreCase ${setup_ignore_case}
 SysMesDisp ${setup_sysmes_disp}
 
-If ${outrev_cutframe}!=0     # 0ˆÈŠO‚Ì‚Éİ’è
-  Call "JL_set_Šeframecuto—Í.txt"
+If ${outrev_cutframe}!=0     # 0ä»¥å¤–ã®æ™‚ã«è¨­å®š
+  Call "JL_set_å„framecutå‡ºåŠ›.txt"
 EndIf
 
-If ${outmemo_code}!=0     # 0ˆÈŠO‚Ì‚Éİ’è
-  Call "JL_out_“à•”ƒƒ‚.txt"
+If ${outmemo_code}!=0     # 0ä»¥å¤–ã®æ™‚ã«è¨­å®š
+  Call "JL_out_å†…éƒ¨ãƒ¡ãƒ¢.txt"
 EndIf
 
-#Call "JL_out_copyƒtƒ@ƒCƒ‹ˆê®.txt"
+#Call "JL_out_copyãƒ•ã‚¡ã‚¤ãƒ«ä¸€å¼.txt"

@@ -1,31 +1,31 @@
-# join_logo_scp—p‚ÌÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eF•ªŠ„ƒtƒŒ[ƒ€ƒŠƒXƒgo—Íˆ—
-#       ‹N“®ƒIƒvƒVƒ‡ƒ“ -odiv ‚Åƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚Ä‚¨‚­
-#       •ªŠ„ˆ—‚Å•ªŠ„ˆÊ’u‚ğ•Ï”(divide_pos_list)‚Éİ’è‚µ‚Ä‚¨‚­
+# å†…å®¹ï¼šåˆ†å‰²ãƒ•ãƒ¬ãƒ¼ãƒ ãƒªã‚¹ãƒˆå‡ºåŠ›å‡¦ç†
+#       èµ·å‹•æ™‚ã‚ªãƒ—ã‚·ãƒ§ãƒ³ -odiv ã§ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æŒ‡å®šã—ã¦ãŠã
+#       åˆ†å‰²å‡¦ç†ã§åˆ†å‰²ä½ç½®ã‚’å¤‰æ•°(divide_pos_list)ã«è¨­å®šã—ã¦ãŠã
 #
 
 #----------------------------------------------
-# İ’è
+# è¨­å®š
 #----------------------------------------------
-Default divfile_from     2     # •ªŠ„‚Å‰½”Ô–Ú‚Ì\¬‚©‚çˆÊ’u‚ğo—Í‚·‚é‚©
-Default divfile_zero_out 0     # •ªŠ„‚ÅÅ‰‚É0‚ğo—Í(0=‚µ‚È‚¢ 1=‚·‚é)
+Default divfile_from     2     # åˆ†å‰²ã§ä½•ç•ªç›®ã®æ§‹æˆã‹ã‚‰ä½ç½®ã‚’å‡ºåŠ›ã™ã‚‹ã‹
+Default divfile_zero_out 0     # åˆ†å‰²ã§æœ€åˆã«0ã‚’å‡ºåŠ›(0=ã—ãªã„ 1=ã™ã‚‹)
 
 #----------------------------------------------
-# “®ì
+# å‹•ä½œ
 #----------------------------------------------
 CountUp once_check_out_divfile
-MemOnce ${once_check_out_divfile}  # ‚±‚Ìƒtƒ@ƒCƒ‹‚ÌMemory•¶‚Íˆê“x‚¾‚¯Às
+MemOnce ${once_check_out_divfile}  # ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã®Memoryæ–‡ã¯ä¸€åº¦ã ã‘å®Ÿè¡Œ
 
-Set divfile_useflag  1    # ‚±‚Ìƒtƒ@ƒCƒ‹‚ğŒÄ‚Ô‚±‚Æ‚ªg—p‚·‚é‚±‚Æ‚É‚È‚é
+Set divfile_useflag  1    # ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‘¼ã¶ã“ã¨ãŒä½¿ç”¨ã™ã‚‹ã“ã¨ã«ãªã‚‹
 
-#--- o—Í—p•ªŠ„ˆÊ’uƒŠƒXƒg(divfile_outut_list)‚ğì¬ ---
+#--- å‡ºåŠ›ç”¨åˆ†å‰²ä½ç½®ãƒªã‚¹ãƒˆ(divfile_outut_list)ã‚’ä½œæˆ ---
 Memory divfile_makelist {
-  ListClear -RegOut divfile_output_list   # Œ‹‰ÊŠi”[—p
-  ListClear -RegOut divide_pos_list -default  # “ü—Íƒf[ƒ^
+  ListClear -RegOut divfile_output_list   # çµæœæ ¼ç´ç”¨
+  ListClear -RegOut divide_pos_list -default  # å…¥åŠ›ãƒ‡ãƒ¼ã‚¿
 
   If ${divfile_zero_out}>0 && $#{divide_pos_list}>0
-    ListIns -1 -val 0 -RegList divfile_output_list  # 0ˆÊ’u‚ğo—Í
+    ListIns -1 -val 0 -RegList divfile_output_list  # 0ä½ç½®ã‚’å‡ºåŠ›
   EndIf
 
   Repeat $#{divide_pos_list} -counter num 1
@@ -35,7 +35,7 @@ Memory divfile_makelist {
   EndRepeat
 };
 
-#--- Œ‹‰Ê•\¦—p ---
+#--- çµæœè¡¨ç¤ºç”¨ ---
 Memory divfile_echo_odiv {
   MemCall divfile_makelist
   Repeat $#{divfile_output_list} -counter num 1
@@ -43,8 +43,8 @@ Memory divfile_echo_odiv {
   EndRepeat
 };
 
-#--- Œ‹‰Êo—Í—p ---
-MemSet OUTPUT {                 # o—Í©“®“I‚ÉÀs
+#--- çµæœå‡ºåŠ›ç”¨ ---
+MemSet OUTPUT {                 # å‡ºåŠ›æ™‚è‡ªå‹•çš„ã«å®Ÿè¡Œ
   MemCall divfile_makelist
   Repeat $#{divfile_output_list} -counter num 1
     DivFile S 0 -fromabs ${divfile_output_list[$num]}

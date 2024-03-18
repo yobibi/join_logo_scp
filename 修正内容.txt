@@ -1,348 +1,348 @@
-���C�����e(ver 5.0)
-JL�X�N���v�g�̋����i�����@�\��������ѕs���m�d�l�̌������j
+﻿■修正内容(ver 5.0)
+JLスクリプトの強化（検索機能強化および不明確仕様の見直し）
 
-�i�@�\�ǉ��j
-�E�ʒu�w��֘A�̌����@�\������
-  �i�����@�\�����������Ƃɂ��AutoIns/AutoDel�ŉ\�Ȑ��䂪�����j
-   - �����t���[���ʒu����܂Ƃ߂ď�������@�\�ǉ�
-   - �����\�����e����ʒu�Ƃ���@�\�ǉ�
-   - �s���m�d�l���������Ĉʒu�␳�I�v�V���������낢��ǉ�
-�E���ϐ����e�Ɛݒ�f�[�^������s�X�N���v�g��I������JL�X�N���v�g�ǉ�
-�EMemory�@�\������
-   - ��ʓI�Ȋ֐��R�}���h�ǉ�(Function)
-   - �L������-order�I�v�V�����œ���̈���̎��s���ʂ�ݒ肷��@�\�ǉ�
-   - �x�����s�Ɉ�����t���ĕϐ��W�J�𐧌䂷��@�\�ǉ�
-   - �o�͑O�Ɏ������s����郁�����ǉ��i���ʎq��:FINALIZE�j
-   - �������s��Memory�n���Ŗ��O����(���ʎq��:START/AUTO/END/FINALIZE/OUTPUT)
-�E���X�g���Z�@�\������
-�E�����񑀍�@�\��ǉ�
-   - �ϐ��Ɋi�[���ꂽ������̃p�X�A�t�@�C�����A�g���q�����̂ݎ擾����@�\�ǉ�
-   - �t�@�C�������擾�ȊO�̕����񑀍�@�\���ǉ�
-�E���ʂōŏ��ɓǂݍ��܂��JL�X�N���v�g��ǉ�(JL_common.txt)
-�EJL�X�N���v�g�ǂݍ��ݍŗD��t�H���_��ǉ�(user)
-�E�ϐ��ݒ��CM�J�b�g���ʈʒu�Ƃ��Ē��ڏo�͂���@�\��ǉ�(�ϐ����FOUTDIRECT)
-�EUnicode�ɑΉ�
-   - ���ϐ��ݒ�l��t�@�C���ǂݏ������A�ݒ�\�ȏ��͑S���Ή��B
-   - Shift-JIS��OS�@�\�őΉ��AUTF-8/UTF-16��BOM���画�ʁi������UTF-8����j
-�E���̑������̃R�}���h�^�I�v�V������ǉ�
-   - �ǉ��X�N���v�g��v���e�����́uJL�R�}���h����_�⏕���ver5.txt�v���Q��
-   - �����ǂƃ^�C�g����񂩂�̋N���I���́u�N���I���f�[�^����.txt�v���Q��
-   - �ʏڍׂ́uJL�R�}���h����_�S��.txt�v���́uver5.0�v�Ō���
-   - ������JL/* �̒ǉ��t�@�C���Q��
+（機能追加）
+・位置指定関連の検索機能を強化
+  （検索機能が増えたことによりAutoIns/AutoDelで可能な制御が増加）
+   - 複数フレーム位置からまとめて処理する機能追加
+   - 推測構成内容を基準位置とする機能追加
+   - 不明確仕様を見直して位置補正オプションをいろいろ追加
+・環境変数内容と設定データから実行スクリプトを選択するJLスクリプト追加
+・Memory機能を強化
+   - 一般的な関数コマンド追加(Function)
+   - 記憶時に-orderオプションで同一領域内の実行順位を設定する機能追加
+   - 遅延実行に引数を付けて変数展開を制御する機能追加
+   - 出力前に自動実行されるメモリ追加（識別子名:FINALIZE）
+   - 自動実行はMemory系統で名前整理(識別子名:START/AUTO/END/FINALIZE/OUTPUT)
+・リスト演算機能を強化
+・文字列操作機能を追加
+   - 変数に格納された文字列のパス、ファイル名、拡張子部分のみ取得する機能追加
+   - ファイル部分取得以外の文字列操作機能も追加
+・共通で最初に読み込まれるJLスクリプトを追加(JL_common.txt)
+・JLスクリプト読み込み最優先フォルダを追加(user)
+・変数設定をCMカット結果位置として直接出力する機能を追加(変数名：OUTDIRECT)
+・Unicodeに対応
+   - 環境変数設定値やファイル読み書き等、設定可能な所は全部対応。
+   - Shift-JISはOS機能で対応、UTF-8/UTF-16はBOMから判別（内部はUTF-8動作）
+・その他多数のコマンド／オプションを追加
+   - 追加スクリプト主要内容説明は「JLコマンド説明_補助解説ver5.txt」を参照
+   - 放送局とタイトル情報からの起動選択は「起動選択データ説明.txt」を参照
+   - 個別詳細は「JLコマンド説明_全般.txt」等の「ver5.0」で検索
+   - 動作例はJL/* の追加ファイル参照
 
-�i�d�l�������E����C���j
-�E�Q�_�w�肪�����ʒu���������͋�؂�݂̂ɏC��
-   - �i�]���j�אڍ\�����ύX�����s���m����
-   - -EndLen 0�ݒ������L�ڒʂ�̊���0�ݒ�ɏC��
-     �O�̂��ߎb���-reset���t��������-EndLen 0�͏]�����������EndLen���w�舵��
-�E�Q�_�w��ŏI���ʒu���w�莞�̏I�_��-fromabs���̕ύX���܂߂���ʒu���g�p
-   - �i�]���j-fromabs���̕ύX�͊܂߂Ȃ��{���̊���S�ʒu���g�p
-�E�Q�_�w��R�}���h��-force�w��͏I���ʒu���ΏۂȂ���ΓK�p
-   - �i�]���j�I���ʒu�ɑΏۂȂ����͕s���m�ȏI���ʒu�Ŏ��s
-�E�t���[���ʒu���ڎw����g����Find���͎w��Ȃ���ΑΏۃ��S���������f���ēK�p
-   - �i�]���j���S�ԍ����w�肪�m���őΏۃ��S�������f�͌���ꂽ�P�[�X�ŗL��
-�EDivLogo�R�}���h�A-Shift�I�v�V�������d�l�ʂ�ɓ��삳����C��
-   - DivLogo�͓����łQ�_�w�胍�S�쐬����P�_�w�蕪���ɕύX
-   - -Shift�͓�����-relative���삩��d�l�L�ڒʂ��ʒu�Ƃ��Čʊm�F�ɕύX
-�E�R�}���h�����S/E/B���ȗ��\�B�ȗ�����S
-�E���S�ԍ��w��őS�̎w����Ӗ�����0�͏ȗ��\
-�E���X�g�ϐ��ŗv�f��0�̓����ێ��l��ύX�i�v�f��0�ł������Ƃ��ĔF��������C���j
-�E�ϐ���`�̐ݒ�l���V���O���N�H�[�g�݂͂�''���̕ϐ��W�J���Ȃ��d�l�ǉ�
-�E-AC�I�v�V�����Ő����\����؂�ȊO�����o�����P�[�X�C���i�]�������-ACC�Ɂj
-�ELogoReset�R�}���h��HEADTIME/TAILTIME�ݒ肪�ُ�ɂȂ�s��C��
-�E���̑��s��C�����܂ލׂ����C������
+（仕様見直し・動作修正）
+・２点指定が同じ位置だった時は区切りのみに修正
+   - （従来）隣接構成が変更される不明確動作
+   - -EndLen 0設定を説明記載通りの期間0設定に修正
+     念のため暫定で-resetも付加したら-EndLen 0は従来内部動作のEndLen未指定扱い
+・２点指定で終了位置無指定時の終点は-fromabs等の変更を含めた基準位置を使用
+   - （従来）-fromabs等の変更は含めない本来の基準ロゴ位置を使用
+・２点指定コマンドの-force指定は終了位置も対象なければ適用
+   - （従来）終了位置に対象ない時は不明確な終了位置で実行
+・フレーム位置直接指定を使ったFind等は指定なければ対象ロゴを自動判断して適用
+   - （従来）ロゴ番号を指定が確実で対象ロゴ自動判断は限られたケースで有効
+・DivLogoコマンド、-Shiftオプションを仕様通りに動作させる修正
+   - DivLogoは内部で２点指定ロゴ作成から１点指定分割に変更
+   - -Shiftは内部で-relative動作から仕様記載通り基準位置として個別確認に変更
+・コマンド直後のS/E/Bを省略可能。省略時はS
+・ロゴ番号指定で全体指定を意味する0は省略可能
+・リスト変数で要素数0の内部保持値を変更（要素数0でも引数として認識させる修正）
+・変数定義の設定値をシングルクォート囲みで''内の変数展開しない仕様追加
+・-ACオプションで推測構成区切り以外も検出されるケース修正（従来動作は-ACCに）
+・LogoResetコマンドでHEADTIME/TAILTIME設定が異常になる不具合修正
+・その他不具合修正を含む細かい修正多数
 
-�����ւ����t�@�C���i���̃t�@�C���ȊO�j
-join_logo_scp.exe  ����̏C��
-src/*              ����̏C���\�[�X�t�@�C��
-�h�L�������g��     ����̏C�����L�ځi�ύX����t�@�C���̂݁j
-data/*.csv         �N���I���f�[�^
-JL/*               �ǉ��ݒ�E�\���ύX
-                  �i���L�ȊO�͒ǉ��ƍ\���ύX�݂̂ŏ]���̓���͕ύX���ĂȂ��j
-                   �E�]���̃t���O�w���JL_�t���O�w��_��{�B��肠��΂������
-                   �E�ʒu�Ǎ���Amatsukaze�p�ɕύX
-  JL_ANYSEL.txt     �i�ǉ��jAmatsukaze����̋N����z�肵���ݒ�
-  JL_ATX.txt         ���Ԋ֘A�̒����E�ϐ��ǉ�
-  JL_�ʒu�Ǎ�.txt    Amatsukaze����̋N����z�肵���擾�ɕύX
-  JL_�t���O�w��.txt  �\�������ݒ��ǉ������t���O�w��
-  JL_�t���O�w��_��{.txt  Call�ǉ��B�t���O�w��ɖ�肠��΂�����ɖ߂�
-  common/JL_common.txt              �i�ǉ��j���ʂōŏ��ɓǂݍ��܂�鏉���ݒ�
-  common/JL_ini_�O�����擾.txt    �i�ǉ��j���O�ݒ肳�ꂽ���ϐ����擾
-  common/JL_ini_�I��Ǎ�.txt        �i�ǉ��j�����ǂƃ^�C�g������N�����̑I��
-  common/JL_out_copy�t�@�C���ꎮ.txt�i�ǉ��j�֘A�t�@�C���ꎮ��ʏꏊ�ɃR�s�[
-  common/JL_out_��������.txt        �i�ǉ��j���O�o�͕s�v�����������t�@�C���o��
-  common/JL_set_�t���O�w��W��2.txt �i�ǉ��jver5.0����ǉ��̃t���O�w����e
-  common/JL_set_�eframecut�o��.txt  �i�ǉ��j�o��Trim���e�ʒu�Ő��t���[���J�b�g
-  common/JL_sub_�����񑀍�.txt      �i�ǉ��j�^�C�g�������p�̕�����֐�
-  user/                             �i�ǉ��j���[�U�[�쐬�X�N���v�g�i�[
+差し替えたファイル（このファイル以外）
+join_logo_scp.exe  今回の修正
+src/*              今回の修正ソースファイル
+ドキュメント類     今回の修正を記載（変更あるファイルのみ）
+data/*.csv         起動選択データ
+JL/*               追加設定・構成変更
+                  （下記以外は追加と構成変更のみで従来の動作は変更してない）
+                   ・従来のフラグ指定はJL_フラグ指定_基本。問題あればこちらで
+                   ・位置読込はAmatsukaze用に変更
+  JL_ANYSEL.txt     （追加）Amatsukazeからの起動を想定した設定
+  JL_ATX.txt         期間関連の調整・変数追加
+  JL_位置読込.txt    Amatsukazeからの起動を想定した取得に変更
+  JL_フラグ指定.txt  構成初期設定を追加したフラグ指定
+  JL_フラグ指定_基本.txt  Call追加。フラグ指定に問題あればこちらに戻す
+  common/JL_common.txt              （追加）共通で最初に読み込まれる初期設定
+  common/JL_ini_外部環境取得.txt    （追加）事前設定された環境変数を取得
+  common/JL_ini_選択読込.txt        （追加）放送局とタイトルから起動情報の選択
+  common/JL_out_copyファイル一式.txt（追加）関連ファイル一式を別場所にコピー
+  common/JL_out_内部メモ.txt        （追加）ログ出力不要内部メモをファイル出力
+  common/JL_set_フラグ指定標準2.txt （追加）ver5.0から追加のフラグ指定内容
+  common/JL_set_各framecut出力.txt  （追加）出力Trimを各位置で数フレームカット
+  common/JL_sub_文字列操作.txt      （追加）タイトル検索用の文字列関数
+  user/                             （追加）ユーザー作成スクリプト格納
 
-[�g�p����]
-�E�X�V�͍��܂Œʂ�join_logo_scp.exe��JL�t�H���_�̍����ւ�
-�E�����ǂƃ^�C�g����񂩂�N���I���������ꍇ : JL/doc/�N���I���f�[�^����.txt
-�EJL�X�N���v�g���̒ǉ����ꂽ�ݒ�
-  JL_common.txt�AJL_�t���O�w��.txt�iJL_set_�t���O�w��W��2.txt�j
+[使用説明]
+・更新は今まで通りjoin_logo_scp.exeとJLフォルダの差し替え
+・放送局とタイトル情報から起動選択したい場合 : JL/doc/起動選択データ説明.txt
+・JLスクリプト内の追加された設定
+  JL_common.txt、JL_フラグ指定.txt（JL_set_フラグ指定標準2.txt）
 
-[JL�X�N���v�g�L�q����]
-�E�ǉ��X�N���v�g��v���e���� : JL/doc/JL�R�}���h����_�⏕���ver5.txt
-�Ever4�ł͎d�l�O����ӏ��̏C�� : �u�C�����e.txt�v�i�d�l�������E����C���j
-�E�ʏڍ� : �uJL�R�}���h����_�S��.txt�v���́uver5.0�v����
-
-
-���C�����e(ver 4.1)
-���s�X�N���v�g�iJL�X�N���v�g�j�̋@�\��ǉ����ĕ�������������
-�E�t�@�C�����玞�ԏ�񓙂̃��X�g��ǂݍ��ދ@�\(ReadData/ReadTrim/ReadString)
-�E�X�N���v�g���Ń��S�ʒu�����Đݒ�E���ڎw�肷��@�\(LogoReset/LogoDirect)
-�E���X�g�ϐ����f�[�^�� $�ϐ���[�ԍ�]�Œ��ڃA�N�Z�X�A$#�ϐ����ŗv�f���擾�\
-�E���̑����X�g����ѕ����֘A�̋@�\��ǉ�
-   - �ڍׂ́uJL�R�}���h����_�S��.txt�v�́uver4.1�v�Ō���
-   - ������JL/* �̍����ւ����t�@�C���Q��
-�E�ŏI�t���[���܂ő������S�̊��Ԃ��������͍Ō㕔���̐����\���F����ǉ�
-�E�ׂ����s��C��
-   - GetPos/GetList��-Nauto�w�肵�Ă����ۂ̃��S���Q�Ƃ����P�[�X�C��
-   - NextTail�Ń��S�����D�悪�����Ȃ��P�[�X�C��
-   - If�l�X�g����ElsIf����AMemory����Repeat�l�X�g�𐳏퓮��ɏC��
-
-�����ւ����t�@�C��
-join_logo_scp.exe  ����̏C��
-src/*              ����̏C���\�[�X�t�@�C��
-�h�L�������g��     ����̏C�����L�ځi�ύX����t�@�C���̂݁j
-JL/*               �����֘A�̋@�\��ǉ��B���L�t�@�C����ύX�E�쐬
-  JL_ATX.txt       �����b�֘A�̓��e�����A���ԃ��X�g��`�t�@�C���Ǎ��ݒ�ǉ�
-  JL_�\��30���P��.txt  �����b�̊��ԃ��X�g��`�t�@�C���Ǎ��ݒ�ǉ�
-  JL_�ʒu�Ǎ�.txt      �t�@�C������ݒ�l��ǂݍ��ޓ���
-  common/JL_set_�O��啝�J�b�g.txt ���S�ʒu�Đݒ���g�������S�J�b�g����ǉ�
-  common/JL_set_�t���O�w��W��.txt �t���O�ǉ�(TDLE85)
-  common/JL_set_�ꕔ�\������.txt   �w�肵���ꕔ�\���̂ݍ\����������ݒ�
+[JLスクリプト記述説明]
+・追加スクリプト主要内容説明 : JL/doc/JLコマンド説明_補助解説ver5.txt
+・ver4では仕様外動作箇所の修正 : 「修正内容.txt」（仕様見直し・動作修正）
+・個別詳細 : 「JLコマンド説明_全般.txt」等の「ver5.0」検索
 
 
-���C�����e(ver 4.0.1)
-�ELogoOff/DivLogo�R�}���h���@�\���Ȃ��P�[�X���C��
+■修正内容(ver 4.1)
+実行スクリプト（JLスクリプト）の機能を追加して分割処理を強化
+・ファイルから時間情報等のリストを読み込む機能(ReadData/ReadTrim/ReadString)
+・スクリプト内でロゴ位置情報を再設定・直接指定する機能(LogoReset/LogoDirect)
+・リスト変数内データを $変数名[番号]で直接アクセス、$#変数名で要素数取得可能
+・その他リストおよび分割関連の機能を追加
+   - 詳細は「JLコマンド説明_全般.txt」の「ver4.1」で検索
+   - 動作例はJL/* の差し替えたファイル参照
+・最終フレームまで続くロゴの期間が長い時は最後部分の推測構成認識を追加
+・細かい不具合修正
+   - GetPos/GetListで-Nauto指定しても実際のロゴが参照されるケース修正
+   - NextTailでロゴ立上り優先が効かないケース修正
+   - Ifネスト中のElsIf判定、Memory内のRepeatネストを正常動作に修正
 
-�����ւ����t�@�C���i���̃t�@�C���ȊO�j
-join_logo_scp.exe �ƃ\�[�X�t�@�C���̂�
-
-
-���C�����e(ver 4.0)
-���s�X�N���v�g�iJL�X�N���v�g�j���������Ēǉ��L�ڂ����₷���悤�ɏC��
-�X�N���v�g�L�q�Ɗ֌W�Ȃ������̌��o���\�͕ύX�Ȃ�
-
-�i�@�\�ǉ��j
-�E�x�����s�ōŏ��ɂ܂Ƃ߂ċL�ڂ����R�}���h�̎��s�ʒu�𐧌�\
-   - AutoIns/AutoDel���\�������O�ɐݒ肳�ꂽ�ꍇ�͎����I�Ɏ��s�ʒu�ύX
-   - Lazy�n�I�v�V����/�R�}���h��AutoIns/AutoDel���̎��s�ʒu����\
-   - Mem�n�R�}���h�Ŏ��O�ɋL�������R�}���h��C�ӂ̎w��ӏ��Ŏ��s�\
-�EJL�X�N���v�g�̃T�u�t�H���_������ǂݍ��݂ɑΉ�
-�E�\���E�ԑg�񋟓��܂߂��ŏI�o�͂����S��ԂƂ���AutoIns/AutoDel��������ݒ�ǉ�
-   - �I�v�V������ -final ���w�肷��
-�EJL�X�N���v�g���œ��e���t�@�C���o�͂���@�\�ǉ�
-   - FileOpen���Echo�R�}���h�ŏo��
-�E����t�@�C�����݂̂ɃA�N�Z�X���肷�郍�[�J���ϐ��ǉ�
-�E���̑��ׂ����R�}���h�^�I�v�V���������낢��ǉ�
-   - �ڍׂ́uJL�R�}���h����_�S��.txt�v���́uver4.0�v�Ō���
-
-�i�d�l�E����C���j
-�EAutoIns/AutoDel��-code�ȗ�����1���ݒ肳��R�}���h���s����悤�ɕύX
-�E�K�{�����������͈͎w��̑������ȗ��\
-�E�s���܂��͒���󔒂�" \"�L�ڂŃR�}���h�𕡐��s�ɕ����\
-�E�X�N���v�g�L�q�֘A�ׂ̍����s��C������
-
-�����ւ����t�@�C���i���̃t�@�C���ȊO�j
-join_logo_scp.exe  ����̏C��
-src/*              ����̏C���\�[�X�t�@�C��
-JL/*               �V�K�@�\�ɑΉ������\���ύX�E�ǉ��ݒ�
-                  �i�]���̓���͕ύX���ĂȂ�����j
-�h�L�������g��     �ύX�_�Ɂuver4.0�v���L��
+差し替えたファイル
+join_logo_scp.exe  今回の修正
+src/*              今回の修正ソースファイル
+ドキュメント類     今回の修正を記載（変更あるファイルのみ）
+JL/*               分割関連の機能を追加。下記ファイルを変更・作成
+  JL_ATX.txt       複数話関連の内容整理、期間リスト定義ファイル読込設定追加
+  JL_構成30分単位.txt  複数話の期間リスト定義ファイル読込設定追加
+  JL_位置読込.txt      ファイルから設定値を読み込む動作
+  common/JL_set_前後大幅カット.txt ロゴ位置再設定を使ったロゴカット動作追加
+  common/JL_set_フラグ指定標準.txt フラグ追加(TDLE85)
+  common/JL_set_一部構成分離.txt   指定した一部構成のみ構成分離する設定
 
 
-���C�����e(ver 3.06n by Nekopanda)
-�EDivFile�R�}���h�ǉ�
+■修正内容(ver 4.0.1)
+・LogoOff/DivLogoコマンドが機能しないケースを修正
 
-�t�@�C��������github�Q��
+差し替えたファイル（このファイル以外）
+join_logo_scp.exe とソースファイルのみ
+
+
+■修正内容(ver 4.0)
+実行スクリプト（JLスクリプト）を強化して追加記載を作りやすいように修正
+スクリプト記述と関係ない部分の検出性能は変更なし
+
+（機能追加）
+・遅延実行で最初にまとめて記載したコマンドの実行位置を制御可能
+   - AutoIns/AutoDelが構成推測前に設定された場合は自動的に実行位置変更
+   - Lazy系オプション/コマンドでAutoIns/AutoDel等の実行位置制御可能
+   - Mem系コマンドで事前に記憶したコマンドを任意の指定箇所で実行可能
+・JLスクリプトのサブフォルダからも読み込みに対応
+・予告・番組提供等含めた最終出力をロゴ区間としてAutoIns/AutoDelをかける設定追加
+   - オプションに -final を指定する
+・JLスクリプト内で内容をファイル出力する機能追加
+   - FileOpen後にEchoコマンドで出力
+・同一ファイル内のみにアクセス限定するローカル変数追加
+・その他細かいコマンド／オプションをいろいろ追加
+   - 詳細は「JLコマンド説明_全般.txt」等の「ver4.0」で検索
+
+（仕様・動作修正）
+・AutoIns/AutoDelで-code省略時は1が設定されコマンド実行するように変更
+・必須引数だった範囲指定の多くを省略可能
+・行末または直後空白の" \"記載でコマンドを複数行に分割可能
+・スクリプト記述関連の細かい不具合修正多数
+
+差し替えたファイル（このファイル以外）
+join_logo_scp.exe  今回の修正
+src/*              今回の修正ソースファイル
+JL/*               新規機能に対応した構成変更・追加設定
+                  （従来の動作は変更してないつもり）
+ドキュメント類     変更点に「ver4.0」を記載
+
+
+■修正内容(ver 3.06n by Nekopanda)
+・DivFileコマンド追加
+
+ファイル差分はgithub参照
 https://github.com/nekopanda/join_logo_scp
 
-���C�����e(ver 3.06)
-�E��ɒP�ƍ\���̍\���F���𒲐�
+■修正内容(ver 3.06)
+・主に単独構成の構成認識を調整
 
-�����ւ����t�@�C���i���̃t�@�C���ȊO�j
-join_logo_scp.exe  ����̏C��
-src/*              ����̏C���\�[�X�t�@�C��
-JL/JL_�t���O�w��.txt �ԑg�񋟂����S����Ɍ��肷��t���O(ALSP)�̂ݒǉ�
+差し替えたファイル（このファイル以外）
+join_logo_scp.exe  今回の修正
+src/*              今回の修正ソースファイル
+JL/JL_フラグ指定.txt 番組提供をロゴありに限定するフラグ(ALSP)のみ追加
 
 
-���C�����e(ver 3.05)
-�E�J�n�}�[�W���֘A�ݒ�̕s��C��(ZoneFirst�p�����[�^)����ђ���
-�E���S�Ȃ��s���\�����c���ݒ�(AddUC�p�����[�^)���@�\���Ă��Ȃ��������ƏC��
-�E�\���ƔF�������ŏ��̓��e��ԑg�񋟕����Ƃ���ݒ肪�@�\���Ȃ������P�[�X�C��
-�E�����V�[���`�F���W���������\���������̒���
-�E�\�����o�̔�����
-�EAutoIns/AutoDel��AutoInsert/AutoDelete�ł��\�L�\
-�E�I���}�[�W�������ōŌ�̍\��������ǉ�
-  �Ō�̍\�������ǉ��������Ȃ��ꍇ�͉��L��-1�܂��͍Ō�̍\�����Ԉȏ�ɐݒ肷��
+■修正内容(ver 3.05)
+・開始マージン関連設定の不具合修正(ZoneFirstパラメータ)および調整
+・ロゴなし不明構成を残す設定(AddUCパラメータ)が機能していなかったこと修正
+・予告と認識した最初の内容を番組提供部分とする設定が機能しなかったケース修正
+・無音シーンチェンジ数が多い構成内分離の調整
+・構成検出の微調整
+・AutoIns/AutoDelをAutoInsert/AutoDeleteでも表記可能
+・終了マージン部分で最後の構成分割を追加
+  最後の構成分割追加したくない場合は下記を-1または最後の構成期間以上に設定する
   Default param_zone_last    0.0
   SetParam ZoneLast    $param_zone_last
 
-�����ւ����t�@�C���i���̃t�@�C���ȊO�j
-join_logo_scp.exe  ����̏C��
-src/*              ����̏C���\�[�X�t�@�C��
-JL/JL_ATX.txt      ��ɕ����b�\���̌��o����
-JL/JL_�W��.txt       param_zone_last�̃R�����g�̂ݕύX
-JL/JL_�t���O�w��.txt param_zone_last�̃R�����g�ύX
-                     AutoCM��MkLogo�ݒ�t���O�����̌�Ɉړ�
+差し替えたファイル（このファイル以外）
+join_logo_scp.exe  今回の修正
+src/*              今回の修正ソースファイル
+JL/JL_ATX.txt      主に複数話構成の検出調整
+JL/JL_標準.txt       param_zone_lastのコメントのみ変更
+JL/JL_フラグ指定.txt param_zone_lastのコメント変更
+                     AutoCMをMkLogo設定フラグ処理の後に移動
 
 
-���C�����e(ver 3.04)
-�E�擪���烍�S����̎��ɊJ�n�}�[�W���ő���Ԃ����肷��ݒ�ǉ�
-  Default param_lgcut_first  12.0   # �ŏ����烍�S����̎��J�n�}�[�W���ő����
+■修正内容(ver 3.04)
+・先頭からロゴありの時に開始マージン最大期間を限定する設定追加
+  Default param_lgcut_first  12.0   # 最初からロゴありの時開始マージン最大期間
   SetParam LgCutFirst  $param_lgcut_first
-�E���S���g�p���Ȃ����o�Ő擪�J�b�g�ʒu���Ȃ��ꍇ���팟�o���Ȃ������s����C��
-�E�ꕔ���Ԃ����S�Ȃ���15�b�P�ʍ\��CM���f���C��
-�E�L�惍�S�Ȃ��J�b�g�ŃJ�b�g�ʒu�̔��ʏC��
-�EAutoAdd�̎�O���͗אڂ̂�(code=20)�͗\���E�ԑg�񋟁E���S�ǂ�ł��ɏC��
+・ロゴを使用しない検出で先頭カット位置がない場合正常検出しなかった不具合を修正
+・一部期間がロゴなしの15秒単位構成CM判断を修正
+・広域ロゴなしカットでカット位置の判別修正
+・AutoAddの手前側は隣接のみ(code=20)は予告・番組提供・ロゴどれでもに修正
 
-�����ւ����t�@�C���i���̃t�@�C���ȊO�j
-join_logo_scp.exe  ����̏C��
-src/*              ����̏C���\�[�X�t�@�C��
-JL/JL_ATX.txt      �ʒu���o�̏C��
-JL/JL_�W��.txt       Default param_lgcut_first��SetParam LgCutFirst��2�s�ǉ�
-JL/JL_�t���O�w��.txt Default param_lgcut_first��SetParam LgCutFirst��2�s�ǉ�
-
-
-���C�����e(ver 3.03)
-�E�L�惍�S�Ȃ��J�b�g�ō\���F�����X�V����Ȃ��s����C��
-�E�P�\���̍Ō�Ƀ��Soff�����񂠂�P�[�X�Ń��S��F������悤�ɏC��
-�E���S���g�p���Ȃ����o�Ŗ�������������CM���f����
-�EAutoEdge�Ŏ��ۂ̃��S�ʒu���x�[�X�Ƃ���ݒ���b��I�ɒǉ�
-    -Nlogo 0�i���S�����肷��ꍇ��-N�̑����-Nlogo�j
-  ��AutoEdge�̃I�v�V�����Ɏw�肷�邱�Ƃō\����on/off�؂�ւ��ł͂Ȃ�
-  ���ۂ̃��S�؂�ڂɂ���\�����画�f���邽�߁A�]���̓���ɋ߂��Ȃ�
-
-�����ւ����t�@�C���i���̃t�@�C���ȊO�j
-join_logo_scp.exe  ����̏C��
-src/*              ����̏C���\�[�X�t�@�C��
+差し替えたファイル（このファイル以外）
+join_logo_scp.exe  今回の修正
+src/*              今回の修正ソースファイル
+JL/JL_ATX.txt      位置検出の修正
+JL/JL_標準.txt       Default param_lgcut_firstとSetParam LgCutFirstの2行追加
+JL/JL_フラグ指定.txt Default param_lgcut_firstとSetParam LgCutFirstの2行追加
 
 
-���C�����e(ver 3.02)
-�E���S�Ȃ�����Nologo(cut)��Trim���f�s����C��
+■修正内容(ver 3.03)
+・広域ロゴなしカットで構成認識が更新されない不具合を修正
+・１構成の最後にロゴoffが毎回あるケースでロゴを認識するように修正
+・ロゴを使用しない検出で無音が多い所のCM判断調整
+・AutoEdgeで実際のロゴ位置をベースとする設定を暫定的に追加
+    -Nlogo 0（ロゴを限定する場合は-Nの代わりに-Nlogo）
+  をAutoEdgeのオプションに指定することで構成のon/off切り替わりではなく
+  実際のロゴ切れ目にある構成から判断するため、従来の動作に近くなる
 
-�����ւ����t�@�C���i���̃t�@�C���ȊO�j
-join_logo_scp.exe  ����̏C��
-src/*              ����̏C���\�[�X�t�@�C��
-
-
-���C�����e(ver 3.01)
-�E���S�Ȃ�������\���\���ɂ��Ă�Trim�ɔ��f����Ȃ��s����C��
-�E���S�\�����\���������f�ׂ̍����C��
-
-�����ւ����t�@�C���i���̃t�@�C���ȊO�j
-join_logo_scp.exe  ����̏C��
-src/*              ����̏C���\�[�X�t�@�C��
+差し替えたファイル（このファイル以外）
+join_logo_scp.exe  今回の修正
+src/*              今回の修正ソースファイル
 
 
-���C�����e(ver 3.0)
-�E��{�\�������A���S���Y����ύX
-�E��{�\���������Ƀ��S�����ǂ̒��x�g�������i�K����I��
-  �i���s�X�N���v�g���̐ݒ�j�\���������̃��S�g�p�i1:�Ȃ��`8:���S���ŗD��j
-�E�t�@�C���擪�Ō�̍\����������������
-�E�N���I�v�V�����̃t���O�w��Œl���ꏏ�Ɏw��\�i-flags �t���O��:�l�j
-�E�N���I�v�V�������t�@�C������ǂݍ��ނ��Ɖ\�i-F �t�@�C�����j
-�E�N���I�v�V������CutMrgIn/Out�l�̎g�p���f�ݒ�ǉ�(-CutMrgWI,-CutMrgWO)
-�EAuto�n�R�}���h�Ńf�t�H���g14�b�ȉ��̏���13�b�ȉ��ɕύX
-�E���s�X�N���v�g�ɑ����̋@�\�ǉ�
-  - �N���I�v�V�����̈ꕔ�����s�X�N���v�g���ł��w��\(OptDefault,OptSet)
-  - �������������\������蓮�ō\���ύX����R�}���h�ǉ�(AutoIns,AutoDel)
-  - ��Z�A���Z�A��]�A�_�����Z�A()�ɂ��D�揇�ʉ��Z�ǉ�
-  - If���������ŉ��Z���g�p�\
-  - ���̑����s�X�N���v�g�ɒǉ���������B�ڍׂ́uJL�R�}���h����_�S��.txt�v��
-    �uJL�R�}���h����_Autocut����.txt�v�ɋL�ځB���e�́uver3.0�v�Ō���
-    �uJL�R�}���h����_�⏕���.txt�v�ɂ��������L�ځB
-�E�����\����啝����
+■修正内容(ver 3.02)
+・ロゴなし部分Nologo(cut)のTrim反映不具合を修正
+
+差し替えたファイル（このファイル以外）
+join_logo_scp.exe  今回の修正
+src/*              今回の修正ソースファイル
 
 
-���C�����e(ver 2.2)
-�E�擪���琔�t���[���`1.5�b���x�̕s�v�������c��P�[�X���C��
-�E���s�X�N���v�g����ɏC���ǉ��i-autochg�̎d�l�ύX�AAutoEdge�̓���C���j
+■修正内容(ver 3.01)
+・ロゴなし部分を予告構成にしてもTrimに反映されない不具合を修正
+・ロゴ構成内構成分離判断の細かい修正
 
-�����ւ����t�@�C��
-join_logo_scp.exe  ����̏C��
-src/*              ����̏C���\�[�X�t�@�C��
-�h�L�������g��     ����̏C�����L�ځi�ύX����t�@�C���̂݁j
-JL/JL_ATX.txt      �Z���Ԕԑg�̔��C��
+差し替えたファイル（このファイル以外）
+join_logo_scp.exe  今回の修正
+src/*              今回の修正ソースファイル
 
 
-���C�����e(ver 2.1)
-�E���S�Ȃ��ł�15�b�P�ʂ�CM���o���s�������ǉ�
-  �i���s�X�N���v�g�ɒǉ�����AutoCM�R�}���h�ɂ����s�j
-�E���S���ԍ��v���ɒ[�ɒZ�����̓��S�Ȃ��Ƃ��ď���
-�E���s�X�N���v�g�ɍׂ����@�\�ǉ�
-  - ���s�X�N���v�g��If�������i���l��r�j�ǉ�
-  - ���s�X�N���v�g��$MAXFRAME�ɂ��ŏI�t���[���l���Q�Ɖ\
-    ���̑����s�X�N���v�g�ɒǉ�����B�ڍׂ́uJL�R�}���h����_�S��.txt�v�ɋL��
-�EAuto�n�R�}���h�𒆐S�ɍׂ�������C������
+■修正内容(ver 3.0)
+・基本構成推測アルゴリズムを変更
+・基本構成推測時にロゴ情報をどの程度使うか数段階から選択
+  （実行スクリプト内の設定）構成推測時のロゴ使用（1:なし～8:ロゴ情報最優先）
+・ファイル先頭最後の構成推測部分を強化
+・起動オプションのフラグ指定で値も一緒に指定可能（-flags フラグ名:値）
+・起動オプションをファイルから読み込むこと可能（-F ファイル名）
+・起動オプションにCutMrgIn/Out値の使用判断設定追加(-CutMrgWI,-CutMrgWO)
+・Auto系コマンドでデフォルト14秒以下の所を13秒以下に変更
+・実行スクリプトに多数の機能追加
+  - 起動オプションの一部を実行スクリプト内でも指定可能(OptDefault,OptSet)
+  - 自動推測した構成から手動で構成変更するコマンド追加(AutoIns,AutoDel)
+  - 乗算、除算、剰余、論理演算、()による優先順位演算追加
+  - If文条件内で演算を使用可能
+  - その他実行スクリプトに追加多数あり。詳細は「JLコマンド説明_全般.txt」と
+    「JLコマンド説明_Autocutメモ.txt」に記載。内容は「ver3.0」で検索
+    「JLコマンド説明_補助解説.txt」にも説明を記載。
+・内部構成を大幅改変
 
 
-���C�����e(ver 2.0)
-�E�ԑg�\���𐄑�����@�\�������B�\������J�b�g�ʒu�����߂�@�\��ǉ��B
-�@- Auto�n�R�}���h�BJL_�W��.txt���܂ߕύX�\�ȃX�N���v�g�͕ύX�ς݁B
-  - �����V�[���`�F���W�ŕb�P�ʍ\���ɕ����ł��鎞�Ɍ��ʑ�B
-  - �ύX�ł͂Ȃ��ǉ��Ȃ̂ŁA�����\�����g��Ȃ��]���ݒ�����̂܂܎g�p�\�B
-�@- �\���̈Ⴂ��������x�z�����āA���s�X�N���v�g���������p�x�����炷�ړI�Œǉ��B
-�E���s�X�N���v�g�̊g���E�R�}���h�ǉ��B�ϐ��w��ő����̐ݒ���\�ɂ����B
+■修正内容(ver 2.2)
+・先頭から数フレーム～1.5秒程度の不要部分が残るケースを修正
+・実行スクリプト動作に修正追加（-autochgの仕様変更、AutoEdgeの動作修正）
+
+差し替えたファイル
+join_logo_scp.exe  今回の修正
+src/*              今回の修正ソースファイル
+ドキュメント類     今回の修正を記載（変更あるファイルのみ）
+JL/JL_ATX.txt      短時間番組の微修正
+
+
+■修正内容(ver 2.1)
+・ロゴなしでも15秒単位のCM検出を行う処理追加
+  （実行スクリプトに追加したAutoCMコマンドにより実行）
+・ロゴ期間合計が極端に短い時はロゴなしとして処理
+・実行スクリプトに細かい機能追加
+  - 実行スクリプトにIf文条件（数値比較）追加
+  - 実行スクリプトで$MAXFRAMEにより最終フレーム値を参照可能
+    その他実行スクリプトに追加あり。詳細は「JLコマンド説明_全般.txt」に記載
+・Auto系コマンドを中心に細かい動作修正多数
+
+
+■修正内容(ver 2.0)
+・番組構成を推測する機能を強化。構成からカット位置を決める機能を追加。
+　- Auto系コマンド。JL_標準.txtを含め変更可能なスクリプトは変更済み。
+  - 無音シーンチェンジで秒単位構成に分離できる時に効果大。
+  - 変更ではなく追加なので、推測構成を使わない従来設定もそのまま使用可能。
+　- 構成の違いをある程度吸収して、実行スクリプト書き換え頻度を減らす目的で追加。
+・実行スクリプトの拡張・コマンド追加。変数指定で多くの設定を可能にした。
 
 
 
-���C�����e(ver 1.1)
-�ECM�Ԋu���烍�S�ʒu�m��ł��Ȃ����A�D�悳����t���[���ʒu���w��\�ɂ���
-�E�A���S���Y�������ׂ̍����C��
+■修正内容(ver 1.1)
+・CM間隔からロゴ位置確定できない時、優先させるフレーム位置を指定可能にした
+・アルゴリズム部分の細かい修正
 
-�y�J�n�}�[�W���w��̋�̗�z
-JL_�W��.txt �̉��L���� -1 ���t���[�����ɕς���ƁA
-�����V�[���`�F���W��┻�肪������Ɏw�肵���t���[���ʒu���D�悳���B
+【開始マージン指定の具体例】
+JL_標準.txt の下記部分 -1 をフレーム数に変えると、
+無音シーンチェンジ候補判定が難しい時に指定したフレーム位置が優先される。
 ---
-# �J�n�}�[�W���̃t���[���i-1�̎��͐ݒ肵�Ȃ��j
+# 開始マージンのフレーム（-1の時は設定しない）
 Default base -1
 ---
 
-�y�e�t�@�C���̕ύX�_�z
-��readme.txt
-  -set�I�v�V�����ǉ��i�J�n�}�[�W�����̕ϐ��l���o�b�`�t�@�C������w��j
-��JL/JL�R�}���h����.txt
-  �R�}���h�ǉ�  �FSelect,Default,Set
-  �I�v�V�����ǉ��F-FR,-fromabs,-flat,-reset,-logoext
-  �t���[���w��ŒP���ȉ��Z�^���Z�����L�ډ\
-��JL_�W��.txt�AJL/JL_*.txt
-  �J�n�}�[�W���ݒ�ǉ��B�����_�ł̎g�p���e�i�Q�l��j�ɍX�V�B
-���^�C�g���ʐݒ��/*
-  �����_�Ŏg�p���Ă�����e�i�Q�l��j�ɍX�V�B
-��join_logo_scp.exe�Asrc/*
-  ����̏C������ꂽ���s�t�@�C���ƃ\�[�X�t�@�C��
+【各ファイルの変更点】
+○readme.txt
+  -setオプション追加（開始マージン等の変数値をバッチファイルから指定可）
+○JL/JLコマンド説明.txt
+  コマンド追加  ：Select,Default,Set
+  オプション追加：-FR,-fromabs,-flat,-reset,-logoext
+  フレーム指定で単純な加算／減算式を記載可能
+○JL_標準.txt、JL/JL_*.txt
+  開始マージン設定追加。現時点での使用内容（参考例）に更新。
+○タイトル別設定例/*
+  現時点で使用している内容（参考例）に更新。
+○join_logo_scp.exe、src/*
+  今回の修正を入れた実行ファイルとソースファイル
 
 
-���C�����e(fix3)
-�EJL�R�}���h�͈͎̔w��ŕ��̒l���w��\�Ȃ��̂͐擪�������t�ł����삳����C��
-�E�A���S���Y�������ׂ̍����C��
+■修正内容(fix3)
+・JLコマンドの範囲指定で負の値を指定可能なものは先頭末尾が逆でも動作させる修正
+・アルゴリズム部分の細かい修正
 
-�����ւ����t�@�C��
+差し替えたファイル
 join_logo_scp.exe
 src/join_logo_scp.c
-JL/JL�R�}���h����.txt �i�����ǉ��̂݁j
+JL/JLコマンド説明.txt （説明追加のみ）
 
 
-���C�����e(fix2)
-�E�ǂݍ��ޖ����V�[���`�F���W��256�ȏ゠��ƌv�Z�r���Ńo�b�t�@�s�����N����
-  �s����C��
-�E�����A����Ԃ𕪊�����chapter_exe�o�͂̓ǂݍ��݂ɑΉ�
-  �i���s���e�X�N���v�g�ŘA������(-SMA)�I�v�V�������g�������ɐ��퓮�쉻�j
-�E���S�ʒu�␳�֘A�̔�����
+■修正内容(fix2)
+・読み込む無音シーンチェンジが256以上あると計算途中でバッファ不足を起こす
+  不具合を修正
+・無音連続区間を分割したchapter_exe出力の読み込みに対応
+  （実行内容スクリプトで連続無音(-SMA)オプションを使った時に正常動作化）
+・ロゴ位置補正関連の微調整
 
-�����ւ����t�@�C��
+差し替えたファイル
 join_logo_scp.exe
 src/join_logo_scp.c
 
 
-���C�����e(fix)
-�E��Ԑ擪�ƈ�ԍŌ�̈ʒu���z��ʂ蓮�삵�Ȃ��P�[�X���������̂ŏC��
+■修正内容(fix)
+・一番先頭と一番最後の位置が想定通り動作しないケースがあったので修正
 
-�����ւ����t�@�C��
+差し替えたファイル
 join_logo_scp.exe
 src/join_logo_scp.c
-JL_�W��.txt�i20-22�s���R�����g�A�E�g�����̂݁j
+JL_標準.txt（20-22行をコメントアウトしたのみ）

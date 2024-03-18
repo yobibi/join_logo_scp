@@ -1,5 +1,5 @@
-//
-// ÀsƒXƒNƒŠƒvƒgƒRƒ}ƒ“ƒh‚Ìˆø”ğŒ‚©‚çƒ^[ƒQƒbƒg‚ği‚é
+ï»¿//
+// å®Ÿè¡Œã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚³ãƒãƒ³ãƒ‰ã®å¼•æ•°æ¡ä»¶ã‹ã‚‰ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚’çµã‚‹
 //
 #include "stdafx.h"
 #include "CommonJls.hpp"
@@ -9,12 +9,12 @@
 
 ///////////////////////////////////////////////////////////////////////
 //
-// §–ñğŒ‚É‚æ‚éƒ^[ƒQƒbƒg‘I’èƒNƒ‰ƒX
+// åˆ¶ç´„æ¡ä»¶ã«ã‚ˆã‚‹ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé¸å®šã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 
 //---------------------------------------------------------------------
-// ‰Šú‰»
+// åˆæœŸåŒ–
 //---------------------------------------------------------------------
 JlsScriptLimit::JlsScriptLimit(JlsDataset *pdata){
 	this->pdata  = pdata;
@@ -22,56 +22,56 @@ JlsScriptLimit::JlsScriptLimit(JlsDataset *pdata){
 }
 
 //=====================================================================
-// ƒRƒ}ƒ“ƒh‹¤’Ê‚Ì”ÍˆÍŒÀ’è
+// ã‚³ãƒãƒ³ãƒ‰å…±é€šã®ç¯„å›²é™å®š
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒRƒ}ƒ“ƒh‹¤’Ê‚Ì”ÍˆÍŒÀ’è
+// ã‚³ãƒãƒ³ãƒ‰å…±é€šã®ç¯„å›²é™å®š
 //---------------------------------------------------------------------
 void JlsScriptLimit::limitCommonRange(JlsCmdSet& cmdset){
-	var.initVar(cmdset);				// ƒNƒ‰ƒX“à•Ï”‚ğ‰Šúİ’è
-	limitCustomLogo();					// İ’è‚É‡‚í‚¹‚½ƒƒSì¬
-	limitHeadTail();					// ‘S‘Ì”ÍˆÍİ’è
-	limitWindow();						// -FŒnƒIƒvƒVƒ‡ƒ“İ’è
-	updateCommonRange(cmdset);			// cmdset.limit‚ğXV
+	var.initVar(cmdset);				// ã‚¯ãƒ©ã‚¹å†…å¤‰æ•°ã‚’åˆæœŸè¨­å®š
+	limitCustomLogo();					// è¨­å®šã«åˆã‚ã›ãŸãƒ­ã‚´ä½œæˆ
+	limitHeadTail();					// å…¨ä½“ç¯„å›²è¨­å®š
+	limitWindow();						// -Fç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®š
+	updateCommonRange(cmdset);			// cmdset.limitã‚’æ›´æ–°
 }
 
 //---------------------------------------------------------------------
-// ”ÍˆÍ‚ÌÄİ’è
+// ç¯„å›²ã®å†è¨­å®š
 //---------------------------------------------------------------------
 void JlsScriptLimit::resizeRangeHeadTail(JlsCmdSet& cmdset, RangeMsec rmsec){
-	//--- ”ÍˆÍ‚ğİ’è ---
-	limitHeadTailImm(rmsec);			// ‘S‘Ì”ÍˆÍİ’è
-	limitWindow();						// -FŒnƒIƒvƒVƒ‡ƒ“‚Æ‡‚í‚¹‚½”ÍˆÍ‚ğÄ“xŒŸõ
-	updateCommonRange(cmdset);			// cmdset.limit‚ğXV
+	//--- ç¯„å›²ã‚’è¨­å®š ---
+	limitHeadTailImm(rmsec);			// å…¨ä½“ç¯„å›²è¨­å®š
+	limitWindow();						// -Fç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã¨åˆã‚ã›ãŸç¯„å›²ã‚’å†åº¦æ¤œç´¢
+	updateCommonRange(cmdset);			// cmdset.limitã‚’æ›´æ–°
 }
 
-//--- cmdset‚É‹¤’Êİ’è“à—e‚ğXV ---
+//--- cmdsetã«å…±é€šè¨­å®šå†…å®¹ã‚’æ›´æ–° ---
 void JlsScriptLimit::updateCommonRange(JlsCmdSet& cmdset){
 	cmdset.limit.setHeadTail( var.getHeadTail() );
 	cmdset.limit.setFrameRange( var.getFrameRange() );
 }
 
 //---------------------------------------------------------------------
-// İ’è‚É‡‚í‚¹‚½ƒƒS‚ğì¬
+// è¨­å®šã«åˆã‚ã›ãŸãƒ­ã‚´ã‚’ä½œæˆ
 //---------------------------------------------------------------------
 void JlsScriptLimit::limitCustomLogo(){
-	//--- İ’è’l ---
+	//--- è¨­å®šå€¤ ---
 	LogoCustomType custom = {};
 	custom.extLogo = var.opt.tack.virtualLogo;
-	custom.selectAll = LOGO_SELECT_VALID;		// o—ÍƒŠƒXƒg‚Í’Êí‚Í—LŒø‚Ì‚İ
+	custom.selectAll = LOGO_SELECT_VALID;		// å‡ºåŠ›ãƒªã‚¹ãƒˆã¯é€šå¸¸ã¯æœ‰åŠ¹ã®ã¿
 	custom.final   = var.opt.getOptFlag(OptType::FlagFinal);
 	custom.border  = false;
-	if ( var.opt.tack.ignoreAbort ){		// ƒƒSAbortó‘Ô‚Å‚àÀs‚·‚éƒRƒ}ƒ“ƒh‚Ìê‡
-		custom.selectAll = LOGO_SELECT_ALL;			// ‘SƒƒS‚ğƒŠƒXƒg‚Éo—Í
+	if ( var.opt.tack.ignoreAbort ){		// ãƒ­ã‚´AbortçŠ¶æ…‹ã§ã‚‚å®Ÿè¡Œã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®å ´åˆ
+		custom.selectAll = LOGO_SELECT_ALL;			// å…¨ãƒ­ã‚´ã‚’ãƒªã‚¹ãƒˆã«å‡ºåŠ›
 	}
-	//--- ƒƒS‚ğì¬EŠi”[ ---
+	//--- ãƒ­ã‚´ã‚’ä½œæˆãƒ»æ ¼ç´ ---
 	pdata->makeClogo(custom);
 }
 
 //---------------------------------------------------------------------
-// HEADTIME/TAILTIME’è‹`‚É‚æ‚éƒtƒŒ[ƒ€ˆÊ’uŒÀ’è
-// o—ÍF
+// HEADTIME/TAILTIMEå®šç¾©ã«ã‚ˆã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ ä½ç½®é™å®š
+// å‡ºåŠ›ï¼š
 //    var.setHeadTail()
 //---------------------------------------------------------------------
 void JlsScriptLimit::limitHeadTail(){
@@ -87,23 +87,23 @@ void JlsScriptLimit::limitHeadTail(){
 	limitHeadTailImm(rmsec);
 }
 
-//--- ’¼Ú”’lİ’è ---
+//--- ç›´æ¥æ•°å€¤è¨­å®š ---
 void JlsScriptLimit::limitHeadTailImm(RangeMsec rmsec){
 	var.setHeadTail(rmsec);
 }
 
 //---------------------------------------------------------------------
-// -FŒnƒIƒvƒVƒ‡ƒ“‚É‚æ‚éƒtƒŒ[ƒ€ˆÊ’uŒÀ’è
-// o—ÍF
+// -Fç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã«ã‚ˆã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ ä½ç½®é™å®š
+// å‡ºåŠ›ï¼š
 //    var.setFrameRange()
 //---------------------------------------------------------------------
 void JlsScriptLimit::limitWindow(){
-	//--- ƒtƒŒ[ƒ€§ŒÀ’l‚ğİ’è ---
+	//--- ãƒ•ãƒ¬ãƒ¼ãƒ åˆ¶é™å€¤ã‚’è¨­å®š ---
 	Msec msec_opt_left  = var.opt.getOpt(OptType::MsecFrameL);
 	Msec msec_opt_right = var.opt.getOpt(OptType::MsecFrameR);
 	Msec msec_limit_left  = msec_opt_left;
 	Msec msec_limit_right = msec_opt_right;
-	//--- -FRƒIƒvƒVƒ‡ƒ“‚ÌƒtƒŒ[ƒ€‚ğŒŸõ‚µAƒtƒŒ[ƒ€§ŒÀ’l‚ğæ“¾ ---
+	//--- -FRã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’æ¤œç´¢ã—ã€ãƒ•ãƒ¬ãƒ¼ãƒ åˆ¶é™å€¤ã‚’å–å¾— ---
 	OptType type_frame = (OptType) var.opt.getOpt(OptType::TypeFrame);
 	if (type_frame == OptType::FrFR){
 		int nrf_1st_rise = pdata->getNrfNextLogo(-1, LOGO_EDGE_RISE, LOGO_SELECT_VALID);
@@ -117,51 +117,51 @@ void JlsScriptLimit::limitWindow(){
 			}
 		}
 	}
-	//--- -FŒn’è‹`‚È‚¢ê‡‚ÅAHEADTIME/TAILTIME‚ª‚ ‚éê‡ ---
+	//--- -Fç³»å®šç¾©ãªã„å ´åˆã§ã€HEADTIME/TAILTIMEãŒã‚ã‚‹å ´åˆ ---
 	if ( var.opt.isSetOpt(OptType::TypeFrame) == false ){
 		bool fullFrame = var.opt.tack.fullFrameA;
-		if ( pdata->recHold.typeRange == 1 ){		// •Ï”RANGETYPE=1İ’è
-			fullFrame = var.opt.tack.fullFrameB;	// Å¬ŒÀ‚Ìƒ^ƒCƒv
+		if ( pdata->recHold.typeRange == 1 ){		// å¤‰æ•°RANGETYPE=1è¨­å®šæ™‚
+			fullFrame = var.opt.tack.fullFrameB;	// æœ€å°é™ã®ã‚¿ã‚¤ãƒ—
 		}
-		if ( !fullFrame ){		// í‚É‘S‘Ì‚Ìê‡‚Íœ‚­
+		if ( !fullFrame ){		// å¸¸ã«å…¨ä½“ã®å ´åˆã¯é™¤ã
 			RangeMsec rmsec = pdata->recHold.rmsecHeadTail;
-			if ( rmsec.st >= 0 ){	// -HEADTIME’è‹`‚ ‚éê‡
+			if ( rmsec.st >= 0 ){	// -HEADTIMEå®šç¾©ã‚ã‚‹å ´åˆ
 				msec_limit_left = rmsec.st;
 			}
-			if ( rmsec.ed >= 0 ){	// -TAILTIME’è‹`‚ ‚éê‡
+			if ( rmsec.ed >= 0 ){	// -TAILTIMEå®šç¾©ã‚ã‚‹å ´åˆ
 				msec_limit_right = rmsec.ed;
 			}
 		}
 	}
-	//--- ’†ŠÔ’l§ŒÀî•ñ‚Ìæ“¾ ---
+	//--- ä¸­é–“å€¤åˆ¶é™æƒ…å ±ã®å–å¾— ---
 	bool flag_midext = ( (var.opt.getOpt(OptType::TypeFrameSub) & 0x1) != 0)? true : false;
-	// -Fhead,-Ftail,-Fmid‚ÅƒtƒŒ[ƒ€w’è‚ÌƒtƒŒ[ƒ€ŒvZ
+	// -Fhead,-Ftail,-Fmidã§ãƒ•ãƒ¬ãƒ¼ãƒ æŒ‡å®šæ™‚ã®ãƒ•ãƒ¬ãƒ¼ãƒ è¨ˆç®—
 	if (type_frame == OptType::FrFhead ||
 		type_frame == OptType::FrFtail ||
 		type_frame == OptType::FrFmid){
-		//--- head/tailæ“¾ ---
+		//--- head/tailå–å¾— ---
 		RangeMsec wmsec_headtail = var.getHeadTail();
 		Msec msec_head = wmsec_headtail.st;
 		Msec msec_tail = wmsec_headtail.ed;
-		//--- ’†ŠÔ’n“_‚Ìæ“¾ ---
-		// Å‰‚ÌƒƒSŠJn‚©‚çÅŒã‚ÌƒƒSI—¹‚Ì’†ŠÔ’n“_‚ğæ“¾
+		//--- ä¸­é–“åœ°ç‚¹ã®å–å¾— ---
+		// æœ€åˆã®ãƒ­ã‚´é–‹å§‹ã‹ã‚‰æœ€å¾Œã®ãƒ­ã‚´çµ‚äº†ã®ä¸­é–“åœ°ç‚¹ã‚’å–å¾—
 		Nrf nrf_1st_rise = pdata->getNrfNextLogo(-1, LOGO_EDGE_RISE, LOGO_SELECT_VALID);
 		Nrf nrf_end_fall = pdata->getNrfPrevLogo(pdata->sizeDataLogo()*2, LOGO_EDGE_FALL, LOGO_SELECT_VALID);
-		//--- ŠJn’n“_ŒŸõ ---
+		//--- é–‹å§‹åœ°ç‚¹æ¤œç´¢ ---
 		Msec msec_window_start = 0;
 		Msec msec_window_midst = 0;
 		if (nrf_1st_rise >= 0)  msec_window_midst = pdata->getMsecLogoNrf(nrf_1st_rise);
 		if (msec_window_midst < msec_head)  msec_window_midst = msec_head;
 		if (msec_window_start < msec_head)  msec_window_start = msec_head;
-		//--- I—¹’n“_ŒŸõ ---
+		//--- çµ‚äº†åœ°ç‚¹æ¤œç´¢ ---
 		Msec msec_window_mided = pdata->getMsecTotalMax();
 		Msec msec_window_end   = pdata->getMsecTotalMax();
 		if (nrf_end_fall >= 0) msec_window_mided = pdata->getMsecLogoNrf(nrf_end_fall);
 		if (msec_window_mided > msec_tail) msec_window_mided = msec_tail;
 		if (msec_window_end > msec_tail) msec_window_end = msec_tail;
-		//--- ’†ŠÔ’n“_ŒŸõ ---
+		//--- ä¸­é–“åœ°ç‚¹æ¤œç´¢ ---
 		Msec msec_window_md = (msec_window_midst +msec_window_mided) / 2;
-		//--- ƒtƒŒ[ƒ€§ŒÀ”ÍˆÍ‚ğİ’è ---
+		//--- ãƒ•ãƒ¬ãƒ¼ãƒ åˆ¶é™ç¯„å›²ã‚’è¨­å®š ---
 		if (type_frame == OptType::FrFhead){
 			msec_limit_left  = msec_window_start + msec_opt_left;
 			msec_limit_right = msec_window_start + msec_opt_right;
@@ -203,51 +203,51 @@ void JlsScriptLimit::limitWindow(){
 			}
 		}
 	}
-	//--- Œ‹‰ÊŠi”[ ---
+	//--- çµæœæ ¼ç´ ---
 	RangeMsec rmsecLimit = {msec_limit_left, msec_limit_right};
 	var.setFrameRange(rmsecLimit);
 }
 
 
 //=====================================================================
-// —LŒø‚ÈƒƒSˆÊ’uƒŠƒXƒg‚ğæ“¾
+// æœ‰åŠ¹ãªãƒ­ã‚´ä½ç½®ãƒªã‚¹ãƒˆã‚’å–å¾—
 //=====================================================================
 
 //---------------------------------------------------------------------
-// -NŒnƒIƒvƒVƒ‡ƒ“‚É‘Î‰‚·‚é—LŒøƒƒSƒŠƒXƒg‚ğì¬
-// o—ÍF
-//   •Ô‚è’lF ƒŠƒXƒg”
+// -Nç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã«å¯¾å¿œã™ã‚‹æœ‰åŠ¹ãƒ­ã‚´ãƒªã‚¹ãƒˆã‚’ä½œæˆ
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š ãƒªã‚¹ãƒˆæ•°
 //    cmdset.limit.addLogoList*()
 //---------------------------------------------------------------------
 int JlsScriptLimit::limitLogoList(JlsCmdSet& cmdset){
-	//--- —LŒøƒƒSƒŠƒXƒg‚ğ‰Šú‰» ---
+	//--- æœ‰åŠ¹ãƒ­ã‚´ãƒªã‚¹ãƒˆã‚’åˆæœŸåŒ– ---
 	cmdset.limit.clearLogoList();
-	//--- -NŒnƒIƒvƒVƒ‡ƒ“‚ÅŒÀ’è‚µ‚½—LŒøƒƒSƒŠƒXƒgæ“¾ ---
+	//--- -Nç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§é™å®šã—ãŸæœ‰åŠ¹ãƒ­ã‚´ãƒªã‚¹ãƒˆå–å¾— ---
 	getLogoListStd(cmdset);
-	//--- ’¼ÚˆÊ’uİ’èi-fromŒnƒIƒvƒVƒ‡ƒ““™j‚ª‚ ‚éê‡‚Ì’Ç‰Áˆ— ---
+	//--- ç›´æ¥ä½ç½®è¨­å®šï¼ˆ-fromç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ç­‰ï¼‰ãŒã‚ã‚‹å ´åˆã®è¿½åŠ å‡¦ç† ---
 	getLogoListDirect(cmdset);
-	//--- —LŒøƒƒS”‚ğ•Ô‚· ---
+	//--- æœ‰åŠ¹ãƒ­ã‚´æ•°ã‚’è¿”ã™ ---
 	return cmdset.limit.sizeLogoList();
 }
-//--- -NŒnƒIƒvƒVƒ‡ƒ“‚ÅŒÀ’è‚µ‚½ƒƒSˆÊ’uƒŠƒXƒg‚ğæ“¾ ---
+//--- -Nç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§é™å®šã—ãŸãƒ­ã‚´ä½ç½®ãƒªã‚¹ãƒˆã‚’å–å¾— ---
 void JlsScriptLimit::getLogoListStd(JlsCmdSet& cmdset){
-	//--- “ü—ÍƒƒSæ“¾ ---
-	vector<Msec> listMsecLogoIn;		// “ü—Í”Ô†‚É‘Î‰‚µ‚½ƒƒSŠi”[—p
-	int locStart;	// ”ÍˆÍ“àæ“ª‚ÌƒƒSƒŠƒXƒg”Ô†
-	int locEnd;		// ”ÍˆÍ“àÅŒã‚ÌƒƒSƒŠƒXƒg”Ô†
+	//--- å…¥åŠ›ãƒ­ã‚´å–å¾— ---
+	vector<Msec> listMsecLogoIn;		// å…¥åŠ›ç•ªå·ã«å¯¾å¿œã—ãŸãƒ­ã‚´æ ¼ç´ç”¨
+	int locStart;	// ç¯„å›²å†…å…ˆé ­ã®ãƒ­ã‚´ãƒªã‚¹ãƒˆç•ªå·
+	int locEnd;		// ç¯„å›²å†…æœ€å¾Œã®ãƒ­ã‚´ãƒªã‚¹ãƒˆç•ªå·
 	if ( getLogoListStdData(listMsecLogoIn, locStart, locEnd) == false ){
 		return;
 	}
-	//--- g—pƒƒSæ“¾ ---
+	//--- ä½¿ç”¨ãƒ­ã‚´å–å¾— ---
 	vector<bool> listUseLogoIn(listMsecLogoIn.size(), false);
 	{
-		//--- İ’èî•ñ ---
-		LogoEdgeType edgeSel = var.opt.selectEdge;			// ƒRƒ}ƒ“ƒh‚ÌS/E/B‘I‘ğ
-		int maxRise = (locEnd / 2) - ((locStart+1) / 2) + 1;	// risei‹ô”j‚ÌƒŠƒXƒg”
-		int maxFall = ((locEnd + 1) / 2) - (locStart / 2);		// falliŠï”j‚ÌƒŠƒXƒg”
+		//--- è¨­å®šæƒ…å ± ---
+		LogoEdgeType edgeSel = var.opt.selectEdge;			// ã‚³ãƒãƒ³ãƒ‰ã®S/E/Bé¸æŠ
+		int maxRise = (locEnd / 2) - ((locStart+1) / 2) + 1;	// riseï¼ˆå¶æ•°ï¼‰ã®ãƒªã‚¹ãƒˆæ•°
+		int maxFall = ((locEnd + 1) / 2) - (locStart / 2);		// fallï¼ˆå¥‡æ•°ï¼‰ã®ãƒªã‚¹ãƒˆæ•°
 		int curRise = 0;
 		int curFall = 0;
-		//--- ƒƒS”Ô†‚ğ‡”Ô‚Ég—pƒƒS‚©Šm”F ---
+		//--- ãƒ­ã‚´ç•ªå·ã‚’é †ç•ªã«ä½¿ç”¨ãƒ­ã‚´ã‹ç¢ºèª ---
 		for(int i = locStart; i <= locEnd; i++){
 			Msec msecNow = listMsecLogoIn[i];
 			LogoEdgeType edgeNow;
@@ -259,21 +259,21 @@ void JlsScriptLimit::getLogoListStd(JlsCmdSet& cmdset){
 				curFall ++;
 			}
 			if ( pdata->isClogoMsecExist(msecNow, edgeNow) == false ){
-				continue;		// o—Í‚É‚È‚¢ƒƒS‚Íg—p‚µ‚È‚¢
+				continue;		// å‡ºåŠ›ã«ãªã„ãƒ­ã‚´ã¯ä½¿ç”¨ã—ãªã„
 			}
-			if ( (edgeNow == LOGO_EDGE_RISE) && isLogoEdgeRise(edgeSel) ){	// riseƒGƒbƒWŠm”F
+			if ( (edgeNow == LOGO_EDGE_RISE) && isLogoEdgeRise(edgeSel) ){	// riseã‚¨ãƒƒã‚¸ç¢ºèª
 				if ( isLogoListStdNumUse(curRise, maxRise) ){
-					listUseLogoIn[i] = true;		// g—p‚·‚éƒƒS
+					listUseLogoIn[i] = true;		// ä½¿ç”¨ã™ã‚‹ãƒ­ã‚´
 				}
 			}
-			if ( (edgeNow == LOGO_EDGE_FALL) && isLogoEdgeFall(edgeSel) ){	// fallƒGƒbƒWŠm”F
+			if ( (edgeNow == LOGO_EDGE_FALL) && isLogoEdgeFall(edgeSel) ){	// fallã‚¨ãƒƒã‚¸ç¢ºèª
 				if ( isLogoListStdNumUse(curFall, maxFall) ){
-					listUseLogoIn[i] = true;		// g—p‚·‚éƒƒS
+					listUseLogoIn[i] = true;		// ä½¿ç”¨ã™ã‚‹ãƒ­ã‚´
 				}
 			}
 		}
 	}
-	//--- g—pƒƒS‚ğŠi”[ ---
+	//--- ä½¿ç”¨ãƒ­ã‚´ã‚’æ ¼ç´ ---
 	for(int i=0; i<(int)listMsecLogoIn.size(); i++){
 		if ( listUseLogoIn[i] ){
 			LogoEdgeType edgeNow = ( i % 2 == 0 )? LOGO_EDGE_RISE : LOGO_EDGE_FALL;
@@ -281,64 +281,64 @@ void JlsScriptLimit::getLogoListStd(JlsCmdSet& cmdset){
 		}
 	}
 }
-// Œ»İƒƒS”Ô†‚ªƒIƒvƒVƒ‡ƒ“w’èƒƒS”Ô†‚©ƒ`ƒFƒbƒN
+// ç¾åœ¨ãƒ­ã‚´ç•ªå·ãŒã‚ªãƒ—ã‚·ãƒ§ãƒ³æŒ‡å®šãƒ­ã‚´ç•ªå·ã‹ãƒã‚§ãƒƒã‚¯
 bool JlsScriptLimit::isLogoListStdNumUse(int curNum, int maxNum){
-	if ( var.opt.sizeLgOpt() == 0 ){		// w’è‚È‚¯‚ê‚ÎğŒ”»’f‚Í‘S•”—LŒøˆµ‚¢
+	if ( var.opt.sizeLgOpt() == 0 ){		// æŒ‡å®šãªã‘ã‚Œã°æ¡ä»¶åˆ¤æ–­ã¯å…¨éƒ¨æœ‰åŠ¹æ‰±ã„
 		return true;
 	}
 	string strLgNum = var.opt.getLgOptAll();
 	return pdata->cnv.isStrMultiNumIn(strLgNum, curNum, maxNum);
 }
-//--- İ’è’l‚É‡‚í‚¹‚½“ü—ÍˆÊ’u‚ğæ“¾ ---
+//--- è¨­å®šå€¤ã«åˆã‚ã›ãŸå…¥åŠ›ä½ç½®ã‚’å–å¾— ---
 bool JlsScriptLimit::getLogoListStdData(vector<Msec>& listMsecLogoIn, int& locStart, int& locEnd){
 	bool typeLogo  = LOGO_SELECT_ALL;
 	bool flagLimit = false;
-	//--- ƒIƒvƒVƒ‡ƒ“‚É‚æ‚éƒƒSİ’èi“ü—ÍƒƒS”Ô†‚Æ•K—vî•ñj ---
+	//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã«ã‚ˆã‚‹ãƒ­ã‚´è¨­å®šï¼ˆå…¥åŠ›ãƒ­ã‚´ç•ªå·ã¨å¿…è¦æƒ…å ±ï¼‰ ---
 	switch( (OptType)var.opt.getOpt(OptType::TypeNumLogo) ){
-		case OptType::LgN:						// -NƒIƒvƒVƒ‡ƒ“
-		case OptType::LgNFXlogo:				// -NFXlogoƒIƒvƒVƒ‡ƒ“
+		case OptType::LgN:						// -Nã‚ªãƒ—ã‚·ãƒ§ãƒ³
+		case OptType::LgNFXlogo:				// -NFXlogoã‚ªãƒ—ã‚·ãƒ§ãƒ³
 			typeLogo  = LOGO_SELECT_ALL;
 			flagLimit = false;
 			break;
-		case OptType::LgNR:						// -NRƒIƒvƒVƒ‡ƒ“
+		case OptType::LgNR:						// -NRã‚ªãƒ—ã‚·ãƒ§ãƒ³
 			typeLogo  = LOGO_SELECT_VALID;
 			flagLimit = false;
 			break;
-		case OptType::LgNlogo:					// -NlogoƒIƒvƒVƒ‡ƒ“
+		case OptType::LgNlogo:					// -Nlogoã‚ªãƒ—ã‚·ãƒ§ãƒ³
 			typeLogo  = LOGO_SELECT_VALID;
 			flagLimit = true;
 			break;
-		case OptType::LgNauto:					// -NautoƒIƒvƒVƒ‡ƒ“
+		case OptType::LgNauto:					// -Nautoã‚ªãƒ—ã‚·ãƒ§ãƒ³
 			typeLogo  = LOGO_SELECT_VALID;
 			flagLimit = true;
 			break;
-		case OptType::LgNFlogo:					// -NFlogoƒIƒvƒVƒ‡ƒ“
+		case OptType::LgNFlogo:					// -NFlogoã‚ªãƒ—ã‚·ãƒ§ãƒ³
 			typeLogo  = LOGO_SELECT_VALID;
 			flagLimit = false;
 			break;
-		case OptType::LgNFauto:					// -NFautoƒIƒvƒVƒ‡ƒ“
+		case OptType::LgNFauto:					// -NFautoã‚ªãƒ—ã‚·ãƒ§ãƒ³
 			typeLogo  = LOGO_SELECT_VALID;
 			flagLimit = false;
 			break;
 		default:
 			break;
 	}
-	//--- ‘Î‰‚·‚éƒƒSƒf[ƒ^æ“¾ ---
-	LogoCustomType custom = pdata->getClogoCustom();	// o—ÍƒƒSİ’èæ“¾
+	//--- å¯¾å¿œã™ã‚‹ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿å–å¾— ---
+	LogoCustomType custom = pdata->getClogoCustom();	// å‡ºåŠ›ãƒ­ã‚´è¨­å®šå–å¾—
 	custom.selectAll = ( typeLogo == LOGO_SELECT_ALL );
 	vector<WideMsec> listWmsec;
-	pdata->trialClogo(listWmsec, custom);		// ‘Î‰‚·‚éƒƒSì¬
+	pdata->trialClogo(listWmsec, custom);		// å¯¾å¿œã™ã‚‹ãƒ­ã‚´ä½œæˆ
 	listMsecLogoIn.clear();
 	for(int i=0; i<(int)listWmsec.size(); i++){
 		listMsecLogoIn.push_back(listWmsec[i].just);
 	}
-	//--- ƒŠƒXƒg‚Ì—LŒø”ÍˆÍ‚ğŒÀ’è ---
+	//--- ãƒªã‚¹ãƒˆã®æœ‰åŠ¹ç¯„å›²ã‚’é™å®š ---
 	RangeMsec rmsecHeadTail = {-1, -1};
 	if ( flagLimit ){
 		rmsecHeadTail = var.getHeadTail();
 	}
 	bool validList = getLogoListStdDataRange(locStart, locEnd, listMsecLogoIn, rmsecHeadTail);
-	//--- ŠJn‚ÆI—¹‚ğ•K‚¸ƒZƒbƒg‚É‚·‚éê‡ ---
+	//--- é–‹å§‹ã¨çµ‚äº†ã‚’å¿…ãšã‚»ãƒƒãƒˆã«ã™ã‚‹å ´åˆ ---
 	if ( var.opt.getOpt(OptType::FlagPair) > 0 ){
 		if ( locStart > 0 && (locStart % 2 != 0) ){
 			locStart -= 1;
@@ -349,7 +349,7 @@ bool JlsScriptLimit::getLogoListStdData(vector<Msec>& listMsecLogoIn, int& locSt
 	}
 	return validList;
 }
-// ƒŠƒXƒg‚Ì—LŒø”ÍˆÍ‚ğŒÀ’è
+// ãƒªã‚¹ãƒˆã®æœ‰åŠ¹ç¯„å›²ã‚’é™å®š
 bool JlsScriptLimit::getLogoListStdDataRange(int& st, int& ed, vector<Msec>& listMsec, RangeMsec rmsec){
 	st = -1;
 	ed = -1;
@@ -360,9 +360,9 @@ bool JlsScriptLimit::getLogoListStdDataRange(int& st, int& ed, vector<Msec>& lis
 	bool st1st = true;
 	for(int i=0; i < (int)listMsec.size(); i++){
 		Msec msecSel = listMsec[i];
-		if ( i % 2 == 0 ){		// ƒƒSŠJn‘¤
+		if ( i % 2 == 0 ){		// ãƒ­ã‚´é–‹å§‹å´
 			msecSel += msecMgn;
-		}else{					// ƒƒSI—¹‘¤
+		}else{					// ãƒ­ã‚´çµ‚äº†å´
 			msecSel -= msecMgn;
 		}
 		if ( msecSel >= rmsec.st || rmsec.st < 0 ){
@@ -375,7 +375,7 @@ bool JlsScriptLimit::getLogoListStdDataRange(int& st, int& ed, vector<Msec>& lis
 			ed = i;
 		}
 	}
-	if ( st > ed || st < 0 || ed < 0){		// ”ÍˆÍ‘¶İ‚µ‚È‚¢ê‡
+	if ( st > ed || st < 0 || ed < 0){		// ç¯„å›²å­˜åœ¨ã—ãªã„å ´åˆ
 		st = -1;
 		ed = -1;
 		return false;
@@ -383,11 +383,11 @@ bool JlsScriptLimit::getLogoListStdDataRange(int& st, int& ed, vector<Msec>& lis
 	return true;
 }
 //---------------------------------------------------------------------
-// ’¼ÚˆÊ’uw’èi-fromŒnƒIƒvƒVƒ‡ƒ“jˆ—
+// ç›´æ¥ä½ç½®æŒ‡å®šï¼ˆ-fromç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ï¼‰å‡¦ç†
 //---------------------------------------------------------------------
 void JlsScriptLimit::getLogoListDirect(JlsCmdSet& cmdset){
 	bool exist = false;
-	//--- ƒIƒvƒVƒ‡ƒ“‚©‚ç’¼ÚƒtƒŒ[ƒ€ˆÊ’uw’è‚ğæ“¾ ---
+	//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‹ã‚‰ç›´æ¥ãƒ•ãƒ¬ãƒ¼ãƒ ä½ç½®æŒ‡å®šã‚’å–å¾— ---
 	vector<Msec> listMsecDirect;
 	if ( var.opt.isSetStrOpt(OptType::ListFromAbs) ){			// -fromabs
 		exist = true;
@@ -402,7 +402,7 @@ void JlsScriptLimit::getLogoListDirect(JlsCmdSet& cmdset){
 		pdata->cnv.getListValMsecM1(listTmp, strList);
 		for(int i=0; i<(int)listTmp.size(); i++){
 			Msec msec = rmsecHeadTail.st + listTmp[i];
-			if ( listTmp[i] < 0 ){		// –³Œøİ’è
+			if ( listTmp[i] < 0 ){		// ç„¡åŠ¹è¨­å®š
 				msec = listTmp[i];
 			}
 			listMsecDirect.push_back(msec);
@@ -416,7 +416,7 @@ void JlsScriptLimit::getLogoListDirect(JlsCmdSet& cmdset){
 		pdata->cnv.getListValMsecM1(listTmp, strList);
 		for(int i=0; i<(int)listTmp.size(); i++){
 			Msec msec = rmsecHeadTail.ed - listTmp[i];
-			if ( listTmp[i] < 0 ){		// –³Œøİ’è
+			if ( listTmp[i] < 0 ){		// ç„¡åŠ¹è¨­å®š
 				msec = listTmp[i];
 			}
 			listMsecDirect.push_back(msec);
@@ -453,79 +453,79 @@ void JlsScriptLimit::getLogoListDirect(JlsCmdSet& cmdset){
 		}
 	}
 
-	//--- w’èƒŠƒXƒg‚ª‹ó‚Ì‚Í–³Œøİ’è ---
+	//--- æŒ‡å®šãƒªã‚¹ãƒˆãŒç©ºã®æ™‚ã¯ç„¡åŠ¹è¨­å®š ---
 	if ( exist && listMsecDirect.empty() ){
 		cmdset.limit.addLogoListDirectDummy(true);
 	}
-	//--- ’¼ÚƒtƒŒ[ƒ€ˆÊ’uw’è‚ª‘¶İ‚·‚é‚ÍŒ³‚Æ‚È‚éŠî€ƒƒSˆÊ’u‚ÆƒZƒbƒg‚Å•ÛŠÇ ---
+	//--- ç›´æ¥ãƒ•ãƒ¬ãƒ¼ãƒ ä½ç½®æŒ‡å®šãŒå­˜åœ¨ã™ã‚‹æ™‚ã¯å…ƒã¨ãªã‚‹åŸºæº–ãƒ­ã‚´ä½ç½®ã¨ã‚»ãƒƒãƒˆã§ä¿ç®¡ ---
 	int nsizeDir = (int)listMsecDirect.size();
 	if ( nsizeDir > 0 ){
-		//--- –{—ˆ‚ÌƒƒSˆÊ’uî•ñæ“¾ ---
-		vector<Msec> listMsecLogo;		// ƒƒSˆÊ’ui‘S‘Ìj
+		//--- æœ¬æ¥ã®ãƒ­ã‚´ä½ç½®æƒ…å ±å–å¾— ---
+		vector<Msec> listMsecLogo;		// ãƒ­ã‚´ä½ç½®ï¼ˆå…¨ä½“ï¼‰
 		for(int i=0; i<pdata->sizeClogoList(); i++){
 			listMsecLogo.push_back( pdata->getClogoMsecFromNum(i) );
 		}
-		//--- ŠeˆÊ’u‚ğ•ÛŠÇ ---
+		//--- å„ä½ç½®ã‚’ä¿ç®¡ ---
 		for(int i=0; i<nsizeDir; i++){
-			//--- ƒƒSˆÊ’u‚ğ•ÛŠÇ ---
+			//--- ãƒ­ã‚´ä½ç½®ã‚’ä¿ç®¡ ---
 			Msec msecFrom = listMsecDirect[i];
-			LogoEdgeType edgeFrom = var.opt.selectEdge;		// ƒRƒ}ƒ“ƒh‚ÌS/E/B‘I‘ğ
-			cmdset.limit.addLogoListDirect(msecFrom, edgeFrom);	// ƒŠƒXƒg‚É’Ç‰Á
-			//--- ŠeˆÊ’u‚»‚ê‚¼‚êˆê”Ô‹ß‚¢Šî€ƒƒSˆÊ’u‚ğæ“¾ ---
+			LogoEdgeType edgeFrom = var.opt.selectEdge;		// ã‚³ãƒãƒ³ãƒ‰ã®S/E/Bé¸æŠ
+			cmdset.limit.addLogoListDirect(msecFrom, edgeFrom);	// ãƒªã‚¹ãƒˆã«è¿½åŠ 
+			//--- å„ä½ç½®ãã‚Œãã‚Œä¸€ç•ªè¿‘ã„åŸºæº–ãƒ­ã‚´ä½ç½®ã‚’å–å¾— ---
 			int locNearest = getLogoListNearest(cmdset, listMsecLogo, msecFrom);
-			if ( locNearest >= 0 ){		// ˆê”Ô‹ß‚¢ƒƒS‚ª‘¶İ‚µ‚½‚çŠî€ƒƒS‚É
+			if ( locNearest >= 0 ){		// ä¸€ç•ªè¿‘ã„ãƒ­ã‚´ãŒå­˜åœ¨ã—ãŸã‚‰åŸºæº–ãƒ­ã‚´ã«
 				Msec msecLogo = listMsecLogo[locNearest];
 				LogoEdgeType edgeLogo = ( locNearest % 2 == 0 )? LOGO_EDGE_RISE : LOGO_EDGE_FALL;
-				int locDir = cmdset.limit.sizeLogoList() - 1;	// ’Ç‰Á‚µ‚½ˆÊ’u
+				int locDir = cmdset.limit.sizeLogoList() - 1;	// è¿½åŠ ã—ãŸä½ç½®
 				cmdset.limit.attachLogoListOrg(locDir, msecLogo, edgeLogo);
 			}
 		}
 	}
-	//--- „‘ª\¬•Ê‚ÌŠJnˆÊ’u ---
+	//--- æ¨æ¸¬æ§‹æˆåˆ¥ã®é–‹å§‹ä½ç½® ---
 	getLogoListDirectCom(cmdset);
 }
-// „‘ª\¬•Ê‚ÌŠJnˆÊ’u
+// æ¨æ¸¬æ§‹æˆåˆ¥ã®é–‹å§‹ä½ç½®
 void JlsScriptLimit::getLogoListDirectCom(JlsCmdSet& cmdset){
 	vector<Msec> listMsec;
 	vector<LogoEdgeType> listEdge;
-	//--- „‘ª\¬‹æØ‚è‚É‚æ‚éˆÊ’u ---
+	//--- æ¨æ¸¬æ§‹æˆåŒºåˆ‡ã‚Šã«ã‚ˆã‚‹ä½ç½® ---
 	ScrOptCRecord optC = {};
 	getLogoListDirectComOpt(optC);
 
 	if ( optC.exist ){
 		Term term = {};
-		pdata->setTermEndtype(term, SCP_END_EDGEIN);	// ’[‚ğŠÜ‚ß‚ÄÀ{
-		pdata->setTermForDisp(term, true);		// •\¦—p‚Ì\¬
+		pdata->setTermEndtype(term, SCP_END_EDGEIN);	// ç«¯ã‚’å«ã‚ã¦å®Ÿæ–½
+		pdata->setTermForDisp(term, true);		// è¡¨ç¤ºç”¨ã®æ§‹æˆ
 		RangeMsec rmsecHold;
 		bool hold = false;
 		bool cont = true;
 		while( cont || hold ){
-			//--- Ÿ‚ÌˆÊ’u“Ç‚İ‚İ ---
+			//--- æ¬¡ã®ä½ç½®èª­ã¿è¾¼ã¿ ---
 			if ( cont ){
 				cont = pdata->getTermNext(term);
 			}
-			//--- –Ú“I‚Ì\¬‚©”»’è ---
+			//--- ç›®çš„ã®æ§‹æˆã‹åˆ¤å®š ---
 			bool valid = false;
 			RangeMsec rmsecNow = {-1, -1};
 			if ( cont ){
 				valid = isLogoListDirectComValid(term.nsc.ed, optC);
 				rmsecNow = {term.msec.st, term.msec.ed};
 			}
-			//--- Œ‹‡”»’è ---
+			//--- çµåˆåˆ¤å®š ---
 			if ( valid ){
 				if ( !hold ){
-					rmsecHold = rmsecNow;	// V‹KŠi”[
+					rmsecHold = rmsecNow;	// æ–°è¦æ ¼ç´
 					hold = true;
 					valid = false;
 				}else if ( var.opt.getOptFlag(OptType::FlagMerge) &&
 						   rmsecHold.ed == rmsecNow.st ){
-					rmsecHold.ed = rmsecNow.ed;	// Œ‹‡
+					rmsecHold.ed = rmsecNow.ed;	// çµåˆ
 					valid = false;
 				}
 			}
-			//--- XV ---
-			if ( hold && (valid || !cont) ){	// ƒf[ƒ^’Ç‰Á‚Ü‚½‚ÍÅŒãI—¹‚Éholdƒf[ƒ^‚ğXV
-				LogoEdgeType edgeBase = var.opt.selectEdge;	// ƒRƒ}ƒ“ƒh‚ÌS/E/B‘I‘ğ
+			//--- æ›´æ–° ---
+			if ( hold && (valid || !cont) ){	// ãƒ‡ãƒ¼ã‚¿è¿½åŠ ã¾ãŸã¯æœ€å¾Œçµ‚äº†æ™‚ã«holdãƒ‡ãƒ¼ã‚¿ã‚’æ›´æ–°
+				LogoEdgeType edgeBase = var.opt.selectEdge;	// ã‚³ãƒãƒ³ãƒ‰ã®S/E/Bé¸æŠ
 				if ( jlsd::isLogoEdgeRise(edgeBase) ){
 					listMsec.push_back(rmsecHold.st);
 					listEdge.push_back(LOGO_EDGE_RISE);
@@ -541,19 +541,19 @@ void JlsScriptLimit::getLogoListDirectCom(JlsCmdSet& cmdset){
 				}
 			}
 		}
-		//--- w’èƒŠƒXƒg‚ª‹ó‚Ì‚Í–³Œøİ’è ---
+		//--- æŒ‡å®šãƒªã‚¹ãƒˆãŒç©ºã®æ™‚ã¯ç„¡åŠ¹è¨­å®š ---
 		if ( listMsec.empty() ){
 			cmdset.limit.addLogoListDirectDummy(true);
 		}
 	}
-	//--- ’¼ÚƒtƒŒ[ƒ€ˆÊ’uw’è‚ª‘¶İ‚·‚é‚ÍƒZƒbƒg‚Å•ÛŠÇ ---
+	//--- ç›´æ¥ãƒ•ãƒ¬ãƒ¼ãƒ ä½ç½®æŒ‡å®šãŒå­˜åœ¨ã™ã‚‹æ™‚ã¯ã‚»ãƒƒãƒˆã§ä¿ç®¡ ---
 	if ( listMsec.empty() == false ){
 		for(int i=0; i<(int)listMsec.size(); i++){
-			cmdset.limit.addLogoListDirect(listMsec[i], listEdge[i]);	// ƒŠƒXƒg’Ç‰Á
+			cmdset.limit.addLogoListDirect(listMsec[i], listEdge[i]);	// ãƒªã‚¹ãƒˆè¿½åŠ 
 		}
 	}
 }
-//--- ƒIƒvƒVƒ‡ƒ“İ’èó‘Ôæ“¾ ---
+//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šçŠ¶æ…‹å–å¾— ---
 void JlsScriptLimit::getLogoListDirectComOpt(ScrOptCRecord& optC){
 	int n;
 	n = var.opt.getOpt(OptType::FnumFromAllC);		// -fromC
@@ -614,7 +614,7 @@ bool JlsScriptLimit::getLogoListDirectComOptSub(bool& data, int n){
 	}
 	return false;
 }
-// „‘ª\¬‚ªƒIƒvƒVƒ‡ƒ“w’è‚Ì—LŒø‘ÎÛ‚©”»’f
+// æ¨æ¸¬æ§‹æˆãŒã‚ªãƒ—ã‚·ãƒ§ãƒ³æŒ‡å®šã®æœ‰åŠ¹å¯¾è±¡ã‹åˆ¤æ–­
 bool JlsScriptLimit::isLogoListDirectComValid(Nsc nscCur, ScrOptCRecord optC){
 	if ( optC.C ){
 		return true;
@@ -740,34 +740,34 @@ bool JlsScriptLimit::isLogoListDirectComValid(Nsc nscCur, ScrOptCRecord optC){
 }
 
 //---------------------------------------------------------------------
-// ƒtƒŒ[ƒ€’¼Úw’èˆÊ’u‚Éˆê”Ô‹ß‚¢Šî€ƒƒSˆÊ’u‚ğæ“¾i-fromŒnƒIƒvƒVƒ‡ƒ“—pj
-// “ü—ÍF
-//    listMsec: ƒƒSˆÊ’uƒŠƒXƒgi‘S‘Ìj
-//    msecFrom: ƒtƒŒ[ƒ€’¼Úw’èˆÊ’u
-// o—ÍF
-//   •Ô‚è’lF “ü—ÍƒŠƒXƒg“à‚Åˆê”Ô‹ß‚¢ˆÊ’u
+// ãƒ•ãƒ¬ãƒ¼ãƒ ç›´æ¥æŒ‡å®šä½ç½®ã«ä¸€ç•ªè¿‘ã„åŸºæº–ãƒ­ã‚´ä½ç½®ã‚’å–å¾—ï¼ˆ-fromç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ç”¨ï¼‰
+// å…¥åŠ›ï¼š
+//    listMsec: ãƒ­ã‚´ä½ç½®ãƒªã‚¹ãƒˆï¼ˆå…¨ä½“ï¼‰
+//    msecFrom: ãƒ•ãƒ¬ãƒ¼ãƒ ç›´æ¥æŒ‡å®šä½ç½®
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š å…¥åŠ›ãƒªã‚¹ãƒˆå†…ã§ä¸€ç•ªè¿‘ã„ä½ç½®
 //---------------------------------------------------------------------
 int JlsScriptLimit::getLogoListNearest(JlsCmdSet& cmdset, vector<Msec> listMsec, Msec msecFrom){
-	//--- –‘OŠm”F ---
-	int locNearest = -1;						// “ü—ÍƒŠƒXƒg“à‚Åˆê”Ô‹ß‚¢ˆÊ’u
-	cmdset.limit.forceLogoListStd(true);		// —LŒøƒƒSƒŠƒXƒgæ“¾‚É‹­§İ’è
-	//--- —LŒøƒƒSƒŠƒXƒg‚ÌŠeˆÊ’u‚Ì’†‚©‚çˆê”Ô‹ß‚¢ˆÊ’u‚ğŒŸõ ---
+	//--- äº‹å‰ç¢ºèª ---
+	int locNearest = -1;						// å…¥åŠ›ãƒªã‚¹ãƒˆå†…ã§ä¸€ç•ªè¿‘ã„ä½ç½®
+	cmdset.limit.forceLogoListStd(true);		// æœ‰åŠ¹ãƒ­ã‚´ãƒªã‚¹ãƒˆå–å¾—ã«å¼·åˆ¶è¨­å®š
+	//--- æœ‰åŠ¹ãƒ­ã‚´ãƒªã‚¹ãƒˆã®å„ä½ç½®ã®ä¸­ã‹ã‚‰ä¸€ç•ªè¿‘ã„ä½ç½®ã‚’æ¤œç´¢ ---
 	Msec msecDif = 0;
 	bool flagArea = false;
-	int  nsize = cmdset.limit.sizeLogoList();		// —LŒø”»’è‚³‚ê‚½ƒƒS‘”
+	int  nsize = cmdset.limit.sizeLogoList();		// æœ‰åŠ¹åˆ¤å®šã•ã‚ŒãŸãƒ­ã‚´ç·æ•°
 	for(int i=0; i<nsize; i++){
-		Msec         msecRef = cmdset.limit.getLogoListMsec(i);		// —LŒøƒƒSƒŠƒXƒg“à‚ÌƒƒSŠî€Œó•â
+		Msec         msecRef = cmdset.limit.getLogoListMsec(i);		// æœ‰åŠ¹ãƒ­ã‚´ãƒªã‚¹ãƒˆå†…ã®ãƒ­ã‚´åŸºæº–å€™è£œ
 		LogoEdgeType edgeRef = cmdset.limit.getLogoListEdge(i);
-		//--- ŠeƒƒS‹æŠÔ‚ğæ“¾‚µ‘OŒã‚ğŠÜ‚ß‚½ƒƒSˆÊ’u‚ğæ“¾ ---
+		//--- å„ãƒ­ã‚´åŒºé–“ã‚’å–å¾—ã—å‰å¾Œã‚’å«ã‚ãŸãƒ­ã‚´ä½ç½®ã‚’å–å¾— ---
 		for(int j=0; j<(int)listMsec.size(); j++){
 			if ( msecRef == listMsec[j] ){
-				//--- İ’èŒãŠî€ˆÊ’u‚Æ‹——£‘ª’è ---
+				//--- è¨­å®šå¾ŒåŸºæº–ä½ç½®ã¨è·é›¢æ¸¬å®š ---
 				WideMsec wmsec;
 				wmsec.early = ( j > 0 )? listMsec[j-1] : 0;
 				wmsec.just  = msecRef;
 				wmsec.late  = ( j < (int)listMsec.size()-1 )? listMsec[j+1] : pdata->getMsecTotalMax();
 				Msec msecTmpDif = abs(msecFrom - wmsec.just);
-				//--- ƒƒS‹æŠÔ“à‚©”»•Ê ---
+				//--- ãƒ­ã‚´åŒºé–“å†…ã‹åˆ¤åˆ¥ ---
 				bool flagTmpArea = false;
 				if ( jlsd::isLogoEdgeRise(edgeRef) ){		// rise edge
 					if ( wmsec.early <= msecFrom && msecFrom < wmsec.late ){
@@ -778,11 +778,11 @@ int JlsScriptLimit::getLogoListNearest(JlsCmdSet& cmdset, vector<Msec> listMsec,
 						flagTmpArea = true;
 					}
 				}
-				//--- ˆê”Ô‹ß‚¢ˆÊ’u‚ÍXV ---
+				//--- ä¸€ç•ªè¿‘ã„ä½ç½®ã¯æ›´æ–° ---
 				if ( msecDif > msecTmpDif || locNearest < 0 || (flagTmpArea && !flagArea) ){
-					//--- ƒƒS‹æŠÔ“à ‚Ü‚½‚Í ƒƒS‹æŠÔ–¢”­Œ© ---
+					//--- ãƒ­ã‚´åŒºé–“å†… ã¾ãŸã¯ ãƒ­ã‚´åŒºé–“æœªç™ºè¦‹ ---
 					if ( flagTmpArea || !flagArea ){
-						locNearest = j;					// ƒŠƒXƒg‚ÌˆÊ’u
+						locNearest = j;					// ãƒªã‚¹ãƒˆã®ä½ç½®
 						msecDif  = msecTmpDif;
 						flagArea = flagTmpArea;
 					}
@@ -790,30 +790,30 @@ int JlsScriptLimit::getLogoListNearest(JlsCmdSet& cmdset, vector<Msec> listMsec,
 			}
 		}
 	}
-	cmdset.limit.forceLogoListStd(false);		// —LŒøƒƒSƒŠƒXƒgæ“¾‚Ì‹­§İ’è‚ğ‰ğœ
+	cmdset.limit.forceLogoListStd(false);		// æœ‰åŠ¹ãƒ­ã‚´ãƒªã‚¹ãƒˆå–å¾—ã®å¼·åˆ¶è¨­å®šã‚’è§£é™¤
 	return locNearest;
 }
 
 
 //=====================================================================
-// ƒ^[ƒQƒbƒg‘I’è
+// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé¸å®š
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ‘ÎÛƒƒS‚É‚Â‚¢‚Ä§–ñğŒ‚ğ‰Á–¡‚µ‚Ä‘ÎÛˆÊ’uæ“¾
+// å¯¾è±¡ãƒ­ã‚´ã«ã¤ã„ã¦åˆ¶ç´„æ¡ä»¶ã‚’åŠ å‘³ã—ã¦å¯¾è±¡ä½ç½®å–å¾—
 //---------------------------------------------------------------------
 bool JlsScriptLimit::selectTargetByLogo(JlsCmdSet& cmdset, int nlist){
-	//--- ƒf[ƒ^‰Šú‰» ---
+	//--- ãƒ‡ãƒ¼ã‚¿åˆæœŸåŒ– ---
 	cmdset.limit.clearLogoBase();
 	cmdset.limit.clearTargetData();
 	var.clearRangeDst();
-	//--- Šî€ƒƒS‚ğŠm’è ---
+	//--- åŸºæº–ãƒ­ã‚´ã‚’ç¢ºå®š ---
 	bool exeflag = baseLogo(cmdset, nlist);
-	//--- ŒŸõ‘ÎÛ”ÍˆÍ‚ğİ’èiŠî€ƒƒSˆÊ’u‚ğƒx[ƒXj ---
+	//--- æ¤œç´¢å¯¾è±¡ç¯„å›²ã‚’è¨­å®šï¼ˆåŸºæº–ãƒ­ã‚´ä½ç½®ã‚’ãƒ™ãƒ¼ã‚¹ï¼‰ ---
 	if (exeflag){
 		exeflag = targetRangeByLogo(cmdset);
 	}
-	//--- ƒ^[ƒQƒbƒg‚Éˆê”Ô‹ß‚¢ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ğæ“¾ ---
+	//--- ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã«ä¸€ç•ªè¿‘ã„ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‚’å–å¾— ---
 	if (exeflag){
 		targetPoint(cmdset);
 	}
@@ -821,103 +821,103 @@ bool JlsScriptLimit::selectTargetByLogo(JlsCmdSet& cmdset, int nlist){
 }
 
 //---------------------------------------------------------------------
-// ‘ÎÛ”ÍˆÍ‚ğŒÀ’èA§–ñğŒ‚ğ‰Á–¡‚µ‚Ä‘ÎÛˆÊ’uæ“¾
+// å¯¾è±¡ç¯„å›²ã‚’é™å®šã€åˆ¶ç´„æ¡ä»¶ã‚’åŠ å‘³ã—ã¦å¯¾è±¡ä½ç½®å–å¾—
 //---------------------------------------------------------------------
 void JlsScriptLimit::selectTargetByRange(JlsCmdSet& cmdset, WideMsec wmsec){
-	//--- ƒf[ƒ^‰Šú‰» ---
+	//--- ãƒ‡ãƒ¼ã‚¿åˆæœŸåŒ– ---
 	cmdset.limit.clearTargetData();
 	var.clearRangeDst();
-	//--- ŒŸõ‘ÎÛ”ÍˆÍ‚ğ’¼Ú”’l‚Åİ’è ---
+	//--- æ¤œç´¢å¯¾è±¡ç¯„å›²ã‚’ç›´æ¥æ•°å€¤ã§è¨­å®š ---
 	targetRangeByImm(cmdset, wmsec);
-	//--- ˆê”Ô‹ß‚¢ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ğæ“¾ ---
+	//--- ä¸€ç•ªè¿‘ã„ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‚’å–å¾— ---
 	targetPoint(cmdset);
 }
 
 //=====================================================================
-// ƒƒSˆÊ’uƒŠƒXƒg“à‚Ìw’èƒƒS‚ÅŠî€ƒƒSƒf[ƒ^‚ğì¬
+// ãƒ­ã‚´ä½ç½®ãƒªã‚¹ãƒˆå†…ã®æŒ‡å®šãƒ­ã‚´ã§åŸºæº–ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ã‚’ä½œæˆ
 //=====================================================================
 
 //---------------------------------------------------------------------
-// Šî€ƒƒSƒf[ƒ^‚ğì¬
-// “ü—ÍF
-//    nlist: —LŒøƒƒSƒŠƒXƒg‚©‚ç‘I‘ğ‚·‚é”Ô†
-// o—ÍF
-//   •Ô‚è’lF §–ñ–‚½‚·ƒƒSî•ñ”»’èifalse=§–ñ–‚½‚³‚È‚¢ true=§–ñ–‚½‚µƒƒSî•ñæ“¾j
+// åŸºæº–ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ã‚’ä½œæˆ
+// å…¥åŠ›ï¼š
+//    nlist: æœ‰åŠ¹ãƒ­ã‚´ãƒªã‚¹ãƒˆã‹ã‚‰é¸æŠã™ã‚‹ç•ªå·
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š åˆ¶ç´„æº€ãŸã™ãƒ­ã‚´æƒ…å ±åˆ¤å®šï¼ˆfalse=åˆ¶ç´„æº€ãŸã•ãªã„ true=åˆ¶ç´„æº€ãŸã—ãƒ­ã‚´æƒ…å ±å–å¾—ï¼‰
 //    cmdset.limit.setLogoB*
 //---------------------------------------------------------------------
 bool JlsScriptLimit::baseLogo(JlsCmdSet& cmdset, int nlist){
-	//--- ƒƒS‚ÌŠî€ˆÊ’uŠÖ˜A‚ğæ“¾ ---
+	//--- ãƒ­ã‚´ã®åŸºæº–ä½ç½®é–¢é€£ã‚’å–å¾— ---
 	bool exeflag = getBaseLogo(cmdset, nlist);
 
-	//--- Šî€ˆÊ’u‚ªğŒ‚ğ–‚½‚·‚©Šm”F ---
+	//--- åŸºæº–ä½ç½®ãŒæ¡ä»¶ã‚’æº€ãŸã™ã‹ç¢ºèª ---
 	if (exeflag){
 		exeflag = checkBaseLogo(cmdset);	
 	}
 	return exeflag;
 }
-// Šî€ƒƒS‚ğæ“¾
+// åŸºæº–ãƒ­ã‚´ã‚’å–å¾—
 bool JlsScriptLimit::getBaseLogo(JlsCmdSet& cmdset, int nlist){
-	//--- ƒRƒ}ƒ“ƒhİ’èî•ñæ“¾ ---
-	Msec         msecBsrc = cmdset.limit.getLogoListMsec(nlist);		// •ÏXŒãŠî€ƒƒSˆÊ’u
-	Msec         msecBorg = cmdset.limit.getLogoListOrgMsec(nlist);		// –{—ˆ‚ÌŠî€ƒƒSˆÊ’u
+	//--- ã‚³ãƒãƒ³ãƒ‰è¨­å®šæƒ…å ±å–å¾— ---
+	Msec         msecBsrc = cmdset.limit.getLogoListMsec(nlist);		// å¤‰æ›´å¾ŒåŸºæº–ãƒ­ã‚´ä½ç½®
+	Msec         msecBorg = cmdset.limit.getLogoListOrgMsec(nlist);		// æœ¬æ¥ã®åŸºæº–ãƒ­ã‚´ä½ç½®
 	LogoEdgeType edgeBase = cmdset.limit.getLogoListEdge(nlist);
-	//--- ƒŠƒXƒg”Ô†İ’è ---
+	//--- ãƒªã‚¹ãƒˆç•ªå·è¨­å®š ---
 	var.setLogoBaseListNum(nlist);
 
-	if ( var.opt.getOptFlag(OptType::FlagSftLogo) ){	// Šî€ˆÊ’u‚ğ–{—ˆ‚ÌˆÊ’u‚É(-SftLogo)
+	if ( var.opt.getOptFlag(OptType::FlagSftLogo) ){	// åŸºæº–ä½ç½®ã‚’æœ¬æ¥ã®ä½ç½®ã«(-SftLogo)
 		msecBsrc = msecBorg;
 	}
-	if ( msecBsrc < 0 ) return false;	// –³ŒøˆÊ’uŠm”F
+	if ( msecBsrc < 0 ) return false;	// ç„¡åŠ¹ä½ç½®ç¢ºèª
 
-	//--- ¡‰ñ‚ÌŠî€‚Æ‚µ‚ÄƒƒSî•ñ‚ğİ’è ---
+	//--- ä»Šå›ã®åŸºæº–ã¨ã—ã¦ãƒ­ã‚´æƒ…å ±ã‚’è¨­å®š ---
 	if ( pdata->isClogoReal() ){
 		Nrf nrfBase = pdata->getClogoRealNrf(msecBorg, edgeBase);
-		var.setLogoBaseNrf(nrfBase, edgeBase);		// ÀÛƒƒS‚ÅŠî€İ’è
-		cmdset.limit.setLogoBaseNrf(nrfBase, edgeBase);	// ‹¤’Ê—Ìˆæ‚Éİ’è
+		var.setLogoBaseNrf(nrfBase, edgeBase);		// å®Ÿéš›ãƒ­ã‚´ã§åŸºæº–è¨­å®š
+		cmdset.limit.setLogoBaseNrf(nrfBase, edgeBase);	// å…±é€šé ˜åŸŸã«è¨­å®š
 	}else{
 		Nsc nscBase = pdata->getClogoNsc(msecBorg);
-		var.setLogoBaseNsc(nscBase, edgeBase);		// „‘ªƒƒS‚ÅŠî€İ’è
-		cmdset.limit.setLogoBaseNsc(nscBase, edgeBase);	// ‹¤’Ê—Ìˆæ‚Éİ’è
+		var.setLogoBaseNsc(nscBase, edgeBase);		// æ¨æ¸¬ãƒ­ã‚´ã§åŸºæº–è¨­å®š
+		cmdset.limit.setLogoBaseNsc(nscBase, edgeBase);	// å…±é€šé ˜åŸŸã«è¨­å®š
 	}
 	Msec msecBmod = msecBorg;
 	if ( msecBmod < 0 ){
-		msecBmod = pdata->getClogoMsecNear(msecBsrc, edgeBase);	// ‘¶İ‚µ‚È‚¢‚Í•ÏXŒã‚Éˆê”Ô‹ß‚¢ˆÊ’u
+		msecBmod = pdata->getClogoMsecNear(msecBsrc, edgeBase);	// å­˜åœ¨ã—ãªã„æ™‚ã¯å¤‰æ›´å¾Œã«ä¸€ç•ªè¿‘ã„ä½ç½®
 	}
-	var.setLogoBsrcMsec(msecBsrc);		// •ÏXŒãŠî€ƒƒSˆÊ’u‚ğİ’è
-	var.setLogoBorgMsec(msecBmod);		// –{—ˆ‚ÌŠî€ƒƒSˆÊ’u‚ğİ’èi‘¶İ‚µ‚È‚¢‚Í‹ß‚­‚É•ÏXj
+	var.setLogoBsrcMsec(msecBsrc);		// å¤‰æ›´å¾ŒåŸºæº–ãƒ­ã‚´ä½ç½®ã‚’è¨­å®š
+	var.setLogoBorgMsec(msecBmod);		// æœ¬æ¥ã®åŸºæº–ãƒ­ã‚´ä½ç½®ã‚’è¨­å®šï¼ˆå­˜åœ¨ã—ãªã„æ™‚ã¯è¿‘ãã«å¤‰æ›´ï¼‰
 
-	//--- ƒ^[ƒQƒbƒg‘I‘ğ—Ìˆæ‚ÌŒvZ‚Ég—p‚·‚éƒƒSî•ñ‚ğİ’è ---
+	//--- ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé¸æŠé ˜åŸŸã®è¨ˆç®—ã«ä½¿ç”¨ã™ã‚‹ãƒ­ã‚´æƒ…å ±ã‚’è¨­å®š ---
 	WideMsec wmsecTg;
 	wmsecTg.just  = msecBsrc;
 	wmsecTg.early = msecBsrc;
 	wmsecTg.late  = msecBsrc;
 	LogoEdgeType edgeTg = edgeBase;
 	bool flagBase = ( msecBsrc == msecBorg );
-	getBaseLogoForTg(wmsecTg, edgeTg, cmdset, flagBase);	// ƒIƒvƒVƒ‡ƒ““™‚É‚æ‚é•â³
+	getBaseLogoForTg(wmsecTg, edgeTg, cmdset, flagBase);	// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ç­‰ã«ã‚ˆã‚‹è£œæ­£
 	if ( wmsecTg.late < 0 ){
-		return false;	// –³ŒøˆÊ’uŠm”F
+		return false;	// ç„¡åŠ¹ä½ç½®ç¢ºèª
 	}
-	var.setLogoBtgWmsecEdge(wmsecTg, edgeTg);	// ƒ^[ƒQƒbƒgŒvZ—p‚ÌŠî€ˆÊ’u‚ğİ’è
+	var.setLogoBtgWmsecEdge(wmsecTg, edgeTg);	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆè¨ˆç®—ç”¨ã®åŸºæº–ä½ç½®ã‚’è¨­å®š
 	return true;
 }
-// ƒ^[ƒQƒbƒg‘I‘ğ—Ìˆæ‚ÌŒvZ‚Ég—p‚·‚éƒƒSî•ñ‚ğ•â³
+// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé¸æŠé ˜åŸŸã®è¨ˆç®—ã«ä½¿ç”¨ã™ã‚‹ãƒ­ã‚´æƒ…å ±ã‚’è£œæ­£
 void JlsScriptLimit::getBaseLogoForTg(WideMsec& wmsecTg, LogoEdgeType& edgeTg, JlsCmdSet& cmdset, bool flagBase){
-	//--- ƒRƒ}ƒ“ƒhİ’èî•ñæ“¾ ---
+	//--- ã‚³ãƒãƒ³ãƒ‰è¨­å®šæƒ…å ±å–å¾— ---
 	Msec msecMgn  = pdata->getClogoMsecMgn();
 	Msec msecBsrc = wmsecTg.just;
 	if ( msecBsrc < 0 ){
 		return;
 	}
-	//--- ƒƒS’PˆÊˆÚ“®ƒIƒvƒVƒ‡ƒ“ ---
+	//--- ãƒ­ã‚´å˜ä½ç§»å‹•ã‚ªãƒ—ã‚·ãƒ§ãƒ³ ---
 	int numSft = 0;
-	if ( var.opt.getOptFlag(OptType::FlagFromLast) ){	// ‚P‚Â‘O‚ÌƒƒS‚ğæ‚é(-fromlast)
+	if ( var.opt.getOptFlag(OptType::FlagFromLast) ){	// ï¼‘ã¤å‰ã®ãƒ­ã‚´ã‚’å–ã‚‹(-fromlast)
 		numSft = -1;
 	}
-	if ( numSft == 0 && !flagBase ){	// ƒƒS”ÍˆÍƒ`ƒFƒbƒN‚È‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
+	if ( numSft == 0 && !flagBase ){	// ãƒ­ã‚´ç¯„å›²ãƒã‚§ãƒƒã‚¯ãªã‘ã‚Œã°ä½•ã‚‚ã—ãªã„
 		return;
 	}
-	//--- ƒƒSˆÊ’uƒ`ƒFƒbƒN ---
-	int locLogo = pdata->getClogoNumNear(msecBsrc, edgeTg);	// Šî€ƒƒSˆÊ’u
+	//--- ãƒ­ã‚´ä½ç½®ãƒã‚§ãƒƒã‚¯ ---
+	int locLogo = pdata->getClogoNumNear(msecBsrc, edgeTg);	// åŸºæº–ãƒ­ã‚´ä½ç½®
 	if ( flagBase ){
 		wmsecTg = pdata->getClogoWmsecFromNum(locLogo+numSft);
 	}else{
@@ -926,11 +926,11 @@ void JlsScriptLimit::getBaseLogoForTg(WideMsec& wmsecTg, LogoEdgeType& edgeTg, J
 		}
 		wmsecTg = pdata->getClogoWmsecFromNum(locLogo);
 	}
-	//--- ƒƒS”ÍˆÍƒ`ƒFƒbƒN ---
+	//--- ãƒ­ã‚´ç¯„å›²ãƒã‚§ãƒƒã‚¯ ---
 	bool flagLogoWide = false;
-	if ( var.opt.getOptFlag(OptType::FlagWide) ){	// ‰Â”\«”ÍˆÍ‚ÅŒŸõ(-wide)
+	if ( var.opt.getOptFlag(OptType::FlagWide) ){	// å¯èƒ½æ€§ç¯„å›²ã§æ¤œç´¢(-wide)
 		flagLogoWide = true;
-	}else if ( pdata->isClogoReal() == false ){	// ÀÛ‚ÌƒƒS‚Å‚Í‚È‚¢‚à—§ã‚è^—§‰º‚è•
+	}else if ( pdata->isClogoReal() == false ){	// å®Ÿéš›ã®ãƒ­ã‚´ã§ã¯ãªã„æ™‚ã‚‚ç«‹ä¸Šã‚Šï¼ç«‹ä¸‹ã‚Šå¹…
 		flagLogoWide = true;
 	}
 	if ( !flagLogoWide ){
@@ -938,56 +938,56 @@ void JlsScriptLimit::getBaseLogoForTg(WideMsec& wmsecTg, LogoEdgeType& edgeTg, J
 		wmsecTg.late  = wmsecTg.just;
 	}
 }
-// Šî€ƒƒSˆÊ’u‚É‘Î‰‚·‚éğŒİ’è‚ğŠm”F
+// åŸºæº–ãƒ­ã‚´ä½ç½®ã«å¯¾å¿œã™ã‚‹æ¡ä»¶è¨­å®šã‚’ç¢ºèª
 bool JlsScriptLimit::checkBaseLogo(JlsCmdSet& cmdset){
-	//--- ƒRƒ}ƒ“ƒhİ’èî•ñæ“¾ ---
+	//--- ã‚³ãƒãƒ³ãƒ‰è¨­å®šæƒ…å ±å–å¾— ---
 	bool flagRealLogo = pdata->isClogoReal();
-	Msec msecLogoBsrc = var.getLogoBsrcMsec();		// İ’èŒãŠî€ˆÊ’u
-	Nrf nrf_base = var.getLogoBaseNrf();			// Šî€ƒƒSˆÊ’u
+	Msec msecLogoBsrc = var.getLogoBsrcMsec();		// è¨­å®šå¾ŒåŸºæº–ä½ç½®
+	Nrf nrf_base = var.getLogoBaseNrf();			// åŸºæº–ãƒ­ã‚´ä½ç½®
 //	Nsc nsc_base = var.getLogoBaseNsc();
 	bool exeflag = true;
-	//--- ƒƒSˆÊ’u‚ğ’¼Úİ’è‚·‚éƒRƒ}ƒ“ƒh‚É•K—v‚Èƒ`ƒFƒbƒN ---
+	//--- ãƒ­ã‚´ä½ç½®ã‚’ç›´æ¥è¨­å®šã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã«å¿…è¦ãªãƒã‚§ãƒƒã‚¯ ---
 	if ( flagRealLogo ){
-		//--- Šm’èŒŸoÏ‚İƒƒS‚©Šm”F ---
+		//--- ç¢ºå®šæ¤œå‡ºæ¸ˆã¿ãƒ­ã‚´ã‹ç¢ºèª ---
 		Msec           msec_tmp   = -1;
-		LogoResultType outtype_rf = LOGO_RESULT_DECIDE;	// Šî€ƒƒS‚ª‚È‚¢‚ÍŠm’è‚Ìˆ—
+		LogoResultType outtype_rf = LOGO_RESULT_DECIDE;	// åŸºæº–ãƒ­ã‚´ãŒãªã„æ™‚ã¯ç¢ºå®šæ™‚ã®å‡¦ç†
 		if ( nrf_base >= 0 ){
 			pdata->getResultLogoAtNrf(msec_tmp, outtype_rf, nrf_base);
 		}
-		//--- Šm’èƒƒSˆÊ’u‚àŒŸo‚·‚éƒRƒ}ƒ“ƒh‚© ---
+		//--- ç¢ºå®šãƒ­ã‚´ä½ç½®ã‚‚æ¤œå‡ºã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã‹ ---
 		bool igncomp = cmdset.arg.tack.ignoreComp;
 		bool ignabort = cmdset.arg.tack.ignoreAbort;
 		if (outtype_rf == LOGO_RESULT_NONE || (outtype_rf == LOGO_RESULT_DECIDE && igncomp)){
 		}
-		else if ( outtype_rf == LOGO_RESULT_ABORT && ignabort ){	// Abort–³‹‚ÅÀs‚·‚éê‡
+		else if ( outtype_rf == LOGO_RESULT_ABORT && ignabort ){	// Abortç„¡è¦–ã§å®Ÿè¡Œã™ã‚‹å ´åˆ
 		}
 		else{
 			exeflag = false;
 		}
-		//--- select—pŠm’èŒó•â‘¶İ‚Íœ‚­ ---
+		//--- selectç”¨ç¢ºå®šå€™è£œå­˜åœ¨æ™‚ã¯é™¤ã ---
 		if (var.opt.cmdsel == CmdType::Select &&
 			var.opt.getOptFlag(OptType::FlagReset) == false &&
 			pdata->getPriorLogo(nrf_base) >= LOGO_PRIOR_DECIDE){
 			exeflag = false;
 		}
 	}
-	//--- ğŒ‚É‡‚¤‚©”»•Ê ---
+	//--- æ¡ä»¶ã«åˆã†ã‹åˆ¤åˆ¥ ---
 	if (exeflag){
-		//--- ƒtƒŒ[ƒ€”ÍˆÍƒ`ƒFƒbƒNi•ÏXŒãŠî€ƒƒSˆÊ’u‚ÅŠm”Fj ---
-		if ( var.opt.isSetOpt(OptType::TypeFrameSub) &&	// ƒtƒŒ[ƒ€”ÍˆÍƒIƒvƒVƒ‡ƒ“‚ ‚è
-			(var.opt.getOpt(OptType::TypeFrameSub) & 0x2) == 0 ){	// -FTŒn‚Å‚Í‚È‚¢
-			RangeMsec rmsecFrame = var.getFrameRange();	// ƒtƒŒ[ƒ€”ÍˆÍ
-			//--- ƒƒS‚ª”ÍˆÍ“à‚©Šm”F ---
+		//--- ãƒ•ãƒ¬ãƒ¼ãƒ ç¯„å›²ãƒã‚§ãƒƒã‚¯ï¼ˆå¤‰æ›´å¾ŒåŸºæº–ãƒ­ã‚´ä½ç½®ã§ç¢ºèªï¼‰ ---
+		if ( var.opt.isSetOpt(OptType::TypeFrameSub) &&	// ãƒ•ãƒ¬ãƒ¼ãƒ ç¯„å›²ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚ã‚Š
+			(var.opt.getOpt(OptType::TypeFrameSub) & 0x2) == 0 ){	// -FTç³»ã§ã¯ãªã„
+			RangeMsec rmsecFrame = var.getFrameRange();	// ãƒ•ãƒ¬ãƒ¼ãƒ ç¯„å›²
+			//--- ãƒ­ã‚´ãŒç¯„å›²å†…ã‹ç¢ºèª ---
 			if ((rmsecFrame.st > msecLogoBsrc && rmsecFrame.st >= 0) ||
 				(rmsecFrame.ed < msecLogoBsrc && rmsecFrame.ed >= 0)){
 				exeflag = false;
 			}
 		}
-		//--- ƒIƒvƒVƒ‡ƒ“‚Æ”äŠr(-LenP, -LenN)i–{—ˆ‚ÌŠî€ƒƒS‚ÅŠm”Fj ---
+		//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã¨æ¯”è¼ƒ(-LenP, -LenN)ï¼ˆæœ¬æ¥ã®åŸºæº–ãƒ­ã‚´ã§ç¢ºèªï¼‰ ---
 		if (exeflag){
-			bool flagWide = false;		// Še“_’†SˆÊ’u‚Åİ’è
+			bool flagWide = false;		// å„ç‚¹ä¸­å¿ƒä½ç½®ã§è¨­å®š
 			WideMsec wmsecLg;
-			var.getWidthLogoFromBase(wmsecLg, 1, flagWide);	// ‘OŒã‚Í—×Ú(1)
+			var.getWidthLogoFromBase(wmsecLg, 1, flagWide);	// å‰å¾Œã¯éš£æ¥(1)
 			RangeMsec lenP;
 			RangeMsec lenN;
 			lenP.st = var.opt.getOpt(OptType::MsecLenPMin);
@@ -996,11 +996,11 @@ bool JlsScriptLimit::checkBaseLogo(JlsCmdSet& cmdset){
 			lenN.ed = var.opt.getOpt(OptType::MsecLenNMax);
 			exeflag = checkBaseLogoLength(wmsecLg, lenP, lenN);
 		}
-		//--- ƒIƒvƒVƒ‡ƒ“‚Æ”äŠr(-LenPE, -LenNE)i–{—ˆ‚ÌŠî€ƒƒS‚ÅŠm”Fj ---
+		//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã¨æ¯”è¼ƒ(-LenPE, -LenNE)ï¼ˆæœ¬æ¥ã®åŸºæº–ãƒ­ã‚´ã§ç¢ºèªï¼‰ ---
 		if (exeflag){
-			bool flagWide = false;		// Še“_’†SˆÊ’u‚Åİ’è
+			bool flagWide = false;		// å„ç‚¹ä¸­å¿ƒä½ç½®ã§è¨­å®š
 			WideMsec wmsecLgE;
-			var.getWidthLogoFromBase(wmsecLgE, 2, flagWide);	// ‘OŒã‚Í“¯ƒGƒbƒW—×Ú(2)
+			var.getWidthLogoFromBase(wmsecLgE, 2, flagWide);	// å‰å¾Œã¯åŒã‚¨ãƒƒã‚¸éš£æ¥(2)
 			RangeMsec lenPE;
 			RangeMsec lenNE;
 			lenPE.st = var.opt.getOpt(OptType::MsecLenPEMin);
@@ -1010,26 +1010,26 @@ bool JlsScriptLimit::checkBaseLogo(JlsCmdSet& cmdset){
 			exeflag = checkBaseLogoLength(wmsecLgE, lenPE, lenNE);
 		}
 	}
-	//--- ƒƒSˆÊ’u‚©‚ç-SCŒnƒIƒvƒVƒ‡ƒ“‚ğŒ©‚éê‡‚ÌŠm”Fi•ÏXŒãŠî€ƒƒSˆÊ’u‚ÅŠm”Fj ---
+	//--- ãƒ­ã‚´ä½ç½®ã‹ã‚‰-SCç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è¦‹ã‚‹å ´åˆã®ç¢ºèªï¼ˆå¤‰æ›´å¾ŒåŸºæº–ãƒ­ã‚´ä½ç½®ã§ç¢ºèªï¼‰ ---
 	if ( !var.opt.tack.floatBase && !var.opt.tack.shiftBase && exeflag){
 		LogoEdgeType edgeBase = var.getLogoBsrcEdge();
 		exeflag = var.isScpEnableAtMsec(msecLogoBsrc, edgeBase, TargetCatType::From);
 	}
 	return exeflag;
 }
-//--- ‘OŒãƒƒSŠÔ‚Ì’·‚³‚É‚æ‚é§–ñ ---
+//--- å‰å¾Œãƒ­ã‚´é–“ã®é•·ã•ã«ã‚ˆã‚‹åˆ¶ç´„ ---
 bool JlsScriptLimit::checkBaseLogoLength(WideMsec wmsecLg, RangeMsec lenP, RangeMsec lenN){
-	//--- ‘OŒãƒƒS‚Ü‚Å‚Ì’·‚³ ---
+	//--- å‰å¾Œãƒ­ã‚´ã¾ã§ã®é•·ã• ---
 	Msec msecDifPrev = wmsecLg.just - wmsecLg.early;
 	Msec msecDifNext = wmsecLg.late - wmsecLg.just;
-	//--- ’[•”•ª‚Ìˆ— ---
+	//--- ç«¯éƒ¨åˆ†ã®å‡¦ç† ---
 	if ( wmsecLg.early < 0 && wmsecLg.just >= 0 ){
 		msecDifPrev = wmsecLg.just;
 	}
 	if ( wmsecLg.late < 0 && wmsecLg.just >= 0 ){
 		msecDifNext = pdata->getMsecTotalMax() - wmsecLg.just;
 	}
-	//--- -LenP/-LenPE ”äŠr ---
+	//--- -LenP/-LenPE æ¯”è¼ƒ ---
 	bool exeflag = true;
 	if ( lenP.st >= 0 ){
 		if ( msecDifPrev < lenP.st || msecDifPrev < 0 ){
@@ -1041,7 +1041,7 @@ bool JlsScriptLimit::checkBaseLogoLength(WideMsec wmsecLg, RangeMsec lenP, Range
 			exeflag = false;
 		}
 	}
-	//--- -LenN/-LenNE ”äŠr ---
+	//--- -LenN/-LenNE æ¯”è¼ƒ ---
 	if ( lenN.st >= 0 ){
 		if ( msecDifNext < lenN.st || msecDifNext < 0 ){
 			exeflag = false;
@@ -1056,54 +1056,54 @@ bool JlsScriptLimit::checkBaseLogoLength(WideMsec wmsecLg, RangeMsec lenP, Range
 }
 
 //=====================================================================
-// ƒ^[ƒQƒbƒg”ÍˆÍ‚ğæ“¾
+// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆç¯„å›²ã‚’å–å¾—
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ŒŸõ‘ÎÛ”ÍˆÍ‚ğİ’èiŠî€ƒƒSˆÊ’u‚ğƒx[ƒXj
-// o—ÍF
-//   •Ô‚è’lF§–ñ–‚½‚·”ÍˆÍŠm”Fi0:ŠY“–‚È‚µ  1:‘ÎÛ”ÍˆÍæ“¾j
+// æ¤œç´¢å¯¾è±¡ç¯„å›²ã‚’è¨­å®šï¼ˆåŸºæº–ãƒ­ã‚´ä½ç½®ã‚’ãƒ™ãƒ¼ã‚¹ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼šåˆ¶ç´„æº€ãŸã™ç¯„å›²ç¢ºèªï¼ˆ0:è©²å½“ãªã—  1:å¯¾è±¡ç¯„å›²å–å¾—ï¼‰
 //   var.addRangeDst()
 //   cmdset.limit.setTargetRange()
 //---------------------------------------------------------------------
 bool JlsScriptLimit::targetRangeByLogo(JlsCmdSet& cmdset){
-	//--- ƒ^[ƒQƒbƒg”ÍˆÍİ’è—p‚ÌŠî€ˆÊ’uæ“¾ ---
-	WideMsec wmsecBase = var.getLogoBtgWmsec();	// ƒ^[ƒQƒbƒg—pƒƒSˆÊ’uiŒŸõ•ŠÜjæ“¾
+	//--- ã‚¿ãƒ¼ã‚²ãƒƒãƒˆç¯„å›²è¨­å®šç”¨ã®åŸºæº–ä½ç½®å–å¾— ---
+	WideMsec wmsecBase = var.getLogoBtgWmsec();	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆç”¨ãƒ­ã‚´ä½ç½®ï¼ˆæ¤œç´¢å¹…å«ï¼‰å–å¾—
 
-	//--- Šî€ˆÊ’u‚©‚çƒ^[ƒQƒbƒg”ÍˆÍì¬ ---
-	if ( var.opt.tack.shiftBase ){		// ƒVƒtƒgŠî€ˆÊ’ui-shiftƒIƒvƒVƒ‡ƒ“j
+	//--- åŸºæº–ä½ç½®ã‹ã‚‰ã‚¿ãƒ¼ã‚²ãƒƒãƒˆç¯„å›²ä½œæˆ ---
+	if ( var.opt.tack.shiftBase ){		// ã‚·ãƒ•ãƒˆåŸºæº–ä½ç½®ï¼ˆ-shiftã‚ªãƒ—ã‚·ãƒ§ãƒ³ï¼‰
 		addTargetRangeByLogoShift(wmsecBase);
-	}else{				// ’Êí‚Ì‚P‚Â‚ÌŠî€ˆÊ’u
+	}else{				// é€šå¸¸ã®ï¼‘ã¤ã®åŸºæº–ä½ç½®
 		addTargetRangeData(wmsecBase);
 	}
-	//--- ƒ^[ƒQƒbƒgî•ñİ’è ---
-	bool fromLogo = true;			// ƒƒSˆÊ’uƒx[ƒX‚Ìƒ^[ƒQƒbƒg
+	//--- ã‚¿ãƒ¼ã‚²ãƒƒãƒˆæƒ…å ±è¨­å®š ---
+	bool fromLogo = true;			// ãƒ­ã‚´ä½ç½®ãƒ™ãƒ¼ã‚¹ã®ã‚¿ãƒ¼ã‚²ãƒƒãƒˆ
 	updateTargetRange(cmdset, fromLogo);
 
 	return ( var.sizeRangeDst() > 0 );
 }
 //---------------------------------------------------------------------
-// ŒŸõ‘ÎÛ”ÍˆÍ‚ÌŠî€ˆÊ’u‚ğ’¼Ú”’lİ’è
-// o—ÍF
+// æ¤œç´¢å¯¾è±¡ç¯„å›²ã®åŸºæº–ä½ç½®ã‚’ç›´æ¥æ•°å€¤è¨­å®š
+// å‡ºåŠ›ï¼š
 //   var.addRangeDst()
 //   cmdset.limit.setTargetRange()
 //---------------------------------------------------------------------
 void JlsScriptLimit::targetRangeByImm(JlsCmdSet& cmdset, WideMsec wmsec){
-	//--- Šî€ˆÊ’u‚©‚çƒ^[ƒQƒbƒg”ÍˆÍì¬ ---
+	//--- åŸºæº–ä½ç½®ã‹ã‚‰ã‚¿ãƒ¼ã‚²ãƒƒãƒˆç¯„å›²ä½œæˆ ---
 	addTargetRangeData(wmsec);
-	//--- ƒ^[ƒQƒbƒgî•ñİ’è ---
-	bool fromLogo = false;			// ƒƒSˆÊ’uŠî€‚Å‚Í‚È‚­’¼Úw’èƒRƒ}ƒ“ƒh
+	//--- ã‚¿ãƒ¼ã‚²ãƒƒãƒˆæƒ…å ±è¨­å®š ---
+	bool fromLogo = false;			// ãƒ­ã‚´ä½ç½®åŸºæº–ã§ã¯ãªãç›´æ¥æŒ‡å®šã‚³ãƒãƒ³ãƒ‰
 	updateTargetRange(cmdset, fromLogo);
 }
 
-// ƒ^[ƒQƒbƒgŒŸõ”ÍˆÍ‚ÌŠî–{î•ñ‚ğİ’è
+// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆæ¤œç´¢ç¯„å›²ã®åŸºæœ¬æƒ…å ±ã‚’è¨­å®š
 void JlsScriptLimit::updateTargetRange(JlsCmdSet& cmdset, bool fromLogo){
 	WideMsec wmsec = var.getRangeDstWide();
 	cmdset.limit.setTargetRange(wmsec, fromLogo);
 }
-// ƒVƒtƒg•¡”Œó•â‚É‘Î‰‚µ‚½ƒƒSŠî€ˆÊ’u‚ğİ’è
+// ã‚·ãƒ•ãƒˆè¤‡æ•°å€™è£œã«å¯¾å¿œã—ãŸãƒ­ã‚´åŸºæº–ä½ç½®ã‚’è¨­å®š
 void JlsScriptLimit::addTargetRangeByLogoShift(WideMsec wmsecBase){
-	//--- ƒ\[ƒg—p ---
+	//--- ã‚½ãƒ¼ãƒˆç”¨ ---
 	struct data_t {
 		WideMsec wmsec;
 		Msec gap;
@@ -1115,23 +1115,23 @@ void JlsScriptLimit::addTargetRangeByLogoShift(WideMsec wmsecBase){
 		}
 	};
 
-	//--- ŒŸõ”ÍˆÍİ’è ---
+	//--- æ¤œç´¢ç¯„å›²è¨­å®š ---
 	WideMsec wmsecScope = wmsecBase;
 	wmsecScope.just  += var.opt.getOpt(OptType::MsecSftC);
 	wmsecScope.early += var.opt.getOpt(OptType::MsecSftL);
 	wmsecScope.late  += var.opt.getOpt(OptType::MsecSftR);
-	//--- •¡”Šî€ˆÊ’u‚ÌŒŸõŠJn ---
+	//--- è¤‡æ•°åŸºæº–ä½ç½®ã®æ¤œç´¢é–‹å§‹ ---
 	vector<data_t> listTarget;
-	//--- –³‰¹ƒV|ƒ“ƒ`ƒFƒ“ƒW‚ÌŒó•â‚ğ‡”Ô‚Éƒ`ƒFƒbƒN ---
+	//--- ç„¡éŸ³ã‚·ï¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã®å€™è£œã‚’é †ç•ªã«ãƒã‚§ãƒƒã‚¯ ---
 	bool flagNoEdge = var.opt.getOptFlag(OptType::FlagNoEdge);
 	RangeNsc rnsc = pdata->getRangeNscTotal(flagNoEdge);
 	for(int j=rnsc.st; j<=rnsc.ed; j++){
 		Msec msecNow   = pdata->getMsecScp(j);
 		Msec msecNowBk = pdata->getMsecScpBk(j);
-		if ( wmsecScope.early <= msecNow && msecNowBk <= wmsecScope.late ){	// ŒŸõ”ÍˆÍ“à
-			//--- -shift‚É‚æ‚éƒƒSˆÊ’u‚©‚ç-SCŒnƒIƒvƒVƒ‡ƒ“‚ğŠm”F ---
+		if ( wmsecScope.early <= msecNow && msecNowBk <= wmsecScope.late ){	// æ¤œç´¢ç¯„å›²å†…
+			//--- -shiftã«ã‚ˆã‚‹ãƒ­ã‚´ä½ç½®ã‹ã‚‰-SCç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’ç¢ºèª ---
 			bool valid = var.isScpEnableAtMsec(msecNow, LOGO_EDGE_RISE, TargetCatType::Shift);
-			if ( valid ){		// Šî€ƒƒSˆÊ’u‚Æ‚µ‚Ä—LŒø
+			if ( valid ){		// åŸºæº–ãƒ­ã‚´ä½ç½®ã¨ã—ã¦æœ‰åŠ¹
 				Msec msecRel = msecNow - wmsecBase.just;
 				WideMsec wmsecTmp;
 				wmsecTmp.just  = wmsecBase.just  + msecRel;
@@ -1140,48 +1140,48 @@ void JlsScriptLimit::addTargetRangeByLogoShift(WideMsec wmsecBase){
 				data_t dat;
 				dat.wmsec = wmsecTmp;
 				dat.gap   = abs(msecRel);
-				listTarget.push_back(dat);		// ‰¼ƒŠƒXƒg‚É’Ç‰Á
+				listTarget.push_back(dat);		// ä»®ãƒªã‚¹ãƒˆã«è¿½åŠ 
 			}
 		}
 	}
 	if ( listTarget.size() > 0 ){
-		std::sort(listTarget.begin(), listTarget.end());	// ‹ß‚¢‡‚Éƒ\[ƒg
+		std::sort(listTarget.begin(), listTarget.end());	// è¿‘ã„é †ã«ã‚½ãƒ¼ãƒˆ
 	}else{
-		if ( var.opt.tack.forcePos ){		// Šî€ˆÊ’u‚ğ‹­§İ’è‚·‚éê‡
+		if ( var.opt.tack.forcePos ){		// åŸºæº–ä½ç½®ã‚’å¼·åˆ¶è¨­å®šã™ã‚‹å ´åˆ
 			data_t dat;
 			dat.wmsec = wmsecBase;
 			dat.gap   = 0;
-			listTarget.push_back(dat);		// ‰¼ƒŠƒXƒg‚É’Ç‰Á
+			listTarget.push_back(dat);		// ä»®ãƒªã‚¹ãƒˆã«è¿½åŠ 
 		}
 	}
-	//--- ğŒ‚ğ–‚½‚µ‚½Šî€ˆÊ’u‚ğİ’è ---
+	//--- æ¡ä»¶ã‚’æº€ãŸã—ãŸåŸºæº–ä½ç½®ã‚’è¨­å®š ---
 	for(int i=0; i<(int)listTarget.size(); i++){
 		addTargetRangeData(listTarget[i].wmsec);
 	}
 }
 //---------------------------------------------------------------------
-// ƒ^[ƒQƒbƒgŒŸõ”ÍˆÍ‚ğİ’èi•¡”’Ç‰Á‚µ‚Ä‚¢‚­‚±‚Æ‰Â”\j
+// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆæ¤œç´¢ç¯„å›²ã‚’è¨­å®šï¼ˆè¤‡æ•°è¿½åŠ ã—ã¦ã„ãã“ã¨å¯èƒ½ï¼‰
 //---------------------------------------------------------------------
 void JlsScriptLimit::addTargetRangeData(WideMsec wmsecBase){
-	//--- -DListæ“¾ ---
+	//--- -DListå–å¾— ---
 	vector<Msec> listMsec;
 	if ( var.opt.isSetStrOpt(OptType::ListTgDst) ){		// -DList
 		string strList = var.opt.getStrOpt(OptType::ListTgDst);
 		pdata->cnv.getListValMsecM1(listMsec, strList);
 	}
-	//--- EndŒn‚Æ‚µ‚Äg‚í‚ê‚éŠî€ˆÊ’u‚ğ³Šm‚Éİ’è ---
+	//--- Endç³»ã¨ã—ã¦ä½¿ã‚ã‚Œã‚‹åŸºæº–ä½ç½®ã‚’æ­£ç¢ºã«è¨­å®š ---
 	WideMsec wmsecFrom = {wmsecBase.just, wmsecBase.just, wmsecBase.just};
 	if ( var.opt.getOptFlag(OptType::FlagFixPos) == false ||
-		 var.opt.tack.immFrom == false ){	// -fromabs“™‚Ì’¼ÚƒtƒŒ[ƒ€”Ô†w’è‚Å‚Í‚È‚¢
+		 var.opt.tack.immFrom == false ){	// -fromabsç­‰ã®ç›´æ¥ãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·æŒ‡å®šã§ã¯ãªã„
 		Nsc nscTmp = pdata->getNscFromMsecMgn(wmsecBase.just, pdata->msecValExact, SCP_END_NOEDGE);
 		if ( nscTmp >= 0 ){
 			wmsecFrom.early = pdata->getMsecScpBk(nscTmp);
 			wmsecFrom.late  = pdata->getMsecScp(nscTmp);
 		}
 	}
-	//--- ƒ^[ƒQƒbƒgŒŸõ”ÍˆÍ‚ğİ’è ---
+	//--- ã‚¿ãƒ¼ã‚²ãƒƒãƒˆæ¤œç´¢ç¯„å›²ã‚’è¨­å®š ---
 	int nsize = (int)listMsec.size();
-	if ( nsize > 0 ){		// •¡”Œó•âƒIƒvƒVƒ‡ƒ“w’èi-DListj
+	if ( nsize > 0 ){		// è¤‡æ•°å€™è£œã‚ªãƒ—ã‚·ãƒ§ãƒ³æŒ‡å®šï¼ˆ-DListï¼‰
 		for(int i=0; i<nsize; i++){
 			WideMsec wmsecOpt;
 			wmsecOpt.just  = listMsec[i] + wmsecBase.just;
@@ -1192,31 +1192,31 @@ void JlsScriptLimit::addTargetRangeData(WideMsec wmsecBase){
 				var.addRangeDst(wmsecFind, wmsecFrom);
 			}
 		}
-	}else{		// ’Êí‚Ì’Pˆêİ’è
+	}else{		// é€šå¸¸ã®å˜ä¸€è¨­å®š
 		WideMsec wmsecFind;
 		if ( findTargetRange(wmsecFind, wmsecBase, wmsecFrom.just) ){
 			var.addRangeDst(wmsecFind, wmsecFrom);
 		}
 	}
 }
-// ƒ^[ƒQƒbƒg‘I‘ğ—Ìˆæ‚ÌŒvZ‚Ég—p‚·‚éƒƒSî•ñ‚ğ•â³
+// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé¸æŠé ˜åŸŸã®è¨ˆç®—ã«ä½¿ç”¨ã™ã‚‹ãƒ­ã‚´æƒ…å ±ã‚’è£œæ­£
 bool JlsScriptLimit::findTargetRange(WideMsec& wmsecFind, WideMsec wmsecBase, Msec msecFrom){
-	WideMsec wmsecAnd = {-1, -1, -1};		// ’Êí‚Í–¢g—p
+	WideMsec wmsecAnd = {-1, -1, -1};		// é€šå¸¸ã¯æœªä½¿ç”¨
 	bool exeflag = findTargetRangeSetBase(wmsecFind, wmsecAnd, wmsecBase, msecFrom);
 	if ( exeflag ){
 		exeflag = findTargetRangeLimit(wmsecFind, wmsecAnd);
 	}
 	return exeflag;
 }
-// ƒ^[ƒQƒbƒgˆÊ’u•ÏXƒIƒvƒVƒ‡ƒ“‚ğ”½‰f
+// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆä½ç½®å¤‰æ›´ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’åæ˜ 
 bool JlsScriptLimit::findTargetRangeSetBase(WideMsec& wmsecFind, WideMsec& wmsecAnd, WideMsec wmsecBase, Msec msecFrom){
-	//--- Šî–{İ’è ---
+	//--- åŸºæœ¬è¨­å®š ---
 	wmsecFind = wmsecBase;
 	bool flagAnd = var.opt.getOptFlag(OptType::FlagDstAnd);	// -DstAnd
 	if ( flagAnd ){
-		wmsecAnd = {msecFrom, msecFrom, msecFrom};	// Andİ’è—p
+		wmsecAnd = {msecFrom, msecFrom, msecFrom};	// Andè¨­å®šæ™‚ç”¨
 	}
-	//--- ’¼ÚˆÊ’uƒŠƒXƒgw’è ---
+	//--- ç›´æ¥ä½ç½®ãƒªã‚¹ãƒˆæŒ‡å®š ---
 	if ( var.opt.isSetStrOpt(OptType::ListDstAbs) ){	// -DstAbs
 		vector<Msec> listMsec;
 		string strList = var.opt.getStrOpt(OptType::ListDstAbs);
@@ -1238,7 +1238,7 @@ bool JlsScriptLimit::findTargetRangeSetBase(WideMsec& wmsecFind, WideMsec& wmsec
 		string strList = var.opt.getStrOpt(OptType::ListAbsSetFD);
 		if ( pdata->cnv.getListValMsecM1(listMsec, strList) ){
 			int nsize = (int) listMsec.size();
-			if ( nsize < 2 ) return false;		// •K‚¸2ƒf[ƒ^ƒZƒbƒg
+			if ( nsize < 2 ) return false;		// å¿…ãš2ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
 			int nlist = var.getLogoBaseListNum();
 			int ndst = nlist * 2 + 1;
 			if ( ndst <= 0 ) ndst = 1;
@@ -1254,8 +1254,8 @@ bool JlsScriptLimit::findTargetRangeSetBase(WideMsec& wmsecFind, WideMsec& wmsec
 	if ( wmsecFind.just < 0 ){
 		return false;
 	}
-	//--- QÆˆÊ’uİ’è ---
-	WideMsec wmsecNext = ( flagAnd )? wmsecAnd : wmsecFind;		// Andİ’è•ªŠò
+	//--- å‚ç…§ä½ç½®è¨­å®š ---
+	WideMsec wmsecNext = ( flagAnd )? wmsecAnd : wmsecFind;		// Andè¨­å®šåˆ†å²
 	{
 		Msec msecSrc = wmsecNext.just;
 		bool existNextL = var.opt.isSetOpt(OptType::NumDstNextL);	// -DstNextL
@@ -1302,7 +1302,7 @@ bool JlsScriptLimit::findTargetRangeSetBase(WideMsec& wmsecFind, WideMsec& wmsec
 			wmsecNext = pdata->getWideMsecScp(nscT);
 		}
 	}
-	//--- Andİ’è•ªŠò ---
+	//--- Andè¨­å®šåˆ†å² ---
 	if ( flagAnd ){
 		wmsecAnd = wmsecNext;
 		wmsecAnd.early -= pdata->msecValSpc;
@@ -1312,50 +1312,50 @@ bool JlsScriptLimit::findTargetRangeSetBase(WideMsec& wmsecFind, WideMsec& wmsec
 	}
 	return true;
 }
-// ƒRƒ}ƒ“ƒhw’è‚Ìƒ^[ƒQƒbƒg”ÍˆÍ‚ğŒ³‚Ì”ÍˆÍ‚É’Ç‰Á
+// ã‚³ãƒãƒ³ãƒ‰æŒ‡å®šã®ã‚¿ãƒ¼ã‚²ãƒƒãƒˆç¯„å›²ã‚’å…ƒã®ç¯„å›²ã«è¿½åŠ 
 bool JlsScriptLimit::findTargetRangeLimit(WideMsec& wmsecFind, WideMsec& wmsecAnd){
 	bool exeflag = true;
-	//--- ƒRƒ}ƒ“ƒhw’è‚Ì”ÍˆÍ‚ğƒtƒŒ[ƒ€”ÍˆÍ‚É’Ç‰Á ---
+	//--- ã‚³ãƒãƒ³ãƒ‰æŒ‡å®šã®ç¯„å›²ã‚’ãƒ•ãƒ¬ãƒ¼ãƒ ç¯„å›²ã«è¿½åŠ  ---
 	wmsecFind.just  += var.opt.wmsecDst.just;
 	wmsecFind.early += var.opt.wmsecDst.early;
 	wmsecFind.late  += var.opt.wmsecDst.late;
-	//--- ƒRƒ}ƒ“ƒh”ÍˆÍ‚É-1İ’è‚Ì•ÏŠ· ---
+	//--- ã‚³ãƒãƒ³ãƒ‰ç¯„å›²ã«-1è¨­å®šæ™‚ã®å¤‰æ› ---
 	if ( var.opt.wmsecDst.early == -1 ){
 		wmsecFind.early = 0;
 	}
 	if ( var.opt.wmsecDst.late == -1 ){
 		wmsecFind.late = pdata->getMsecTotalMax();
 	}
-	//--- ƒƒSŒó•â“à‚ÉŒÀ’è‚·‚éSelectƒRƒ}ƒ“ƒh—p‚Ì”ÍˆÍ ---
+	//--- ãƒ­ã‚´å€™è£œå†…ã«é™å®šã™ã‚‹Selectã‚³ãƒãƒ³ãƒ‰ç”¨ã®ç¯„å›² ---
 	if ( exeflag && var.opt.cmdsel == CmdType::Select ){
 		if ( var.getLogoBsrcMsec() == var.getLogoBorgMsec() ){
-			WideMsec wmsecBtg = var.getLogoBtgWmsec();	// ƒƒSˆÊ’u‚ÆŒŸõ•‚ğæ“¾
+			WideMsec wmsecBtg = var.getLogoBtgWmsec();	// ãƒ­ã‚´ä½ç½®ã¨æ¤œç´¢å¹…ã‚’å–å¾—
 			RangeMsec rmsecExt;
 			rmsecExt.st = wmsecBtg.early + var.opt.getOpt(OptType::MsecLogoExtL);
 			rmsecExt.ed = wmsecBtg.late  + var.opt.getOpt(OptType::MsecLogoExtR);
 			exeflag = pdata->limitWideMsecFromRange(wmsecFind, rmsecExt);
 		}
 	}
-	//--- ‘OŒã‚ÌƒƒSˆÊ’uˆÈ“à‚É”ÍˆÍŒÀ’è‚·‚éê‡ ---
+	//--- å‰å¾Œã®ãƒ­ã‚´ä½ç½®ä»¥å†…ã«ç¯„å›²é™å®šã™ã‚‹å ´åˆ ---
 	if ( exeflag && var.opt.tack.limitByLogo ){
-		bool flagWide = true;		// ‰Â”\«‚ ‚é”ÍˆÍ‚ÅŒŸõ
+		bool flagWide = true;		// å¯èƒ½æ€§ã‚ã‚‹ç¯„å›²ã§æ¤œç´¢
 		WideMsec wmsecPN;
-		var.getWidthLogoFromBaseForTarget(wmsecPN, 1, flagWide);	// ƒ^[ƒQƒbƒg—pƒƒS‚Å‘OŒã‚Í—×Ú(1)
+		var.getWidthLogoFromBaseForTarget(wmsecPN, 1, flagWide);	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆç”¨ãƒ­ã‚´ã§å‰å¾Œã¯éš£æ¥(1)
 		RangeMsec rmsecPN = { wmsecPN.early, wmsecPN.late };
 		exeflag = pdata->limitWideMsecFromRange(wmsecFind, rmsecPN);
 	}
-	//--- ƒtƒŒ[ƒ€w’è”ÍˆÍ“à‚ÉŒÀ’è ---
+	//--- ãƒ•ãƒ¬ãƒ¼ãƒ æŒ‡å®šç¯„å›²å†…ã«é™å®š ---
 	if ( exeflag ){
 		RangeMsec rmsecWindow = var.getFrameRange();
 		exeflag = pdata->limitWideMsecFromRange(wmsecFind, rmsecWindow);
 	}
-	//--- -DstAnd‚É‚æ‚éŒÀ’è ---
+	//--- -DstAndã«ã‚ˆã‚‹é™å®š ---
 	if ( exeflag && wmsecAnd.just >= 0 ){
 		RangeMsec rmsecFind = {wmsecFind.early, wmsecFind.late};
 		wmsecFind = wmsecAnd;
 		exeflag = pdata->limitWideMsecFromRange(wmsecFind, rmsecFind);
 	}
-	//--- ”ÍˆÍ‚ª‘¶İ‚µ‚È‚¯‚ê‚Î–³Œø‰» ---
+	//--- ç¯„å›²ãŒå­˜åœ¨ã—ãªã‘ã‚Œã°ç„¡åŠ¹åŒ– ---
 	if ( wmsecFind.early > wmsecFind.late ){
 		exeflag = false;
 	}
@@ -1363,36 +1363,36 @@ bool JlsScriptLimit::findTargetRangeLimit(WideMsec& wmsecFind, WideMsec& wmsecAn
 }
 
 //=====================================================================
-// ƒ^[ƒQƒbƒgˆÊ’u‚ğæ“¾
+// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆä½ç½®ã‚’å–å¾—
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒ^[ƒQƒbƒg‚Éˆê”Ô‹ß‚¢ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ğæ“¾
-// o—ÍF
-//   cmdset.list.setTargetOutEdge() : o—Í‚ÌƒƒSƒGƒbƒW
-//   cmdset.list.setResult*()       : ‘I‘ğƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u
+// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã«ä¸€ç•ªè¿‘ã„ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‚’å–å¾—
+// å‡ºåŠ›ï¼š
+//   cmdset.list.setTargetOutEdge() : å‡ºåŠ›æ™‚ã®ãƒ­ã‚´ã‚¨ãƒƒã‚¸
+//   cmdset.list.setResult*()       : é¸æŠã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®
 //---------------------------------------------------------------------
 void JlsScriptLimit::targetPoint(JlsCmdSet& cmdset){
-	//--- ğŒ‚É‡‚¤ˆÊ’u‚ğŒŸõ ---
+	//--- æ¡ä»¶ã«åˆã†ä½ç½®ã‚’æ¤œç´¢ ---
 	seekTargetPoint(cmdset);
 
-	//--- ˆÊ’uo—Í—p‚ÌƒƒSƒGƒbƒW‚É‚æ‚é•â³ ---
+	//--- ä½ç½®å‡ºåŠ›æ™‚ç”¨ã®ãƒ­ã‚´ã‚¨ãƒƒã‚¸ã«ã‚ˆã‚‹è£œæ­£ ---
 	setTargetPointOutEdge(cmdset);
 }
 
 //---------------------------------------------------------------------
-// ˆÊ’uî•ño—Í‚ÌƒƒSƒGƒbƒW‚É‚æ‚é•â³
+// ä½ç½®æƒ…å ±å‡ºåŠ›æ™‚ã®ãƒ­ã‚´ã‚¨ãƒƒã‚¸ã«ã‚ˆã‚‹è£œæ­£
 //---------------------------------------------------------------------
 void JlsScriptLimit::setTargetPointOutEdge(JlsCmdSet& cmdset){
-	//--- •W€ƒGƒbƒWİ’è ---
+	//--- æ¨™æº–ã‚¨ãƒƒã‚¸è¨­å®š ---
 	LogoEdgeType edgeBase = cmdset.limit.getLogoBaseEdge();
 	LogoEdgeType edgeDst = edgeBase;
 	LogoEdgeType edgeEnd = edgeBase;
-	//--- ƒf[ƒ^æ“¾ ---
+	//--- ãƒ‡ãƒ¼ã‚¿å–å¾— ---
 	TargetLocInfo tgDst = cmdset.limit.getResultDstCurrent();
 	TargetLocInfo tgEnd = cmdset.limit.getResultEndCurrent();
-	//--- ˆÊ’u‚É‚æ‚éİ’è ---
-	if ( cmdset.arg.cmdsel == CmdType::MkLogo  ||	// MkLogoƒRƒ}ƒ“ƒh‚Í]—ˆ’Ê‚èŠJn|I—¹ˆÊ’u
+	//--- ä½ç½®ã«ã‚ˆã‚‹è¨­å®š ---
+	if ( cmdset.arg.cmdsel == CmdType::MkLogo  ||	// MkLogoã‚³ãƒãƒ³ãƒ‰ã¯å¾“æ¥é€šã‚Šé–‹å§‹ï¼çµ‚äº†ä½ç½®
 		 cmdset.arg.getOptFlag(OptType::FlagHoldBoth) ||
 		 cmdset.arg.getOptFlag(OptType::FlagEdgeB) ){
 		if ( tgDst.msec < tgEnd.msec ){
@@ -1403,7 +1403,7 @@ void JlsScriptLimit::setTargetPointOutEdge(JlsCmdSet& cmdset){
 			edgeEnd = LOGO_EDGE_RISE;
 		}
 	}
-	//--- ŒÅ’èƒGƒbƒWİ’è ---
+	//--- å›ºå®šã‚¨ãƒƒã‚¸è¨­å®š ---
 	if ( cmdset.arg.getOptFlag(OptType::FlagEdgeS) ){
 		edgeDst = LOGO_EDGE_RISE;
 		edgeEnd = LOGO_EDGE_RISE;
@@ -1412,21 +1412,21 @@ void JlsScriptLimit::setTargetPointOutEdge(JlsCmdSet& cmdset){
 		edgeDst = LOGO_EDGE_FALL;
 		edgeEnd = LOGO_EDGE_FALL;
 	}
-	//--- ‘‚«–ß‚µ ---
+	//--- æ›¸ãæˆ»ã— ---
 	tgDst.edge = edgeDst;
 	tgEnd.edge = edgeEnd;
 	cmdset.limit.setResultDst(tgDst);
 	cmdset.limit.setResultEnd(tgEnd);
 }
 //---------------------------------------------------------------------
-// ğŒ‚É‡‚¤ˆÊ’u‚ğŒŸõ
+// æ¡ä»¶ã«åˆã†ä½ç½®ã‚’æ¤œç´¢
 //---------------------------------------------------------------------
 void JlsScriptLimit::seekTargetPoint(JlsCmdSet& cmdset){
-	//--- ŒŸõŠJn‘O‚Ì€”õ ---
+	//--- æ¤œç´¢é–‹å§‹å‰ã®æº–å‚™ ---
 	prepTargetPoint(cmdset);
-	//--- ŒŸõİ’è ---
+	//--- æ¤œç´¢è¨­å®š ---
 	var.initSeekVar(cmdset);
-	//--- –³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ğ‡”Ô‚ÉŒŸõ ---
+	//--- ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‚’é †ç•ªã«æ¤œç´¢ ---
 	bool fixpos = var.opt.getOptFlag(OptType::FlagFixPos);
 	if ( !fixpos ){
 		RangeNsc rnsc = var.seek.rnscScp;
@@ -1435,10 +1435,10 @@ void JlsScriptLimit::seekTargetPoint(JlsCmdSet& cmdset){
 			seekTargetPointFromScp(cmdset, j, lastNsc);
 		}
 	}
-	//--- ŒŸo‚Å‚«‚È‚©‚Á‚½ê‡‚Ìˆ— ---
+	//--- æ¤œå‡ºã§ããªã‹ã£ãŸå ´åˆã®å‡¦ç† ---
 	if ( var.seek.tgDst.tp == TargetScpType::None ){
 		bool flagForce = var.opt.tack.forcePos || fixpos;
-		var.selRangeDstNum(0);	// æ“ªŒó•â‘I‘ğ
+		var.selRangeDstNum(0);	// å…ˆé ­å€™è£œé¸æŠ
 		var.seek.tgDst.nsc  = -1;
 		var.seek.tgDst.msec = var.getRangeDstJust();
 		var.seek.tgDst.msbk = var.seek.tgDst.msec;
@@ -1457,94 +1457,94 @@ void JlsScriptLimit::seekTargetPoint(JlsCmdSet& cmdset){
 			var.seek.tgDst.tp = TargetScpType::Invalid;
 		}
 		if ( var.seek.tgDst.tp != TargetScpType::Invalid ){
-			seekTargetPointEnd(cmdset, var.seek.tgDst.msec, flagForce);	// End’n“_‚àŒŸõ
+			seekTargetPointEnd(cmdset, var.seek.tgDst.msec, flagForce);	// Endåœ°ç‚¹ã‚‚æ¤œç´¢
 		}else{
 			//var.seek.tgDst.tp   = TargetScpType::Invalid;
 			var.seek.tgEnd.tp   = TargetScpType::Invalid;
 		}
 	}
-	//--- –³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWƒ`ƒFƒbƒN‚È‚¢ê‡‚Ì„‘ª\¬ƒGƒbƒW•â³ ---
+	//--- ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãƒã‚§ãƒƒã‚¯ãªã„å ´åˆã®æ¨æ¸¬æ§‹æˆã‚¨ãƒƒã‚¸è£œæ­£ ---
 	if ( fixpos ){
 		if ( pdata->isClogoReal() == false ){
 			WideMsec wmsec = var.getLogoBtgWmsec();
 			Msec msecRevBk = wmsec.just - wmsec.early;
-			var.seek.tgDst.msbk = var.seek.tgDst.msec - msecRevBk;	// I—¹ˆÊ’u—p‚Ì•â³
+			var.seek.tgDst.msbk = var.seek.tgDst.msec - msecRevBk;	// çµ‚äº†ä½ç½®ç”¨ã®è£œæ­£
 		}
 	}
-	//--- ƒtƒŒ[ƒ€’PˆÊ‚ÌŒ‹‰Ê ---
+	//--- ãƒ•ãƒ¬ãƒ¼ãƒ å˜ä½ã®çµæœ ---
 	var.seek.tgDst.msec = pdata->cnv.getMsecAlignFromMsec(var.seek.tgDst.msec);
 	var.seek.tgDst.msbk = pdata->cnv.getMsecAlignFromMsec(var.seek.tgDst.msbk);
 	var.seek.tgEnd.msec = pdata->cnv.getMsecAlignFromMsec(var.seek.tgEnd.msec);
 	var.seek.tgEnd.msbk = pdata->cnv.getMsecAlignFromMsec(var.seek.tgEnd.msbk);
-	//--- Œó•âˆÊ’uŠm’èˆ— ---
+	//--- å€™è£œä½ç½®ç¢ºå®šå‡¦ç† ---
 	cmdset.limit.setResultDst(var.seek.tgDst);
 	cmdset.limit.setResultEnd(var.seek.tgEnd);
 }
-//--- w’è–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚©‚ç‚Ì‘ÎÛŒŸõ ---
+//--- æŒ‡å®šç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‹ã‚‰ã®å¯¾è±¡æ¤œç´¢ ---
 void JlsScriptLimit::seekTargetPointFromScp(JlsCmdSet& cmdset, Nsc nscNow, bool lastNsc){
 	Msec         msecNow = pdata->getMsecScp(nscNow);
 	ScpPriorType statNow = pdata->getPriorScp(nscNow);
 	bool exist     = ( var.seek.tgDst.tp != TargetScpType::None );
-	//--- ğŒ‚ğ–‚½‚³‚È‚¯‚ê‚ÎŸ‚ÌˆÊ’u‚Ö ---
-	if ( lastNsc && var.seek.flagNextTail ){	// NextTail‚ÅÅIˆÊ’u‚Íelse‚ÌğŒŠÖŒW‚È‚µ
+	//--- æ¡ä»¶ã‚’æº€ãŸã•ãªã‘ã‚Œã°æ¬¡ã®ä½ç½®ã¸ ---
+	if ( lastNsc && var.seek.flagNextTail ){	// NextTailã§æœ€çµ‚ä½ç½®ã¯elseã®æ¡ä»¶é–¢ä¿‚ãªã—
 	}else{
 		if ( var.isScpEnableAtNsc(TargetCatType::Dst, nscNow) == false ){
 			return;
 		}
 	}
-	//--- \¬‚Ì—Dæ‡ˆÊ‚É‚æ‚é”»’è ---
+	//--- æ§‹æˆã®å„ªå…ˆé †ä½ã«ã‚ˆã‚‹åˆ¤å®š ---
 	bool condPrior = false;
 	if ( exist && !var.opt.getOpt(OptType::FlagFlat) ){
 		if ( cmdset.arg.cmdsel == CmdType::Select ){
 		}
 		else if ( statNow > var.seek.statDst ){
-			condPrior = true;		// ‘¼‚ÌŒó•â‚æ‚è‚à—Dæ
+			condPrior = true;		// ä»–ã®å€™è£œã‚ˆã‚Šã‚‚å„ªå…ˆ
 		}
-		else if ( statNow < var.seek.statDst && !lastNsc ){	// ÅIˆÊ’u‚ÍŠm’èˆµ‚¢‚Å’†’f‚µ‚È‚¢
-			return;		// —Dæ‡ˆÊ‚ª’á‚¢Œó•â‚Í‚±‚±‚ÅƒtƒBƒ‹ƒ^
+		else if ( statNow < var.seek.statDst && !lastNsc ){	// æœ€çµ‚ä½ç½®ã¯ç¢ºå®šæ‰±ã„ã§ä¸­æ–­ã—ãªã„
+			return;		// å„ªå…ˆé †ä½ãŒä½ã„å€™è£œã¯ã“ã“ã§ãƒ•ã‚£ãƒ«ã‚¿
 		}
 	}
-	//--- ƒƒS‚©‚ç‚Ìî•ñg—p(NextTailƒRƒ}ƒ“ƒh—pj ---
+	//--- ãƒ­ã‚´ã‹ã‚‰ã®æƒ…å ±ä½¿ç”¨æ™‚(NextTailã‚³ãƒãƒ³ãƒ‰ç”¨ï¼‰ ---
 	bool flagLogoNow = false;
 	if ( var.seek.selectLogoRise ){
 		int nsize = pdata->sizeClogoList();
-		for(int k=0; k<nsize; k+=2){		// —§ã‚èƒGƒbƒW‚Ì‚İ
+		for(int k=0; k<nsize; k+=2){		// ç«‹ä¸Šã‚Šã‚¨ãƒƒã‚¸ã®ã¿
 			Msec msecLogo = pdata->getClogoMsecFromNum(k);
 			if ( abs(msecNow - msecLogo) <= pdata->msecValSpc ){
 				if ( pdata->isAutoModeUse() == false ||
-					 pdata->isScpChapTypeDecideFromNsc(nscNow) ){	// Šm’è‹æØ‚è‚Ì‚İ—Dæ
-					flagLogoNow = true;			// ƒƒS—§ã‚èˆÊ’u
+					 pdata->isScpChapTypeDecideFromNsc(nscNow) ){	// ç¢ºå®šåŒºåˆ‡ã‚Šæ™‚ã®ã¿å„ªå…ˆ
+					flagLogoNow = true;			// ãƒ­ã‚´ç«‹ä¸Šã‚Šä½ç½®
 				}
 				else if ( pdata->isClogoReal() &&
 					(pdata->getNscFromMsecMgn(msecNow, pdata->msecValSpc, ScpEndType::SCP_END_EDGEIN) < 0 ||
 					 var.opt.getOptFlag(OptType::FlagFlat)) ){
-					flagLogoNow = true;			// ÀÛƒƒSg—p‚Å‹ß‚­‚ÉŠm’è‹æØ‚è‚ª‚È‚¢‚àƒƒS—§ã‚èˆÊ’u
+					flagLogoNow = true;			// å®Ÿéš›ãƒ­ã‚´ä½¿ç”¨ã§è¿‘ãã«ç¢ºå®šåŒºåˆ‡ã‚ŠãŒãªã„æ™‚ã‚‚ãƒ­ã‚´ç«‹ä¸Šã‚Šä½ç½®
 				}
 			}
 		}
 		if ( !flagLogoNow && var.seek.flagOnLogo && !lastNsc ){
-			return;		// —Dæ‡ˆÊ‚ª’á‚¢Œó•â‚Í‚±‚±‚ÅƒtƒBƒ‹ƒ^
+			return;		// å„ªå…ˆé †ä½ãŒä½ã„å€™è£œã¯ã“ã“ã§ãƒ•ã‚£ãƒ«ã‚¿
 		}
 		if ( (flagLogoNow || lastNsc) && !var.seek.flagOnLogo ){
-			condPrior = true;		// ƒƒS—Dæ‚Í‘¼‚ÌŒó•â‚æ‚è‚à—Dæ
+			condPrior = true;		// ãƒ­ã‚´å„ªå…ˆæ™‚ã¯ä»–ã®å€™è£œã‚ˆã‚Šã‚‚å„ªå…ˆ
 		}
 	}
-	//--- ŠeDstƒIƒvƒVƒ‡ƒ“ğŒ‚Æ”äŠr‚µ‚ÄÅ“KˆÊ’u‚ğæ“¾ ---
+	//--- å„Dstã‚ªãƒ—ã‚·ãƒ§ãƒ³æ¡ä»¶ã¨æ¯”è¼ƒã—ã¦æœ€é©ä½ç½®ã‚’å–å¾— ---
 	bool det = false;
 	int nsize = var.sizeRangeDst();
 	for(int k=0; k<nsize; k++){
-		var.selRangeDstNum(k);	// Œó•â‘I‘ğ
+		var.selRangeDstNum(k);	// å€™è£œé¸æŠ
 		if ( var.isRangeToDst(var.getRangeDstFrom(), msecNow) ){
 			Msec msecGap = abs(msecNow - var.getRangeDstJust());
-			if ( k < var.seek.numListDst || !exist ){	// •¡”ƒ^[ƒQƒbƒgŒó•â‚Íæ—Dæ
+			if ( k < var.seek.numListDst || !exist ){	// è¤‡æ•°ã‚¿ãƒ¼ã‚²ãƒƒãƒˆå€™è£œã¯å…ˆå„ªå…ˆ
 				det = true;
-			}else if ( k > var.seek.numListDst ){	// Œã‚Ìƒ^[ƒQƒbƒgŒó•âˆ—
+			}else if ( k > var.seek.numListDst ){	// å¾Œã®ã‚¿ãƒ¼ã‚²ãƒƒãƒˆå€™è£œå‡¦ç†
 				det = condPrior;
-			}else if ( msecGap < var.seek.gapDst ){	// ‘¼‚ÌğŒ‚ª“¯‚¶‚Å‚ ‚ê‚Î’†S‚É‹ß‚¢Š—Dæ
+			}else if ( msecGap < var.seek.gapDst ){	// ä»–ã®æ¡ä»¶ãŒåŒã˜ã§ã‚ã‚Œã°ä¸­å¿ƒã«è¿‘ã„æ‰€å„ªå…ˆ
 				det = true;
 			}
 			if ( det ){
-				if ( seekTargetPointEnd(cmdset, msecNow, false) ){	// EndˆÊ’u”»’è
+				if ( seekTargetPointEnd(cmdset, msecNow, false) ){	// Endä½ç½®åˆ¤å®š
 					var.seek.tgDst.tp   = TargetScpType::ScpNum;
 					var.seek.tgDst.nsc  = nscNow;
 					var.seek.tgDst.msec = msecNow;
@@ -1558,42 +1558,42 @@ void JlsScriptLimit::seekTargetPointFromScp(JlsCmdSet& cmdset, Nsc nscNow, bool 
 		}
 	}
 }
-//--- -EndŒnƒIƒvƒVƒ‡ƒ“‚ÉŠY“–‚·‚éˆÊ’u‚ğŒŸõ ---
+//--- -Endç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã«è©²å½“ã™ã‚‹ä½ç½®ã‚’æ¤œç´¢ ---
 bool JlsScriptLimit::seekTargetPointEnd(JlsCmdSet& cmdset, Msec msecDst, bool force){
-	//--- ƒIƒvƒVƒ‡ƒ“İ’èó‘Ô ---
-	bool needRange = var.isPrepEndRangeExist();	// ”ÍˆÍİ’è
-	bool needRefer = var.isPrepEndReferExist();	// ‘OŒãENDˆÊ’uİ’è
-	bool needMulti = var.isPrepEndMultiBase();	// •¡”fromˆÊ’u
+	//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šçŠ¶æ…‹ ---
+	bool needRange = var.isPrepEndRangeExist();	// ç¯„å›²è¨­å®š
+	bool needRefer = var.isPrepEndReferExist();	// å‰å¾ŒENDä½ç½®è¨­å®š
+	bool needMulti = var.isPrepEndMultiBase();	// è¤‡æ•°fromä½ç½®
 	bool fixEnd = ( !needRange && !needRefer && !needMulti );
-	//--- -EndŒÅ’èˆÊ’uŠm’è‚Ìİ’è ---
+	//--- -Endå›ºå®šä½ç½®ç¢ºå®šæ™‚ã®è¨­å®š ---
 	if ( fixEnd && !force ){
-		if ( var.seek.tgEnd.tp != TargetScpType::None ){	// İ’èÏ‚İ‚È‚ç–ˆ‰ñ“¯‚¶‚È‚Ì‚ÅÈ—ª
+		if ( var.seek.tgEnd.tp != TargetScpType::None ){	// è¨­å®šæ¸ˆã¿ãªã‚‰æ¯å›åŒã˜ãªã®ã§çœç•¥
 			return ( var.seek.tgEnd.tp != TargetScpType::Invalid );
 		}
 	}
-	//--- ŒÅ’èˆÊ’u•”•ª‚Ìİ’è ---
+	//--- å›ºå®šä½ç½®éƒ¨åˆ†ã®è¨­å®š ---
 	TargetLocInfo tgTry = var.getPrepEndAbs();
 	if ( var.isPrepEndFromAbs() ){
-		if ( needMulti ){	// END•¡”‚ÌŠî€ˆÊ’uÄ‘I‘ğ
+		if ( needMulti ){	// ENDè¤‡æ•°æ™‚ã®åŸºæº–ä½ç½®å†é¸æŠ
 			var.getRangeDstFromForScp(tgTry.msec, tgTry.msbk, tgTry.nsc);
 		}
-	}else{	// EndŒÅ’èˆÊ’uw’è‚Å‚Í‚È‚¢‚ÍŒ‹‰ÊˆÊ’u‚ğQÆˆÊ’u‚Æ‚·‚é
+	}else{	// Endå›ºå®šä½ç½®æŒ‡å®šã§ã¯ãªã„æ™‚ã¯çµæœä½ç½®ã‚’å‚ç…§ä½ç½®ã¨ã™ã‚‹
 		tgTry.tp = TargetScpType::None;
 		tgTry.nsc = -1;
 		tgTry.msec = msecDst;
 		tgTry.msbk = msecDst;
 	}
-	Msec msecBefore = tgTry.msec;	// -EndAndg—p‚Ì‚½‚ß‚É•ÛŠÇ
-	//--- ‘Š‘ÎENDˆÊ’u‚ÌQÆİ’è ---
+	Msec msecBefore = tgTry.msec;	// -EndAndä½¿ç”¨æ™‚ã®ãŸã‚ã«ä¿ç®¡
+	//--- ç›¸å¯¾ENDä½ç½®ã®å‚ç…§è¨­å®š ---
 	if ( needRefer ){
 		seekTargetPointEndRefer(tgTry, cmdset, tgTry.msec);
 	}
-	//--- –³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ğ”ÍˆÍŒŸõ‚µ‚È‚¢ê‡‚ÌŠm’èˆ— ---
+	//--- ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‚’ç¯„å›²æ¤œç´¢ã—ãªã„å ´åˆã®ç¢ºå®šå‡¦ç† ---
 	bool fixpos = var.opt.getOptFlag(OptType::FlagFixPos);
 	if ( !needRange || tgTry.tp == TargetScpType::Invalid ){
-		bool zone = var.isRangeToEndZone(msecDst, tgTry.msec);	// ZoneŠm”F
+		bool zone = var.isRangeToEndZone(msecDst, tgTry.msec);	// Zoneç¢ºèª
 		bool valid = zone;
-		if ( valid ){		// –³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ÌEndˆÊ’u‚ğŒŸõ‚·‚é
+		if ( valid ){		// ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã®Endä½ç½®ã‚’æ¤œç´¢ã™ã‚‹
 			valid = var.isScpEnableAtMsec(tgTry.msec, LOGO_EDGE_RISE, TargetCatType::End);
 		}
 		if ( force ){
@@ -1611,22 +1611,22 @@ bool JlsScriptLimit::seekTargetPointEnd(JlsCmdSet& cmdset, Msec msecDst, bool fo
 		}
 		valid = ( tgTry.tp != TargetScpType::Invalid );
 		if ( valid || var.seek.tgEnd.tp == TargetScpType::None ){
-			var.seek.tgEnd = tgTry;		// EndˆÊ’uXV
+			var.seek.tgEnd = tgTry;		// Endä½ç½®æ›´æ–°
 		}
 		return valid;
 	}
-	//--- ”ÍˆÍ‚©‚ç–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ğ‘I‘ğ ---
+	//--- ç¯„å›²ã‹ã‚‰ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‚’é¸æŠ ---
 	bool exist = false;
 	if ( !fixpos ){
-		Msec msecIn = tgTry.msec;	// EndŒŸõ‚Ì‹N“_
-		Nsc  nscAnd = -1;			// -EndNext* + -EndAnd ‚É‚æ‚éŒÀ’è
+		Msec msecIn = tgTry.msec;	// Endæ¤œç´¢ã®èµ·ç‚¹
+		Nsc  nscAnd = -1;			// -EndNext* + -EndAnd ã«ã‚ˆã‚‹é™å®š
 		if ( var.opt.getOptFlag(OptType::FlagEndAnd) ){		// -EndAnd
 			msecIn = msecBefore;
 			nscAnd = tgTry.nsc;
 		}
 		exist = seekTargetPointEndScp(cmdset, msecIn, msecDst, nscAnd);
 	}
-	//--- -EndŒnˆÊ’u‚ÉŠY“–‚È‚¢ê‡‚Ìˆ— ---
+	//--- -Endç³»ä½ç½®ã«è©²å½“ãªã„å ´åˆã®å‡¦ç† ---
 	if ( !exist ){
 		if ( force || var.seek.tgEnd.tp == TargetScpType::None ){
 			Msec msecLen = var.getPrepEndRangeForceLen();
@@ -1637,7 +1637,7 @@ bool JlsScriptLimit::seekTargetPointEnd(JlsCmdSet& cmdset, Msec msecDst, bool fo
 			var.seek.numListEnd = 0;
 			var.seek.statEnd    = ScpPriorType::SCP_PRIOR_NONE;
 			var.seek.gapEnd     = 0;
-			bool zone = var.isRangeToEndZone(msecDst, var.seek.tgEnd.msec);	// ZoneŠm”F
+			bool zone = var.isRangeToEndZone(msecDst, var.seek.tgEnd.msec);	// Zoneç¢ºèª
 			if ( zone ){
 				if ( force && pdata->isRangeInTotalMax(var.seek.tgEnd.msec) ){
 					var.seek.tgEnd.tp = TargetScpType::Force;
@@ -1649,7 +1649,7 @@ bool JlsScriptLimit::seekTargetPointEnd(JlsCmdSet& cmdset, Msec msecDst, bool fo
 	}
 	return ( var.seek.tgEnd.tp != TargetScpType::Invalid );
 }
-//--- ‘Š‘ÎENDˆÊ’u‚ÌQÆİ’è ---
+//--- ç›¸å¯¾ENDä½ç½®ã®å‚ç…§è¨­å®š ---
 void JlsScriptLimit::seekTargetPointEndRefer(TargetLocInfo& tgEnd, JlsCmdSet& cmdset, Msec msecIn){
 	Nsc  nscEnd = -1;
 	Msec msecEnd = msecIn;
@@ -1695,7 +1695,7 @@ void JlsScriptLimit::seekTargetPointEndRefer(TargetLocInfo& tgEnd, JlsCmdSet& cm
 		}
 	}
 	if ( !exist ) return;
-	//--- XV ---
+	//--- æ›´æ–° ---
 	if ( nscEnd >= 0 ){
 		tgEnd.tp   = TargetScpType::ScpNum;
 		tgEnd.nsc  = nscEnd;
@@ -1711,31 +1711,31 @@ void JlsScriptLimit::seekTargetPointEndRefer(TargetLocInfo& tgEnd, JlsCmdSet& cm
 		}
 	}
 }
-//--- ENDˆÊ’u‚ğ”ÍˆÍ‚©‚ç–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ğ‘I‘ğ ---
+//--- ENDä½ç½®ã‚’ç¯„å›²ã‹ã‚‰ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‚’é¸æŠ ---
 bool JlsScriptLimit::seekTargetPointEndScp(JlsCmdSet& cmdset, Msec msecIn, Msec msecDst, Nsc nscAnd){
-	//--- Še–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ÅğŒ‚É‡‚¤ˆê”Ô‹ß‚¢Š‚ğæ“¾ ---
+	//--- å„ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã§æ¡ä»¶ã«åˆã†ä¸€ç•ªè¿‘ã„æ‰€ã‚’å–å¾— ---
 	bool exist = false;
 	int nsize = var.sizePrepEndRange();
-	int nCheckMax = nsize - 1;		// Å‰‚Í‘SƒIƒvƒVƒ‡ƒ“ŒŸõ
+	int nCheckMax = nsize - 1;		// æœ€åˆã¯å…¨ã‚ªãƒ—ã‚·ãƒ§ãƒ³æ¤œç´¢
 	RangeNsc rnsc = var.seek.rnscScp;
 	for(int j=rnsc.st; j<=rnsc.ed; j++){
-		//--- ğŒ‚ğ–‚½‚³‚È‚¯‚ê‚ÎŸ‚ÌˆÊ’u‚Ö ---
+		//--- æ¡ä»¶ã‚’æº€ãŸã•ãªã‘ã‚Œã°æ¬¡ã®ä½ç½®ã¸ ---
 		if ( var.isScpEnableAtNsc(TargetCatType::End, j) == false ){
 			continue;
 		}
-		if ( nscAnd >= 0 && nscAnd != j ){		// -EndAnd‚Ì‚Í‘ÎÛˆÊ’u(nscAnd)‚ÉŒÀ’è
+		if ( nscAnd >= 0 && nscAnd != j ){		// -EndAndã®æ™‚ã¯å¯¾è±¡ä½ç½®(nscAnd)ã«é™å®š
 			continue;
 		}
 		ScpPriorType statNow = pdata->getPriorScp(j);
 		bool condPrior = false;
 		if ( exist && !var.opt.getOptFlag(OptType::FlagFlat) ){
-			if ( statNow < var.seek.statEnd ){	// \¬‚Ì—Dæ‡ˆÊ‚ªŒó•â‚æ‚è’á‚¢ˆÊ’u‚Íƒ`ƒFƒbƒNÈ—ª
+			if ( statNow < var.seek.statEnd ){	// æ§‹æˆã®å„ªå…ˆé †ä½ãŒå€™è£œã‚ˆã‚Šä½ã„ä½ç½®ã¯ãƒã‚§ãƒƒã‚¯çœç•¥
 				continue;
-			}else if ( statNow > var.seek.statEnd ){	// —Dæ‡ˆÊ‚ª‚‚¢
+			}else if ( statNow > var.seek.statEnd ){	// å„ªå…ˆé †ä½ãŒé«˜ã„æ™‚
 				condPrior = true;
 			}
 		}
-		//--- ŠeEndƒIƒvƒVƒ‡ƒ“ğŒ‚Æ”äŠr‚µ‚ÄÅ“KˆÊ’u‚ğæ“¾ ---
+		//--- å„Endã‚ªãƒ—ã‚·ãƒ§ãƒ³æ¡ä»¶ã¨æ¯”è¼ƒã—ã¦æœ€é©ä½ç½®ã‚’å–å¾— ---
 		Msec msecNow = pdata->getMsecScp(j);
 		bool det = false;
 		for(int k=0; k<=nCheckMax; k++){
@@ -1749,7 +1749,7 @@ bool JlsScriptLimit::seekTargetPointEndScp(JlsCmdSet& cmdset, Msec msecIn, Msec 
 				}
 				if ( det ){
 					exist   = true;
-					nCheckMax = k;		// ŒŸoÏƒIƒvƒVƒ‡ƒ“‚æ‚èŒã‚ÌŒó•â‚ÍˆÈ~–³‹‚·‚é
+					nCheckMax = k;		// æ¤œå‡ºæ¸ˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚ˆã‚Šå¾Œã®å€™è£œã¯ä»¥é™ç„¡è¦–ã™ã‚‹
 					var.seek.tgEnd.tp   = TargetScpType::ScpNum;
 					var.seek.tgEnd.nsc  = j;
 					var.seek.tgEnd.msec = msecNow;
@@ -1765,22 +1765,22 @@ bool JlsScriptLimit::seekTargetPointEndScp(JlsCmdSet& cmdset, Msec msecIn, Msec 
 	return exist;
 }
 //---------------------------------------------------------------------
-// ŒŸõŠJn‘O‚Ì€”õ
+// æ¤œç´¢é–‹å§‹å‰ã®æº–å‚™
 //---------------------------------------------------------------------
 void JlsScriptLimit::prepTargetPoint(JlsCmdSet& cmdset){
-	//--- EndˆÊ’u€”õ ---
+	//--- Endä½ç½®æº–å‚™ ---
 	prepTargetPointEnd(cmdset);
 }
-//--- ENDˆÊ’uİ’è ---
+//--- ENDä½ç½®è¨­å®š ---
 void JlsScriptLimit::prepTargetPointEnd(JlsCmdSet& cmdset){
-	//--- ‰Šú‰» ---
+	//--- åˆæœŸåŒ– ---
 	var.clearPrepEnd();
-	//--- ƒ}[ƒWƒ“İ’è ---
-	Msec msecMgnSpc   = pdata->msecValSpc;		// ŒŸõ—pƒfƒtƒHƒ‹ƒgƒ}[ƒWƒ“
-	if ( cmdset.arg.isSetOpt(OptType::MsecEmargin) ){	// ƒ}[ƒWƒ“İ’è‚ ‚ê‚Î•ÏX
+	//--- ãƒãƒ¼ã‚¸ãƒ³è¨­å®š ---
+	Msec msecMgnSpc   = pdata->msecValSpc;		// æ¤œç´¢ç”¨ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒãƒ¼ã‚¸ãƒ³
+	if ( cmdset.arg.isSetOpt(OptType::MsecEmargin) ){	// ãƒãƒ¼ã‚¸ãƒ³è¨­å®šã‚ã‚Œã°å¤‰æ›´
 		msecMgnSpc   = abs(cmdset.arg.getOpt(OptType::MsecEmargin));
 	}
-	//--- EndSftw’è ---
+	//--- EndSftæŒ‡å®š ---
 	bool existEndSft = false;
 	WideMsec wmsecEndSft;
 	if ( cmdset.arg.isSetOpt(OptType::MsecEndSftC) ){			// -EndSft
@@ -1789,11 +1789,11 @@ void JlsScriptLimit::prepTargetPointEnd(JlsCmdSet& cmdset){
 		wmsecEndSft.early = cmdset.arg.getOpt(OptType::MsecEndSftL);
 		wmsecEndSft.late  = cmdset.arg.getOpt(OptType::MsecEndSftR);
 	}
-	//--- End”ÍˆÍw’è ---
+	//--- Endç¯„å›²æŒ‡å®š ---
 	bool existEndLen = false;
-	if ( cmdset.arg.isSetOpt(OptType::MsecEndlenC) &&			// -EndLenİ’è‚ ‚è
-	    ( cmdset.arg.getOpt(OptType::MsecEndlenC) != 0 ||		// -EndLen 0ˆÈŠO
-	      cmdset.arg.getOptFlag(OptType::FlagReset) == false )){		// -reset‚È‚µ
+	if ( cmdset.arg.isSetOpt(OptType::MsecEndlenC) &&			// -EndLenè¨­å®šã‚ã‚Š
+	    ( cmdset.arg.getOpt(OptType::MsecEndlenC) != 0 ||		// -EndLen 0ä»¥å¤–
+	      cmdset.arg.getOptFlag(OptType::FlagReset) == false )){		// -resetãªã—
 		existEndLen = true;
 		WideMsec wmsec;
 		wmsec.just  = cmdset.arg.getOpt(OptType::MsecEndlenC);
@@ -1804,9 +1804,9 @@ void JlsScriptLimit::prepTargetPointEnd(JlsCmdSet& cmdset){
 			wmsec.early += wmsecEndSft.early;
 			wmsec.late  += wmsecEndSft.late;
 		}
-		var.addPrepEndRange(wmsec);	// Endİ’èƒŠƒXƒg’Ç‰Á
+		var.addPrepEndRange(wmsec);	// Endè¨­å®šãƒªã‚¹ãƒˆè¿½åŠ 
 	}
-	//--- End”ÍˆÍƒŠƒXƒgw’è ---
+	//--- Endç¯„å›²ãƒªã‚¹ãƒˆæŒ‡å®š ---
 	if ( cmdset.arg.isSetStrOpt(OptType::ListTgEnd) ){	// -EndList
 		existEndLen = true;
 		vector<Msec> listMsec;
@@ -1823,40 +1823,40 @@ void JlsScriptLimit::prepTargetPointEnd(JlsCmdSet& cmdset){
 					wmsec.early = listMsec[i] - msecMgnSpc;
 					wmsec.late  = listMsec[i] + msecMgnSpc;
 				}
-				var.addPrepEndRange(wmsec);	// Endİ’èƒŠƒXƒg’Ç‰Á
+				var.addPrepEndRange(wmsec);	// Endè¨­å®šãƒªã‚¹ãƒˆè¿½åŠ 
 			}
 		}
 	}
-	//--- EndSftw’èi•Û‘¶j ---
+	//--- EndSftæŒ‡å®šï¼ˆä¿å­˜ï¼‰ ---
 	if ( existEndSft && !var.isPrepEndRangeExist() ){
-		var.addPrepEndRange(wmsecEndSft);	// EndSftİ’èƒŠƒXƒg’Ç‰Á
+		var.addPrepEndRange(wmsecEndSft);	// EndSftè¨­å®šãƒªã‚¹ãƒˆè¿½åŠ 
 	}
-	//--- End‘OŒãˆÊ’uw’è ---
+	//--- Endå‰å¾Œä½ç½®æŒ‡å®š ---
 	bool existEndRefer = false;
 	if ( cmdset.arg.isSetOpt(OptType::NumEndNextL) ||	// -EndNextL
 		 cmdset.arg.isSetOpt(OptType::NumEndNextC) ){	// -EndNextC
 		existEndRefer = true;
 	}
 	var.setPrepEndRefer(existEndRefer);
-	//--- ŒÅ’è‚ÌENDˆÊ’uæ“¾ ---
+	//--- å›ºå®šã®ENDä½ç½®å–å¾— ---
 	TargetLocInfo tgEnd;
 	bool multiBase;
 	bool fromAbs = prepTargetPointEndAbs(tgEnd, multiBase, cmdset);
 	if ( !existEndLen && !existEndRefer ){
-		fromAbs = true;	// ‘Š‘Î-EndŒnƒIƒvƒVƒ‡ƒ“‚È‚¯‚ê‚ÎŠî€ˆÊ’u‚ğEnd‚É‚·‚é
+		fromAbs = true;	// ç›¸å¯¾-Endç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãªã‘ã‚Œã°åŸºæº–ä½ç½®ã‚’Endã«ã™ã‚‹
 	}
 	var.setPrepEndAbs(fromAbs, multiBase, tgEnd);
 }
-//--- ŒÅ’è‚ÌENDˆÊ’uæ“¾ ---
+//--- å›ºå®šã®ENDä½ç½®å–å¾— ---
 bool JlsScriptLimit::prepTargetPointEndAbs(TargetLocInfo& tgEnd, bool& multiBase, JlsCmdSet& cmdset){
-	//--- ƒ}[ƒWƒ“İ’è ---
-	Msec msecMgnSpc   = pdata->msecValSpc;		// ŒŸõ—pƒfƒtƒHƒ‹ƒgƒ}[ƒWƒ“
-	Msec msecMgnExact = pdata->msecValExact;	// ’¼ÚƒtƒŒ[ƒ€ˆÊ’uw’è‚ÍÅ¬ŒÀ‚Ì”ÍˆÍ
-	if ( cmdset.arg.isSetOpt(OptType::MsecEmargin) ){	// ƒ}[ƒWƒ“İ’è‚ ‚ê‚Î•ÏX
+	//--- ãƒãƒ¼ã‚¸ãƒ³è¨­å®š ---
+	Msec msecMgnSpc   = pdata->msecValSpc;		// æ¤œç´¢ç”¨ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒãƒ¼ã‚¸ãƒ³
+	Msec msecMgnExact = pdata->msecValExact;	// ç›´æ¥ãƒ•ãƒ¬ãƒ¼ãƒ ä½ç½®æŒ‡å®šæ™‚ã¯æœ€å°é™ã®ç¯„å›²
+	if ( cmdset.arg.isSetOpt(OptType::MsecEmargin) ){	// ãƒãƒ¼ã‚¸ãƒ³è¨­å®šã‚ã‚Œã°å¤‰æ›´
 		msecMgnSpc   = abs(cmdset.arg.getOpt(OptType::MsecEmargin));
 		msecMgnExact = abs(cmdset.arg.getOpt(OptType::MsecEmargin));
 	}
-	//--- ŒÅ’èENDˆÊ’u ---
+	//--- å›ºå®šENDä½ç½® ---
 	bool useBase = false;
 	tgEnd.nsc  = -1;
 	tgEnd.msec = -1;
@@ -1881,7 +1881,7 @@ bool JlsScriptLimit::prepTargetPointEndAbs(TargetLocInfo& tgEnd, bool& multiBase
 		string strList = cmdset.arg.getStrOpt(OptType::ListAbsSetFE);
 		if ( pdata->cnv.getListValMsecM1(listMsec, strList) ){
 			int nsize = (int) listMsec.size();
-			if ( nsize < 2 ) return false;		// •K‚¸2ƒf[ƒ^ƒZƒbƒg
+			if ( nsize < 2 ) return false;		// å¿…ãš2ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
 			int nlist = var.getLogoBaseListNum();
 			int ned = nlist * 2 + 1;
 			if ( ned <= 0 ) ned = 1;
@@ -1932,11 +1932,11 @@ bool JlsScriptLimit::prepTargetPointEndAbs(TargetLocInfo& tgEnd, bool& multiBase
 		useBase    = true;
 		multiBase  = var.isRangeDstMultiFrom();
 	}
-	//--- Šî€ˆÊ’u(from)w’è ---
+	//--- åŸºæº–ä½ç½®(from)æŒ‡å®šæ™‚ ---
 	if ( useBase ){
 		var.getRangeDstFromForScp(tgEnd.msec, tgEnd.msbk, tgEnd.nsc);
 	}
-	//--- •â³ ---
+	//--- è£œæ­£ ---
 	if ( tgEnd.msbk < 0 ){
 		tgEnd.msbk = tgEnd.msec;
 	}

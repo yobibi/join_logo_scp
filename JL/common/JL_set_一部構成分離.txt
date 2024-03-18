@@ -1,88 +1,88 @@
-# join_logo_scp—p‚ÌÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eFw’è‚µ‚½ˆê•”\¬‚Ì‚İ\¬‚ğ•ª—£‚·‚é
-#       ÅŒã‚ÌƒƒSŒã”¼85•b‚¾‚¯\¬‚ğ•ª—£‚·‚éİ’è
-#       ‹N“®ƒIƒvƒVƒ‡ƒ“ -odiv ‚Åƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚Ä‚¨‚­
-#       İ’è’l‚ğ•Ï‚¦‚½•¡”‰ñCall‚É‘Î‰‚µ‚Ä‚¢‚é
+# å†…å®¹ï¼šæŒ‡å®šã—ãŸä¸€éƒ¨æ§‹æˆã®ã¿æ§‹æˆã‚’åˆ†é›¢ã™ã‚‹
+#       æœ€å¾Œã®ãƒ­ã‚´å¾ŒåŠ85ç§’ã ã‘æ§‹æˆã‚’åˆ†é›¢ã™ã‚‹è¨­å®š
+#       èµ·å‹•æ™‚ã‚ªãƒ—ã‚·ãƒ§ãƒ³ -odiv ã§ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æŒ‡å®šã—ã¦ãŠã
+#       è¨­å®šå€¤ã‚’å¤‰ãˆãŸè¤‡æ•°å›Callã«å¯¾å¿œã—ã¦ã„ã‚‹
 #
 
 #----------------------------------------------
-# İ’èiİ’è’l‚ğ•Ï‚¦‚½•¡”‰ñCall‚É‘Î‰j
+# è¨­å®šï¼ˆè¨­å®šå€¤ã‚’å¤‰ãˆãŸè¤‡æ•°å›Callã«å¯¾å¿œï¼‰
 #----------------------------------------------
 ArgBegin
-Default divone_num   -1     # •ª—£‹N“_‚ÌƒƒS”Ô†iÅŒã‚©‚ç”‚¦‚é‚Íƒ}ƒCƒiƒXj
-Default divone_ch    E      # •ª—£‹N“_iS=ƒƒSŠJnˆÊ’u  E=ƒƒSI—¹ˆÊ’uj
-Default divone_len_s 0.0    # •ª—£‹N“_‚©‚ç‚Ì\¬n“_ˆÊ’u
-Default divone_len_e -85.0  # •ª—£‹N“_‚©‚ç‚Ì\¬I“_ˆÊ’u
-Default divone_div_s 0      # -odiv ‚Ån“_‚Ì•ªŠ„o—Íi0=‚È‚µ 1=‚ ‚èj
-Default divone_div_e 1      # -odiv ‚ÅI“_‚Ì•ªŠ„o—Íi0=‚È‚µ 1=‚ ‚èj
-Default divone_deltr 0      # —\“™ŒŸo‘O‚É\¬ˆêíœi0=‚È‚µ 1=‚ ‚èj
-Default divone_mgn   1.2    # \¬ˆÊ’u‚Ì–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWŒŸõ”ÍˆÍ
-Default divone_num_e ${divone_num}   # I“_—pi’è‹`‚È‚¯‚ê‚În“_‚Æ“¯‚¶j
-Default divone_ch_e  ${divone_ch}    # I“_—pi’è‹`‚È‚¯‚ê‚În“_‚Æ“¯‚¶j
+Default divone_num   -1     # åˆ†é›¢èµ·ç‚¹ã®ãƒ­ã‚´ç•ªå·ï¼ˆæœ€å¾Œã‹ã‚‰æ•°ãˆã‚‹æ™‚ã¯ãƒã‚¤ãƒŠã‚¹ï¼‰
+Default divone_ch    E      # åˆ†é›¢èµ·ç‚¹ï¼ˆS=ãƒ­ã‚´é–‹å§‹ä½ç½®  E=ãƒ­ã‚´çµ‚äº†ä½ç½®ï¼‰
+Default divone_len_s 0.0    # åˆ†é›¢èµ·ç‚¹ã‹ã‚‰ã®æ§‹æˆå§‹ç‚¹ä½ç½®
+Default divone_len_e -85.0  # åˆ†é›¢èµ·ç‚¹ã‹ã‚‰ã®æ§‹æˆçµ‚ç‚¹ä½ç½®
+Default divone_div_s 0      # -odiv ã§å§‹ç‚¹ã®åˆ†å‰²å‡ºåŠ›ï¼ˆ0=ãªã— 1=ã‚ã‚Šï¼‰
+Default divone_div_e 1      # -odiv ã§çµ‚ç‚¹ã®åˆ†å‰²å‡ºåŠ›ï¼ˆ0=ãªã— 1=ã‚ã‚Šï¼‰
+Default divone_deltr 0      # äºˆå‘Šç­‰æ¤œå‡ºå‰ã«æ§‹æˆä¸€æ™‚å‰Šé™¤ï¼ˆ0=ãªã— 1=ã‚ã‚Šï¼‰
+Default divone_mgn   1.2    # æ§‹æˆä½ç½®ã®ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸æ¤œç´¢ç¯„å›²
+Default divone_num_e ${divone_num}   # çµ‚ç‚¹ç”¨ï¼ˆå®šç¾©ãªã‘ã‚Œã°å§‹ç‚¹ã¨åŒã˜ï¼‰
+Default divone_ch_e  ${divone_ch}    # çµ‚ç‚¹ç”¨ï¼ˆå®šç¾©ãªã‘ã‚Œã°å§‹ç‚¹ã¨åŒã˜ï¼‰
 ArgEnd
 
 #----------------------------------------------
-# “®ì
+# å‹•ä½œ
 #----------------------------------------------
-# g—p‚·‚éƒOƒ[ƒoƒ‹•Ï”
-#  divide_pos_list  : -odiv ‚Åo—Í‚³‚ê‚é•ªŠ„o—ÍƒŠƒXƒg
-#  restore_pos_list : •ª—£‚·‚é“Æ—§\¬ˆÊ’uiŠJn‚ÆI—¹‚ÅƒZƒbƒgj
+# ä½¿ç”¨ã™ã‚‹ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
+#  divide_pos_list  : -odiv ã§å‡ºåŠ›ã•ã‚Œã‚‹åˆ†å‰²å‡ºåŠ›ãƒªã‚¹ãƒˆ
+#  restore_pos_list : åˆ†é›¢ã™ã‚‹ç‹¬ç«‹æ§‹æˆä½ç½®ï¼ˆé–‹å§‹ã¨çµ‚äº†ã§ã‚»ãƒƒãƒˆï¼‰
 
-LazyAuto   # ‚±‚Ìƒtƒ@ƒCƒ‹‚Í©“®‚ÅÀsƒ^ƒCƒ~ƒ“ƒO§Œä
+LazyAuto   # ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯è‡ªå‹•ã§å®Ÿè¡Œã‚¿ã‚¤ãƒŸãƒ³ã‚°åˆ¶å¾¡
 
-Call "JL_out_divfile.txt"     # •ªŠ„ƒtƒŒ[ƒ€ƒŠƒXƒgo—Íˆ—
+Call "JL_out_divfile.txt"     # åˆ†å‰²ãƒ•ãƒ¬ãƒ¼ãƒ ãƒªã‚¹ãƒˆå‡ºåŠ›å‡¦ç†
 
 
-#--- ‘ÎÛ\¬‚ªŒ©‚Â‚©‚Á‚½‚ç—\“™ŒŸo‘O‚Éˆ—Às ---
+#--- å¯¾è±¡æ§‹æˆãŒè¦‹ã¤ã‹ã£ãŸã‚‰äºˆå‘Šç­‰æ¤œå‡ºå‰ã«å‡¦ç†å®Ÿè¡Œ ---
 LazyStart -lazy_a
 {
-  #--- •ª—£ˆÊ’uƒŠƒXƒg–¢ì¬‚Ì‰Šú‰» ---
+  #--- åˆ†é›¢ä½ç½®ãƒªã‚¹ãƒˆæœªä½œæˆæ™‚ã®åˆæœŸåŒ– ---
   ListClear -default -RegList divide_pos_list
   ListClear -default -RegList restore_pos_list
-  #--- n“_‚ÆI“_‚Ì–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ğæ“¾ ---
+  #--- å§‹ç‚¹ã¨çµ‚ç‚¹ã®ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‚’å–å¾— ---
   GetPos ${divone_ch} ${divone_len_s} -Dm ${divone_mgn} -Nauto ${divone_num} -RegPos pos_s -local -clear
   GetPos ${divone_ch_e} ${divone_len_e} -Dm ${divone_mgn} -Nauto ${divone_num_e} -RegPos pos_e -local -clear
-  #--- Œ©‚Â‚©‚Á‚½‚ç•ªŠ„ˆ—‚ğŠJn ---
+  #--- è¦‹ã¤ã‹ã£ãŸã‚‰åˆ†å‰²å‡¦ç†ã‚’é–‹å§‹ ---
   If ${pos_s}>=0 && ${pos_e}>=0
-    #--- •ªŠ„ƒŠƒXƒgo—Íİ’è‚É]‚Á‚ÄƒŠƒXƒg‚É’Ç‰Á ---
-    If ${divone_div_s}>0         # n“_‚ğ•ªŠ„ˆÊ’u‚Åo—Í
+    #--- åˆ†å‰²ãƒªã‚¹ãƒˆå‡ºåŠ›è¨­å®šã«å¾“ã£ã¦ãƒªã‚¹ãƒˆã«è¿½åŠ  ---
+    If ${divone_div_s}>0         # å§‹ç‚¹ã‚’åˆ†å‰²ä½ç½®ã§å‡ºåŠ›
       GetPos S -fromabs ${pos_s}
-      ListIns -1 -RegList divide_pos_list    # •ªŠ„ƒŠƒXƒg‚É’Ç‰Á
+      ListIns -1 -RegList divide_pos_list    # åˆ†å‰²ãƒªã‚¹ãƒˆã«è¿½åŠ 
     EndIf
-    If ${divone_div_e}>0         # I“_‚ğ•ªŠ„ˆÊ’u‚Åo—Í
+    If ${divone_div_e}>0         # çµ‚ç‚¹ã‚’åˆ†å‰²ä½ç½®ã§å‡ºåŠ›
       GetPos S -fromabs ${pos_e}
-      ListIns -1 -RegList divide_pos_list    # •ªŠ„ƒŠƒXƒg‚É’Ç‰Á
+      ListIns -1 -RegList divide_pos_list    # åˆ†å‰²ãƒªã‚¹ãƒˆã«è¿½åŠ 
     EndIf
-    If $#{divide_pos_list}>0    # •ªŠ„ƒŠƒXƒg‘¶İ
-      ListIns  1 -RegList divide_pos_list -val 0   # •ªŠ„ƒŠƒXƒgæ“ªƒ_ƒ~[ƒf[ƒ^
-      ListSort   -RegList divide_pos_list -unique  # ¸‡‚É•À‚Ñ‘Ö‚¦
+    If $#{divide_pos_list}>0    # åˆ†å‰²ãƒªã‚¹ãƒˆå­˜åœ¨
+      ListIns  1 -RegList divide_pos_list -val 0   # åˆ†å‰²ãƒªã‚¹ãƒˆå…ˆé ­ãƒ€ãƒŸãƒ¼ãƒ‡ãƒ¼ã‚¿
+      ListSort   -RegList divide_pos_list -unique  # æ˜‡é †ã«ä¸¦ã³æ›¿ãˆ
     EndIf
-    #--- —Ìˆæ‚ğ•Û‘¶‚µİ’è‚É‚æ‚Á‚Äˆê“xíœ ---
-    If ${pos_s}<${pos_e}     # —Ìˆæ‚ÌŠJnEI—¹ˆÊ’uŠÖŒW
+    #--- é ˜åŸŸã‚’ä¿å­˜ã—è¨­å®šã«ã‚ˆã£ã¦ä¸€åº¦å‰Šé™¤ ---
+    If ${pos_s}<${pos_e}     # é ˜åŸŸã®é–‹å§‹ãƒ»çµ‚äº†ä½ç½®é–¢ä¿‚
       GetPos S -fromabs ${pos_s} -RegPos pos_rs -local
       GetPos E -fromabs ${pos_e} -RegPos pos_re -local
     Else
       GetPos S -fromabs ${pos_e} -RegPos pos_rs -local
       GetPos E -fromabs ${pos_s} -RegPos pos_re -local
     EndIf
-    ListIns -1 -RegList restore_pos_list -RegPos pos_rs  # ŠJnˆÊ’u•Û‘¶
-    ListIns -1 -RegList restore_pos_list -RegPos pos_re  # I—¹ˆÊ’u•Û‘¶
+    ListIns -1 -RegList restore_pos_list -RegPos pos_rs  # é–‹å§‹ä½ç½®ä¿å­˜
+    ListIns -1 -RegList restore_pos_list -RegPos pos_re  # çµ‚äº†ä½ç½®ä¿å­˜
     If ${divone_deltr}>0
-      AutoDel S -fromabs ${pos_rs} -EndAbs ${pos_re}     # —Ìˆæ‚ğíœ
+      AutoDel S -fromabs ${pos_rs} -EndAbs ${pos_re}     # é ˜åŸŸã‚’å‰Šé™¤
     EndIf
   EndIf
 }
 EndLazy
 
-#--- “Æ—§\¬ˆÊ’uƒŠƒXƒg‚Ì‹LÚ‚É]‚Á‚ÄAÅŒã‚É“Æ—§\¬‚Æ‚µ‚Ä’Ç‰Á‚·‚é ---
+#--- ç‹¬ç«‹æ§‹æˆä½ç½®ãƒªã‚¹ãƒˆã®è¨˜è¼‰ã«å¾“ã£ã¦ã€æœ€å¾Œã«ç‹¬ç«‹æ§‹æˆã¨ã—ã¦è¿½åŠ ã™ã‚‹ ---
 LazyStart -lazy_e
 {
-  If $#{restore_pos_list}>1    # •Û‘¶—ÌˆæƒZƒbƒg‚ª‘¶İ‚·‚éê‡
+  If $#{restore_pos_list}>1    # ä¿å­˜é ˜åŸŸã‚»ãƒƒãƒˆãŒå­˜åœ¨ã™ã‚‹å ´åˆ
     Repeat $#{restore_pos_list}/2
       AutoIns S -fromabs ${restore_pos_list[1]} -EndAbs ${restore_pos_list[2]} -unit
       ListDel 1 -RegList restore_pos_list
-      ListDel 1 -RegList restore_pos_list  # æ“ª‚Q€–Úíœ
+      ListDel 1 -RegList restore_pos_list  # å…ˆé ­ï¼’é …ç›®å‰Šé™¤
     EndRepeat
   EndIf
 }

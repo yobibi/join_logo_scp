@@ -1,5 +1,5 @@
-//
-// ƒŠƒXƒgƒf[ƒ^Šî–{ˆ—
+ï»¿//
+// ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿åŸºæœ¬å‡¦ç†
 //
 
 #include "stdafx.h"
@@ -9,37 +9,37 @@
 
 
 //---------------------------------------------------------------------
-// ‰Šú‰»
+// åˆæœŸåŒ–
 //---------------------------------------------------------------------
 void JlsScrFuncList::setDataPointer(JlsDataset *pdata){
 	this->pdata = pdata;
 }
 
 
-//--- ƒŠƒXƒg‚Ì€–Ú”‚ğ•Ô‚· ---
+//--- ãƒªã‚¹ãƒˆã®é …ç›®æ•°ã‚’è¿”ã™ ---
 int JlsScrFuncList::getListStrSize(const string& strList){
 	int numList = 0;
-	//--- ƒŠƒXƒg€–Ú”‚ğæ“¾ ---
+	//--- ãƒªã‚¹ãƒˆé …ç›®æ•°ã‚’å–å¾— ---
 	if ( isListStrEmpty(strList) == false ){
-		//--- CommaŠi”[—p“Áê•¶š—ñ‚ÌŠm”F ---
+		//--- Commaæ ¼ç´ç”¨ç‰¹æ®Šæ–‡å­—åˆ—ã®ç¢ºèª ---
 		int posCmmSt;
 		int posCmmEd;
 		bool flagComma = getListStrCommaCheck(posCmmSt, posCmmEd, strList, 0);
 		bool flagNoDetect = false;
-		//--- ‡”Ô‚ÉŒŸõ ---
+		//--- é †ç•ªã«æ¤œç´¢ ---
 		numList = 1;
 		bool flagFirstChar = true;
 		for(int i=0; i < (int)strList.size(); i++){
-			//--- CommaŠi”[—p“Áê•¶š—ñ‚ÌŠm”F ---
-			if ( flagNoDetect ){		// “Áê•¶š—ñŠúŠÔ’†
+			//--- Commaæ ¼ç´ç”¨ç‰¹æ®Šæ–‡å­—åˆ—ã®ç¢ºèª ---
+			if ( flagNoDetect ){		// ç‰¹æ®Šæ–‡å­—åˆ—æœŸé–“ä¸­
 				if ( i == posCmmEd ){
 					flagNoDetect = false;
 				}
 			}else{
-				if ( flagComma ){	// “Áê•¶š—ñ‚ ‚è
+				if ( flagComma ){	// ç‰¹æ®Šæ–‡å­—åˆ—ã‚ã‚Š
 					if ( i == posCmmSt && flagFirstChar ){
 						flagNoDetect = true;
-					}else if ( i > posCmmSt ){	// Ÿ‚Ì“Áê•¶š—ñ‚ğæ“¾
+					}else if ( i > posCmmSt ){	// æ¬¡ã®ç‰¹æ®Šæ–‡å­—åˆ—ã‚’å–å¾—
 						flagComma = getListStrCommaCheck(posCmmSt, posCmmEd, strList, i);
 					}
 				}
@@ -54,13 +54,13 @@ int JlsScrFuncList::getListStrSize(const string& strList){
 	}
 	return numList;
 }
-//--- ƒŠƒXƒgemptyŠm”F ---
+//--- ãƒªã‚¹ãƒˆemptyç¢ºèª ---
 bool JlsScrFuncList::isListStrEmpty(const string& strList){
 	if ( strList == DefStrEmpty ) return true;
 	return strList.empty();
 
 }
-//--- Comma‚ªƒŠƒXƒg•Ï”“à‚ÉŠÜ‚Şê‡‚Ì“Áê•¶š—ñŠJn‚©‚çI—¹‚Ü‚Å‚Ì•¶š—ñˆÊ’uæ“¾ ---
+//--- CommaãŒãƒªã‚¹ãƒˆå¤‰æ•°å†…ã«å«ã‚€å ´åˆã®ç‰¹æ®Šæ–‡å­—åˆ—é–‹å§‹ã‹ã‚‰çµ‚äº†ã¾ã§ã®æ–‡å­—åˆ—ä½ç½®å–å¾— ---
 bool JlsScrFuncList::getListStrCommaCheck(int& posSt, int& posEd, const string& strList, int pos){
 	bool flagComma = false;
 	posSt = -1;
@@ -68,7 +68,7 @@ bool JlsScrFuncList::getListStrCommaCheck(int& posSt, int& posEd, const string& 
 	auto posIn = strList.find(DefStrCommaIn, pos);
 	if ( posIn != string::npos ){
 		posSt = (int) posIn;
-		int nMatch = 1;		// ƒlƒXƒg”
+		int nMatch = 1;		// ãƒã‚¹ãƒˆæ•°
 		auto posOut = strList.find(DefStrCommaOut, posSt+1);
 		posIn = strList.find(DefStrCommaIn, posSt+1);
 		while( nMatch > 0 ){
@@ -101,28 +101,28 @@ bool JlsScrFuncList::getListStrCommaCheck(int& posSt, int& posEd, const string& 
 	}
 	return flagComma;
 }
-//--- ƒŠƒXƒg•Ï”‚É“ü‚ê‚é—v‘f•¶š—ñ‚ğæ“¾iComma‘Îô‚ğ•t‰Áj ---
+//--- ãƒªã‚¹ãƒˆå¤‰æ•°ã«å…¥ã‚Œã‚‹è¦ç´ æ–‡å­—åˆ—ã‚’å–å¾—ï¼ˆCommaå¯¾ç­–ã‚’ä»˜åŠ ï¼‰ ---
 void JlsScrFuncList::getListStrBaseStore(string& strStore, const string& strRaw){
 	bool need = false;
-	//--- ƒf[ƒ^‚È‚µƒf[ƒ^‚Ì‘}“ü‚Í“Áê•¶š—ñ‚É‚·‚é ---
+	//--- ãƒ‡ãƒ¼ã‚¿ãªã—ãƒ‡ãƒ¼ã‚¿ã®æŒ¿å…¥ã¯ç‰¹æ®Šæ–‡å­—åˆ—ã«ã™ã‚‹ ---
 	if ( isListStrEmpty(strRaw) ){
 		need = true;
 	}
-	//--- Comma‚ªŠÜ‚Ü‚ê‚Ä‚¢‚½‚ç“Áê•¶š—ñ‚É‚·‚é ---
+	//--- CommaãŒå«ã¾ã‚Œã¦ã„ãŸã‚‰ç‰¹æ®Šæ–‡å­—åˆ—ã«ã™ã‚‹ ---
 	if ( strRaw.find(",") != string::npos ){
 		need = true;
 	}
-	//--- ˆ— ---
+	//--- å‡¦ç† ---
 	if ( need ){
 		strStore = DefStrCommaIn + strRaw + DefStrCommaOut;
 	}else{
 		strStore = strRaw;
 	}
 }
-//--- ƒŠƒXƒg•Ï”‚©‚ç—v‘f•¶š—ñ‚ğæ‚èo‚µiComma‘Îô‚ğ‰ğœj ---
+//--- ãƒªã‚¹ãƒˆå¤‰æ•°ã‹ã‚‰è¦ç´ æ–‡å­—åˆ—ã‚’å–ã‚Šå‡ºã—ï¼ˆCommaå¯¾ç­–ã‚’è§£é™¤ï¼‰ ---
 void JlsScrFuncList::getListStrBaseLoad(string& strRaw, const string& strStore){
 	strRaw = strStore;
-	//--- “Áê•¶š—ñŠm”F ---
+	//--- ç‰¹æ®Šæ–‡å­—åˆ—ç¢ºèª ---
 	if ( strStore.find(DefStrCommaIn) == 0 ){
 		int posSt;
 		int posEd;
@@ -133,23 +133,23 @@ void JlsScrFuncList::getListStrBaseLoad(string& strRaw, const string& strStore){
 		}
 	}
 }
-//--- w’è€–Ú‚Ì‚ ‚éŠJnˆÊ’u‚Æ•¶š—ñ’·‚ğ•Ô‚·B€–Ú”num>0‚Ì‚İ‘Î‰ ---
+//--- æŒ‡å®šé …ç›®ã®ã‚ã‚‹é–‹å§‹ä½ç½®ã¨æ–‡å­—åˆ—é•·ã‚’è¿”ã™ã€‚é …ç›®æ•°num>0ã®ã¿å¯¾å¿œ ---
 bool JlsScrFuncList::getListStrBasePosItem(int& posItem, int& lenItem, const string& strList, int num){
-	//--- CommaŠi”[—p“Áê•¶š—ñ‚ÌŠm”F ---
+	//--- Commaæ ¼ç´ç”¨ç‰¹æ®Šæ–‡å­—åˆ—ã®ç¢ºèª ---
 	int posCmmSt;
 	int posCmmEd;
 	bool flagComma = getListStrCommaCheck(posCmmSt, posCmmEd, strList, 0);
-	//--- ‡”Ô‚ÉˆÊ’uŠm”F ---
+	//--- é †ç•ªã«ä½ç½®ç¢ºèª ---
 	int nCur = 0;
 	int pos = -1;
 	int posNext = 0;
 	while ( posNext >= 0 && nCur < num && num > 0 ){
 		pos = posNext;
-		//--- Ÿ‚Ì“Áê•¶š—ñ‚ğæ“¾ ---
+		//--- æ¬¡ã®ç‰¹æ®Šæ–‡å­—åˆ—ã‚’å–å¾— ---
 		if ( pos > posCmmSt && flagComma ){
 			flagComma = getListStrCommaCheck(posCmmSt, posCmmEd, strList, pos);
 		}
-		//--- Ÿ‚Ì€–ÚˆÊ’u ---
+		//--- æ¬¡ã®é …ç›®ä½ç½® ---
 		int posSend = pos;
 		if ( pos == posCmmSt && flagComma ){
 			posSend = posCmmEd;
@@ -162,7 +162,7 @@ bool JlsScrFuncList::getListStrBasePosItem(int& posItem, int& lenItem, const str
 		}
 		nCur ++;
 	}
-	//--- Œ‹‰ÊˆÊ’u‚ÌŠi”[ ---
+	//--- çµæœä½ç½®ã®æ ¼ç´ ---
 	if ( pos >= 0 && nCur == num ){
 		posItem = pos;
 		if ( pos <= posNext ){
@@ -176,15 +176,15 @@ bool JlsScrFuncList::getListStrBasePosItem(int& posItem, int& lenItem, const str
 	lenItem = 0;
 	return false;
 }
-//--- ƒŠƒXƒg‚Ìw’è€–ÚˆÊ’u‚ª•¶š—ñ‚Ì‰½”Ô–Ú‚¨‚æ‚Ñ•¶š—ñ’·‚ğæ“¾ ---
+//--- ãƒªã‚¹ãƒˆã®æŒ‡å®šé …ç›®ä½ç½®ãŒæ–‡å­—åˆ—ã®ä½•ç•ªç›®ãŠã‚ˆã³æ–‡å­—åˆ—é•·ã‚’å–å¾— ---
 bool JlsScrFuncList::getListStrPosItem(int& posItem, int& lenItem, const string& strList, int num, bool flagIns){
-	int numList = getListStrSize(strList);	// €–Ú”æ“¾
-	//--- €–Ú‚ğæ“¾ ---
+	int numList = getListStrSize(strList);	// é …ç›®æ•°å–å¾—
+	//--- é …ç›®ã‚’å–å¾— ---
 	int numAbs = ( num >= 0 )? num : numList + num + 1;
-	if ( flagIns && num < 0 ){		// Ins‚ÍÅ‘å€–Ú”‚ª‚P‘½‚¢
+	if ( flagIns && num < 0 ){		// Insæ™‚ã¯æœ€å¤§é …ç›®æ•°ãŒï¼‘å¤šã„
 		numAbs += 1;
 	}
-	//--- ‘}“ü‚ÌÅŒã”ö ---
+	//--- æŒ¿å…¥æ™‚ã®æœ€å¾Œå°¾ ---
 	if ( numAbs > 0 && (numAbs == numList + 1) && flagIns ){
 		posItem = (int)strList.size();
 		if ( numList == 0 ){
@@ -195,10 +195,10 @@ bool JlsScrFuncList::getListStrPosItem(int& posItem, int& lenItem, const string&
 	}else if ( numAbs > numList || numAbs == 0 ){
 		return false;
 	}
-	//--- ˆÊ’u‚ğæ“¾ ---
+	//--- ä½ç½®ã‚’å–å¾— ---
 	return getListStrBasePosItem(posItem, lenItem, strList, numAbs);
 }
-//--- ƒŠƒXƒg‚Ìw’è€–ÚˆÊ’u‚ª•¶š—ñ‚Ì‰½”Ô–Ú‚©æ“¾ ---
+//--- ãƒªã‚¹ãƒˆã®æŒ‡å®šé …ç›®ä½ç½®ãŒæ–‡å­—åˆ—ã®ä½•ç•ªç›®ã‹å–å¾— ---
 int JlsScrFuncList::getListStrPosHead(const string& strList, int num, bool flagIns){
 	int posItem;
 	int lenItem;
@@ -207,57 +207,57 @@ int JlsScrFuncList::getListStrPosHead(const string& strList, int num, bool flagI
 	}
 	return -1;
 }
-//--- ƒŠƒXƒg‚Ìw’è€–ÚˆÊ’u‚É‚ ‚é•¶š—ñ‚ğ•Ô‚· ---
+//--- ãƒªã‚¹ãƒˆã®æŒ‡å®šé …ç›®ä½ç½®ã«ã‚ã‚‹æ–‡å­—åˆ—ã‚’è¿”ã™ ---
 bool JlsScrFuncList::getListStrElement(string& strItem, const string& strList, int num){
 	strItem = "";
 	bool flagIns = false;
-	//--- ƒŠƒXƒg“à‚ÌˆÊ’uæ“¾ ---
+	//--- ãƒªã‚¹ãƒˆå†…ã®ä½ç½®å–å¾— ---
 	int posItem;
 	int lenItem;
 	if ( getListStrPosItem(posItem, lenItem, strList, num, flagIns) ){
 		string strStore = strList.substr(posItem, lenItem);
-		getListStrBaseLoad(strItem, strStore);		// ƒŠƒXƒg•ÛŠÇ—p“Áê•¶š—ñ‚©‚ç•œŒ³
+		getListStrBaseLoad(strItem, strStore);		// ãƒªã‚¹ãƒˆä¿ç®¡ç”¨ç‰¹æ®Šæ–‡å­—åˆ—ã‹ã‚‰å¾©å…ƒ
 		return true;
 	}
 	return false;
 }
-//--- ‹óƒŠƒXƒg‚Ì•â³ ---
+//--- ç©ºãƒªã‚¹ãƒˆæ™‚ã®è£œæ­£ ---
 void JlsScrFuncList::revListStrEmpty(string& strList){
 	if ( strList.empty() ){
 		setListStrClear(strList);
 	}
 }
-//--- ƒŠƒXƒg‰Šú‰» ---
+//--- ãƒªã‚¹ãƒˆåˆæœŸåŒ– ---
 void JlsScrFuncList::setListStrClear(string& strList){
 	strList = DefStrEmpty;
 }
-//--- ƒŠƒXƒg€–Ú”¶¬{‰Šú‰» ---
+//--- ãƒªã‚¹ãƒˆé …ç›®æ•°ç”Ÿæˆï¼‹åˆæœŸåŒ– ---
 void JlsScrFuncList::setListStrDim(string& strList, int nDim, string strVal){
 	setListStrClear(strList);
 	for(int i=0; i<nDim; i++){
 		setListStrIns(strList, strVal, -1);
 	}
 }
-//--- ƒŠƒXƒg‚Ìw’è€–ÚˆÊ’u‚É•¶š—ñ‚ğ‘}“ü ---
+//--- ãƒªã‚¹ãƒˆã®æŒ‡å®šé …ç›®ä½ç½®ã«æ–‡å­—åˆ—ã‚’æŒ¿å…¥ ---
 bool JlsScrFuncList::setListStrIns(string& strList, const string& strItem, int num){
 	int lenList = (int)strList.length();
-	//--- ‘ÎÛ€–Ú‚Ìæ“ªˆÊ’uæ“¾ ---
+	//--- å¯¾è±¡é …ç›®ã®å…ˆé ­ä½ç½®å–å¾— ---
 	bool flagIns = true;
 	int locSt   = getListStrPosHead(strList, num, flagIns);
 	if ( locSt < 0 ){
 		return false;
 	}
-	//--- •ÛŠÇ—p•¶š—ñì¬ ---
+	//--- ä¿ç®¡ç”¨æ–‡å­—åˆ—ä½œæˆ ---
 	string strStore;
 	getListStrBaseStore(strStore, strItem);
-	//--- ‘}“üˆ— ---
-	if ( locSt == 0 ){			// æ“ª€–Ú
-		if ( isListStrEmpty(strList) ){	// €–Ú‚È‚µ‚Ì
+	//--- æŒ¿å…¥å‡¦ç† ---
+	if ( locSt == 0 ){			// å…ˆé ­é …ç›®
+		if ( isListStrEmpty(strList) ){	// é …ç›®ãªã—ã®æ™‚
 			strList = strStore;
 		}else{
 			strList = strStore + "," + strList;
 		}
-	}else if ( locSt == lenList ){	// ÅŒã
+	}else if ( locSt == lenList ){	// æœ€å¾Œ
 		strList = strList + "," + strStore;
 	}else{
 		string strTmp = strList.substr(locSt-1);
@@ -269,21 +269,21 @@ bool JlsScrFuncList::setListStrIns(string& strList, const string& strItem, int n
 	}
 	return true;
 }
-//--- ƒŠƒXƒg‚Ìw’è€–ÚˆÊ’u‚Ì•¶š—ñ‚ğíœ ---
+//--- ãƒªã‚¹ãƒˆã®æŒ‡å®šé …ç›®ä½ç½®ã®æ–‡å­—åˆ—ã‚’å‰Šé™¤ ---
 bool JlsScrFuncList::setListStrDel(string& strList, int num){
 	int lenList = (int)strList.length();
-	//--- ‘ÎÛ€–Ú‚Ìæ“ªˆÊ’u‚Æ•¶š”‚ğæ“¾ ---
+	//--- å¯¾è±¡é …ç›®ã®å…ˆé ­ä½ç½®ã¨æ–‡å­—æ•°ã‚’å–å¾— ---
 	bool flagIns = false;
-	//--- ƒŠƒXƒg“à‚ÌˆÊ’uæ“¾ ---
+	//--- ãƒªã‚¹ãƒˆå†…ã®ä½ç½®å–å¾— ---
 	int posItem;
 	int lenItem;
 	if ( getListStrPosItem(posItem, lenItem, strList, num, flagIns) == false ){
 		return false;
 	}
-	//--- íœˆ— ---
+	//--- å‰Šé™¤å‡¦ç† ---
 	if ( posItem == 0 ){
 		if ( lenItem >= lenList ){
-			setListStrClear(strList);	// 1€–Ú‚Ì‚¾‚¯‹ó•¶šİ’è
+			setListStrClear(strList);	// 1é …ç›®ã®æ™‚ã ã‘ç©ºæ–‡å­—è¨­å®š
 		}else{
 			strList = strList.substr(lenItem + 1);
 		}
@@ -298,7 +298,7 @@ bool JlsScrFuncList::setListStrDel(string& strList, int num){
 	}
 	return true;
 }
-//--- ƒŠƒXƒg‚Ìw’è€–ÚˆÊ’u‚Ì•¶š—ñ‚ğ’uŠ· ---
+//--- ãƒªã‚¹ãƒˆã®æŒ‡å®šé …ç›®ä½ç½®ã®æ–‡å­—åˆ—ã‚’ç½®æ› ---
 bool JlsScrFuncList::setListStrRep(string& strList, const string& strItem, int num){
 	if ( setListStrDel(strList, num) ){
 		if ( setListStrIns(strList, strItem, num) ){
@@ -307,13 +307,13 @@ bool JlsScrFuncList::setListStrRep(string& strList, const string& strItem, int n
 	}
 	return false;
 }
-//--- ƒŠƒXƒg“à‚Ìw’è”Ô†i”ÍˆÍw’è‰Â”\j‚Ì‚İ‘I‘ğ ---
+//--- ãƒªã‚¹ãƒˆå†…ã®æŒ‡å®šç•ªå·ï¼ˆç¯„å›²æŒ‡å®šå¯èƒ½ï¼‰ã®ã¿é¸æŠ ---
 bool JlsScrFuncList::setListStrSel(string& strList, const string& strNumMulti){
 	string strNum;
 	if ( pdata->cnv.getStrMultiNum(strNum, strNumMulti, 0) < 0 ){
-		return false;		// ˆÙíw’è‚ÌŠm”F
+		return false;		// ç•°å¸¸æŒ‡å®šã®ç¢ºèª
 	}
-	int numMax = getListStrSize(strList);	// €–Ú”æ“¾
+	int numMax = getListStrSize(strList);	// é …ç›®æ•°å–å¾—
 	vector<string> listResult;
 	for(int i=1; i<=numMax; i++){
 		if ( pdata->cnv.isStrMultiNumIn(strNum, i, numMax) ){
@@ -323,18 +323,18 @@ bool JlsScrFuncList::setListStrSel(string& strList, const string& strNumMulti){
 			}
 		}
 	}
-	//--- Œ‹‰ÊŠi”[ ---
+	//--- çµæœæ ¼ç´ ---
 	setListStrClear(strList);
 	for(auto i=0; i<(int)strList.size(); i++){
 		setListStrIns(strList, listResult[i], -1);
 	}
 	return true;
 }
-//--- ƒŠƒXƒgƒf[ƒ^‚©‚ç”äŠrƒŠƒXƒg“à‚Ìƒf[ƒ^‚ğíœ ---
+//--- ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã‹ã‚‰æ¯”è¼ƒãƒªã‚¹ãƒˆå†…ã®ãƒ‡ãƒ¼ã‚¿ã‚’å‰Šé™¤ ---
 bool JlsScrFuncList::setListStrRemove(string& strListDat, const string& strListCmp){
-	//--- ƒŠƒXƒgƒf[ƒ^€–Ú‚ğæ“¾ ---
-	int numListDat = getListStrSize(strListDat);	// €–Ú”æ“¾
-	int numListCmp = getListStrSize(strListCmp);	// €–Ú”æ“¾
+	//--- ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿é …ç›®ã‚’å–å¾— ---
+	int numListDat = getListStrSize(strListDat);	// é …ç›®æ•°å–å¾—
+	int numListCmp = getListStrSize(strListCmp);	// é …ç›®æ•°å–å¾—
 	bool success = true;
 	vector<string> listStrCmp;
 	for(int i=1; i<=numListCmp; i++){
@@ -346,7 +346,7 @@ bool JlsScrFuncList::setListStrRemove(string& strListDat, const string& strListC
 		}
 	}
 	if ( !success ) return false;
-	//--- ˆê’vƒf[ƒ^‚Ííœ ---
+	//--- ä¸€è‡´ãƒ‡ãƒ¼ã‚¿ã¯å‰Šé™¤ ---
 	for(int i=numListDat; i>=1; i--){
 		string strDat;
 		if ( !getListStrElement(strDat, strListDat, i) ){
@@ -365,37 +365,37 @@ bool JlsScrFuncList::setListStrRemove(string& strListDat, const string& strListC
 	}
 	return success;
 }
-//--- —Ìˆæw’è‚ÅƒŠƒXƒg—Ìˆæ‚©‚ç”äŠrƒŠƒXƒg—Ìˆæ‚ğœ‹ ---
+//--- é ˜åŸŸæŒ‡å®šã§ãƒªã‚¹ãƒˆé ˜åŸŸã‹ã‚‰æ¯”è¼ƒãƒªã‚¹ãƒˆé ˜åŸŸã‚’é™¤å» ---
 bool JlsScrFuncList::setListStrRemoveLap(string& strListDat, const string& strListCmp){
-	//--- ”äŠrƒf[ƒ^‚ğ”’l‚Æ‚µ‚Äƒ\[ƒg ---
+	//--- æ¯”è¼ƒãƒ‡ãƒ¼ã‚¿ã‚’æ•°å€¤ã¨ã—ã¦ã‚½ãƒ¼ãƒˆ ---
 	string strListSortCmp = strListCmp;
 	if ( !setListStrSortLap(strListSortCmp, true) ){
 		return false;
 	}
-	//--- ”’lƒf[ƒ^‚ğæ“¾i”äŠrƒf[ƒ^‚Íƒ\[ƒgŒãj ---
+	//--- æ•°å€¤ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ï¼ˆæ¯”è¼ƒãƒ‡ãƒ¼ã‚¿ã¯ã‚½ãƒ¼ãƒˆå¾Œï¼‰ ---
 	vector<Msec> listMsecDat;
 	vector<Msec> listMsecCmp;
 	int numListDat = getListStrSize(strListDat);
 	if ( numListDat > 0 ){
 		if ( !pdata->cnv.getListValMsec(listMsecDat, strListDat) ) return false;
-		if ( numListDat != (int) listMsecDat.size() ) return false;	// €–Ú”æ“¾
+		if ( numListDat != (int) listMsecDat.size() ) return false;	// é …ç›®æ•°å–å¾—
 	}
 	int numListCmp = getListStrSize(strListSortCmp);
 	if ( numListCmp > 0 ){
 		if ( !pdata->cnv.getListValMsec(listMsecCmp, strListSortCmp) ) return false;
-		if ( numListCmp != (int) listMsecCmp.size() ) return false;	// €–Ú”æ“¾
+		if ( numListCmp != (int) listMsecCmp.size() ) return false;	// é …ç›®æ•°å–å¾—
 	}
 	if ( numListDat % 2 != 0 ){
 		return false;
 	}
-	//--- o—Í—pƒf[ƒ^ƒŠƒXƒg‚ğì¬ ---
+	//--- å‡ºåŠ›ç”¨ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆã‚’ä½œæˆ ---
 	vector<string> listStrDat;
 	for(int i=1; i<=numListDat; i++){
 		string strItem;
 		getListStrElement(strItem, strListDat, i);
 		listStrDat.push_back(strItem);
 	}
-	//--- ˆê’vƒf[ƒ^‚Ííœ ---
+	//--- ä¸€è‡´ãƒ‡ãƒ¼ã‚¿ã¯å‰Šé™¤ ---
 	vector<string> listResult;
 	for(int i=0; i<numListDat-1; i+=2){
 		Msec msecMgn = pdata->msecValExact;
@@ -436,16 +436,16 @@ bool JlsScrFuncList::setListStrRemoveLap(string& strListDat, const string& strLi
 			remain = false;
 		}
 	}
-	//--- Œ‹‰ÊŠi”[ ---
+	//--- çµæœæ ¼ç´ ---
 	setListStrClear(strListDat);
 	for(auto i=0; i<(int)listResult.size(); i++){
 		setListStrIns(strListDat, listResult[i], -1);
 	}
 	return true;
 }
-//--- ƒŠƒXƒgƒf[ƒ^‚ğ¸‡‚Éƒ\[ƒg ---
+//--- ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’æ˜‡é †ã«ã‚½ãƒ¼ãƒˆ ---
 bool JlsScrFuncList::setListStrSort(string& strList, bool flagUni){
-	//--- ƒ\[ƒg—p ---
+	//--- ã‚½ãƒ¼ãƒˆç”¨ ---
 	struct data_t {
 		Msec ms;
 		string str;
@@ -456,12 +456,12 @@ bool JlsScrFuncList::setListStrSort(string& strList, bool flagUni){
 			return ms == right.ms;
 		}
 	};
-	//--- ƒŠƒXƒg“àƒf[ƒ^” ---
-	int numList = getListStrSize(strList);	// €–Ú”æ“¾
+	//--- ãƒªã‚¹ãƒˆå†…ãƒ‡ãƒ¼ã‚¿æ•° ---
+	int numList = getListStrSize(strList);	// é …ç›®æ•°å–å¾—
 	if ( numList == 0 ){
 		return true;
 	}
-	//--- ƒŠƒXƒgƒf[ƒ^‚ğæ“¾‚µ”äŠr—p‚Ì’l‚É•ÏŠ· ---
+	//--- ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã—æ¯”è¼ƒç”¨ã®å€¤ã«å¤‰æ› ---
 	vector<data_t>  listSort;
 	for(int i=1; i<=numList; i++){
 		string strItem;
@@ -475,12 +475,12 @@ bool JlsScrFuncList::setListStrSort(string& strList, bool flagUni){
 			}
 		}
 	}
-	//--- ƒ\[ƒg ---
+	//--- ã‚½ãƒ¼ãƒˆ ---
 	std::sort(listSort.begin(), listSort.end());
-	if ( flagUni ){		// d•¡—v‘f‚Ìíœ
+	if ( flagUni ){		// é‡è¤‡è¦ç´ ã®å‰Šé™¤
 		listSort.erase(std::unique(listSort.begin(), listSort.end()), listSort.end());
 	}
-	//--- ƒŠƒXƒg‘‚«Š·‚¦ ---
+	//--- ãƒªã‚¹ãƒˆæ›¸ãæ›ãˆ ---
 	bool success = false;
 	setListStrClear(strList);
 	int numSort = (int)listSort.size();
@@ -493,9 +493,9 @@ bool JlsScrFuncList::setListStrSort(string& strList, bool flagUni){
 	return success;
 }
 
-//--- ƒŠƒXƒgƒf[ƒ^iƒƒSˆÊ’u—poverwritej‚ğ¸‡‚Éƒ\[ƒg ---
+//--- ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ï¼ˆãƒ­ã‚´ä½ç½®ç”¨overwriteï¼‰ã‚’æ˜‡é †ã«ã‚½ãƒ¼ãƒˆ ---
 bool JlsScrFuncList::setListStrSortLap(string& strList, bool merge){
-	//--- ƒ\[ƒg—p ---
+	//--- ã‚½ãƒ¼ãƒˆç”¨ ---
 	struct data_t2 {
 		Msec ms;
 		Msec ms2;
@@ -508,12 +508,12 @@ bool JlsScrFuncList::setListStrSortLap(string& strList, bool merge){
 			return ms == right.ms;
 		}
 	};
-	//--- ƒŠƒXƒg“àƒf[ƒ^” ---
-	int numList = getListStrSize(strList);	// €–Ú”æ“¾
+	//--- ãƒªã‚¹ãƒˆå†…ãƒ‡ãƒ¼ã‚¿æ•° ---
+	int numList = getListStrSize(strList);	// é …ç›®æ•°å–å¾—
 	if ( numList == 0 ){
 		return true;
 	}
-	//--- ƒŠƒXƒgƒf[ƒ^‚ğæ“¾‚µ”äŠr—p‚Ì’l‚É•ÏŠ· ---
+	//--- ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã—æ¯”è¼ƒç”¨ã®å€¤ã«å¤‰æ› ---
 	vector<data_t2>  listSort;
 	for(int i=1; i<=numList-1; i+=2){
 		string strItem1;
@@ -535,25 +535,25 @@ bool JlsScrFuncList::setListStrSortLap(string& strList, bool merge){
 			}
 		}
 	}
-	//--- ƒ\[ƒg ---
+	//--- ã‚½ãƒ¼ãƒˆ ---
 	std::sort(listSort.begin(), listSort.end());
-	//--- overwriteŒ‹‡ ---
+	//--- overwriteçµåˆ ---
 	Msec msecMgn = ( merge )? pdata->msecValExact : 0;
 	int numSort = (int)listSort.size();
 	for(int i=numSort-1; i>=1; i--){
 		Msec msa1 = listSort[i].ms;
 		Msec msa2 = listSort[i].ms2;
 		Msec msb2 = listSort[i-1].ms2;
-		if ( msa1 <= msb2 + msecMgn ){		// d‚È‚Á‚½‚ÍŒ‹‡‚·‚é
+		if ( msa1 <= msb2 + msecMgn ){		// é‡ãªã£ãŸæ™‚ã¯çµåˆã™ã‚‹
 			if ( msb2 < msa2 ){
 				msb2 = msa2;
 				listSort[i-1].ms2 = listSort[i].ms2;
 				listSort[i-1].str2 = listSort[i].str2;
 			}
-			listSort.erase(listSort.begin() + i);	// Œ‹‡íœ
+			listSort.erase(listSort.begin() + i);	// çµåˆå‰Šé™¤
 		}
 	}
-	//--- ƒŠƒXƒg‘‚«Š·‚¦ ---
+	//--- ãƒªã‚¹ãƒˆæ›¸ãæ›ãˆ ---
 	bool success = false;
 	setListStrClear(strList);
 	numSort = (int)listSort.size();

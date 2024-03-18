@@ -1,46 +1,46 @@
-# join_logo_scp—p‚ÌŽÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eFƒtƒ‰ƒOÝ’èî•ñ‚ðŽg‚Á‚Ä•s—v•”•ª‚ÌƒJƒbƒg‚ðs‚¤
-#       •W€‚ÆŠî–{\¬‚Í“¯‚¶Aƒtƒ‰ƒOŽw’è“®ì‚ð’Ç‰Á‚Å‹LÚ
-#       ƒtƒ‰ƒOŽw’è‚ÌŽÀs‘O‚É\¬Œ‹‡ƒtƒ‰ƒO‚ðŽ–‘OÝ’è
-#       iJL_ƒtƒ‰ƒOŽw’è.txt‚ð‚±‚Ìƒtƒ@ƒCƒ‹‚É·‚µ‘Ö‚¦‚ÄŽŽs‚µ‚Ä‚¢‚éj
+# å†…å®¹ï¼šãƒ•ãƒ©ã‚°è¨­å®šæƒ…å ±ã‚’ä½¿ã£ã¦ä¸è¦éƒ¨åˆ†ã®ã‚«ãƒƒãƒˆã‚’è¡Œã†
+#       æ¨™æº–ã¨åŸºæœ¬æ§‹æˆã¯åŒã˜ã€ãƒ•ãƒ©ã‚°æŒ‡å®šå‹•ä½œã‚’è¿½åŠ ã§è¨˜è¼‰
+#       ãƒ•ãƒ©ã‚°æŒ‡å®šã®å®Ÿè¡Œå‰ã«æ§‹æˆçµåˆãƒ•ãƒ©ã‚°ã‚’äº‹å‰è¨­å®š
+#       ï¼ˆJL_ãƒ•ãƒ©ã‚°æŒ‡å®š.txtã‚’ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã«å·®ã—æ›¿ãˆã¦è©¦è¡Œã—ã¦ã„ã‚‹ï¼‰
 #
 
 #----------------------------------------------
-# Ý’è
+# è¨­å®š
 #----------------------------------------------
-## ÅŒã‚Ì\¬•”•ªi—\“™ŒŸo‘Oj
-Default vTC120C1M   0  # Œã”¼ÅŒã‚Ìn•ª‚Å120•b\¬ˆÈ~ƒJƒbƒgi0=–³Œøj
-Default vTC90C2M    0  # Œã”¼ÅŒã‚Ìn•ª‚Å2‰ñ–Ú‚Ì90•b\¬ˆÈ~ƒJƒbƒgi0=–³Œøj
-## \¬Œ‹‡i—\“™ŒŸo‘Oj
-Default fAMrL15A    1  # ƒƒS•t‚«15•b\¬Œ‹‡i5/10•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-Default fAMrL15B    1  # ƒƒS•t‚«15•b\¬Œ‹‡i12•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-Default fAMrL30A    1  # ƒƒS•t‚«30•b\¬Œ‹‡i10/15/20/25•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-Default fAMrL90A    1  # ƒƒS•t‚«90•b\¬Œ‹‡i30/60/75•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-Default fAMcN15     0  # ƒƒS–³‚µ15•b\¬Œ‹‡iðŒ‚È‚µj
-Default fAMcN15A    0  # ƒƒS–³‚µ15•b\¬Œ‹‡i5/10•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-Default fAMcN30A    0  # ƒƒS–³‚µ30•b\¬Œ‹‡i15•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-Default fAMcN60A    1  # ƒƒS–³‚µ60•b\¬Œ‹‡i15/30/45•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-Default fAMcN90A    1  # ƒƒS–³‚µ90•b\¬Œ‹‡i30/60/75•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-Default fAMcN120A   1  # ƒƒS–³‚µ120•b\¬Œ‹‡i30/60/90/105•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-## \¬Œ‹‡i—\“™ŒŸoŒãj
-Default fAMcSpN15   0  # ”Ô‘g’ñ‹Ÿ‚ªƒƒS–³‚µ15•b\¬‚Ìˆê•”‚È‚çŒ‹‡ƒJƒbƒgiðŒ‚È‚µj
-Default fAMcSpN15A  0  # ”Ô‘g’ñ‹Ÿ‚ªƒƒS–³‚µ15•b\¬‚Ìˆê•”‚È‚çŒ‹‡ƒJƒbƒgiTrailer(add)’¼Œãœ‚­j
-Default fAMcSpN15B  1  # ”Ô‘g’ñ‹Ÿ‚ªƒƒS–³‚µ15•b\¬‚Ìˆê•”‚È‚çŒ‹‡ƒJƒbƒgiTrailer(add)Œã100•bœ‚­j
-Default fAMcSpN15C  1  # ”Ô‘g’ñ‹Ÿ‚ªƒƒS–³‚µ15•b\¬‚Ìˆê•”‚È‚çŒ‹‡ƒJƒbƒgiÅIƒƒSŒã100•bœ‚­j
-Default fAMcSpNL15  0  # ”Ô‘g’ñ‹Ÿ‚ªNologo‚ð‡‚í‚¹‚é‚Æ15•b‚È‚çŒ‹‡ƒJƒbƒg
-Default fAMcSpNL30  1  # ”Ô‘g’ñ‹Ÿ‚ªNologo‚ð‡‚í‚¹‚é‚Æ30•b‚È‚çŒ‹‡ƒJƒbƒg
-## ƒƒS”FŽ¯\¬•ÏXi—\“™ŒŸo‘Oj
-Default vAGrCmMg    0  # CM•\Ž¦‚Å15•b’PˆÊ‚©‚çn•b‚ð’´‚¦‚Ä‚¸‚ê‚Ä‚¢‚éŠ‚ÍŽc‚·i0=–³Œøj
-Default vAGrCmMgS45 0.25  # 40•bˆÈã30•b’PˆÊ‚Å‚È‚¢CMˆÊ’u‚ÉŒÀ’è‚µ‚Än•b’´‚¦‚Ì‚¸‚ê‚ÍŽc‚·i0=–³Œøj
-Default vAGrNlOv    0  # n•bˆÈã‚ÌNologo\¬‚ÍŽc‚·i0=–³Œøj
+## æœ€å¾Œã®æ§‹æˆéƒ¨åˆ†ï¼ˆäºˆå‘Šç­‰æ¤œå‡ºå‰ï¼‰
+Default vTC120C1M   0  # å¾ŒåŠæœ€å¾Œã®nåˆ†ã§120ç§’æ§‹æˆä»¥é™ã‚«ãƒƒãƒˆï¼ˆ0=ç„¡åŠ¹ï¼‰
+Default vTC90C2M    0  # å¾ŒåŠæœ€å¾Œã®nåˆ†ã§2å›žç›®ã®90ç§’æ§‹æˆä»¥é™ã‚«ãƒƒãƒˆï¼ˆ0=ç„¡åŠ¹ï¼‰
+## æ§‹æˆçµåˆï¼ˆäºˆå‘Šç­‰æ¤œå‡ºå‰ï¼‰
+Default fAMrL15A    1  # ãƒ­ã‚´ä»˜ã15ç§’æ§‹æˆçµåˆï¼ˆ5/10ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+Default fAMrL15B    1  # ãƒ­ã‚´ä»˜ã15ç§’æ§‹æˆçµåˆï¼ˆ12ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+Default fAMrL30A    1  # ãƒ­ã‚´ä»˜ã30ç§’æ§‹æˆçµåˆï¼ˆ10/15/20/25ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+Default fAMrL90A    1  # ãƒ­ã‚´ä»˜ã90ç§’æ§‹æˆçµåˆï¼ˆ30/60/75ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+Default fAMcN15     0  # ãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆçµåˆï¼ˆæ¡ä»¶ãªã—ï¼‰
+Default fAMcN15A    0  # ãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆçµåˆï¼ˆ5/10ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+Default fAMcN30A    0  # ãƒ­ã‚´ç„¡ã—30ç§’æ§‹æˆçµåˆï¼ˆ15ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+Default fAMcN60A    1  # ãƒ­ã‚´ç„¡ã—60ç§’æ§‹æˆçµåˆï¼ˆ15/30/45ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+Default fAMcN90A    1  # ãƒ­ã‚´ç„¡ã—90ç§’æ§‹æˆçµåˆï¼ˆ30/60/75ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+Default fAMcN120A   1  # ãƒ­ã‚´ç„¡ã—120ç§’æ§‹æˆçµåˆï¼ˆ30/60/90/105ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+## æ§‹æˆçµåˆï¼ˆäºˆå‘Šç­‰æ¤œå‡ºå¾Œï¼‰
+Default fAMcSpN15   0  # ç•ªçµ„æä¾›ãŒãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆã®ä¸€éƒ¨ãªã‚‰çµåˆã‚«ãƒƒãƒˆï¼ˆæ¡ä»¶ãªã—ï¼‰
+Default fAMcSpN15A  0  # ç•ªçµ„æä¾›ãŒãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆã®ä¸€éƒ¨ãªã‚‰çµåˆã‚«ãƒƒãƒˆï¼ˆTrailer(add)ç›´å¾Œé™¤ãï¼‰
+Default fAMcSpN15B  1  # ç•ªçµ„æä¾›ãŒãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆã®ä¸€éƒ¨ãªã‚‰çµåˆã‚«ãƒƒãƒˆï¼ˆTrailer(add)å¾Œ100ç§’é™¤ãï¼‰
+Default fAMcSpN15C  1  # ç•ªçµ„æä¾›ãŒãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆã®ä¸€éƒ¨ãªã‚‰çµåˆã‚«ãƒƒãƒˆï¼ˆæœ€çµ‚ãƒ­ã‚´å¾Œ100ç§’é™¤ãï¼‰
+Default fAMcSpNL15  0  # ç•ªçµ„æä¾›ãŒNologoã‚’åˆã‚ã›ã‚‹ã¨15ç§’ãªã‚‰çµåˆã‚«ãƒƒãƒˆ
+Default fAMcSpNL30  1  # ç•ªçµ„æä¾›ãŒNologoã‚’åˆã‚ã›ã‚‹ã¨30ç§’ãªã‚‰çµåˆã‚«ãƒƒãƒˆ
+## ãƒ­ã‚´èªè­˜æ§‹æˆå¤‰æ›´ï¼ˆäºˆå‘Šç­‰æ¤œå‡ºå‰ï¼‰
+Default vAGrCmMg    0  # CMè¡¨ç¤ºã§15ç§’å˜ä½ã‹ã‚‰nç§’ã‚’è¶…ãˆã¦ãšã‚Œã¦ã„ã‚‹æ‰€ã¯æ®‹ã™ï¼ˆ0=ç„¡åŠ¹ï¼‰
+Default vAGrCmMgS45 0.25  # 40ç§’ä»¥ä¸Š30ç§’å˜ä½ã§ãªã„CMä½ç½®ã«é™å®šã—ã¦nç§’è¶…ãˆã®ãšã‚Œã¯æ®‹ã™ï¼ˆ0=ç„¡åŠ¹ï¼‰
+Default vAGrNlOv    0  # nç§’ä»¥ä¸Šã®Nologoæ§‹æˆã¯æ®‹ã™ï¼ˆ0=ç„¡åŠ¹ï¼‰
 
 
 #----------------------------------------------
-# “®ì
+# å‹•ä½œ
 #----------------------------------------------
 
-Call "JL_set_ƒtƒ‰ƒOŽw’è•W€.txt"    # ƒtƒ‰ƒO‚É‚æ‚é“®ì
-Call "JL_set_ƒtƒ‰ƒOŽw’è•W€2.txt"   # ƒtƒ‰ƒO‚É‚æ‚é“®ì
+Call "JL_set_ãƒ•ãƒ©ã‚°æŒ‡å®šæ¨™æº–.txt"    # ãƒ•ãƒ©ã‚°ã«ã‚ˆã‚‹å‹•ä½œ
+Call "JL_set_ãƒ•ãƒ©ã‚°æŒ‡å®šæ¨™æº–2.txt"   # ãƒ•ãƒ©ã‚°ã«ã‚ˆã‚‹å‹•ä½œ
 
-Call "JL_•W€.txt"                  # ŽÀs
+Call "JL_æ¨™æº–.txt"                  # å®Ÿè¡Œ

@@ -1,4 +1,4 @@
-//
+ï»¿//
 #include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsIF.hpp"
@@ -6,10 +6,10 @@
 #include "JlsDataset.hpp"
 
 //---------------------------------------------------------------------
-// ‰Šúİ’è
+// åˆæœŸè¨­å®š
 //---------------------------------------------------------------------
 JlsIF::JlsIF(){
-	//--- ƒf[ƒ^–{‘Ìì¬ ---
+	//--- ãƒ‡ãƒ¼ã‚¿æœ¬ä½“ä½œæˆ ---
 	m_funcDataset.reset(new JlsDataset);
 	this->pdata = m_funcDataset->pdata;
 }
@@ -18,14 +18,14 @@ JlsIF::~JlsIF() = default;
 
 
 //---------------------------------------------------------------------
-// “®ìŠJn
+// å‹•ä½œé–‹å§‹
 //---------------------------------------------------------------------
 int JlsIF::start(int argc, char *argv[]) {
 	int ret;
 	try{
 		clear();
-		setArgFull(argc, argv);		// ˆø”“Ç‚İ‚İ
-		ret = runScript();			// Às
+		setArgFull(argc, argv);		// å¼•æ•°èª­ã¿è¾¼ã¿
+		ret = runScript();			// å®Ÿè¡Œ
 	}
 	catch(std::bad_alloc& e){
 		lcout << "error:bad_alloc" << e.what() << endl;
@@ -52,7 +52,7 @@ int JlsIF::start(int argc, char *argv[]) {
 }
 void JlsIF::clear(){
 
-	//--- ‰Šú‰» ---
+	//--- åˆæœŸåŒ– ---
 	m_logofile.clear();
 	m_scpfile.clear();
 	m_cmdfile.clear();
@@ -61,39 +61,39 @@ void JlsIF::clear(){
 }
 
 //=====================================================================
-// ÀsƒRƒ}ƒ“ƒh
+// å®Ÿè¡Œã‚³ãƒãƒ³ãƒ‰
 //=====================================================================
 //---------------------------------------------------------------------
-// ƒIƒvƒVƒ‡ƒ““Ç‚İ‚İ
-// “ü—ÍF
-//  argc    : ˆø”‡Œv
-//  *argv[] : ˆø”•¶š—ñ
+// ã‚ªãƒ—ã‚·ãƒ§ãƒ³èª­ã¿è¾¼ã¿
+// å…¥åŠ›ï¼š
+//  argc    : å¼•æ•°åˆè¨ˆ
+//  *argv[] : å¼•æ•°æ–‡å­—åˆ—
 //---------------------------------------------------------------------
 void JlsIF::setArgFull(int argc, char *argv[]) {
 	m_listarg.clear();
-	//--- •K—v‚È‚çWindowsƒƒCƒhƒoƒCƒg‚Åæ“¾‚µ‚ÄÅI“I‚ÉUTF-8‚Åæ‚è‚Şˆ— ---
+	//--- å¿…è¦ãªã‚‰Windowsãƒ¯ã‚¤ãƒ‰ãƒã‚¤ãƒˆã§å–å¾—ã—ã¦æœ€çµ‚çš„ã«UTF-8ã§å–ã‚Šè¾¼ã‚€å‡¦ç† ---
 	vector<string> listArg = LSys.getMainArg(argc, argv);
-	//--- argv[1]‚©‚çŒã‚ğİ’è ---
+	//--- argv[1]ã‹ã‚‰å¾Œã‚’è¨­å®š ---
 	for(int i=1; i<argc; i++){
 		m_listarg.push_back(listArg[i]);
 	}
 }
-// –¢g—pi•K—v‚È‚çsetArgFull‚Æ“¯‚¶ˆ—‚ğì¬j
+// æœªä½¿ç”¨ï¼ˆå¿…è¦ãªã‚‰setArgFullã¨åŒã˜å‡¦ç†ã‚’ä½œæˆï¼‰
 void JlsIF::setArgEach(char *str) {
 	m_listarg.push_back(str);
 }
 
 //---------------------------------------------------------------------
-// join_logo_scpƒXƒNƒŠƒvƒgÀs
-// o—ÍF
-// •Ô‚è’lF
-//  0 : ³íƒIƒvƒVƒ‡ƒ““Ç‚İ‚İ(ERROPT_NONE)
-//  1 : Às‚µ‚È‚¢‚ÅI—¹‚·‚é(ERROPT_EXIT)
-//  2 : İ’èƒGƒ‰[I—¹(ERROPT_SETTING)
+// join_logo_scpã‚¹ã‚¯ãƒªãƒ—ãƒˆå®Ÿè¡Œ
+// å‡ºåŠ›ï¼š
+// è¿”ã‚Šå€¤ï¼š
+//  0 : æ­£å¸¸ã‚ªãƒ—ã‚·ãƒ§ãƒ³èª­ã¿è¾¼ã¿(ERROPT_NONE)
+//  1 : å®Ÿè¡Œã—ãªã„ã§çµ‚äº†ã™ã‚‹(ERROPT_EXIT)
+//  2 : è¨­å®šã‚¨ãƒ©ãƒ¼çµ‚äº†(ERROPT_SETTING)
 //---------------------------------------------------------------------
 int JlsIF::runScript() {
 	JlsScript funcScript(pdata);
-	//--- ƒIƒvƒVƒ‡ƒ““WŠJ ---
+	//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³å±•é–‹ ---
 	int errnum = expandArg(funcScript, m_listarg);
 	if (errnum > 0) return errnum;
 
@@ -115,22 +115,22 @@ int JlsIF::runScript() {
 		return ERROPT_SETTING;
 	}
 
-	//--- ƒtƒ@ƒCƒ‹“Ç‚İ‚İ ---
+	//--- ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ ---
 	if (pdata->extOpt.flagNoLogo == 0) {
-		readLogoframe(m_logofile);				// ƒƒSƒf[ƒ^“Ç‚İ‚İ
+		readLogoframe(m_logofile);				// ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 	}
-	errnum = readScpos(m_scpfile);				// –³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW“Ç‚İ‚İ
+	errnum = readScpos(m_scpfile);				// ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸èª­ã¿è¾¼ã¿
 
-	//--- JLƒXƒNƒŠƒvƒgÀs ---
+	//--- JLã‚¹ã‚¯ãƒªãƒ—ãƒˆå®Ÿè¡Œ ---
 	if (errnum == 0) {
 		errnum = funcScript.startCmd(m_cmdfile);
 	}
 
-	//--- Œ‹‰Êo—Í ---
+	//--- çµæœå‡ºåŠ› ---
 	if (errnum == 0) {
-		outputResultTrim(m_outfile);			// Trimî•ño—Í
-		outputResultDetail(m_outscpfile);		// \¬î•ño—Í
-		outputResultDiv(m_outdivfile);		// •ªŠ„î•ño—Í
+		outputResultTrim(m_outfile);			// Trimæƒ…å ±å‡ºåŠ›
+		outputResultDetail(m_outscpfile);		// æ§‹æˆæƒ…å ±å‡ºåŠ›
+		outputResultDiv(m_outdivfile);		// åˆ†å‰²æƒ…å ±å‡ºåŠ›
 	}
 
 	return errnum;
@@ -139,22 +139,22 @@ int JlsIF::runScript() {
 
 
 //=====================================================================
-// “à•”ÀsƒRƒ}ƒ“ƒh
+// å†…éƒ¨å®Ÿè¡Œã‚³ãƒãƒ³ãƒ‰
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ˆø”‚ğ“WŠJ
-// •Ô‚è’lF
-//  0 : ³íƒIƒvƒVƒ‡ƒ““Ç‚İ‚İ(ERROPT_NONE)
-//  1 : Às‚µ‚È‚¢‚ÅI—¹‚·‚é(ERROPT_EXIT)
-//  2 : İ’èƒGƒ‰[I—¹(ERROPT_SETTING)
+// å¼•æ•°ã‚’å±•é–‹
+// è¿”ã‚Šå€¤ï¼š
+//  0 : æ­£å¸¸ã‚ªãƒ—ã‚·ãƒ§ãƒ³èª­ã¿è¾¼ã¿(ERROPT_NONE)
+//  1 : å®Ÿè¡Œã—ãªã„ã§çµ‚äº†ã™ã‚‹(ERROPT_EXIT)
+//  2 : è¨­å®šã‚¨ãƒ©ãƒ¼çµ‚äº†(ERROPT_SETTING)
 //---------------------------------------------------------------------
 int JlsIF::expandArg(JlsScript &funcScript, vector <string> &listin){
 	int argc = (int) listin.size();
 	if (argc <= 0){
 		return ERROPT_NONE;
 	}
-	//--- •W€ƒGƒ‰[•¶šƒR[ƒh‚ÍÅ‰‚Éİ’è‚µ‚Ä‚¨‚­ ---
+	//--- æ¨™æº–ã‚¨ãƒ©ãƒ¼æ–‡å­—ã‚³ãƒ¼ãƒ‰ã¯æœ€åˆã«è¨­å®šã—ã¦ãŠã ---
 	for(int k = 0; k < argc-1; k++){
 		const char* strv = listin[k].c_str();
 		if (!_stricmp(strv, "-syscode")){
@@ -163,7 +163,7 @@ int JlsIF::expandArg(JlsScript &funcScript, vector <string> &listin){
 			expandArgOne(funcScript, 2, strv, str1, str2);
 		}
 	}
-	//--- ˆø”“Ç‚İ‚İ ---
+	//--- å¼•æ•°èª­ã¿è¾¼ã¿ ---
 	int i = 0;
 	while(i >= 0 && i < argc){
 		int argrest = argc - i;
@@ -194,12 +194,12 @@ int JlsIF::expandArg(JlsScript &funcScript, vector <string> &listin){
 }
 
 //---------------------------------------------------------------------
-// ƒtƒ@ƒCƒ‹‚©‚çˆø”“Ç‚İ‚İ
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰å¼•æ•°èª­ã¿è¾¼ã¿
 //---------------------------------------------------------------------
 int JlsIF::expandArgFromFile(JlsScript &funcScript, const string &fname){
 	CnvStrTime *ptcnv = &(pdata->cnv);
 	vector <string> listFromFile;
-	//--- ƒtƒ@ƒCƒ‹‚©‚çƒIƒvƒVƒ‡ƒ“•¶š—ñæ“¾ ---
+	//--- ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã‚ªãƒ—ã‚·ãƒ§ãƒ³æ–‡å­—åˆ—å–å¾— ---
 	if (fname.empty() == false){
 		string strBuf;
 		string strWord;
@@ -224,14 +224,14 @@ int JlsIF::expandArgFromFile(JlsScript &funcScript, const string &fname){
 }
 
 //---------------------------------------------------------------------
-// ƒIƒvƒVƒ‡ƒ““Ç‚İ‚İ
-// “ü—ÍF
-//   argrest    Fˆø”c‚è”
-//   strv       Fˆø”ƒRƒ}ƒ“ƒh
-//   str1       Fˆø”’l‚P
-//   str2       Fˆø”’l‚Q
-// o—ÍF
-//   •Ô‚è’l  Fˆø”æ“¾”(-1‚Ì‹­§I—¹(GETONE_EXIT), -2‚Ìæ“¾ƒGƒ‰[(GETONE_ERR))
+// ã‚ªãƒ—ã‚·ãƒ§ãƒ³èª­ã¿è¾¼ã¿
+// å…¥åŠ›ï¼š
+//   argrest    ï¼šå¼•æ•°æ®‹ã‚Šæ•°
+//   strv       ï¼šå¼•æ•°ã‚³ãƒãƒ³ãƒ‰
+//   str1       ï¼šå¼•æ•°å€¤ï¼‘
+//   str2       ï¼šå¼•æ•°å€¤ï¼’
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  ï¼šå¼•æ•°å–å¾—æ•°(-1ã®æ™‚å¼·åˆ¶çµ‚äº†(GETONE_EXIT), -2ã®æ™‚å–å¾—ã‚¨ãƒ©ãƒ¼(GETONE_ERR))
 //---------------------------------------------------------------------
 int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, const char* str1, const char* str2){
 	if (argrest <= 0){
@@ -268,7 +268,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			}
 			m_logofile = str1;
 			numarg = 2;
-			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// –¼‘O•ÛŠÇ‚Ì‚İ
+			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// åå‰ä¿ç®¡ã®ã¿
 		}
 		else if (!_stricmp(strv, "-inscp")){
 			if (!exist2){
@@ -277,7 +277,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			}
 			m_scpfile = str1;
 			numarg = 2;
-			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// –¼‘O•ÛŠÇ‚Ì‚İ
+			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// åå‰ä¿ç®¡ã®ã¿
 		}
 		else if (!_stricmp(strv, "-incmd")){
 			if (!exist2){
@@ -286,7 +286,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			}
 			m_cmdfile = str1;
 			numarg = 2;
-			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// –¼‘O•ÛŠÇ‚Ì‚İ
+			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// åå‰ä¿ç®¡ã®ã¿
 		}
 		else if (!_stricmp(strv, "-o")){
 			if (!exist2){
@@ -295,7 +295,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			}
 			m_outfile = str1;
 			numarg = 2;
-			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// –¼‘O•ÛŠÇ‚Ì‚İ
+			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// åå‰ä¿ç®¡ã®ã¿
 		}
 		else if (!_stricmp(strv, "-oscp")){
 			if (!exist2){
@@ -304,7 +304,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			}
 			m_outscpfile = str1;
 			numarg = 2;
-			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// –¼‘O•ÛŠÇ‚Ì‚İ
+			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// åå‰ä¿ç®¡ã®ã¿
 		}
 		else if (!_stricmp(strv, "-lastcut")){
 			if (!exist2){
@@ -321,7 +321,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			}
 			m_outdivfile = str1;
 			numarg = 2;
-			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// –¼‘O•ÛŠÇ‚Ì‚İ
+			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// åå‰ä¿ç®¡ã®ã¿
 		}
 		else{
 			bool overwrite = true;
@@ -345,9 +345,9 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 }
 
 //---------------------------------------------------------------------
-// ƒƒS•\¦ŠúŠÔî•ñ‚ğ“Ç‚İ‚İiƒtƒ@ƒCƒ‹–¼fname‚Ì“à—e‚ğæ“¾j
-// o—ÍF
-//   •Ô‚è’l  F0=³íI—¹ 2=ƒtƒ@ƒCƒ‹ˆÙí
+// ãƒ­ã‚´è¡¨ç¤ºæœŸé–“æƒ…å ±ã‚’èª­ã¿è¾¼ã¿ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«åfnameã®å†…å®¹ã‚’å–å¾—ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  ï¼š0=æ­£å¸¸çµ‚äº† 2=ãƒ•ã‚¡ã‚¤ãƒ«ç•°å¸¸
 //---------------------------------------------------------------------
 int JlsIF::readLogoframe(const string &fname){
 	CnvStrTime *ptcnv = &(pdata->cnv);
@@ -442,9 +442,9 @@ int JlsIF::readLogoframe(const string &fname){
 }
 
 //---------------------------------------------------------------------
-// –³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWî•ñ‚ğ“Ç‚İ‚İiƒtƒ@ƒCƒ‹–¼fname‚Ì“à—e‚ğæ“¾j
-// o—ÍF
-//   •Ô‚è’l  F0=³íI—¹ 2=ƒtƒ@ƒCƒ‹ˆÙí
+// ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸æƒ…å ±ã‚’èª­ã¿è¾¼ã¿ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«åfnameã®å†…å®¹ã‚’å–å¾—ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  ï¼š0=æ­£å¸¸çµ‚äº† 2=ãƒ•ã‚¡ã‚¤ãƒ«ç•°å¸¸
 //---------------------------------------------------------------------
 int JlsIF::readScpos(const string &fname){
 	CnvStrTime *ptcnv = &(pdata->cnv);
@@ -455,14 +455,14 @@ int JlsIF::readScpos(const string &fname){
 	DataScpIF dttmp;
 	string strBuf;
 
-	// Å‰‚Í0ƒtƒŒ[ƒ€‚Æ‚·‚é
+	// æœ€åˆã¯0ãƒ•ãƒ¬ãƒ¼ãƒ ã¨ã™ã‚‹
 	clearRecord( dtscp );
 	dtscp.msec = 0;
 	dtscp.msbk = 0;
-	pushRecordScp( dtscp );			// ƒf[ƒ^’Ç‰Á
-	clearRecord( dtscp );				// ƒNƒŠƒA
+	pushRecordScp( dtscp );			// ãƒ‡ãƒ¼ã‚¿è¿½åŠ 
+	clearRecord( dtscp );				// ã‚¯ãƒªã‚¢
 
-	// –³‰¹”ÍˆÍî•ñ‰Šú‰»
+	// ç„¡éŸ³ç¯„å›²æƒ…å ±åˆæœŸåŒ–
 	int msec_smute_s = -1;
 	int msec_smute_w = -1;
 
@@ -472,7 +472,7 @@ int JlsIF::readScpos(const string &fname){
 		return 2;
 	}
 	while( ifs.getline(strBuf) ){
-		// –³‰¹”ÍˆÍî•ñ
+		// ç„¡éŸ³ç¯„å›²æƒ…å ±
 		n = (int) strBuf.find("NAME=");
 		if (n >= 0){
 			int frm_smute_w;
@@ -492,27 +492,27 @@ int JlsIF::readScpos(const string &fname){
 			}
 		}
 
-		// ƒV[ƒ“ƒ`ƒFƒ“ƒWî•ñ
+		// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸æƒ…å ±
 		n = (int) strBuf.find("SCPos:");
 		if (n >= 0){
 			clearRecord(dtscp);
 			pos = ptcnv->getStrValMsecFromFrm(dtscp.msec, strBuf, n+6);
 			if (pos >= 0){
 				pos = ptcnv->getStrValMsecFromFrm(dtscp.msbk, strBuf, pos);
-				if (pos < 0){			// I—¹‘¤‚ª‚È‚¯‚ê‚ÎŠJn‘¤ƒtƒŒ[ƒ€‚©‚ç‹tZ
+				if (pos < 0){			// çµ‚äº†å´ãŒãªã‘ã‚Œã°é–‹å§‹å´ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‚‰é€†ç®—
 					dtscp.msbk = ptcnv->getMsecAdjustFrmFromMsec( dtscp.msec, -1 );
 				}
-				// ƒV[ƒ“ƒ`ƒFƒ“ƒW•Ï‰»î•ñ
-				n2 = (int) strBuf.find(ChapterStrStill);	// ƒ}[ƒNŒŸoi"Q"j
-				if (n2 >= 0 && n2 < n){			// ƒ}[ƒN‚ªSCPos:‚æ‚è‘O
-					dtscp.still = 1;			// ƒV[ƒ“ƒ`ƒFƒ“ƒW•Ï‰»‚È‚µƒtƒ‰ƒO•t‰Á
+				// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸å¤‰åŒ–æƒ…å ±
+				n2 = (int) strBuf.find(ChapterStrStill);	// ãƒãƒ¼ã‚¯æ¤œå‡ºï¼ˆ"ï¼¿"ï¼‰
+				if (n2 >= 0 && n2 < n){			// ãƒãƒ¼ã‚¯ãŒSCPos:ã‚ˆã‚Šå‰
+					dtscp.still = 1;			// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸å¤‰åŒ–ãªã—ãƒ•ãƒ©ã‚°ä»˜åŠ 
 				}
 
-				// –³‰¹”ÍˆÍî•ñİ’è
+				// ç„¡éŸ³ç¯„å›²æƒ…å ±è¨­å®š
 				if (msec_smute_s >= 0 && msec_smute_w >= 0){
 					dtscp.msmute_s = msec_smute_s;
 					dtscp.msmute_e = ptcnv->getMsecAlignFromMsec(msec_smute_s + msec_smute_w);
-					// ˜A‘±–³‰¹‹æŠÔ‚ÌŠm”F‚¨‚æ‚Ñ’Ç‰Á
+					// é€£ç¶šç„¡éŸ³åŒºé–“ã®ç¢ºèªãŠã‚ˆã³è¿½åŠ 
 					int msmute_s_prev  = ptcnv->getMsecAdjustFrmFromMsec(msec_smute_s, -1);
 					j = sizeDataScp() - 1;
 					while(j > 0){
@@ -535,23 +535,23 @@ int JlsIF::readScpos(const string &fname){
 				msec_smute_s = -1;
 				msec_smute_w = -1;
 
-				// ƒV[ƒ“ƒ`ƒFƒ“ƒWd•¡‚Ìˆ—
-				flag_insert = 1;				// ƒf[ƒ^’Ç‰Áİ’è
+				// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸é‡è¤‡æ™‚ã®å‡¦ç†
+				flag_insert = 1;				// ãƒ‡ãƒ¼ã‚¿è¿½åŠ è¨­å®š
 				j = sizeDataScp() - 1;
 				if (j > 0 && dtscp.msbk != dtscp.msec){
 					getRecordScp(dttmp, j);
-					// ‚Q—Ìˆæ‚Ì–³‰¹‹æŠÔ‚ÅƒV[ƒ“ƒ`ƒFƒ“ƒW‚ªd‚È‚Á‚½ê‡
+					// ï¼’é ˜åŸŸã®ç„¡éŸ³åŒºé–“ã§ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒé‡ãªã£ãŸå ´åˆ
 					if (((dttmp.msbk <= dtscp.msbk) &&
 						 (dttmp.msec >= dtscp.msbk)) ||
 						((dttmp.msbk <= dtscp.msec) &&
 						 (dttmp.msec >= dtscp.msec))){
-						// ­‚µ‚¾‚¯‚¸‚ê‚Ä‚¢‚½ê‡‚ÍŒã‘¤‚ÌƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ğ—LŒø‚É‚·‚é
+						// å°‘ã—ã ã‘ãšã‚Œã¦ã„ãŸå ´åˆã¯å¾Œå´ã®ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‚’æœ‰åŠ¹ã«ã™ã‚‹
 						if (dttmp.msbk < dtscp.msbk){
 							dttmp.msbk = dtscp.msbk;
 							dttmp.msec = dtscp.msec;
 							setRecordScp(dttmp, j);
 						}
-						// –³‰¹‹æŠÔ‚ÌŒ‹‡
+						// ç„¡éŸ³åŒºé–“ã®çµåˆ
 						if (dttmp.msec > dtscp.msec){
 							dttmp.msec = dtscp.msec;
 							setRecordScp(dttmp, j);
@@ -560,7 +560,7 @@ int JlsIF::readScpos(const string &fname){
 							dttmp.msbk = dtscp.msbk;
 							setRecordScp(dttmp, j);
 						}
-						flag_insert = 0;					// ƒf[ƒ^’Ç‰Á‚È‚µ;
+						flag_insert = 0;					// ãƒ‡ãƒ¼ã‚¿è¿½åŠ ãªã—;
 					}
 				}
 				if (flag_insert > 0){
@@ -569,7 +569,7 @@ int JlsIF::readScpos(const string &fname){
 			}
 		}
 	}
-	// ÅIƒV[ƒ“ƒ`ƒFƒ“ƒW•â³
+	// æœ€çµ‚ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸è£œæ­£
 	jmax = sizeDataScp() - 1;
 	getRecordScp(dttmp, jmax);
 	pdata->setMsecTotalMax( dttmp.msec );
@@ -609,14 +609,14 @@ int JlsIF::readScpos(const string &fname){
 }
 
 //---------------------------------------------------------------------
-// ƒJƒbƒgŒ‹‰Êì¬‚¨‚æ‚Ño—Í
+// ã‚«ãƒƒãƒˆçµæœä½œæˆãŠã‚ˆã³å‡ºåŠ›
 //---------------------------------------------------------------------
 void JlsIF::outputResultTrim(const string &outfile){
 	CnvStrTime *ptcnv = &(pdata->cnv);
 
-	//--- Œ‹‰Êì¬ ---
+	//--- çµæœä½œæˆ ---
 	pdata->outputResultTrimGen();
-	//--- Œ‹‰Êo—Í ---
+	//--- çµæœå‡ºåŠ› ---
 	LocalOfs ofs(outfile.c_str());
 	if ( !ofs.is_open() ){
 		outputMesErr("error:failed to open " + outfile + "\n");
@@ -635,23 +635,23 @@ void JlsIF::outputResultTrim(const string &outfile){
 }
 
 //---------------------------------------------------------------------
-// Ú×î•ñŒ‹‰Êì¬‚¨‚æ‚Ño—Í
+// è©³ç´°æƒ…å ±çµæœä½œæˆãŠã‚ˆã³å‡ºåŠ›
 //---------------------------------------------------------------------
 void JlsIF::outputResultDetail(const string &outscpfile){
 	if (outscpfile.empty()){
 		return;
 	}
 
-	//--- ƒtƒ@ƒCƒ‹İ’è ---
+	//--- ãƒ•ã‚¡ã‚¤ãƒ«è¨­å®š ---
 	LocalOfs ofs(outscpfile.c_str());
 	if ( !ofs.is_open() ){
 		outputMesErr("error:failed to open " + outscpfile + "\n");
 		return;
 	}
-	//--- ‰Šú‰» ---
+	//--- åˆæœŸåŒ– ---
 	pdata->outputResultDetailReset();
 
-	//--- ƒf[ƒ^“Ç‚İ‚İEo—Í ---
+	//--- ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿ãƒ»å‡ºåŠ› ---
 	string strBuf;
 	while( pdata->outputResultDetailGetLine(strBuf) == 0){
 		ofs.write(strBuf + "\n");
@@ -659,14 +659,14 @@ void JlsIF::outputResultDetail(const string &outscpfile){
 }
 
 //---------------------------------------------------------------------
-// •ªŠ„Œ‹‰Êo—Í
+// åˆ†å‰²çµæœå‡ºåŠ›
 //---------------------------------------------------------------------
 void JlsIF::outputResultDiv(const string &outdivfile) {
 	if (outdivfile.empty()) {
 		return;
 	}
 
-	//--- Œ‹‰Êo—Í ---
+	//--- çµæœå‡ºåŠ› ---
 	CnvStrTime *ptcnv = &(pdata->cnv);
 	LocalOfs ofs(outdivfile.c_str());
 	if ( !ofs.is_open() ) {
@@ -683,11 +683,11 @@ void JlsIF::outputResultDiv(const string &outdivfile) {
 
 
 //=====================================================================
-// ƒf[ƒ^ŠÖ”
+// ãƒ‡ãƒ¼ã‚¿é–¢æ•°
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ‚P€–Ú‰Šú‰»
+// ï¼‘é …ç›®åˆæœŸåŒ–
 //---------------------------------------------------------------------
 void JlsIF::clearRecord(DataLogoIF &dt){
 	dt.rise        = 0;
@@ -711,7 +711,7 @@ void JlsIF::clearRecord(DataScpIF &dt){
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊ‘}“üiÅŒã‚ÌˆÊ’ujiƒƒSInterFaceƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½æŒ¿å…¥ï¼ˆæœ€å¾Œã®ä½ç½®ï¼‰ï¼ˆãƒ­ã‚´InterFaceãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsIF::pushRecordLogo(DataLogoIF &dtbs){
 	struct DataLogoRecord dtlogo;
@@ -740,7 +740,7 @@ void JlsIF::pushRecordLogo(DataLogoIF &dtbs){
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊ‘}“üiÅŒã‚ÌˆÊ’uji–³‰¹SCInterFaceƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½æŒ¿å…¥ï¼ˆæœ€å¾Œã®ä½ç½®ï¼‰ï¼ˆç„¡éŸ³SCInterFaceãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsIF::pushRecordScp(DataScpIF &dtbs){
 	struct DataScpRecord dtscp;
@@ -756,28 +756,28 @@ void JlsIF::pushRecordScp(DataScpIF &dtbs){
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊíœiÅŒã‚ÌˆÊ’ujiƒƒSƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½å‰Šé™¤ï¼ˆæœ€å¾Œã®ä½ç½®ï¼‰ï¼ˆãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsIF::popRecordLogo(){
 	pdata->popRecordLogo();							// delete data
 }
 
 //---------------------------------------------------------------------
-// –³‰¹SCƒf[ƒ^ƒTƒCƒYæ“¾
+// ç„¡éŸ³SCãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºå–å¾—
 //---------------------------------------------------------------------
 int JlsIF::sizeDataScp(){
 	return pdata->sizeDataScp();
 }
 
 //---------------------------------------------------------------------
-// ƒƒSƒf[ƒ^‚ª‹óH
+// ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ãŒç©ºï¼Ÿ
 //---------------------------------------------------------------------
 bool JlsIF::emptyDataLogo(){
 	return pdata->emptyDataLogo();
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊæ“¾i–³‰¹SC InterFaceƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½å–å¾—ï¼ˆç„¡éŸ³SC InterFaceãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsIF::getRecordScp(DataScpIF &dtbs, int nsc){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -793,7 +793,7 @@ void JlsIF::getRecordScp(DataScpIF &dtbs, int nsc){
 }
 
 //---------------------------------------------------------------------
-// ‚Pƒf[ƒ^ƒZƒbƒg’PˆÊ•ÏXi–³‰¹SC InterFaceƒf[ƒ^j
+// ï¼‘ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå˜ä½å¤‰æ›´ï¼ˆç„¡éŸ³SC InterFaceãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 void JlsIF::setRecordScp(DataScpIF &dtbs, int nsc){
 	if (nsc >= 0 && nsc < sizeDataScp()){
@@ -809,7 +809,7 @@ void JlsIF::setRecordScp(DataScpIF &dtbs, int nsc){
 	}
 }
 //---------------------------------------------------------------------
-// ƒGƒ‰[o—Í
+// ã‚¨ãƒ©ãƒ¼å‡ºåŠ›
 //---------------------------------------------------------------------
 void JlsIF::outputMesErr(const string& mes){
 	lcerr << mes;

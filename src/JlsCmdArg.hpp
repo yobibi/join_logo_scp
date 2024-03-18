@@ -1,60 +1,60 @@
-//
-// JLƒXƒNƒŠƒvƒg—pƒRƒ}ƒ“ƒh“à—eŠi”[ƒf[ƒ^
+ï»¿//
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆç”¨ã‚³ãƒãƒ³ãƒ‰å†…å®¹æ ¼ç´ãƒ‡ãƒ¼ã‚¿
 //
 #pragma once
 
 ///////////////////////////////////////////////////////////////////////
 //
-// JLƒXƒNƒŠƒvƒgƒRƒ}ƒ“ƒhİ’è’l
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚³ãƒãƒ³ãƒ‰è¨­å®šå€¤
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsCmdArg
 {
 private:
-	struct CmdArgTack {						// İ’è“à—e‘g‚İ‡‚í‚¹‚©‚çŒˆ’è‚³‚ê‚éÀs—pİ’è
-		bool      comFrom;					// 0:’Êí  1:„‘ª\¬fromw’è
-		bool      useScC;					// 0:’Êí  1:-CƒIƒvƒVƒ‡ƒ“•t‰Á
-		bool      floatBase;				// 0:ƒƒSˆÊ’uŠî€  1:Œ‹‰ÊˆÊ’uŠî€
-		bool      shiftBase;				// 0:’Êí  1:ƒVƒtƒgŠî€ˆÊ’u
-		bool      virtualLogo;				// 0:ÀÛ‚ÌƒƒS  1:„‘ªƒƒSˆµ‚¢ƒƒS
-		bool      ignoreComp;				// 0:’Êí  1:ƒƒSŠm’èó‘Ô‚Å‚àÀs
-		bool      limitByLogo;				// 0:’Êí  1:—×ÚƒƒS‚Ü‚Å‚É§ŒÀ
-		bool      needAuto;					// 0:’Êí  1:Auto\¬•K—v
-		bool      fullFrameA;				// 0:’Êí  1:-FŒn–¢’è‹`‚Íí‚É‘S‘Ì(RANGETYPE=0‚Ì)
-		bool      fullFrameB;				// 0:’Êí  1:-FŒn–¢’è‹`‚Íí‚É‘S‘Ì(RANGETYPE=1‚Ì)
-		LazyType  typeLazy;					// ’x‰„Àsİ’èí—Ş
-		bool      ignoreAbort;				// 0:’Êí  1:ƒƒSAbortó‘Ô‚Å‚àÀs
-		bool      immFrom;					// 0:’Êí  1:’¼ÚƒtƒŒ[ƒ€fromw’è
-		bool      existDstOpt;				// 0:Dstw’è‚È‚µ  1:Dstw’è‚ ‚è
-		bool      forcePos;					// 0:’Êí  1:‹­§ˆÊ’uİ’è
-		bool      pickIn;					// 0:’Êí  1:‘I•Ê‚µ‚Ä“ü—Í
-		bool      pickOut;					// 0:’Êí  1:‘I•Ê‚µ‚Äo—Í
+	struct CmdArgTack {						// è¨­å®šå†…å®¹çµ„ã¿åˆã‚ã›ã‹ã‚‰æ±ºå®šã•ã‚Œã‚‹å®Ÿè¡Œç”¨è¨­å®š
+		bool      comFrom;					// 0:é€šå¸¸  1:æ¨æ¸¬æ§‹æˆfromæŒ‡å®š
+		bool      useScC;					// 0:é€šå¸¸  1:-Cã‚ªãƒ—ã‚·ãƒ§ãƒ³ä»˜åŠ 
+		bool      floatBase;				// 0:ãƒ­ã‚´ä½ç½®åŸºæº–  1:çµæœä½ç½®åŸºæº–
+		bool      shiftBase;				// 0:é€šå¸¸  1:ã‚·ãƒ•ãƒˆåŸºæº–ä½ç½®
+		bool      virtualLogo;				// 0:å®Ÿéš›ã®ãƒ­ã‚´  1:æ¨æ¸¬ãƒ­ã‚´æ‰±ã„ãƒ­ã‚´
+		bool      ignoreComp;				// 0:é€šå¸¸  1:ãƒ­ã‚´ç¢ºå®šçŠ¶æ…‹ã§ã‚‚å®Ÿè¡Œ
+		bool      limitByLogo;				// 0:é€šå¸¸  1:éš£æ¥ãƒ­ã‚´ã¾ã§ã«åˆ¶é™
+		bool      needAuto;					// 0:é€šå¸¸  1:Autoæ§‹æˆå¿…è¦
+		bool      fullFrameA;				// 0:é€šå¸¸  1:-Fç³»æœªå®šç¾©æ™‚ã¯å¸¸ã«å…¨ä½“(RANGETYPE=0ã®æ™‚)
+		bool      fullFrameB;				// 0:é€šå¸¸  1:-Fç³»æœªå®šç¾©æ™‚ã¯å¸¸ã«å…¨ä½“(RANGETYPE=1ã®æ™‚)
+		LazyType  typeLazy;					// é…å»¶å®Ÿè¡Œè¨­å®šç¨®é¡
+		bool      ignoreAbort;				// 0:é€šå¸¸  1:ãƒ­ã‚´AbortçŠ¶æ…‹ã§ã‚‚å®Ÿè¡Œ
+		bool      immFrom;					// 0:é€šå¸¸  1:ç›´æ¥ãƒ•ãƒ¬ãƒ¼ãƒ fromæŒ‡å®š
+		bool      existDstOpt;				// 0:DstæŒ‡å®šãªã—  1:DstæŒ‡å®šã‚ã‚Š
+		bool      forcePos;					// 0:é€šå¸¸  1:å¼·åˆ¶ä½ç½®è¨­å®š
+		bool      pickIn;					// 0:é€šå¸¸  1:é¸åˆ¥ã—ã¦å…¥åŠ›
+		bool      pickOut;					// 0:é€šå¸¸  1:é¸åˆ¥ã—ã¦å‡ºåŠ›
 	};
-	struct CmdArgCond {						// ‰ğÍ‚Ìó‘Ô
-		int       numCheckCond;				// ğŒ®‚ÌŠm”FˆÊ’ui0=•s—vA1-=Šm”F‚·‚éˆø”ˆÊ’uj
-		bool      flagCond;					// IF•¶—p‚ÌğŒ”»’f
+	struct CmdArgCond {						// è§£ææ™‚ã®çŠ¶æ…‹
+		int       numCheckCond;				// æ¡ä»¶å¼ã®ç¢ºèªä½ç½®ï¼ˆ0=ä¸è¦ã€1-=ç¢ºèªã™ã‚‹å¼•æ•°ä½ç½®ï¼‰
+		bool      flagCond;					// IFæ–‡ç”¨ã®æ¡ä»¶åˆ¤æ–­
 	};
-	struct CmdArgSc {					// -SCŒn‚ÌƒIƒvƒVƒ‡ƒ“ƒf[ƒ^
-		OptType   type;					// ƒIƒvƒVƒ‡ƒ“í—Ş
-		TargetCatType  category;		// “K—p‘ÎÛˆÊ’u‚Ì‘I‘ğ
+	struct CmdArgSc {					// -SCç³»ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿
+		OptType   type;					// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ç¨®é¡
+		TargetCatType  category;		// é©ç”¨å¯¾è±¡ä½ç½®ã®é¸æŠ
 		Msec      min;
 		Msec      max;
 	};
 
-	//--- ƒf[ƒ^•ÛŠÇ—pƒTƒCƒY ---
+	//--- ãƒ‡ãƒ¼ã‚¿ä¿ç®¡ç”¨ã‚µã‚¤ã‚º ---
 	static const int SIZE_JLOPT_OPTNUM = static_cast<int>(OptType::ArrayMAX) - static_cast<int>(OptType::ArrayMIN) - 1;
 	static const int SIZE_JLOPT_OPTSTR = static_cast<int>(OptType::StrMAX) - static_cast<int>(OptType::StrMIN) - 1;
 
 public:
 	JlsCmdArg();
 	void	clear();
-// ˆê”ÊƒIƒvƒVƒ‡ƒ“—p
+// ä¸€èˆ¬ã‚ªãƒ—ã‚·ãƒ§ãƒ³ç”¨
 	void   setOpt(OptType tp, int val);
 	void   setOptDefault(OptType tp, int val);
 	int    getOpt(OptType tp);
 	bool   getOptFlag(OptType tp);
 	bool   isSetOpt(OptType tp);
-// •¶š—ñƒIƒvƒVƒ‡ƒ“—p
+// æ–‡å­—åˆ—ã‚ªãƒ—ã‚·ãƒ§ãƒ³ç”¨
 	void   setStrOpt(OptType tp, const string& str);
 	void   setStrOptDefault(OptType tp, const string& str);
 	string getStrOpt(OptType tp);
@@ -67,51 +67,51 @@ private:
 	bool   getRangeStrOpt(int& num, OptType tp);
 	void   signalInternalRegError(string msg, OptType tp);
 public:
-// -SCŒnƒRƒ}ƒ“ƒh—p
+// -SCç³»ã‚³ãƒãƒ³ãƒ‰ç”¨
 	void    addScOpt(OptType tp, TargetCatType tgcat, int tmin, int tmax);
 	OptType getScOptType(int num);
 	TargetCatType getScOptCategory(int num);
 	Msec	getScOptMin(int num);
 	Msec	getScOptMax(int num);
 	int		sizeScOpt();
-// -LGŒnƒRƒ}ƒ“ƒh—p
+// -LGç³»ã‚³ãƒãƒ³ãƒ‰ç”¨
 	void	addLgOpt(string strNlg);
 	string	getLgOpt(int num);
 	string	getLgOptAll();
 	int		sizeLgOpt();
-// ˆø”æ“¾
+// å¼•æ•°å–å¾—
 	void   addArgString(const string& strArg);
 	bool   replaceArgString(int n, const string& strArg);
 	string getStrArg(int n);
 	int    getValStrArg(int n);
 	int    getListStrArgs(vector<string>& listStr);
-// IFğŒ®—p
+// IFæ¡ä»¶å¼ç”¨
 	void setNumCheckCond(int num);
 	int  getNumCheckCond();
 	void setCondFlag(bool flag);
 	bool getCondFlag();
 
 public:
-// ƒRƒ}ƒ“ƒh
-	CmdType             cmdsel;				// ƒRƒ}ƒ“ƒh‘I‘ğ
-	CmdCat              category;			// Às‚ÌƒRƒ}ƒ“ƒhí—Ş
-	WideMsec			wmsecDst;			// ‘ÎÛ‘I‘ğ”ÍˆÍ
+// ã‚³ãƒãƒ³ãƒ‰
+	CmdType             cmdsel;				// ã‚³ãƒãƒ³ãƒ‰é¸æŠ
+	CmdCat              category;			// å®Ÿè¡Œæ™‚ã®ã‚³ãƒãƒ³ãƒ‰ç¨®é¡
+	WideMsec			wmsecDst;			// å¯¾è±¡é¸æŠç¯„å›²
 	LogoEdgeType		selectEdge;			// S/E/B
 	CmdTrSpEcID         selectAutoSub;			// TR/SP/EC
-// “à•”ó‘Ô
-	CmdArgTack			tack;				// İ’è“à—e‘g‚İ‡‚í‚¹‚©‚çŒˆ’è‚³‚ê‚éÀs—pİ’è
+// å†…éƒ¨çŠ¶æ…‹
+	CmdArgTack			tack;				// è¨­å®šå†…å®¹çµ„ã¿åˆã‚ã›ã‹ã‚‰æ±ºå®šã•ã‚Œã‚‹å®Ÿè¡Œç”¨è¨­å®š
 private:
-	CmdArgCond			cond;				// ‰ğÍ‚Ìó‘Ô
+	CmdArgCond			cond;				// è§£ææ™‚ã®çŠ¶æ…‹
 
 private:
-// ˆê”ÊƒIƒvƒVƒ‡ƒ“•Û‘¶
+// ä¸€èˆ¬ã‚ªãƒ—ã‚·ãƒ§ãƒ³ä¿å­˜
 	int					optdata[SIZE_JLOPT_OPTNUM];
 	bool				flagset[SIZE_JLOPT_OPTNUM];
 	string              optStrData[SIZE_JLOPT_OPTSTR];
 	bool                flagStrSet[SIZE_JLOPT_OPTSTR];
 	bool                flagStrUpdate[SIZE_JLOPT_OPTSTR];
-// ƒŠƒXƒg•Û‘¶
-	vector<string>		listStrArg;	// ˆø”•¶š—ñ
-	vector<CmdArgSc>	listScOpt;	// -SCŒnƒIƒvƒVƒ‡ƒ“•Û
-	vector<string>		listLgVal;	// ƒƒS”Ô†î•ñ•Û‘¶
+// ãƒªã‚¹ãƒˆä¿å­˜
+	vector<string>		listStrArg;	// å¼•æ•°æ–‡å­—åˆ—
+	vector<CmdArgSc>	listScOpt;	// -SCç³»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ä¿æŒ
+	vector<string>		listLgVal;	// ãƒ­ã‚´ç•ªå·æƒ…å ±ä¿å­˜
 };

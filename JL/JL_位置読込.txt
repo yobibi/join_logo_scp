@@ -1,56 +1,56 @@
-# join_logo_scp—p‚ÌŽÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eFˆÊ’uî•ñ‚ðƒtƒ@ƒCƒ‹‚©‚ç“Ç‚Ýž‚Þ“®ì
-#       “Ç‚Ýž‚ñ‚¾ˆÊ’uî•ñ‚É‰½‚à‰ÁH‚¹‚¸o—Íi-o,-odivƒIƒvƒVƒ‡ƒ“‚Åo—ÍæŽw’èj
+# å†…å®¹ï¼šä½ç½®æƒ…å ±ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã‚€å‹•ä½œ
+#       èª­ã¿è¾¼ã‚“ã ä½ç½®æƒ…å ±ã«ä½•ã‚‚åŠ å·¥ã›ãšå‡ºåŠ›ï¼ˆ-o,-odivã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§å‡ºåŠ›å…ˆæŒ‡å®šï¼‰
 #
 
 #----------------------------------------------
-# Ý’è
+# è¨­å®š
 #----------------------------------------------
-Call "JL_ini_ŠO•”ŠÂ‹«Žæ“¾.txt"               # ŠO•”Ý’è
-Default file_ts      ""                      # –¢’è‹`Žž‚Ì‰ŠúÝ’è
-Default file_div     "${file_ts}.div.txt"    # •ªŠ„ˆÊ’u‹LÚ‚Ì“ü—Íƒtƒ@ƒCƒ‹–¼
-Default file_trim    "${file_ts}.trim.avs"   # TrimˆÊ’u‹LÚ‚Ì“ü—Íƒtƒ@ƒCƒ‹–¼
-Default use_divfile 1       # ƒtƒ@ƒCƒ‹•ªŠ„Žg—pi0=‚È‚µ 1=Žg—pj
-Default type_trim_in 2      # ƒƒSˆÊ’u“ü—Íƒtƒ@ƒCƒ‹i0=‚È‚µ 1=list 2=avs-Trimj
+Call "JL_ini_å¤–éƒ¨ç’°å¢ƒå–å¾—.txt"               # å¤–éƒ¨è¨­å®š
+Default file_ts      ""                      # æœªå®šç¾©æ™‚ã®åˆæœŸè¨­å®š
+Default file_div     "${file_ts}.div.txt"    # åˆ†å‰²ä½ç½®è¨˜è¼‰ã®å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«å
+Default file_trim    "${file_ts}.trim.avs"   # Trimä½ç½®è¨˜è¼‰ã®å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«å
+Default use_divfile 1       # ãƒ•ã‚¡ã‚¤ãƒ«åˆ†å‰²ä½¿ç”¨ï¼ˆ0=ãªã— 1=ä½¿ç”¨ï¼‰
+Default type_trim_in 2      # ãƒ­ã‚´ä½ç½®å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆ0=ãªã— 1=list 2=avs-Trimï¼‰
 
 #----------------------------------------------
-# “®ì
+# å‹•ä½œ
 #----------------------------------------------
-ListClear -RegList divide_pos_list    # •ªŠ„ƒŠƒXƒg‰Šú‰»
-ListClear -RegList trim_list          # TrimƒŠƒXƒg‰Šú‰»
+ListClear -RegList divide_pos_list    # åˆ†å‰²ãƒªã‚¹ãƒˆåˆæœŸåŒ–
+ListClear -RegList trim_list          # Trimãƒªã‚¹ãƒˆåˆæœŸåŒ–
 
-#--- •ªŠ„ƒtƒ@ƒCƒ‹“Ç‚Ýž‚Ýˆ— ---
+#--- åˆ†å‰²ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿å‡¦ç† ---
 If ${use_divfile}>0
   ReadData "${file_div}"  -RegList divide_pos_list
 
-  Set divfile_from     1        # •ªŠ„‚Å‰½”Ô–Ú‚Ì\¬‚©‚çˆÊ’u‚ðo—Í‚·‚é‚©
-  Set divfile_zero_out 0        # •ªŠ„‚ÅÅ‰‚É0‚ðo—Í(0=‚µ‚È‚¢ 1=‚·‚é)
-  Call "JL_out_divfile.txt"     # •ªŠ„ƒtƒŒ[ƒ€ƒŠƒXƒgo—Íˆ—
+  Set divfile_from     1        # åˆ†å‰²ã§ä½•ç•ªç›®ã®æ§‹æˆã‹ã‚‰ä½ç½®ã‚’å‡ºåŠ›ã™ã‚‹ã‹
+  Set divfile_zero_out 0        # åˆ†å‰²ã§æœ€åˆã«0ã‚’å‡ºåŠ›(0=ã—ãªã„ 1=ã™ã‚‹)
+  Call "JL_out_divfile.txt"     # åˆ†å‰²ãƒ•ãƒ¬ãƒ¼ãƒ ãƒªã‚¹ãƒˆå‡ºåŠ›å‡¦ç†
 EndIf
 
-#--- ƒƒSˆÊ’u“Ç‚Ýž‚Ýˆ— ---
-If ${type_trim_in}==1           # 1s1ƒf[ƒ^‚ÌƒŠƒXƒgŒ`Ž®ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚Ýž‚Ý
+#--- ãƒ­ã‚´ä½ç½®èª­ã¿è¾¼ã¿å‡¦ç† ---
+If ${type_trim_in}==1           # 1è¡Œ1ãƒ‡ãƒ¼ã‚¿ã®ãƒªã‚¹ãƒˆå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã¿
   ReadData "${file_trim}" -RegList trim_list
-ElsIf ${type_trim_in}==2        # avisynthŒ`Ž®ƒtƒ@ƒCƒ‹‚ÌTrim‚©‚ç“Ç‚Ýž‚Ý
+ElsIf ${type_trim_in}==2        # avisynthå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ã®Trimã‹ã‚‰èª­ã¿è¾¼ã¿
   ReadTrim "${file_trim}" -RegList trim_list
-ElsIf $#{divide_pos_list}>0     # •ªŠ„ƒtƒ@ƒCƒ‹Ý’è‚ðƒƒSˆÊ’u‚Æ‚µ‚ÄŽg—p
-  ListIns -1 -RegList trim_list -val 0     # æ“ªƒƒSŠJŽnˆÊ’u
+ElsIf $#{divide_pos_list}>0     # åˆ†å‰²ãƒ•ã‚¡ã‚¤ãƒ«è¨­å®šã‚’ãƒ­ã‚´ä½ç½®ã¨ã—ã¦ä½¿ç”¨
+  ListIns -1 -RegList trim_list -val 0     # å…ˆé ­ãƒ­ã‚´é–‹å§‹ä½ç½®
   LocalSet cnt 0
-  Repeat $#{divide_pos_list}    # •ªŠ„ƒŠƒXƒg‚ð‡”Ô‚É“Ç‚Ýž‚Ý
+  Repeat $#{divide_pos_list}    # åˆ†å‰²ãƒªã‚¹ãƒˆã‚’é †ç•ªã«èª­ã¿è¾¼ã¿
     CountUp cnt
-    LocalSet pos_tmp ${divide_pos_list[$cnt]}          # ƒŠƒXƒg‹LÚ‚Ìƒf[ƒ^
+    LocalSet pos_tmp ${divide_pos_list[$cnt]}          # ãƒªã‚¹ãƒˆè¨˜è¼‰ã®ãƒ‡ãƒ¼ã‚¿
     If ${pos_tmp}>0 && ${pos_tmp}<${MAXTIME}
-      EvalFrame frame_num ${pos_tmp} -local            # ƒtƒŒ[ƒ€”Ô†
-      EvalNum   frame_pre ${frame_num}-1 -local        # 1‚Â‘O‚ÌƒtƒŒ[ƒ€”Ô†
-      ListIns -1 -RegList trim_list -val ${frame_pre}  # ƒƒSI—¹ˆÊ’u
-      ListIns -1 -RegList trim_list -val ${frame_num}  # ƒƒSŠJŽnˆÊ’u
+      EvalFrame frame_num ${pos_tmp} -local            # ãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·
+      EvalNum   frame_pre ${frame_num}-1 -local        # 1ã¤å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·
+      ListIns -1 -RegList trim_list -val ${frame_pre}  # ãƒ­ã‚´çµ‚äº†ä½ç½®
+      ListIns -1 -RegList trim_list -val ${frame_num}  # ãƒ­ã‚´é–‹å§‹ä½ç½®
     EndIf
   EndRepeat
-  ListIns -1 -RegList trim_list -val ${MAXFRAME}  # ÅŒãƒƒSI—¹ˆÊ’u
+  ListIns -1 -RegList trim_list -val ${MAXFRAME}  # æœ€å¾Œãƒ­ã‚´çµ‚äº†ä½ç½®
 EndIf
 
-#--- ˆÊ’uŠm’èˆ— ---
-LogoDirect -RegList trim_list   # “Ç‚Ýž‚Ýƒf[ƒ^ˆÊ’u‚ðƒƒSˆÊ’u‚Æ‚µ‚Ä’¼ÚÝ’è
-Force B        # ƒƒSˆÊ’u‚ð‚»‚Ì‚Ü‚ÜŠm’è
-AutoUp -code 1 # Autoˆ—‰»
+#--- ä½ç½®ç¢ºå®šå‡¦ç† ---
+LogoDirect -RegList trim_list   # èª­ã¿è¾¼ã¿ãƒ‡ãƒ¼ã‚¿ä½ç½®ã‚’ãƒ­ã‚´ä½ç½®ã¨ã—ã¦ç›´æŽ¥è¨­å®š
+Force B        # ãƒ­ã‚´ä½ç½®ã‚’ãã®ã¾ã¾ç¢ºå®š
+AutoUp -code 1 # Autoå‡¦ç†åŒ–

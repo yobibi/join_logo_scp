@@ -1,5 +1,5 @@
-//
-// JLƒXƒNƒŠƒvƒg§Œäó‘Ô‚Ì•ÛiCall‚Ì”‚¾‚¯ì¬j
+ï»¿//
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆåˆ¶å¾¡çŠ¶æ…‹ã®ä¿æŒï¼ˆCallã®æ•°ã ã‘ä½œæˆï¼‰
 //
 #include "stdafx.h"
 #include "CommonJls.hpp"
@@ -8,7 +8,7 @@
 
 ///////////////////////////////////////////////////////////////////////
 //
-// ƒXƒNƒŠƒvƒg§Œä
+// ã‚¹ã‚¯ãƒªãƒ—ãƒˆåˆ¶å¾¡
 //
 ///////////////////////////////////////////////////////////////////////
 JlsScriptState::JlsScriptState(JlsScrGlobal* globalState){
@@ -17,7 +17,7 @@ JlsScriptState::JlsScriptState(JlsScrGlobal* globalState){
 }
 
 //---------------------------------------------------------------------
-// ‰Šú‰»
+// åˆæœŸåŒ–
 //---------------------------------------------------------------------
 void JlsScriptState::clear(){
 	m_ifSkip = false;
@@ -59,42 +59,42 @@ void JlsScriptState::clear(){
 
 
 //=====================================================================
-// Ifˆ—
+// Ifå‡¦ç†
 //=====================================================================
 
 //---------------------------------------------------------------------
-// If•¶İ’è
-//   “ü—Í:   flag_cond=ğŒ®
-//   •Ô‚è’l: ƒGƒ‰[”Ô†i0=³íI—¹A1=ƒGƒ‰[j
+// Ifæ–‡è¨­å®š
+//   å…¥åŠ›:   flag_cond=æ¡ä»¶å¼
+//   è¿”ã‚Šå€¤: ã‚¨ãƒ©ãƒ¼ç•ªå·ï¼ˆ0=æ­£å¸¸çµ‚äº†ã€1=ã‚¨ãƒ©ãƒ¼ï¼‰
 //---------------------------------------------------------------------
 int JlsScriptState::ifBegin(bool flag_cond){
 	CondIfState stat;
 	if (m_ifSkip){
 		m_ifSkip = true;
-		stat = CondIfState::FINISHED;		// ğŒFI—¹Œã
+		stat = CondIfState::FINISHED;		// æ¡ä»¶ï¼šçµ‚äº†å¾Œ
 	}
 	else if (flag_cond == false){
 		m_ifSkip = true;
-		stat = CondIfState::PREPARE;		// ğŒF–¢Às
+		stat = CondIfState::PREPARE;		// æ¡ä»¶ï¼šæœªå®Ÿè¡Œ
 	}
 	else{
 		m_ifSkip = false;
-		stat = CondIfState::RUNNING;		// ğŒFÀs
+		stat = CondIfState::RUNNING;		// æ¡ä»¶ï¼šå®Ÿè¡Œ
 	}
-	m_listIfState.push_back(stat);			// ƒŠƒXƒg‚É•Û‘¶
+	m_listIfState.push_back(stat);			// ãƒªã‚¹ãƒˆã«ä¿å­˜
 	return 0;
 }
 
 //---------------------------------------------------------------------
-// EndIf•¶İ’è
-//   •Ô‚è’l: ƒGƒ‰[”Ô†i0=³íI—¹A1=ƒGƒ‰[j
+// EndIfæ–‡è¨­å®š
+//   è¿”ã‚Šå€¤: ã‚¨ãƒ©ãƒ¼ç•ªå·ï¼ˆ0=æ­£å¸¸çµ‚äº†ã€1=ã‚¨ãƒ©ãƒ¼ï¼‰
 //---------------------------------------------------------------------
 int JlsScriptState::ifEnd(){
 	int depth = (int) m_listIfState.size();
 	if (depth <= 0){
 		return 1;
 	}
-	m_listIfState.pop_back();				// ƒŠƒXƒg‚©‚çíœ
+	m_listIfState.pop_back();				// ãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤
 	depth --;
 	if (depth <= 0){
 		m_ifSkip = false;
@@ -111,9 +111,9 @@ int JlsScriptState::ifEnd(){
 }
 
 //---------------------------------------------------------------------
-// ElsIf•¶İ’è
-//   “ü—Í:   flag_cond=ğŒ®
-//   •Ô‚è’l: ƒGƒ‰[”Ô†i0=³íI—¹A1=ƒGƒ‰[j
+// ElsIfæ–‡è¨­å®š
+//   å…¥åŠ›:   flag_cond=æ¡ä»¶å¼
+//   è¿”ã‚Šå€¤: ã‚¨ãƒ©ãƒ¼ç•ªå·ï¼ˆ0=æ­£å¸¸çµ‚äº†ã€1=ã‚¨ãƒ©ãƒ¼ï¼‰
 //---------------------------------------------------------------------
 int JlsScriptState::ifElse(bool flag_cond){
 	int depth = (int) m_listIfState.size();
@@ -145,38 +145,38 @@ int JlsScriptState::ifElse(bool flag_cond){
 
 
 //=====================================================================
-// Repeatˆ—
+// Repeatå‡¦ç†
 //=====================================================================
 
 //---------------------------------------------------------------------
-// Repeat•¶İ’è
-//   “ü—Í:   ŒJ‚è•Ô‚µ‰ñ”
-//   •Ô‚è’l: ƒGƒ‰[”Ô†i0=³íI—¹A1=ƒGƒ‰[j
+// Repeatæ–‡è¨­å®š
+//   å…¥åŠ›:   ç¹°ã‚Šè¿”ã—å›æ•°
+//   è¿”ã‚Šå€¤: ã‚¨ãƒ©ãƒ¼ç•ªå·ï¼ˆ0=æ­£å¸¸çµ‚äº†ã€1=ã‚¨ãƒ©ãƒ¼ï¼‰
 //---------------------------------------------------------------------
 int JlsScriptState::repeatBegin(int num){
-	//--- Å‰‚ÌƒŠƒs[ƒgˆ— ---
+	//--- æœ€åˆã®ãƒªãƒ”ãƒ¼ãƒˆå‡¦ç† ---
 	int depth = (int) m_listRepDepth.size();
 	if (depth == 0){
-		m_repSkip = false;					// ”ò‚Î‚³‚È‚¢
-		m_repLineReadCache = -1;			// ƒLƒƒƒbƒVƒ…“Ç‚İo‚µ–³Œø
+		m_repSkip = false;					// é£›ã°ã•ãªã„
+		m_repLineReadCache = -1;			// ã‚­ãƒ£ãƒƒã‚·ãƒ¥èª­ã¿å‡ºã—ç„¡åŠ¹
 	}
-	//--- ƒŠƒs[ƒgƒRƒ}ƒ“ƒhƒLƒƒƒbƒVƒ…—p ---
+	//--- ãƒªãƒ”ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰ã‚­ãƒ£ãƒƒã‚·ãƒ¥ç”¨ ---
 	string strCmdRepeat = "Repeat " + to_string(num);
-	//--- ƒŠƒs[ƒgî•ñ‚ğİ’è ---
-	if (num <= 0 || m_repSkip){				// Å‰‚©‚çÀs‚È‚µ‚Ìê‡
-		num = -1;							// Às‚È‚µ‚Ì‰ñ”‚Í-1‚É‚·‚é
-		m_repSkip = true;					// ƒRƒ}ƒ“ƒh‚ğ”ò‚Î‚·
+	//--- ãƒªãƒ”ãƒ¼ãƒˆæƒ…å ±ã‚’è¨­å®š ---
+	if (num <= 0 || m_repSkip){				// æœ€åˆã‹ã‚‰å®Ÿè¡Œãªã—ã®å ´åˆ
+		num = -1;							// å®Ÿè¡Œãªã—æ™‚ã®å›æ•°ã¯-1ã«ã™ã‚‹
+		m_repSkip = true;					// ã‚³ãƒãƒ³ãƒ‰ã‚’é£›ã°ã™
 	}
-	//--- İ’è•Û‘¶ ---
+	//--- è¨­å®šä¿å­˜ ---
 	RepDepthHold holdval = {};
-	holdval.countLoop = num;				// ŒJ‚è•Ô‚µ‰ñ”‚ğİ’è
-	holdval.varStep = 0;					// ”O‚Ì‚½‚ß‰Šú‰»
-	holdval.varName.clear();				// ”O‚Ì‚½‚ß‰Šú‰»
-	holdval.layerReg = pGlobalState->getLocalRegLayer();	// Break‚Ì‰ñ•œ—p
-	//--- ’x‰„Àsˆ—‚ÌŠg’£ ---
+	holdval.countLoop = num;				// ç¹°ã‚Šè¿”ã—å›æ•°ã‚’è¨­å®š
+	holdval.varStep = 0;					// å¿µã®ãŸã‚åˆæœŸåŒ–
+	holdval.varName.clear();				// å¿µã®ãŸã‚åˆæœŸåŒ–
+	holdval.layerReg = pGlobalState->getLocalRegLayer();	// Breakæ™‚ã®å›å¾©ç”¨
+	//--- é…å»¶å®Ÿè¡Œå‡¦ç†ã®æ‹¡å¼µ ---
 	int errval = 0;
 	if ( isLazyExe() || isMemExe() ){
-		if ( m_flagCacheRepExt ){			// ’x‰„Às“àrepeat’†‚ÉRepeatƒlƒXƒg
+		if ( m_flagCacheRepExt ){			// é…å»¶å®Ÿè¡Œå†…repeatä¸­ã«Repeatãƒã‚¹ãƒˆ
 			errval = repeatBeginExtNest(holdval);
 		}else{
 			errval = repeatBeginExtend(holdval, strCmdRepeat);
@@ -185,41 +185,41 @@ int JlsScriptState::repeatBegin(int num){
 		errval = repeatBeginNormal(holdval, strCmdRepeat);
 	}
 	if ( errval == 0 ){
-		m_listRepDepth.push_back(holdval);		// ƒŠƒXƒg‚É•Û‘¶
+		m_listRepDepth.push_back(holdval);		// ãƒªã‚¹ãƒˆã«ä¿å­˜
 	}
 	return errval;
 }
-//--- ’Êí‚ÌRepeatİ’è ---
+//--- é€šå¸¸ã®Repeatè¨­å®š ---
 int JlsScriptState::repeatBeginNormal(RepDepthHold& holdval, const string& strCmdRepeat){
-	//--- ƒLƒƒƒbƒVƒ…s”ƒ`ƒFƒbƒN ---
+	//--- ã‚­ãƒ£ãƒƒã‚·ãƒ¥è¡Œæ•°ãƒã‚§ãƒƒã‚¯ ---
 	int size_line = (int) m_listRepCmdCache.size();
-	if (size_line >= SIZE_REPLINE){			// Å‘ås”ƒ`ƒFƒbƒN
+	if (size_line >= SIZE_REPLINE){			// æœ€å¤§è¡Œæ•°ãƒã‚§ãƒƒã‚¯
 		return 1;
 	}
-	//--- ƒLƒƒƒbƒVƒ…‚µ‚Ä‚È‚¢ê‡‚ÍŒ»İƒRƒ}ƒ“ƒh‚ğƒLƒƒƒbƒVƒ… ---
+	//--- ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ã¦ãªã„å ´åˆã¯ç¾åœ¨ã‚³ãƒãƒ³ãƒ‰ã‚’ã‚­ãƒ£ãƒƒã‚·ãƒ¥ ---
 	if (size_line == 0){
 		m_listRepCmdCache.push_back(strCmdRepeat);
 		size_line ++;
 	}
 	int line_start = m_repLineReadCache;
 	if (line_start < 0) line_start = size_line;
-	//--- İ’è•Û‘¶ ---
-	holdval.lineStart = line_start;			// ŠJns‚ğİ’è
-	//--- Šg’£–³Œøİ’è ---
+	//--- è¨­å®šä¿å­˜ ---
+	holdval.lineStart = line_start;			// é–‹å§‹è¡Œã‚’è¨­å®š
+	//--- æ‹¡å¼µç„¡åŠ¹è¨­å®š ---
 	holdval.extLineEnd = 0;
 	holdval.extLineRet = 0;
 	holdval.exeType = CacheExeType::None;
 	holdval.extFlagNest = false;
 	return 0;
 }
-//--- ’x‰„Às’†‚ÌRepeatİ’è ---
+//--- é…å»¶å®Ÿè¡Œä¸­ã®Repeatè¨­å®š ---
 int JlsScriptState::repeatBeginExtend(RepDepthHold& holdval, const string& strCmdRepeat){
-	//--- ƒLƒƒƒbƒVƒ…s”ƒ`ƒFƒbƒN ---
+	//--- ã‚­ãƒ£ãƒƒã‚·ãƒ¥è¡Œæ•°ãƒã‚§ãƒƒã‚¯ ---
 	int size_line = (int)m_listRepExtCache.size();
-	if (size_line >= SIZE_REPLINE){			// Å‘ås”ƒ`ƒFƒbƒN
+	if (size_line >= SIZE_REPLINE){			// æœ€å¤§è¡Œæ•°ãƒã‚§ãƒƒã‚¯
 		return 1;
 	}
-	//--- Šg’£ƒŠƒs[ƒgƒLƒƒƒbƒVƒ…‚ÉƒRƒ}ƒ“ƒhs‚ğŠi”[ ---
+	//--- æ‹¡å¼µãƒªãƒ”ãƒ¼ãƒˆã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ã‚³ãƒãƒ³ãƒ‰è¡Œã‚’æ ¼ç´ ---
 	m_listRepExtCache.push_back(strCmdRepeat);
 	holdval.lineStart  = (int)m_listRepExtCache.size();
 	holdval.exeType    = getCacheExeType();
@@ -252,23 +252,23 @@ int JlsScriptState::repeatBeginExtend(RepDepthHold& holdval, const string& strCm
 	}
 	return errval;
 }
-//--- ’x‰„Às“àrepeat’†‚ÉRepeatƒlƒXƒg‚µ‚½ê‡‚Ìİ’è ---
+//--- é…å»¶å®Ÿè¡Œå†…repeatä¸­ã«Repeatãƒã‚¹ãƒˆã—ãŸå ´åˆã®è¨­å®š ---
 int JlsScriptState::repeatBeginExtNest(RepDepthHold& holdval){
-	holdval.lineStart  = m_repLineExtRCache;	// ’x‰„Às“àrepeat’†‚ÌˆÊ’u
-	holdval.exeType    = getCacheExeType();		// ’x‰„Às’†‚ÌRepeat‚Éİ’è
-	holdval.extLineEnd = 0;		// •sg—p
-	holdval.extLineRet = 0;		// •sg—p
-	holdval.extFlagNest = true;	// ’x‰„Às“àrepeat’†‚ÉRepeatƒlƒXƒg‚ğİ’è
+	holdval.lineStart  = m_repLineExtRCache;	// é…å»¶å®Ÿè¡Œå†…repeatä¸­ã®ä½ç½®
+	holdval.exeType    = getCacheExeType();		// é…å»¶å®Ÿè¡Œä¸­ã®Repeatã«è¨­å®š
+	holdval.extLineEnd = 0;		// ä¸ä½¿ç”¨
+	holdval.extLineRet = 0;		// ä¸ä½¿ç”¨
+	holdval.extFlagNest = true;	// é…å»¶å®Ÿè¡Œå†…repeatä¸­ã«Repeatãƒã‚¹ãƒˆã‚’è¨­å®š
 	return 0;
 }
 //---------------------------------------------------------------------
-// EndRepeat•¶İ’è
-//   •Ô‚è’l: ƒGƒ‰[”Ô†i0=³íI—¹A1=ƒGƒ‰[j
+// EndRepeatæ–‡è¨­å®š
+//   è¿”ã‚Šå€¤: ã‚¨ãƒ©ãƒ¼ç•ªå·ï¼ˆ0=æ­£å¸¸çµ‚äº†ã€1=ã‚¨ãƒ©ãƒ¼ï¼‰
 //---------------------------------------------------------------------
 int JlsScriptState::repeatEnd(){
 	return repeatEndMain(false);
 }
-int JlsScriptState::repeatEndForce(){	// ‹­§I—¹i“à•”ˆ—j
+int JlsScriptState::repeatEndForce(){	// å¼·åˆ¶çµ‚äº†ï¼ˆå†…éƒ¨å‡¦ç†ï¼‰
 	return repeatEndMain(true);
 }
 int JlsScriptState::repeatEndMain(bool force){
@@ -276,47 +276,47 @@ int JlsScriptState::repeatEndMain(bool force){
 	if (depth <= 0){
 		return 1;
 	}
-	if (m_listRepDepth[depth-1].countLoop > 0){		// ƒJƒEƒ“ƒgƒ_ƒEƒ“
+	if (m_listRepDepth[depth-1].countLoop > 0){		// ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³
 		m_listRepDepth[depth-1].countLoop --;
 		if ( force ){
-			m_listRepDepth[depth-1].countLoop = 0;	// ‹­§I—¹
+			m_listRepDepth[depth-1].countLoop = 0;	// å¼·åˆ¶çµ‚äº†
 		}
 	}
 	bool extMode = isRepeatExtType();
-	if (m_listRepDepth[depth-1].countLoop > 0){		// ŒJ‚è•Ô‚µŒp‘±‚Ìê‡
+	if (m_listRepDepth[depth-1].countLoop > 0){		// ç¹°ã‚Šè¿”ã—ç¶™ç¶šã®å ´åˆ
 		if ( extMode ){
-			m_repLineExtRCache = m_listRepDepth[depth-1].lineStart;	// “Ç‚İo‚µsİ’è
+			m_repLineExtRCache = m_listRepDepth[depth-1].lineStart;	// èª­ã¿å‡ºã—è¡Œè¨­å®š
 		}else{
-			m_repLineReadCache = m_listRepDepth[depth-1].lineStart;	// “Ç‚İo‚µsİ’è
+			m_repLineReadCache = m_listRepDepth[depth-1].lineStart;	// èª­ã¿å‡ºã—è¡Œè¨­å®š
 		}
-		//--- Repeat‚ÌƒlƒXƒg‚ğÄ“xİ’è ---
+		//--- Repeatã®ãƒã‚¹ãƒˆã‚’å†åº¦è¨­å®š ---
 		CmdType cmdtype = CmdType::Repeat;
 		CmdCat  cmdcat  = CmdCat::REP;
 		addNestInfoForEnd(cmdtype, cmdcat);
 	}
-	else{											// ŒJ‚è•Ô‚µI—¹‚Ìê‡
-		if ( extMode ){								// ’x‰„Àsƒ‚[ƒh—p
+	else{											// ç¹°ã‚Šè¿”ã—çµ‚äº†ã®å ´åˆ
+		if ( extMode ){								// é…å»¶å®Ÿè¡Œãƒ¢ãƒ¼ãƒ‰ç”¨
 			repeatEndExtend(m_listRepDepth[depth-1]);
 		}
-		//--- “Ç‚İ”ò‚Î‚µ‚ÌŠK‘w‡‚í‚¹ ---
+		//--- èª­ã¿é£›ã°ã—æ™‚ã®éšå±¤åˆã‚ã› ---
 		if ( m_repSkip || force ){
 			int layerCur = pGlobalState->getLocalRegLayer();
 			int layerDif = layerCur - m_listRepDepth[depth-1].layerReg;
-			if ( layerDif > 0 ){		// •Ï”ŠK‘w‚Ì‚¸‚ê‚ğ‡‚í‚¹‚é
+			if ( layerDif > 0 ){		// å¤‰æ•°éšå±¤ã®ãšã‚Œã‚’åˆã‚ã›ã‚‹
 				for(int i=0; i<layerDif; i++){
 					pGlobalState->setLocalRegReleaseOne();
 				}
 			}
 		}
-		//--- À‘Ìíœ ---
-		m_listRepDepth.pop_back();					// ƒŠƒXƒg‚©‚çíœ
+		//--- å®Ÿä½“å‰Šé™¤ ---
+		m_listRepDepth.pop_back();					// ãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤
 		depth --;
-		//--- ‘SƒŠƒs[ƒgI—¹‚Ìˆ— ---
+		//--- å…¨ãƒªãƒ”ãƒ¼ãƒˆçµ‚äº†æ™‚ã®å‡¦ç† ---
 		if (depth == 0){
-			m_listRepCmdCache.clear();				// ƒLƒƒƒbƒVƒ…•¶š—ñ‚ÌÁ‹
-			m_listRepExtCache.clear();				// ’x‰„Às—pŠg’£ƒLƒƒƒbƒVƒ…
+			m_listRepCmdCache.clear();				// ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ–‡å­—åˆ—ã®æ¶ˆå»
+			m_listRepExtCache.clear();				// é…å»¶å®Ÿè¡Œç”¨æ‹¡å¼µã‚­ãƒ£ãƒƒã‚·ãƒ¥
 			m_repSkip = false;
-		//--- ”ò‚Î‚µó‘Ô‚ğXV ---
+		//--- é£›ã°ã—çŠ¶æ…‹ã‚’æ›´æ–° ---
 		}else if (m_repSkip){
 			if (m_listRepDepth[depth-1].countLoop >= 0){
 				m_repSkip = false;
@@ -325,15 +325,15 @@ int JlsScriptState::repeatEndMain(bool force){
 	}
 	return 0;
 }
-//--- ’x‰„Às’†‚ÌRepeatİ’è ---
+//--- é…å»¶å®Ÿè¡Œä¸­ã®Repeatè¨­å®š ---
 void JlsScriptState::repeatEndExtend(RepDepthHold& holdval){
 	int nNext = m_repLineExtRCache;
 	int nEnd  = holdval.extLineEnd;
-	//--- ’x‰„Às’†Repeat“àRepeatƒlƒXƒg‚Ì‚Í‚»‚Ì‚Ü‚ÜI—¹ ---
+	//--- é…å»¶å®Ÿè¡Œä¸­Repeatå†…Repeatãƒã‚¹ãƒˆã®æ™‚ã¯ãã®ã¾ã¾çµ‚äº† ---
 	if ( holdval.extFlagNest ){
 		return;
 	}
-	//--- –¢Às•”•ª‚ğqueue‚É–ß‚· ---
+	//--- æœªå®Ÿè¡Œéƒ¨åˆ†ã‚’queueã«æˆ»ã™ ---
 	if ( nNext <= nEnd ){
 		switch( holdval.exeType ){
 			case CacheExeType::LazyS :
@@ -352,18 +352,18 @@ void JlsScriptState::repeatEndExtend(RepDepthHold& holdval){
 				break;
 		}
 	}
-	//--- ƒŠƒs[ƒgCache‚Ì•s—v‚É‚È‚é•”•ª‚ğíœ ---
+	//--- ãƒªãƒ”ãƒ¼ãƒˆCacheã®ä¸è¦ã«ãªã‚‹éƒ¨åˆ†ã‚’å‰Šé™¤ ---
 	if ( nEnd + 1 == (int)m_listRepExtCache.size() ){
 		for(int i = holdval.lineStart - 1; i <= nEnd; i++){
 			if ( m_listRepExtCache.empty() == false ) m_listRepExtCache.pop_back();
 		}
 	}
-	//--- ƒLƒƒƒbƒVƒ…Àss‚ğRepeat‘O‚É–ß‚· ---
+	//--- ã‚­ãƒ£ãƒƒã‚·ãƒ¥å®Ÿè¡Œè¡Œã‚’Repeatå‰ã«æˆ»ã™ ---
 	m_repLineExtRCache = holdval.extLineRet;
 }
-//--- queueƒf[ƒ^‚ğ’x‰„Às“à‚ÌƒŠƒs[ƒg—pƒLƒƒƒbƒVƒ…‚ÉˆÚ“® ---
+//--- queueãƒ‡ãƒ¼ã‚¿ã‚’é…å»¶å®Ÿè¡Œå†…ã®ãƒªãƒ”ãƒ¼ãƒˆç”¨ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ç§»å‹• ---
 int JlsScriptState::repeatExtMoveQueue(vector <string>& listCache, queue <string>& queSrc){
-	if ( listCache.size() + queSrc.size() >= SIZE_MEMLINE){		// Å‘ås”ƒ`ƒFƒbƒN
+	if ( listCache.size() + queSrc.size() >= SIZE_MEMLINE){		// æœ€å¤§è¡Œæ•°ãƒã‚§ãƒƒã‚¯
 		pGlobalState->addMsgErrorN("error: memory cache for repeat overflow");
 		return 1;
 	}
@@ -373,14 +373,14 @@ int JlsScriptState::repeatExtMoveQueue(vector <string>& listCache, queue <string
 	}
 	return 0;
 }
-//--- ƒŠƒs[ƒg—pƒLƒƒƒbƒVƒ…‚©‚çqueue‚Éƒf[ƒ^‚ğ–ß‚· ---
+//--- ãƒªãƒ”ãƒ¼ãƒˆç”¨ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‹ã‚‰queueã«ãƒ‡ãƒ¼ã‚¿ã‚’æˆ»ã™ ---
 void JlsScriptState::repeatExtBackQueue(queue <string>& queDst, vector <string>& listCache, int nFrom, int nTo){
-	if ( queDst.size() + nTo - nFrom + 1 >= SIZE_MEMLINE ){		// Å‘ås”ƒ`ƒFƒbƒN
+	if ( queDst.size() + nTo - nFrom + 1 >= SIZE_MEMLINE ){		// æœ€å¤§è¡Œæ•°ãƒã‚§ãƒƒã‚¯
 		pGlobalState->addMsgErrorN("error: memory cache for repeat overflow");
 		return;
 	}
 	queue <string> q;
-	queDst.swap(q);			// queDstƒNƒŠƒA + q‚Éˆê•Û
+	queDst.swap(q);			// queDstã‚¯ãƒªã‚¢ + qã«ä¸€æ™‚ä¿æŒ
 	for(int i = nFrom; i <= nTo; i++){
 		queDst.push( listCache[i] );
 	}
@@ -391,8 +391,8 @@ void JlsScriptState::repeatExtBackQueue(queue <string>& queDst, vector <string>&
 	return;
 }
 //---------------------------------------------------------------------
-// Break•¶İ’è
-//   •Ô‚è’l: true=³íI—¹Afalse=ƒGƒ‰[
+// Breakæ–‡è¨­å®š
+//   è¿”ã‚Šå€¤: true=æ­£å¸¸çµ‚äº†ã€false=ã‚¨ãƒ©ãƒ¼
 //---------------------------------------------------------------------
 void JlsScriptState::releaseBreak(){
 	m_flagBreak = false;
@@ -400,16 +400,16 @@ void JlsScriptState::releaseBreak(){
 bool JlsScriptState::setBreak(){
 	int depth = (int) m_listRepDepth.size();
 	if ( depth > 0 ){
-		m_listRepDepth[depth-1].countLoop = -1;	// Às‚È‚µ‚Ì‰ñ”‚Í-1‚É‚·‚é
-		m_repSkip = true;					// ƒRƒ}ƒ“ƒh‚ğ”ò‚Î‚·
-		m_flagBreak = true;					// breakİ’è
+		m_listRepDepth[depth-1].countLoop = -1;	// å®Ÿè¡Œãªã—æ™‚ã®å›æ•°ã¯-1ã«ã™ã‚‹
+		m_repSkip = true;					// ã‚³ãƒãƒ³ãƒ‰ã‚’é£›ã°ã™
+		m_flagBreak = true;					// breakè¨­å®š
 		return true;
 	}
 	return false;
 }
 //---------------------------------------------------------------------
-// ‰ñ”˜A“®•Ï”İ’è
-//   •Ô‚è’l: ƒGƒ‰[”Ô†i0=³íI—¹A1=ƒGƒ‰[j
+// å›æ•°é€£å‹•å¤‰æ•°è¨­å®š
+//   è¿”ã‚Šå€¤: ã‚¨ãƒ©ãƒ¼ç•ªå·ï¼ˆ0=æ­£å¸¸çµ‚äº†ã€1=ã‚¨ãƒ©ãƒ¼ï¼‰
 //---------------------------------------------------------------------
 void JlsScriptState::repeatVarSet(const string& name, int step){
 	int depth = (int) m_listRepDepth.size();
@@ -430,67 +430,67 @@ bool JlsScriptState::repeatVarGet(string& name, int& step){
 }
 
 //=====================================================================
-// ’x‰„Às•ÛŠÇ—Ìˆæ‚Ö‚ÌƒAƒNƒZƒX
+// é…å»¶å®Ÿè¡Œä¿ç®¡é ˜åŸŸã¸ã®ã‚¢ã‚¯ã‚»ã‚¹
 //=====================================================================
 
 //---------------------------------------------------------------------
-// lazyˆ—‚Å•ÛŠÇ‚³‚ê‚½ƒRƒ}ƒ“ƒh‚ğÀs‚ÉˆÚ‚·
-// “ü—ÍF
+// lazyå‡¦ç†ã§ä¿ç®¡ã•ã‚ŒãŸã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œã«ç§»ã™
+// å…¥åŠ›ï¼š
 //   typeLazy  : LazyS, LazyA, LazyE, FULL
-//   strBuf   : Œ»İs‚Ì•¶š—ñi•ÛŠÇƒRƒ}ƒ“ƒh‚ğæ‚ÉÀs‚·‚é‚ÉƒLƒƒƒbƒVƒ…‚ÖˆÚ‚·j
-// “üo—ÍF
-//   state    : lazyÀsˆ—’Ç‰Á
-// o—ÍF
-//   •Ô‚è’l   FŒ»İs‚ÌƒRƒ}ƒ“ƒhÀs—L–³iÀsƒLƒƒƒbƒVƒ…‚ÉˆÚ‚µ‚½‚ÍÀs‚µ‚È‚¢j
+//   strBuf   : ç¾åœ¨è¡Œã®æ–‡å­—åˆ—ï¼ˆä¿ç®¡ã‚³ãƒãƒ³ãƒ‰ã‚’å…ˆã«å®Ÿè¡Œã™ã‚‹æ™‚ã«ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã¸ç§»ã™ï¼‰
+// å…¥å‡ºåŠ›ï¼š
+//   state    : lazyå®Ÿè¡Œå‡¦ç†è¿½åŠ 
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤   ï¼šç¾åœ¨è¡Œã®ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œæœ‰ç„¡ï¼ˆå®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ç§»ã—ãŸæ™‚ã¯å®Ÿè¡Œã—ãªã„ï¼‰
 //---------------------------------------------------------------------
 bool JlsScriptState::setLazyExe(LazyType typeLazy, const string& strBuf){
-	//--- Àsˆ— ---
+	//--- å®Ÿè¡Œå‡¦ç† ---
 	bool enableExe = true;
-	if ( pGlobalState->isLazyExist(LazyType::FULL) ){		// lazyƒRƒ}ƒ“ƒhg—pÀÑ‚ª‚ ‚ê‚ÎŠm”F‚·‚é
+	if ( pGlobalState->isLazyExist(LazyType::FULL) ){		// lazyã‚³ãƒãƒ³ãƒ‰ä½¿ç”¨å®Ÿç¸¾ãŒã‚ã‚Œã°ç¢ºèªã™ã‚‹
 		queue <string> queStrS;
 		queue <string> queStrA;
 		queue <string> queStrE;
-		//--- Lazy•ÛŠÇs‚Ìæ‚èo‚µ ---
+		//--- Lazyä¿ç®¡è¡Œã®å–ã‚Šå‡ºã— ---
 		switch( typeLazy ){
 			case LazyType::LazyS:
-				enableExe = setLazyExeProcS(queStrS, strBuf);	// iŒŸo’¼‘Olazy + Œ»İsj
+				enableExe = setLazyExeProcS(queStrS, strBuf);	// ï¼ˆæ¤œå‡ºç›´å‰lazy + ç¾åœ¨è¡Œï¼‰
 				break;
 			case LazyType::LazyA:
-				//--- ŒŸo’¼‘Olazy‚ªc‚Á‚Ä‚¢‚½‚çæ‚ÉÀs ---
-				enableExe = setLazyExeProcS(queStrS, strBuf);	// iŒŸo’¼‘Olazy + Œ»İsj
-				pGlobalState->popListByLazy(queStrA, LazyType::LazyA);	// iauto’¼Œãlazyj
+				//--- æ¤œå‡ºç›´å‰lazyãŒæ®‹ã£ã¦ã„ãŸã‚‰å…ˆã«å®Ÿè¡Œ ---
+				enableExe = setLazyExeProcS(queStrS, strBuf);	// ï¼ˆæ¤œå‡ºç›´å‰lazy + ç¾åœ¨è¡Œï¼‰
+				pGlobalState->popListByLazy(queStrA, LazyType::LazyA);	// ï¼ˆautoç›´å¾Œlazyï¼‰
 				break;
 			case LazyType::LazyE:
-				pGlobalState->popListByLazy(queStrE, LazyType::LazyE);	// iI—¹Œãlazyj
+				pGlobalState->popListByLazy(queStrE, LazyType::LazyE);	// ï¼ˆçµ‚äº†å¾Œlazyï¼‰
 				break;
 			case LazyType::FULL:
-				//--- lazy_e‚Ü‚Å‚Ì‘S•”‚ğFlush“®ì ---
-				enableExe = setLazyExeProcS(queStrS, strBuf);	// iŒŸo’¼‘Olazy + Œ»İsj
-				pGlobalState->popListByLazy(queStrA, LazyType::LazyA);	// iauto’¼Œãlazyj
-				pGlobalState->popListByLazy(queStrE, LazyType::LazyE);	// iI—¹Œãlazyj
+				//--- lazy_eã¾ã§ã®å…¨éƒ¨ã‚’Flushå‹•ä½œ ---
+				enableExe = setLazyExeProcS(queStrS, strBuf);	// ï¼ˆæ¤œå‡ºç›´å‰lazy + ç¾åœ¨è¡Œï¼‰
+				pGlobalState->popListByLazy(queStrA, LazyType::LazyA);	// ï¼ˆautoç›´å¾Œlazyï¼‰
+				pGlobalState->popListByLazy(queStrE, LazyType::LazyE);	// ï¼ˆçµ‚äº†å¾Œlazyï¼‰
 				break;
 			default:
 				break;
 		}
 		if ( queStrS.empty() == false ){
-			addCacheExeLazy(queStrS, LazyType::LazyS);	// LazyÀsƒLƒƒƒbƒVƒ…‚ÉˆÚ“®
+			addCacheExeLazy(queStrS, LazyType::LazyS);	// Lazyå®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ç§»å‹•
 		}
 		if ( queStrA.empty() == false ){
-			addCacheExeLazy(queStrA, LazyType::LazyA);	// LazyÀsƒLƒƒƒbƒVƒ…‚ÉˆÚ“®
+			addCacheExeLazy(queStrA, LazyType::LazyA);	// Lazyå®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ç§»å‹•
 		}
 		if ( queStrE.empty() == false ){
-			addCacheExeLazy(queStrE, LazyType::LazyE);	// LazyÀsƒLƒƒƒbƒVƒ…‚ÉˆÚ“®
+			addCacheExeLazy(queStrE, LazyType::LazyE);	// Lazyå®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ç§»å‹•
 		}
 	}
 	return enableExe;
 }
 //---------------------------------------------------------------------
-// iƒTƒuƒ‹[ƒ`ƒ“j•ÛŠÇ‚³‚ê‚½ƒf[ƒ^‚ÌŒã‚ÉŒ»İs‚ğÀs‚·‚é‚½‚ß‚Ìˆ—
-// •Ô‚è’l   FŒ»İs‚ÌƒRƒ}ƒ“ƒhÀs—L–³iŒ»İs‚ğƒŠƒXƒg“à‚É“ü‚ê‚½‚çÀs‚µ‚È‚¢j
+// ï¼ˆã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ï¼‰ä¿ç®¡ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã®å¾Œã«ç¾åœ¨è¡Œã‚’å®Ÿè¡Œã™ã‚‹ãŸã‚ã®å‡¦ç†
+// è¿”ã‚Šå€¤   ï¼šç¾åœ¨è¡Œã®ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œæœ‰ç„¡ï¼ˆç¾åœ¨è¡Œã‚’ãƒªã‚¹ãƒˆå†…ã«å…¥ã‚ŒãŸã‚‰å®Ÿè¡Œã—ãªã„ï¼‰
 //---------------------------------------------------------------------
 bool JlsScriptState::setLazyExeProcS(queue <string>& queStr, const string& strBuf){
 	bool enableExe = true;
-	//--- ŒŸo’¼‘Olazy‚ğæ‚è‚İA¬Œ÷‚µ‚½‚çŒ»İs‚ğ‚»‚ÌŒã‚É’Ç‰Á ---
+	//--- æ¤œå‡ºç›´å‰lazyã‚’å–ã‚Šè¾¼ã¿ã€æˆåŠŸã—ãŸã‚‰ç¾åœ¨è¡Œã‚’ãã®å¾Œã«è¿½åŠ  ---
 	bool success = pGlobalState->popListByLazy(queStr, LazyType::LazyS);	
 	if ( success ){
 		enableExe = false;
@@ -501,37 +501,37 @@ bool JlsScriptState::setLazyExeProcS(queue <string>& queStr, const string& strBu
 	return enableExe;
 }
 //---------------------------------------------------------------------
-// lazyˆ—‚Å•ÛŠÇ‚³‚ê‚½ƒRƒ}ƒ“ƒh‚ğ‘S•”Às‚ÉˆÚ‚·
-// “üo—ÍF
-//   state    : lazyÀsˆ—’Ç‰Á
+// lazyå‡¦ç†ã§ä¿ç®¡ã•ã‚ŒãŸã‚³ãƒãƒ³ãƒ‰ã‚’å…¨éƒ¨å®Ÿè¡Œã«ç§»ã™
+// å…¥å‡ºåŠ›ï¼š
+//   state    : lazyå®Ÿè¡Œå‡¦ç†è¿½åŠ 
 //---------------------------------------------------------------------
 void JlsScriptState::setLazyFlush(){
 	setLazyExe(LazyType::FULL, "");
 }
 //---------------------------------------------------------------------
-// memoryˆ—‚Å•ÛŠÇ‚³‚ê‚½ƒRƒ}ƒ“ƒh‚ğÀs‚ÉˆÚ‚·(MemCall)
-// “ü—ÍF
-//   strName  : •ÛŠÇ—Ìˆæ‚Ì¯•Êq
-// “üo—ÍF
-//   state    : MemCallÀsˆ—’Ç‰Á
-// o—ÍF
-//   •Ô‚è’l   Ftrue=¬Œ÷Afalse=¸”s
+// memoryå‡¦ç†ã§ä¿ç®¡ã•ã‚ŒãŸã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œã«ç§»ã™(MemCall)
+// å…¥åŠ›ï¼š
+//   strName  : ä¿ç®¡é ˜åŸŸã®è­˜åˆ¥å­
+// å…¥å‡ºåŠ›ï¼š
+//   state    : MemCallå®Ÿè¡Œå‡¦ç†è¿½åŠ 
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤   ï¼štrue=æˆåŠŸã€false=å¤±æ•—
 //---------------------------------------------------------------------
 bool JlsScriptState::setMemCall(const string& strName){
 	queue <string> queStr;
 	bool enable_exe = pGlobalState->getListByName(queStr, strName);
-	addCacheExeMem(queStr);							// MemÀsƒLƒƒƒbƒVƒ…‚ÉˆÚ“®
+	addCacheExeMem(queStr);							// Memå®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ç§»å‹•
 	return enable_exe;
 }
-//--- Œ»İs‚Ì’x‰„ƒRƒ}ƒ“ƒhŠi”[—p‚ÉÀs‡ˆÊ‚ğİ’è ---
+//--- ç¾åœ¨è¡Œã®é…å»¶ã‚³ãƒãƒ³ãƒ‰æ ¼ç´ç”¨ã«å®Ÿè¡Œé †ä½ã‚’è¨­å®š ---
 void JlsScriptState::setMemOrder(int order){
 	m_memOrderVal = order;
-	pGlobalState->setOrderStore(m_memOrderVal);		// ’x‰„Às•Û‘¶‚ÌÀs‡ˆÊ‚ğİ’è
+	pGlobalState->setOrderStore(m_memOrderVal);		// é…å»¶å®Ÿè¡Œä¿å­˜æ™‚ã®å®Ÿè¡Œé †ä½ã‚’è¨­å®š
 }
 void JlsScriptState::releaseMemOrder(){
-	pGlobalState->resetOrderStore();			// ’x‰„Às•Û‘¶‚ÌÀs‡ˆÊ‚ğ‰Šú‰»
+	pGlobalState->resetOrderStore();			// é…å»¶å®Ÿè¡Œä¿å­˜æ™‚ã®å®Ÿè¡Œé †ä½ã‚’åˆæœŸåŒ–
 }
-//--- Memory‚Ìˆø”’è‹` ---
+//--- Memoryã®å¼•æ•°å®šç¾© ---
 bool JlsScriptState::setMemDefArg(vector<string>& argDef){
 	return pGlobalState->setMemDefArg(argDef);
 }
@@ -541,7 +541,7 @@ bool JlsScriptState::getMemDefArg(vector<string>& argDef, const string& strName)
 void JlsScriptState::setMemUnusedFlag(const string& strName){
 	pGlobalState->setMemUnusedFlag(strName);
 }
-//--- global state‘¤‚Åˆ— ---
+//--- global stateå´ã§å‡¦ç† ---
 bool JlsScriptState::setLazyStore(LazyType typeLazy, const string& strBuf){
 	return pGlobalState->setLazyStore(typeLazy, strBuf);
 }
@@ -575,59 +575,59 @@ void JlsScriptState::setMemGetMapForDebug(){
 
 
 //=====================================================================
-// ’x‰„ÀsƒLƒ…[ˆ—
+// é…å»¶å®Ÿè¡Œã‚­ãƒ¥ãƒ¼å‡¦ç†
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ÀsƒLƒƒƒbƒVƒ…‚ğ‚Ps“Ç‚İo‚µ
+// å®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ï¼‘è¡Œèª­ã¿å‡ºã—
 //---------------------------------------------------------------------
-//--- Lazy/MemƒRƒ}ƒ“ƒhÀsƒLƒƒƒbƒVƒ… ---
+//--- Lazy/Memã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥ ---
 bool JlsScriptState::popCacheExeLazyMem(string& strBuf){
-	//--- ’x‰„Às—pƒŠƒs[ƒgCacheŠm”F ---
+	//--- é…å»¶å®Ÿè¡Œç”¨ãƒªãƒ”ãƒ¼ãƒˆCacheç¢ºèª ---
 	CacheExeType typeRepeat = getRepeatExtType();
 
-	//--- readæ‚Ì‘I‘ğ ---
+	//--- readå…ˆã®é¸æŠ ---
 	bool flagExt = false;
 	CacheExeType typeRead = CacheExeType::None;
 
-	if ( m_cacheExeLazyS.empty() == false ){	// LazyS ÀsƒLƒƒƒbƒVƒ…‘¶İ
+	if ( m_cacheExeLazyS.empty() == false ){	// LazyS å®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥å­˜åœ¨
 		flagExt   = false;
 		typeRead  = CacheExeType::LazyS;
 	}
-	else if ( typeRepeat == CacheExeType::LazyS ){	// LazyS RepeatƒLƒƒƒbƒVƒ…‘¶İ
+	else if ( typeRepeat == CacheExeType::LazyS ){	// LazyS Repeatã‚­ãƒ£ãƒƒã‚·ãƒ¥å­˜åœ¨
 		flagExt   = true;
 		typeRead  = CacheExeType::LazyS;
 	}
-	else if ( m_cacheExeLazyA.empty() == false ){	// LazyA ÀsƒLƒƒƒbƒVƒ…‘¶İ
+	else if ( m_cacheExeLazyA.empty() == false ){	// LazyA å®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥å­˜åœ¨
 		flagExt   = false;
 		typeRead  = CacheExeType::LazyA;
 	}
-	else if ( typeRepeat == CacheExeType::LazyA ){	// LazyA RepeatƒLƒƒƒbƒVƒ…‘¶İ
+	else if ( typeRepeat == CacheExeType::LazyA ){	// LazyA Repeatã‚­ãƒ£ãƒƒã‚·ãƒ¥å­˜åœ¨
 		flagExt   = true;
 		typeRead  = CacheExeType::LazyA;
 	}
-	else if ( m_cacheExeLazyE.empty() == false ){	// LazyE ÀsƒLƒƒƒbƒVƒ…‘¶İ
+	else if ( m_cacheExeLazyE.empty() == false ){	// LazyE å®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥å­˜åœ¨
 		flagExt   = false;
 		typeRead  = CacheExeType::LazyE;
 	}
-	else if ( typeRepeat == CacheExeType::LazyE ){	// LazyE RepeatƒLƒƒƒbƒVƒ…‘¶İ
+	else if ( typeRepeat == CacheExeType::LazyE ){	// LazyE Repeatã‚­ãƒ£ãƒƒã‚·ãƒ¥å­˜åœ¨
 		flagExt   = true;
 		typeRead  = CacheExeType::LazyE;
 	}
-	else if ( m_cacheExeMem.empty() == false ){	// Mem ÀsƒLƒƒƒbƒVƒ…‘¶İ
+	else if ( m_cacheExeMem.empty() == false ){	// Mem å®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥å­˜åœ¨
 		flagExt   = false;
 		typeRead  = CacheExeType::Mem;
 	}
-	else if ( typeRepeat == CacheExeType::Mem ){	// Mem RepeatƒLƒƒƒbƒVƒ…‘¶İ
+	else if ( typeRepeat == CacheExeType::Mem ){	// Mem Repeatã‚­ãƒ£ãƒƒã‚·ãƒ¥å­˜åœ¨
 		flagExt   = true;
 		typeRead  = CacheExeType::Mem;
 	}
-	//--- Cache“Ç‚İo‚µ ---
+	//--- Cacheèª­ã¿å‡ºã— ---
 	bool flagRead = false;
 	bool flagExtRead = false;
 	if ( typeRead != CacheExeType::None ){
 		if ( flagExt ){
-			flagRead = readRepeatExtCache(strBuf);	// ’x‰„Às—pRepeatƒLƒƒƒbƒVƒ…‚©‚ç“Ç‚İo‚µ
+			flagRead = readRepeatExtCache(strBuf);	// é…å»¶å®Ÿè¡Œç”¨Repeatã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‹ã‚‰èª­ã¿å‡ºã—
 			flagExtRead = true;
 		}else{
 			switch( typeRead ){
@@ -649,13 +649,13 @@ bool JlsScriptState::popCacheExeLazyMem(string& strBuf){
 			}
 		}
 	}
-	m_typeCacheExe = typeRead;		// “Ç‚İo‚µæƒLƒƒƒbƒVƒ…İ’è
-	m_flagCacheRepExt = flagExtRead;	// ’x‰„Às—pRepeatƒLƒƒƒbƒVƒ…‚©‚ç“Ç‚İo‚µ
+	m_typeCacheExe = typeRead;		// èª­ã¿å‡ºã—å…ˆã‚­ãƒ£ãƒƒã‚·ãƒ¥è¨­å®š
+	m_flagCacheRepExt = flagExtRead;	// é…å»¶å®Ÿè¡Œç”¨Repeatã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‹ã‚‰èª­ã¿å‡ºã—
 	return flagRead;
 }
 //---------------------------------------------------------------------
-// ’x‰„Às“àƒŠƒs[ƒg’†‚ÌŸ‚ÌƒRƒ}ƒ“ƒhæ“¾
-//   •Ô‚è’l: Ši”[Àsifalse=Ši”[•s—vAtrue=Ši”[Ï‚İj
+// é…å»¶å®Ÿè¡Œå†…ãƒªãƒ”ãƒ¼ãƒˆä¸­ã®æ¬¡ã®ã‚³ãƒãƒ³ãƒ‰å–å¾—
+//   è¿”ã‚Šå€¤: æ ¼ç´å®Ÿè¡Œï¼ˆfalse=æ ¼ç´ä¸è¦ã€true=æ ¼ç´æ¸ˆã¿ï¼‰
 //---------------------------------------------------------------------
 bool JlsScriptState::readRepeatExtCache(string& strBuf){
 	int nSize = (int)m_listRepExtCache.size();
@@ -666,18 +666,18 @@ bool JlsScriptState::readRepeatExtCache(string& strBuf){
 		string msgErr = "error: not found EndRepeat at Lazy/Mem cache Line:";
 		msgErr += to_string(m_repLineExtRCache) + "\n";
 		pGlobalState->addMsgError(msgErr);
-		//--- ƒŠƒs[ƒg‚ğ‹­§I—¹ ---
+		//--- ãƒªãƒ”ãƒ¼ãƒˆã‚’å¼·åˆ¶çµ‚äº† ---
 		repeatEndForce();
 		strBuf = "# end of cache";
 	}
 	return true;
 }
 //---------------------------------------------------------------------
-// ÀsƒLƒƒƒbƒVƒ…‚ğİ’è
+// å®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’è¨­å®š
 //---------------------------------------------------------------------
-//--- LazyÀs‚ÅŒÄ‚Ño‚³‚ê‚½s‚ğİ’è ---
+//--- Lazyå®Ÿè¡Œã§å‘¼ã³å‡ºã•ã‚ŒãŸè¡Œã‚’è¨­å®š ---
 void JlsScriptState::addCacheExeLazy(queue <string>& queStr, LazyType typeLazy){
-	bool flagHead = false;				// ƒoƒbƒtƒ@‚É’Ç‰Á‘}“ü
+	bool flagHead = false;				// ãƒãƒƒãƒ•ã‚¡ã«è¿½åŠ æŒ¿å…¥
 	CacheExeType typeCache = CacheExeType::None;
 	switch( typeLazy ){
 		case LazyType::LazyS :
@@ -695,16 +695,16 @@ void JlsScriptState::addCacheExeLazy(queue <string>& queStr, LazyType typeLazy){
 	}
 	addCacheExeCommon(queStr, typeCache, flagHead);
 }
-//--- MemCall‚ÅŒÄ‚Ño‚³‚ê‚½s‚ğİ’è ---
+//--- MemCallã§å‘¼ã³å‡ºã•ã‚ŒãŸè¡Œã‚’è¨­å®š ---
 void JlsScriptState::addCacheExeMem(queue <string>& queStr){
 	if ( isLazyExe() ){
-		//--- LazyÀs’†‚ÌMemCall‚Íc‚è‚ÌLazyÀs‚æ‚èæ‚É‘¦Às ---
-		bool flagHead = true;			// Œ»ƒoƒbƒtƒ@‚æ‚èæ‚É‘}“ü
+		//--- Lazyå®Ÿè¡Œä¸­ã®MemCallã¯æ®‹ã‚Šã®Lazyå®Ÿè¡Œã‚ˆã‚Šå…ˆã«å³å®Ÿè¡Œ ---
+		bool flagHead = true;			// ç¾ãƒãƒƒãƒ•ã‚¡ã‚ˆã‚Šå…ˆã«æŒ¿å…¥
 		addCacheExeCommon(queStr, m_typeCacheExe, flagHead);
 	}
 	else{
-		//--- ’Êí‚ÍLazyˆ—‚æ‚è—Dæ“x‚ª’á‚¢MemCallÀs‘Ò‚¿ƒoƒbƒtƒ@‚É‘}“ü ---
-		bool flagHead = true;			// Œ»ƒoƒbƒtƒ@‚æ‚èæ‚É‘}“ü
+		//--- é€šå¸¸ã¯Lazyå‡¦ç†ã‚ˆã‚Šå„ªå…ˆåº¦ãŒä½ã„MemCallå®Ÿè¡Œå¾…ã¡ãƒãƒƒãƒ•ã‚¡ã«æŒ¿å…¥ ---
+		bool flagHead = true;			// ç¾ãƒãƒƒãƒ•ã‚¡ã‚ˆã‚Šå…ˆã«æŒ¿å…¥
 		addCacheExeCommon(queStr, CacheExeType::Mem, flagHead);
 	}
 }
@@ -728,29 +728,29 @@ void JlsScriptState::addCacheExeCommon(queue <string>& queStr, CacheExeType type
 	}
 }
 //---------------------------------------------------------------------
-// queueˆ—
+// queueå‡¦ç†
 //---------------------------------------------------------------------
-//--- queue‚Ìæ“ªƒf[ƒ^‚ğæ‚èo‚µ ---
+//--- queueã®å…ˆé ­ãƒ‡ãƒ¼ã‚¿ã‚’å–ã‚Šå‡ºã— ---
 bool JlsScriptState::popQueue(string& strBuf, queue <string>& queSrc){
-	if ( queSrc.empty() ) return false;		// queue‚ª‹ó‚È‚çfalse‚ğ•Ô‚·
+	if ( queSrc.empty() ) return false;		// queueãŒç©ºãªã‚‰falseã‚’è¿”ã™
 	strBuf = queSrc.front();
 	queSrc.pop();
 	return true;
 }
-//--- queue‚É•Ê‚Ìqueue‚ğ’Ç‰Á ---
+//--- queueã«åˆ¥ã®queueã‚’è¿½åŠ  ---
 void JlsScriptState::addQueue(queue <string>& queDst, queue <string>& queSrc, bool flagHead){
 	queue <string> q;
-	//--- ƒLƒƒƒbƒVƒ…•ÛÅ‘ås”‚ğ’´‚¦‚È‚¢‚©Šm”F ---
+	//--- ã‚­ãƒ£ãƒƒã‚·ãƒ¥ä¿æŒæœ€å¤§è¡Œæ•°ã‚’è¶…ãˆãªã„ã‹ç¢ºèª ---
 	if ( queDst.size() + queSrc.size() > SIZE_MEMLINE){
 		pGlobalState->addMsgErrorN("error: memory cache overflow");
-		queDst = q;			// ƒLƒƒƒbƒVƒ…ƒNƒŠƒA
+		queDst = q;			// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚¯ãƒªã‚¢
 		return;
 	}
-	if ( flagHead ){		// è‘O‚ÉSrc‚ğ’Ç‰Á‚·‚éê‡
+	if ( flagHead ){		// æ‰‹å‰ã«Srcã‚’è¿½åŠ ã™ã‚‹å ´åˆ
 		q      = queDst;
 		queDst = queSrc;
 	}
-	else{					// Œã‚ÉSrc‚ğ’Ç‰Á‚·‚éê‡
+	else{					// å¾Œã«Srcã‚’è¿½åŠ ã™ã‚‹å ´åˆ
 		q = queSrc;
 	}
 	while( q.empty() == false ){
@@ -761,17 +761,17 @@ void JlsScriptState::addQueue(queue <string>& queDst, queue <string>& queSrc, bo
 
 
 //=====================================================================
-// ƒLƒƒƒbƒVƒ…ƒf[ƒ^“Ç‚İo‚µ
+// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿èª­ã¿å‡ºã—
 //=====================================================================
 
 //---------------------------------------------------------------------
-// Cache‚©‚ç‚Ì“Ç‚İo‚µiRepeat—pj
-//   •Ô‚è’l: “Ç‚İo‚µŒ‹‰Êifalse=“Ç‚İo‚µ‚È‚µAtrue=cache‚©‚ç‚Ì“Ç‚İo‚µj
-//   strBufOrg: “Ç‚İo‚³‚ê‚½•¶š—ñ
+// Cacheã‹ã‚‰ã®èª­ã¿å‡ºã—ï¼ˆRepeatç”¨ï¼‰
+//   è¿”ã‚Šå€¤: èª­ã¿å‡ºã—çµæœï¼ˆfalse=èª­ã¿å‡ºã—ãªã—ã€true=cacheã‹ã‚‰ã®èª­ã¿å‡ºã—ï¼‰
+//   strBufOrg: èª­ã¿å‡ºã•ã‚ŒãŸæ–‡å­—åˆ—
 //---------------------------------------------------------------------
 bool JlsScriptState::readCmdCache(string& strBufOrg){
-	//--- “Ç‚İo‚µ‰Â”\‚©ƒ`ƒFƒbƒN ---
-	if ( (int)m_listRepDepth.size() <= 0 ){		// Repeat’†‚Å‚Í‚È‚¢
+	//--- èª­ã¿å‡ºã—å¯èƒ½ã‹ãƒã‚§ãƒƒã‚¯ ---
+	if ( (int)m_listRepDepth.size() <= 0 ){		// Repeatä¸­ã§ã¯ãªã„
 		return false;
 	}
 	if ( m_repLineReadCache >= (int)m_listRepCmdCache.size() ){
@@ -779,52 +779,52 @@ bool JlsScriptState::readCmdCache(string& strBufOrg){
 	}
 	if (m_repLineReadCache < 0) return false;
 
-	//--- “Ç‚İo‚µÀs ---
+	//--- èª­ã¿å‡ºã—å®Ÿè¡Œ ---
 	strBufOrg = m_listRepCmdCache[m_repLineReadCache];
 	m_repLineReadCache ++;
 	return true;
 }
 //---------------------------------------------------------------------
-// Cache‚É•¶š—ñŠi”[iRepeat—pj
-//   “ü—Í:   strBufOrg=Ši”[•¶š—ñ
-//   •Ô‚è’l: Ši”[Àsifalse=Ši”[•s—vAtrue=Ši”[Ï‚İj
+// Cacheã«æ–‡å­—åˆ—æ ¼ç´ï¼ˆRepeatç”¨ï¼‰
+//   å…¥åŠ›:   strBufOrg=æ ¼ç´æ–‡å­—åˆ—
+//   è¿”ã‚Šå€¤: æ ¼ç´å®Ÿè¡Œï¼ˆfalse=æ ¼ç´ä¸è¦ã€true=æ ¼ç´æ¸ˆã¿ï¼‰
 //---------------------------------------------------------------------
 bool JlsScriptState::addCmdCache(string& strBufOrg){
-	if ( (int)m_listRepDepth.size() <= 0 ){		// Repeat’†‚Å‚Í‚È‚¢
+	if ( (int)m_listRepDepth.size() <= 0 ){		// Repeatä¸­ã§ã¯ãªã„
 		return false;
 	}
-	//--- ƒLƒƒƒbƒVƒ…s”ƒ`ƒFƒbƒN ---
+	//--- ã‚­ãƒ£ãƒƒã‚·ãƒ¥è¡Œæ•°ãƒã‚§ãƒƒã‚¯ ---
 	int size_line = (int) m_listRepCmdCache.size();
-	if (size_line >= SIZE_REPLINE){			// Å‘ås”ƒ`ƒFƒbƒN
+	if (size_line >= SIZE_REPLINE){			// æœ€å¤§è¡Œæ•°ãƒã‚§ãƒƒã‚¯
 		return false;
 	}
 	m_listRepCmdCache.push_back(strBufOrg);
 	return true;
 }
 //---------------------------------------------------------------------
-// Lazy/MemÀss‚ğ“Ç‚İo‚µ
-// o—ÍF
-//   •Ô‚è’l   F•¶š—ñæ“¾Œ‹‰Êi0=æ“¾‚È‚µ  1=æ“¾‚ ‚èj
-//   strBufOrg : æ“¾•¶š—ñ
+// Lazy/Memå®Ÿè¡Œè¡Œã‚’èª­ã¿å‡ºã—
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤   ï¼šæ–‡å­—åˆ—å–å¾—çµæœï¼ˆ0=å–å¾—ãªã—  1=å–å¾—ã‚ã‚Šï¼‰
+//   strBufOrg : å–å¾—æ–‡å­—åˆ—
 //---------------------------------------------------------------------
 bool JlsScriptState::readLazyMemNext(string& strBufOrg){
-	//--- Lazy/MemÀss‚ª‚ ‚ê‚Îæ“ª‚ğ“Ç‚İo‚µ ---
+	//--- Lazy/Memå®Ÿè¡Œè¡ŒãŒã‚ã‚Œã°å…ˆé ­ã‚’èª­ã¿å‡ºã— ---
 	if ( popCacheExeLazyMem(strBufOrg) ){
 		return true;
 	}
-	//--- Lazy/MemÀss‚ª‚È‚¯‚ê‚Îfalse‚ğ•Ô‚· ---
+	//--- Lazy/Memå®Ÿè¡Œè¡ŒãŒãªã‘ã‚Œã°falseã‚’è¿”ã™ ---
 	return false;
 }
 
 
 //=====================================================================
-// ó‘Ôæ“¾
+// çŠ¶æ…‹å–å¾—
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒlƒXƒgó‘Ô‚ªc‚Á‚Ä‚¢‚é‚©Šm”F
-//   •Ô‚è’l: ƒGƒ‰[”Ô†i0=³íI—¹Abit0=If•¶ƒlƒXƒg’†Abit1=Repeat•¶ƒlƒXƒg’†j
-//                     ibit2=LazyÀs’†j
+// ãƒã‚¹ãƒˆçŠ¶æ…‹ãŒæ®‹ã£ã¦ã„ã‚‹ã‹ç¢ºèª
+//   è¿”ã‚Šå€¤: ã‚¨ãƒ©ãƒ¼ç•ªå·ï¼ˆ0=æ­£å¸¸çµ‚äº†ã€bit0=Ifæ–‡ãƒã‚¹ãƒˆä¸­ã€bit1=Repeatæ–‡ãƒã‚¹ãƒˆä¸­ï¼‰
+//                     ï¼ˆbit2=Lazyå®Ÿè¡Œä¸­ï¼‰
 //---------------------------------------------------------------------
 int  JlsScriptState::isRemainNest(){
 	int ret = 0;
@@ -834,18 +834,18 @@ int  JlsScriptState::isRemainNest(){
 	return ret;
 }
 //---------------------------------------------------------------------
-// ReturnƒRƒ}ƒ“ƒh‚É‚æ‚éI—¹‚ğİ’èEŠm”F
+// Returnã‚³ãƒãƒ³ãƒ‰ã«ã‚ˆã‚‹çµ‚äº†ã‚’è¨­å®šãƒ»ç¢ºèª
 //---------------------------------------------------------------------
-//--- returnƒRƒ}ƒ“ƒh”­só‘Ô‚Ì‹L‰¯ ---
+//--- returnã‚³ãƒãƒ³ãƒ‰ç™ºè¡ŒçŠ¶æ…‹ã®è¨˜æ†¶ ---
 void JlsScriptState::setCmdReturn(bool flag){
 	m_flagReturn = flag;
 }
-//--- returnƒRƒ}ƒ“ƒh”­só‘Ô ---
+//--- returnã‚³ãƒãƒ³ãƒ‰ç™ºè¡ŒçŠ¶æ…‹ ---
 bool JlsScriptState::isCmdReturnExit(){
 	return m_flagReturn || pGlobalState->isCmdExit();
 }
 //---------------------------------------------------------------------
-// w’è‚µ‚½§Œä–½—ß‚©
+// æŒ‡å®šã—ãŸåˆ¶å¾¡å‘½ä»¤ã‹
 //---------------------------------------------------------------------
 bool JlsScriptState::isFlowLazy(CmdCat category){
 	if ( category == CmdCat::LAZYF || category == CmdCat::MEMLAZYF ){
@@ -855,7 +855,7 @@ bool JlsScriptState::isFlowLazy(CmdCat category){
 }
 bool JlsScriptState::isFlowMem(CmdCat category){
 	if ( category == CmdCat::MEMF || category == CmdCat::MEMLAZYF ){
-		if ( !isMemDeepArea() ){		// ƒlƒXƒg‚Å‚Í‚È‚¢ó‘Ô
+		if ( !isMemDeepArea() ){		// ãƒã‚¹ãƒˆã§ã¯ãªã„çŠ¶æ…‹
 			return true;
 		}
 	}
@@ -865,7 +865,7 @@ bool JlsScriptState::isMemDeepArea(){
 	return ( m_nestMemNow >= 2 || m_nestMemLast >= 2 );
 }
 //---------------------------------------------------------------------
-// •Ï”“WŠJ‚µ‚È‚¢‹æŠÔ’†”»’è
+// å¤‰æ•°å±•é–‹ã—ãªã„åŒºé–“ä¸­åˆ¤å®š
 //---------------------------------------------------------------------
 bool JlsScriptState::isNeedRaw(CmdCat category){
 	bool flagNeed = false;
@@ -886,15 +886,15 @@ bool JlsScriptState::isNeedRaw(CmdCat category){
 	return flagNeed;
 }
 //---------------------------------------------------------------------
-// •¶š—ñ‘S‘Ì‚ğƒfƒR[ƒh•K—v‚©”»•Ê
+// æ–‡å­—åˆ—å…¨ä½“ã‚’ãƒ‡ã‚³ãƒ¼ãƒ‰å¿…è¦ã‹åˆ¤åˆ¥
 //---------------------------------------------------------------------
 bool JlsScriptState::isNeedFullDecode(CmdType cmdsel, CmdCat category){
 	bool flagNeed = true;
-	//--- •Ï”“WŠJ‚µ‚È‚¢‹æŠÔ ---
+	//--- å¤‰æ•°å±•é–‹ã—ãªã„åŒºé–“ ---
 	if ( isNeedRaw(category) ){
 		flagNeed = false;
 	}
-	//--- IFğŒ‚É‚æ‚éskip’†‚É”»’è•K—v‚ÈƒP[ƒX‚©ƒ`ƒFƒbƒN ---
+	//--- IFæ¡ä»¶ã«ã‚ˆã‚‹skipä¸­ã«åˆ¤å®šå¿…è¦ãªã‚±ãƒ¼ã‚¹ã‹ãƒã‚§ãƒƒã‚¯ ---
 	if ( m_ifSkip ){
 		if ( category != CmdCat::COND ){
 			flagNeed = false;
@@ -923,7 +923,7 @@ bool JlsScriptState::isNeedFullDecode(CmdType cmdsel, CmdCat category){
 			}
 		}
 	}
-	//--- Repeat 0‰ñ‚É‚æ‚é•s—v‹æŠÔ ---
+	//--- Repeat 0å›ã«ã‚ˆã‚‹ä¸è¦åŒºé–“ ---
 	if ( m_repSkip ){
 		if ( category != CmdCat::REP ){
 			flagNeed = false;
@@ -932,35 +932,35 @@ bool JlsScriptState::isNeedFullDecode(CmdType cmdsel, CmdCat category){
 	return flagNeed;
 }
 //---------------------------------------------------------------------
-// –³Œøs‚Ì”»’è
+// ç„¡åŠ¹è¡Œã®åˆ¤å®š
 //---------------------------------------------------------------------
 bool JlsScriptState::isSkipCmd(){
 	return m_ifSkip || m_repSkip || m_memSkip;
 }
 //---------------------------------------------------------------------
-// Œ»İs‚Ì§Œäó‘Ô‚©‚ç‚ÌƒRƒ}ƒ“ƒhÀs—LŒø«
-//   “ü—ÍF  Œ»İs‚ÌƒRƒ}ƒ“ƒh•ª—Ş
-//   •Ô‚è’l: —LŒø«ifalse=—LŒøsAtrue=–³Œøsj
+// ç¾åœ¨è¡Œã®åˆ¶å¾¡çŠ¶æ…‹ã‹ã‚‰ã®ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œæœ‰åŠ¹æ€§
+//   å…¥åŠ›ï¼š  ç¾åœ¨è¡Œã®ã‚³ãƒãƒ³ãƒ‰åˆ†é¡
+//   è¿”ã‚Šå€¤: æœ‰åŠ¹æ€§ï¼ˆfalse=æœ‰åŠ¹è¡Œã€true=ç„¡åŠ¹è¡Œï¼‰
 //---------------------------------------------------------------------
 bool JlsScriptState::isInvalidCmdLine(CmdCat category){
 	bool flagInvalid = false;
 
-	if ( m_ifSkip ){		// IfğŒ skip’†
+	if ( m_ifSkip ){		// Ifæ¡ä»¶ skipä¸­
 		if ( category != CmdCat::COND ){
 			flagInvalid = true;
 		}
 	}
-	if ( m_repSkip ){		// repeat0‰ñ skip’†
+	if ( m_repSkip ){		// repeat0å› skipä¸­
 		if ( category != CmdCat::REP ){
 			flagInvalid = true;
 		}
 	}
-	if ( isLazyArea() ){	// LazyStart-End skip’†
+	if ( isLazyArea() ){	// LazyStart-End skipä¸­
 		if ( isFlowLazy(category) == false ){
 			flagInvalid = true;
 		}
 	}
-	if ( isMemArea() ){		// Memory-End skip’†
+	if ( isMemArea() ){		// Memory-End skipä¸­
 		if ( isFlowMem(category) == false ){
 			flagInvalid = true;
 		}
@@ -968,13 +968,13 @@ bool JlsScriptState::isInvalidCmdLine(CmdCat category){
 	return flagInvalid;
 }
 //---------------------------------------------------------------------
-// MemoryAEnd*A}; ‚É‘Î‰‚·‚éî•ñ‚ğİ’è‚µ‚ÄAENDí—Ş©“®”»•Ê‚Í‘I‘ğ
+// Memoryã€End*ã€}; ã«å¯¾å¿œã™ã‚‹æƒ…å ±ã‚’è¨­å®šã—ã¦ã€ENDç¨®é¡è‡ªå‹•åˆ¤åˆ¥æ™‚ã¯é¸æŠ
 //---------------------------------------------------------------------
 void JlsScriptState::addNestInfoForEnd(CmdType& cmdsel, CmdCat& category){
-	//--- XV‘O‚ÌŠK‘w•Û ---
+	//--- æ›´æ–°å‰ã®éšå±¤ä¿æŒ ---
 	m_nestMemLast = m_nestMemNow;
 
-	//--- ƒRƒ}ƒ“ƒh•Ê‚Ìİ’è ---
+	//--- ã‚³ãƒãƒ³ãƒ‰åˆ¥ã®è¨­å®š ---
 	bool opAdd = false;
 	bool opRemove = false;
 	CmdType cmdtarget = cmdsel;
@@ -1012,16 +1012,16 @@ void JlsScriptState::addNestInfoForEnd(CmdType& cmdsel, CmdCat& category){
 		default:
 			break;
 	}
-	//--- Àsˆ— ---
+	//--- å®Ÿè¡Œå‡¦ç† ---
 	if ( opAdd ){
 		m_listNestECmd.push_back(cmdtarget);
 		m_listNestECat.push_back(cattarget);
 		if ( cmdtarget == CmdType::EndMemory ||
 		     cmdtarget == CmdType::EndFunc   ){
-			m_nestMemNow ++;		// MemŠK‘wXV
+			m_nestMemNow ++;		// Meméšå±¤æ›´æ–°
 			if ( m_nestMemNow > 1 ){
-				if ( cmdsel == CmdType::Memory   ||	// Memory‚ÌƒlƒXƒg‚Í‹Ö~
-				     cmdsel == CmdType::Function ){	// Function‚ÌƒlƒXƒg‚Í‹Ö~
+				if ( cmdsel == CmdType::Memory   ||	// Memoryã®ãƒã‚¹ãƒˆã¯ç¦æ­¢
+				     cmdsel == CmdType::Function ){	// Functionã®ãƒã‚¹ãƒˆã¯ç¦æ­¢
 					pGlobalState->addMsgErrorN("warning:exist next Memory/Function before End");
 					m_nestMemNow = 1;
 				}
@@ -1032,20 +1032,20 @@ void JlsScriptState::addNestInfoForEnd(CmdType& cmdsel, CmdCat& category){
 		addNestInfoForEndRemove(cmdtarget, cattarget, cmdsel);
 		if ( cmdtarget == CmdType::EndMemory ||
 		     cmdtarget == CmdType::EndFunc   ){
-			m_nestMemNow --;		// MemŠK‘wXV
+			m_nestMemNow --;		// Meméšå±¤æ›´æ–°
 		}
 	}
-	if ( m_flagBreak ){		// Break’†‚Ì•â³
+	if ( m_flagBreak ){		// Breakä¸­ã®è£œæ­£
 		addNestInfoForBreak(cmdtarget, opAdd, opRemove);
 	}
-	if ( cmdsel == CmdType::EndMulti ){		// ENDí—Ş‚ğ©“®‘I‘ğ
+	if ( cmdsel == CmdType::EndMulti ){		// ENDç¨®é¡ã‚’è‡ªå‹•é¸æŠ
 		cmdsel   = cmdtarget;
 		category = cattarget;
 	}
 }
-//--- ENDƒRƒ}ƒ“ƒh‚É‘Î‰‚·‚éŠK‘w‚ğíœ‚µA‘Î‰‚µ‚½ENDí—Ş‚ğæ“¾ ---
+//--- ENDã‚³ãƒãƒ³ãƒ‰ã«å¯¾å¿œã™ã‚‹éšå±¤ã‚’å‰Šé™¤ã—ã€å¯¾å¿œã—ãŸENDç¨®é¡ã‚’å–å¾— ---
 bool JlsScriptState::addNestInfoForEndRemove(CmdType& cmdtarget, CmdCat& cattarget, CmdType cmdsel){
-	//--- ’Êí‚Ìˆ— ---
+	//--- é€šå¸¸ã®å‡¦ç† ---
 	bool abort = false;
 	string mesErr;
 	bool done = false;
@@ -1064,7 +1064,7 @@ bool JlsScriptState::addNestInfoForEndRemove(CmdType& cmdtarget, CmdCat& cattarg
 					m_listNestECmd.pop_back();
 					m_listNestECat.pop_back();
 				}
-			}else{	// End‚ªˆê’v‚µ‚È‚¢ê‡‚ÌƒRƒƒ“ƒg
+			}else{	// EndãŒä¸€è‡´ã—ãªã„å ´åˆã®ã‚³ãƒ¡ãƒ³ãƒˆ
 				string strCmd;
 				switch( m_listNestECmd[num] ){
 					case CmdType::EndIf :
@@ -1095,35 +1095,35 @@ bool JlsScriptState::addNestInfoForEndRemove(CmdType& cmdtarget, CmdCat& cattarg
 	}
 	return done;
 }
-//--- Break’†‚Ì•â³ ---
+//--- Breakä¸­ã®è£œæ­£ ---
 void JlsScriptState::addNestInfoForBreak(CmdType cmdtarget, bool opAdd, bool opRemove){
 	if ( cmdtarget == CmdType::EndIf ){
 		if ( opAdd ){
-			m_nestBreakIf ++;	// Break“à’Ç‰Á•ª
+			m_nestBreakIf ++;	// Breakå†…è¿½åŠ åˆ†
 		}
 		if ( opRemove ){
 			if ( m_nestBreakIf > 0 ){
-				m_nestBreakIf --;		// Break“à’Ç‰Á•ª‚ğƒLƒƒƒ“ƒZƒ‹
+				m_nestBreakIf --;		// Breakå†…è¿½åŠ åˆ†ã‚’ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 			}else{
-				ifEnd();	// skip‚³‚ê‚é‚Ì‚ÅA‡‚í‚¹‚é‚½‚ß‘ã‚í‚è‚ÉÀs
+				ifEnd();	// skipã•ã‚Œã‚‹ã®ã§ã€åˆã‚ã›ã‚‹ãŸã‚ä»£ã‚ã‚Šã«å®Ÿè¡Œ
 			}
 		}
 	}
 	if ( cmdtarget == CmdType::EndRepeat ){
 		if ( opAdd ){
-			m_nestBreakRep ++;	// Break“à’Ç‰Á•ª
+			m_nestBreakRep ++;	// Breakå†…è¿½åŠ åˆ†
 		}
 		if ( opRemove ){
 			if ( m_nestBreakRep > 0 ){
-				m_nestBreakRep --;		// Break“à’Ç‰Á•ª‚ğƒLƒƒƒ“ƒZƒ‹
+				m_nestBreakRep --;		// Breakå†…è¿½åŠ åˆ†ã‚’ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 			}else{
-				releaseBreak();			// Breakˆ—I—¹
+				releaseBreak();			// Breakå‡¦ç†çµ‚äº†
 			}
 		}
 	}
 }
 //---------------------------------------------------------------------
-// Lazyˆ—‚ÌÀs’†”»•Êi0=lazyˆÈŠO‚Ìˆ—  1=lazy“®ì’†j
+// Lazyå‡¦ç†ã®å®Ÿè¡Œä¸­åˆ¤åˆ¥ï¼ˆ0=lazyä»¥å¤–ã®å‡¦ç†  1=lazyå‹•ä½œä¸­ï¼‰
 //---------------------------------------------------------------------
 bool JlsScriptState::isLazyExe(){
 	bool flag;
@@ -1139,7 +1139,7 @@ bool JlsScriptState::isLazyExe(){
 	}
 	return flag;
 }
-//--- Lazyˆ—‚ÌÀs’†‚ÌLazyí—Ş ---
+//--- Lazyå‡¦ç†ã®å®Ÿè¡Œä¸­ã®Lazyç¨®é¡ ---
 LazyType JlsScriptState::getLazyExeType(){
 	LazyType typeLazy;
 	switch( m_typeCacheExe ){
@@ -1159,13 +1159,13 @@ LazyType JlsScriptState::getLazyExeType(){
 	return typeLazy;
 }
 //---------------------------------------------------------------------
-// ’x‰„Às“àƒŠƒs[ƒg’†‚ÌƒLƒƒƒbƒVƒ…í—Ş
+// é…å»¶å®Ÿè¡Œå†…ãƒªãƒ”ãƒ¼ãƒˆä¸­ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ç¨®é¡
 //---------------------------------------------------------------------
-//--- ’x‰„Às“àƒŠƒs[ƒg’†”»’è ---
+//--- é…å»¶å®Ÿè¡Œå†…ãƒªãƒ”ãƒ¼ãƒˆä¸­åˆ¤å®š ---
 bool JlsScriptState::isRepeatExtType(){
 	return ( getRepeatExtType() != CacheExeType::None )? true : false;
 }
-//--- ’x‰„Às“àƒŠƒs[ƒg‚Ìí—Şæ“¾ ---
+//--- é…å»¶å®Ÿè¡Œå†…ãƒªãƒ”ãƒ¼ãƒˆã®ç¨®é¡å–å¾— ---
 CacheExeType JlsScriptState::getRepeatExtType(){
 	int depth = (int) m_listRepDepth.size();
 	if (depth <= 0){
@@ -1173,11 +1173,11 @@ CacheExeType JlsScriptState::getRepeatExtType(){
 	}
 	return m_listRepDepth[depth-1].exeType;
 }
-//--- “Ç‚İo‚µ’†‚ÌÀsƒLƒƒƒbƒVƒ…í—Ş ---
+//--- èª­ã¿å‡ºã—ä¸­ã®å®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥ç¨®é¡ ---
 CacheExeType JlsScriptState::getCacheExeType(){
 	return m_typeCacheExe;
 }
-//--- MemCall“à—e‚ÌÀs’† ---
+//--- MemCallå†…å®¹ã®å®Ÿè¡Œä¸­ ---
 bool JlsScriptState::isMemExe(){
 	bool flag;
 	switch( m_typeCacheExe ){
@@ -1191,37 +1191,37 @@ bool JlsScriptState::isMemExe(){
 	return flag;
 }
 //---------------------------------------------------------------------
-// LazyStart - EndLazy ŠúŠÔ“à‚Ìlazyİ’è
+// LazyStart - EndLazy æœŸé–“å†…ã®lazyè¨­å®š
 //---------------------------------------------------------------------
 void JlsScriptState::setLazyStartType(LazyType typeLazy){
 	m_lazyStartType = typeLazy;
 }
 //---------------------------------------------------------------------
-// LazyStart - EndLazy ŠúŠÔ“à‚Ìlazyİ’è‚Ìæ“¾
+// LazyStart - EndLazy æœŸé–“å†…ã®lazyè¨­å®šã®å–å¾—
 //---------------------------------------------------------------------
 LazyType JlsScriptState::getLazyStartType(){
 	return m_lazyStartType;
 }
 //---------------------------------------------------------------------
-// LazyStart - EndLazy ŠúŠÔ“à‚Ìlazyİ’è’†”»•Ê
+// LazyStart - EndLazy æœŸé–“å†…ã®lazyè¨­å®šä¸­åˆ¤åˆ¥
 //---------------------------------------------------------------------
 bool JlsScriptState::isLazyArea(){
 	return (m_lazyStartType != LazyType::None)? true : false;
 }
 //---------------------------------------------------------------------
-// LazyAutoİ’è
+// LazyAutoè¨­å®š
 //---------------------------------------------------------------------
 void JlsScriptState::setLazyAuto(bool flag){
 	m_lazyAuto = flag;
 }
 //---------------------------------------------------------------------
-// LazyAutoó‘Ô“Ç‚İo‚µ
+// LazyAutoçŠ¶æ…‹èª­ã¿å‡ºã—
 //---------------------------------------------------------------------
 bool JlsScriptState::isLazyAuto(){
 	return m_lazyAuto;
 }
 //---------------------------------------------------------------------
-// Memory - EndMemory ŠúŠÔ‚Ìİ’è
+// Memory - EndMemory æœŸé–“ã®è¨­å®š
 //---------------------------------------------------------------------
 void JlsScriptState::startMemArea(const string& strName){
 	m_memArea = true;
@@ -1229,59 +1229,59 @@ void JlsScriptState::startMemArea(const string& strName){
 	m_memSkip = m_memDupe;
 }
 //---------------------------------------------------------------------
-// Memory - EndMemory ŠúŠÔ‚ÌI—¹
+// Memory - EndMemory æœŸé–“ã®çµ‚äº†
 //---------------------------------------------------------------------
 void JlsScriptState::endMemArea(){
 	m_memArea = false;
 	m_memSkip = false;
-	releaseMemOrder();		// Às‡ˆÊ‚ğŒ³‚É–ß‚·
+	releaseMemOrder();		// å®Ÿè¡Œé †ä½ã‚’å…ƒã«æˆ»ã™
 }
 //---------------------------------------------------------------------
-// Memory - EndMemory ŠúŠÔ‚Ìİ’è’†”»’è
+// Memory - EndMemory æœŸé–“ã®è¨­å®šä¸­åˆ¤å®š
 //---------------------------------------------------------------------
 bool JlsScriptState::isMemArea(){
 	return m_memArea;
 }
 //---------------------------------------------------------------------
-// Memory - EndMemory ŠúŠÔ’†‚Ìİ’è¯•Êq‚ğæ“¾
+// Memory - EndMemory æœŸé–“ä¸­ã®è¨­å®šè­˜åˆ¥å­ã‚’å–å¾—
 //---------------------------------------------------------------------
 string JlsScriptState::getMemName(){
 	return m_memName;
 }
 //---------------------------------------------------------------------
-// MemOnceƒRƒ}ƒ“ƒh‚É‚æ‚éd•¡ó‘Ô‚Ìİ’è
+// MemOnceã‚³ãƒãƒ³ãƒ‰ã«ã‚ˆã‚‹é‡è¤‡çŠ¶æ…‹ã®è¨­å®š
 //---------------------------------------------------------------------
 void JlsScriptState::setMemDupe(bool flag){
 	m_memDupe = flag;
 }
 //---------------------------------------------------------------------
-// Memory/LazyStart“à‚Ì•Ï”“WŠJ
+// Memory/LazyStartå†…ã®å¤‰æ•°å±•é–‹
 //---------------------------------------------------------------------
 void JlsScriptState::setMemExpand(bool flag){
 	m_memExpand = flag;
 }
 //---------------------------------------------------------------------
-// ˆø”ƒ[ƒJƒ‹•Ï”‚Ì–¼‘O‚ğ•ÛŠÇ
+// å¼•æ•°ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã®åå‰ã‚’ä¿ç®¡
 //---------------------------------------------------------------------
-//--- ArgBegin - ArgEnd ‹æŠÔ‚ğİ’è ---
+//--- ArgBegin - ArgEnd åŒºé–“ã‚’è¨­å®š ---
 void JlsScriptState::setArgAreaEnter(bool flag){
 	m_flagArgArEnter = flag;
 }
-//--- ArgBegin - ArgEnd ‹æŠÔ’†”»’è ---
+//--- ArgBegin - ArgEnd åŒºé–“ä¸­åˆ¤å®š ---
 bool JlsScriptState::isArgAreaEnter(){
 	return m_flagArgArEnter;
 }
-//--- ˆø”•Ï”–¼‚ğ’Ç‰Á ---
+//--- å¼•æ•°å¤‰æ•°åã‚’è¿½åŠ  ---
 void JlsScriptState::addArgAreaName(const string& strName){
 	if ( m_listArgArName.size() < INT_MAX/4 ){
 		m_listArgArName.push_back(strName);
 	}
 }
-//--- ˆø”•Ï”‚Ì‘”‚ğæ“¾ ---
+//--- å¼•æ•°å¤‰æ•°ã®ç·æ•°ã‚’å–å¾— ---
 int JlsScriptState::sizeArgAreaNameList(){
 	return (int)m_listArgArName.size();
 }
-//--- w’è‚µ‚½”Ô†‚Ìˆø”•Ï”–¼‚ğæ“¾ ---
+//--- æŒ‡å®šã—ãŸç•ªå·ã®å¼•æ•°å¤‰æ•°åã‚’å–å¾— ---
 bool JlsScriptState::getArgAreaName(string& strName, int num){
 	if ( num >= 0 && num < (int)m_listArgArName.size() ){
 		strName = m_listArgArName[num];
@@ -1292,47 +1292,47 @@ bool JlsScriptState::getArgAreaName(string& strName, int num){
 	return false;
 }
 //---------------------------------------------------------------------
-// •ÛŠÇŒ^ƒƒ‚ƒŠˆø”‚Ì§Œä
+// ä¿ç®¡å‹ãƒ¡ãƒ¢ãƒªå¼•æ•°ã®åˆ¶å¾¡
 //---------------------------------------------------------------------
-//--- •ÛŠÇŒ^ˆø”‚ğƒNƒŠƒA ---
+//--- ä¿ç®¡å‹å¼•æ•°ã‚’ã‚¯ãƒªã‚¢ ---
 void JlsScriptState::clearArgMstoreBuf(){
 	queue<string>().swap(m_queArgMsBuf);		// clear
 //	m_margVarName.clear();
 //	m_margVarVal.clear();
 }
-//--- •ÛŠÇŒ^ˆø”‚ğİ’è ---
+//--- ä¿ç®¡å‹å¼•æ•°ã‚’è¨­å®š ---
 void JlsScriptState::addArgMstoreBuf(const string& strBuf){
 	m_queArgMsBuf.push(strBuf);
 }
-//--- ‘Ò‹@’†ƒƒ‚ƒŠˆø”‚Ìƒ`ƒFƒbƒNE‘}“ü ---
+//--- å¾…æ©Ÿä¸­ãƒ¡ãƒ¢ãƒªå¼•æ•°ã®ãƒã‚§ãƒƒã‚¯ãƒ»æŒ¿å…¥ ---
 void JlsScriptState::exeArgMstoreInsert(CmdType cmdsel){
-	//--- •ÛŠÇŒ^ˆø”•Ï”‚ª‚È‚¯‚ê‚Î‘ÎÛŠO ---
+	//--- ä¿ç®¡å‹å¼•æ•°å¤‰æ•°ãŒãªã‘ã‚Œã°å¯¾è±¡å¤– ---
 	if ( isArgMstoreBufEmpty() ){
 		return;
 	}
-	//--- MemoryƒlƒXƒg’†‚É‚È‚Á‚½‚ç‘ÎÛŠO ---
+	//--- Memoryãƒã‚¹ãƒˆä¸­ã«ãªã£ãŸã‚‰å¯¾è±¡å¤– ---
 	if ( isMemDeepArea() ){
 		clearArgMstoreBuf();
 		return;
 	}
-	//--- ƒRƒ}ƒ“ƒh‚ğŠm”F ---
+	//--- ã‚³ãƒãƒ³ãƒ‰ã‚’ç¢ºèª ---
 	switch( cmdsel ){
-		case CmdType::LocalSt:		// { ƒRƒ}ƒ“ƒh
-			useArgMstoreBuf();		// •ÛŠÇ‚µ‚Ä‚¢‚éˆø”İ’è‚ğg—p
+		case CmdType::LocalSt:		// { ã‚³ãƒãƒ³ãƒ‰
+			useArgMstoreBuf();		// ä¿ç®¡ã—ã¦ã„ã‚‹å¼•æ•°è¨­å®šã‚’ä½¿ç”¨
 			break;
 		case CmdType::LocalEd:
 		case CmdType::EndLazy:
 		case CmdType::EndMemory:
-			clearArgMstoreBuf();	// ‰ğœ
+			clearArgMstoreBuf();	// è§£é™¤
 			break;
 		default:
 			break;
 	}
 	return;
 }
-//--- •ÛŠÇŒ^ˆø”‚ğg—piƒƒ‚ƒŠŠi”[æ‚ÉˆÚŠÇj ---
+//--- ä¿ç®¡å‹å¼•æ•°ã‚’ä½¿ç”¨ï¼ˆãƒ¡ãƒ¢ãƒªæ ¼ç´å…ˆã«ç§»ç®¡ï¼‰ ---
 void JlsScriptState::useArgMstoreBuf(){
-//	{		// MemCallÀsŠJn‚Ìƒ[ƒJƒ‹•Ï”‘ã“üˆ—i–¢g—pj
+//	{		// MemCallå®Ÿè¡Œé–‹å§‹æ™‚ã®ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ä»£å…¥å‡¦ç†ï¼ˆæœªä½¿ç”¨ï¼‰
 //		addCacheExeMem(m_queMargBuf);
 //		clearMargStoreBuf();
 //	}
@@ -1354,12 +1354,12 @@ void JlsScriptState::useArgMstoreBuf(){
 		}
 	}
 }
-//--- •ÛŠÇŒ^ˆø”‚ª‹ó‚© ---
+//--- ä¿ç®¡å‹å¼•æ•°ãŒç©ºã‹ ---
 bool JlsScriptState::isArgMstoreBufEmpty(){
 	return m_queArgMsBuf.empty();
 }
 //---------------------------------------------------------------------
-// s“à•ªŠ„ƒRƒ}ƒ“ƒh“Ç‚İ‚İˆ—
+// è¡Œå†…åˆ†å‰²ã‚³ãƒãƒ³ãƒ‰èª­ã¿è¾¼ã¿å‡¦ç†
 //---------------------------------------------------------------------
 void JlsScriptState::pushBufDivCmd(const string& str){
 	m_bufCmdDivHold = str;

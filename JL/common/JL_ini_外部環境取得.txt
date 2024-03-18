@@ -1,22 +1,22 @@
-# join_logo_scp—p‚ÌÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eF–‘Oİ’è‚³‚ê‚½ŠÂ‹«•Ï”‚ğæ“¾
+# å†…å®¹ï¼šäº‹å‰è¨­å®šã•ã‚ŒãŸç’°å¢ƒå¤‰æ•°ã‚’å–å¾—
 #
 
 CountUp once_check_extenv_get
-If ${once_check_extenv_get}!=1 { Return };   # 1‰ñ‚Ì‚İÀs
+If ${once_check_extenv_get}!=1 { Return };   # 1å›ã®ã¿å®Ÿè¡Œ
 
 #----------------------------------------------
-# İ’è
+# è¨­å®š
 #----------------------------------------------
-EnvGet CLI_IN_PATH -RegOut file_ts -default    # ŠÂ‹«•Ï”‚©‚çi•Ï”–¢’è‹`‚Ì‚İXVj
-EnvGet SERVICE_ID -RegOut service_id -default  # ŠÂ‹«•Ï”‚©‚çi•Ï”–¢’è‹`‚Ì‚İXVj
+EnvGet CLI_IN_PATH -RegOut file_ts -default    # ç’°å¢ƒå¤‰æ•°ã‹ã‚‰ï¼ˆå¤‰æ•°æœªå®šç¾©æ™‚ã®ã¿æ›´æ–°ï¼‰
+EnvGet SERVICE_ID -RegOut service_id -default  # ç’°å¢ƒå¤‰æ•°ã‹ã‚‰ï¼ˆå¤‰æ•°æœªå®šç¾©æ™‚ã®ã¿æ›´æ–°ï¼‰
 
-#--- SERVICE_ID‚È‚­’¼Ú—ªÌ‚ğİ’è‚·‚éê‡‚Ì‚İ•K—v ---
-EnvGet SERVICE_ABBR -RegOut service_abbr -default  # ŠÂ‹«•Ï”‚©‚çi•Ï”–¢’è‹`‚Ì‚İXVj
+#--- SERVICE_IDãªãç›´æ¥ç•¥ç§°ã‚’è¨­å®šã™ã‚‹å ´åˆã®ã¿å¿…è¦ ---
+EnvGet SERVICE_ABBR -RegOut service_abbr -default  # ç’°å¢ƒå¤‰æ•°ã‹ã‚‰ï¼ˆå¤‰æ•°æœªå®šç¾©æ™‚ã®ã¿æ›´æ–°ï¼‰
 
-#--- ts–¼‚ª‘¶İ‚µ‚½‚çƒpƒX‚ÆŠg’£q‚ğœ‚¢‚½‚à‚Ì‚ğ¯•Ê‚Ég—p‚·‚é ---
+#--- tsåãŒå­˜åœ¨ã—ãŸã‚‰ãƒ‘ã‚¹ã¨æ‹¡å¼µå­ã‚’é™¤ã„ãŸã‚‚ã®ã‚’è­˜åˆ¥ã«ä½¿ç”¨ã™ã‚‹ ---
 Default file_ts      ""
 If "${file_ts}"!=""
-  Default file_title   "${file_ts:t:r}"     # ƒ^ƒCƒgƒ‹–¼ŒŸõ—p
+  Default file_title   "${file_ts:t:r}"     # ã‚¿ã‚¤ãƒˆãƒ«åæ¤œç´¢ç”¨
 EndIf

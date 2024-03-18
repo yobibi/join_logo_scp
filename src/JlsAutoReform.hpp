@@ -1,5 +1,5 @@
-//
-// join_logo_scp : AutoŒnCM\¬„‘ªˆ—
+ï»¿//
+// join_logo_scp : Autoç³»CMæ§‹æˆæ¨æ¸¬å‡¦ç†
 //
 #pragma once
 
@@ -10,93 +10,93 @@ class JlsCmdArg;
 class JlsAutoReform
 {
 private:
-	//--- \¬\’z—p ---
-	static const int SIZE_SETFORM_KEEP = 6;		// CM\¬ŒŸo‚Ì—š—ğ•Û”
-	//--- ƒƒS‚È‚µCM\¬„‘ª—p ---
-	enum AutoCMStateType {			// iƒƒS‚È‚µCM\¬„‘ª—pjó‘Ô
-		AUTOCM_ST_S0N_FIRST,		// æ“ªCM
-		AUTOCM_ST_S1L_LOGO,			// ’ÊíƒƒS
-		AUTOCM_ST_S2N_CM,			// ’ÊíCM
-		AUTOCM_ST_S3L_DEFER,		// ”÷–­”»’fæ‘—‚èƒƒS
-		AUTOCM_ST_S4N_JUDGE,		// •sŠm’èæ‘—‚è’n“_‚ÌCM”»’f
-		AUTOCM_NUM_SMAX				// ó‘Ô”Å‘å
+	//--- æ§‹æˆæ§‹ç¯‰ç”¨ ---
+	static const int SIZE_SETFORM_KEEP = 6;		// CMæ§‹æˆæ¤œå‡ºæ™‚ã®å±¥æ­´ä¿æŒæ•°
+	//--- ãƒ­ã‚´ãªã—CMæ§‹æˆæ¨æ¸¬ç”¨ ---
+	enum AutoCMStateType {			// ï¼ˆãƒ­ã‚´ãªã—CMæ§‹æˆæ¨æ¸¬ç”¨ï¼‰çŠ¶æ…‹
+		AUTOCM_ST_S0N_FIRST,		// å…ˆé ­CM
+		AUTOCM_ST_S1L_LOGO,			// é€šå¸¸ãƒ­ã‚´
+		AUTOCM_ST_S2N_CM,			// é€šå¸¸CM
+		AUTOCM_ST_S3L_DEFER,		// å¾®å¦™åˆ¤æ–­å…ˆé€ã‚Šãƒ­ã‚´
+		AUTOCM_ST_S4N_JUDGE,		// ä¸ç¢ºå®šå…ˆé€ã‚Šåœ°ç‚¹ã®CMåˆ¤æ–­
+		AUTOCM_NUM_SMAX				// çŠ¶æ…‹æ•°æœ€å¤§
 	};
-	enum AutoCMCommandType {		// iƒƒS‚È‚µCM\¬„‘ª—pjƒRƒ}ƒ“ƒhí—Ş
-		AUTOCM_T_INIT,				// ƒRƒ}ƒ“ƒhF‰Šú‰»
-		AUTOCM_T_SFT,				// ƒRƒ}ƒ“ƒhF•½sˆÚ“®
-		AUTOCM_T_MRG				// ƒRƒ}ƒ“ƒhF‡•¹
+	enum AutoCMCommandType {		// ï¼ˆãƒ­ã‚´ãªã—CMæ§‹æˆæ¨æ¸¬ç”¨ï¼‰ã‚³ãƒãƒ³ãƒ‰ç¨®é¡
+		AUTOCM_T_INIT,				// ã‚³ãƒãƒ³ãƒ‰ï¼šåˆæœŸåŒ–
+		AUTOCM_T_SFT,				// ã‚³ãƒãƒ³ãƒ‰ï¼šå¹³è¡Œç§»å‹•
+		AUTOCM_T_MRG				// ã‚³ãƒãƒ³ãƒ‰ï¼šåˆä½µ
 	};
-	enum AutoFirstType {			// æ“ªƒƒS‚ÌƒJƒbƒgğŒ
-		AUTOFIRST_LAX,				// ŠÉ‚ß
-		AUTOFIRST_STRICT,			// Œµ‚µ‚ß
-		AUTOFIRST_NOCUT				// ƒJƒbƒg‚È‚µ
+	enum AutoFirstType {			// å…ˆé ­ãƒ­ã‚´ã®ã‚«ãƒƒãƒˆæ¡ä»¶
+		AUTOFIRST_LAX,				// ç·©ã‚
+		AUTOFIRST_STRICT,			// å³ã—ã‚
+		AUTOFIRST_NOCUT				// ã‚«ãƒƒãƒˆãªã—
 	};
 
-	struct FormAutoCMArg {			// AutoCMÀs‚Ég—p‚·‚é“ü—Íî•ñ
-		int  levelCmDet;			// CMŒŸoƒŒƒxƒ‹
-		Msec msecTailareaKeep;		// ’ZŠÔ‚ÍCMˆµ‚¢Œp‘±‚·‚éÅŒã‚©‚ç‚ÌˆÊ’u
-		Msec msecTailareaUnit;		// 60/90/120•b\¬‚ğCMˆµ‚¢‚·‚éÅŒã‚©‚ç‚ÌˆÊ’u
-		Sec  secMaxCm;				// w’è•b‚ğ’´‚¦‚é\¬‚Í15•b’PˆÊ‚Å‚àCMˆµ‚¢‚É‚µ‚È‚¢
-		RangeMsec rmsecHeadTail;	// æ“ª––”öˆÊ’u
+	struct FormAutoCMArg {			// AutoCMå®Ÿè¡Œã«ä½¿ç”¨ã™ã‚‹å…¥åŠ›æƒ…å ±
+		int  levelCmDet;			// CMæ¤œå‡ºãƒ¬ãƒ™ãƒ«
+		Msec msecTailareaKeep;		// çŸ­æ™‚é–“ã¯CMæ‰±ã„ç¶™ç¶šã™ã‚‹æœ€å¾Œã‹ã‚‰ã®ä½ç½®
+		Msec msecTailareaUnit;		// 60/90/120ç§’æ§‹æˆã‚’CMæ‰±ã„ã™ã‚‹æœ€å¾Œã‹ã‚‰ã®ä½ç½®
+		Sec  secMaxCm;				// æŒ‡å®šç§’ã‚’è¶…ãˆã‚‹æ§‹æˆã¯15ç§’å˜ä½ã§ã‚‚CMæ‰±ã„ã«ã—ãªã„
+		RangeMsec rmsecHeadTail;	// å…ˆé ­æœ«å°¾ä½ç½®
 	};
-	struct AutoCMCount {			// iƒƒS‚È‚µCM\¬„‘ª—pjƒJƒEƒ“ƒ^
-		RangeNsc rnsc;				// ŠJnI—¹ˆÊ’uƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-		int det;					// \¬”i‡ŒvjƒJƒEƒ“ƒg
-		Sec sec;					// •b”i‡ŒvjƒJƒEƒ“ƒg
-		int d15;					// \¬”i15•bjƒJƒEƒ“ƒg
-		int d30;					// \¬”i30•bjƒJƒEƒ“ƒg
-		int dov15;					// \¬”i15•bˆÈãjƒJƒEƒ“ƒg
+	struct AutoCMCount {			// ï¼ˆãƒ­ã‚´ãªã—CMæ§‹æˆæ¨æ¸¬ç”¨ï¼‰ã‚«ã‚¦ãƒ³ã‚¿
+		RangeNsc rnsc;				// é–‹å§‹çµ‚äº†ä½ç½®ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+		int det;					// æ§‹æˆæ•°ï¼ˆåˆè¨ˆï¼‰ã‚«ã‚¦ãƒ³ãƒˆ
+		Sec sec;					// ç§’æ•°ï¼ˆåˆè¨ˆï¼‰ã‚«ã‚¦ãƒ³ãƒˆ
+		int d15;					// æ§‹æˆæ•°ï¼ˆ15ç§’ï¼‰ã‚«ã‚¦ãƒ³ãƒˆ
+		int d30;					// æ§‹æˆæ•°ï¼ˆ30ç§’ï¼‰ã‚«ã‚¦ãƒ³ãƒˆ
+		int dov15;					// æ§‹æˆæ•°ï¼ˆ15ç§’ä»¥ä¸Šï¼‰ã‚«ã‚¦ãƒ³ãƒˆ
 	};
-	struct FormFirstInfo {			// æ“ªƒJƒbƒgŒ‹‰Êî•ñ
-		AutoFirstType limitHead;	// æ“ª’¼ŒãƒJƒbƒg•ûji0:ŠÉ‚ß 1:Œµ‚µ‚ß 2:‚È‚µj
-		Nsc nscTreat;				// æ“ª‚ÌŠm’èˆÊ’u”Ô†
+	struct FormFirstInfo {			// å…ˆé ­ã‚«ãƒƒãƒˆçµæœæƒ…å ±
+		AutoFirstType limitHead;	// å…ˆé ­ç›´å¾Œã‚«ãƒƒãƒˆæ–¹é‡ï¼ˆ0:ç·©ã‚ 1:å³ã—ã‚ 2:ãªã—ï¼‰
+		Nsc nscTreat;				// å…ˆé ­ã®ç¢ºå®šä½ç½®ç•ªå·
 	};
-	struct FormFirstLoc {			// æ“ªƒJƒbƒgˆ—’†‚ÌˆÊ’uî•ñ
-		Nsc  nscDecide;				// \¬Šm’èˆÊ’u‚ÌƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-		Nsc  nscLogo1st;			// ƒƒS‚É‘Î‰‚·‚éƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-		Msec msecDecide;			// \¬Šm’èˆÊ’u
-		Msec msecLogo1st;			// ƒƒSŠJnˆÊ’u
-		RangeNsc rnscLogo1st;		// ƒƒS‚Æ‚µ‚ÄŒŸõ‚·‚é”ÍˆÍƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-		int  lvPos1stSel;			// iİ’èjŠJnƒ}[ƒWƒ“İ’è
-		Msec msec1stSel;			// iİ’èjŠJnƒ}[ƒWƒ“ˆÊ’u
-		Msec msecEnd1st;			// iİ’èj’²¸I—¹ˆÊ’u
-		Msec msec1stZone;			// iİ’èjæ“ª‚©‚çw’èŠúŠÔ‚É‘S‘Ì‚ªŠÜ‚Ü‚ê‚é\¬‚ÍCM
-		Msec msecWcomp1st;			// iİ’èjˆê”ÔÅ‰‚Ì\¬CM‰»ŠúŠÔ
-		Msec msecLgCut1st;			// iİ’èjˆê”ÔÅ‰‚ÉƒƒS‚ ‚è‚Ì\¬CM‰»ŠúŠÔ
+	struct FormFirstLoc {			// å…ˆé ­ã‚«ãƒƒãƒˆå‡¦ç†ä¸­ã®ä½ç½®æƒ…å ±
+		Nsc  nscDecide;				// æ§‹æˆç¢ºå®šä½ç½®ã®ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+		Nsc  nscLogo1st;			// ãƒ­ã‚´ã«å¯¾å¿œã™ã‚‹ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+		Msec msecDecide;			// æ§‹æˆç¢ºå®šä½ç½®
+		Msec msecLogo1st;			// ãƒ­ã‚´é–‹å§‹ä½ç½®
+		RangeNsc rnscLogo1st;		// ãƒ­ã‚´ã¨ã—ã¦æ¤œç´¢ã™ã‚‹ç¯„å›²ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+		int  lvPos1stSel;			// ï¼ˆè¨­å®šï¼‰é–‹å§‹ãƒãƒ¼ã‚¸ãƒ³è¨­å®š
+		Msec msec1stSel;			// ï¼ˆè¨­å®šï¼‰é–‹å§‹ãƒãƒ¼ã‚¸ãƒ³ä½ç½®
+		Msec msecEnd1st;			// ï¼ˆè¨­å®šï¼‰èª¿æŸ»çµ‚äº†ä½ç½®
+		Msec msec1stZone;			// ï¼ˆè¨­å®šï¼‰å…ˆé ­ã‹ã‚‰æŒ‡å®šæœŸé–“ã«å…¨ä½“ãŒå«ã¾ã‚Œã‚‹æ§‹æˆã¯CM
+		Msec msecWcomp1st;			// ï¼ˆè¨­å®šï¼‰ä¸€ç•ªæœ€åˆã®æ§‹æˆCMåŒ–æœŸé–“
+		Msec msecLgCut1st;			// ï¼ˆè¨­å®šï¼‰ä¸€ç•ªæœ€åˆã«ãƒ­ã‚´ã‚ã‚Šæ™‚ã®æ§‹æˆCMåŒ–æœŸé–“
 	};
-	struct FormCMByLogo {			// CM\¬ŒŸo‚Åg—p‚·‚éƒf[ƒ^
-		Msec msecTarget;			// ŒŸõƒƒSˆÊ’u
-		Msec msecLimit;				// •â³‰Â”\ŒÀŠE’n“_
-		Msec msecCmSide;			// ŒŸõ”ÍˆÍƒƒSˆÊ’uiCM‘¤j
-		Msec msecLogoSide;			// ŒŸõ”ÍˆÍƒƒSˆÊ’uiƒƒS‘¤j
-		int  revDelEdge;			// ƒƒS’[CMíœi0=‰Â”\«‚ ‚éˆÊ’u 1=’†SˆÊ’u 2=’†SˆÊ’u‚ÅÅ¬ŒÀ 3=íœ‚È‚µj
-		SearchDirType dr;			// •ûŒüiSEARCH_DIR_PREV/SEARCH_DIR_NEXTj
+	struct FormCMByLogo {			// CMæ§‹æˆæ¤œå‡ºã§ä½¿ç”¨ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+		Msec msecTarget;			// æ¤œç´¢ãƒ­ã‚´ä½ç½®
+		Msec msecLimit;				// è£œæ­£å¯èƒ½é™ç•Œåœ°ç‚¹
+		Msec msecCmSide;			// æ¤œç´¢ç¯„å›²ãƒ­ã‚´ä½ç½®ï¼ˆCMå´ï¼‰
+		Msec msecLogoSide;			// æ¤œç´¢ç¯„å›²ãƒ­ã‚´ä½ç½®ï¼ˆãƒ­ã‚´å´ï¼‰
+		int  revDelEdge;			// ãƒ­ã‚´ç«¯CMå‰Šé™¤ï¼ˆ0=å¯èƒ½æ€§ã‚ã‚‹ä½ç½® 1=ä¸­å¿ƒä½ç½® 2=ä¸­å¿ƒä½ç½®ã§æœ€å°é™ 3=å‰Šé™¤ãªã—ï¼‰
+		SearchDirType dr;			// æ–¹å‘ï¼ˆSEARCH_DIR_PREV/SEARCH_DIR_NEXTï¼‰
 	};
 	struct FormCMEdgeSide {
-		bool endSide;				// ’[î•ñifalse=ŠJn‘¤, true=I—¹‘¤j
-		Nsc  nscDetect;				// Œó•âˆÊ’u
-		Nsc  nscFixed;				// Šm’èˆÊ’u
-		Nsc  nscOther;				// Œó•â‚ÌŠm’èˆÊ’u‚Æ‚Í”½‘Î‘¤‚ÌŠm’èˆÊ’u
-		bool logoModePrev;			// ‘O‘¤‚ÌƒƒS—L–³
-		bool logoModeNext;			// Œã‘¤‚ÌƒƒS—L–³
+		bool endSide;				// ç«¯æƒ…å ±ï¼ˆfalse=é–‹å§‹å´, true=çµ‚äº†å´ï¼‰
+		Nsc  nscDetect;				// å€™è£œä½ç½®
+		Nsc  nscFixed;				// ç¢ºå®šä½ç½®
+		Nsc  nscOther;				// å€™è£œã®ç¢ºå®šä½ç½®ã¨ã¯åå¯¾å´ã®ç¢ºå®šä½ç½®
+		bool logoModePrev;			// å‰å´ã®ãƒ­ã‚´æœ‰ç„¡
+		bool logoModeNext;			// å¾Œå´ã®ãƒ­ã‚´æœ‰ç„¡
 	};
-	struct FormLogoLevelExt {		// ƒƒSƒŒƒxƒ‹‚É‘Î‰‚·‚é”F¯ŠúŠÔ‚Ì”»’è—p
-		bool en_long;				// ’·ŠúŠÔ‚Ì30•b’PˆÊ\¬‚ğŠÜ‚Ş
-		bool longmod;				// ’·ŠúŠÔ‚Ì5•b/15•b’PˆÊ‚ğŠÜ‚Ş
-		bool mid5s;					// ƒƒSƒŒƒxƒ‹MIDL‚à5•b’PˆÊ‚ÅŒŸo
+	struct FormLogoLevelExt {		// ãƒ­ã‚´ãƒ¬ãƒ™ãƒ«ã«å¯¾å¿œã™ã‚‹èªè­˜æœŸé–“ã®åˆ¤å®šç”¨
+		bool en_long;				// é•·æœŸé–“ã®30ç§’å˜ä½æ§‹æˆã‚’å«ã‚€
+		bool longmod;				// é•·æœŸé–“ã®5ç§’/15ç§’å˜ä½ã‚’å«ã‚€
+		bool mid5s;					// ãƒ­ã‚´ãƒ¬ãƒ™ãƒ«MIDLã‚‚5ç§’å˜ä½ã§æ¤œå‡º
 	};
-	struct TraceInterpolar {		// ‚Q“_ŠÔ\¬•ªŠ„‚Ìˆê•Ûƒf[ƒ^
-		int keepType;				// •Û\¬‚Ìí—Şi0=•Û‚È‚µ 1=Œó•â‚ ‚è 2=‚¸‚ê‚Ì‘å‚«‚¢Œó•â‚ ‚èj
-		int keepGap;				// •Û\¬êŠ‚ÌŒë·ƒ~ƒŠ•b
-		Nsc nscKeep;				// •Û\¬”Ô†
-		Nsc nscBase;				// Šm’è\¬”Ô†
-		bool keep15s;				// •¡”15•b’PˆÊ\¬
+	struct TraceInterpolar {		// ï¼’ç‚¹é–“æ§‹æˆåˆ†å‰²æ™‚ã®ä¸€æ™‚ä¿æŒãƒ‡ãƒ¼ã‚¿
+		int keepType;				// ä¿æŒæ§‹æˆã®ç¨®é¡ï¼ˆ0=ä¿æŒãªã— 1=å€™è£œã‚ã‚Š 2=ãšã‚Œã®å¤§ãã„å€™è£œã‚ã‚Šï¼‰
+		int keepGap;				// ä¿æŒæ§‹æˆå ´æ‰€ã®èª¤å·®ãƒŸãƒªç§’
+		Nsc nscKeep;				// ä¿æŒæ§‹æˆç•ªå·
+		Nsc nscBase;				// ç¢ºå®šæ§‹æˆç•ªå·
+		bool keep15s;				// è¤‡æ•°15ç§’å˜ä½æ§‹æˆ
 	};
-	struct TraceChap {					// chap¶¬‚Ìˆê•Ûƒf[ƒ^
-		int numDa;						// “üo—ÍF•Ûƒf[ƒ^”iŒp‘±Œó•âj
-		int numDb;						// “üo—ÍF•Ûƒf[ƒ^”iVŒó•âj
-		Nsc nscDa[SIZE_SETFORM_KEEP];	// “üo—ÍF•Ûƒf[ƒ^‚ÌŒp‘±Œó•âˆÊ’uiƒTƒCƒY=SIZE_SETFORM_KEEPj
-		Nsc nscDb[SIZE_SETFORM_KEEP];	// “üo—ÍF•Ûƒf[ƒ^‚ÌVŒó•âˆÊ’uiƒTƒCƒY=SIZE_SETFORM_KEEPj
+	struct TraceChap {					// chapç”Ÿæˆæ™‚ã®ä¸€æ™‚ä¿æŒãƒ‡ãƒ¼ã‚¿
+		int numDa;						// å…¥å‡ºåŠ›ï¼šä¿æŒãƒ‡ãƒ¼ã‚¿æ•°ï¼ˆç¶™ç¶šå€™è£œï¼‰
+		int numDb;						// å…¥å‡ºåŠ›ï¼šä¿æŒãƒ‡ãƒ¼ã‚¿æ•°ï¼ˆæ–°å€™è£œï¼‰
+		Nsc nscDa[SIZE_SETFORM_KEEP];	// å…¥å‡ºåŠ›ï¼šä¿æŒãƒ‡ãƒ¼ã‚¿ã®ç¶™ç¶šå€™è£œä½ç½®ï¼ˆã‚µã‚¤ã‚º=SIZE_SETFORM_KEEPï¼‰
+		Nsc nscDb[SIZE_SETFORM_KEEP];	// å…¥å‡ºåŠ›ï¼šä¿æŒãƒ‡ãƒ¼ã‚¿ã®æ–°å€™è£œä½ç½®ï¼ˆã‚µã‚¤ã‚º=SIZE_SETFORM_KEEPï¼‰
 	};
 
 public:
@@ -111,7 +111,7 @@ private:
 	void mkReformAllLogoUpdate(RangeMsec rmsec_new);
 	void mkReformAllNologo(JlsCmdArg &cmdarg);
 	void setReformParam(FormAutoCMArg &param_autocm, JlsCmdArg &cmdarg, bool reform_all);
-// \¬”F¯Œã‚Ì’Ç‰Áˆ—
+// æ§‹æˆèªè­˜å¾Œã®è¿½åŠ å‡¦ç†
 	void addLogoComponent(int lvlogo);
 	void addLogoEdge();
 	void addLogoEdgeUpdate(RangeWideMsec area_nologo, int msec_recmin);
@@ -120,21 +120,21 @@ private:
 	void addLogoBorderSet();
 	Msec addLogoBorderSub(RangeMsec component, RangeNrf rnrf_logo, bool enable_st);
 	Msec addLogoBorderSubUpdate(RangeMsec component, RangeMsec logo_targets, bool rise_logost, bool enable_st);
-// ƒƒS‚È‚µ‚Ì\¬”F¯
+// ãƒ­ã‚´ãªã—æ™‚ã®æ§‹æˆèªè­˜
 	bool detectCM(FormAutoCMArg param_autocm);
 	void detectCMCount(AutoCMCount *cntset, AutoCMCommandType type, AutoCMStateType st, AutoCMStateType ed);
 	bool detectCMSetLogo(RangeNsc rnsc);
 	bool detectCMCancelShort(RangeNsc rnsc);
 	void detectCMAssistLogo(int nsc_det1st, int nsc_detend);
-// w’è‹æŠÔ‚ğ„‘ªÀs‚µ‚Ä\¬”F¯
+// æŒ‡å®šåŒºé–“ã‚’æ¨æ¸¬å®Ÿè¡Œã—ã¦æ§‹æˆèªè­˜
 	bool mkRangeInterLogo(RangeNsc nscbounds, bool cm_inter);
 	bool mkRangeCM(RangeMsec &rmsec_result, RangeFixMsec scope_org, bool logo1st, int interfill);
 	bool mkRangeCMGetLogoEdge(WideMsec &wmsec, int msec_target, bool flag_fix, LogoEdgeType edge);
-// ‘S‘Ì‚É‚¨‚¯‚éæ“ª‚ÆÅŒã‚Ì\¬”F¯ˆ—
+// å…¨ä½“ã«ãŠã‘ã‚‹å…ˆé ­ã¨æœ€å¾Œã®æ§‹æˆèªè­˜å‡¦ç†
 	bool setFirstArea(FormFirstInfo &info_first);
 	bool setFirstAreaUpdate(FormFirstInfo &info_first, FormFirstLoc locinfo);
 	bool setFinalArea();
-// 2“_ŠÔ‚Ì\¬Šm’èˆ—
+// 2ç‚¹é–“ã®æ§‹æˆç¢ºå®šå‡¦ç†
 	bool setInterLogo(RangeNsc nscbounds, bool cm_inter);
 	bool setInterLogoUpdate(Nsc nsc_fin, RangeNsc cmterm, bool shortcm);
 	bool setInterMultiCM(RangeNsc nscbounds, int interfill);
@@ -142,7 +142,7 @@ private:
 	void setInterpolarClearChap(Nsc nsc_n);
 	bool setInterpolarDetect(TraceInterpolar &trace, Nsc nsc_cur, RangeNscMsec target, bool logomode, int nside);
 	bool setInterpolarExtra(RangeNscMsec target, bool logomode);
-// w’èŠúŠÔ“à‚ÉŠÜ‚Ü‚ê‚éCM\¬‚ğŒŸo
+// æŒ‡å®šæœŸé–“å†…ã«å«ã¾ã‚Œã‚‹CMæ§‹æˆã‚’æ¤œå‡º
 	bool setCMForm(RangeMsec &bounds, RangeWideMsec cmscope, bool logo1st, bool logointer);
 	bool setCMFormDetect(Msec &msec_stpoint, Nsc nsc_base, RangeWideMsec findscope, bool logoon_st);
 	void setCMFormDetRevise(RangeMsec &bounds, bool fix_mode);
@@ -153,7 +153,7 @@ private:
 	bool setCMFormEdgeSideInfo(FormCMEdgeSide &sidesel, Msec msec_bounds, WideMsec wmsec_scope, ScpChapType chap_cmp, bool endside);
 	bool setCMFormEdgeSetSide(FormCMEdgeSide &sidesel, int level);
 	bool setCMFormEdgeSetBoth(RangeNsc rnsc_detect, RangeNsc rnsc_scope, int level, bool logo1st);
-// Še‹æØ‚è‚ÌƒXƒRƒA‚¨‚æ‚Ñ\¬‚ğŒŸo
+// å„åŒºåˆ‡ã‚Šã®ã‚¹ã‚³ã‚¢ãŠã‚ˆã³æ§‹æˆã‚’æ¤œå‡º
 	void setScore(RangeMsec scope);
 	void setScore(RangeFixMsec fixscope);
 	void setChap(RangeFixMsec fixscope);
@@ -168,7 +168,7 @@ private:
 	int  getScore(Msec msec_target, RangeWideMsec range_wide_scope);
 	int  getScoreDist(Nsc &nsc_cur, Msec msec_cmp);
 	int  getScoreTarget(Msec msec_dist, int sec_width, bool smute_det, bool still_det);
-// ‹¤’Êˆ—
+// å…±é€šå‡¦ç†
 	int  checkMuteMany(RangeNsc rnsc);
 	void addCommonComponentOne(Nsc nsc_target, Nsc nsc_side, bool enable_short);
 	int  calcDifSelect(CalcDifInfo &calcdif, Msec msec_src, Msec msec_dst);
@@ -178,7 +178,7 @@ private:
 	bool isLengthLogoLevel(Msec msec_target, FormLogoLevelExt extype);
 
 private:
-	//--- ƒf[ƒ^ŠÖ”ƒ|ƒCƒ“ƒ^ ---
+	//--- ãƒ‡ãƒ¼ã‚¿é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ ---
 	JlsDataset *pdata;
 
 };

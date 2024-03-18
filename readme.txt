@@ -1,143 +1,143 @@
+﻿//
+// CM自動カット位置情報作成 join_logo_scp   by Yobi
+//                          ver5.0対応
 //
-// CM�����J�b�g�ʒu���쐬 join_logo_scp   by Yobi
-//                          ver5.0�Ή�
-//
 
-�� �T�v
+■ 概要
 
-���O�ɕʃ\�t�g�Ō��o����
-�E���S�\�����
-�E�������V�[���`�F���W
-�̏�����ɂ��āACM�J�b�g���(Trim)���L�ڂ���AVS�t�@�C�����쐬���܂��B
+事前に別ソフトで検出した
+・ロゴ表示区間
+・無音＆シーンチェンジ
+の情報を基にして、CMカット情報(Trim)を記載したAVSファイルを作成します。
 
 
-�����O����
+■事前準備
 
-�E���߃��S�\����Ԍ��o logoframe
-�E�������V�[���`�F���W���� chapter_exe�i������ by Yobi �𐄏��j
+・透過ロゴ表示区間検出 logoframe
+・無音＆シーンチェンジ検索 chapter_exe（改造版 by Yobi を推奨）
 
-�����s���āA���S�\����ԂƖ������V�[���`�F���W�ʒu��
-�o�͂��Ă��������B
-chapter_exe�̓I���W�i���ł��ꉞ�\�Ǝv���܂����A������ by Yobi��
-�g�����������m�ɈႢ���킩�郌�x���Ő��x���オ��܂��B
+を実行して、ロゴ表示区間と無音＆シーンチェンジ位置を
+出力してください。
+chapter_exeはオリジナルでも一応可能と思いますが、改造版 by Yobiを
+使った方が明確に違いがわかるレベルで精度が上がります。
 
-����ɉ����A�J�b�g�������@���L�ڂ������s���e�X�N���v�g���g���܂��B
-�i��Ƃ��āA�Y�t�t�@�C���́uJL_�W��.txt�v�B�R�O���g�A�j����CM�J�b�g��
-  �`���[�j���O���Ă���܂����ėp�I�Ɏg����Ǝv���܂��B�j
+これに加え、カット処理方法を記載した実行内容スクリプトを使います。
+（例として、添付ファイルの「JL_標準.txt」。３０分枠アニメのCMカットで
+  チューニングしてありますが汎用的に使えると思います。）
 
-�����S���ʂȂ��ł����x�͑��������܂�������\�ɂ��܂����iver2.1�ǉ��j�B
+※ロゴ結果なしでも精度は多少落ちますが動作可能にしました（ver2.1追加）。
 
 
-���g����
+■使い方
 
-bat�t�@�C�����ŉ��L�R�}���h�����s�B
+batファイル等で下記コマンドを実行。
 
-join_logo_scp -inlogo �t�@�C���� -inscp �t�@�C���� -incmd �t�@�C���� -o �t�@�C���� ���̑��I�v�V����
+join_logo_scp -inlogo ファイル名 -inscp ファイル名 -incmd ファイル名 -o ファイル名 その他オプション
 
-�i�I�v�V�����̐����j
+（オプションの説明）
 
-  �I�v�V�����͍������珇�ԂɃA�N�Z�X���ē����ݒ�͏㏑������܂��B(ver3.0�ǉ�)
-  ���̂��ߓ������ڐݒ肪��������㑤�L�ڂ��L���ɂȂ�܂��B
+  オプションは左側から順番にアクセスして同じ設定は上書きされます。(ver3.0追加)
+  そのため同じ項目設定があったら後側記載が有効になります。
 
-  -inlogo �t�@�C����
-    logoframe��"-oa"�I�v�V�����ŏo�͂����t�@�C�������w�肵�܂��B
-    �w�肵�Ȃ��ꍇ�A���S���Ԃ��Ȃ��ꍇ�͑S�t���[�������S�\���Ƃ݂Ȃ��܂��B
+  -inlogo ファイル名
+    logoframeの"-oa"オプションで出力したファイル名を指定します。
+    指定しない場合、ロゴ期間がない場合は全フレームがロゴ表示とみなします。
 
-  -inscp �t�@�C����
-    chapter_exe��"-o"�I�v�V�����ŏo�͂����t�@�C�������w�肵�܂��B[�K�{]
+  -inscp ファイル名
+    chapter_exeの"-o"オプションで出力したファイル名を指定します。[必須]
 
-  -incmd �t�@�C����
-    �J�b�g�������@���L�ڂ������s���e�X�N���v�g���w�肵�܂��B[�K�{]
-    JL_�W��.txt�i���̃t�@�C���ƈꏏ�ɓY�t�j����ł��B
+  -incmd ファイル名
+    カット処理方法を記載した実行内容スクリプトを指定します。[必須]
+    JL_標準.txt（このファイルと一緒に添付）が例です。
 
-  -o �t�@�C����
-    �o�͂���CM�J�b�g����AVS�t�@�C�����ł��B[�K�{]
+  -o ファイル名
+    出力するCMカット情報のAVSファイル名です。[必須]
 
-  -CutMrgIn ���l
-    �V�[���`�F���W���烍�S�\���J�n�܂ł̃t���[�������w�肵�܂��B
-    �ʏ탍�S�ʂ̌Œ�l�ł��B�w�肵���������x���オ��܂��B
+  -CutMrgIn 数値
+    シーンチェンジからロゴ表示開始までのフレーム数を指定します。
+    通常ロゴ別の固定値です。指定した方が精度が上がります。
 
-  -CutMrgOut ���l
-    ���S�\���I������V�[���`�F���W�܂ł̃t���[�������w�肵�܂��B
-    �ʏ탍�S�ʂ̌Œ�l�ł��B�w�肵���������x���オ��܂��B
+  -CutMrgOut 数値
+    ロゴ表示終了からシーンチェンジまでのフレーム数を指定します。
+    通常ロゴ別の固定値です。指定した方が精度が上がります。
 
-  -CutMrgWI ���l
-    1���w�肵���ꍇ�A���S�\���J�n�ʒu�ɃV�[���`�F���W���������ꍇ�ɂ�
-    �ݒ�l=0�Ƃ���CutMrgIn�̒l���g���܂���B(ver3.0�ǉ�)
-    2���w�肵���ꍇ�ACutMrgIn�����������̂�1���w�肵����������܂��B
+  -CutMrgWI 数値
+    1を指定した場合、ロゴ表示開始位置にシーンチェンジがあった場合には
+    設定値=0としてCutMrgInの値を使いません。(ver3.0追加)
+    2を指定した場合、CutMrgInが小さい時のみ1を指定した動作をします。
 
-  -CutMrgWO ���l
-    1���w�肵���ꍇ�A���S�\���I���ʒu�ɃV�[���`�F���W���������ꍇ�ɂ�
-    �ݒ�l=0�Ƃ���CuMrgtOut�̒l���g���܂���B(ver3.0�ǉ�)
-    2���w�肵���ꍇ�ACutMrgOut�����������̂�1���w�肵����������܂��B
+  -CutMrgWO 数値
+    1を指定した場合、ロゴ表示終了位置にシーンチェンジがあった場合には
+    設定値=0としてCuMrgtOutの値を使いません。(ver3.0追加)
+    2を指定した場合、CutMrgOutが小さい時のみ1を指定した動作をします。
 
-  -flags �t���O��,�t���O��,�t���O��
-    ���s���e�X�N���v�g�ŕ��򏈗����s���ꍇ�A����p�t���O�����w�肵�܂��B
-    ","�ŋ�؂邱�Ƃŕ����̃t���O�����w��\�ł��B
-    �t���O��:�l �Ƃ��邱�ƂŃt���O���ɒl��ݒ�ł��܂��B(ver3.0�ǉ�)
+  -flags フラグ名,フラグ名,フラグ名
+    実行内容スクリプトで分岐処理を行う場合、分岐用フラグ名を指定します。
+    ","で区切ることで複数のフラグ名を指定可能です。
+    フラグ名:値 とすることでフラグ名に値を設定できます。(ver3.0追加)
 
- �i��j-flags fa,fb:0,fc:2
-     �ϐ��Ƃ��� fa=1,fb=0,fc=2 ��ݒ肵�܂��Bfb�̓t���O�Ȃ������ɂȂ�܂��B
+ （例）-flags fa,fb:0,fc:2
+     変数として fa=1,fb=0,fc=2 を設定します。fbはフラグなし扱いになります。
 
-  -set �ϐ��� �ݒ�l
-    ���s���e�X�N���v�g�Ŏg�p����ϐ��̒l��ݒ�ł��܂��B
-    ���̃I�v�V�����͌J��Ԃ��w��\�ł��B
+  -set 変数名 設定値
+    実行内容スクリプトで使用する変数の値を設定できます。
+    このオプションは繰り返し指定可能です。
 
-  -lastcut ���l
-    �ŏI�t���[������w�肵���t���[�����̉摜�͎g�p���܂���B
-    �Ō�͉摜������Ă��Ďg�������Ȃ��ꍇ�Ɏw�肵�܂��B
+  -lastcut 数値
+    最終フレームから指定したフレーム数の画像は使用しません。
+    最後は画像が乱れていて使いたくない場合に指定します。
 
-  -oscp �t�@�C����
-    ��͗p�t�@�C�����o�͂��܂��B�ԑg�\���c���̎Q�l�ɂȂ�܂��B
-    CM����{15�b�P�ʂł��邱�Ƃ�O��ɉ�͏��i���L�j���o�͂��܂��B
-      �P�ʃt���[���J�n�ʒu
-      �P�ʃt���[���I���ʒu
-      �P�ʃt���[�����ԁi�b���j
-      �P�ʃt���[�����ԕb������̌덷�i�t���[�����j
-      �P�ʃt���[�����ԓ��̃��S�\�����ԁi�b���j
-      �P�ʃt���[���Ƃ��Đ��������\���iAuto�n�R�}���h�g�p���̂ݕ\���j
+  -oscp ファイル名
+    解析用ファイルを出力します。番組構成把握の参考になります。
+    CMが基本15秒単位であることを前提に解析情報（下記）を出力します。
+      単位フレーム開始位置
+      単位フレーム終了位置
+      単位フレーム期間（秒数）
+      単位フレーム期間秒数からの誤差（フレーム数）
+      単位フレーム期間内のロゴ表示期間（秒数）
+      単位フレームとして推測した構成（Auto系コマンド使用時のみ表示）
 
-  -odiv �t�@�C����
-	DivFile�R�}���h�ɂ�镪���t���[�����X�g���o�͂��܂��B(ver3.06n�ǉ�)
+  -odiv ファイル名
+	DivFileコマンドによる分割フレームリストを出力します。(ver3.06n追加)
 
-  -sublist �t�H���_���X�g
-    -incmd�ꏊ�Ɏ��s�X�N���v�g���Ȃ��ꍇ�T�u�t�H���_���������܂��B(ver4.0�ǉ�)
-    -incmd�ꏊ����̎w��ŁA","�ŋ�؂邱�Ƃŕ����̃T�u�t�H���_���w��\�ł��B
-   �t�H���_���X�g�̍ŏ���"+"���L�ڂ����猻�݂̐ݒ�l�̑O�ɒǉ����܂��B
-   <���L�ڂ�����-incmd�ꏊ�ɂȂ�A���̑O�ɃT�u�t�H���_���L�ڂ�����-incmd�ꏊ
-   ������Ɍ����\�ɂł��܂��B(ver5.0�ǉ�)
-   �����l��"user,<,common"�ŁA�T�u�t�H���_"user"���������A�Ȃ����-incmd�ꏊ�A
-   ���̎���"common"���������܂��B
+  -sublist フォルダリスト
+    -incmd場所に実行スクリプトがない場合サブフォルダも検索します。(ver4.0追加)
+    -incmd場所からの指定で、","で区切ることで複数のサブフォルダを指定可能です。
+   フォルダリストの最初に"+"を記載したら現在の設定値の前に追加します。
+   <を記載したら-incmd場所になり、その前にサブフォルダを記載したら-incmd場所
+   よりも先に検索可能にできます。(ver5.0追加)
+   初期値は"user,<,common"で、サブフォルダ"user"を検索し、なければ-incmd場所、
+   その次に"common"を検索します。
 
- �i��j-sublist "+test"
-     test,user,-incmd�ꏊ,common�i-incmd�ꏊ�ȊO�̓T�u�t�H���_�j�̏��Ō���
+ （例）-sublist "+test"
+     test,user,-incmd場所,common（-incmd場所以外はサブフォルダ）の順で検索
 
-  -subpath �t�H���_��
-    �w��Ȃ���΃T�u�t�H���_��-incmd�ꏊ���猟�����܂����A
-    �w�肵���ꍇ�͎w��t�H���_���ꏊ����T�u�t�H���_���������܂��B(ver4.0�ǉ�)
+  -subpath フォルダ名
+    指定なければサブフォルダは-incmd場所から検索しますが、
+    指定した場合は指定フォルダ名場所からサブフォルダを検索します。(ver4.0追加)
 
-  -setup �t�@�C����
-    ���ʂōŏ��ɓǂݍ��܂����s�X�N���v�g���w�肵�܂��B(ver5.0�ǉ�)
-    ���w�莞��"JL_common.txt"�ƂȂ�A-setup "" �Ƃ�����ǂݍ��݂܂���B
+  -setup ファイル名
+    共通で最初に読み込まれる実行スクリプトを指定します。(ver5.0追加)
+    未指定時は"JL_common.txt"となり、-setup "" としたら読み込みません。
 
-  -syscode ���
-    �W���o�́^�W���G���[�̕����R�[�h��ݒ肵�܂��B(ver5.0�ǉ�)
-    ��ނ͉��L�����܂��͒���()���̕������I���ŁA���w�莞�͕W���ɂȂ�܂��B
-      1(STD)   : �W���iShift-JIS�j
+  -syscode 種類
+    標準出力／標準エラーの文字コードを設定します。(ver5.0追加)
+    種類は下記数字または直後()内の文字列を選択で、未指定時は標準になります。
+      1(STD)   : 標準（Shift-JIS）
       2(UTF8)  : UTF-8
       3(UTF16) : UTF-16
 
-  -F �t�@�C����
-    �I�v�V������ʃt�@�C������ǂނ��Ƃ��ł��܂��B(ver3.0�ǉ�)
-    �t�@�C�����ɃI�v�V�������̂܂܋L�ڂ��Ă����܂����A�󔒈ʒu�ŉ��s�\�ł��B
-    #����n�܂�s�̓R�����g�����œǂݍ��݂܂���B
+  -F ファイル名
+    オプションを別ファイルから読むことができます。(ver3.0追加)
+    ファイル内にオプションそのまま記載していきますが、空白位置で改行可能です。
+    #から始まる行はコメント扱いで読み込みません。
 
- ��-CutMrgIn,-CutMrgOut�͎w�肪�Ȃ��ꍇ�Ɏ������o���鏈���������Ă��܂��B
-   �i�w�肵�������m���ł����A���S�����̐��x���グ�邽�ߒǉ��j
+ ※-CutMrgIn,-CutMrgOutは指定がない場合に自動検出する処理が入っています。
+   （指定した方が確実ですが、完全自動の精度を上げるため追加）
 
 
-�� �Ō��
+■ 最後に
 
-CM�����J�b�g�̋Z�p�I�\���𒲍����錤���ړI�ō�����t���[�\�t�g�E�F�A�ł��B
-�����ł̍œK���������s���Ă���o�[�W�����ł��B
-�]�ځE���ς͘A���s�v�ł��i�e���̐ӔC�ł��肢���܂��j�B
+CM自動カットの技術的可能性を調査する研究目的で作ったフリーソフトウェアです。
+自環境での最適化検討を行っているバージョンです。
+転載・改変は連絡不要です（各自の責任でお願いします）。

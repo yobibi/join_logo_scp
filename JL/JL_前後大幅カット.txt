@@ -1,16 +1,16 @@
-# join_logo_scp�p�̎��s���e�X�N���v�g
+﻿# join_logo_scp用の実行内容スクリプト
 #
-# ���e�F�ŏ��ƍŌ��啝�ɃJ�b�g���鏈��
+# 内容：最初と最後を大幅にカットする処理
 #
 
-#--- �ʐݒ�i#���O������ǉ��ݒ�Call���Default���D�悳���j ---
-#Default longcut_by_logo   1    # ���S�؂�ڂ��J�b�g(0=���Ȃ� 1=����)
-#Default longcut_by_auto   1    # �����\����؂�ɂ��J�b�g(0=���Ȃ� 1=����)
-#Default longcut_len_first 00:05:00  # �t�@�C���擪�̍ő�J�b�g����
-#Default longcut_len_last  00:08:00  # �t�@�C���Ō�̍ő�J�b�g����
+#--- 個別設定（#を外したら追加設定Call先のDefaultより優先される） ---
+#Default longcut_by_logo   1    # ロゴ切れ目よるカット(0=しない 1=する)
+#Default longcut_by_auto   1    # 推測構成区切りによるカット(0=しない 1=する)
+#Default longcut_len_first 00:05:00  # ファイル先頭の最大カット期間
+#Default longcut_len_last  00:08:00  # ファイル最後の最大カット期間
 
-#--- �ǉ��ݒ� ---
-Call "JL_set_�O��啝�J�b�g.txt"
+#--- 追加設定 ---
+Call "JL_set_前後大幅カット.txt"
 
-#--- ���s ---
-Call "JL_�t���O�w��.txt"
+#--- 実行 ---
+Call "JL_フラグ指定.txt"

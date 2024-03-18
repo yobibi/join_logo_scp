@@ -1,5 +1,5 @@
-//
-// JLƒXƒNƒŠƒvƒg§Œäó‘Ô‚Ì•ÛiCall‚Ì”‚¾‚¯ì¬j
+ï»¿//
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆåˆ¶å¾¡çŠ¶æ…‹ã®ä¿æŒï¼ˆCallã®æ•°ã ã‘ä½œæˆï¼‰
 //
 #pragma once
 
@@ -7,37 +7,37 @@ class JlsScrGlobal;
 
 ///////////////////////////////////////////////////////////////////////
 //
-// ƒXƒNƒŠƒvƒg§Œä
+// ã‚¹ã‚¯ãƒªãƒ—ãƒˆåˆ¶å¾¡
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsScriptState
 {
 private:
-	enum class CondIfState {	// Ifó‘Ô
-		FINISHED,				// ÀsÏ‚İ
-		PREPARE,				// –¢Às
-		RUNNING					// Às’†
+	enum class CondIfState {	// IfçŠ¶æ…‹
+		FINISHED,				// å®Ÿè¡Œæ¸ˆã¿
+		PREPARE,				// æœªå®Ÿè¡Œ
+		RUNNING					// å®Ÿè¡Œä¸­
 	};
-	struct RepDepthHold {		// RepeatŠeƒlƒXƒg‚Ìó‘Ô
-		int  lineStart;			// ŠJns
-		int  countLoop;			// ŒJ‚è•Ô‚µc‚è‰ñ”
-		int  extLineEnd;		// ’x‰„Às‚ÌƒLƒƒƒbƒVƒ…I—¹s
-		int  extLineRet;		// ’x‰„Às‚ÌRepeatI—¹Œã‚É–ß‚és
-		CacheExeType exeType;	// ’x‰„Às‚Ìí—Ş
-		bool extFlagNest;		// ’x‰„Às‚ÌƒLƒƒƒbƒVƒ…“à‚ÌRepeatƒlƒXƒg
-		int  varStep;			// ‰ñ”˜A“®•Ï”ƒXƒeƒbƒv”
-		string varName;			// ‰ñ”˜A“®•Ï”–¼
-		int  layerReg;			// ŠJn‚Ìƒ[ƒJƒ‹•Ï”ŠK‘w
+	struct RepDepthHold {		// Repeatå„ãƒã‚¹ãƒˆã®çŠ¶æ…‹
+		int  lineStart;			// é–‹å§‹è¡Œ
+		int  countLoop;			// ç¹°ã‚Šè¿”ã—æ®‹ã‚Šå›æ•°
+		int  extLineEnd;		// é…å»¶å®Ÿè¡Œã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥çµ‚äº†è¡Œ
+		int  extLineRet;		// é…å»¶å®Ÿè¡Œã®Repeatçµ‚äº†å¾Œã«æˆ»ã‚‹è¡Œ
+		CacheExeType exeType;	// é…å»¶å®Ÿè¡Œã®ç¨®é¡
+		bool extFlagNest;		// é…å»¶å®Ÿè¡Œã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥å†…ã®Repeatãƒã‚¹ãƒˆ
+		int  varStep;			// å›æ•°é€£å‹•å¤‰æ•°ã‚¹ãƒ†ãƒƒãƒ—æ•°
+		string varName;			// å›æ•°é€£å‹•å¤‰æ•°å
+		int  layerReg;			// é–‹å§‹æ™‚ã®ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°éšå±¤
 	};
 
 public:
 	JlsScriptState(JlsScrGlobal* globalState);
 	void clear();
-	// IFˆ—
+	// IFå‡¦ç†
 	int  ifBegin(bool flag_cond);
 	int  ifEnd();
 	int  ifElse(bool flag_cond);
-	// Repeatˆ—
+	// Repeatå‡¦ç†
 	int  repeatBegin(int num);
 private:
 	int  repeatBeginNormal(RepDepthHold& holdval, const string& strCmdRepeat);
@@ -56,7 +56,7 @@ public:
 	bool setBreak();
 	void repeatVarSet(const string& name, int step);
 	bool repeatVarGet(string& name, int& step);
-	// ’x‰„Às•ÛŠÇ—ÌˆæƒAƒNƒZƒXi“Ç‚İo‚µÀsj
+	// é…å»¶å®Ÿè¡Œä¿ç®¡é ˜åŸŸã‚¢ã‚¯ã‚»ã‚¹ï¼ˆèª­ã¿å‡ºã—å®Ÿè¡Œï¼‰
 	bool setLazyExe(LazyType typeLazy, const string& strBuf);
 private:
 	bool setLazyExeProcS(queue <string>& queStr, const string& strBuf);
@@ -68,7 +68,7 @@ public:
 	bool setMemDefArg(vector<string>& argDef);
 	bool getMemDefArg(vector<string>& argDef, const string& strName);
 	void setMemUnusedFlag(const string& strName);
-	// ’x‰„Às•ÛŠÇ—ÌˆæƒAƒNƒZƒXiglobal state‚Éˆ—‚ğ‚Ü‚©‚¹‚éj
+	// é…å»¶å®Ÿè¡Œä¿ç®¡é ˜åŸŸã‚¢ã‚¯ã‚»ã‚¹ï¼ˆglobal stateã«å‡¦ç†ã‚’ã¾ã‹ã›ã‚‹ï¼‰
 	bool setLazyStore(LazyType typeLazy, const string& strBuf);
 	void setLazyStateIniAuto(bool flag);
 	bool isLazyStateIniAuto();
@@ -79,7 +79,7 @@ public:
 	bool setMemAppend(const string& strSrc, const string& strDst);
 	void setMemEcho(const string& strName);
 	void setMemGetMapForDebug();
-	// ’x‰„ÀsƒLƒ…[ˆ—
+	// é…å»¶å®Ÿè¡Œã‚­ãƒ¥ãƒ¼å‡¦ç†
 private:
 	bool popCacheExeLazyMem(string& strBuf);
 	bool readRepeatExtCache(string& strBuf);
@@ -89,11 +89,11 @@ private:
 	bool popQueue(string& strBuf, queue <string>& queSrc);
 	void addQueue(queue <string>& queDst, queue <string>& queSrc, bool flagHead);
 public:
-	// ƒLƒƒƒbƒVƒ…ƒf[ƒ^“Ç‚İo‚µ
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿èª­ã¿å‡ºã—
 	bool   readCmdCache(string& strBufOrg);
 	bool   addCmdCache(string& strBufOrg);
 	bool   readLazyMemNext(string& strBufOrg);
-	// ó‘Ôæ“¾
+	// çŠ¶æ…‹å–å¾—
 	int   isRemainNest();
 	void  setCmdReturn(bool flag);
 	bool  isCmdReturnExit();
@@ -128,13 +128,13 @@ public:
 	string getMemName();
 	void   setMemDupe(bool flag);
 	void   setMemExpand(bool flag);
-	// Callˆø”—pˆ—
+	// Callå¼•æ•°ç”¨å‡¦ç†
 	void   setArgAreaEnter(bool flag);
 	bool   isArgAreaEnter();
 	void   addArgAreaName(const string& strName);
 	int    sizeArgAreaNameList();
 	bool   getArgAreaName(string& strName, int num);
-	// •ÛŠÇŒ^ƒƒ‚ƒŠˆø”‚ÌŠi”[
+	// ä¿ç®¡å‹ãƒ¡ãƒ¢ãƒªå¼•æ•°ã®æ ¼ç´
 	void   clearArgMstoreBuf();
 	void   addArgMstoreBuf(const string& strBuf);
 	void   exeArgMstoreInsert(CmdType cmdsel);
@@ -146,56 +146,56 @@ public:
 	bool popBufDivCmd(string& str);
 
 private:
-	//--- IF•¶§Œä ---
-	bool					m_ifSkip;			// IFğŒŠOi0=’Êí  1=ğŒŠO‚ÅÀs‚µ‚È‚¢j
-	vector <CondIfState>	m_listIfState;		// ŠeIFƒlƒXƒg‚Ìó‘ÔiÀsÏ‚İ –¢Às Às’†j
-	//--- Repeat•¶§Œä ---
-	bool					m_repSkip;			// RepeatÀsi0=’Êí  1=ŒJ‚è•Ô‚µ‚O‰ñ‚ÅÀs‚È‚µj
-	int						m_repLineReadCache;	// “Ç‚İo‚µƒLƒƒƒbƒVƒ…s
-	vector <string>			m_listRepCmdCache;	// repeat’†‚ÌƒRƒ}ƒ“ƒh•¶š—ñƒLƒƒƒbƒVƒ…
-	vector <RepDepthHold>	m_listRepDepth;		// ŒJ‚è•Ô‚µó‘Ô•Û
-	int                     m_repLineExtRCache;	// ’x‰„Às“àrepeat’†‚Ì“Ç‚İo‚µƒLƒƒƒbƒVƒ…s
-	vector <string>         m_listRepExtCache;	// ’x‰„Às“àrepeat’†‚ÌƒRƒ}ƒ“ƒh•¶š—ñƒLƒƒƒbƒVƒ…
-	bool                    m_flagBreak;		// BreakŠúŠÔ’†
-	//--- return•¶ ---
-	bool					m_flagReturn;		// ReturnƒRƒ}ƒ“ƒh‚É‚æ‚éI—¹
-	//--- ’x‰„§Œä ---
-	CacheExeType            m_typeCacheExe;		// ÀsƒLƒƒƒbƒVƒ…‚Ì‘I‘ğ
-	bool                    m_flagCacheRepExt;	// ’x‰„Às—pRepeatƒLƒƒƒbƒVƒ…‚©‚ç“Ç‚İo‚µ
-	//--- lazy•¶§Œä ---
-	bool                    m_lazyAuto;			// LazyAutoİ’èó‘Ôi0=”ñİ’è 1=İ’èj
-	LazyType                m_lazyStartType;	// LazyStart - EndLazy ŠúŠÔ“à‚Ìlazyİ’è
-	//--- mem•¶§Œä ---
-	bool                    m_memArea;			// Memory - EndMemory ŠúŠÔ“à‚Å‚Ítrue
-	string                  m_memName;			// MemoryƒRƒ}ƒ“ƒh‚Åİ’è‚³‚ê‚Ä‚¢‚é¯•Êq
-	bool                    m_memDupe;			// MemOnceƒRƒ}ƒ“ƒh‚Å2‰ñ–ÚˆÈã‚Ì
-	bool                    m_memSkip;			// MemoryƒRƒ}ƒ“ƒhd•¡‚É‚æ‚éÈ—ª
-	int                     m_memOrderVal;		// ’x‰„•ÛŠÇ‚ÌÀs‡ˆÊiŒ»İİ’èj
-	//--- mem/lazy•¶§Œä ---
-	int                     m_memExpand;		// Memory/LazyStart“à‚Ì•Ï”“WŠJ
-	//--- EndƒRƒ}ƒ“ƒh§Œä ---
-	vector <CmdType>        m_listNestECmd;		// ‘Ò‹@‚·‚éEndí—Ş‚ğ‡”Ô‚ÉŠi”[iƒRƒ}ƒ“ƒhj
-	vector <CmdCat>         m_listNestECat;		// ‘Ò‹@‚·‚éEndí—Ş‚ğ‡”Ô‚ÉŠi”[iƒJƒeƒSƒŠj
-	int                     m_nestMemNow;		// MemoryƒlƒXƒg”iŒ»İj
-	int                     m_nestMemLast;		// MemoryƒlƒXƒg”i‘O‰ñj
-	int                     m_nestBreakIf;		// Break’†‚ÌIf”
-	int                     m_nestBreakRep;		// Break’†‚ÌRepeat”
-	//--- ˆø”–¼‘O§Œä ---
-	bool                    m_flagArgArEnter;	// ArgBegin - ArgEnd ŠúŠÔ“à‚Å‚Ítrue
-	vector <string>         m_listArgArName;	// ˆø”ƒ[ƒJƒ‹•Ï”‚Ì–¼‘O
-	//---ƒƒ‚ƒŠˆø” ---
-	queue <string>          m_queArgMsBuf;		// ‘}“ü—\’è‚Ìƒ[ƒJƒ‹•Ï”İ’èƒRƒ}ƒ“ƒh•¶š—ñ
-	//--- ƒRƒ}ƒ“ƒh•ªŠ„‘Î‰‚ÌˆêŠi”[—p ---
+	//--- IFæ–‡åˆ¶å¾¡ ---
+	bool					m_ifSkip;			// IFæ¡ä»¶å¤–ï¼ˆ0=é€šå¸¸  1=æ¡ä»¶å¤–ã§å®Ÿè¡Œã—ãªã„ï¼‰
+	vector <CondIfState>	m_listIfState;		// å„IFãƒã‚¹ãƒˆã®çŠ¶æ…‹ï¼ˆå®Ÿè¡Œæ¸ˆã¿ æœªå®Ÿè¡Œ å®Ÿè¡Œä¸­ï¼‰
+	//--- Repeatæ–‡åˆ¶å¾¡ ---
+	bool					m_repSkip;			// Repeatå®Ÿè¡Œï¼ˆ0=é€šå¸¸  1=ç¹°ã‚Šè¿”ã—ï¼å›ã§å®Ÿè¡Œãªã—ï¼‰
+	int						m_repLineReadCache;	// èª­ã¿å‡ºã—ã‚­ãƒ£ãƒƒã‚·ãƒ¥è¡Œ
+	vector <string>			m_listRepCmdCache;	// repeatä¸­ã®ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—ã‚­ãƒ£ãƒƒã‚·ãƒ¥
+	vector <RepDepthHold>	m_listRepDepth;		// ç¹°ã‚Šè¿”ã—çŠ¶æ…‹ä¿æŒ
+	int                     m_repLineExtRCache;	// é…å»¶å®Ÿè¡Œå†…repeatä¸­ã®èª­ã¿å‡ºã—ã‚­ãƒ£ãƒƒã‚·ãƒ¥è¡Œ
+	vector <string>         m_listRepExtCache;	// é…å»¶å®Ÿè¡Œå†…repeatä¸­ã®ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—ã‚­ãƒ£ãƒƒã‚·ãƒ¥
+	bool                    m_flagBreak;		// BreakæœŸé–“ä¸­
+	//--- returnæ–‡ ---
+	bool					m_flagReturn;		// Returnã‚³ãƒãƒ³ãƒ‰ã«ã‚ˆã‚‹çµ‚äº†
+	//--- é…å»¶åˆ¶å¾¡ ---
+	CacheExeType            m_typeCacheExe;		// å®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥ã®é¸æŠ
+	bool                    m_flagCacheRepExt;	// é…å»¶å®Ÿè¡Œç”¨Repeatã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‹ã‚‰èª­ã¿å‡ºã—
+	//--- lazyæ–‡åˆ¶å¾¡ ---
+	bool                    m_lazyAuto;			// LazyAutoè¨­å®šçŠ¶æ…‹ï¼ˆ0=éè¨­å®š 1=è¨­å®šï¼‰
+	LazyType                m_lazyStartType;	// LazyStart - EndLazy æœŸé–“å†…ã®lazyè¨­å®š
+	//--- memæ–‡åˆ¶å¾¡ ---
+	bool                    m_memArea;			// Memory - EndMemory æœŸé–“å†…ã§ã¯true
+	string                  m_memName;			// Memoryã‚³ãƒãƒ³ãƒ‰ã§è¨­å®šã•ã‚Œã¦ã„ã‚‹è­˜åˆ¥å­
+	bool                    m_memDupe;			// MemOnceã‚³ãƒãƒ³ãƒ‰ã§2å›ç›®ä»¥ä¸Šã®æ™‚
+	bool                    m_memSkip;			// Memoryã‚³ãƒãƒ³ãƒ‰é‡è¤‡ã«ã‚ˆã‚‹çœç•¥
+	int                     m_memOrderVal;		// é…å»¶ä¿ç®¡ã®å®Ÿè¡Œé †ä½ï¼ˆç¾åœ¨è¨­å®šï¼‰
+	//--- mem/lazyæ–‡åˆ¶å¾¡ ---
+	int                     m_memExpand;		// Memory/LazyStartå†…ã®å¤‰æ•°å±•é–‹
+	//--- Endã‚³ãƒãƒ³ãƒ‰åˆ¶å¾¡ ---
+	vector <CmdType>        m_listNestECmd;		// å¾…æ©Ÿã™ã‚‹Endç¨®é¡ã‚’é †ç•ªã«æ ¼ç´ï¼ˆã‚³ãƒãƒ³ãƒ‰ï¼‰
+	vector <CmdCat>         m_listNestECat;		// å¾…æ©Ÿã™ã‚‹Endç¨®é¡ã‚’é †ç•ªã«æ ¼ç´ï¼ˆã‚«ãƒ†ã‚´ãƒªï¼‰
+	int                     m_nestMemNow;		// Memoryãƒã‚¹ãƒˆæ•°ï¼ˆç¾åœ¨ï¼‰
+	int                     m_nestMemLast;		// Memoryãƒã‚¹ãƒˆæ•°ï¼ˆå‰å›ï¼‰
+	int                     m_nestBreakIf;		// Breakä¸­ã®Ifæ•°
+	int                     m_nestBreakRep;		// Breakä¸­ã®Repeatæ•°
+	//--- å¼•æ•°åå‰åˆ¶å¾¡ ---
+	bool                    m_flagArgArEnter;	// ArgBegin - ArgEnd æœŸé–“å†…ã§ã¯true
+	vector <string>         m_listArgArName;	// å¼•æ•°ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã®åå‰
+	//---ãƒ¡ãƒ¢ãƒªå¼•æ•° ---
+	queue <string>          m_queArgMsBuf;		// æŒ¿å…¥äºˆå®šã®ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°è¨­å®šã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—
+	//--- ã‚³ãƒãƒ³ãƒ‰åˆ†å‰²å¯¾å¿œã®ä¸€æ™‚æ ¼ç´ç”¨ ---
 	string m_bufCmdDivHold;
-	//--- lazy/mem ÀsƒLƒ…[ƒf[ƒ^ ---
-	queue <string>  m_cacheExeLazyS;	// Ÿ‚ÉÀs‚·‚élazy‚©‚ç‰ğ•ú‚³‚ê‚½ƒRƒ}ƒ“ƒh•¶š—ñ(LAZY_S)
-	queue <string>  m_cacheExeLazyA;	// Ÿ‚ÉÀs‚·‚élazy‚©‚ç‰ğ•ú‚³‚ê‚½ƒRƒ}ƒ“ƒh•¶š—ñ(LAZY_A)
-	queue <string>  m_cacheExeLazyE;	// Ÿ‚ÉÀs‚·‚élazy‚©‚ç‰ğ•ú‚³‚ê‚½ƒRƒ}ƒ“ƒh•¶š—ñ(LAZY_E)
-	queue <string>  m_cacheExeLazyO;	// Ÿ‚ÉÀs‚·‚élazy‚©‚ç‰ğ•ú‚³‚ê‚½ƒRƒ}ƒ“ƒh•¶š—ñ(LAZY_O)
-	queue <string>  m_cacheExeMem;		// Ÿ‚ÉÀs‚·‚éMemCall‚ÅŒÄ‚Ño‚³‚ê‚½ƒRƒ}ƒ“ƒh•¶š—ñ
+	//--- lazy/mem å®Ÿè¡Œã‚­ãƒ¥ãƒ¼ãƒ‡ãƒ¼ã‚¿ ---
+	queue <string>  m_cacheExeLazyS;	// æ¬¡ã«å®Ÿè¡Œã™ã‚‹lazyã‹ã‚‰è§£æ”¾ã•ã‚ŒãŸã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—(LAZY_S)
+	queue <string>  m_cacheExeLazyA;	// æ¬¡ã«å®Ÿè¡Œã™ã‚‹lazyã‹ã‚‰è§£æ”¾ã•ã‚ŒãŸã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—(LAZY_A)
+	queue <string>  m_cacheExeLazyE;	// æ¬¡ã«å®Ÿè¡Œã™ã‚‹lazyã‹ã‚‰è§£æ”¾ã•ã‚ŒãŸã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—(LAZY_E)
+	queue <string>  m_cacheExeLazyO;	// æ¬¡ã«å®Ÿè¡Œã™ã‚‹lazyã‹ã‚‰è§£æ”¾ã•ã‚ŒãŸã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—(LAZY_O)
+	queue <string>  m_cacheExeMem;		// æ¬¡ã«å®Ÿè¡Œã™ã‚‹MemCallã§å‘¼ã³å‡ºã•ã‚ŒãŸã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—
 
 private:
-	JlsScrGlobal  *pGlobalState;	// ƒOƒ[ƒoƒ‹ó‘ÔQÆ
+	JlsScrGlobal  *pGlobalState;	// ã‚°ãƒ­ãƒ¼ãƒãƒ«çŠ¶æ…‹å‚ç…§
 };
 
 

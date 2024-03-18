@@ -1,42 +1,42 @@
-# join_logo_scp—p‚ÌÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eFƒJƒbƒg‚·‚é•”•ª‚¾‚¯‚ğc‚·o—Í(AVSƒtƒ@ƒCƒ‹‚ÌTrim‹Lq)
-#       ƒXƒNƒŠƒvƒg“®ìŠm”F—p‚Éì¬‚Å–¢g—pB•K—v‚È‚ç‚±‚Ìƒtƒ@ƒCƒ‹‚ğCall‚·‚é
+# å†…å®¹ï¼šã‚«ãƒƒãƒˆã™ã‚‹éƒ¨åˆ†ã ã‘ã‚’æ®‹ã™å‡ºåŠ›(AVSãƒ•ã‚¡ã‚¤ãƒ«ã®Trimè¨˜è¿°)
+#       ã‚¹ã‚¯ãƒªãƒ—ãƒˆå‹•ä½œç¢ºèªç”¨ã«ä½œæˆã§æœªä½¿ç”¨ã€‚å¿…è¦ãªã‚‰ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’Callã™ã‚‹
 #
 
 #----------------------------------------------
-# İ’è
+# è¨­å®š
 #----------------------------------------------
-Default file_avscm  "obs_out_avscm.txt"   # o—Íƒtƒ@ƒCƒ‹
-Default avscm_remain_min 2.5              # c‚·Å’áŠúŠÔi¬”“_‚Å•bj
+Default file_avscm  "obs_out_avscm.txt"   # å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«
+Default avscm_remain_min 2.5              # æ®‹ã™æœ€ä½æœŸé–“ï¼ˆå°æ•°ç‚¹ã§ç§’ï¼‰
 
 #----------------------------------------------
-# “®ì
+# å‹•ä½œ
 #----------------------------------------------
 CountUp once_check_out_avscm
-MemOnce ${once_check_out_avscm}  # ‚±‚Ìƒtƒ@ƒCƒ‹‚ÌMemory•¶‚Íˆê“x‚¾‚¯Às
+MemOnce ${once_check_out_avscm}  # ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã®Memoryæ–‡ã¯ä¸€åº¦ã ã‘å®Ÿè¡Œ
 
-Memory OUTPUT                  # o—Í©“®“I‚ÉÀs
+Memory OUTPUT                  # å‡ºåŠ›æ™‚è‡ªå‹•çš„ã«å®Ÿè¡Œ
 {
-  #--- ŠJnI—¹ˆÊ’u‚Ìæ“¾ ---
-  GetList E -final -EdgeS -RegList list_s -local # ’Êí‚ÌI—¹‚ğŠJnˆÊ’u
-  GetList S -final -EdgeE -RegList list_e -local # ’Êí‚ÌŠJn‚ğI—¹ˆÊ’u
+  #--- é–‹å§‹çµ‚äº†ä½ç½®ã®å–å¾— ---
+  GetList E -final -EdgeS -RegList list_s -local # é€šå¸¸ã®çµ‚äº†ã‚’é–‹å§‹ä½ç½®
+  GetList S -final -EdgeE -RegList list_e -local # é€šå¸¸ã®é–‹å§‹ã‚’çµ‚äº†ä½ç½®
   LocalSet pos1 0
   LocalSet pos2 ${MAXTIME}
-  ListIns 1  -RegList list_s -RegPos pos1  # Å‰‚ÌŠJnˆÊ’u’Ç‰Á
-  ListIns -1 -RegList list_e -RegPos pos2  # ÅŒã‚ÌI—¹ˆÊ’u’Ç‰Á
+  ListIns 1  -RegList list_s -RegPos pos1  # æœ€åˆã®é–‹å§‹ä½ç½®è¿½åŠ 
+  ListIns -1 -RegList list_e -RegPos pos2  # æœ€å¾Œã®çµ‚äº†ä½ç½®è¿½åŠ 
 
-  #--- ƒŠƒXƒg‚ÉŒ‹‰Ê‚ğ‡”Ô‚É’Ç‰Á ---
+  #--- ãƒªã‚¹ãƒˆã«çµæœã‚’é †ç•ªã«è¿½åŠ  ---
   LocalSet list_r ""
   LocalSet num 0
   Repeat ${SIZEHOLD}
     CountUp num
     ListGetAt ${num} -RegList list_s -RegPos pos1
     ListGetAt ${num} -RegList list_e -RegPos pos2
-    #--- ’Ç‰Áˆ— ---
+    #--- è¿½åŠ å‡¦ç† ---
     If ${pos2}-${pos1}>=${avscm_remain_min}
       If "${list_r}"!=""
-        Set list_r "${list_r} ++ "     # " ++ "‚ğ’Ç‰Á
+        Set list_r "${list_r} ++ "     # " ++ "ã‚’è¿½åŠ 
       EndIf
       EvalFrame f1 ${pos1}  -local
       EvalFrame f2 ${pos2}  -local
@@ -44,8 +44,8 @@ Memory OUTPUT                  # o—Í©“®“I‚ÉÀs
     EndIf
   EndRepeat
 
-  #--- Œ‹‰Êo—Í ---
-  FileOpen ${file_avscm}       # ‘‚«‚Şƒtƒ@ƒCƒ‹
+  #--- çµæœå‡ºåŠ› ---
+  FileOpen ${file_avscm}       # æ›¸ãè¾¼ã‚€ãƒ•ã‚¡ã‚¤ãƒ«
   Echo ${list_r}
   FileClose
 }

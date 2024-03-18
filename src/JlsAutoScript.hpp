@@ -1,5 +1,5 @@
-//
-// Auto�nJL�R�}���h���s�p
+﻿//
+// Auto系JLコマンド実行用
 //
 #pragma once
 
@@ -12,7 +12,7 @@ class JlsDataset;
 
 ///////////////////////////////////////////////////////////////////////
 //
-// Auto�n�p�����[�^�ێ��N���X
+// Auto系パラメータ保持クラス
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsAutoArg
@@ -30,9 +30,9 @@ private:
 	void	setParamEdge(JlsCmdArg &cmdarg);
 	void	setParamInsDel(JlsCmdArg &cmdarg);
 private:
-	// �R�}���h���
+	// コマンド種類
 	CmdAutoType m_cmdtype;
-	// �i�[
+	// 格納
 	static const int SIZE_PARAM_AUTO = static_cast<int>(ParamAuto::MAXSIZE);
 
 	int m_enable_prm[SIZE_PARAM_AUTO];
@@ -42,32 +42,32 @@ private:
 
 ///////////////////////////////////////////////////////////////////////
 //
-// JL�X�N���v�g�̎��������R�}���h
+// JLスクリプトの自動推測コマンド
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsAutoScript
 {
 private:
-// AutoAdd�Ŕ��f����w��ʒu�̑O���Ԃ���D�揇�ʎZ�o���f�[�^�擾
+// AutoAddで判断する指定位置の前後状態から優先順位算出元データ取得
 struct AddLocInfo {
-	int typeLogo;			// ���S����̏�ԁi0-9:���S�Ȃ� 10-19:���S���� +100:���S�J�n�� +1000:�O���j
-	int typeTr;				// �\������̏�ԁi0:�Y���Ȃ� 1:�㑤 2:�O�� 3:�ŏ��̗\���ʒu 4:�\���Ԍ��ԁj
-	int typeSp;				// �ԑg�񋟂���̏�ԁi0:�Y���Ȃ� 1:�㑤 2:�O�� 3:�����j
-	int typeEc;				// �G���h�J�[�h����̏�ԁi0:�Y���Ȃ� 1:�㑤 2:�O���j
-	Sec secDifLogo;			// ���S����̎���
-	Sec secDifTr;			// �\������̎���
-	Sec secDifSp;			// �ԑg�񋟂���̎���
-	Sec secDifEc;			// �G���h�J�[�h����̎��ԁi�O���̎��̂݌v���j
-	int typeNolast;			// �\���ł͂Ȃ���ɓ��e������ꍇ=1
-	int typeEndlogo;		// �͈͓��Ɋ��S�Ɋ܂܂��Ō�̃��S����̏�ԁi0:�Y�����S�Ȃ� 1:���S�ȍ~ 2:���S��O���j
-	Sec secDifSc;			// �P�O�̔ԑg�\������̎���
+	int typeLogo;			// ロゴからの状態（0-9:ロゴなし 10-19:ロゴあり +100:ロゴ開始側 +1000:前側）
+	int typeTr;				// 予告からの状態（0:該当なし 1:後側 2:前側 3:最初の予告位置 4:予告間隙間）
+	int typeSp;				// 番組提供からの状態（0:該当なし 1:後側 2:前側 3:内部）
+	int typeEc;				// エンドカードからの状態（0:該当なし 1:後側 2:前側）
+	Sec secDifLogo;			// ロゴからの時間
+	Sec secDifTr;			// 予告からの時間
+	Sec secDifSp;			// 番組提供からの時間
+	Sec secDifEc;			// エンドカードからの時間（前側の時のみ計測）
+	int typeNolast;			// 予告ではなく後に内容がある場合=1
+	int typeEndlogo;		// 範囲内に完全に含まれる最後のロゴからの状態（0:該当ロゴなし 1:ロゴ以降 2:ロゴ手前側）
+	Sec secDifSc;			// １つ前の番組構成からの時間
 };
-// AutoAdd�ō\���擾���̏��
+// AutoAddで構成取得時の情報
 struct AddExistInfo {
-	bool trailer;			// �\�������݂��邩
-	bool sponsor;			// �ԑg�񋟂����݂��邩
-	Sec  sec_tr;			// �\�����ԍ��v
-	bool divideCm;			// CM�\�����������s��
+	bool trailer;			// 予告が存在するか
+	bool sponsor;			// 番組提供が存在するか
+	Sec  sec_tr;			// 予告時間合計
+	bool divideCm;			// CM構成内分割を行う
 };
 
 public:
@@ -127,9 +127,9 @@ private:
 	Msec calcDifGap(Msec msec1, Msec msec2);
 
 private:
-	//--- �f�[�^�֐��|�C���^ ---
+	//--- データ関数ポインタ ---
 	JlsDataset 		*pdata;
 
-	//--- �ێ��f�[�^ ---
-	JlsAutoArg		m_autoArg;				// JL�R�}���h�iAuto�n�j���ݍs�̓��e�f�[�^
+	//--- 保持データ ---
+	JlsAutoArg		m_autoArg;				// JLコマンド（Auto系）現在行の内容データ
 };

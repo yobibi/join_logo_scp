@@ -1,5 +1,5 @@
-//
-// JLƒXƒNƒŠƒvƒg ƒOƒ[ƒoƒ‹ó‘Ô•Û
+ï»¿//
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆ ã‚°ãƒ­ãƒ¼ãƒãƒ«çŠ¶æ…‹ä¿æŒ
 //
 #include "stdafx.h"
 #include "CommonJls.hpp"
@@ -7,38 +7,38 @@
 
 ///////////////////////////////////////////////////////////////////////
 //
-// JLƒXƒNƒŠƒvƒg ƒOƒ[ƒoƒ‹ó‘Ô•ÛƒNƒ‰ƒX
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆ ã‚°ãƒ­ãƒ¼ãƒãƒ«çŠ¶æ…‹ä¿æŒã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 
 //=====================================================================
-// ƒtƒ@ƒCƒ‹o—Íˆ—
+// ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›å‡¦ç†
 //=====================================================================
 
-//--- ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ ---
+//--- ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ ---
 bool JlsScrGlobal::fileOpen(const string& strName, bool flagAppend){
-	//--- •¶šƒR[ƒh”Ô†İ’è‚ª‚ ‚ê‚ÎXV ---
+	//--- æ–‡å­—ã‚³ãƒ¼ãƒ‰ç•ªå·è¨­å®šãŒã‚ã‚Œã°æ›´æ–° ---
 	if ( m_outCodeNum > 0 ){
 		m_ofsScr.setCodeTypeFromNum(m_outCodeNum);
-		m_outCodeNum = 0;		// İ’è‚È‚µ‚É–ß‚·
+		m_outCodeNum = 0;		// è¨­å®šãªã—ã«æˆ»ã™
 	}
-	//--- Šù‚ÉOpen‚µ‚Ä‚¢‚½‚çClose ---
+	//--- æ—¢ã«Openã—ã¦ã„ãŸã‚‰Close ---
 	if ( m_ofsScr.is_open() ){
 		m_ofsScr.close();
 	}
-	//--- ƒI[ƒvƒ“ ---
+	//--- ã‚ªãƒ¼ãƒ—ãƒ³ ---
 	if ( flagAppend ){
 		m_ofsScr.append(strName);
 	}else{
 		m_ofsScr.open(strName);
 	}
-	//--- Šm”F ---
+	//--- ç¢ºèª ---
 	if ( !m_ofsScr.is_open() ){
 		return false;
 	}
 	return true;
 }
-//--- •W€‚Ì•¶šƒR[ƒh”Ô†‚ğİ’è ---
+//--- æ¨™æº–ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ç•ªå·ã‚’è¨­å®š ---
 bool JlsScrGlobal::fileSetCodeDefault(const string& str){
 	int num = LSys.getUtfNumFromStr(str);
 	if ( num < 0 ) return false;
@@ -48,79 +48,79 @@ bool JlsScrGlobal::fileSetCodeDefault(const string& str){
 int JlsScrGlobal::fileGetCodeDefaultNum(){
 	return LSys.getFileUtfNum();
 }
-//--- Ÿ‚Éİ’è‚·‚é•¶šƒR[ƒh”Ô†‚ğİ’è ---
+//--- æ¬¡ã«è¨­å®šã™ã‚‹æ–‡å­—ã‚³ãƒ¼ãƒ‰ç•ªå·ã‚’è¨­å®š ---
 bool JlsScrGlobal::fileSetCodeNum(const string& str){
 	int num = LSys.getUtfNumFromStr(str);
 	if ( num < 0 ) return false;
 	m_outCodeNum = num;
 	return true;
 }
-//--- ƒtƒ@ƒCƒ‹ƒNƒ[ƒY ---
+//--- ãƒ•ã‚¡ã‚¤ãƒ«ã‚¯ãƒ­ãƒ¼ã‚º ---
 void JlsScrGlobal::fileClose(){
 	m_ofsScr.close();
 }
-//--- •¶š—ñ‚ğo—Í ---
+//--- æ–‡å­—åˆ—ã‚’å‡ºåŠ› ---
 void JlsScrGlobal::fileOutput(const string& strBuf){
 	if ( m_ofsScr.is_open() ){
 		m_ofsScr.write(strBuf);
-	}else if ( m_outMemoOnly ){	// “à•”ƒƒ‚‚Ì‚İ‚Éo—Í
+	}else if ( m_outMemoOnly ){	// å†…éƒ¨ãƒ¡ãƒ¢ã®ã¿ã«å‡ºåŠ›
 		LSys.bufMemoIns(strBuf);
 	}else{
 		lcout << strBuf;
 	}
 }
-//--- •W€o—Í‚Ì‚©‚í‚è‚É“à•”ƒƒ‚‚Ì‚İ‚Éo—Í‚·‚éİ’è ---
+//--- æ¨™æº–å‡ºåŠ›ã®ã‹ã‚ã‚Šã«å†…éƒ¨ãƒ¡ãƒ¢ã®ã¿ã«å‡ºåŠ›ã™ã‚‹è¨­å®š ---
 void JlsScrGlobal::fileMemoOnly(bool flag){
 	m_outMemoOnly = flag;
 }
-//--- “à•”ƒƒ‚‚ğƒtƒ@ƒCƒ‹‚Éo—Í ---
+//--- å†…éƒ¨ãƒ¡ãƒ¢ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ› ---
 void JlsScrGlobal::fileMemoFlush(){
 	LSys.bufMemoFlush(m_ofsScr);
 }
-//--- o—Íæ‚ªƒtƒ@ƒCƒ‹‚© ---
+//--- å‡ºåŠ›å…ˆãŒãƒ•ã‚¡ã‚¤ãƒ«ã‹ ---
 bool JlsScrGlobal::fileIsOpen(){
 	return ( m_ofsScr.is_open() );
 }
 //=====================================================================
-// ƒtƒ@ƒCƒ‹“ü—Íˆ—
+// ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›å‡¦ç†
 //=====================================================================
 
-//--- ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ ---
+//--- ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ ---
 bool JlsScrGlobal::readGOpen(const string& strName){
-	//--- Šù‚ÉOpen‚µ‚Ä‚¢‚½‚çClose ---
+	//--- æ—¢ã«Openã—ã¦ã„ãŸã‚‰Close ---
 	if ( m_ifsScr.is_open() ){
 		m_ifsScr.close();
 	}
-	//--- ƒI[ƒvƒ“ ---
+	//--- ã‚ªãƒ¼ãƒ—ãƒ³ ---
 	m_ifsScr.open(strName);
-	//--- Šm”F ---
+	//--- ç¢ºèª ---
 	if ( !m_ifsScr.is_open() ){
 		addMsgError("error : file read open(" + strName + ")\n");
 		return false;
 	}
 	return true;
 }
-//--- ƒtƒ@ƒCƒ‹ƒNƒ[ƒY ---
+//--- ãƒ•ã‚¡ã‚¤ãƒ«ã‚¯ãƒ­ãƒ¼ã‚º ---
 void JlsScrGlobal::readGClose(){
 	m_ifsScr.close();
 }
-//--- ƒtƒ@ƒCƒ‹‚Ì•¶šƒR[ƒh”Ô†‚ğæ“¾ ---
+//--- ãƒ•ã‚¡ã‚¤ãƒ«ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ç•ªå·ã‚’å–å¾— ---
 int JlsScrGlobal::readGCodeNum(){
 	return m_ifsScr.getCodeNum();
 }
-//--- •¶š—ñ‚ğ1s“ü—Í ---
+//--- æ–‡å­—åˆ—ã‚’1è¡Œå…¥åŠ› ---
 bool JlsScrGlobal::readGLine(string& strLine){
 	if ( !m_ifsScr.is_open() ){
 		return false;
 	}
 	return readLineIfs(strLine, m_ifsScr);
 }
-//--- •¶š—ñ‚ğ1s“ü—Íiƒtƒ@ƒCƒ‹î•ñw’èj ---
+//--- æ–‡å­—åˆ—ã‚’1è¡Œå…¥åŠ›ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±æŒ‡å®šï¼‰ ---
 bool JlsScrGlobal::readLineIfs(string& strLine, LocalIfs& ifs){
 	strLine.clear();
 	if ( ifs.getline(strLine) ){
 		auto len = strLine.length();
-		if ( len >= INT_MAX/4 ){		// –Ê“|–‚ÍÅ‰‚ÉƒJƒbƒg
+		if ( len >= INT_MAX/4 ){		// é¢å€’äº‹ã¯æœ€åˆã«ã‚«ãƒƒãƒˆ
 			strLine.clear();
 			return false;
 		}
@@ -130,13 +130,13 @@ bool JlsScrGlobal::readLineIfs(string& strLine, LocalIfs& ifs){
 }
 
 //=====================================================================
-// ƒŒƒWƒXƒ^ƒAƒNƒZƒXˆ—
+// ãƒ¬ã‚¸ã‚¹ã‚¿ã‚¢ã‚¯ã‚»ã‚¹å‡¦ç†
 //=====================================================================
 
 //---------------------------------------------------------------------
-// í—Şw’è‚Åƒ[ƒJƒ‹•Ï”ŠK‘wì¬
-// o—ÍF
-//   •Ô‚è’l    : ì¬ŠK‘wi0=¸”sA1ˆÈã=ŠK‘wj
+// ç¨®é¡æŒ‡å®šã§ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°éšå±¤ä½œæˆ
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤    : ä½œæˆéšå±¤ï¼ˆ0=å¤±æ•—ã€1ä»¥ä¸Š=éšå±¤ï¼‰
 //---------------------------------------------------------------------
 int JlsScrGlobal::setLocalRegCreateCall(){
 	return regvar.createLocalCall();
@@ -148,9 +148,9 @@ int JlsScrGlobal::setLocalRegCreateOne(){
 	return regvar.createLocalOne();
 }
 //---------------------------------------------------------------------
-// í—Şw’è‚Åƒ[ƒJƒ‹•Ï”ŠK‘w‚ÌI—¹
-// o—ÍF
-//   •Ô‚è’l    : I—¹ŠK‘wi0=¸”sA1ˆÈã=ŠK‘wj
+// ç¨®é¡æŒ‡å®šã§ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°éšå±¤ã®çµ‚äº†
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤    : çµ‚äº†éšå±¤ï¼ˆ0=å¤±æ•—ã€1ä»¥ä¸Š=éšå±¤ï¼‰
 //---------------------------------------------------------------------
 int JlsScrGlobal::setLocalRegReleaseAny(){
 	return regvar.releaseLocalAny();
@@ -165,88 +165,88 @@ int JlsScrGlobal::setLocalRegReleaseOne(){
 	return regvar.releaseLocalOne();
 }
 //---------------------------------------------------------------------
-// ƒ[ƒJƒ‹•Ï”ŠK‘w‚Ìæ“¾
-// o—ÍF
-//   •Ô‚è’l    : I—¹ŠK‘wi0=¸”sA1ˆÈã=ŠK‘wj
+// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°éšå±¤ã®å–å¾—
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤    : çµ‚äº†éšå±¤ï¼ˆ0=å¤±æ•—ã€1ä»¥ä¸Š=éšå±¤ï¼‰
 //---------------------------------------------------------------------
 int JlsScrGlobal::getLocalRegLayer(){
 	return regvar.getLocalLayer();
 }
 //---------------------------------------------------------------------
-// •Ï”‚ğİ’èi’ÊíAƒ[ƒJƒ‹•Ï”‹¤’Ê—˜—pj
+// å¤‰æ•°ã‚’è¨­å®šï¼ˆé€šå¸¸ã€ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°å…±é€šåˆ©ç”¨ï¼‰
 //---------------------------------------------------------------------
 bool JlsScrGlobal::setRegVarCommon(const string& strName, const string& strVal, bool overwrite, bool flagLocal){
 	bool success;
 	if ( flagLocal ){
-		//--- ƒ[ƒJƒ‹•Ï”‚ÌƒŒƒWƒXƒ^‘‚«‚İ ---
+		//--- ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã®ãƒ¬ã‚¸ã‚¹ã‚¿æ›¸ãè¾¼ã¿ ---
 		success = regvar.setLocalRegVar(strName, strVal, overwrite);
 	}else{
-		//--- ’Êí‚ÌƒŒƒWƒXƒ^‘‚«‚İ ---
+		//--- é€šå¸¸ã®ãƒ¬ã‚¸ã‚¹ã‚¿æ›¸ãè¾¼ã¿ ---
 		success = regvar.setRegVar(strName, strVal, overwrite);
 	}
 	return success;
 }
-//--- •Ï”‚Ì–¢’è‹`‰» ---
+//--- å¤‰æ•°ã®æœªå®šç¾©åŒ– ---
 bool JlsScrGlobal::unsetRegVar(const string& strName, bool flagLocal){
 	return regvar.unsetRegVar(strName, flagLocal);
 }
 //---------------------------------------------------------------------
-// •Ï”‚ğ“Ç‚İo‚µ
-// “ü—ÍF
-//   strCandName : “Ç‚İo‚µ•Ï”–¼iŒó•âj
-//   excact      : 0=“ü—Í•¶š‚ÉÅ‘åƒ}ƒbƒ`‚·‚é•Ï”  1=“ü—Í•¶š‚ÆŠ®‘Sˆê’v‚·‚é•Ï”
-// o—ÍF
-//   •Ô‚è’l  : •Ï”–¼‚Ì•¶š”i0‚Ì‚Í‘Î‰•Ï”‚È‚µj
-//   strVal  : •Ï”’l
+// å¤‰æ•°ã‚’èª­ã¿å‡ºã—
+// å…¥åŠ›ï¼š
+//   strCandName : èª­ã¿å‡ºã—å¤‰æ•°åï¼ˆå€™è£œï¼‰
+//   excact      : 0=å…¥åŠ›æ–‡å­—ã«æœ€å¤§ãƒãƒƒãƒã™ã‚‹å¤‰æ•°  1=å…¥åŠ›æ–‡å­—ã¨å®Œå…¨ä¸€è‡´ã™ã‚‹å¤‰æ•°
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  : å¤‰æ•°åã®æ–‡å­—æ•°ï¼ˆ0ã®æ™‚ã¯å¯¾å¿œå¤‰æ•°ãªã—ï¼‰
+//   strVal  : å¤‰æ•°å€¤
 //---------------------------------------------------------------------
 int JlsScrGlobal::getRegVarCommon(string& strVal, const string& strCandName, bool exact){
-	//--- ’Êí‚ÌƒŒƒWƒXƒ^“Ç‚İo‚µ ---
+	//--- é€šå¸¸ã®ãƒ¬ã‚¸ã‚¹ã‚¿èª­ã¿å‡ºã— ---
 	return regvar.getRegVar(strVal, strCandName, exact);
 }
 //---------------------------------------------------------------------
-// Call‚Åˆø”‚Æ‚µ‚Äg‚í‚ê‚é•Ï”‚ğİ’è
-// “ü—ÍF
-//   strName : ˆø”‚Ég‚í‚ê‚é•Ï”–¼
-//   strVal  : ˆø”‚Ég‚í‚ê‚é•Ï”’l
+// Callã§å¼•æ•°ã¨ã—ã¦ä½¿ã‚ã‚Œã‚‹å¤‰æ•°ã‚’è¨­å®š
+// å…¥åŠ›ï¼š
+//   strName : å¼•æ•°ã«ä½¿ã‚ã‚Œã‚‹å¤‰æ•°å
+//   strVal  : å¼•æ•°ã«ä½¿ã‚ã‚Œã‚‹å¤‰æ•°å€¤
 //---------------------------------------------------------------------
 bool JlsScrGlobal::setArgReg(const string& strName, const string& strVal){
 	return regvar.setArgReg(strName, strVal);
 }
-//--- QÆ“n‚µƒŒƒWƒXƒ^İ’è ---
+//--- å‚ç…§æ¸¡ã—ãƒ¬ã‚¸ã‚¹ã‚¿è¨­å®š ---
 bool JlsScrGlobal::setArgRefReg(const string& strName, const string& strVal){
 	return regvar.setArgRefReg(strName, strVal);
 }
-//---  •Ô‚è’l•Ï”‚Æ‚È‚éŠÖ”–¼‚ğİ’è ---
+//---  è¿”ã‚Šå€¤å¤‰æ•°ã¨ãªã‚‹é–¢æ•°åã‚’è¨­å®š ---
 void JlsScrGlobal::setArgFuncName(const string& strName){
 	regvar.setArgFuncName(strName);
 }
 //---------------------------------------------------------------------
-// “Ç‚İo‚µ‚ÅƒOƒ[ƒoƒ‹•Ï”‚ğŒ©‚È‚¢İ’è
-// “ü—ÍF
-//   flag : ƒ[ƒJƒ‹•Ï”‚É‚È‚¢‚ÌƒOƒ[ƒoƒ‹•Ï”QÆifalse=‹–‰Â  true=‹Ö~j
+// èª­ã¿å‡ºã—ã§ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã‚’è¦‹ãªã„è¨­å®š
+// å…¥åŠ›ï¼š
+//   flag : ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã«ãªã„æ™‚ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°å‚ç…§ï¼ˆfalse=è¨±å¯  true=ç¦æ­¢ï¼‰
 //---------------------------------------------------------------------
 void JlsScrGlobal::setLocalOnly(bool flag){
 	regvar.setLocalOnly(flag);
 }
-//--- •Ï”‚Ì‘å•¶š¬•¶š‚ğ–³‹‚·‚é‚© ---
+//--- å¤‰æ•°ã®å¤§æ–‡å­—å°æ–‡å­—ã‚’ç„¡è¦–ã™ã‚‹ã‹ ---
 void JlsScrGlobal::setIgnoreCase(bool valid){
 	regvar.setIgnoreCase(valid);
 }
-//--- ‘‚«Š·‚¦‚Éwarning‚ğo‚·ƒOƒ[ƒoƒ‹•Ï”İ’è ---
+//--- æ›¸ãæ›ãˆã«warningã‚’å‡ºã™ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°è¨­å®š ---
 void JlsScrGlobal::setGlobalLock(const string& strName, bool flag){
 	regvar.setGlobalLock(strName, flag);
 }
-//--- ƒŒƒWƒXƒ^–¼‚©ƒ`ƒFƒbƒN ---
+//--- ãƒ¬ã‚¸ã‚¹ã‚¿åã‹ãƒã‚§ãƒƒã‚¯ ---
 bool JlsScrGlobal::checkErrRegName(const string& strName){
-	bool silent = true;		// g—p‘O‚Ìƒ`ƒFƒbƒN‚Å‚ÍƒGƒ‰[‚ğ•\¦‚µ‚È‚¢
+	bool silent = true;		// ä½¿ç”¨å‰ã®ãƒã‚§ãƒƒã‚¯ã§ã¯ã‚¨ãƒ©ãƒ¼ã‚’è¡¨ç¤ºã—ãªã„
 	return regvar.checkErrRegName(strName, silent);
 }
 //---------------------------------------------------------------------
-// ƒGƒ‰[ƒƒbƒZ[ƒWƒ`ƒFƒbƒN
+// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒã‚§ãƒƒã‚¯
 //---------------------------------------------------------------------
 void JlsScrGlobal::checkRegError(bool flagDisp){
 	string msg;
-	if ( regvar.popMsgError(msg) ){		// ƒGƒ‰[ƒƒbƒZ[ƒW‘¶İ‚Ìo—Í
+	if ( regvar.popMsgError(msg) ){		// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å­˜åœ¨æ™‚ã®å‡ºåŠ›
 		if ( flagDisp ){
 			lcerr << msg;
 		}
@@ -260,10 +260,10 @@ void JlsScrGlobal::clearRegError(){
 
 
 //=====================================================================
-// ’x‰„Às•ÛŠÇ—Ìˆæ‚Ö‚ÌƒAƒNƒZƒX
+// é…å»¶å®Ÿè¡Œä¿ç®¡é ˜åŸŸã¸ã®ã‚¢ã‚¯ã‚»ã‚¹
 //=====================================================================
 
-//--- state(JlsScriptState)‚©‚ç‚ÌƒAƒNƒZƒX ---
+//--- state(JlsScriptState)ã‹ã‚‰ã®ã‚¢ã‚¯ã‚»ã‚¹ ---
 bool JlsScrGlobal::isLazyExist(LazyType typeLazy){
 	return memcmd.isLazyExist(typeLazy);
 }
@@ -275,7 +275,7 @@ bool JlsScrGlobal::getListByName(queue <string>& queStr, const string& strName){
 }
 
 //---------------------------------------------------------------------
-// ƒRƒ}ƒ“ƒh•ÛŠÇ‚ÌÀs‡ˆÊEˆø”’è‹`‚ğİ’è
+// ã‚³ãƒãƒ³ãƒ‰ä¿ç®¡æ™‚ã®å®Ÿè¡Œé †ä½ãƒ»å¼•æ•°å®šç¾©ã‚’è¨­å®š
 //---------------------------------------------------------------------
 void JlsScrGlobal::setOrderStore(int order){
 	memcmd.setOrderForPush(order);
@@ -300,19 +300,19 @@ void JlsScrGlobal::checkMemUnused(){
 	checkMsgError(true);
 }
 //---------------------------------------------------------------------
-// lazyˆ—‚É‚æ‚éƒRƒ}ƒ“ƒh‚Ì•ÛŠÇ
-// “ü—ÍF
+// lazyå‡¦ç†ã«ã‚ˆã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ä¿ç®¡
+// å…¥åŠ›ï¼š
 //   typeLazy  : LazyS, LazyA, LazyE
-//   strBuf   : •ÛŠÇ‚·‚éŒ»İs‚Ì•¶š—ñ
-// o—ÍF
-//   •Ô‚è’l   FŒ»İs‚ÌƒRƒ}ƒ“ƒhÀs—L–³iÀsƒLƒƒƒbƒVƒ…‚ÉˆÚ‚µ‚½‚ÍÀs‚µ‚È‚¢j
+//   strBuf   : ä¿ç®¡ã™ã‚‹ç¾åœ¨è¡Œã®æ–‡å­—åˆ—
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤   ï¼šç¾åœ¨è¡Œã®ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œæœ‰ç„¡ï¼ˆå®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ç§»ã—ãŸæ™‚ã¯å®Ÿè¡Œã—ãªã„ï¼‰
 //---------------------------------------------------------------------
 bool JlsScrGlobal::setLazyStore(LazyType typeLazy, const string& strBuf){
 	bool enableExe = true;
-	//--- Lazy‚É“ü‚ê‚éê‡Aæ‚è‚ñ‚ÅŒ»İs‚ÍÀs‚µ‚È‚¢ ---
+	//--- Lazyã«å…¥ã‚Œã‚‹å ´åˆã€å–ã‚Šè¾¼ã‚“ã§ç¾åœ¨è¡Œã¯å®Ÿè¡Œã—ãªã„ ---
 	if ( typeLazy != LazyType::None ){
 		bool success = memcmd.pushStrByLazy(typeLazy, strBuf);
-		enableExe = false;				// •ÛŠÇ‚·‚éƒRƒ}ƒ“ƒh‚Í‚»‚Ìê‚ÅÀs‚µ‚È‚¢
+		enableExe = false;				// ä¿ç®¡ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã¯ãã®å ´ã§å®Ÿè¡Œã—ãªã„
 		if ( success == false ){
 			addMsgError("error : failed Lazy push: " + strBuf + "\n");
 		}
@@ -320,15 +320,15 @@ bool JlsScrGlobal::setLazyStore(LazyType typeLazy, const string& strBuf){
 	return enableExe;
 }
 //---------------------------------------------------------------------
-// memoryˆ—‚É‚æ‚éƒRƒ}ƒ“ƒh‚Ì•ÛŠÇ
-// “ü—ÍF
-//   strName  : •ÛŠÇ—Ìˆæ‚Ì¯•Êq
-//   strBuf   : •ÛŠÇ‚·‚éŒ»İs‚Ì•¶š—ñ
-// o—ÍF
-//   •Ô‚è’l   FŒ»İs‚ÌƒRƒ}ƒ“ƒhÀs—L–³iÀsƒLƒƒƒbƒVƒ…‚ÉˆÚ‚µ‚½‚ÍÀs‚µ‚È‚¢j
+// memoryå‡¦ç†ã«ã‚ˆã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ä¿ç®¡
+// å…¥åŠ›ï¼š
+//   strName  : ä¿ç®¡é ˜åŸŸã®è­˜åˆ¥å­
+//   strBuf   : ä¿ç®¡ã™ã‚‹ç¾åœ¨è¡Œã®æ–‡å­—åˆ—
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤   ï¼šç¾åœ¨è¡Œã®ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œæœ‰ç„¡ï¼ˆå®Ÿè¡Œã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ç§»ã—ãŸæ™‚ã¯å®Ÿè¡Œã—ãªã„ï¼‰
 //---------------------------------------------------------------------
 bool JlsScrGlobal::setMemStore(const string& strName, const string& strBuf){
-	bool enableExe = false;			// •ÛŠÇ‚·‚éƒRƒ}ƒ“ƒh‚Í‚»‚Ìê‚ÅÀs‚µ‚È‚¢i¸”s‚µ‚½‚àj
+	bool enableExe = false;			// ä¿ç®¡ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã¯ãã®å ´ã§å®Ÿè¡Œã—ãªã„ï¼ˆå¤±æ•—ã—ãŸæ™‚ã‚‚ï¼‰
 	bool success = memcmd.pushStrByName(strName, strBuf);
 	if ( success == false ){
 		addMsgError("error : failed memory push: " +  strBuf + "\n");
@@ -336,35 +336,35 @@ bool JlsScrGlobal::setMemStore(const string& strName, const string& strBuf){
 	return enableExe;
 }
 //---------------------------------------------------------------------
-// ‹L‰¯—Ìˆæ‚ğíœ(MemErase)
-// •Ô‚è’l   Ftrue=¬Œ÷Afalse=¸”s
+// è¨˜æ†¶é ˜åŸŸã‚’å‰Šé™¤(MemErase)
+// è¿”ã‚Šå€¤   ï¼štrue=æˆåŠŸã€false=å¤±æ•—
 //---------------------------------------------------------------------
 bool JlsScrGlobal::setMemErase(const string& strName){
 	return memcmd.eraseMemByName(strName);
 }
 //---------------------------------------------------------------------
-// ‹L‰¯—Ìˆæ‚ğ•Ê‚Ì‹L‰¯—Ìˆæ‚ÉƒRƒs[(MemCopy)
-// •Ô‚è’l   Ftrue=¬Œ÷Afalse=¸”s
+// è¨˜æ†¶é ˜åŸŸã‚’åˆ¥ã®è¨˜æ†¶é ˜åŸŸã«ã‚³ãƒ”ãƒ¼(MemCopy)
+// è¿”ã‚Šå€¤   ï¼štrue=æˆåŠŸã€false=å¤±æ•—
 //---------------------------------------------------------------------
 bool JlsScrGlobal::setMemCopy(const string& strSrc, const string& strDst){
 	return memcmd.copyMemByName(strSrc, strDst);
 }
 //---------------------------------------------------------------------
-// ‹L‰¯—Ìˆæ‚ğ•Ê‚Ì‹L‰¯—Ìˆæ‚ÉˆÚ“®(MemMove)
-// •Ô‚è’l   Ftrue=¬Œ÷Afalse=¸”s
+// è¨˜æ†¶é ˜åŸŸã‚’åˆ¥ã®è¨˜æ†¶é ˜åŸŸã«ç§»å‹•(MemMove)
+// è¿”ã‚Šå€¤   ï¼štrue=æˆåŠŸã€false=å¤±æ•—
 //---------------------------------------------------------------------
 bool JlsScrGlobal::setMemMove(const string& strSrc, const string& strDst){
 	return memcmd.moveMemByName(strSrc, strDst);
 }
 //---------------------------------------------------------------------
-// •ÛŠÇ—Ìˆæ‚ğ•Ê‚Ì•ÛŠÇ—Ìˆæ‚É’Ç‰Á(MemAppend)
-// •Ô‚è’l   Ftrue=¬Œ÷Afalse=¸”s
+// ä¿ç®¡é ˜åŸŸã‚’åˆ¥ã®ä¿ç®¡é ˜åŸŸã«è¿½åŠ (MemAppend)
+// è¿”ã‚Šå€¤   ï¼štrue=æˆåŠŸã€false=å¤±æ•—
 //---------------------------------------------------------------------
 bool JlsScrGlobal::setMemAppend(const string& strSrc, const string& strDst){
 	return memcmd.appendMemByName(strSrc, strDst);
 }
 //---------------------------------------------------------------------
-// •ÛŠÇ—Ìˆæ‚Ì“à—e‚ğ•W€o—Í‚É•\¦
+// ä¿ç®¡é ˜åŸŸã®å†…å®¹ã‚’æ¨™æº–å‡ºåŠ›ã«è¡¨ç¤º
 //---------------------------------------------------------------------
 void JlsScrGlobal::setMemEcho(const string& strName){
 	queue <string> queStr;
@@ -377,7 +377,7 @@ void JlsScrGlobal::setMemEcho(const string& strName){
 	}
 }
 //---------------------------------------------------------------------
-// ’x‰„Às—p‚Ì‚·‚×‚Ä‚Ì•ÛŠÇ“à—eæ“¾iƒfƒoƒbƒO—pj
+// é…å»¶å®Ÿè¡Œç”¨ã®ã™ã¹ã¦ã®ä¿ç®¡å†…å®¹å–å¾—ï¼ˆãƒ‡ãƒãƒƒã‚°ç”¨ï¼‰
 //---------------------------------------------------------------------
 void JlsScrGlobal::setMemGetMapForDebug(){
 	string strBuf;
@@ -387,7 +387,7 @@ void JlsScrGlobal::setMemGetMapForDebug(){
 
 
 //---------------------------------------------------------------------
-// ƒGƒ‰[ƒ`ƒFƒbƒN
+// ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
 //---------------------------------------------------------------------
 void JlsScrGlobal::checkErrorGlobalState(bool flagDisp){
 	checkMsgError(flagDisp);

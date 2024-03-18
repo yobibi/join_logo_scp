@@ -1,15 +1,15 @@
+ï»¿//
+// é…å»¶å®Ÿè¡Œã‚³ãƒãƒ³ãƒ‰ã®ä¿ç®¡
 //
-// ’x‰„ÀsƒRƒ}ƒ“ƒh‚Ì•ÛŠÇ
-//
-// ƒNƒ‰ƒX\¬
-//   JlsScrMem         : ’x‰„ÀsƒRƒ}ƒ“ƒh•ÛŠÇ
-//     |- JlsScrMemArg : “Áê•¶š—ñ‚Ì‰ğÍEİ’è
+// ã‚¯ãƒ©ã‚¹æ§‹æˆ
+//   JlsScrMem         : é…å»¶å®Ÿè¡Œã‚³ãƒãƒ³ãƒ‰ä¿ç®¡
+//     |- JlsScrMemArg : ç‰¹æ®Šæ–‡å­—åˆ—ã®è§£æãƒ»è¨­å®š
 //
 #pragma once
 
 ///////////////////////////////////////////////////////////////////////
 //
-// ’x‰„Às•ÛŠÇ—p‚Ì¯•Êq•ÛƒNƒ‰ƒX
+// é…å»¶å®Ÿè¡Œä¿ç®¡ç”¨ã®è­˜åˆ¥å­ä¿æŒã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsScrMemArg
@@ -30,10 +30,10 @@ private:
 	static const int SIZE_MEM_SPECIAL_ID = static_cast<int>(MemSpecialID::MAXSIZE);
 
 	struct StrIDRecord{
-		char          str[8];	// ¯•Êq•¶š—ñ
-		MemSpecialID  id;		// ÀÛ‚Ég—p‚·‚é•¶š—ñ‚Ì¯•ÊqID
+		char          str[8];	// è­˜åˆ¥å­æ–‡å­—åˆ—
+		MemSpecialID  id;		// å®Ÿéš›ã«ä½¿ç”¨ã™ã‚‹æ–‡å­—åˆ—ã®è­˜åˆ¥å­ID
 	};
-	//--- MemSpecialID‚É‘Î‰‚·‚é•¶š—ñ ---
+	//--- MemSpecialIDã«å¯¾å¿œã™ã‚‹æ–‡å­—åˆ— ---
 	const StrIDRecord MemSpecialData[SIZE_MEM_SPECIAL_ID] = {
 		{ "DUMMY",  MemSpecialID::DUMMY },
 		{ "LAZY",   MemSpecialID::LAZY_FULL },
@@ -45,7 +45,7 @@ private:
 		{ "AUTO",   MemSpecialID::LAZY_A },
 		{ "END",    MemSpecialID::LAZY_E },
 	};
-	const string ScrMemStrLazy = "__LAZY__";	// ’Êí¯•Êq‚É’Ç‰Á‚·‚éLazy—p•ÛŠÇ•¶š—ñ
+	const string ScrMemStrLazy = "__LAZY__";	// é€šå¸¸è­˜åˆ¥å­ã«è¿½åŠ ã™ã‚‹Lazyç”¨ä¿ç®¡æ–‡å­—åˆ—
 
 public:
 	JlsScrMemArg();
@@ -74,7 +74,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////
 //
-// ƒXƒNƒŠƒvƒgƒf[ƒ^•ÛŠÇƒNƒ‰ƒX
+// ã‚¹ã‚¯ãƒªãƒ—ãƒˆãƒ‡ãƒ¼ã‚¿ä¿ç®¡ã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsScrMem
@@ -88,19 +88,19 @@ private:
 		int     order;
 		string  buffer;
 	};
-	const int orderInitial = 50;	// ‰ŠúÀs‡ˆÊ
+	const int orderInitial = 50;	// åˆæœŸå®Ÿè¡Œé †ä½
 
 public:
 	JlsScrMem();
 	bool isLazyExist(LazyType typeLazy);
-	// Ši”[‚ÌÀs‡ˆÊ
+	// æ ¼ç´æ™‚ã®å®Ÿè¡Œé †ä½
 	void setOrderForPush(int order);
 	void resetOrderForPush();
 	int  getOrderForPush();
-	// ˆø”ˆ—
+	// å¼•æ•°å‡¦ç†
 	bool setDefArg(vector<string>& argDef);
 	bool getDefArg(vector<string>& argDef, const string& strName);
-	// ƒoƒbƒtƒ@ˆ—
+	// ãƒãƒƒãƒ•ã‚¡å‡¦ç†
 	void setUnusedFlag(const string& strName);
 	bool pushStrByName(const string& strName, const string& strBuf);
 	bool pushStrByLazy(LazyType typeLazy, const string& strBuf);
@@ -115,12 +115,12 @@ public:
 	void getMapForDebug(string& strBuf);
 
 private:
-	// ‹¤’Ê‚Ìˆø”‚©‚çƒRƒ}ƒ“ƒhÀs
+	// å…±é€šã®å¼•æ•°ã‹ã‚‰ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œ
 	bool exeCmdPushStr(JlsScrMemArg& argDst, const string& strBuf, int order);
 	bool exeCmdGetList(queue <string>& queStr, JlsScrMemArg& argSrc, CopyFlagRecord flags);
 	bool exeCmdEraseMem(JlsScrMemArg& argDst);
 	bool exeCmdCopyMem(JlsScrMemArg& argSrc, JlsScrMemArg& argDst, CopyFlagRecord flags);
-	// ‹L‰¯—Ìˆæ‚Ì’¼Ú‘€ì
+	// è¨˜æ†¶é ˜åŸŸã®ç›´æ¥æ“ä½œ
 	bool memPushStr(const string& strName, const string& strBuf, int order);
 	bool memGetList(queue <string>& queStr, const string& strName, CopyFlagRecord flags);
 	bool memErase(const string& strName);
@@ -131,7 +131,7 @@ private:
 	void addQueueLine(queue <MemDataRecord>& queDst, const string& strBuf, int order);
 	void setQueueStr(queue <string>& queDstStr, queue <MemDataRecord>& queSrc, CopyFlagRecord flags);
 	void setQueueFull(queue <MemDataRecord>& queDst, queue <MemDataRecord>& queSrc, CopyFlagRecord flags);
-	// –¢g—pƒ`ƒFƒbƒN
+	// æœªä½¿ç”¨ãƒã‚§ãƒƒã‚¯
 	void setUnused(JlsScrMemArg& marg);
 	void clearUnused(JlsScrMemArg& marg);
 public:

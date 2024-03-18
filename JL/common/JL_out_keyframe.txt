@@ -1,25 +1,25 @@
-# join_logo_scp—p‚ÌÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eFƒL[ƒtƒŒ[ƒ€‚ğo—Í‚·‚é
-#       ƒXƒNƒŠƒvƒg“®ìŠm”F—p‚Éì¬‚Å–¢g—pB•K—v‚È‚ç‚±‚Ìƒtƒ@ƒCƒ‹‚ğCall‚·‚é
+# å†…å®¹ï¼šã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’å‡ºåŠ›ã™ã‚‹
+#       ã‚¹ã‚¯ãƒªãƒ—ãƒˆå‹•ä½œç¢ºèªç”¨ã«ä½œæˆã§æœªä½¿ç”¨ã€‚å¿…è¦ãªã‚‰ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’Callã™ã‚‹
 #
 
 #----------------------------------------------
-# İ’è
+# è¨­å®š
 #----------------------------------------------
-Default file_keyframe  "obs_out_keyframe.txt"    # o—Íƒtƒ@ƒCƒ‹
+Default file_keyframe  "obs_out_keyframe.txt"    # å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«
 
 #----------------------------------------------
-# “®ì
+# å‹•ä½œ
 #----------------------------------------------
 CountUp once_check_out_keyframe
-MemOnce ${once_check_out_keyframe}  # ‚±‚Ìƒtƒ@ƒCƒ‹‚ÌMemory•¶‚Íˆê“x‚¾‚¯Às
+MemOnce ${once_check_out_keyframe}  # ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã®Memoryæ–‡ã¯ä¸€åº¦ã ã‘å®Ÿè¡Œ
 
-Memory OUTPUT                  # o—Í©“®“I‚ÉÀs
+Memory OUTPUT                  # å‡ºåŠ›æ™‚è‡ªå‹•çš„ã«å®Ÿè¡Œ
 {
-  SysDataGet TRIMLIST -RegOut listtr   # ƒJƒbƒgˆÊ’uî•ñ‚ğæ“¾
-  FileOpen ${file_keyframe}    # ‘‚«‚Şƒtƒ@ƒCƒ‹
-  Repeat $#{listtr} -counter ncount 1  # Še—v‘f‚ğæ“¾E•\¦
+  SysDataGet TRIMLIST -RegOut listtr   # ã‚«ãƒƒãƒˆä½ç½®æƒ…å ±ã‚’å–å¾—
+  FileOpen ${file_keyframe}    # æ›¸ãè¾¼ã‚€ãƒ•ã‚¡ã‚¤ãƒ«
+  Repeat $#{listtr} -counter ncount 1  # å„è¦ç´ ã‚’å–å¾—ãƒ»è¡¨ç¤º
     ListGetAt ${ncount} -RegList listtr
     Echo ${POSHOLD}
   EndRepeat

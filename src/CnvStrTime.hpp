@@ -1,21 +1,21 @@
-//
-// •¶š—ñ‚ÆŠÔ‚ÆƒtƒŒ[ƒ€ˆÊ’u‚Ì‘ŠŒİ•ÏŠ·ƒNƒ‰ƒX
+ï»¿//
+// æ–‡å­—åˆ—ã¨æ™‚é–“ã¨ãƒ•ãƒ¬ãƒ¼ãƒ ä½ç½®ã®ç›¸äº’å¤‰æ›ã‚¯ãƒ©ã‚¹
 //
 
 class CnvStrTime
 {
 private:
-	// ‹É’[‚É’·‚¢•¶š—ñ‚Ì•ÛŒ¯”jŠü—p
+	// æ¥µç«¯ã«é•·ã„æ–‡å­—åˆ—ã®ä¿é™ºç ´æ£„ç”¨
 	static const int SIZE_BUF_MAX   = 16384;
-	// ‰‰Z•ª—Şi‰‰Zq’è‹`‚Ì•ª—Ş‚É‘Î‰j
-	static const int D_CALCCAT_IMM  = 0;			// ”’l
-	static const int D_CALCCAT_OP2  = 1;			// ‚Q€‰‰Z
-	static const int D_CALCCAT_OP1  = 2;			// ’P€‰‰Z
-	static const int D_CALCCAT_PAR  = 3;			// Š‡ŒÊ
-	static const int D_CALCCAT_OPE  = 4;			// ’P€Œã‰‰Z
-	// ‰‰Zq’è‹` 0xF000ƒrƒbƒg:•ª—Ş  0x0F00ƒrƒbƒgF—Dæ‡ˆÊ
-	static const int D_CALCOP_PERD  = 0x0021;		// .i¬”“_j
-	static const int D_CALCOP_COLON = 0x0022;		// :i•ª•bj
+	// æ¼”ç®—åˆ†é¡ï¼ˆæ¼”ç®—å­å®šç¾©ã®åˆ†é¡ã«å¯¾å¿œï¼‰
+	static const int D_CALCCAT_IMM  = 0;			// æ•°å€¤
+	static const int D_CALCCAT_OP2  = 1;			// ï¼’é …æ¼”ç®—
+	static const int D_CALCCAT_OP1  = 2;			// å˜é …æ¼”ç®—
+	static const int D_CALCCAT_PAR  = 3;			// æ‹¬å¼§
+	static const int D_CALCCAT_OPE  = 4;			// å˜é …å¾Œæ¼”ç®—
+	// æ¼”ç®—å­å®šç¾© 0xF000ãƒ“ãƒƒãƒˆ:åˆ†é¡  0x0F00ãƒ“ãƒƒãƒˆï¼šå„ªå…ˆé †ä½
+	static const int D_CALCOP_PERD  = 0x0021;		// .ï¼ˆå°æ•°ç‚¹ï¼‰
+	static const int D_CALCOP_COLON = 0x0022;		// :ï¼ˆæ™‚åˆ†ç§’ï¼‰
 	static const int D_CALCOP_PLUS  = 0x1501;		// +
 	static const int D_CALCOP_MINUS = 0x1502;		// -
 	static const int D_CALCOP_MUL   = 0x1401;		// *
@@ -33,68 +33,68 @@ private:
 	static const int D_CALCOP_L_AND = 0x1C01;		// &&
 	static const int D_CALCOP_L_OR  = 0x1D01;		// ||
 	static const int D_CALCOP_NOT   = 0x2201;		// !
-	static const int D_CALCOP_SIGNP = 0x2202;		// +i•„†j
-	static const int D_CALCOP_SIGNM = 0x2203;		// -i•„†j
-	static const int D_CALCOP_P_INC = 0x2201;		// ++i‘O‘¤j”ñÀ‘•
-	static const int D_CALCOP_P_DEC = 0x2202;		// --i‘O‘¤j”ñÀ‘•
+	static const int D_CALCOP_SIGNP = 0x2202;		// +ï¼ˆç¬¦å·ï¼‰
+	static const int D_CALCOP_SIGNM = 0x2203;		// -ï¼ˆç¬¦å·ï¼‰
+	static const int D_CALCOP_P_INC = 0x2201;		// ++ï¼ˆå‰å´ï¼‰éå®Ÿè£…
+	static const int D_CALCOP_P_DEC = 0x2202;		// --ï¼ˆå‰å´ï¼‰éå®Ÿè£…
 	static const int D_CALCOP_SEC   = 0x2204;		// S
 	static const int D_CALCOP_FRM   = 0x2205;		// F
 	static const int D_CALCOP_PARS  = 0x3101;		// (
 	static const int D_CALCOP_PARE  = 0x3102;		// )
-	static const int D_CALCOP_N_INC = 0x4201;		// ++iŒã‘¤j”ñÀ‘•
-	static const int D_CALCOP_N_DEC = 0x4202;		// --iŒã‘¤j”ñÀ‘•
-	static const int D_CALCOP_ERROR = 0xFFFF;		// ƒGƒ‰[
-	// •¶š—ñ‚©‚çæ“¾‚·‚é‚Ì‹æØ‚è
+	static const int D_CALCOP_N_INC = 0x4201;		// ++ï¼ˆå¾Œå´ï¼‰éå®Ÿè£…
+	static const int D_CALCOP_N_DEC = 0x4202;		// --ï¼ˆå¾Œå´ï¼‰éå®Ÿè£…
+	static const int D_CALCOP_ERROR = 0xFFFF;		// ã‚¨ãƒ©ãƒ¼
+	// æ–‡å­—åˆ—ã‹ã‚‰å–å¾—ã™ã‚‹æ™‚ã®åŒºåˆ‡ã‚Š
 	enum DelimtStrType {
-		DELIMIT_SPACE_QUOTE,	// ‹ó”’‹æØ‚èQUOTE‰Â
-		DELIMIT_SPACE_ONLY,		// ‹ó”’‚Ì‚İ‹æØ‚è
-		DELIMIT_SPACE_COMMA,	// ‹ó”’{ƒRƒ“ƒ}‚à‹æØ‚è
-		DELIMIT_SPACE_EXNUM,	// Å‰‚Ì”š•”•ª‚Ì‚İ
-		DELIMIT_CSV,			// CSVŒ`®
-		DELIMIT_FUNC_NAME,		// ŠÖ”‚Ì–¼‘O•”•ª
-		DELIMIT_FUNC_ARGS,		// ŠÖ”‚Ìˆø”•”•ªi‹ó”’‹æØ‚èj
-		DELIMIT_FUNC_CALC,		// ŠÖ”‚Ì‰‰Z•”•ªiƒRƒ“ƒ}‹æØ‚èj
+		DELIMIT_SPACE_QUOTE,	// ç©ºç™½åŒºåˆ‡ã‚ŠQUOTEå¯
+		DELIMIT_SPACE_ONLY,		// ç©ºç™½ã®ã¿åŒºåˆ‡ã‚Š
+		DELIMIT_SPACE_COMMA,	// ç©ºç™½ï¼‹ã‚³ãƒ³ãƒã‚‚åŒºåˆ‡ã‚Š
+		DELIMIT_SPACE_EXNUM,	// æœ€åˆã®æ•°å­—éƒ¨åˆ†ã®ã¿
+		DELIMIT_CSV,			// CSVå½¢å¼
+		DELIMIT_FUNC_NAME,		// é–¢æ•°ã®åå‰éƒ¨åˆ†
+		DELIMIT_FUNC_ARGS,		// é–¢æ•°ã®å¼•æ•°éƒ¨åˆ†ï¼ˆç©ºç™½åŒºåˆ‡ã‚Šï¼‰
+		DELIMIT_FUNC_CALC,		// é–¢æ•°ã®æ¼”ç®—éƒ¨åˆ†ï¼ˆã‚³ãƒ³ãƒåŒºåˆ‡ã‚Šï¼‰
 	};
-	// •¶š‚Ì§Œä—pí—Ş
+	// æ–‡å­—ã®åˆ¶å¾¡ç”¨ç¨®é¡
 	enum CharCtrType {
-		CHAR_CTR_NULL,			// •¶š—ñI—¹
-		CHAR_CTR_CTRL,			// §ŒäƒR[ƒh
-		CHAR_CTR_SPACE,			// ‹ó”’
-		CHAR_CTR_OTHER			// ’Êí•¶š
+		CHAR_CTR_NULL,			// æ–‡å­—åˆ—çµ‚äº†
+		CHAR_CTR_CTRL,			// åˆ¶å¾¡ã‚³ãƒ¼ãƒ‰
+		CHAR_CTR_SPACE,			// ç©ºç™½
+		CHAR_CTR_OTHER			// é€šå¸¸æ–‡å­—
 	};
-	// •¶š—ñ‹æØ‚èí—Ş
+	// æ–‡å­—åˆ—åŒºåˆ‡ã‚Šç¨®é¡
 	struct ArgItemType {
-		DelimtStrType dstype;	// •¶š‚Ì§Œä—pí—Ş
-		bool concat;			// ˜A‘±quote‚ÌŒ‹‡
-		bool separate;			// quote“rØ‚ê‚ ‚ê‚Î‹æØ‚è•¶š‚È‚­‚Ä‚à‹æØ‚è
-		bool remain;			// quote‚ ‚ê‚Î—¼’[‚É“ü‚ê‚é
-		bool defstr;			// ’è‹`—p‚Ì•¶š—ñiquote“à‹óƒŠƒXƒg‚ğc‚·j
-		bool qdisp;				// “r’†‚Ìquote•¶š‚Íquote”F¯‚µ‚Ä‚¢‚é‚Å‚àc‚·
-		bool emptyok;			// ƒf[ƒ^‚È‚µ‚à‹–‰Â
+		DelimtStrType dstype;	// æ–‡å­—ã®åˆ¶å¾¡ç”¨ç¨®é¡
+		bool concat;			// é€£ç¶šquoteã®çµåˆ
+		bool separate;			// quoteé€”åˆ‡ã‚Œã‚ã‚Œã°åŒºåˆ‡ã‚Šæ–‡å­—ãªãã¦ã‚‚åŒºåˆ‡ã‚Š
+		bool remain;			// quoteã‚ã‚Œã°ä¸¡ç«¯ã«å…¥ã‚Œã‚‹
+		bool defstr;			// å®šç¾©ç”¨ã®æ–‡å­—åˆ—ï¼ˆquoteå†…ç©ºãƒªã‚¹ãƒˆã‚’æ®‹ã™ï¼‰
+		bool qdisp;				// é€”ä¸­ã®quoteæ–‡å­—ã¯quoteèªè­˜ã—ã¦ã„ã‚‹æ™‚ã§ã‚‚æ®‹ã™
+		bool emptyok;			// ãƒ‡ãƒ¼ã‚¿ãªã—ã‚‚è¨±å¯
 	};
-	// •¶š—ñ“àƒNƒH[ƒgí—Ş
+	// æ–‡å­—åˆ—å†…ã‚¯ã‚©ãƒ¼ãƒˆç¨®é¡
 	struct QuoteType {
-		bool flagQw;			// "ˆø—p’†
-		bool flagQs;			// 'ˆø—p’†
-		bool existQ;			// ’[‚ªQUOTE
-		bool edgeQw;			// ’[‚ÌQUOTE‚É"g—p
-		int  numPar;			// Š‡ŒÊ‚Ì”
+		bool flagQw;			// "å¼•ç”¨ä¸­
+		bool flagQs;			// 'å¼•ç”¨ä¸­
+		bool existQ;			// ç«¯ãŒQUOTE
+		bool edgeQw;			// ç«¯ã®QUOTEã«"ä½¿ç”¨
+		int  numPar;			// æ‹¬å¼§ã®æ•°
 	};
-	// •¶š—ñ“àƒNƒH[ƒgó‘Ô
+	// æ–‡å­—åˆ—å†…ã‚¯ã‚©ãƒ¼ãƒˆçŠ¶æ…‹
 	struct QuoteState {
-		bool end;				// I—¹—\’è
-		bool add;				// ’Ç‰Á‚ ‚è
-		bool pos;				// “Ç‚İ‚İˆÊ’uˆÚ“®‚ ‚è
+		bool end;				// çµ‚äº†äºˆå®š
+		bool add;				// è¿½åŠ ã‚ã‚Š
+		bool pos;				// èª­ã¿è¾¼ã¿ä½ç½®ç§»å‹•ã‚ã‚Š
 	};
 
 public:
 	CnvStrTime();
-	//--- ƒtƒ@ƒCƒ‹–¼‰ğÍ ---
+	//--- ãƒ•ã‚¡ã‚¤ãƒ«åè§£æ ---
 	bool getStrFileAllPath(string &pathname);
 	int getStrFilePath(string &pathname, const string &fullname);
 	int getStrFilePathName(string &pathname, string &fname, const string &fullname);
 	string getStrFileDelimiter();
-	//--- •¶š—ñ•ªŠ„ ---
+	//--- æ–‡å­—åˆ—åˆ†å‰² ---
 	int  getBufLineSize();
 	bool isStrFuncModule(const string &cstr, int pos);
 	int  getListModuleArg(vector<string>& listMod, const string &cstr, int pos);
@@ -105,7 +105,7 @@ private:
 	int  getStrPosDivide(const string& fullname, const string& strDelim, bool typePath);
 	int  getStrPosDivideCore(const string& fullname, const string& strDelim, bool reverse);
 public:
-	//--- ŠÔ‚ÆƒtƒŒ[ƒ€ˆÊ’u‚Ì•ÏŠ· ---
+	//--- æ™‚é–“ã¨ãƒ•ãƒ¬ãƒ¼ãƒ ä½ç½®ã®å¤‰æ› ---
 	int getFrmFromMsec(Msec msec);
 	int getMsecFromFrm(int frm);
 	int getMsecAlignFromMsec(Msec msec);
@@ -113,7 +113,7 @@ public:
 	int getSecFromMsec(Msec msec);
 	int changeFrameRate(int n, int d);
 	int changeUnitSec(int n);
-	//--- •¶š—ñ‚©‚ç’læ“¾ ---
+	//--- æ–‡å­—åˆ—ã‹ã‚‰å€¤å–å¾— ---
 	int getStrValNumHead(int &val, const string &cstr, int pos);
 	int getStrValNum(int &val, const string &cstr, int pos);
 	int getStrValMsec(Msec &val, const string &cstr, int pos);
@@ -122,10 +122,10 @@ public:
 	int getStrValSec(int &val, const string &cstr, int pos);
 	int getStrValSecFromSec(int &val, const string &cstr, int pos);
 	int getStrValFuncNum(int &val, const string &cstr, int pos);
-	//--- ƒŠƒXƒgƒf[ƒ^æ“¾ ---
+	//--- ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿å–å¾— ---
 	bool getListValMsec(vector<Msec>& listMsec, const string& strList);
 	bool getListValMsecM1(vector<Msec>& listMsec, const string& strList);
-	//--- •¶š—ñ‚©‚ç’PŒêæ“¾ ---
+	//--- æ–‡å­—åˆ—ã‹ã‚‰å˜èªå–å¾— ---
 	int getStrItem(string &dst, const string &cstr, int pos);
 	int getStrWord(string &dst, const string &cstr, int pos);
 	int getStrCsv(string &dst, const string &cstr, int pos);
@@ -139,7 +139,7 @@ public:
 	int getStrPosChar(const string &cstr, char chsel, bool expand, int pos);
 	int getStrMultiNum(string &dst, const string &cstr, int pos);
 	bool isStrMultiNumIn(const string &cstr, int numCur, int numMax);
-	//--- ŠÔ‚ğ•¶š—ñiƒtƒŒ[ƒ€‚Ü‚½‚Íƒ~ƒŠ•bj‚É•ÏŠ· ---
+	//--- æ™‚é–“ã‚’æ–‡å­—åˆ—ï¼ˆãƒ•ãƒ¬ãƒ¼ãƒ ã¾ãŸã¯ãƒŸãƒªç§’ï¼‰ã«å¤‰æ› ---
 	string getStringMsecM1(Msec msec_val);
 	string getStringFrameMsecM1(Msec msec_val);
 	string getStringTimeMsecM1(Msec msec_val);
@@ -177,9 +177,9 @@ private:
 	int getStrCalcOp2(int din1, int din2, int nMark);
 
 private:
-	int m_frate_n;				// ƒtƒŒ[ƒ€ƒŒ[ƒg—p(‰Šú’l=30000)
-	int m_frate_d;				// ƒtƒŒ[ƒ€ƒŒ[ƒg—p(‰Šú’l=1001)
-	int m_unitsec;				// ®”’PˆÊi0:ƒtƒŒ[ƒ€ 1:ƒ~ƒŠ•bj
-	string m_delimiter;			// ƒtƒ@ƒCƒ‹ƒpƒX‚Ì‹æØ‚è•¶š
+	int m_frate_n;				// ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆç”¨(åˆæœŸå€¤=30000)
+	int m_frate_d;				// ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆç”¨(åˆæœŸå€¤=1001)
+	int m_unitsec;				// æ•´æ•°å˜ä½ï¼ˆ0:ãƒ•ãƒ¬ãƒ¼ãƒ  1:ãƒŸãƒªç§’ï¼‰
+	string m_delimiter;			// ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã®åŒºåˆ‡ã‚Šæ–‡å­—
 
 };

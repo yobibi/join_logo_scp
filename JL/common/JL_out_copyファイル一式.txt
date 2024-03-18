@@ -1,84 +1,84 @@
-# join_logo_scp—p‚ÌÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eFjoin_logo_scpŠÖ˜Aƒtƒ@ƒCƒ‹ˆê®‚ğ•ÊêŠ‚Éo—Í
-#       ƒfƒoƒbƒO—p‚É•K—vƒtƒ@ƒCƒ‹‚Ì‚İ•ÛŠÇ‚µ‚Ä‚¨‚­B•K—v‚È‚ç‚±‚Ìƒtƒ@ƒCƒ‹‚ğCall
+# å†…å®¹ï¼šjoin_logo_scpé–¢é€£ãƒ•ã‚¡ã‚¤ãƒ«ä¸€å¼ã‚’åˆ¥å ´æ‰€ã«å‡ºåŠ›
+#       ãƒ‡ãƒãƒƒã‚°ç”¨ã«å¿…è¦ãƒ•ã‚¡ã‚¤ãƒ«ã®ã¿ä¿ç®¡ã—ã¦ãŠãã€‚å¿…è¦ãªã‚‰ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’Call
 #
 #----------------------------------------------
-# İ’è
+# è¨­å®š
 #----------------------------------------------
-# ƒRƒs[æƒtƒHƒ‹ƒ_‚ª’è‹`‚È‚µ‚È‚ç‹¤’Ê•”•ªƒtƒHƒ‹ƒ_‚ğƒx[ƒX‚ÉƒtƒHƒ‹ƒ_‚ªì¬‚³‚ê‚é
-Default outcopy_folder ""       # ƒRƒs[æƒtƒHƒ‹ƒ_
-Default outcopy_folder_base "D:\temp"  # ‹¤’Ê•”•ªƒtƒHƒ‹ƒ_
+# ã‚³ãƒ”ãƒ¼å…ˆãƒ•ã‚©ãƒ«ãƒ€ãŒå®šç¾©ãªã—ãªã‚‰å…±é€šéƒ¨åˆ†ãƒ•ã‚©ãƒ«ãƒ€ã‚’ãƒ™ãƒ¼ã‚¹ã«ãƒ•ã‚©ãƒ«ãƒ€ãŒä½œæˆã•ã‚Œã‚‹
+Default outcopy_folder ""       # ã‚³ãƒ”ãƒ¼å…ˆãƒ•ã‚©ãƒ«ãƒ€
+Default outcopy_folder_base "D:\temp"  # å…±é€šéƒ¨åˆ†ãƒ•ã‚©ãƒ«ãƒ€
 
 #----------------------------------------------
-# “®ì
+# å‹•ä½œ
 #----------------------------------------------
 CountUp once_check_out_copyfile
-If ${once_check_out_copyfile}!=1 { Return };  # 1‰ñ‚Ì‚İÀs
+If ${once_check_out_copyfile}!=1 { Return };  # 1å›ã®ã¿å®Ÿè¡Œ
 
-MemSet OUTPUT {                 # o—Í©“®“I‚ÉÀs
-  #--- ‘‚«‚İƒtƒHƒ‹ƒ_–¢w’è‚ÌêŠİ’è ---
+MemSet OUTPUT {                 # å‡ºåŠ›æ™‚è‡ªå‹•çš„ã«å®Ÿè¡Œ
+  #--- æ›¸ãè¾¼ã¿ãƒ•ã‚©ãƒ«ãƒ€æœªæŒ‡å®šæ™‚ã®å ´æ‰€è¨­å®š ---
   If "${outcopy_folder}"=="" {
-    #--- ŒÅ—L•”•ª ---
+    #--- å›ºæœ‰éƒ¨åˆ† ---
     Default file_ts ""
-    LocalSet uname "${file_ts:t:r}"   # ŒÂ•Êƒf[ƒ^¯•Ê
+    LocalSet uname "${file_ts:t:r}"   # å€‹åˆ¥ãƒ‡ãƒ¼ã‚¿è­˜åˆ¥
     If "${uname}"=="" {
-      Set uname "need_unique_name"    # –¢’è‹`İ’è
+      Set uname "need_unique_name"    # æœªå®šç¾©æ™‚è¨­å®š
     };
-    # ‹¤’ÊƒtƒHƒ‹ƒ_‚ÉŒÂ•Êƒf[ƒ^¯•Ê‚ÌƒtƒHƒ‹ƒ_‚ğì‚é
+    # å…±é€šãƒ•ã‚©ãƒ«ãƒ€ã«å€‹åˆ¥ãƒ‡ãƒ¼ã‚¿è­˜åˆ¥ã®ãƒ•ã‚©ãƒ«ãƒ€ã‚’ä½œã‚‹
     Set outcopy_folder "${outcopy_folder_base:/}work_${uname}"
   };
-  #--- ‘‚«‚İ‰Â”\‚©Šm”F ---
+  #--- æ›¸ãè¾¼ã¿å¯èƒ½ã‹ç¢ºèª ---
   LocalSet outcopy_write  0
   SysDataGet FOUTAVS -RegOut filestr -local
   If "${outcopy_folder}"!="" {
     LocalSet tmpfile "${outcopy_folder:/}${filestr:t}"
-    FileOpen "${tmpfile}" -silent  # ƒ_ƒ~[ƒtƒ@ƒCƒ‹‘‚«‚İ‚Å‰Â”\‚©Šm”F
+    FileOpen "${tmpfile}" -silent  # ãƒ€ãƒŸãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«æ›¸ãè¾¼ã¿ã§å¯èƒ½ã‹ç¢ºèª
     Set outcopy_write ${FILEOPEN}
     FileClose
     If !${outcopy_write} {
-      Mkdir "${outcopy_folder}"    # ‘‚«‚İ‚Å‚«‚È‚¯‚ê‚ÎƒtƒHƒ‹ƒ_ì¬
-      FileOpen "${tmpfile}"        # ‰ü‚ß‚Äƒ_ƒ~[ƒtƒ@ƒCƒ‹‘‚«‚İ‚Å‰Â”\‚©Šm”F
+      Mkdir "${outcopy_folder}"    # æ›¸ãè¾¼ã¿ã§ããªã‘ã‚Œã°ãƒ•ã‚©ãƒ«ãƒ€ä½œæˆ
+      FileOpen "${tmpfile}"        # æ”¹ã‚ã¦ãƒ€ãƒŸãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«æ›¸ãè¾¼ã¿ã§å¯èƒ½ã‹ç¢ºèª
       Set outcopy_write ${FILEOPEN}
       FileClose
     };
-    If !${outcopy_write} { EchoItem "‘•s‰Â‚Ì‚½‚ßƒRƒs[‚È‚µi${outcopy_folder}j" };
+    If !${outcopy_write} { EchoItem "æ›¸è¾¼ä¸å¯ã®ãŸã‚ã‚³ãƒ”ãƒ¼ãªã—ï¼ˆ${outcopy_folder}ï¼‰" };
   };
-  #--- o—Íˆ— ---
+  #--- å‡ºåŠ›å‡¦ç† ---
   If ${outcopy_write}
-    Echo join_logo_scpŠÖ˜AƒRƒs[æ: ${outcopy_folder}
-    #--- CMƒJƒbƒgî•ñ ---
+    Echo join_logo_scpé–¢é€£ã‚³ãƒ”ãƒ¼å…ˆ: ${outcopy_folder}
+    #--- CMã‚«ãƒƒãƒˆæƒ…å ± ---
     SysDataGet FOUTAVS -RegOut filestr
     FileOpen "${outcopy_folder:/}${filestr:t}"
     EchoOavs
     FileClose
-    #--- ‰ğÍ—pƒtƒ@ƒCƒ‹ ---
+    #--- è§£æç”¨ãƒ•ã‚¡ã‚¤ãƒ« ---
     SysDataGet FOUTSCP -RegOut filestr
     FileOpen "${outcopy_folder:/}${filestr:t}"
     EchoOscp
     FileClose
-    #--- “ü—Í–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWƒtƒ@ƒCƒ‹ ---
+    #--- å…¥åŠ›ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãƒ•ã‚¡ã‚¤ãƒ« ---
     SysDataGet FINSCP -RegOut filestr
     FileCopy "${filestr}" "${outcopy_folder:/}${filestr:t}"
-    #--- “ü—ÍƒƒSƒtƒ@ƒCƒ‹ ---
+    #--- å…¥åŠ›ãƒ­ã‚´ãƒ•ã‚¡ã‚¤ãƒ« ---
     SysDataGet FINLOGO -RegOut filestr
     If "${filestr}" != ""
       FileCopy "${filestr}" "${outcopy_folder:/}${filestr:t}"
     EndIf
-    #--- •ªŠ„ƒtƒ@ƒCƒ‹ ---
-    Default divfile_useflag 0   # İ’è‚µ‚Ä‚¢‚½‚ç"JL_out_divfile.txt"‚ğ“ÇÏ‚İ
+    #--- åˆ†å‰²ãƒ•ã‚¡ã‚¤ãƒ« ---
+    Default divfile_useflag 0   # è¨­å®šã—ã¦ã„ãŸã‚‰"JL_out_divfile.txt"ã‚’èª­è¾¼æ¸ˆã¿
     If ${divfile_useflag}>0
       SysDataGet FOUTDIV -RegOut filestr
       FileOpen "${outcopy_folder:/}${filestr:t}"
-      MemCall divfile_echo_odiv    # "JL_out_divfile.txt"g—p
+      MemCall divfile_echo_odiv    # "JL_out_divfile.txt"ä½¿ç”¨
       FileClose
     EndIf
   EndIf
 };
 
-MemSet OUTPUT -order 91 {     # “à•”ƒƒ‚o—ÍŒã‚ÉƒRƒs[Às
-  Default outmemo_code   0    # “à•”ƒƒ‚ƒtƒ@ƒCƒ‹o—Íİ’è
-  If ${outmemo_code}!=0     # 0ˆÈŠO‚Ì‚Éİ’è
+MemSet OUTPUT -order 91 {     # å†…éƒ¨ãƒ¡ãƒ¢å‡ºåŠ›å¾Œã«ã‚³ãƒ”ãƒ¼å®Ÿè¡Œ
+  Default outmemo_code   0    # å†…éƒ¨ãƒ¡ãƒ¢ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›è¨­å®š
+  If ${outmemo_code}!=0     # 0ä»¥å¤–ã®æ™‚ã«è¨­å®š
     FileCopy "${outmemo_fullpath}" "${outcopy_folder:/}${outmemo_fullpath:t}"
   EndIf
 };

@@ -1,5 +1,5 @@
-//
-// ƒŠƒXƒgƒf[ƒ^Šî–{ˆ—
+ï»¿//
+// ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿åŸºæœ¬å‡¦ç†
 //
 
 #pragma once
@@ -10,13 +10,13 @@ class JlsDataset;
 class JlsScrFuncList
 {
 private:
-	const string DefStrCommaIn  = "@**!(";	// ƒŠƒXƒg•Ï”‚ÉcommaŠi”[‚Ì¯•Ê—piæ“ªj
-	const string DefStrCommaOut = ")!**@";	// ƒŠƒXƒg•Ï”‚ÉcommaŠi”[‚Ì¯•Ê—piÅŒãj
-	const string DefStrEmpty    = R"("")";	// ‹óƒŠƒXƒg
+	const string DefStrCommaIn  = "@**!(";	// ãƒªã‚¹ãƒˆå¤‰æ•°ã«commaæ ¼ç´ã®è­˜åˆ¥ç”¨ï¼ˆå…ˆé ­ï¼‰
+	const string DefStrCommaOut = ")!**@";	// ãƒªã‚¹ãƒˆå¤‰æ•°ã«commaæ ¼ç´ã®è­˜åˆ¥ç”¨ï¼ˆæœ€å¾Œï¼‰
+	const string DefStrEmpty    = R"("")";	// ç©ºãƒªã‚¹ãƒˆ
 
 public:
 	void setDataPointer(JlsDataset *pdata);
-	// ƒŠƒXƒg‹¤’Êˆ—
+	// ãƒªã‚¹ãƒˆå…±é€šå‡¦ç†
 	int  getListStrSize(const string& strList);
 	bool isListStrEmpty(const string& strList);
 private:

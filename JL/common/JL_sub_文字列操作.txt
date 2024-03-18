@@ -1,41 +1,41 @@
-# join_logo_scp—p‚ÌÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eF•¶š—ñˆ—ŠÖ˜A‚ÌFunction
+# å†…å®¹ï¼šæ–‡å­—åˆ—å‡¦ç†é–¢é€£ã®Function
 #
 #
 
 #----------------------------------------------
-# İ’è
+# è¨­å®š
 #----------------------------------------------
-Default StrDefZenAlpU "‚`‚a‚b‚c‚d‚e‚f‚g‚h‚i‚j‚k‚l‚m‚n‚o‚p‚q‚r‚s‚t‚u‚v‚w‚x‚y"
-Default StrDefZenAlpL "‚‚‚‚ƒ‚„‚…‚†‚‡‚ˆ‚‰‚Š‚‹‚Œ‚‚‚‚‚‘‚’‚“‚”‚•‚–‚—‚˜‚™‚š"
-Default StrDefZenNum  "‚O‚P‚Q‚R‚S‚T‚U‚V‚W‚X"
+Default StrDefZenAlpU "ï¼¡ï¼¢ï¼£ï¼¤ï¼¥ï¼¦ï¼§ï¼¨ï¼©ï¼ªï¼«ï¼¬ï¼­ï¼®ï¼¯ï¼°ï¼±ï¼²ï¼³ï¼´ï¼µï¼¶ï¼·ï¼¸ï¼¹ï¼º"
+Default StrDefZenAlpL "ï½ï½‚ï½ƒï½„ï½…ï½†ï½‡ï½ˆï½‰ï½Šï½‹ï½Œï½ï½ï½ï½ï½‘ï½’ï½“ï½”ï½•ï½–ï½—ï½˜ï½™ï½š"
+Default StrDefZenNum  "ï¼ï¼‘ï¼’ï¼“ï¼”ï¼•ï¼–ï¼—ï¼˜ï¼™"
 Default StrDefHanAlpU "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 Default StrDefHanAlpL "abcdefghijklmnopqrstuvwxyz"
 Default StrDefHanNum  "0123456789"
-Default StrDefZenSym1 "I”“•fij–{C|D^FGƒ„HmnOeobp`"
+Default StrDefZenSym1 "ï¼ï¼ƒï¼„ï¼…ï¼†â€™ï¼ˆï¼‰ï¼Šï¼‹ï¼Œï¼ï¼ï¼ï¼šï¼›ï¼œï¼ï¼ï¼Ÿï¼»ï¿¥ï¼½ï¼¾â€˜ï½›ï½œï½ï½"
 Default StrDefHanSym1 "!#$%&'()*+,-./:;<=>?[\]^`{|}~"
-Default StrDefCutSymS "™š"    # ”äŠr•s—v‚È‹L†
-Default StrDefCutSymD "EE"    # ”äŠr•s—v‚È‹L†‚Ì•ÏŠ·æi•s—v‚Æ‚·‚é“¯‚¶•¶š‚ğ‹LÚj
-Default StrDefRExpSym ".|[]^"   # ³‹K•\Œ»ˆµ‚¢ŒŸo—p
+Default StrDefCutSymS "â˜†â˜…"    # æ¯”è¼ƒä¸è¦ãªè¨˜å·
+Default StrDefCutSymD "ãƒ»ãƒ»"    # æ¯”è¼ƒä¸è¦ãªè¨˜å·ã®å¤‰æ›å…ˆï¼ˆä¸è¦ã¨ã™ã‚‹åŒã˜æ–‡å­—ã‚’è¨˜è¼‰ï¼‰
+Default StrDefRExpSym ".|[]^"   # æ­£è¦è¡¨ç¾æ‰±ã„æ¤œå‡ºç”¨
 
 #----------------------------------------------
-# “®ì
+# å‹•ä½œ
 #----------------------------------------------
 CountUp once_check_sub_strfunction
-If ${once_check_sub_strfunction}!=1 { Return };  # 1‰ñ‚Ì‚İÀs
+If ${once_check_sub_strfunction}!=1 { Return };  # 1å›ã®ã¿å®Ÿè¡Œ
 
 #
-# ƒf[ƒ^‚ğ‘ã“ü
-#   strReg : ‘ã“üæ
-#   strAdd : ‘ã“ü‚·‚é’liæ“ª‚Ì"@"‚Í‘ã“üæƒf[ƒ^ƒNƒŠƒAj
-#   delim  : ‹æØ‚è•¶š
-#   ins    : 0=ã‘‚«‘ã“ü 1=‘ã“üæ‚É’Ç‰Á‚Å‘ã“ü
+# ãƒ‡ãƒ¼ã‚¿ã‚’ä»£å…¥
+#   strReg : ä»£å…¥å…ˆ
+#   strAdd : ä»£å…¥ã™ã‚‹å€¤ï¼ˆå…ˆé ­ã®"@"ã¯ä»£å…¥å…ˆãƒ‡ãƒ¼ã‚¿ã‚¯ãƒªã‚¢ï¼‰
+#   delim  : åŒºåˆ‡ã‚Šæ–‡å­—
+#   ins    : 0=ä¸Šæ›¸ãä»£å…¥ 1=ä»£å…¥å…ˆã«è¿½åŠ ã§ä»£å…¥
 #
 Function StrRegVarAdd( ref(strReg) strAdd delim ins ){
   If "${strAdd:Xb}"=="" { return };
   LocalSet val ""
-  If "${strAdd:~0,1}"=="@" {    # æ“ª•¶š"@"‚Ìˆ—
+  If "${strAdd:~0,1}"=="@" {    # å…ˆé ­æ–‡å­—"@"ã®å‡¦ç†
     Set val "${strAdd:~1:<>}"
   }elsif ${ins}==0 {
     Set val "${strAdd:<>}"
@@ -49,29 +49,29 @@ Function StrRegVarAdd( ref(strReg) strAdd delim ins ){
 };
 
 #
-# ŒŸõ—p‚Æ‚µ‚Ä”¼Šp‚Ì‚İ¬•¶š‚Í‘å•¶š‚É•ÏŠ·
+# æ¤œç´¢ç”¨ã¨ã—ã¦åŠè§’ã®ã¿å°æ–‡å­—ã¯å¤§æ–‡å­—ã«å¤‰æ›
 #
 Function StrConvOnlyHanToUp( ref(strData) ){
-  SetReg EXTCHAR  StrDefHanAlpL -local  # ”¼Šp¬•¶š‚ğ•ÏŠ·‚·‚é
-  SetReg EXTCHSUB StrDefHanAlpU -local  # •ÏŠ·æi”¼Šp‘å•¶šj
+  SetReg EXTCHAR  StrDefHanAlpL -local  # åŠè§’å°æ–‡å­—ã‚’å¤‰æ›ã™ã‚‹
+  SetReg EXTCHSUB StrDefHanAlpU -local  # å¤‰æ›å…ˆï¼ˆåŠè§’å¤§æ–‡å­—ï¼‰
   Set strData "${strData:Xi}"
 };
 #
-# ’PŒê‚ªˆê’v‚·‚é‚©Šm”F
-#   strWord : ŒŸõ‚·‚é’PŒêi³‹K•\Œ»‰Â”\j
-#   strData : •¶š—ñƒf[ƒ^
-#   •Ô‚è’l F1=‚·‚×‚ÄŠÜ‚Ü‚ê‚Ä‚¢‚é 0=‚»‚êˆÈŠO
+# å˜èªãŒä¸€è‡´ã™ã‚‹ã‹ç¢ºèª
+#   strWord : æ¤œç´¢ã™ã‚‹å˜èªï¼ˆæ­£è¦è¡¨ç¾å¯èƒ½ï¼‰
+#   strData : æ–‡å­—åˆ—ãƒ‡ãƒ¼ã‚¿
+#   è¿”ã‚Šå€¤ ï¼š1=ã™ã¹ã¦å«ã¾ã‚Œã¦ã„ã‚‹ 0=ãã‚Œä»¥å¤–
 #
 Function StrCmpWordWithRegExp( strWord strData ){
   LocalSet match 0
   LocalSet ci_rgex 0
   {
     SetReg EXTCHAR StrDefRExpSym -local
-    Set ci_rgex ${strWord:Ci}      # ³‹K•\Œ»‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©Šm”F
+    Set ci_rgex ${strWord:Ci}      # æ­£è¦è¡¨ç¾ãŒå«ã¾ã‚Œã¦ã„ã‚‹ã‹ç¢ºèª
   }
-  If ${ci_rgex}>0 {      # ³‹K•\Œ»ˆµ‚¢•¶š‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡
+  If ${ci_rgex}>0 {      # æ­£è¦è¡¨ç¾æ‰±ã„æ–‡å­—ãŒå«ã¾ã‚Œã¦ã„ã‚‹å ´åˆ
     Set EXTCHAR "${strWord}" -local
-    If ${strData:Cm}>0 { Set match 1 };   # ³‹K•\Œ»‚ÅğŒ‚É‡‚¤‚©Šm”F
+    If ${strData:Cm}>0 { Set match 1 };   # æ­£è¦è¡¨ç¾ã§æ¡ä»¶ã«åˆã†ã‹ç¢ºèª
   }Else{
     If "${strData}"=="${strWord}" { Set match 1 };
   };
@@ -79,69 +79,69 @@ Function StrCmpWordWithRegExp( strWord strData ){
 };
 
 #
-# ŒŸõ—p‚Æ‚µ‚Ä•¶š‚Í”¼Šp‘å•¶š‚É•ÏŠ·A‹L†‚Í‘SŠp
+# æ¤œç´¢ç”¨ã¨ã—ã¦æ–‡å­—ã¯åŠè§’å¤§æ–‡å­—ã«å¤‰æ›ã€è¨˜å·ã¯å…¨è§’
 #
 Function StrConvToHanUpSymZen( ref(strData) ){
-  SetReg EXTCHAR  StrDefZenAlpU -local   # ‘SŠp‘å•¶š‚ğ•ÏŠ·‚·‚é
-  SetReg EXTCHSUB StrDefHanAlpU -local   # •ÏŠ·æi”¼Šp‘å•¶šj
+  SetReg EXTCHAR  StrDefZenAlpU -local   # å…¨è§’å¤§æ–‡å­—ã‚’å¤‰æ›ã™ã‚‹
+  SetReg EXTCHSUB StrDefHanAlpU -local   # å¤‰æ›å…ˆï¼ˆåŠè§’å¤§æ–‡å­—ï¼‰
   Set strData "${strData:Xi}"
-  SetReg EXTCHAR  StrDefZenAlpL  # ‘SŠp¬•¶š‚ğ•ÏŠ·‚·‚é
+  SetReg EXTCHAR  StrDefZenAlpL  # å…¨è§’å°æ–‡å­—ã‚’å¤‰æ›ã™ã‚‹
   Set strData "${strData:Xi}"
-  SetReg EXTCHAR  StrDefHanAlpL  # ”¼Šp¬•¶š‚ğ•ÏŠ·‚·‚é
+  SetReg EXTCHAR  StrDefHanAlpL  # åŠè§’å°æ–‡å­—ã‚’å¤‰æ›ã™ã‚‹
   Set strData "${strData:Xi}"
-  SetReg EXTCHAR  StrDefZenNum   # ‘SŠp”š‚ğ•ÏŠ·‚·‚é
-  SetReg EXTCHSUB StrDefHanNum   # •ÏŠ·æ
+  SetReg EXTCHAR  StrDefZenNum   # å…¨è§’æ•°å­—ã‚’å¤‰æ›ã™ã‚‹
+  SetReg EXTCHSUB StrDefHanNum   # å¤‰æ›å…ˆ
   Set strData "${strData:Xi}"
-  SetReg EXTCHAR  StrDefHanSym1  # ”¼Šp‹L†‚ğ•ÏŠ·‚·‚é
-  SetReg EXTCHSUB StrDefZenSym1  # •ÏŠ·æ
+  SetReg EXTCHAR  StrDefHanSym1  # åŠè§’è¨˜å·ã‚’å¤‰æ›ã™ã‚‹
+  SetReg EXTCHSUB StrDefZenSym1  # å¤‰æ›å…ˆ
   Set strData "${strData:Xi}"
-  SetReg EXTCHAR  StrDefCutSymS  # •s—v‹L†‚ğ•ÏŠ·‚·‚é
-  SetReg EXTCHSUB StrDefCutSymD  # •ÏŠ·æ
+  SetReg EXTCHAR  StrDefCutSymS  # ä¸è¦è¨˜å·ã‚’å¤‰æ›ã™ã‚‹
+  SetReg EXTCHSUB StrDefCutSymD  # å¤‰æ›å…ˆ
   Set strData "${strData:Xi}"
-  Set    EXTCHAR  "${StrDefCutSymD:~0,1}"  # •s—v‹L†‚ğ•ÏŠ·‚·‚é
-  Set    EXTCHSUB ""             # •ÏŠ·æ
-  Set strData "${strData:X}"     # Šî–{“®ì‚Ì’uŠ·
+  Set    EXTCHAR  "${StrDefCutSymD:~0,1}"  # ä¸è¦è¨˜å·ã‚’å¤‰æ›ã™ã‚‹
+  Set    EXTCHSUB ""             # å¤‰æ›å…ˆ
+  Set strData "${strData:X}"     # åŸºæœ¬å‹•ä½œã®ç½®æ›
 };
 
 #
-# ‹LÚ‚³‚ê‚Ä‚¢‚éŒŸõ€–Ú‚ª‚·‚×‚Äƒf[ƒ^‚ÉŠÜ‚Ü‚ê‚é‚©Šm”F
-#   strItem : ‹ó”’‹æØ‚è‚ÌŒŸõ€–Ú
-#   strData : •¶š—ñƒf[ƒ^
-#   •Ô‚è’l F1=‚·‚×‚ÄŠÜ‚Ü‚ê‚Ä‚¢‚é 0=‚»‚êˆÈŠO
+# è¨˜è¼‰ã•ã‚Œã¦ã„ã‚‹æ¤œç´¢é …ç›®ãŒã™ã¹ã¦ãƒ‡ãƒ¼ã‚¿ã«å«ã¾ã‚Œã‚‹ã‹ç¢ºèª
+#   strItem : ç©ºç™½åŒºåˆ‡ã‚Šã®æ¤œç´¢é …ç›®
+#   strData : æ–‡å­—åˆ—ãƒ‡ãƒ¼ã‚¿
+#   è¿”ã‚Šå€¤ ï¼š1=ã™ã¹ã¦å«ã¾ã‚Œã¦ã„ã‚‹ 0=ãã‚Œä»¥å¤–
 #
 Function StrCmpEveryItemAnd( strItem strData ){
-  Fcall StrConvToHanUpSymZen( strItem )   # ŒŸõ€–Ú‚ğ”¼Šp‘å•¶š‚É“ˆê
-  Fcall StrConvToHanUpSymZen( strData )   # ƒf[ƒ^‚ğ”¼Šp‘å•¶š‚É“ˆê
+  Fcall StrConvToHanUpSymZen( strItem )   # æ¤œç´¢é …ç›®ã‚’åŠè§’å¤§æ–‡å­—ã«çµ±ä¸€
+  Fcall StrConvToHanUpSymZen( strData )   # ãƒ‡ãƒ¼ã‚¿ã‚’åŠè§’å¤§æ–‡å­—ã«çµ±ä¸€
   SplitItem -RegArg strItem -RegOut listItem -local
   LocalSet match 1
-  Repeat $#{listItem} -counter i 1 {    # Še€–Ú‚»‚ê‚¼‚êŠm”F
+  Repeat $#{listItem} -counter i 1 {    # å„é …ç›®ãã‚Œãã‚Œç¢ºèª
     SetReg EXTCHAR listItem[$i] -local
-    If ${strData:C}==0 { Set match 0 };  # ƒf[ƒ^‚ÉŠÜ‚Ü‚ê‚È‚¢
+    If ${strData:C}==0 { Set match 0 };  # ãƒ‡ãƒ¼ã‚¿ã«å«ã¾ã‚Œãªã„
   };
   Set StrCmpEveryItemAnd ${match}
 };
 
 #
-# ‹LÚ‚³‚ê‚Ä‚¢‚éŒŸõ€–Ú‚ª‚·‚×‚Äƒf[ƒ^‚ÉŠÜ‚Ü‚ê‚é‚©Šm”F
-# i³‹K•\Œ»ˆµ‚¢•¶š‚ªŠÜ‚Ü‚ê‚Ä‚¢‚½‚ç³‹K•\Œ»‚Æ‚µ‚ÄŠm”Fj
-#   strItem : ‹ó”’‹æØ‚è‚ÌŒŸõ€–Ú
-#   strData : •¶š—ñƒf[ƒ^
-#   •Ô‚è’l F1=‚·‚×‚ÄŠÜ‚Ü‚ê‚Ä‚¢‚é 0=‚»‚êˆÈŠO
+# è¨˜è¼‰ã•ã‚Œã¦ã„ã‚‹æ¤œç´¢é …ç›®ãŒã™ã¹ã¦ãƒ‡ãƒ¼ã‚¿ã«å«ã¾ã‚Œã‚‹ã‹ç¢ºèª
+# ï¼ˆæ­£è¦è¡¨ç¾æ‰±ã„æ–‡å­—ãŒå«ã¾ã‚Œã¦ã„ãŸã‚‰æ­£è¦è¡¨ç¾ã¨ã—ã¦ç¢ºèªï¼‰
+#   strItem : ç©ºç™½åŒºåˆ‡ã‚Šã®æ¤œç´¢é …ç›®
+#   strData : æ–‡å­—åˆ—ãƒ‡ãƒ¼ã‚¿
+#   è¿”ã‚Šå€¤ ï¼š1=ã™ã¹ã¦å«ã¾ã‚Œã¦ã„ã‚‹ 0=ãã‚Œä»¥å¤–
 #
 Function StrCmpItemWithRegExp( strItem strData ){
   LocalSet match 0
   LocalSet ci_rgex 0
-  If "${strItem:Xb}"=="" {    # €–Ú–¢İ’è‚Í–³ğŒ‹–‰Â
+  If "${strItem:Xb}"=="" {    # é …ç›®æœªè¨­å®šã¯ç„¡æ¡ä»¶è¨±å¯
     Set match 1
   }Else{
     SetReg EXTCHAR StrDefRExpSym -local
-    Set ci_rgex ${strItem:Ci}      # ³‹K•\Œ»‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©Šm”F
+    Set ci_rgex ${strItem:Ci}      # æ­£è¦è¡¨ç¾ãŒå«ã¾ã‚Œã¦ã„ã‚‹ã‹ç¢ºèª
   };
-  If ${ci_rgex}>0 {      # ³‹K•\Œ»ˆµ‚¢•¶š‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡
+  If ${ci_rgex}>0 {      # æ­£è¦è¡¨ç¾æ‰±ã„æ–‡å­—ãŒå«ã¾ã‚Œã¦ã„ã‚‹å ´åˆ
     Set EXTCHAR "${strItem}" -local
-    Fcall StrConvToHanUpSymZen( strData )   # ƒf[ƒ^‚ğ”¼Šp‘å•¶š‚É“ˆê
-    If ${strData:Cm}>0 { Set match 1 };   # ³‹K•\Œ»‚ÅğŒ‚É‡‚¤‚©Šm”F
-  }ElsIf ${match}==0 {      # ‹ó”’‹æØ‚è‚ÌŒŸõ€–Ú‚Æ‚µ‚ÄğŒ‚É‡‚¤‚©Šm”F
+    Fcall StrConvToHanUpSymZen( strData )   # ãƒ‡ãƒ¼ã‚¿ã‚’åŠè§’å¤§æ–‡å­—ã«çµ±ä¸€
+    If ${strData:Cm}>0 { Set match 1 };   # æ­£è¦è¡¨ç¾ã§æ¡ä»¶ã«åˆã†ã‹ç¢ºèª
+  }ElsIf ${match}==0 {      # ç©ºç™½åŒºåˆ‡ã‚Šã®æ¤œç´¢é …ç›®ã¨ã—ã¦æ¡ä»¶ã«åˆã†ã‹ç¢ºèª
     Fcall StrCmpEveryItemAnd( strItem strData ) -RegOut match
   };
   Set StrCmpItemWithRegExp ${match}

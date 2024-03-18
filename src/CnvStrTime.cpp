@@ -1,5 +1,5 @@
-//
-// •¶š—ñ‚ÆŠÔ‚ÆƒtƒŒ[ƒ€ˆÊ’u‚Ì‘ŠŒİ•ÏŠ·ƒNƒ‰ƒX
+ï»¿//
+// æ–‡å­—åˆ—ã¨æ™‚é–“ã¨ãƒ•ãƒ¬ãƒ¼ãƒ ä½ç½®ã®ç›¸äº’å¤‰æ›ã‚¯ãƒ©ã‚¹
 //
 #include "stdafx.h"
 
@@ -9,46 +9,46 @@ using Msec = int;
 
 
 //---------------------------------------------------------------------
-// \’z‰Šúİ’è
+// æ§‹ç¯‰æ™‚åˆæœŸè¨­å®š
 //---------------------------------------------------------------------
 CnvStrTime::CnvStrTime(){
 	m_frate_n = 30000;
 	m_frate_d = 1001;
 	m_unitsec = 0;
-	m_delimiter = "\\";		// ƒpƒX‹æØ‚è‚Í‹N“®w’èƒpƒX‚Ìg—p•¶š‚Å©“®“I‚ÉØ‚è‘Ö‚í‚é
+	m_delimiter = "\\";		// ãƒ‘ã‚¹åŒºåˆ‡ã‚Šã¯èµ·å‹•æ™‚æŒ‡å®šãƒ‘ã‚¹ã®ä½¿ç”¨æ–‡å­—ã§è‡ªå‹•çš„ã«åˆ‡ã‚Šæ›¿ã‚ã‚‹
 }
 
 
 
 //=====================================================================
-// ƒtƒ@ƒCƒ‹–¼EƒpƒX‚Ì•ª‰ğˆ—
+// ãƒ•ã‚¡ã‚¤ãƒ«åãƒ»ãƒ‘ã‚¹ã®åˆ†è§£å‡¦ç†
 //=====================================================================
 
 //---------------------------------------------------------------------
-// •¶š—ñ‚Í‚·‚×‚ÄƒpƒX•”•ª‚Æ‚µ‚ÄÅŒã‚É‹æØ‚è‚ª‚È‚¯‚ê‚Î•t‰Á
-// •t‰Á‚µ‚½ê‡‚Í•Ô‚è’l‚ğtrueA‚»‚Ì‚Ü‚Ü‚È‚çfalse
-// “ü—ÍF
-//   pathname : ƒpƒX–¼
-// o—ÍF
-//   pathname : ƒpƒX–¼iÅŒã‚Í‹æØ‚è•¶šj
+// æ–‡å­—åˆ—ã¯ã™ã¹ã¦ãƒ‘ã‚¹éƒ¨åˆ†ã¨ã—ã¦æœ€å¾Œã«åŒºåˆ‡ã‚ŠãŒãªã‘ã‚Œã°ä»˜åŠ 
+// ä»˜åŠ ã—ãŸå ´åˆã¯è¿”ã‚Šå€¤ã‚’trueã€ãã®ã¾ã¾ãªã‚‰false
+// å…¥åŠ›ï¼š
+//   pathname : ãƒ‘ã‚¹å
+// å‡ºåŠ›ï¼š
+//   pathname : ãƒ‘ã‚¹åï¼ˆæœ€å¾Œã¯åŒºåˆ‡ã‚Šæ–‡å­—ï¼‰
 //---------------------------------------------------------------------
 bool CnvStrTime::getStrFileAllPath(string &pathname){
 	string strTmp;
-	getStrFilePath(strTmp, pathname);	// ‹æØ‚è‚Ü‚Å‚Ì•¶šæ“¾
-	if ( strTmp != pathname ){		// ‹æØ‚è‚Ü‚Å‚Ì•¶š‚ª‘S‘Ì‚©Šm”F
-		string delimiter = getStrFileDelimiter();	// ‹æØ‚è•¶š
+	getStrFilePath(strTmp, pathname);	// åŒºåˆ‡ã‚Šã¾ã§ã®æ–‡å­—å–å¾—
+	if ( strTmp != pathname ){		// åŒºåˆ‡ã‚Šã¾ã§ã®æ–‡å­—ãŒå…¨ä½“ã‹ç¢ºèª
+		string delimiter = getStrFileDelimiter();	// åŒºåˆ‡ã‚Šæ–‡å­—
 		pathname += delimiter;
 		return true;
 	}
 	return false;
 }
 //---------------------------------------------------------------------
-// •¶š—ñ‚©‚çƒtƒ@ƒCƒ‹ƒpƒX•”•ª‚Æƒtƒ@ƒCƒ‹–¼•”•ª‚ğ•ª—£
-// “Ç‚İI‚í‚Á‚½ˆÊ’u‚ğ•Ô‚è’l‚Æ‚·‚éi¸”s‚Í-1j
-// “ü—ÍF
-//   fullpath : ƒtƒ‹ƒpƒX–¼
-// o—ÍF
-//   pathname : ƒpƒX•”•ª
+// æ–‡å­—åˆ—ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹éƒ¨åˆ†ã¨ãƒ•ã‚¡ã‚¤ãƒ«åéƒ¨åˆ†ã‚’åˆ†é›¢
+// èª­ã¿çµ‚ã‚ã£ãŸä½ç½®ã‚’è¿”ã‚Šå€¤ã¨ã™ã‚‹ï¼ˆå¤±æ•—æ™‚ã¯-1ï¼‰
+// å…¥åŠ›ï¼š
+//   fullpath : ãƒ•ãƒ«ãƒ‘ã‚¹å
+// å‡ºåŠ›ï¼š
+//   pathname : ãƒ‘ã‚¹éƒ¨åˆ†
 //---------------------------------------------------------------------
 int CnvStrTime::getStrFilePath(string &pathname, const string &fullname){
 	string strTmp;
@@ -56,29 +56,29 @@ int CnvStrTime::getStrFilePath(string &pathname, const string &fullname){
 }
 
 //---------------------------------------------------------------------
-// •¶š—ñ‚©‚çƒtƒ@ƒCƒ‹ƒpƒX•”•ª‚Æƒtƒ@ƒCƒ‹–¼•”•ª‚ğ•ª—£
-// “Ç‚İI‚í‚Á‚½ˆÊ’u‚ğ•Ô‚è’l‚Æ‚·‚éi¸”s‚Í-1j
-// “ü—ÍF
-//   fullpath : ƒtƒ‹ƒpƒX–¼
-// o—ÍF
-//   pathname : ƒpƒX•”•ª
-//   fname    : –¼‘OˆÈ~•”•ª
+// æ–‡å­—åˆ—ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹éƒ¨åˆ†ã¨ãƒ•ã‚¡ã‚¤ãƒ«åéƒ¨åˆ†ã‚’åˆ†é›¢
+// èª­ã¿çµ‚ã‚ã£ãŸä½ç½®ã‚’è¿”ã‚Šå€¤ã¨ã™ã‚‹ï¼ˆå¤±æ•—æ™‚ã¯-1ï¼‰
+// å…¥åŠ›ï¼š
+//   fullpath : ãƒ•ãƒ«ãƒ‘ã‚¹å
+// å‡ºåŠ›ï¼š
+//   pathname : ãƒ‘ã‚¹éƒ¨åˆ†
+//   fname    : åå‰ä»¥é™éƒ¨åˆ†
 //---------------------------------------------------------------------
 int CnvStrTime::getStrFilePathName(string &pathname, string &fname, const string &fullname){
 	bool flag_find = false;
-	//--- "\"‹æØ‚è‚ğŒŸõ ---
+	//--- "\"åŒºåˆ‡ã‚Šã‚’æ¤œç´¢ ---
 	int nloc = (int) fullname.rfind("\\");
 	if (nloc >= 0){
 		flag_find = true;
-		m_delimiter = "\\";		// ‹æØ‚è•¶š•ÏX
+		m_delimiter = "\\";		// åŒºåˆ‡ã‚Šæ–‡å­—å¤‰æ›´
 	}
-	//--- "/"‹æØ‚è‚ğŒŸõ ---
+	//--- "/"åŒºåˆ‡ã‚Šã‚’æ¤œç´¢ ---
 	int nloc_sl = (int) fullname.rfind("/");
 	if (nloc_sl >= 0){
 		if (flag_find == false || nloc < nloc_sl){
 			flag_find = true;
 			nloc = nloc_sl;
-			m_delimiter = "/";		// ‹æØ‚è•¶š•ÏX
+			m_delimiter = "/";		// åŒºåˆ‡ã‚Šæ–‡å­—å¤‰æ›´
 		}
 	}
 	if (flag_find){
@@ -94,32 +94,32 @@ int CnvStrTime::getStrFilePathName(string &pathname, string &fname, const string
 }
 
 //---------------------------------------------------------------------
-// ƒtƒ@ƒCƒ‹‚Ì‹æØ‚è•¶šæ“¾
+// ãƒ•ã‚¡ã‚¤ãƒ«ã®åŒºåˆ‡ã‚Šæ–‡å­—å–å¾—
 //---------------------------------------------------------------------
 string CnvStrTime::getStrFileDelimiter(){
 	return m_delimiter;
 }
 
 //---------------------------------------------------------------------
-// ƒoƒbƒtƒ@ƒTƒCƒYæ“¾
+// ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºå–å¾—
 //---------------------------------------------------------------------
 int CnvStrTime::getBufLineSize(){
 	return SIZE_BUF_MAX;
 }
 //---------------------------------------------------------------------
-// ŠÖ”ƒ^ƒCƒv‚Ìˆø”ƒ‚ƒWƒ…[ƒ‹–¼‚Å‚ ‚é‚©Šm”F
+// é–¢æ•°ã‚¿ã‚¤ãƒ—ã®å¼•æ•°ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åã§ã‚ã‚‹ã‹ç¢ºèª
 //---------------------------------------------------------------------
 bool CnvStrTime::isStrFuncModule(const string &cstr, int pos){
-	//--- ƒ‚ƒWƒ…[ƒ‹–¼ ---
+	//--- ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«å ---
 	string strWord;
 	pos = getStrItemHubFunc(strWord, cstr, pos, DELIMIT_FUNC_NAME);
 	if ( pos < 0 ) return false;
-	//--- ˆø”æ“ªæ“¾ ---
+	//--- å¼•æ•°å…ˆé ­å–å¾— ---
 	string strNext;
 	int posnext = getStrItemHubFunc(strNext, cstr, pos, DELIMIT_FUNC_ARGS);
 	if ( posnext < 0 ) return false;
-	if ( strNext[0] != '(' ) return false;		// "("ˆÈŠO‚È‚çŠÖ”‚Å‚Í‚È‚¢
-	//--- ƒ‚ƒWƒ…[ƒ‹–¼ŠÈˆÕŠm”F ---
+	if ( strNext[0] != '(' ) return false;		// "("ä»¥å¤–ãªã‚‰é–¢æ•°ã§ã¯ãªã„
+	//--- ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åç°¡æ˜“ç¢ºèª ---
 	bool match = true;
 	for(int i=0; i<(int)strWord.length(); i++){
 		char ch = strWord[i];
@@ -136,27 +136,27 @@ bool CnvStrTime::isStrFuncModule(const string &cstr, int pos){
 	return match;
 }
 //---------------------------------------------------------------------
-// ƒ‚ƒWƒ…[ƒ‹–¼‚Æˆø”‚ÌƒŠƒXƒg‚ğæ“¾ ƒtƒH[ƒ}ƒbƒgF ƒ‚ƒWƒ…[ƒ‹–¼(ˆø” ˆø” ...)
+// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åã¨å¼•æ•°ã®ãƒªã‚¹ãƒˆã‚’å–å¾— ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆï¼š ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«å(å¼•æ•° å¼•æ•° ...)
 //---------------------------------------------------------------------
 int CnvStrTime::getListModuleArg(vector<string>& listMod, const string &cstr, int pos){
 	listMod.clear();
 	string strWord;
-	//--- ƒ‚ƒWƒ…[ƒ‹–¼İ’è ---
+	//--- ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åè¨­å®š ---
 	pos = getStrItemHubFunc(strWord, cstr, pos, DELIMIT_FUNC_NAME);
 	if ( pos < 0 ) return pos;
 	listMod.push_back(strWord);
-	//--- ˆø”æ“ªæ“¾ ---
+	//--- å¼•æ•°å…ˆé ­å–å¾— ---
 	int posBak = pos;
 	pos = skipCharSpace(cstr, pos);
-	if ( cstr[pos] != '(' ){		// "("ˆÈŠO‚È‚çˆø”‚È‚µ‚ÅI—¹
+	if ( cstr[pos] != '(' ){		// "("ä»¥å¤–ãªã‚‰å¼•æ•°ãªã—ã§çµ‚äº†
 		return posBak;
 	}
 	pos = getStrItemHubFunc(strWord, cstr, pos+1, DELIMIT_FUNC_ARGS);
-	//--- ˆø”İ’è ---
+	//--- å¼•æ•°è¨­å®š ---
 	bool cont = true;
 	while( cont && pos >= 0 ){
 		if ( strWord == ")" ){
-			listMod.push_back("");	// ÅŒã‚É‹ó•¶š—ñ‚ğŠi”[
+			listMod.push_back("");	// æœ€å¾Œã«ç©ºæ–‡å­—åˆ—ã‚’æ ¼ç´
 			cont = false;
 		}else{
 			listMod.push_back(strWord);
@@ -166,14 +166,14 @@ int CnvStrTime::getListModuleArg(vector<string>& listMod, const string &cstr, in
 	return pos;
 }
 //---------------------------------------------------------------------
-// ƒpƒX‚Å•ªŠ„‚µ‚½•¶š—ñ‚ğæ“¾
-// “ü—ÍF
-//   strDiv   : ƒtƒ‹ƒpƒX–¼
-//   selHead  : •ªŠ„‚Ìo—Íitrue=‘O‘¤Afalse=Œã‘¤j
-//   withDelim : true=‘O‘¤o—Í‚É‹æØ‚èˆÊ’u‚Ì‹æØ‚è‚ào—Í
-// o—ÍF
-//   •Ô‚è’l : ‹æØ‚è‘¶İ—L–³
-//   strDiv   : ‹æØ‚è•ªŠ„Œã•¶š—ñiHead=‘O‘¤BTail=Œã‘¤j
+// ãƒ‘ã‚¹ã§åˆ†å‰²ã—ãŸæ–‡å­—åˆ—ã‚’å–å¾—
+// å…¥åŠ›ï¼š
+//   strDiv   : ãƒ•ãƒ«ãƒ‘ã‚¹å
+//   selHead  : åˆ†å‰²ã®å‡ºåŠ›ï¼ˆtrue=å‰å´ã€false=å¾Œå´ï¼‰
+//   withDelim : true=å‰å´å‡ºåŠ›æ™‚ã«åŒºåˆ‡ã‚Šä½ç½®ã®åŒºåˆ‡ã‚Šã‚‚å‡ºåŠ›
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ : åŒºåˆ‡ã‚Šå­˜åœ¨æœ‰ç„¡
+//   strDiv   : åŒºåˆ‡ã‚Šåˆ†å‰²å¾Œæ–‡å­—åˆ—ï¼ˆHead=å‰å´ã€‚Tail=å¾Œå´ï¼‰
 //---------------------------------------------------------------------
 bool CnvStrTime::getStrDivPath(string& strDiv, bool selHead, bool withDelim){
 	int pos = getStrPosPath(strDiv);
@@ -182,7 +182,7 @@ bool CnvStrTime::getStrDivPath(string& strDiv, bool selHead, bool withDelim){
 			strDiv.clear();
 			return false;
 		}
-		if ( withDelim ){	// ‹æØ‚èŠÜ‚Ş
+		if ( withDelim ){	// åŒºåˆ‡ã‚Šå«ã‚€
 			pos ++;
 		}
 		if ( pos == 0 ){
@@ -194,7 +194,7 @@ bool CnvStrTime::getStrDivPath(string& strDiv, bool selHead, bool withDelim){
 		if ( pos < 0 ){
 			return false;
 		}
-		pos ++;		// ‹æØ‚è‚ğœ‚­
+		pos ++;		// åŒºåˆ‡ã‚Šã‚’é™¤ã
 		if ( pos >= (int) strDiv.length() ){
 			strDiv.clear();
 		}else{
@@ -204,15 +204,15 @@ bool CnvStrTime::getStrDivPath(string& strDiv, bool selHead, bool withDelim){
 	return true;
 }
 //---------------------------------------------------------------------
-// ‹æØ‚è‚Å•ªŠ„‚µ‚½•¶š—ñ‚ğæ“¾iŠg’£qæ“¾—pj
-// “ü—ÍF
-//   strDiv   : ƒtƒ‹ƒpƒX–¼
-//   strDelim : ‹æØ‚è•¶š
-//   selHead  : •ªŠ„‚Ìo—Íitrue=‘O‘¤Afalse=Œã‘¤j
-//   typePath : ƒpƒXŒã‚ÉŒÀ’è‚·‚é‚Ítrue
-// o—ÍF
-//   •Ô‚è’l : ‹æØ‚è‘¶İ—L–³
-//   strDiv   : ‹æØ‚è•ªŠ„Œã•¶š—ñiHead=‘O‘¤BTail=Œã‘¤j
+// åŒºåˆ‡ã‚Šã§åˆ†å‰²ã—ãŸæ–‡å­—åˆ—ã‚’å–å¾—ï¼ˆæ‹¡å¼µå­å–å¾—ç”¨ï¼‰
+// å…¥åŠ›ï¼š
+//   strDiv   : ãƒ•ãƒ«ãƒ‘ã‚¹å
+//   strDelim : åŒºåˆ‡ã‚Šæ–‡å­—
+//   selHead  : åˆ†å‰²ã®å‡ºåŠ›ï¼ˆtrue=å‰å´ã€false=å¾Œå´ï¼‰
+//   typePath : ãƒ‘ã‚¹å¾Œã«é™å®šã™ã‚‹æ™‚ã¯true
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ : åŒºåˆ‡ã‚Šå­˜åœ¨æœ‰ç„¡
+//   strDiv   : åŒºåˆ‡ã‚Šåˆ†å‰²å¾Œæ–‡å­—åˆ—ï¼ˆHead=å‰å´ã€‚Tail=å¾Œå´ï¼‰
 //---------------------------------------------------------------------
 bool CnvStrTime::getStrDivide(string& strDiv, const string& strDelim, bool selHead, bool typePath){
 	int posdiv = getStrPosDivide(strDiv, strDelim, typePath);
@@ -241,7 +241,7 @@ bool CnvStrTime::getStrDivide(string& strDiv, const string& strDelim, bool selHe
 }
 
 //---------------------------------------------------------------------
-// ƒpƒX‹æØ‚èˆÊ’u‚ğæ“¾
+// ãƒ‘ã‚¹åŒºåˆ‡ã‚Šä½ç½®ã‚’å–å¾—
 //---------------------------------------------------------------------
 int CnvStrTime::getStrPosPath(const string& fullname){
 	bool reverse = true;
@@ -253,21 +253,21 @@ int CnvStrTime::getStrPosPath(const string& fullname){
 	return pos;
 }
 //---------------------------------------------------------------------
-// ‹æØ‚è•¶š‚ÌˆÊ’uæ“¾
-// “ü—ÍF
-//   fullpath : ƒtƒ‹ƒpƒX–¼
-//   strDelim : ‹æØ‚è•¶š
-//   typePath : ƒpƒXŒã‚ÉŒÀ’è‚·‚é‚Ítrue
-// o—ÍF
-//   •Ô‚è’l : ‹æØ‚èˆÊ’uiŒ©‚Â‚©‚ç‚È‚¢‚Íƒ}ƒCƒiƒXj
+// åŒºåˆ‡ã‚Šæ–‡å­—ã®ä½ç½®å–å¾—
+// å…¥åŠ›ï¼š
+//   fullpath : ãƒ•ãƒ«ãƒ‘ã‚¹å
+//   strDelim : åŒºåˆ‡ã‚Šæ–‡å­—
+//   typePath : ãƒ‘ã‚¹å¾Œã«é™å®šã™ã‚‹æ™‚ã¯true
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ : åŒºåˆ‡ã‚Šä½ç½®ï¼ˆè¦‹ã¤ã‹ã‚‰ãªã„æ™‚ã¯ãƒã‚¤ãƒŠã‚¹ï¼‰
 //---------------------------------------------------------------------
 int CnvStrTime::getStrPosDivide(const string& fullname, const string& strDelim, bool typePath){
-	//--- ƒpƒXŒã‚Ì‚ÍƒpƒXˆÊ’u‚ğæ“¾ ---
+	//--- ãƒ‘ã‚¹å¾Œã®æ™‚ã¯ãƒ‘ã‚¹ä½ç½®ã‚’å–å¾— ---
 	int posmin = -1;
 	if ( typePath ){
 		posmin = getStrPosPath(fullname);
 	}
-	//--- ‘ÎÛˆÊ’uæ“¾ ---
+	//--- å¯¾è±¡ä½ç½®å–å¾— ---
 	int posr = getStrPosDivideCore(fullname, strDelim, typePath);
 	if ( posr < posmin ){
 		posr = -1;
@@ -275,17 +275,17 @@ int CnvStrTime::getStrPosDivide(const string& fullname, const string& strDelim, 
 	return posr;
 }
 //---------------------------------------------------------------------
-// ‹æØ‚è•¶š‚ÌˆÊ’u‚ğæ“¾
-// “ü—ÍF
-//   fullpath : ƒtƒ‹ƒpƒX–¼
-//   strDelim : ‹æØ‚è•¶š
-//   reverse  : true=Œã‘¤‚©‚ç false=‘O‘¤‚©‚ç
-// o—ÍF
-//   •Ô‚è’l : ‹æØ‚èˆÊ’uiŒ©‚Â‚©‚ç‚È‚¢‚Í-1j
+// åŒºåˆ‡ã‚Šæ–‡å­—ã®ä½ç½®ã‚’å–å¾—
+// å…¥åŠ›ï¼š
+//   fullpath : ãƒ•ãƒ«ãƒ‘ã‚¹å
+//   strDelim : åŒºåˆ‡ã‚Šæ–‡å­—
+//   reverse  : true=å¾Œå´ã‹ã‚‰ false=å‰å´ã‹ã‚‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ : åŒºåˆ‡ã‚Šä½ç½®ï¼ˆè¦‹ã¤ã‹ã‚‰ãªã„æ™‚ã¯-1ï¼‰
 //---------------------------------------------------------------------
 int CnvStrTime::getStrPosDivideCore(const string& fullname, const string& strDelim, bool reverse){
 	int pos = -1;
-	//--- ‹æØ‚è‚ğŒŸõ ---
+	//--- åŒºåˆ‡ã‚Šã‚’æ¤œç´¢ ---
 	if ( reverse ){
 		auto posFind = fullname.rfind(strDelim);
 		if ( posFind != string::npos ){
@@ -301,12 +301,12 @@ int CnvStrTime::getStrPosDivideCore(const string& fullname, const string& strDel
 }
 
 //=====================================================================
-//  ŠÔ‚ÆƒtƒŒ[ƒ€ˆÊ’u‚Ì•ÏŠ·
-//  ’ˆÓ“_FƒtƒŒ[ƒ€ˆÊ’u‚©‚ç‚Ì•ÏŠ·‚Íæ“ªƒtƒŒ[ƒ€‚ğ0‚Æ‚µ‚½â‘ÎˆÊ’u‚Åw’è‚·‚é‚æ‚¤‚É‚µ‚Ä‚¨‚­
+//  æ™‚é–“ã¨ãƒ•ãƒ¬ãƒ¼ãƒ ä½ç½®ã®å¤‰æ›
+//  æ³¨æ„ç‚¹ï¼šãƒ•ãƒ¬ãƒ¼ãƒ ä½ç½®ã‹ã‚‰ã®å¤‰æ›ã¯å…ˆé ­ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’0ã¨ã—ãŸçµ¶å¯¾ä½ç½®ã§æŒ‡å®šã™ã‚‹ã‚ˆã†ã«ã—ã¦ãŠã
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•b‚ğƒtƒŒ[ƒ€”‚É•ÏŠ·
+// ãƒŸãƒªç§’ã‚’ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã«å¤‰æ›
 //---------------------------------------------------------------------
 int CnvStrTime::getFrmFromMsec(Msec msec){
 	int r = ((((long long)abs(msec) * m_frate_n) + (m_frate_d*1000/2)) / (m_frate_d*1000));
@@ -314,7 +314,7 @@ int CnvStrTime::getFrmFromMsec(Msec msec){
 }
 
 //---------------------------------------------------------------------
-// ƒtƒŒ[ƒ€”‚É‘Î‰‚·‚éƒ~ƒŠ•b”‚ğæ“¾
+// ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã«å¯¾å¿œã™ã‚‹ãƒŸãƒªç§’æ•°ã‚’å–å¾—
 //---------------------------------------------------------------------
 int CnvStrTime::getMsecFromFrm(int frm){
 	int r = (((long long)abs(frm) * m_frate_d * 1000 + (m_frate_n/2)) / m_frate_n);
@@ -322,7 +322,7 @@ int CnvStrTime::getMsecFromFrm(int frm){
 }
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•b‚ğˆê“xƒtƒŒ[ƒ€”‚ÉŠ·Z‚µ‚½Œãƒ~ƒŠ•b‚É•ÏŠ·iƒtƒŒ[ƒ€’PˆÊ‚É‚È‚é‚æ‚¤‚Éj
+// ãƒŸãƒªç§’ã‚’ä¸€åº¦ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã«æ›ç®—ã—ãŸå¾ŒãƒŸãƒªç§’ã«å¤‰æ›ï¼ˆãƒ•ãƒ¬ãƒ¼ãƒ å˜ä½ã«ãªã‚‹ã‚ˆã†ã«ï¼‰
 //---------------------------------------------------------------------
 int CnvStrTime::getMsecAlignFromMsec(Msec msec){
 	int frm = getFrmFromMsec(msec);
@@ -330,7 +330,7 @@ int CnvStrTime::getMsecAlignFromMsec(Msec msec){
 }
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•b‚ğˆê“xƒtƒŒ[ƒ€”‚ÉŠ·Z‚µ‚½Œã”÷’²®‚µ‚Äƒ~ƒŠ•b‚É•ÏŠ·
+// ãƒŸãƒªç§’ã‚’ä¸€åº¦ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã«æ›ç®—ã—ãŸå¾Œå¾®èª¿æ•´ã—ã¦ãƒŸãƒªç§’ã«å¤‰æ›
 //---------------------------------------------------------------------
 int CnvStrTime::getMsecAdjustFrmFromMsec(Msec msec, int frm){
 	int frm_new = getFrmFromMsec(msec) + frm;
@@ -338,7 +338,7 @@ int CnvStrTime::getMsecAdjustFrmFromMsec(Msec msec, int frm){
 }
 
 //---------------------------------------------------------------------
-// ƒ~ƒŠ•b‚ğ•b”‚É•ÏŠ·
+// ãƒŸãƒªç§’ã‚’ç§’æ•°ã«å¤‰æ›
 //---------------------------------------------------------------------
 int CnvStrTime::getSecFromMsec(Msec msec){
 	if (msec < 0){
@@ -348,7 +348,7 @@ int CnvStrTime::getSecFromMsec(Msec msec){
 }
 
 //---------------------------------------------------------------------
-// ƒtƒŒ[ƒ€ƒŒ[ƒg•ÏXŠÖ”i–¢g—pj
+// ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆå¤‰æ›´é–¢æ•°ï¼ˆæœªä½¿ç”¨ï¼‰
 //---------------------------------------------------------------------
 int CnvStrTime::changeFrameRate(int n, int d){
 	m_frate_n = n;
@@ -357,7 +357,7 @@ int CnvStrTime::changeFrameRate(int n, int d){
 }
 
 //---------------------------------------------------------------------
-// ®”“ü—Í‚Ì’PˆÊİ’è
+// æ•´æ•°å…¥åŠ›æ™‚ã®å˜ä½è¨­å®š
 //---------------------------------------------------------------------
 int CnvStrTime::changeUnitSec(int n){
 	m_unitsec = n;
@@ -367,51 +367,51 @@ int CnvStrTime::changeUnitSec(int n){
 
 
 //=====================================================================
-// •¶š—ñ‚©‚ç”’l‚ğæ“¾
-// [Šî–{“®ì]
-//   •¶š—ñ‚©‚ç‚P’PŒê‚ğ“Ç‚İ‚İ”’l‚Æ‚µ‚Äo—Í
-//   src•¶š—ñ‚ÌˆÊ’upos‚©‚ç‚P’PŒê‚ğ“Ç‚İ‚İA”’l‚ğo—Í
-//   “Ç‚İI‚í‚Á‚½ˆÊ’u‚ğ•Ô‚è’l‚Æ‚·‚éi¸”s‚Í-1j
-// “ü—ÍF
-//   cstr : •¶š—ñ
-//   pos  : ”F¯ŠJnˆÊ’u
-// o—ÍF
-//   •Ô‚è’lF “Ç‚İI‚í‚Á‚½ˆÊ’u‚ğ•Ô‚è’l‚Æ‚·‚éi¸”s‚Í-1j
-//   val    : Œ‹‰Ê”’l
+// æ–‡å­—åˆ—ã‹ã‚‰æ•°å€¤ã‚’å–å¾—
+// [åŸºæœ¬å‹•ä½œ]
+//   æ–‡å­—åˆ—ã‹ã‚‰ï¼‘å˜èªã‚’èª­ã¿è¾¼ã¿æ•°å€¤ã¨ã—ã¦å‡ºåŠ›
+//   srcæ–‡å­—åˆ—ã®ä½ç½®posã‹ã‚‰ï¼‘å˜èªã‚’èª­ã¿è¾¼ã¿ã€æ•°å€¤ã‚’å‡ºåŠ›
+//   èª­ã¿çµ‚ã‚ã£ãŸä½ç½®ã‚’è¿”ã‚Šå€¤ã¨ã™ã‚‹ï¼ˆå¤±æ•—æ™‚ã¯-1ï¼‰
+// å…¥åŠ›ï¼š
+//   cstr : æ–‡å­—åˆ—
+//   pos  : èªè­˜é–‹å§‹ä½ç½®
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š èª­ã¿çµ‚ã‚ã£ãŸä½ç½®ã‚’è¿”ã‚Šå€¤ã¨ã™ã‚‹ï¼ˆå¤±æ•—æ™‚ã¯-1ï¼‰
+//   val    : çµæœæ•°å€¤
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ‚P’PŒê‚ğ“Ç‚İ‚İ”’l‚Æ‚µ‚Äo—Íi”’lˆÈŠO‚ª‚ ‚ê‚Î‚»‚±‚ÅI—¹j
+// ï¼‘å˜èªã‚’èª­ã¿è¾¼ã¿æ•°å€¤ã¨ã—ã¦å‡ºåŠ›ï¼ˆæ•°å€¤ä»¥å¤–ãŒã‚ã‚Œã°ãã“ã§çµ‚äº†ï¼‰
 //---------------------------------------------------------------------
 int CnvStrTime::getStrValNumHead(int &val, const string &cstr, int pos){
-	// unitsec=2i’PˆÊ•ÏŠ·‚µ‚È‚¢j
-	// type=EXNUMi”’lˆÈŠO‚ª‚ ‚ê‚Î‚»‚±‚ÅI—¹j
+	// unitsec=2ï¼ˆå˜ä½å¤‰æ›ã—ãªã„ï¼‰
+	// type=EXNUMï¼ˆæ•°å€¤ä»¥å¤–ãŒã‚ã‚Œã°ãã“ã§çµ‚äº†ï¼‰
 	return getStrValSubDelimit(val, cstr, pos, 2, DELIMIT_SPACE_EXNUM);
 }
 
 //---------------------------------------------------------------------
-// ‚P’PŒê‚ğ“Ç‚İ‚İ”’l‚Æ‚µ‚Äo—Íi”’lˆÈŠO‚ª‚ ‚ê‚Î“Ç‚İ‚İ¸”s‚ğ•Ô‚·j
+// ï¼‘å˜èªã‚’èª­ã¿è¾¼ã¿æ•°å€¤ã¨ã—ã¦å‡ºåŠ›ï¼ˆæ•°å€¤ä»¥å¤–ãŒã‚ã‚Œã°èª­ã¿è¾¼ã¿å¤±æ•—ã‚’è¿”ã™ï¼‰
 //---------------------------------------------------------------------
 int CnvStrTime::getStrValNum(int &val, const string &cstr, int pos){
-	return getStrValSub(val, cstr, pos, 2);		// unitsec=2i’PˆÊ•ÏŠ·‚µ‚È‚¢j
+	return getStrValSub(val, cstr, pos, 2);		// unitsec=2ï¼ˆå˜ä½å¤‰æ›ã—ãªã„ï¼‰
 }
 
 //---------------------------------------------------------------------
-// ‚P’PŒê‚ğ“Ç‚İ‚İ”’liƒ~ƒŠ•bj‚Æ‚µ‚Äo—Íi”’lˆÈŠO‚ª‚ ‚ê‚Î“Ç‚İ‚İ¸”s‚ğ•Ô‚·j
+// ï¼‘å˜èªã‚’èª­ã¿è¾¼ã¿æ•°å€¤ï¼ˆãƒŸãƒªç§’ï¼‰ã¨ã—ã¦å‡ºåŠ›ï¼ˆæ•°å€¤ä»¥å¤–ãŒã‚ã‚Œã°èª­ã¿è¾¼ã¿å¤±æ•—ã‚’è¿”ã™ï¼‰
 //---------------------------------------------------------------------
 int CnvStrTime::getStrValMsec(Msec &val, const string &cstr, int pos){
 	return getStrValSub(val, cstr, pos, m_unitsec);
 }
 
 //---------------------------------------------------------------------
-// ”’liƒ~ƒŠ•bj‚ğ•Ô‚·‚ªA®”“ü—Í‚Íİ’è‚É‚©‚©‚í‚ç‚¸ƒtƒŒ[ƒ€”‚Æ‚µ‚Äˆµ‚¤
+// æ•°å€¤ï¼ˆãƒŸãƒªç§’ï¼‰ã‚’è¿”ã™ãŒã€æ•´æ•°å…¥åŠ›ã¯è¨­å®šã«ã‹ã‹ã‚ã‚‰ãšãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã¨ã—ã¦æ‰±ã†
 //---------------------------------------------------------------------
 int CnvStrTime::getStrValMsecFromFrm(Msec &val, const string &cstr, int pos){
-	return getStrValSub(val, cstr, pos, 0);			// unitsec=0:®”‚ÍƒtƒŒ[ƒ€”
+	return getStrValSub(val, cstr, pos, 0);			// unitsec=0:æ•´æ•°æ™‚ã¯ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 }
 
 //---------------------------------------------------------------------
-// ”’liƒ~ƒŠ•bj‚ğ•Ô‚·‚ªAƒ}ƒCƒiƒX‚P‚Ì‚Í“Áêˆµ‚¢‚Å•ÏŠ·‚¹‚¸‚»‚Ì‚Ü‚Ü•Ô‚·
+// æ•°å€¤ï¼ˆãƒŸãƒªç§’ï¼‰ã‚’è¿”ã™ãŒã€ãƒã‚¤ãƒŠã‚¹ï¼‘ã®æ™‚ã¯ç‰¹æ®Šæ‰±ã„ã§å¤‰æ›ã›ãšãã®ã¾ã¾è¿”ã™
 //---------------------------------------------------------------------
 int CnvStrTime::getStrValMsecM1(Msec &val, const string &cstr, int pos){
 	int posnew = getStrValSub(val, cstr, pos, m_unitsec);
@@ -427,7 +427,7 @@ int CnvStrTime::getStrValMsecM1(Msec &val, const string &cstr, int pos){
 }
 
 //---------------------------------------------------------------------
-// ‚P’PŒê‚ğ“Ç‚İ‚İ”’li•bj‚Æ‚µ‚Äo—Íi”’lˆÈŠO‚ª‚ ‚ê‚Î“Ç‚İ‚İ¸”s‚ğ•Ô‚·j
+// ï¼‘å˜èªã‚’èª­ã¿è¾¼ã¿æ•°å€¤ï¼ˆç§’ï¼‰ã¨ã—ã¦å‡ºåŠ›ï¼ˆæ•°å€¤ä»¥å¤–ãŒã‚ã‚Œã°èª­ã¿è¾¼ã¿å¤±æ•—ã‚’è¿”ã™ï¼‰
 //---------------------------------------------------------------------
 int CnvStrTime::getStrValSec(int &val, const string &cstr, int pos){
 	int tmpval;
@@ -441,11 +441,11 @@ int CnvStrTime::getStrValSec(int &val, const string &cstr, int pos){
 }
 
 //---------------------------------------------------------------------
-// ”’li•bj‚ğ•Ô‚·‚ªA®”“ü—Í‚Íİ’è‚É‚©‚©‚í‚ç‚¸•b”“ü—Í‚Æ‚µ‚Äˆµ‚¤
+// æ•°å€¤ï¼ˆç§’ï¼‰ã‚’è¿”ã™ãŒã€æ•´æ•°å…¥åŠ›ã¯è¨­å®šã«ã‹ã‹ã‚ã‚‰ãšç§’æ•°å…¥åŠ›ã¨ã—ã¦æ‰±ã†
 //---------------------------------------------------------------------
 int CnvStrTime::getStrValSecFromSec(int &val, const string &cstr, int pos){
 	int tmpval;
-	pos = getStrValSub(tmpval, cstr, pos, 1);			// unitsec=1:®”‚Í•b”
+	pos = getStrValSub(tmpval, cstr, pos, 1);			// unitsec=1:æ•´æ•°æ™‚ã¯ç§’æ•°
 	val = (abs(tmpval) + 500) / 1000;
 	if (tmpval < 0){
 		val = -val;
@@ -455,7 +455,7 @@ int CnvStrTime::getStrValSecFromSec(int &val, const string &cstr, int pos){
 }
 
 //---------------------------------------------------------------------
-// ŠÖ”ˆø”•¶š—ñ‚ğæ“¾‚µ‚ÄAŒ‹‰Ê‚Ì”’l‚ğ•Ô‚·
+// é–¢æ•°å¼•æ•°æ–‡å­—åˆ—ã‚’å–å¾—ã—ã¦ã€çµæœã®æ•°å€¤ã‚’è¿”ã™
 //---------------------------------------------------------------------
 int CnvStrTime::getStrValFuncNum(int &val, const string &cstr, int pos){
 	string dstr;
@@ -467,13 +467,13 @@ int CnvStrTime::getStrValFuncNum(int &val, const string &cstr, int pos){
 }
 
 //=====================================================================
-// ƒŠƒXƒgƒf[ƒ^æ“¾
+// ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿å–å¾—
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒŠƒXƒg•¶š—ñ‚©‚ç‘S€–Ú‚ÌŠÔî•ñiƒ~ƒŠ•bj‚ğƒŠƒXƒg‚Åæ“¾
+// ãƒªã‚¹ãƒˆæ–‡å­—åˆ—ã‹ã‚‰å…¨é …ç›®ã®æ™‚é–“æƒ…å ±ï¼ˆãƒŸãƒªç§’ï¼‰ã‚’ãƒªã‚¹ãƒˆã§å–å¾—
 //---------------------------------------------------------------------
-//--- -1‚Ì“Áêˆµ‚¢‚È‚µ ---
+//--- -1ã®ç‰¹æ®Šæ‰±ã„ãªã— ---
 bool CnvStrTime::getListValMsec(vector<Msec>& listMsec, const string& strList){
 	int pos = 0;
 	string dstr;
@@ -488,7 +488,7 @@ bool CnvStrTime::getListValMsec(vector<Msec>& listMsec, const string& strList){
 	if ( listMsec.empty() ) return false;
 	return true;
 }
-//--- -1‚Í“Áêˆµ‚¢‚Å‚»‚Ì‚Ü‚Ü ---
+//--- -1ã¯ç‰¹æ®Šæ‰±ã„ã§ãã®ã¾ã¾ ---
 bool CnvStrTime::getListValMsecM1(vector<Msec>& listMsec, const string& strList){
 	int pos = 0;
 	string dstr;
@@ -507,28 +507,28 @@ bool CnvStrTime::getListValMsecM1(vector<Msec>& listMsec, const string& strList)
 
 
 //=====================================================================
-// •¶š—ñ‚©‚ç’PŒê‚ğæ“¾
-// [Šî–{“®ì]
-//   •¶š—ñ‚©‚ç‚P’PŒê‚ğ“Ç‚İ‚İo—Í
-//   src•¶š—ñ‚ÌˆÊ’upos‚©‚ç‚P’PŒê‚ğ“Ç‚İ‚İdst‚Éo—Í
-//   “Ç‚İI‚í‚Á‚½ˆÊ’u‚ğ•Ô‚è’l‚Æ‚·‚éi¸”s‚Í-1j
-// “ü—ÍF
-//   cstr : •¶š—ñ
-//   pos  : ”F¯ŠJnˆÊ’u
-// o—ÍF
-//   •Ô‚è’lF “Ç‚İI‚í‚Á‚½ˆÊ’u‚ğ•Ô‚è’l‚Æ‚·‚éi¸”s‚Í-1j
-//   dst    : o—Í•¶š—ñ
+// æ–‡å­—åˆ—ã‹ã‚‰å˜èªã‚’å–å¾—
+// [åŸºæœ¬å‹•ä½œ]
+//   æ–‡å­—åˆ—ã‹ã‚‰ï¼‘å˜èªã‚’èª­ã¿è¾¼ã¿å‡ºåŠ›
+//   srcæ–‡å­—åˆ—ã®ä½ç½®posã‹ã‚‰ï¼‘å˜èªã‚’èª­ã¿è¾¼ã¿dstã«å‡ºåŠ›
+//   èª­ã¿çµ‚ã‚ã£ãŸä½ç½®ã‚’è¿”ã‚Šå€¤ã¨ã™ã‚‹ï¼ˆå¤±æ•—æ™‚ã¯-1ï¼‰
+// å…¥åŠ›ï¼š
+//   cstr : æ–‡å­—åˆ—
+//   pos  : èªè­˜é–‹å§‹ä½ç½®
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š èª­ã¿çµ‚ã‚ã£ãŸä½ç½®ã‚’è¿”ã‚Šå€¤ã¨ã™ã‚‹ï¼ˆå¤±æ•—æ™‚ã¯-1ï¼‰
+//   dst    : å‡ºåŠ›æ–‡å­—åˆ—
 //=====================================================================
 
-// getStrItem    : æ“ª‚©‚ç‚Ìquote‚Í”F¯A“r’†•¶š‚©‚ç‚Ìquote‚Í–³‹
-// getStrWord    : ƒXƒy[ƒX+ƒRƒ“ƒ}‹æØ‚èAƒRƒ“ƒ}©‘Ì‚Í”ò‚Î‚µ‚Ä“Ç‚Ş
-// getStrCsv     : CSVŒ`®‚Ì1€–Ú‚ğæ“¾
-// getStrItemCmd : ƒRƒ}ƒ“ƒh“Ç‚İ‚İ—p
-// getStrItemArg : ˆø”—pBquoteˆÍ‚İ‚ğ‘±‚¯‚Ä˜AŒ‹‚ğ‹–‰Â
-// getStrItemMonitor : •\¦—pBquote‚ÍÁ‚³‚È‚¢
-// getStrItemWithQuote : Å‰‚ÆÅŒã‚Ìquote‚ğc‚·B•¶š—ñğŒ‚Ì”»’è—p
+// getStrItem    : å…ˆé ­ã‹ã‚‰ã®quoteã¯èªè­˜ã€é€”ä¸­æ–‡å­—ã‹ã‚‰ã®quoteã¯ç„¡è¦–
+// getStrWord    : ã‚¹ãƒšãƒ¼ã‚¹+ã‚³ãƒ³ãƒåŒºåˆ‡ã‚Šã€ã‚³ãƒ³ãƒè‡ªä½“ã¯é£›ã°ã—ã¦èª­ã‚€
+// getStrCsv     : CSVå½¢å¼ã®1é …ç›®ã‚’å–å¾—
+// getStrItemCmd : ã‚³ãƒãƒ³ãƒ‰èª­ã¿è¾¼ã¿ç”¨
+// getStrItemArg : å¼•æ•°ç”¨ã€‚quoteå›²ã¿ã‚’ç¶šã‘ã¦é€£çµã‚’è¨±å¯
+// getStrItemMonitor : è¡¨ç¤ºç”¨ã€‚quoteã¯æ¶ˆã•ãªã„
+// getStrItemWithQuote : æœ€åˆã¨æœ€å¾Œã®quoteã‚’æ®‹ã™ã€‚æ–‡å­—åˆ—æ¡ä»¶ã®åˆ¤å®šç”¨
 
-//--- •¶š—ñ‚©‚çƒXƒy[ƒX‹æØ‚è‚Å‚P’PŒê‚ğ“Ç‚İ‚Ş ---
+//--- æ–‡å­—åˆ—ã‹ã‚‰ã‚¹ãƒšãƒ¼ã‚¹åŒºåˆ‡ã‚Šã§ï¼‘å˜èªã‚’èª­ã¿è¾¼ã‚€ ---
 int CnvStrTime::getStrItem(string &dst, const string &cstr, int pos){
 	ArgItemType itype = {};
 	itype.dstype = DELIMIT_SPACE_QUOTE;
@@ -540,7 +540,7 @@ int CnvStrTime::getStrItem(string &dst, const string &cstr, int pos){
 	itype.emptyok = false;
 	return getStrItemHubStr(dst, cstr, pos, itype);
 }
-//--- •¶š—ñ‚©‚ç‚P’PŒê‚ğ“Ç‚İ‚ŞiƒXƒy[ƒXˆÈŠO‚É","‚ğ‹æØ‚è‚Æ‚µ‚Ä”F¯j ---
+//--- æ–‡å­—åˆ—ã‹ã‚‰ï¼‘å˜èªã‚’èª­ã¿è¾¼ã‚€ï¼ˆã‚¹ãƒšãƒ¼ã‚¹ä»¥å¤–ã«","ã‚’åŒºåˆ‡ã‚Šã¨ã—ã¦èªè­˜ï¼‰ ---
 int CnvStrTime::getStrWord(string &dst, const string &cstr, int pos){
 	ArgItemType itype = {};
 	itype.dstype = DELIMIT_SPACE_COMMA;
@@ -552,27 +552,27 @@ int CnvStrTime::getStrWord(string &dst, const string &cstr, int pos){
 	itype.emptyok = false;
 	return getStrItemHubStr(dst, cstr, pos, itype);
 }
-//--- •¶š—ñ‚©‚çCSVŒ`®‚Ì1€–Ú‚ğæ“¾ ---
+//--- æ–‡å­—åˆ—ã‹ã‚‰CSVå½¢å¼ã®1é …ç›®ã‚’å–å¾— ---
 int CnvStrTime::getStrCsv(string &dst, const string &cstr, int pos){
 	ArgItemType itype = {};
 	itype.dstype = DELIMIT_CSV;
-	itype.concat = true;		// ƒ_ƒuƒ‹ƒNƒH[ƒgŒ‹‡i“Áêˆ—j‚ ‚è
+	itype.concat = true;		// ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆçµåˆï¼ˆç‰¹æ®Šå‡¦ç†ï¼‰ã‚ã‚Š
 	itype.separate = false;
 	itype.remain = false;
 	itype.defstr = false;
 	itype.qdisp  = false;
-	itype.emptyok = true;		// ƒf[ƒ^‚È‚µ‚à‹–‰Â
+	itype.emptyok = true;		// ãƒ‡ãƒ¼ã‚¿ãªã—ã‚‚è¨±å¯
 	return getStrItemHubStr(dst, cstr, pos, itype);
 }
-//--- •¶š—ñ‚©‚çƒXƒy[ƒX‹æØ‚è‚Å‚P’PŒê‚ğ“Ç‚İ‚ŞiƒRƒ}ƒ“ƒhæ“¾—pj ---
+//--- æ–‡å­—åˆ—ã‹ã‚‰ã‚¹ãƒšãƒ¼ã‚¹åŒºåˆ‡ã‚Šã§ï¼‘å˜èªã‚’èª­ã¿è¾¼ã‚€ï¼ˆã‚³ãƒãƒ³ãƒ‰å–å¾—ç”¨ï¼‰ ---
 int CnvStrTime::getStrItemCmd(string &dst, const string &cstr, int pos){
 	return getStrItemHubFunc(dst, cstr, pos, DELIMIT_FUNC_NAME);
 }
-//--- •¶š—ñ‚©‚çƒXƒy[ƒX‹æØ‚è‚Å‚P’PŒê‚ğ“Ç‚İ‚Şiquote‘OŒã‚É‹æØ‚è‚È‚¯‚ê‚ÎŒ‹‡j ---
+//--- æ–‡å­—åˆ—ã‹ã‚‰ã‚¹ãƒšãƒ¼ã‚¹åŒºåˆ‡ã‚Šã§ï¼‘å˜èªã‚’èª­ã¿è¾¼ã‚€ï¼ˆquoteå‰å¾Œã«åŒºåˆ‡ã‚Šãªã‘ã‚Œã°çµåˆï¼‰ ---
 int CnvStrTime::getStrItemArg(string &dst, const string &cstr, int pos){
 	ArgItemType itype = {};
 	itype.dstype = DELIMIT_SPACE_QUOTE;
-	itype.concat = true;		// Œ‹‡‚ ‚è
+	itype.concat = true;		// çµåˆã‚ã‚Š
 	itype.separate = false;
 	itype.remain = false;
 	itype.defstr = false;
@@ -580,25 +580,25 @@ int CnvStrTime::getStrItemArg(string &dst, const string &cstr, int pos){
 	itype.emptyok = false;
 	return getStrItemHubStr(dst, cstr, pos, itype);
 }
-//--- quote‚Í‚»‚Ì‚Ü‚Ü•\¦‚·‚é ---
+//--- quoteã¯ãã®ã¾ã¾è¡¨ç¤ºã™ã‚‹ ---
 int CnvStrTime::getStrItemMonitor(string &dst, const string &cstr, int pos){
 	ArgItemType itype = {};
 	itype.dstype = DELIMIT_SPACE_QUOTE;
-	itype.concat = true;		// Œ‹‡‚ ‚è
+	itype.concat = true;		// çµåˆã‚ã‚Š
 	itype.separate = false;
-	itype.remain = true;		// æ“ªÅŒãquote‚Í‚»‚Ì‚Ü‚Üo—Í
+	itype.remain = true;		// å…ˆé ­æœ€å¾Œquoteã¯ãã®ã¾ã¾å‡ºåŠ›
 	itype.defstr = false;
-	itype.qdisp  = true;		// “à•”‚Ìquote‚Í‚»‚Ì‚Ü‚Üo—Í
+	itype.qdisp  = true;		// å†…éƒ¨ã®quoteã¯ãã®ã¾ã¾å‡ºåŠ›
 	itype.emptyok = false;
 	return getStrItemHubStr(dst, cstr, pos, itype);
 }
-//--- quote‚à‹æØ‚è‚Åc‚µ‚½‚Ü‚Ü•¶š—ñ‚©‚ç‚P’PŒê‚ğ“Ç‚İ‚Şi˜A‘±quote‚Ìê‡‚Ì‚İŒ‹‡j ---
+//--- quoteã‚‚åŒºåˆ‡ã‚Šã§æ®‹ã—ãŸã¾ã¾æ–‡å­—åˆ—ã‹ã‚‰ï¼‘å˜èªã‚’èª­ã¿è¾¼ã‚€ï¼ˆé€£ç¶šquoteã®å ´åˆã®ã¿çµåˆï¼‰ ---
 int CnvStrTime::getStrItemWithQuote(string &dst, const string &cstr, int pos){
 	ArgItemType itype = {};
 	itype.dstype = DELIMIT_SPACE_QUOTE;
-	itype.concat = true;		// Œ‹‡‚ ‚è
-	itype.separate = true;		// "aa"=="bb"‚ÌƒP[ƒX‚Å==‚Ì‘OŒã‚Å•ª—£
-	itype.remain = true;		// €–Ú‚Ìæ“ª‚ÆÅŒã‚Ìqyote‚Íc‚·
+	itype.concat = true;		// çµåˆã‚ã‚Š
+	itype.separate = true;		// "aa"=="bb"ã®ã‚±ãƒ¼ã‚¹ã§==ã®å‰å¾Œã§åˆ†é›¢
+	itype.remain = true;		// é …ç›®ã®å…ˆé ­ã¨æœ€å¾Œã®qyoteã¯æ®‹ã™
 	itype.defstr = false;
 	itype.qdisp  = false;
 	itype.emptyok = false;
@@ -606,7 +606,7 @@ int CnvStrTime::getStrItemWithQuote(string &dst, const string &cstr, int pos){
 }
 
 //---------------------------------------------------------------------
-// ƒRƒƒ“ƒg‚ğœ‚¢‚Ä•¶š—ñæ“¾
+// ã‚³ãƒ¡ãƒ³ãƒˆã‚’é™¤ã„ã¦æ–‡å­—åˆ—å–å¾—
 //---------------------------------------------------------------------
 int CnvStrTime::getStrWithoutComment(string &dst, const string &cstr){
 	int poscmt = getStrPosComment(cstr, 0);
@@ -620,20 +620,20 @@ int CnvStrTime::getStrWithoutComment(string &dst, const string &cstr){
 	return poscmt;
 }
 //---------------------------------------------------------------------
-// ƒRƒƒ“ƒg‚Æ‚µ‚Ä‚Ì#ˆÊ’u‚ğæ“¾
+// ã‚³ãƒ¡ãƒ³ãƒˆã¨ã—ã¦ã®#ä½ç½®ã‚’å–å¾—
 //---------------------------------------------------------------------
 int CnvStrTime::getStrPosComment(const string &cstr, int pos){
 	return getStrPosChar(cstr, '#', false, pos);
 }
 //---------------------------------------------------------------------
-// •Ï”‚Æ‚µ‚Ä‚Ì$ˆÊ’u‚ğæ“¾
+// å¤‰æ•°ã¨ã—ã¦ã®$ä½ç½®ã‚’å–å¾—
 //---------------------------------------------------------------------
 int CnvStrTime::getStrPosReplaceVar(const string &cstr, int pos){
 	return getStrPosChar(cstr, '$', true, pos);
 }
 //---------------------------------------------------------------------
-// w’è§Œä•¶š‚ªposˆÈ~‚ÅÅ‰‚ÉŒ»‚ê‚éˆÊ’u‚ğæ“¾i“WŠJ‚µ‚È‚¢ˆø—p•„“à‚Íœ‚­j
-//   expand : true=ƒ_ƒuƒ‹ƒNƒH[ƒg“à‚Í“WŠJ‚·‚é
+// æŒ‡å®šåˆ¶å¾¡æ–‡å­—ãŒposä»¥é™ã§æœ€åˆã«ç¾ã‚Œã‚‹ä½ç½®ã‚’å–å¾—ï¼ˆå±•é–‹ã—ãªã„å¼•ç”¨ç¬¦å†…ã¯é™¤ãï¼‰
+//   expand : true=ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆå†…ã¯å±•é–‹ã™ã‚‹
 //---------------------------------------------------------------------
 int CnvStrTime::getStrPosChar(const string &cstr, char chsel, bool expand, int pos){
 	int possel = -1;
@@ -644,27 +644,27 @@ int CnvStrTime::getStrPosChar(const string &cstr, char chsel, bool expand, int p
 	int len = (int) cstr.length();
 	for(int i=0; i<len; i++){
 		char cht = cstr[i];
-		if ( nextSp ){		// “Áê•¶šˆ—
-			if ( cht == '#' ){	// $#‚Í“Áêˆ—
+		if ( nextSp ){		// ç‰¹æ®Šæ–‡å­—å‡¦ç†
+			if ( cht == '#' ){	// $#ã¯ç‰¹æ®Šå‡¦ç†
 				nextSp = false;
 				continue;
 			}
 		}
 		bool check = ( expand || flagQw == false ) && ( flagQs == false );
 		if ( check && i >= pos && cht == chsel ){
-			if ( chsel == '$' ){	// •Ï”ŒŸõ‚Ì“Áêˆ—
+			if ( chsel == '$' ){	// å¤‰æ•°æ¤œç´¢æ™‚ã®ç‰¹æ®Šå‡¦ç†
 				char chn = cstr[i+1];
 				if ( (0x00 <= chn && chn <  '0' ) ||
 				     ( '9' <  chn && chn <  'A' ) ||
 				     ( 'Z' <  chn && chn <  'a' ) ||
 				     ( 'z' <  chn && chn <= 0x7F) ){
 					if ( chn != '#' && chn != '{' && chn != '_' ){
-						continue;		// $’¼Œã‚ª•Ï”‚Æ–³ŠÖŒW‚Ì‹L†‚Å‚ ‚ê‚Î•Ï”‚Æ”F¯‚µ‚È‚¢
+						continue;		// $ç›´å¾ŒãŒå¤‰æ•°ã¨ç„¡é–¢ä¿‚ã®è¨˜å·ã§ã‚ã‚Œã°å¤‰æ•°ã¨èªè­˜ã—ãªã„
 					}
 				}
 			}
 			possel = i;
-			break;			// Œ‹‰ÊŠi”[‚µ‚½‚çI—¹
+			break;			// çµæœæ ¼ç´ã—ãŸã‚‰çµ‚äº†
 		}
 		else if ( flagQw ){
 			if ( cht == '\"' ) flagQw = false;
@@ -675,7 +675,7 @@ int CnvStrTime::getStrPosChar(const string &cstr, char chsel, bool expand, int p
 		else{
 			switch( cht ){
 				case '#' :
-					if ( poscmt < 0 ) poscmt = i;	// ƒRƒƒ“ƒgˆÊ’u
+					if ( poscmt < 0 ) poscmt = i;	// ã‚³ãƒ¡ãƒ³ãƒˆä½ç½®
 					break;
 				case '$' :
 					nextSp = true;
@@ -694,8 +694,8 @@ int CnvStrTime::getStrPosChar(const string &cstr, char chsel, bool expand, int p
 	return possel;
 }
 //---------------------------------------------------------------------
-// •¶š—ñ‚©‚ç .. ‚É‚æ‚é”ÍˆÍw’è‚ğŠÜ‚Ş®”‚ğæ“¾‚µ‚Ä•¶š—ñ‚Æ‚µ‚Ä•Ô‚·
-// æ“¾‚Å‚«‚È‚©‚Á‚½‚Í•Ô‚è’l‚ªƒ}ƒCƒiƒX‚É‚È‚é‚ªA³íI—¹‚È‚çdst‚ª‹óAˆÙí‚È‚ç•¶š—ñ‚ª“ü‚é
+// æ–‡å­—åˆ—ã‹ã‚‰ .. ã«ã‚ˆã‚‹ç¯„å›²æŒ‡å®šã‚’å«ã‚€æ•´æ•°ã‚’å–å¾—ã—ã¦æ–‡å­—åˆ—ã¨ã—ã¦è¿”ã™
+// å–å¾—ã§ããªã‹ã£ãŸæ™‚ã¯è¿”ã‚Šå€¤ãŒãƒã‚¤ãƒŠã‚¹ã«ãªã‚‹ãŒã€æ­£å¸¸çµ‚äº†ãªã‚‰dstãŒç©ºã€ç•°å¸¸ãªã‚‰æ–‡å­—åˆ—ãŒå…¥ã‚‹
 //---------------------------------------------------------------------
 int CnvStrTime::getStrMultiNum(string &dst, const string &cstr, int pos){
 	int posBak = pos;
@@ -703,7 +703,7 @@ int CnvStrTime::getStrMultiNum(string &dst, const string &cstr, int pos){
 	pos = getStrWord(strTmp, cstr, pos);
 	if ( pos >= 0 ){
 		int rloc = (int)strTmp.find("..");
-		if ( rloc != (int)string::npos ){			// ..‚É‚æ‚é”ÍˆÍİ’è
+		if ( rloc != (int)string::npos ){			// ..ã«ã‚ˆã‚‹ç¯„å›²è¨­å®šæ™‚
 			string strSt = strTmp.substr(0, rloc);
 			string strEd = strTmp.substr(rloc+2);
 			int valSt;
@@ -731,17 +731,17 @@ int CnvStrTime::getStrMultiNum(string &dst, const string &cstr, int pos){
 		}
 	}else{
 		pos = getStrItem(strTmp, cstr, posBak);
-		if ( pos >= 0 ){		// ƒŠƒXƒg‚Åæ“¾‚Å‚«‚È‚¢ƒf[ƒ^‚ªc‚Á‚Ä‚¢‚é‚Í•¶š‚ğ“ü‚ê‚é
+		if ( pos >= 0 ){		// ãƒªã‚¹ãƒˆã§å–å¾—ã§ããªã„ãƒ‡ãƒ¼ã‚¿ãŒæ®‹ã£ã¦ã„ã‚‹æ™‚ã¯æ–‡å­—ã‚’å…¥ã‚Œã‚‹
 			pos = -1;
 			dst = strTmp;
-		}else{					// ƒf[ƒ^I—¹‚È‚ç‹ó•¶š—ñ
+		}else{					// ãƒ‡ãƒ¼ã‚¿çµ‚äº†ãªã‚‰ç©ºæ–‡å­—åˆ—
 			dst.clear();
 		}
 	}
 	return pos;
 }
 //---------------------------------------------------------------------
-// Å‘å’lmaxNum‚Ì”ÍˆÍ‚ ‚è”’l•¶š—ñ“à‚ÉcurNum‚ª‘¶İ‚·‚é‚©
+// æœ€å¤§å€¤maxNumã®ç¯„å›²ã‚ã‚Šæ•°å€¤æ–‡å­—åˆ—å†…ã«curNumãŒå­˜åœ¨ã™ã‚‹ã‹
 //---------------------------------------------------------------------
 bool CnvStrTime::isStrMultiNumIn(const string &cstr, int curNum, int maxNum){
 	bool exist = false;
@@ -752,7 +752,7 @@ bool CnvStrTime::isStrMultiNumIn(const string &cstr, int curNum, int maxNum){
 		if ( pos < 0 ) break;
 
 		int rloc = (int)strVal.find("..");
-		if ( rloc == (int)string::npos ){		// ’Êí‚Ì”’l
+		if ( rloc == (int)string::npos ){		// é€šå¸¸ã®æ•°å€¤
 			int val = stoi(strVal);
 			if ( (val == 0) || (val == curNum) || (maxNum + val + 1 == curNum) ){
 				exist = true;
@@ -765,7 +765,7 @@ bool CnvStrTime::isStrMultiNumIn(const string &cstr, int curNum, int maxNum){
 			if ( curNum % 2 == 0 ){
 				exist = true;
 			}
-		}else{								// ”ÍˆÍw’è
+		}else{								// ç¯„å›²æŒ‡å®š
 			string strSt = strVal.substr(0, rloc);
 			string strEd = strVal.substr(rloc+2);
 			int valSt = stoi(strSt);
@@ -784,11 +784,11 @@ bool CnvStrTime::isStrMultiNumIn(const string &cstr, int curNum, int maxNum){
 	return exist;
 }
 //=====================================================================
-// ŠÔ‚ğ•¶š—ñiƒtƒŒ[ƒ€‚Ü‚½‚Íƒ~ƒŠ•bj‚É•ÏŠ·
+// æ™‚é–“ã‚’æ–‡å­—åˆ—ï¼ˆãƒ•ãƒ¬ãƒ¼ãƒ ã¾ãŸã¯ãƒŸãƒªç§’ï¼‰ã«å¤‰æ›
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒtƒŒ[ƒ€”‚Ü‚½‚ÍŠÔ•\‹Li-1‚Í‚»‚Ì‚Ü‚Üc‚·j
+// ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã¾ãŸã¯æ™‚é–“è¡¨è¨˜ï¼ˆ-1ã¯ãã®ã¾ã¾æ®‹ã™ï¼‰
 //---------------------------------------------------------------------
 string CnvStrTime::getStringMsecM1(Msec msec_val){
 	bool type_frm = false;
@@ -799,21 +799,21 @@ string CnvStrTime::getStringMsecM1(Msec msec_val){
 }
 
 //---------------------------------------------------------------------
-// ƒtƒŒ[ƒ€•\‹Li-1‚Í‚»‚Ì‚Ü‚Üc‚·j
+// ãƒ•ãƒ¬ãƒ¼ãƒ è¡¨è¨˜ï¼ˆ-1ã¯ãã®ã¾ã¾æ®‹ã™ï¼‰
 //---------------------------------------------------------------------
 string CnvStrTime::getStringFrameMsecM1(Msec msec_val){
 	return getStringMsecM1All(msec_val, true);
 }
 
 //---------------------------------------------------------------------
-// ŠÔ•\‹Li-1‚Í‚»‚Ì‚Ü‚Üc‚·j
+// æ™‚é–“è¡¨è¨˜ï¼ˆ-1ã¯ãã®ã¾ã¾æ®‹ã™ï¼‰
 //---------------------------------------------------------------------
 string CnvStrTime::getStringTimeMsecM1(Msec msec_val){
 	return getStringMsecM1All(msec_val, false);
 }
 
 //---------------------------------------------------------------------
-// ŠÔ‚ğ•¶š—ñiƒtƒŒ[ƒ€‚Ü‚½‚ÍŠÔ•\‹Lj‚É•ÏŠ·
+// æ™‚é–“ã‚’æ–‡å­—åˆ—ï¼ˆãƒ•ãƒ¬ãƒ¼ãƒ ã¾ãŸã¯æ™‚é–“è¡¨è¨˜ï¼‰ã«å¤‰æ›
 //---------------------------------------------------------------------
 string CnvStrTime::getStringMsecM1All(Msec msec_val, bool type_frm){
 	string str_val;
@@ -848,7 +848,7 @@ string CnvStrTime::getStringMsecM1All(Msec msec_val, bool type_frm){
 
 
 //---------------------------------------------------------------------
-// ”’l‚ğ•¶š—ñ‚É•ÏŠ·iãˆÊ0–„‚ßj
+// æ•°å€¤ã‚’æ–‡å­—åˆ—ã«å¤‰æ›ï¼ˆä¸Šä½0åŸ‹ã‚ï¼‰
 //---------------------------------------------------------------------
 string CnvStrTime::getStringZeroRight(int val, int len){
 	string str_val = "";
@@ -864,10 +864,10 @@ string CnvStrTime::getStringZeroRight(int val, int len){
 
 //=====================================================================
 //
-// •¶š—ñˆ—‚Ì“à•”ŠÖ”
+// æ–‡å­—åˆ—å‡¦ç†ã®å†…éƒ¨é–¢æ•°
 //
 //=====================================================================
-//--- w’èˆÊ’u‚Ì•¶šiƒ}ƒ‹ƒ`ƒoƒCƒgjƒoƒCƒg”‚ğ•Ô‚· ---
+//--- æŒ‡å®šä½ç½®ã®æ–‡å­—ï¼ˆãƒãƒ«ãƒãƒã‚¤ãƒˆï¼‰ãƒã‚¤ãƒˆæ•°ã‚’è¿”ã™ ---
 int CnvStrTime::getMbStrSize(const string& str, int n){
 	return getMbStrSizeUtf8(str, n);
 }
@@ -898,10 +898,10 @@ int CnvStrTime::getMbStrSizeUtf8(const string& str, int n){
 	}
 	return 4;
 }
-//--- n•¶š–Ú‚ªƒ}ƒ‹ƒ`ƒoƒCƒg‚Å2”Ô–ÚˆÈ~‚Ì•¶š‚Å‚ ‚ê‚Îtrue‚ğ•Ô‚· ---
+//--- næ–‡å­—ç›®ãŒãƒãƒ«ãƒãƒã‚¤ãƒˆã§2ç•ªç›®ä»¥é™ã®æ–‡å­—ã§ã‚ã‚Œã°trueã‚’è¿”ã™ ---
 bool CnvStrTime::isStrMbSecond(const string& str, int n){
-	if ( n >= (int)str.length() ) return false;	// ˆÙí‚ğœ‚­
-	std::mblen(nullptr, 0);		// •ÏŠ·ó‘Ô‚ğƒŠƒZƒbƒg
+	if ( n >= (int)str.length() ) return false;	// ç•°å¸¸ã‚’é™¤ã
+	std::mblen(nullptr, 0);		// å¤‰æ›çŠ¶æ…‹ã‚’ãƒªã‚»ãƒƒãƒˆ
 	int i = 0;
 	while( i<n && i>=0 ){
 		int mbsize = getMbStrSize(str, i);
@@ -914,22 +914,22 @@ bool CnvStrTime::isStrMbSecond(const string& str, int n){
 }
 
 //---------------------------------------------------------------------
-// •¶š—ñ‚©‚ç‚P’PŒê‚ğ“Ç‚İ‚İ”’liƒ~ƒŠ•bj‚Æ‚µ‚ÄŠi”[i”’lˆÈŠO‚ª‚ ‚ê‚Î“Ç‚İ‚İ¸”s‚ğ•Ô‚·j
-// cstr•¶š—ñ‚ÌˆÊ’upos‚©‚ç‚P’PŒê‚ğ“Ç‚İ‚İA”’l‚ğval‚Éo—Í
-// “ü—ÍF
-//   cstr : •¶š—ñ
-//   pos  : ”F¯ŠJnˆÊ’u
-//   unitsec : ®”•”•ª‚Ì’PˆÊi0=ƒtƒŒ[ƒ€”  1=•b”  2=’PˆÊ•ÏŠ·‚È‚µj
-// o—ÍF
-//   •Ô‚è’lF “Ç‚İI‚í‚Á‚½ˆÊ’u‚ğ•Ô‚è’l‚Æ‚·‚éi¸”s‚Í-1j
-//   val    : ”’liƒ~ƒŠ•bj
+// æ–‡å­—åˆ—ã‹ã‚‰ï¼‘å˜èªã‚’èª­ã¿è¾¼ã¿æ•°å€¤ï¼ˆãƒŸãƒªç§’ï¼‰ã¨ã—ã¦æ ¼ç´ï¼ˆæ•°å€¤ä»¥å¤–ãŒã‚ã‚Œã°èª­ã¿è¾¼ã¿å¤±æ•—ã‚’è¿”ã™ï¼‰
+// cstræ–‡å­—åˆ—ã®ä½ç½®posã‹ã‚‰ï¼‘å˜èªã‚’èª­ã¿è¾¼ã¿ã€æ•°å€¤ã‚’valã«å‡ºåŠ›
+// å…¥åŠ›ï¼š
+//   cstr : æ–‡å­—åˆ—
+//   pos  : èªè­˜é–‹å§‹ä½ç½®
+//   unitsec : æ•´æ•°éƒ¨åˆ†ã®å˜ä½ï¼ˆ0=ãƒ•ãƒ¬ãƒ¼ãƒ æ•°  1=ç§’æ•°  2=å˜ä½å¤‰æ›ãªã—ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š èª­ã¿çµ‚ã‚ã£ãŸä½ç½®ã‚’è¿”ã‚Šå€¤ã¨ã™ã‚‹ï¼ˆå¤±æ•—æ™‚ã¯-1ï¼‰
+//   val    : æ•°å€¤ï¼ˆãƒŸãƒªç§’ï¼‰
 //---------------------------------------------------------------------
 int CnvStrTime::getStrValSub(int &val, const string &cstr, int pos, int unitsec){
 	return getStrValSubDelimit(val, cstr, pos, unitsec, DELIMIT_SPACE_ONLY);
 }
 
 //---------------------------------------------------------------------
-// ‹æØ‚è‘I‘ğ’Ç‰Á‚µ‚Ä‰‰ZÀs
+// åŒºåˆ‡ã‚Šé¸æŠè¿½åŠ ã—ã¦æ¼”ç®—å®Ÿè¡Œ
 //---------------------------------------------------------------------
 int CnvStrTime::getStrValSubDelimit(int &val, const string &cstr, int pos, int unitsec, DelimtStrType type){
 	int st, ed;
@@ -949,15 +949,15 @@ int CnvStrTime::getStrValSubDelimit(int &val, const string &cstr, int pos, int u
 
 
 //---------------------------------------------------------------------
-// ‚P€–Ú‚Ì•¶š—ñˆÊ’u”ÍˆÍ‚ğæ“¾
-// “ü—ÍF
-//   cstr : •¶š—ñ
-//   pos  : “Ç‚İ‚İŠJnˆÊ’u
-//   type : í—Şi0=ƒXƒy[ƒX‹æØ‚èQUOTE‰Â  1=ƒXƒy[ƒX‹æØ‚è  2=1+ƒRƒ“ƒ}‚à‹æØ‚è  3=Å‰‚Ì”š•”•ª‚Ì‚İ
-// o—ÍF
-//   •Ô‚è’lF “Ç‚İ‚İI—¹ˆÊ’u
-//   st   : ”F¯ŠJnˆÊ’u
-//   ed   : ”F¯I—¹ˆÊ’u
+// ï¼‘é …ç›®ã®æ–‡å­—åˆ—ä½ç½®ç¯„å›²ã‚’å–å¾—
+// å…¥åŠ›ï¼š
+//   cstr : æ–‡å­—åˆ—
+//   pos  : èª­ã¿è¾¼ã¿é–‹å§‹ä½ç½®
+//   type : ç¨®é¡ï¼ˆ0=ã‚¹ãƒšãƒ¼ã‚¹åŒºåˆ‡ã‚ŠQUOTEå¯  1=ã‚¹ãƒšãƒ¼ã‚¹åŒºåˆ‡ã‚Š  2=1+ã‚³ãƒ³ãƒã‚‚åŒºåˆ‡ã‚Š  3=æœ€åˆã®æ•°å­—éƒ¨åˆ†ã®ã¿
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š èª­ã¿è¾¼ã¿çµ‚äº†ä½ç½®
+//   st   : èªè­˜é–‹å§‹ä½ç½®
+//   ed   : èªè­˜çµ‚äº†ä½ç½®
 //---------------------------------------------------------------------
 int CnvStrTime::getStrItemHubRange(int &st, int &ed, const string &cstr, int pos, DelimtStrType type){
 	ArgItemType itype = {};
@@ -972,11 +972,11 @@ int CnvStrTime::getStrItemHubRange(int &st, int &ed, const string &cstr, int pos
 	return getStrItemCommon(strDmy, st, ed, cstr, pos, itype);
 }
 //---------------------------------------------------------------------
-// ŠÖ”ƒ^ƒCƒv‚P€–Ú‚Ì•¶š—ñæ“¾
+// é–¢æ•°ã‚¿ã‚¤ãƒ—ï¼‘é …ç›®ã®æ–‡å­—åˆ—å–å¾—
 //---------------------------------------------------------------------
 int CnvStrTime::getStrItemHubFunc(string& dstr, const string &cstr, int pos, DelimtStrType dstype){
 	ArgItemType itype = {};
-	if ( dstype == DELIMIT_FUNC_NAME ){		// ŠÖ”–¼‘O•”•ª
+	if ( dstype == DELIMIT_FUNC_NAME ){		// é–¢æ•°åå‰éƒ¨åˆ†
 		itype.dstype = dstype;
 		itype.concat = false;
 		itype.separate = false;
@@ -996,22 +996,22 @@ int CnvStrTime::getStrItemHubFunc(string& dstr, const string &cstr, int pos, Del
 	int st, ed;
 	return getStrItemCommon(dstr, st, ed, cstr, pos, itype);
 }
-//--- æ“¾ˆÊ’u•s—v‚Å•¶š—ñ‚ÆI—¹ˆÊ’u‚ğ•Ô‚· ---
+//--- å–å¾—ä½ç½®ä¸è¦ã§æ–‡å­—åˆ—ã¨çµ‚äº†ä½ç½®ã‚’è¿”ã™ ---
 int CnvStrTime::getStrItemHubStr(string& dstr, const string &cstr, int pos, ArgItemType itype){
 	int st, ed;
 	return getStrItemCommon(dstr, st, ed, cstr, pos, itype);
 }
 //---------------------------------------------------------------------
-// ‚P€–Ú‚Ì•¶š—ñ‚ğæ“¾
+// ï¼‘é …ç›®ã®æ–‡å­—åˆ—ã‚’å–å¾—
 //---------------------------------------------------------------------
-// •¶š—ñ‚Æ”ÍˆÍ‚ğæ“¾i‹¤’Êİ’èj
+// æ–‡å­—åˆ—ã¨ç¯„å›²ã‚’å–å¾—ï¼ˆå…±é€šè¨­å®šï¼‰
 int CnvStrTime::getStrItemCommon(string& dstr, int &st, int &ed, const string &cstr, int pos, ArgItemType itype){
 	if (pos < 0) return pos;
 
 	int pos_before = pos;
 	QuoteType qtype = {};
 
-	//--- trim lefti‹ó”’‚ª‹æØ‚è‚Ìê‡AŸ‚Ì€–Úæ“ª‚Ü‚ÅˆÚ“®j ---
+	//--- trim leftï¼ˆç©ºç™½ãŒåŒºåˆ‡ã‚Šã®å ´åˆã€æ¬¡ã®é …ç›®å…ˆé ­ã¾ã§ç§»å‹•ï¼‰ ---
 	if ( isCharTypeDelim(' ', itype.dstype) ){
 		pos = skipCharSpace(cstr, pos);
 	}
@@ -1040,14 +1040,14 @@ int CnvStrTime::getStrItemCommon(string& dstr, int &st, int &ed, const string &c
 			}
 		}
 	}
-	//--- ŠJnˆÊ’uİ’è ---
+	//--- é–‹å§‹ä½ç½®è¨­å®š ---
 	st = pos;
 	ed = pos;
-	//--- ƒf[ƒ^ˆÊ’uŠm”F ---
+	//--- ãƒ‡ãƒ¼ã‚¿ä½ç½®ç¢ºèª ---
 	bool flagEnd = false;
 	do{
 		char ch = cstr[pos];
-		if (ch == '\0' || dstr.length() >= SIZE_BUF_MAX-1){	// ‹­§I—¹ğŒ
+		if (ch == '\0' || dstr.length() >= SIZE_BUF_MAX-1){	// å¼·åˆ¶çµ‚äº†æ¡ä»¶
 			break;
 		}
 		QuoteState qstate;
@@ -1060,18 +1060,18 @@ int CnvStrTime::getStrItemCommon(string& dstr, int &st, int &ed, const string &c
 			pos ++;
 		}
 	} while( !flagEnd );
-	//--- I—¹ˆÊ’uİ’è ---
-	if ( qtype.flagQw || qtype.flagQs ) {				// QUOTEˆÙí
+	//--- çµ‚äº†ä½ç½®è¨­å®š ---
+	if ( qtype.flagQw || qtype.flagQs ) {				// QUOTEç•°å¸¸
 		pos = -1;
 	}
-	else if ( qtype.existQ ){		// QUOTE‚ÅˆÍ‚Ü‚ê‚½•¶š—ñ
-		if ( itype.remain && !itype.qdisp ){	// “à•”quote‚ÍÁ‚·‚ª‘OŒãˆÍ‚İ‚Íc‚·ê‡
+	else if ( qtype.existQ ){		// QUOTEã§å›²ã¾ã‚ŒãŸæ–‡å­—åˆ—
+		if ( itype.remain && !itype.qdisp ){	// å†…éƒ¨quoteã¯æ¶ˆã™ãŒå‰å¾Œå›²ã¿ã¯æ®‹ã™å ´åˆ
 			if ( qtype.edgeQw ){
 				dstr = "\"" + dstr + "\"";
 			}else{
 				dstr = "\'" + dstr + "\'";
 			}
-		}else if ( !itype.remain && itype.qdisp ){	// “à•”quote‚Íc‚·‚ªŠOüquote‚Íc‚³‚È‚¢ê‡
+		}else if ( !itype.remain && itype.qdisp ){	// å†…éƒ¨quoteã¯æ®‹ã™ãŒå¤–å‘¨quoteã¯æ®‹ã•ãªã„å ´åˆ
 			auto len = dstr.length();
 			if ( len == 2 ){
 				dstr.clear();
@@ -1084,13 +1084,13 @@ int CnvStrTime::getStrItemCommon(string& dstr, int &st, int &ed, const string &c
 		}
 		if ( itype.defstr ){
 			if ( dstr.empty() && pos > st+1 ){
-				dstr = "\"\"";		// o—Í‚È‚µ‚ÅQUOTE“à‚ÉQUOTE‚ ‚éê‡‚ÍQUOTE
+				dstr = "\"\"";		// å‡ºåŠ›ãªã—ã§QUOTEå†…ã«QUOTEã‚ã‚‹å ´åˆã¯QUOTE
 			}
 		}
 	}
-	else if ( dstr.empty() ){	// “Ç‚İ‚İƒf[ƒ^‚È‚¢ê‡
+	else if ( dstr.empty() ){	// èª­ã¿è¾¼ã¿ãƒ‡ãƒ¼ã‚¿ãªã„å ´åˆ
 		if ( itype.emptyok ){
-			if ( pos == pos_before ){	// ƒf[ƒ^‚È‚µ‹–‰Â‚ÍÅ‰‚©‚ç•¶š—ñÅŒã‚Ìê‡‚Ì‚İ–³Œø
+			if ( pos == pos_before ){	// ãƒ‡ãƒ¼ã‚¿ãªã—è¨±å¯æ™‚ã¯æœ€åˆã‹ã‚‰æ–‡å­—åˆ—æœ€å¾Œã®å ´åˆã®ã¿ç„¡åŠ¹
 				pos = -1;
 			}
 		}else{
@@ -1099,9 +1099,9 @@ int CnvStrTime::getStrItemCommon(string& dstr, int &st, int &ed, const string &c
 	}
 	return pos;
 }
-//--- •¶š”F¯ ---
+//--- æ–‡å­—èªè­˜ ---
 bool CnvStrTime::getStrItemCommonCh(QuoteState& qstate, QuoteType& qtype, char ch, bool yet, ArgItemType itype){
-	//--- ˆø—p’†‚Í‹æØ‚èˆÈŠO‚Íƒ`ƒFƒbƒN‚¹‚¸o—Í ---
+	//--- å¼•ç”¨ä¸­ã¯åŒºåˆ‡ã‚Šä»¥å¤–ã¯ãƒã‚§ãƒƒã‚¯ã›ãšå‡ºåŠ› ---
 	if ( qtype.flagQw || qtype.flagQs ){
 		qstate.end = false;
 		qstate.add = true;
@@ -1111,16 +1111,16 @@ bool CnvStrTime::getStrItemCommonCh(QuoteState& qstate, QuoteType& qtype, char c
 			return qstate.end;
 		}
 	}
-	//--- ’Êí‚Ì‹æØ‚è”»’è ---
+	//--- é€šå¸¸ã®åŒºåˆ‡ã‚Šåˆ¤å®š ---
 	qstate.end = isCharTypeDelim(ch, itype.dstype);
 	qstate.add = !qstate.end;
 	qstate.pos = !qstate.end;
-	//--- “Áê•¶šˆ— ---
+	//--- ç‰¹æ®Šæ–‡å­—å‡¦ç† ---
 	bool refind_dq = ( isCharValidDquote(itype.dstype) && (itype.concat || itype.separate) );
 	bool refind_sq = ( isCharValidSquote(itype.dstype) && (itype.concat || itype.separate) );
 	switch(ch){
 		case '\"':
-			if ( qtype.flagQw ){				// ˆø—p•„‚Q‰ñ–Ú
+			if ( qtype.flagQw ){				// å¼•ç”¨ç¬¦ï¼’å›ç›®
 				qstate.add = false;
 				qstate.pos = true;
 				qtype.flagQw = false;
@@ -1129,9 +1129,9 @@ bool CnvStrTime::getStrItemCommonCh(QuoteState& qstate, QuoteType& qtype, char c
 					qstate.end = true;
 				}
 			}
-			else if ( refind_dq ){			// “r’†‚©‚çˆø—p•„‚P‰ñ–Ú
+			else if ( refind_dq ){			// é€”ä¸­ã‹ã‚‰å¼•ç”¨ç¬¦ï¼‘å›ç›®
 				qstate.add = false;
-				if ( itype.separate ){		// QUOTE‚Å•ª—£‚·‚é
+				if ( itype.separate ){		// QUOTEã§åˆ†é›¢ã™ã‚‹æ™‚
 					qstate.end = true;
 					qstate.pos = false;
 				}else{
@@ -1149,7 +1149,7 @@ bool CnvStrTime::getStrItemCommonCh(QuoteState& qstate, QuoteType& qtype, char c
 			}
 			break;
 		case '\'':
-			if ( qtype.flagQs ){				// ˆø—p•„‚Q‰ñ–Ú
+			if ( qtype.flagQs ){				// å¼•ç”¨ç¬¦ï¼’å›ç›®
 				qstate.add = false;
 				qstate.pos = true;
 				qtype.flagQs = false;
@@ -1158,9 +1158,9 @@ bool CnvStrTime::getStrItemCommonCh(QuoteState& qstate, QuoteType& qtype, char c
 					qstate.end = true;
 				}
 			}
-			else if ( refind_sq ){			// “r’†‚©‚çˆø—p•„‚P‰ñ–Ú
+			else if ( refind_sq ){			// é€”ä¸­ã‹ã‚‰å¼•ç”¨ç¬¦ï¼‘å›ç›®
 				qstate.add = false;
-				if ( itype.separate ){		// QUOTE‚Å•ª—£‚·‚é
+				if ( itype.separate ){		// QUOTEã§åˆ†é›¢ã™ã‚‹æ™‚
 					qstate.end = true;
 					qstate.pos = false;
 				}else{
@@ -1183,36 +1183,36 @@ bool CnvStrTime::getStrItemCommonCh(QuoteState& qstate, QuoteType& qtype, char c
 			    ( itype.dstype == DELIMIT_FUNC_ARGS ||
 			      itype.dstype == DELIMIT_FUNC_CALC )){
 				qstate.end = true;
-				qstate.add = yet;		// æ“ª•¶š‚Ì‚Í’Ç‰Á‚µ‚ÄI—¹
+				qstate.add = yet;		// å…ˆé ­æ–‡å­—ã®æ™‚ã¯è¿½åŠ ã—ã¦çµ‚äº†
 				qstate.pos = qstate.add;
 			}
 			break;
 		case ',':
 			if ( itype.dstype == DELIMIT_SPACE_COMMA ||
 			     itype.dstype == DELIMIT_CSV         ){
-				qstate.pos = true;		// Ÿ‰ñ”ò‚Î‚·‹æØ‚è•¶š‚ğ”F¯
+				qstate.pos = true;		// æ¬¡å›é£›ã°ã™åŒºåˆ‡ã‚Šæ–‡å­—ã‚’èªè­˜
 			}
 			break;
 		default:
 			break;
 	}
 	if ( isCharTypeSpace(ch) && itype.dstype == DELIMIT_FUNC_CALC ){
-		qstate.add = false;		// ‰‰Z®’†‚ÌƒXƒy[ƒX‚ÍÈ—ª
+		qstate.add = false;		// æ¼”ç®—å¼ä¸­ã®ã‚¹ãƒšãƒ¼ã‚¹ã¯çœç•¥
 	}
 	return qstate.end;
 }
-//--- ‹ó”’•¶š‚ğ”ò‚Î‚· ---
+//--- ç©ºç™½æ–‡å­—ã‚’é£›ã°ã™ ---
 int CnvStrTime::skipCharSpace(const string &cstr, int pos){
-	//--- trim lefti‹ó”’‚ª‹æØ‚è‚Ìê‡AŸ‚Ì€–Úæ“ª‚Ü‚ÅˆÚ“®j ---
+	//--- trim leftï¼ˆç©ºç™½ãŒåŒºåˆ‡ã‚Šã®å ´åˆã€æ¬¡ã®é …ç›®å…ˆé ­ã¾ã§ç§»å‹•ï¼‰ ---
 	while( isCharTypeSpace(cstr[pos]) ){
 		pos ++;
 	}
 	return pos;
 }
 //---------------------------------------------------------------------
-// •¶š‚Ìí—Ş‚ğæ“¾
+// æ–‡å­—ã®ç¨®é¡ã‚’å–å¾—
 //---------------------------------------------------------------------
-//--- í—Ş‚ğæ“¾ ---
+//--- ç¨®é¡ã‚’å–å¾— ---
 CnvStrTime::CharCtrType CnvStrTime::getCharTypeSub(char ch){
 	CharCtrType typeMark;
 
@@ -1235,7 +1235,7 @@ CnvStrTime::CharCtrType CnvStrTime::getCharTypeSub(char ch){
 	}
 	return typeMark;
 }
-//--- •¶š‚ª‹ó”’‚ğƒ`ƒFƒbƒN ---
+//--- æ–‡å­—ãŒç©ºç™½ã‚’ãƒã‚§ãƒƒã‚¯ ---
 bool CnvStrTime::isCharTypeSpace(char ch){
 	CharCtrType typeMark;
 
@@ -1245,7 +1245,7 @@ bool CnvStrTime::isCharTypeSpace(char ch){
 	}
 	return false;
 }
-//--- ‹ó”’‚©I—¹‚ğƒ`ƒFƒbƒN ---
+//--- ç©ºç™½ã‹çµ‚äº†ã‚’ãƒã‚§ãƒƒã‚¯ ---
 bool CnvStrTime::isCharTypeSpaceEnd(char ch){
 	CharCtrType typeMark;
 
@@ -1255,7 +1255,7 @@ bool CnvStrTime::isCharTypeSpaceEnd(char ch){
 	}
 	return false;
 }
-//--- ‹æØ‚è•¶š‚©ƒ`ƒFƒbƒN ---
+//--- åŒºåˆ‡ã‚Šæ–‡å­—ã‹ãƒã‚§ãƒƒã‚¯ ---
 bool CnvStrTime::isCharTypeDelim(char ch, DelimtStrType dstype){
 	bool flagDelim = false;
 	bool typeSpace = isCharTypeSpace(ch);
@@ -1285,7 +1285,7 @@ bool CnvStrTime::isCharTypeDelim(char ch, DelimtStrType dstype){
 	}
 	return flagDelim;
 }
-//--- double quote‚ª—LŒø‚ÈŒŸõ‚©ƒ`ƒFƒbƒN ---
+//--- double quoteãŒæœ‰åŠ¹ãªæ¤œç´¢ã‹ãƒã‚§ãƒƒã‚¯ ---
 bool CnvStrTime::isCharValidDquote(DelimtStrType dstype){
 	return ( dstype == DELIMIT_SPACE_QUOTE ||
 	         dstype == DELIMIT_SPACE_COMMA ||
@@ -1293,7 +1293,7 @@ bool CnvStrTime::isCharValidDquote(DelimtStrType dstype){
 	         dstype == DELIMIT_FUNC_CALC   ||
 	         dstype == DELIMIT_CSV         );
 }
-//--- single quote‚Ì‚İ–³Œø‚©ƒ`ƒFƒbƒN ---
+//--- single quoteã®ã¿ç„¡åŠ¹ã‹ãƒã‚§ãƒƒã‚¯ ---
 bool CnvStrTime::isCharValidSquote(DelimtStrType dstype){
 	return ( dstype == DELIMIT_SPACE_QUOTE ||
 	         dstype == DELIMIT_SPACE_COMMA ||
@@ -1302,104 +1302,104 @@ bool CnvStrTime::isCharValidSquote(DelimtStrType dstype){
 }
 
 //---------------------------------------------------------------------
-// •¶š—ñ‚ğ‰‰Zˆ—‚µ‚Äƒ~ƒŠŠÔ‚ğæ“¾
-// “ü—ÍF
-//   cstr : •¶š—ñ
-//   st   : ”F¯ŠJnˆÊ’u
-//   ed   : ”F¯I—¹ˆÊ’u
-//   unitsec : ®”•”•ª‚Ì’PˆÊi0=ƒtƒŒ[ƒ€”  1=•b”  2=•ÏŠ·‚È‚µj
-// o—ÍF
-//   •Ô‚è’lF ‰‰ZŒ‹‰Êƒ~ƒŠ•b
+// æ–‡å­—åˆ—ã‚’æ¼”ç®—å‡¦ç†ã—ã¦ãƒŸãƒªæ™‚é–“ã‚’å–å¾—
+// å…¥åŠ›ï¼š
+//   cstr : æ–‡å­—åˆ—
+//   st   : èªè­˜é–‹å§‹ä½ç½®
+//   ed   : èªè­˜çµ‚äº†ä½ç½®
+//   unitsec : æ•´æ•°éƒ¨åˆ†ã®å˜ä½ï¼ˆ0=ãƒ•ãƒ¬ãƒ¼ãƒ æ•°  1=ç§’æ•°  2=å¤‰æ›ãªã—ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š æ¼”ç®—çµæœãƒŸãƒªç§’
 //---------------------------------------------------------------------
 int CnvStrTime::getStrCalc(const string &cstr, int st, int ed, int unitsec){
 	return getStrCalcDecode(cstr, st, ed, unitsec, 0);
 }
 
 //---------------------------------------------------------------------
-// •¶š—ñ‚ğ‰‰Zˆ—‚µ‚Äƒ~ƒŠŠÔ‚ğæ“¾‚Ì”ÍˆÍw’è‰‰Z
-// “ü—ÍF
-//   cstr : •¶š—ñ
-//   st   : ”F¯ŠJnˆÊ’u
-//   ed   : ”F¯I—¹ˆÊ’u
-//   dsec : ®”‚Ì’li0=ƒtƒŒ[ƒ€”  1=•b”j
-//   draw : æœZ’¼Œã‚Ìˆ—i0=’Êí  1=’PˆÊ•ÏŠ·’†~  2=•ÏŠ·‚È‚µj
-// o—ÍF
-//   •Ô‚è’lF ‰‰ZŒ‹‰Êƒ~ƒŠ•b
+// æ–‡å­—åˆ—ã‚’æ¼”ç®—å‡¦ç†ã—ã¦ãƒŸãƒªæ™‚é–“ã‚’å–å¾—ã®ç¯„å›²æŒ‡å®šæ¼”ç®—
+// å…¥åŠ›ï¼š
+//   cstr : æ–‡å­—åˆ—
+//   st   : èªè­˜é–‹å§‹ä½ç½®
+//   ed   : èªè­˜çµ‚äº†ä½ç½®
+//   dsec : æ•´æ•°æ™‚ã®å€¤ï¼ˆ0=ãƒ•ãƒ¬ãƒ¼ãƒ æ•°  1=ç§’æ•°ï¼‰
+//   draw : ä¹—é™¤ç®—ç›´å¾Œã®å‡¦ç†ï¼ˆ0=é€šå¸¸  1=å˜ä½å¤‰æ›ä¸­æ­¢  2=å¤‰æ›ãªã—ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š æ¼”ç®—çµæœãƒŸãƒªç§’
 //---------------------------------------------------------------------
 int CnvStrTime::getStrCalcDecode(const string &cstr, int st, int ed, int dsec, int draw){
-	//--- Ÿ‚É‰‰Z‚ğs‚¤‚Q€‚É•ª‰ğ‚·‚é ---
-	int codeMark_op  = 0;				// ‰‰Zqƒ^ƒCƒv
-	int priorMark_op = 0;				// ‰‰Zq—Dæ‡ˆÊ
-	int nPar_i    = 0;					// Œ»İ‚ÌŠ‡ŒÊ”
-	int nPar_op   = -1;					// ‰‰Z‚Ì‚ ‚éŠ‡ŒÊ”‚ÌÅ¬’l
-	int posOpS    = -1;					// •ª‰ğ‚·‚é‰‰ZqˆÊ’uiŠJnj
-	int posOpE    = -1;					// •ª‰ğ‚·‚é‰‰ZqˆÊ’uiI—¹j
-	int flagHead  = 1;					// ’P€‰‰Zqƒtƒ‰ƒO
-	int flagTwoOp = 0;					// 2•¶š‰‰Zq
+	//--- æ¬¡ã«æ¼”ç®—ã‚’è¡Œã†ï¼’é …ã«åˆ†è§£ã™ã‚‹ ---
+	int codeMark_op  = 0;				// æ¼”ç®—å­ã‚¿ã‚¤ãƒ—
+	int priorMark_op = 0;				// æ¼”ç®—å­å„ªå…ˆé †ä½
+	int nPar_i    = 0;					// ç¾åœ¨ã®æ‹¬å¼§æ•°
+	int nPar_op   = -1;					// æ¼”ç®—ã®ã‚ã‚‹æ‹¬å¼§æ•°ã®æœ€å°å€¤
+	int posOpS    = -1;					// åˆ†è§£ã™ã‚‹æ¼”ç®—å­ä½ç½®ï¼ˆé–‹å§‹ï¼‰
+	int posOpE    = -1;					// åˆ†è§£ã™ã‚‹æ¼”ç®—å­ä½ç½®ï¼ˆçµ‚äº†ï¼‰
+	int flagHead  = 1;					// å˜é …æ¼”ç®—å­ãƒ•ãƒ©ã‚°
+	int flagTwoOp = 0;					// 2æ–‡å­—æ¼”ç®—å­
 	for(int i=st; i<=ed; i++){
-		if (flagTwoOp > 0){				// ‘O‰ñ2•¶š‰‰Zq‚¾‚Á‚½ê‡‚ÍŸ‚Ì•¶š‚Ö
+		if (flagTwoOp > 0){				// å‰å›2æ–‡å­—æ¼”ç®—å­ã ã£ãŸå ´åˆã¯æ¬¡ã®æ–‡å­—ã¸
 			flagTwoOp = 0;
 			continue;
 		}
 		int codeMark_i = getStrCalcCodeChar(cstr[i], flagHead);
-		if (i < ed){								// 2•¶š‰‰Zqƒ`ƒFƒbƒN
+		if (i < ed){								// 2æ–‡å­—æ¼”ç®—å­ãƒã‚§ãƒƒã‚¯
 			int codeMark_two = getStrCalcCodeTwoChar(cstr[i], cstr[i+1], flagHead);
 			if (codeMark_two > 0){
 				codeMark_i = codeMark_two;
 				flagTwoOp = 1;
 			}
 		}
-		if ( codeMark_i == D_CALCOP_ERROR ){	// ‰‰Z‚Å‚«‚È‚¢•¶š
+		if ( codeMark_i == D_CALCOP_ERROR ){	// æ¼”ç®—ã§ããªã„æ–‡å­—
 			throw i;
 		}
 		int categMark_i = getMarkCategory(codeMark_i);
 		int priorMark_i = getMarkPrior(codeMark_i);
-		if (codeMark_i == D_CALCOP_PARS){			// Š‡ŒÊŠJn
+		if (codeMark_i == D_CALCOP_PARS){			// æ‹¬å¼§é–‹å§‹
 			nPar_i ++;
 		}
-		else if (codeMark_i == D_CALCOP_PARE){		// Š‡ŒÊI—¹
+		else if (codeMark_i == D_CALCOP_PARE){		// æ‹¬å¼§çµ‚äº†
 			nPar_i --;
-			if (nPar_i < 0){						// Š‡ŒÊ‚Ì”‚ª‡‚í‚È‚¢ƒGƒ‰[
+			if (nPar_i < 0){						// æ‹¬å¼§ã®æ•°ãŒåˆã‚ãªã„ã‚¨ãƒ©ãƒ¼
 				throw i;
 			}
 		}
-		else if (categMark_i == D_CALCCAT_OP1){		// ’P€‰‰Zq
+		else if (categMark_i == D_CALCCAT_OP1){		// å˜é …æ¼”ç®—å­
 			int next_i = ( flagTwoOp > 0 )? i+2 : i+1;
-			if ( next_i > ed ){						// ’P€‰‰Zq‚ÌŒã‚É‰½‚à‚È‚¢
+			if ( next_i > ed ){						// å˜é …æ¼”ç®—å­ã®å¾Œã«ä½•ã‚‚ãªã„
 				throw i;
 			}
-			if ( codeMark_i == D_CALCOP_SEC ||		// S(•b”)
-			     codeMark_i == D_CALCOP_FRM ){		// F(ƒtƒŒ[ƒ€”)
+			if ( codeMark_i == D_CALCOP_SEC ||		// S(ç§’æ•°)
+			     codeMark_i == D_CALCOP_FRM ){		// F(ãƒ•ãƒ¬ãƒ¼ãƒ æ•°)
 				int codeMarkNext = getStrCalcCodeChar(cstr[next_i], flagHead);
 				if ( codeMarkNext != D_CALCOP_PARS ){
 					throw i;
 				}
 			}
 		}
-		else if (categMark_i == D_CALCCAT_OP2){		// 2€‰‰Zq
+		else if (categMark_i == D_CALCCAT_OP2){		// 2é …æ¼”ç®—å­
 			if ((nPar_op == nPar_i && priorMark_op <= priorMark_i) ||
 				(nPar_op > nPar_i) || posOpS < 0){
-				posOpS = i;							// ˆÊ’u
-				posOpE = (flagTwoOp > 0)? i+1 : i;	// ˆÊ’u
-				priorMark_op = priorMark_i;			// —Dæ‡ˆÊ
-				codeMark_op  = codeMark_i;			// 2€‰‰Zqƒf[ƒ^
-				nPar_op      = nPar_i;				// Š‡ŒÊ”
+				posOpS = i;							// ä½ç½®
+				posOpE = (flagTwoOp > 0)? i+1 : i;	// ä½ç½®
+				priorMark_op = priorMark_i;			// å„ªå…ˆé †ä½
+				codeMark_op  = codeMark_i;			// 2é …æ¼”ç®—å­ãƒ‡ãƒ¼ã‚¿
+				nPar_op      = nPar_i;				// æ‹¬å¼§æ•°
 			}
-			flagHead = 1;							// Ÿ‚ÉŒ»‚ê‚é•¶š‚Í’P€‰‰Zq
+			flagHead = 1;							// æ¬¡ã«ç¾ã‚Œã‚‹æ–‡å­—ã¯å˜é …æ¼”ç®—å­
 		}
-		else{										// ”’lˆµ‚¢
-			flagHead = 0;							// ’P€‰‰Zqƒtƒ‰ƒO‚ÍÁ‚·
+		else{										// æ•°å€¤æ‰±ã„
+			flagHead = 0;							// å˜é …æ¼”ç®—å­ãƒ•ãƒ©ã‚°ã¯æ¶ˆã™
 			if (posOpS < 0 && (nPar_op > nPar_i || nPar_op < 0)){
-				nPar_op = nPar_i;					// ‰‰Zq‚È‚¢ê‡‚ÌŠ‡ŒÊ”•Û
+				nPar_op = nPar_i;					// æ¼”ç®—å­ãªã„å ´åˆã®æ‹¬å¼§æ•°ä¿æŒ
 			}
 		}
 	}
-	if (nPar_i != 0){								// Š‡ŒÊ‚Ì”‚ª‡‚í‚È‚¢ƒGƒ‰[
+	if (nPar_i != 0){								// æ‹¬å¼§ã®æ•°ãŒåˆã‚ãªã„ã‚¨ãƒ©ãƒ¼
 		throw ed;
 	}
-	//--- •s—v‚ÈŠO‘¤‚ÌŠ‡ŒÊ‚ÍŠO‚· ---
+	//--- ä¸è¦ãªå¤–å´ã®æ‹¬å¼§ã¯å¤–ã™ ---
 	int flagLoop = 1;
-	while(nPar_op > 0 && flagLoop > 0){				// Š‡ŒÊŠO‰‰Z‚ª‚È‚¢ê‡‚ª‘ÎÛ
+	while(nPar_op > 0 && flagLoop > 0){				// æ‹¬å¼§å¤–æ¼”ç®—ãŒãªã„å ´åˆãŒå¯¾è±¡
 		int codeMark_s = getStrCalcCodeChar(cstr[st], 1);
 		int codeMark_e = getStrCalcCodeChar(cstr[ed], 0);
 		if (codeMark_s == D_CALCOP_PARS && codeMark_e == D_CALCOP_PARE){
@@ -1407,40 +1407,40 @@ int CnvStrTime::getStrCalcDecode(const string &cstr, int st, int ed, int dsec, i
 			ed --;
 			nPar_op --;
 		}
-		else{										// ŠO‘¤‚ªŠ‡ŒÊˆÈŠO‚È‚çI—¹
+		else{										// å¤–å´ãŒæ‹¬å¼§ä»¥å¤–ãªã‚‰çµ‚äº†
 			flagLoop = 0;
 		}
 	}
-	//--- ‰‰Z‚ÌÀs ---
+	//--- æ¼”ç®—ã®å®Ÿè¡Œ ---
 	int dr;
-	if (posOpS > 0 && nPar_op == 0){				// Ÿ‚Ìˆ—‚ª2€‰‰Zq‚Ìê‡
-		if (posOpS == st || posOpE == ed){			// ‘OŒã‚É€–Ú‚ª‚È‚¢ê‡‚ÍƒGƒ‰[
+	if (posOpS > 0 && nPar_op == 0){				// æ¬¡ã®å‡¦ç†ãŒ2é …æ¼”ç®—å­ã®å ´åˆ
+		if (posOpS == st || posOpE == ed){			// å‰å¾Œã«é …ç›®ãŒãªã„å ´åˆã¯ã‚¨ãƒ©ãƒ¼
 			throw posOpS;
 		}
 		int raw2 = draw;
-		if (codeMark_op == D_CALCOP_MUL ||			// æœZ‚Å‚Í‚Q€–Ú‚Ì’PˆÊ•ÏŠ·‚µ‚È‚¢
+		if (codeMark_op == D_CALCOP_MUL ||			// ä¹—é™¤ç®—ã§ã¯ï¼’é …ç›®ã®å˜ä½å¤‰æ›ã—ãªã„
 			codeMark_op == D_CALCOP_DIV){
 			raw2 = 1;
 		}
-		int d1 = getStrCalcDecode(cstr, st, posOpS-1, dsec, draw);	// ”ÍˆÍ‘I‘ğ‚µ‚ÄÄƒfƒR[ƒh
-		int d2 = getStrCalcDecode(cstr, posOpE+1, ed, dsec, raw2);	// ”ÍˆÍ‘I‘ğ‚µ‚ÄÄƒfƒR[ƒh
-		dr = getStrCalcOp2(d1, d2, codeMark_op);					// 2€‰‰Zˆ—
+		int d1 = getStrCalcDecode(cstr, st, posOpS-1, dsec, draw);	// ç¯„å›²é¸æŠã—ã¦å†ãƒ‡ã‚³ãƒ¼ãƒ‰
+		int d2 = getStrCalcDecode(cstr, posOpE+1, ed, dsec, raw2);	// ç¯„å›²é¸æŠã—ã¦å†ãƒ‡ã‚³ãƒ¼ãƒ‰
+		dr = getStrCalcOp2(d1, d2, codeMark_op);					// 2é …æ¼”ç®—å‡¦ç†
 	}
-	else{											// Ÿ‚Ìˆ—‚ª2€‰‰Zq‚Å‚È‚¢ê‡
+	else{											// æ¬¡ã®å‡¦ç†ãŒ2é …æ¼”ç®—å­ã§ãªã„å ´åˆ
 		int codeMark_s = getStrCalcCodeChar(cstr[st], 1);
 		int categMark_s = getMarkCategory(codeMark_s);
-		if (categMark_s == D_CALCCAT_OP1){						// Ÿ‚Ìˆ—‚ª’P€‰‰Zq‚Ìê‡
+		if (categMark_s == D_CALCCAT_OP1){						// æ¬¡ã®å‡¦ç†ãŒå˜é …æ¼”ç®—å­ã®å ´åˆ
 			if (codeMark_s == D_CALCOP_SEC){
 				dsec = 1;
 			}
 			else if (codeMark_s == D_CALCOP_FRM){
 				dsec = 0;
 			}
-			int d1 = getStrCalcDecode(cstr, st+1, ed, dsec, draw);	// ”ÍˆÍ‘I‘ğ‚µ‚ÄÄƒfƒR[ƒh
-			dr = getStrCalcOp1(d1, codeMark_s);					// ’P€‰‰Zˆ—
+			int d1 = getStrCalcDecode(cstr, st+1, ed, dsec, draw);	// ç¯„å›²é¸æŠã—ã¦å†ãƒ‡ã‚³ãƒ¼ãƒ‰
+			dr = getStrCalcOp1(d1, codeMark_s);					// å˜é …æ¼”ç®—å‡¦ç†
 		}
 		else{
-			dr = getStrCalcTime(cstr, st, ed, dsec, draw);			// ”’lŠÔ‚Ìæ“¾
+			dr = getStrCalcTime(cstr, st, ed, dsec, draw);			// æ•°å€¤æ™‚é–“ã®å–å¾—
 //printf("[%c,%d,%d,%d]",cstr[st],dr,st,ed);
 		}
 	}
@@ -1450,26 +1450,26 @@ int CnvStrTime::getStrCalcDecode(const string &cstr, int st, int ed, int dsec, i
 
 
 //---------------------------------------------------------------------
-// •¶ší—Ş‚Ìæ“¾ - •ª—Ş
+// æ–‡å­—ç¨®é¡ã®å–å¾— - åˆ†é¡
 //---------------------------------------------------------------------
 int CnvStrTime::getMarkCategory(int code){
 	return  (code / 0x1000);
 }
 
 //---------------------------------------------------------------------
-// •¶ší—Ş‚Ìæ“¾ - —Dæ‡ˆÊ
+// æ–‡å­—ç¨®é¡ã®å–å¾— - å„ªå…ˆé †ä½
 //---------------------------------------------------------------------
 int CnvStrTime::getMarkPrior(int code){
 	return ((code % 0x1000) / 0x100);
 }
 
 //---------------------------------------------------------------------
-// ‰‰Z—p‚É•¶š”F¯
-// “ü—ÍF
-//   ch   : ”F¯‚³‚¹‚é•¶š
-//   head : 0=’Êí  1=æ“ª•¶š‚Æ‚µ‚Ä”F¯
-// o—ÍF
-//   •Ô‚è’lF ”F¯ƒR[ƒh
+// æ¼”ç®—ç”¨ã«æ–‡å­—èªè­˜
+// å…¥åŠ›ï¼š
+//   ch   : èªè­˜ã•ã›ã‚‹æ–‡å­—
+//   head : 0=é€šå¸¸  1=å…ˆé ­æ–‡å­—ã¨ã—ã¦èªè­˜
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š èªè­˜ã‚³ãƒ¼ãƒ‰
 //---------------------------------------------------------------------
 int CnvStrTime::getStrCalcCodeChar(char ch, int head){
 	int codeMark;
@@ -1545,13 +1545,13 @@ int CnvStrTime::getStrCalcCodeChar(char ch, int head){
 }
 
 //---------------------------------------------------------------------
-// ‰‰Z—p‚É‚Q•¶š‰‰Zq‚Ì•¶š”F¯
-// “ü—ÍF
-//   ch1   : ”F¯‚³‚¹‚é•¶ši‚P•¶š–Új
-//   ch2   : ”F¯‚³‚¹‚é•¶ši‚Q•¶š–Új
-//   head : 0=’Êí  1=æ“ª•¶š‚Æ‚µ‚Ä”F¯
-// o—ÍF
-//   •Ô‚è’lF ”F¯ƒR[ƒh
+// æ¼”ç®—ç”¨ã«ï¼’æ–‡å­—æ¼”ç®—å­ã®æ–‡å­—èªè­˜
+// å…¥åŠ›ï¼š
+//   ch1   : èªè­˜ã•ã›ã‚‹æ–‡å­—ï¼ˆï¼‘æ–‡å­—ç›®ï¼‰
+//   ch2   : èªè­˜ã•ã›ã‚‹æ–‡å­—ï¼ˆï¼’æ–‡å­—ç›®ï¼‰
+//   head : 0=é€šå¸¸  1=å…ˆé ­æ–‡å­—ã¨ã—ã¦èªè­˜
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š èªè­˜ã‚³ãƒ¼ãƒ‰
 //---------------------------------------------------------------------
 int CnvStrTime::getStrCalcCodeTwoChar(char ch1, char ch2, int head){
 	int codeMark = -1;
@@ -1608,37 +1608,37 @@ int CnvStrTime::getStrCalcCodeTwoChar(char ch1, char ch2, int head){
 }
 
 //---------------------------------------------------------------------
-// •¶š—ñ‚ğƒ~ƒŠ•bŠÔ‚É•ÏŠ·
-// “ü—ÍF
-//   cstr : •¶š—ñ
-//   st   : ”F¯ŠJnˆÊ’u
-//   ed   : ”F¯I—¹ˆÊ’u
-//   dsec : ®”‚Ì’li0=ƒtƒŒ[ƒ€”  1=•b”  2=•ÏŠ·‚È‚µj
-//   draw : æœZ’¼Œã‚Ìˆ—i0=’Êí  1=’PˆÊ•ÏŠ·’†~j
-// o—ÍF
-//   •Ô‚è’lF ‰‰ZŒ‹‰Êƒ~ƒŠ•b
+// æ–‡å­—åˆ—ã‚’ãƒŸãƒªç§’æ™‚é–“ã«å¤‰æ›
+// å…¥åŠ›ï¼š
+//   cstr : æ–‡å­—åˆ—
+//   st   : èªè­˜é–‹å§‹ä½ç½®
+//   ed   : èªè­˜çµ‚äº†ä½ç½®
+//   dsec : æ•´æ•°æ™‚ã®å€¤ï¼ˆ0=ãƒ•ãƒ¬ãƒ¼ãƒ æ•°  1=ç§’æ•°  2=å¤‰æ›ãªã—ï¼‰
+//   draw : ä¹—é™¤ç®—ç›´å¾Œã®å‡¦ç†ï¼ˆ0=é€šå¸¸  1=å˜ä½å¤‰æ›ä¸­æ­¢ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š æ¼”ç®—çµæœãƒŸãƒªç§’
 //---------------------------------------------------------------------
 int CnvStrTime::getStrCalcTime(const string &cstr, int st, int ed, int dsec, int draw){
 
-	//--- •¶š—ñ‚©‚ç”’l‚ğæ“¾ ---
+	//--- æ–‡å­—åˆ—ã‹ã‚‰æ•°å€¤ã‚’å–å¾— ---
 	int categMark_i;
 	int codeMark_i;
-	int vin = 0;				// ®”•”•ª‰‰Z“r’†
-	int val = 0;				// ®”•”•ª”’lŒ‹‰Ê
-	int vms = 0;				// ƒ~ƒŠ•b•”•ª”’lŒ‹‰Ê
-	int flag_sec = 0;			// 1:ŠÔ‚Å‚Ì‹LÚ
-	int flag_prd = 0;			// ƒ~ƒŠ•b‚ÌƒsƒŠƒIƒh”F¯
-	int mult_prd = 0;			// ƒ~ƒŠ•b‚Ì‰ÁZ’PˆÊ
+	int vin = 0;				// æ•´æ•°éƒ¨åˆ†æ¼”ç®—é€”ä¸­
+	int val = 0;				// æ•´æ•°éƒ¨åˆ†æ•°å€¤çµæœ
+	int vms = 0;				// ãƒŸãƒªç§’éƒ¨åˆ†æ•°å€¤çµæœ
+	int flag_sec = 0;			// 1:æ™‚é–“ã§ã®è¨˜è¼‰
+	int flag_prd = 0;			// ãƒŸãƒªç§’ã®ãƒ”ãƒªã‚ªãƒ‰èªè­˜
+	int mult_prd = 0;			// ãƒŸãƒªç§’ã®åŠ ç®—å˜ä½
 	for(int i=st; i<=ed; i++){
 		codeMark_i = getStrCalcCodeChar(cstr[i], 0);
 		categMark_i = getMarkCategory(codeMark_i);
-		if (categMark_i == D_CALCCAT_IMM){			// ƒf[ƒ^
-			if (codeMark_i == D_CALCOP_COLON){		// •ª•b‚Ì‹æØ‚è
+		if (categMark_i == D_CALCCAT_IMM){			// ãƒ‡ãƒ¼ã‚¿
+			if (codeMark_i == D_CALCOP_COLON){		// æ™‚åˆ†ç§’ã®åŒºåˆ‡ã‚Š
 				flag_sec = 1;
 				val = (val + vin) * 60;
 				vin = 0;
 			}
-			else if (codeMark_i == D_CALCOP_PERD){	// ƒ~ƒŠ•bˆÊ’u‚Ì‹æØ‚è
+			else if (codeMark_i == D_CALCOP_PERD){	// ãƒŸãƒªç§’ä½ç½®ã®åŒºåˆ‡ã‚Š
 				flag_sec = 1;
 				flag_prd ++;
 				mult_prd = 100;
@@ -1646,34 +1646,34 @@ int CnvStrTime::getStrCalcTime(const string &cstr, int st, int ed, int dsec, int
 				vin = 0;
 			}
 			else{
-				if (flag_prd == 0){				// ®”•”•ª
+				if (flag_prd == 0){				// æ•´æ•°éƒ¨åˆ†
 					vin = vin * 10 + codeMark_i;
 				}
-				else if (flag_prd == 1){		// ƒ~ƒŠ•b•”•ª
+				else if (flag_prd == 1){		// ãƒŸãƒªç§’éƒ¨åˆ†
 					vms = codeMark_i * mult_prd + vms;
 					mult_prd = mult_prd / 10;
 				}
 			}
 		}
 		else{
-			throw i;				// ŠÔ‚ğ•\‚·•¶š‚Å‚Í‚È‚¢ƒGƒ‰[
+			throw i;				// æ™‚é–“ã‚’è¡¨ã™æ–‡å­—ã§ã¯ãªã„ã‚¨ãƒ©ãƒ¼
 		}
 	}
 	val += vin;
-	//--- ’PˆÊ•ÏŠ·‚µ‚Äo—Í ---
+	//--- å˜ä½å¤‰æ›ã—ã¦å‡ºåŠ› ---
 	int data;
-	if (draw > 0 || dsec == 2){		// ’PˆÊ•ÏŠ·‚µ‚È‚¢ê‡
+	if (draw > 0 || dsec == 2){		// å˜ä½å¤‰æ›ã—ãªã„å ´åˆ
 		data = val;
 	}
-	else if (flag_sec == 0){		// “ü—Í•¶š—ñ‚Í®”ƒf[ƒ^
-		if (dsec == 0){				// ®”‚ÍƒtƒŒ[ƒ€’PˆÊ‚Ìİ’è
+	else if (flag_sec == 0){		// å…¥åŠ›æ–‡å­—åˆ—ã¯æ•´æ•°ãƒ‡ãƒ¼ã‚¿
+		if (dsec == 0){				// æ•´æ•°æ™‚ã¯ãƒ•ãƒ¬ãƒ¼ãƒ å˜ä½ã®è¨­å®šæ™‚
 			data = getMsecFromFrm(val);
 		}
-		else{						// ®”‚Í•b’PˆÊ‚Ìİ’è
+		else{						// æ•´æ•°æ™‚ã¯ç§’å˜ä½ã®è¨­å®šæ™‚
 			data = val * 1000;
 		}
 	}
-	else{							// “ü—Í•¶š—ñ‚ÍŠÔƒf[ƒ^
+	else{							// å…¥åŠ›æ–‡å­—åˆ—ã¯æ™‚é–“ãƒ‡ãƒ¼ã‚¿
 		data = val * 1000 + vms;
 	}
 	return data;
@@ -1681,12 +1681,12 @@ int CnvStrTime::getStrCalcTime(const string &cstr, int st, int ed, int dsec, int
 
 
 //---------------------------------------------------------------------
-// ’P€‰‰Z
-// “ü—ÍF
-//   din   : ‰‰Z”’l
-//   codeMark : ’P€‰‰Zq
-// o—ÍF
-//   •Ô‚è’lF ‰‰ZŒ‹‰Êƒ~ƒŠ•b
+// å˜é …æ¼”ç®—
+// å…¥åŠ›ï¼š
+//   din   : æ¼”ç®—æ•°å€¤
+//   codeMark : å˜é …æ¼”ç®—å­
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š æ¼”ç®—çµæœãƒŸãƒªç§’
 //---------------------------------------------------------------------
 int CnvStrTime::getStrCalcOp1(int din, int codeMark){
 	int ret;
@@ -1712,13 +1712,13 @@ int CnvStrTime::getStrCalcOp1(int din, int codeMark){
 }
 
 //---------------------------------------------------------------------
-// ‚Q€‰‰Z
-// “ü—ÍF
-//   din1  : ‰‰Z”’l
-//   din2  : ‰‰Z”’l
-//   codeMark : ‚Q€‰‰Zq
-// o—ÍF
-//   •Ô‚è’lF ‰‰ZŒ‹‰Êƒ~ƒŠ•b
+// ï¼’é …æ¼”ç®—
+// å…¥åŠ›ï¼š
+//   din1  : æ¼”ç®—æ•°å€¤
+//   din2  : æ¼”ç®—æ•°å€¤
+//   codeMark : ï¼’é …æ¼”ç®—å­
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤ï¼š æ¼”ç®—çµæœãƒŸãƒªç§’
 //---------------------------------------------------------------------
 int CnvStrTime::getStrCalcOp2(int din1, int din2, int codeMark){
 	int ret;

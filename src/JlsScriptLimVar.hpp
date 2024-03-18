@@ -1,5 +1,5 @@
-//
-// ÀsƒXƒNƒŠƒvƒgƒRƒ}ƒ“ƒh‚Ìƒ^[ƒQƒbƒg‚ği‚é‚½‚ß‚Ì•Ï”•Û
+ï»¿//
+// å®Ÿè¡Œã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚³ãƒãƒ³ãƒ‰ã®ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚’çµã‚‹ãŸã‚ã®å¤‰æ•°ä¿æŒ
 //
 #pragma once
 
@@ -12,47 +12,47 @@ class JlsDataset;
 
 ///////////////////////////////////////////////////////////////////////
 //
-// §–ñğŒ‚É‚æ‚éƒ^[ƒQƒbƒg‘I’èƒNƒ‰ƒX
+// åˆ¶ç´„æ¡ä»¶ã«ã‚ˆã‚‹ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé¸å®šã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsScriptLimVar
 {
 private:
-	struct ArgRange {					// ƒ^[ƒQƒbƒgˆÊ’u—p
-		WideMsec        wmsecFind;		// DstŒŸõ”ÍˆÍ
-		WideMsec        wmsecFrom;		// Šî€ˆÊ’uiŠJn^I—¹ˆÊ’u•â³ŠÜ‚Şj
+	struct ArgRange {					// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆä½ç½®ç”¨
+		WideMsec        wmsecFind;		// Dstæ¤œç´¢ç¯„å›²
+		WideMsec        wmsecFrom;		// åŸºæº–ä½ç½®ï¼ˆé–‹å§‹ï¼çµ‚äº†ä½ç½®è£œæ­£å«ã‚€ï¼‰
 	};
 
 public:
-	struct SeekVarRecord {	// ƒ^[ƒQƒbƒgˆÊ’uŒŸõ‚Ìƒf[ƒ^
-		// İ’è
-		RangeNsc rnscScp;		// –³‰¹SC‚ÌŒŸõ”ÍˆÍ
-		bool flagNoEdge;		// ‘S‘Ì‚Ìæ“ª‚ÆÅŒã‚ÌƒtƒŒ[ƒ€‚ÍŠÜ‚ß‚È‚¢
-		bool flagNextTail;		// NextTailƒRƒ}ƒ“ƒh—p
-		bool selectLogoRise;	// NextTailƒRƒ}ƒ“ƒh‚ÅƒƒS—§ã‚è—Dæ
-		// Œ‹‰Ê
-		TargetLocInfo tgDst;	// Œ‹‰ÊˆÊ’u
-		TargetLocInfo tgEnd;	// I—¹ˆÊ’u
-		int  numListDst;		// •¡”Œó•â‚Ì’†‚©‚ç‘I‘ğ‚³‚ê‚½”Ô†
-		int  numListEnd;		// •¡”Œó•â‚Ì’†‚©‚ç‘I‘ğ‚³‚ê‚½”Ô†
-		ScpPriorType statDst;	// \¬‚Ì—Dæ‡ˆÊ
-		ScpPriorType statEnd;	// \¬‚Ì—Dæ‡ˆÊ
-		Msec gapDst;			// ’†S‚©‚ç‚Ì‹——£
-		Msec gapEnd;			// ’†S‚©‚ç‚Ì‹——£
-		bool flagOnLogo;		// NextTailƒRƒ}ƒ“ƒh‚ÌƒƒS—§ã‚èŒŸo—p
+	struct SeekVarRecord {	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆä½ç½®æ¤œç´¢æ™‚ã®ãƒ‡ãƒ¼ã‚¿
+		// è¨­å®š
+		RangeNsc rnscScp;		// ç„¡éŸ³SCã®æ¤œç´¢ç¯„å›²
+		bool flagNoEdge;		// å…¨ä½“ã®å…ˆé ­ã¨æœ€å¾Œã®ãƒ•ãƒ¬ãƒ¼ãƒ ã¯å«ã‚ãªã„
+		bool flagNextTail;		// NextTailã‚³ãƒãƒ³ãƒ‰ç”¨
+		bool selectLogoRise;	// NextTailã‚³ãƒãƒ³ãƒ‰ã§ãƒ­ã‚´ç«‹ä¸Šã‚Šå„ªå…ˆ
+		// çµæœ
+		TargetLocInfo tgDst;	// çµæœä½ç½®
+		TargetLocInfo tgEnd;	// çµ‚äº†ä½ç½®
+		int  numListDst;		// è¤‡æ•°å€™è£œã®ä¸­ã‹ã‚‰é¸æŠã•ã‚ŒãŸç•ªå·
+		int  numListEnd;		// è¤‡æ•°å€™è£œã®ä¸­ã‹ã‚‰é¸æŠã•ã‚ŒãŸç•ªå·
+		ScpPriorType statDst;	// æ§‹æˆã®å„ªå…ˆé †ä½
+		ScpPriorType statEnd;	// æ§‹æˆã®å„ªå…ˆé †ä½
+		Msec gapDst;			// ä¸­å¿ƒã‹ã‚‰ã®è·é›¢
+		Msec gapEnd;			// ä¸­å¿ƒã‹ã‚‰ã®è·é›¢
+		bool flagOnLogo;		// NextTailã‚³ãƒãƒ³ãƒ‰ã®ãƒ­ã‚´ç«‹ä¸Šã‚Šæ¤œå‡ºç”¨
 	} seek;
 
 public:
 	void setPdata(JlsDataset *pdata);
 	void clear();
-	// ƒRƒ}ƒ“ƒh‹¤’Ê‚Ìİ’è
+	// ã‚³ãƒãƒ³ãƒ‰å…±é€šã®è¨­å®š
 	void initVar(JlsCmdSet& cmdset);
 	void setHeadTail(RangeMsec rmsec);
 	void setFrameRange(RangeMsec rmsec);
 	RangeMsec getHeadTail();
 	RangeMsec getFrameRange();
 public:
-	// ƒƒSˆÊ’uƒŠƒXƒg“à‚Ìw’èƒƒS‚ÅŠî€ƒƒSƒf[ƒ^‚ğì¬
+	// ãƒ­ã‚´ä½ç½®ãƒªã‚¹ãƒˆå†…ã®æŒ‡å®šãƒ­ã‚´ã§åŸºæº–ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ã‚’ä½œæˆ
 	void clearLogoBase();
 	void setLogoBaseListNum(int n);
 	void setLogoBaseNrf(Nrf nrf, jlsd::LogoEdgeType edge);
@@ -77,7 +77,7 @@ public:
 private:
 	void getWidthLogoCommon(WideMsec& wmsec, Msec msecLogo, LogoEdgeType edgeLogo, int step, bool flagWide);
 public:
-	// Dst”ÍˆÍİ’è
+	// Dstç¯„å›²è¨­å®š
 	void clearRangeDst();
 	void addRangeDst(WideMsec wmsecFind, WideMsec wmsecFrom);
 	void selRangeDstNum(int num);
@@ -92,12 +92,12 @@ private:
 	WideMsec getRangeDstItemFromWide(int num);
 	bool isErrorRangeDst(int num);
 public:
-	// ˆÊ’uŒŸõ—p‚Ìİ’è
+	// ä½ç½®æ¤œç´¢ç”¨ã®è¨­å®š
 	void initSeekVar(JlsCmdSet& cmdset);
 	bool isRangeToDst(Msec msecBsrc, Msec msecDst);
 	bool isRangeToEnd(Msec msecDst, Msec msecEnd, WideMsec wmsecRange);
 	bool isRangeToEndZone(Msec msecDst, Msec msecEnd);
-	// I—¹ˆÊ’u‚Ì–‘O€”õ
+	// çµ‚äº†ä½ç½®ã®äº‹å‰æº–å‚™
 	void clearPrepEnd();
 	void addPrepEndRange(WideMsec wmsec);
 	void setPrepEndRefer(bool flag);
@@ -110,7 +110,7 @@ public:
 	TargetLocInfo getPrepEndAbs();
 	WideMsec getPrepEndRangeWithOffset(int num, Msec msecOfs);
 	Msec getPrepEndRangeForceLen();
-	// Zone”ÍˆÍ
+	// Zoneç¯„å›²
 private:
 	void clearZone();
 	bool isZoneAtDst(Msec msecBsrc, Msec msecDst);
@@ -126,7 +126,7 @@ private:
 	bool getZoneCache(bool& validRange, RangeMsec& rmsecRange, RangeMsec& rmsecForbid, Msec msecSrc);
 	bool isTgtLimitAllow(Msec msecTarget);
 	int  setTgtLimit();
-	// –³‰¹ğŒ”»’è
+	// ç„¡éŸ³æ¡ä»¶åˆ¤å®š
 public:
 	bool isScpEnableAtMsec(int msecBase, LogoEdgeType edge, TargetCatType tgcat);
 private:
@@ -140,26 +140,26 @@ private:
 	bool isErrorScpEnable(TargetCatType tgcat, Nsc nsc);
 
 public:
-	JlsCmdArg           opt;		// ƒRƒ}ƒ“ƒhƒIƒvƒVƒ‡ƒ“•Û
+	JlsCmdArg           opt;		// ã‚³ãƒãƒ³ãƒ‰ã‚ªãƒ—ã‚·ãƒ§ãƒ³ä¿æŒ
 private:
-	// ƒRƒ}ƒ“ƒh‹¤’Ê‚Ìİ’è
-	RangeMsec           rmsecHeadTail;			// $HEADTIME/$TAILTIME§–ñ
-	RangeMsec           rmsecFrameLimit;		// -FƒIƒvƒVƒ‡ƒ“§–ñ
-	// ƒƒSˆÊ’uƒŠƒXƒg“à‚Ìw’èƒƒS‚ÅŠî€ƒƒSƒf[ƒ^‚ğì¬
-	int             nBaseListNum;			// Šî€ˆÊ’u‚ÍƒŠƒXƒg“à‚Å‰½”Ô–Ú‚©
-	bool            flagBaseNrf;			// Šî€ˆÊ’u‚ÍÀƒƒSg—p
-	Nrf             nrfBase;				// Šî€ˆÊ’u‚ÌÀƒƒS”Ô†
-	Nsc             nscBase;				// Šî€ˆÊ’u‚Ì„‘ª\¬ƒƒSˆµ‚¢–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-	LogoEdgeType	edgeBase;				// Šî€ˆÊ’u‚ÌƒGƒbƒW‘I‘ğ
-	Msec            msecBaseBsrc;			// Šî€ˆÊ’ui•ÏXŒãŠî€ˆÊ’uj
-	Msec            msecBaseBorg;			// Šî€ˆÊ’ui–{—ˆ‚ÌŠî€ˆÊ’uA‚È‚¯‚ê‚Î•â³j
-	LogoEdgeType	edgeBaseBsrc;				// Šî€ˆÊ’u‚ÌƒGƒbƒW‘I‘ğ
-	WideMsec        wmsecBaseBtg;			// ƒ^[ƒQƒbƒg”ÍˆÍì¬—p‚ÌŠî€ˆÊ’u
-	LogoEdgeType	edgeBaseBtg;			// ƒ^[ƒQƒbƒg”ÍˆÍì¬—p‚ÌŠî€ˆÊ’u‚ÌƒGƒbƒW‘I‘ğ
-	// Dst”ÍˆÍİ’è
+	// ã‚³ãƒãƒ³ãƒ‰å…±é€šã®è¨­å®š
+	RangeMsec           rmsecHeadTail;			// $HEADTIME/$TAILTIMEåˆ¶ç´„
+	RangeMsec           rmsecFrameLimit;		// -Fã‚ªãƒ—ã‚·ãƒ§ãƒ³åˆ¶ç´„
+	// ãƒ­ã‚´ä½ç½®ãƒªã‚¹ãƒˆå†…ã®æŒ‡å®šãƒ­ã‚´ã§åŸºæº–ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ã‚’ä½œæˆ
+	int             nBaseListNum;			// åŸºæº–ä½ç½®ã¯ãƒªã‚¹ãƒˆå†…ã§ä½•ç•ªç›®ã‹
+	bool            flagBaseNrf;			// åŸºæº–ä½ç½®ã¯å®Ÿãƒ­ã‚´ä½¿ç”¨
+	Nrf             nrfBase;				// åŸºæº–ä½ç½®ã®å®Ÿãƒ­ã‚´ç•ªå·
+	Nsc             nscBase;				// åŸºæº–ä½ç½®ã®æ¨æ¸¬æ§‹æˆãƒ­ã‚´æ‰±ã„ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+	LogoEdgeType	edgeBase;				// åŸºæº–ä½ç½®ã®ã‚¨ãƒƒã‚¸é¸æŠ
+	Msec            msecBaseBsrc;			// åŸºæº–ä½ç½®ï¼ˆå¤‰æ›´å¾ŒåŸºæº–ä½ç½®ï¼‰
+	Msec            msecBaseBorg;			// åŸºæº–ä½ç½®ï¼ˆæœ¬æ¥ã®åŸºæº–ä½ç½®ã€ãªã‘ã‚Œã°è£œæ­£ï¼‰
+	LogoEdgeType	edgeBaseBsrc;				// åŸºæº–ä½ç½®ã®ã‚¨ãƒƒã‚¸é¸æŠ
+	WideMsec        wmsecBaseBtg;			// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆç¯„å›²ä½œæˆç”¨ã®åŸºæº–ä½ç½®
+	LogoEdgeType	edgeBaseBtg;			// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆç¯„å›²ä½œæˆç”¨ã®åŸºæº–ä½ç½®ã®ã‚¨ãƒƒã‚¸é¸æŠ
+	// Dstç¯„å›²è¨­å®š
 	vector<ArgRange>    listRangeDst;
 	int                 numRangeDst;
-	// ENDˆÊ’u–‘Oİ’è
+	// ENDä½ç½®äº‹å‰è¨­å®š
 	vector<WideMsec>    listPrepEndRange;
 	bool                existPrepEndRefer;
 	bool                fromPrepEndAbs;
@@ -167,16 +167,16 @@ private:
 	TargetLocInfo       tgPrepEndAbs;
 	vector<Msec>        listPrepEndBaseMsec;
 	vector<Msec>        listPrepEndBaseMsbk;
-	// zone—p
-	Msec                msecZoneSrc;		// ZoneƒLƒƒƒbƒVƒ…ˆÊ’u
-	bool                validZoneRange;		// ZoneƒLƒƒƒbƒVƒ…”ÍˆÍ—LŒø
-	RangeMsec           rmsecZoneRange;		// ZoneƒLƒƒƒbƒVƒ…—LŒø”ÍˆÍ
-	RangeMsec           rmsecZoneForbid;	// ZoneƒLƒƒƒbƒVƒ…–³Œø”ÍˆÍ
-	vector<RangeMsec>   listTLRange;		// ‘ÎÛˆÊ’u‚Æ‚µ‚Ä‹–‰Â‚·‚é”ÍˆÍƒŠƒXƒg(-TgtLimit)
-	// –³‰¹ğŒ”»’è
-	vector<bool>    listScpEnableDst;		// –³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‘I‘ğ
-	vector<bool>    listScpEnableEnd;		// –³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‘I‘ğ
+	// zoneç”¨
+	Msec                msecZoneSrc;		// Zoneã‚­ãƒ£ãƒƒã‚·ãƒ¥ä½ç½®
+	bool                validZoneRange;		// Zoneã‚­ãƒ£ãƒƒã‚·ãƒ¥ç¯„å›²æœ‰åŠ¹
+	RangeMsec           rmsecZoneRange;		// Zoneã‚­ãƒ£ãƒƒã‚·ãƒ¥æœ‰åŠ¹ç¯„å›²
+	RangeMsec           rmsecZoneForbid;	// Zoneã‚­ãƒ£ãƒƒã‚·ãƒ¥ç„¡åŠ¹ç¯„å›²
+	vector<RangeMsec>   listTLRange;		// å¯¾è±¡ä½ç½®ã¨ã—ã¦è¨±å¯ã™ã‚‹ç¯„å›²ãƒªã‚¹ãƒˆ(-TgtLimit)
+	// ç„¡éŸ³æ¡ä»¶åˆ¤å®š
+	vector<bool>    listScpEnableDst;		// ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸é¸æŠ
+	vector<bool>    listScpEnableEnd;		// ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸é¸æŠ
 
 private:
-	JlsDataset *pdata;									// “ü—Íƒf[ƒ^ƒAƒNƒZƒX
+	JlsDataset *pdata;									// å…¥åŠ›ãƒ‡ãƒ¼ã‚¿ã‚¢ã‚¯ã‚»ã‚¹
 };

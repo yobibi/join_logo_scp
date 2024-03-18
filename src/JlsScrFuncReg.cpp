@@ -1,5 +1,5 @@
-//
-// •Ï”ƒAƒNƒZƒXŠÖ˜Aˆ—
+ï»¿//
+// å¤‰æ•°ã‚¢ã‚¯ã‚»ã‚¹é–¢é€£å‡¦ç†
 //
 
 #include "stdafx.h"
@@ -18,20 +18,20 @@ void JlsScrFuncReg::setDataPointer(JlsDataset *pdata, JlsScrGlobal *pglobal, Jls
 }
 
 //=====================================================================
-// ‹N“®ƒIƒvƒVƒ‡ƒ“ˆ—
+// èµ·å‹•ã‚ªãƒ—ã‚·ãƒ§ãƒ³å‡¦ç†
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒXƒNƒŠƒvƒg“à‚Å‹LÚ‚·‚é‹N“®ƒIƒvƒVƒ‡ƒ“
-// “ü—ÍF
-//   argrest    Fˆø”c‚è”
-//   strv       Fˆø”ƒRƒ}ƒ“ƒh
-//   str1       Fˆø”’l‚P
-//   str2       Fˆø”’l‚Q
-//   overwrite  F‘‚«‚İÏ‚İ‚ÌƒIƒvƒVƒ‡ƒ“İ’èifalse=‚µ‚È‚¢ true=‚·‚éj
-//   checklevel FƒGƒ‰[Šm”FƒŒƒxƒ‹i0=‚È‚µ 1=”F¯‚µ‚½ƒIƒvƒVƒ‡ƒ“ƒ`ƒFƒbƒNj
-// o—ÍF
-//   •Ô‚è’l  Fˆø”æ“¾”(-1‚Ìæ“¾ƒGƒ‰[A0‚ÌŠY“–ƒRƒ}ƒ“ƒh‚È‚µ)
+// ã‚¹ã‚¯ãƒªãƒ—ãƒˆå†…ã§è¨˜è¼‰ã™ã‚‹èµ·å‹•ã‚ªãƒ—ã‚·ãƒ§ãƒ³
+// å…¥åŠ›ï¼š
+//   argrest    ï¼šå¼•æ•°æ®‹ã‚Šæ•°
+//   strv       ï¼šå¼•æ•°ã‚³ãƒãƒ³ãƒ‰
+//   str1       ï¼šå¼•æ•°å€¤ï¼‘
+//   str2       ï¼šå¼•æ•°å€¤ï¼’
+//   overwrite  ï¼šæ›¸ãè¾¼ã¿æ¸ˆã¿ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šï¼ˆfalse=ã—ãªã„ true=ã™ã‚‹ï¼‰
+//   checklevel ï¼šã‚¨ãƒ©ãƒ¼ç¢ºèªãƒ¬ãƒ™ãƒ«ï¼ˆ0=ãªã— 1=èªè­˜ã—ãŸã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒã‚§ãƒƒã‚¯ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  ï¼šå¼•æ•°å–å¾—æ•°(-1ã®æ™‚å–å¾—ã‚¨ãƒ©ãƒ¼ã€0ã®æ™‚è©²å½“ã‚³ãƒãƒ³ãƒ‰ãªã—)
 //---------------------------------------------------------------------
 int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* str1, const char* str2, bool overwrite){
 	if (argrest <= 0){
@@ -163,7 +163,7 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 				return -1;
 			}
 			else if (overwrite || pdata->extOpt.fixNSysCode == 0){
-				//--- •W€o—Í/ƒGƒ‰[‚Ì•¶šƒR[ƒh‚ÍÅ—Dæ‚Åİ’è‚µ‚Ä‚¨‚«‚½‚¢‚Ì‚Å‚·‚®Às ---
+				//--- æ¨™æº–å‡ºåŠ›/ã‚¨ãƒ©ãƒ¼ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ã¯æœ€å„ªå…ˆã§è¨­å®šã—ã¦ãŠããŸã„ã®ã§ã™ãå®Ÿè¡Œ ---
 				int num = LSys.getUtfNumFromStr(str1);
 				if ( num < 0 ){
 					outputMesErr("-syscode unsupported data\n");
@@ -171,7 +171,7 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 				}
 				pdata->extOpt.nSysCode = num;
 				pdata->extOpt.fixNSysCode = 1;
-				LSys.setStdUtfCodeFromNum(num);		// ‚·‚®İ’è
+				LSys.setStdUtfCodeFromNum(num);		// ã™ãè¨­å®š
 			}
 			numarg = 2;
 		}
@@ -187,27 +187,27 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 			}
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-inlogo")){	// –¼‘O‚Ì‚İ•Û
+		else if (!_stricmp(strv, "-inlogo")){	// åå‰ã®ã¿ä¿æŒ
 			pdata->extOpt.logofile = str1;
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-inscp")){	// –¼‘O‚Ì‚İ•Û
+		else if (!_stricmp(strv, "-inscp")){	// åå‰ã®ã¿ä¿æŒ
 			pdata->extOpt.scpfile = str1;
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-incmd")){	// –¼‘O‚Ì‚İ•Û
+		else if (!_stricmp(strv, "-incmd")){	// åå‰ã®ã¿ä¿æŒ
 			pdata->extOpt.cmdfile = str1;
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-o")){	// –¼‘O‚Ì‚İ•Û
+		else if (!_stricmp(strv, "-o")){	// åå‰ã®ã¿ä¿æŒ
 			pdata->extOpt.outfile = str1;
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-oscp")){	// –¼‘O‚Ì‚İ•Û
+		else if (!_stricmp(strv, "-oscp")){	// åå‰ã®ã¿ä¿æŒ
 			pdata->extOpt.outscpfile = str1;
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-odiv")){	// –¼‘O‚Ì‚İ•Û
+		else if (!_stricmp(strv, "-odiv")){	// åå‰ã®ã¿ä¿æŒ
 			pdata->extOpt.outdivfile = str1;
 			numarg = 2;
 		}
@@ -216,7 +216,7 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 }
 
 //---------------------------------------------------------------------
-// CutMrgIn / CutMrgOut ƒIƒvƒVƒ‡ƒ“ˆ——p 30fpsƒtƒŒ[ƒ€”“ü—Í‚Åƒ~ƒŠ•b‚ğ•Ô‚·
+// CutMrgIn / CutMrgOut ã‚ªãƒ—ã‚·ãƒ§ãƒ³å‡¦ç†ç”¨ 30fpsãƒ•ãƒ¬ãƒ¼ãƒ æ•°å…¥åŠ›ã§ãƒŸãƒªç§’ã‚’è¿”ã™
 //---------------------------------------------------------------------
 Msec JlsScrFuncReg::setOptionsCnvCutMrg(const char* str){
 	int num = atoi(str);
@@ -230,7 +230,7 @@ Msec JlsScrFuncReg::setOptionsCnvCutMrg(const char* str){
 			}
 		}
 	}
-	//--- 30fpsŒÅ’è•ÏŠ·ˆ— ---
+	//--- 30fpså›ºå®šå¤‰æ›å‡¦ç† ---
 	Msec msec_num  = (abs(num) * 1001 + 30/2) / 30;
 	Msec msec_frac = (frac * 1001 + 30/2) / 30 / 100;
 	Msec msec_result = msec_num + msec_frac;
@@ -239,18 +239,18 @@ Msec JlsScrFuncReg::setOptionsCnvCutMrg(const char* str){
 }
 
 //---------------------------------------------------------------------
-// •Ï”‚ğŠO•”‚©‚çİ’è
-// o—ÍF
-//   •Ô‚è’l  Ftrue=³íI—¹  false=¸”s
+// å¤‰æ•°ã‚’å¤–éƒ¨ã‹ã‚‰è¨­å®š
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  ï¼štrue=æ­£å¸¸çµ‚äº†  false=å¤±æ•—
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::setInputReg(const char *name, const char *val, bool overwrite){
 	return setJlsRegVar(name, val, overwrite);
 }
 
 //---------------------------------------------------------------------
-// ƒIƒvƒVƒ‡ƒ“ƒtƒ‰ƒO‚ğİ’è
-// o—ÍF
-//   •Ô‚è’l  Ftrue=³íI—¹  false=¸”s
+// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°ã‚’è¨­å®š
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  ï¼štrue=æ­£å¸¸çµ‚äº†  false=å¤±æ•—
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::setInputFlags(const char *flags, bool overwrite){
 	bool ret = true;
@@ -261,7 +261,7 @@ bool JlsScrFuncReg::setInputFlags(const char *flags, bool overwrite){
 		pos = pdata->cnv.getStrWord(strFlag, strBuf, pos);
 		if (pos >= 0){
 			string strName, strVal;
-			//--- Šeƒtƒ‰ƒO‚Ì’l‚ğİ’è ---
+			//--- å„ãƒ•ãƒ©ã‚°ã®å€¤ã‚’è¨­å®š ---
 			int nloc = (int) strFlag.find(":");
 			if (nloc >= 0){
 				strName = strFlag.substr(0, nloc);
@@ -271,7 +271,7 @@ bool JlsScrFuncReg::setInputFlags(const char *flags, bool overwrite){
 				strName = strFlag;
 				strVal  = "1";
 			}
-			//--- •Ï”Ši”[ ---
+			//--- å¤‰æ•°æ ¼ç´ ---
 			bool flagtmp = setJlsRegVar(strName, strVal, overwrite);
 			if (flagtmp == false) ret = false;
 		}
@@ -280,36 +280,36 @@ bool JlsScrFuncReg::setInputFlags(const char *flags, bool overwrite){
 }
 
 //=====================================================================
-// ƒŒƒWƒXƒ^ƒAƒNƒZƒXˆ—
+// ãƒ¬ã‚¸ã‚¹ã‚¿ã‚¢ã‚¯ã‚»ã‚¹å‡¦ç†
 //=====================================================================
 
 //---------------------------------------------------------------------
-// CallÀs‚µ‚½‚Éƒ[ƒJƒ‹•Ï”İ’è‚³‚ê‚éˆø”‚ğİ’è
-// “ü—ÍF
-//   strName   : •Ï”–¼
-//   strVal    : •Ï”’l
+// Callå®Ÿè¡Œã—ãŸæ™‚ã«ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°è¨­å®šã•ã‚Œã‚‹å¼•æ•°ã‚’è¨­å®š
+// å…¥åŠ›ï¼š
+//   strName   : å¤‰æ•°å
+//   strVal    : å¤‰æ•°å€¤
 //---------------------------------------------------------------------
-//--- ŠÖ”‚Ì•Ô‚è’l‚É‚È‚é•Ï”–¼‚ğİ’è ---
+//--- é–¢æ•°ã®è¿”ã‚Šå€¤ã«ãªã‚‹å¤‰æ•°åã‚’è¨­å®š ---
 void JlsScrFuncReg::setArgFuncName(const string& strName){
 	pGlobalState->setArgFuncName(strName);
 }
-//--- QÆ“n‚µ‚Åİ’è ---
+//--- å‚ç…§æ¸¡ã—ã§è¨­å®š ---
 bool JlsScrFuncReg::setArgRefReg(const string& strName, const string& strVal){
-	if ( !setArgRegCheckName(strName) ) return false;	// ŠÖ”ˆø”‚Æ‚µ‚Ä‚Ì•Ï”–¼ˆÙíƒ`ƒFƒbƒN
-	if ( !isValidAsRegName(strVal) ) return false;		// ˆê”Ê‚Ì•Ï”–¼‚Æ‚µ‚ÄˆÙíƒ`ƒFƒbƒN
+	if ( !setArgRegCheckName(strName) ) return false;	// é–¢æ•°å¼•æ•°ã¨ã—ã¦ã®å¤‰æ•°åç•°å¸¸ãƒã‚§ãƒƒã‚¯
+	if ( !isValidAsRegName(strVal) ) return false;		// ä¸€èˆ¬ã®å¤‰æ•°åã¨ã—ã¦ç•°å¸¸ãƒã‚§ãƒƒã‚¯
 	string strRefVal = strVal;
 	int lenFullVar;
-	if ( fixJlsRegNameAtList(strRefVal, lenFullVar, true) ){	// ƒŠƒXƒg—v‘f‘Î‰‚Åİ’è
+	if ( fixJlsRegNameAtList(strRefVal, lenFullVar, true) ){	// ãƒªã‚¹ãƒˆè¦ç´ å¯¾å¿œã§è¨­å®š
 		return pGlobalState->setArgRefReg(strName, strRefVal);
 	}
 	return false;
 }
-//--- •Ï”’l‚ğİ’è ---
+//--- å¤‰æ•°å€¤ã‚’è¨­å®š ---
 bool JlsScrFuncReg::setArgRegByVal(const string& strName, const string& strVal){
-	if ( !setArgRegCheckName(strName) ) return false;	// ŠÖ”ˆø”‚Æ‚µ‚Ä‚Ì•Ï”–¼ˆÙíƒ`ƒFƒbƒN
+	if ( !setArgRegCheckName(strName) ) return false;	// é–¢æ•°å¼•æ•°ã¨ã—ã¦ã®å¤‰æ•°åç•°å¸¸ãƒã‚§ãƒƒã‚¯
 	return pGlobalState->setArgReg(strName, strVal);
 }
-//--- ’l‚ª•Ï”–¼‚Ìê‡‚Ìİ’è ---
+//--- å€¤ãŒå¤‰æ•°åã®å ´åˆã®è¨­å®š ---
 bool JlsScrFuncReg::setArgRegByName(const string& strName, const string& strValName){
 	string strVal;
 	if ( !getJlsRegVarNormal(strVal, strValName) ){
@@ -318,32 +318,32 @@ bool JlsScrFuncReg::setArgRegByName(const string& strName, const string& strValN
 	}
 	return setArgRegByVal(strName, strVal);
 }
-//--- ’l‚ª•Ï”–¼‚©’l‚»‚Ì‚à‚Ì‚©”»•Ê‚µ‚Äİ’è ---
+//--- å€¤ãŒå¤‰æ•°åã‹å€¤ãã®ã‚‚ã®ã‹åˆ¤åˆ¥ã—ã¦è¨­å®š ---
 bool JlsScrFuncReg::setArgRegByBoth(const string& strName, const string& strVal, bool quote){
 	if ( isValidAsRegName(strVal) ){
 		return setArgRegByName(strName, strVal);
 	}
 	string strEval = strVal;
-	if ( quote ){	// ˆø—p•„‚ğŠO‚·ˆ—
+	if ( quote ){	// å¼•ç”¨ç¬¦ã‚’å¤–ã™å‡¦ç†
 		pdata->cnv.getStrItemArg(strEval, strVal, 0);
 	}
 	return setArgRegByVal(strName, strEval);
 }
-//--- •Ï”–¼‚Æ‚µ‚Ä—LŒø‚È–¼‘O‚©ƒ`ƒFƒbƒN ---
+//--- å¤‰æ•°åã¨ã—ã¦æœ‰åŠ¹ãªåå‰ã‹ãƒã‚§ãƒƒã‚¯ ---
 bool JlsScrFuncReg::isValidAsRegName(const string& strName){
 	string strNamePart = strName;
 	if ( strName.find("\"") != string::npos ) return false;
 	if ( strName.find("\'") != string::npos ) return false;
-	//--- ƒŠƒXƒg•Ï”‚ÍƒŠƒXƒg‚ğœ‚­ ---
+	//--- ãƒªã‚¹ãƒˆå¤‰æ•°ã¯ãƒªã‚¹ãƒˆã‚’é™¤ã ---
 	auto npos = strNamePart.find("[");
 	if ( npos != string::npos ){
 		strNamePart = strNamePart.substr(npos);
 	}
 	if ( strNamePart.empty() ) return false;
-	//--- Šm”F ---
+	//--- ç¢ºèª ---
 	return !(pGlobalState->checkErrRegName(strNamePart));
 }
-//--- ŠÖ”ˆø”–¼‚Æ‚µ‚Ä‚Ì•Ï”–¼ˆÙíƒ`ƒFƒbƒN ---
+//--- é–¢æ•°å¼•æ•°åã¨ã—ã¦ã®å¤‰æ•°åç•°å¸¸ãƒã‚§ãƒƒã‚¯ ---
 bool JlsScrFuncReg::setArgRegCheckName(const string& strName){
 	bool success = true;
 	string mesErr;
@@ -354,7 +354,7 @@ bool JlsScrFuncReg::setArgRegCheckName(const string& strName){
 		success = false;
 		mesErr = "illegal";
 	}else{
-		//--- ƒŠƒXƒg•Ï”‚Ì—v‘f‚Åˆø”éŒ¾‚Í”ñ‘Î‰ ---
+		//--- ãƒªã‚¹ãƒˆå¤‰æ•°ã®è¦ç´ ã§å¼•æ•°å®£è¨€ã¯éå¯¾å¿œ ---
 		auto locSt = strName.find("[");
 		if ( locSt != string::npos ){
 			success = false;
@@ -370,36 +370,36 @@ bool JlsScrFuncReg::setArgRegCheckName(const string& strName){
 	return success;
 }
 //---------------------------------------------------------------------
-// •Ï”‚ğİ’è
-// “ü—ÍF
-//   strName   : •Ï”–¼
-//   strVal    : •Ï”’l
-//   overwrite : 0=–¢’è‹`‚Ì‚İİ’è  1=ã‘‚«‹–‰Âİ’è
-// o—ÍF
-//   •Ô‚è’l    : ’Êí=trueA¸”s=false
+// å¤‰æ•°ã‚’è¨­å®š
+// å…¥åŠ›ï¼š
+//   strName   : å¤‰æ•°å
+//   strVal    : å¤‰æ•°å€¤
+//   overwrite : 0=æœªå®šç¾©æ™‚ã®ã¿è¨­å®š  1=ä¸Šæ›¸ãè¨±å¯è¨­å®š
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤    : é€šå¸¸=trueã€å¤±æ•—æ™‚=false
 //---------------------------------------------------------------------
-//--- •Ï”‚Ì–¢’è‹`‰» ---
+//--- å¤‰æ•°ã®æœªå®šç¾©åŒ– ---
 bool JlsScrFuncReg::unsetJlsRegVar(const string& strName, bool flagLocal){
 	return pGlobalState->unsetRegVar(strName, flagLocal);
 }
-//--- ’Êí‚Ì•Ï”‚ğİ’è ---
+//--- é€šå¸¸ã®å¤‰æ•°ã‚’è¨­å®š ---
 bool JlsScrFuncReg::setJlsRegVar(const string& strName, const string& strVal, bool overwrite){
 	bool flagLocal = false;
 	return setJlsRegVarWithLocal(strName, strVal, overwrite, flagLocal);
 }
-//--- ƒ[ƒJƒ‹•Ï”‚ğİ’èiˆø”‚Í’Êí•Ï”‚Æ“¯ˆêj ---
+//--- ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã‚’è¨­å®šï¼ˆå¼•æ•°ã¯é€šå¸¸å¤‰æ•°ã¨åŒä¸€ï¼‰ ---
 bool JlsScrFuncReg::setJlsRegVarLocal(const string& strName, const string& strVal, bool overwrite){
 	bool flagLocal = true;
 	return setJlsRegVarWithLocal(strName, strVal, overwrite, flagLocal);
 }
-//--- ’Êí‚Ì•Ï”‚Æƒ[ƒJƒ‹•Ï”‚ğ‘I‘ğ‚µ‚Äİ’è ---
+//--- é€šå¸¸ã®å¤‰æ•°ã¨ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã‚’é¸æŠã—ã¦è¨­å®š ---
 bool JlsScrFuncReg::setJlsRegVarWithLocal(const string& strName, const string& strVal, bool overwrite, bool flagLocal){
 	if ( strName.empty() ) return false;
-	//--- ƒŠƒXƒg•Ï”‘Î‰ ---
+	//--- ãƒªã‚¹ãƒˆå¤‰æ•°å¯¾å¿œ ---
 	string strNameWrite = strName;
 	int lenFullVar;
 	bool success = fixJlsRegNameAtList(strNameWrite, lenFullVar, true);		// exact=true
-	//--- ‘‚«‚İˆ— ---
+	//--- æ›¸ãè¾¼ã¿å‡¦ç† ---
 	if ( success ){
 		success = pGlobalState->setRegVarCommon(strNameWrite, strVal, overwrite, flagLocal);
 		setJlsRegVarCouple(strNameWrite, strVal);
@@ -407,10 +407,10 @@ bool JlsScrFuncReg::setJlsRegVarWithLocal(const string& strName, const string& s
 	return success;
 }
 bool JlsScrFuncReg::setJlsRegVarCountUp(const string& strName, int step, bool flagLocal){
-	//--- Œ»İ’læ“¾ ---
+	//--- ç¾åœ¨å€¤å–å¾— ---
 	string strVal;
 	if ( !getJlsRegVarNormal(strVal, strName) ) return false;
-	//--- ®”‚É•ÏŠ·‚µ‚Ä‰‰ZŒã‘‚«–ß‚µ ---
+	//--- æ•´æ•°ã«å¤‰æ›ã—ã¦æ¼”ç®—å¾Œæ›¸ãæˆ»ã— ---
 	int val;
 	int pos = 0;
 	pos = pdata->cnv.getStrValNum(val, strVal, pos);
@@ -418,13 +418,13 @@ bool JlsScrFuncReg::setJlsRegVarCountUp(const string& strName, int step, bool fl
 	val += step;
 	return setJlsRegVarWithLocal(strName, to_string(val), true, flagLocal);
 }
-//--- •Ï”İ’èŒã‚ÌƒVƒXƒeƒ€•Ï”XV ---
+//--- å¤‰æ•°è¨­å®šå¾Œã®ã‚·ã‚¹ãƒ†ãƒ å¤‰æ•°æ›´æ–° ---
 void JlsScrFuncReg::setJlsRegVarCouple(const string& strName, const string& strVal){
-	//--- ƒVƒXƒeƒ€•Ï”‚Ì“Áêˆ— ---
+	//--- ã‚·ã‚¹ãƒ†ãƒ å¤‰æ•°ã®ç‰¹æ®Šå‡¦ç† ---
 	if (_stricmp(strName.c_str(), "RANGETYPE") == 0){
 		pdata->cnv.getStrValNum(pdata->recHold.typeRange, strVal, 0);
 	}
-	//--- HEAD/TAILŠúŠÔˆ— ---
+	//--- HEAD/TAILæœŸé–“å‡¦ç† ---
 	int type_add = 0;
 	string strAddName;
 	if (_stricmp(strName.c_str(), "HEADFRAME") == 0){
@@ -457,7 +457,7 @@ void JlsScrFuncReg::setJlsRegVarCouple(const string& strName, const string& strV
 			bool overwrite = true;
 			pGlobalState->setRegVarCommon(strAddName, strAddVal, overwrite, flagLocal);
 		}
-		//--- head/tailî•ñ‚ğXV ---
+		//--- head/tailæƒ…å ±ã‚’æ›´æ–° ---
 		{
 			string strHead;
 			if ( getJlsRegVarNormal(strHead, "HEADTIME") ){
@@ -467,7 +467,7 @@ void JlsScrFuncReg::setJlsRegVarCouple(const string& strName, const string& strV
 			if ( getJlsRegVarNormal(strTail, "TAILTIME") ){
 				pdata->cnv.getStrValMsecM1(pdata->recHold.rmsecHeadTail.ed, strTail, 0);
 			}
-			//--- ABSHEAD/ABSTAIL‚ğXV ---
+			//--- ABSHEAD/ABSTAILã‚’æ›´æ–° ---
 			string strAbsHead = strHead;
 			string strAbsTail = strTail;
 			if ( pdata->recHold.rmsecHeadTail.st < 0 ){
@@ -483,7 +483,7 @@ void JlsScrFuncReg::setJlsRegVarCouple(const string& strName, const string& strV
 			pGlobalState->setRegVarCommon("ABSTAIL", strAbsTail, overwrite, flagLocal);
 		}
 	}
-	//--- MAXTIMEXV ---
+	//--- MAXTIMEæ›´æ–° ---
 	if ( _stricmp(strName.c_str(), "MAXTIME") == 0 ){
 		string strTail;
 		bool validTail = false;
@@ -503,7 +503,7 @@ void JlsScrFuncReg::setJlsRegVarCouple(const string& strName, const string& strV
 }
 
 //---------------------------------------------------------------------
-// •Ï”‚ğ“Ç‚İo‚µ
+// å¤‰æ•°ã‚’èª­ã¿å‡ºã—
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::getJlsRegVarNormal(string& strVal, const string& strName){
 	return ( getJlsRegVar(strVal, strName, true) > 0 );
@@ -512,16 +512,16 @@ int JlsScrFuncReg::getJlsRegVarPartName(string& strVal, const string& strCandNam
 	return getJlsRegVar(strVal, strCandName, exact);
 }
 //---------------------------------------------------------------------
-// •Ï”‚ğ“Ç‚İo‚µ
-// “ü—ÍF
-//   strCandName : “Ç‚İo‚µ•Ï”–¼iŒó•âj
-//   excact      : 0=“ü—Í•¶š‚ÉÅ‘åƒ}ƒbƒ`‚·‚é•Ï”  1=“ü—Í•¶š‚ÆŠ®‘Sˆê’v‚·‚é•Ï”
-// o—ÍF
-//   •Ô‚è’l  : •Ï”–¼‚Ì•¶š”i0‚Ì‚Í‘Î‰•Ï”‚È‚µj
-//   strVal  : •Ï”’l
+// å¤‰æ•°ã‚’èª­ã¿å‡ºã—
+// å…¥åŠ›ï¼š
+//   strCandName : èª­ã¿å‡ºã—å¤‰æ•°åï¼ˆå€™è£œï¼‰
+//   excact      : 0=å…¥åŠ›æ–‡å­—ã«æœ€å¤§ãƒãƒƒãƒã™ã‚‹å¤‰æ•°  1=å…¥åŠ›æ–‡å­—ã¨å®Œå…¨ä¸€è‡´ã™ã‚‹å¤‰æ•°
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  : å¤‰æ•°åã®æ–‡å­—æ•°ï¼ˆ0ã®æ™‚ã¯å¯¾å¿œå¤‰æ•°ãªã—ï¼‰
+//   strVal  : å¤‰æ•°å€¤
 //---------------------------------------------------------------------
 int JlsScrFuncReg::getJlsRegVar(string& strVal, const string& strCandName, bool exact){
-	//--- •ª—£ƒIƒvƒVƒ‡ƒ“ƒ`ƒFƒbƒN ---
+	//--- åˆ†é›¢ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒã‚§ãƒƒã‚¯ ---
 	string strNamePart = strCandName;
 	string strDivPart;
 	int lenDivFullVar;
@@ -529,53 +529,53 @@ int JlsScrFuncReg::getJlsRegVar(string& strVal, const string& strCandName, bool 
 	if ( exact ){
 		flagDivOpt = checkJlsRegDivide(strNamePart, strDivPart, lenDivFullVar);
 	}
-	//--- ƒŠƒXƒg•Ï”‚Ìƒ`ƒFƒbƒN ---
+	//--- ãƒªã‚¹ãƒˆå¤‰æ•°ã®ãƒã‚§ãƒƒã‚¯ ---
 	bool flagNum = false;
-	if ( strNamePart[0] == '#' ){		// ƒŠƒXƒg‚Ì—v‘f”
+	if ( strNamePart[0] == '#' ){		// ãƒªã‚¹ãƒˆã®è¦ç´ æ•°
 		flagNum = true;
 		strNamePart = strNamePart.substr(1);
 	}
 	int lenFullVar;
-	if ( !fixJlsRegNameAtList(strNamePart, lenFullVar, exact) ){	// ƒŠƒXƒg—v‘f•â³
+	if ( !fixJlsRegNameAtList(strNamePart, lenFullVar, exact) ){	// ãƒªã‚¹ãƒˆè¦ç´ è£œæ­£
 		strVal.clear();
-		return 0;		// ƒŠƒXƒg—v‘f•”•ª‚ÌˆÙí‚É‚æ‚éI—¹
+		return 0;		// ãƒªã‚¹ãƒˆè¦ç´ éƒ¨åˆ†ã®ç•°å¸¸ã«ã‚ˆã‚‹çµ‚äº†
 	}
 
-	//--- ’Êí‚ÌƒŒƒWƒXƒ^“Ç‚İo‚µ ---
+	//--- é€šå¸¸ã®ãƒ¬ã‚¸ã‚¹ã‚¿èª­ã¿å‡ºã— ---
 	int lenVar = pGlobalState->getRegVarCommon(strVal, strNamePart, exact);
 
-	//--- ƒŠƒXƒg•Ï”‚Ì•â³ ---
-	if ( (int)strNamePart.length() == lenVar ){	// •¶š—ñ‚ÌÅŒã‚Ü‚Å•Ï”‚¾‚Á‚½ê‡
-		lenVar = lenFullVar;		// [€–Ú”Ô†]‚İ‚Ì•Ï”•¶š—ñ’·‚É‚·‚é
+	//--- ãƒªã‚¹ãƒˆå¤‰æ•°æ™‚ã®è£œæ­£ ---
+	if ( (int)strNamePart.length() == lenVar ){	// æ–‡å­—åˆ—ã®æœ€å¾Œã¾ã§å¤‰æ•°ã ã£ãŸå ´åˆ
+		lenVar = lenFullVar;		// [é …ç›®ç•ªå·]è¾¼ã¿ã®å¤‰æ•°æ–‡å­—åˆ—é•·ã«ã™ã‚‹
 	}
-	if ( flagNum ){		// ƒŠƒXƒg‚Ì—v‘f”æ“¾
+	if ( flagNum ){		// ãƒªã‚¹ãƒˆã®è¦ç´ æ•°å–å¾—
 		int numList = pFuncList->getListStrSize(strVal);
 		strVal = to_string(numList);
 	}
-	//--- •ª—£ƒIƒvƒVƒ‡ƒ“‚É‚æ‚é•ª—£ ---
+	//--- åˆ†é›¢ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã«ã‚ˆã‚‹åˆ†é›¢ ---
 	if ( flagDivOpt ){
 		if ( divideJlsRegVar(strVal, strDivPart) ){
-			lenVar = lenDivFullVar;		// ¬Œ÷‚ÍŒ³‚Ì•¶š—ñ’·‚É–ß‚·
+			lenVar = lenDivFullVar;		// æˆåŠŸæ™‚ã¯å…ƒã®æ–‡å­—åˆ—é•·ã«æˆ»ã™
 		}else{
-			lenVar = 0;		// ƒIƒvƒVƒ‡ƒ“ƒGƒ‰[
+			lenVar = 0;		// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼æ™‚
 		}
 	}
 	return lenVar;
 }
 //---------------------------------------------------------------------
-// ƒpƒXEŠg’£q•ª—£ƒIƒvƒVƒ‡ƒ“•t‚«‚©ƒ`ƒFƒbƒN
-// “ü—ÍF
-//   strNamePart : •Ï”–¼i•ª—£ƒIƒvƒVƒ‡ƒ“‚İj
-// o—ÍF
-//   •Ô‚è’l  : true=•ª—£ƒIƒvƒVƒ‡ƒ“•t‚«  false=’Êí‚Ì•Ï”
-//   strNamePart : •Ï”–¼i•ª—£ƒIƒvƒVƒ‡ƒ“‚Íœ‚­j
-//   strDivPart  : •ª—£ƒIƒvƒVƒ‡ƒ“
-//   lenFullVar  : •ª—£ƒIƒvƒVƒ‡ƒ“‚İ‚Ì•Ï”•¶š—ñ’·
+// ãƒ‘ã‚¹ãƒ»æ‹¡å¼µå­åˆ†é›¢ã‚ªãƒ—ã‚·ãƒ§ãƒ³ä»˜ãã‹ãƒã‚§ãƒƒã‚¯
+// å…¥åŠ›ï¼š
+//   strNamePart : å¤‰æ•°åï¼ˆåˆ†é›¢ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¾¼ã¿ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  : true=åˆ†é›¢ã‚ªãƒ—ã‚·ãƒ§ãƒ³ä»˜ã  false=é€šå¸¸ã®å¤‰æ•°
+//   strNamePart : å¤‰æ•°åï¼ˆåˆ†é›¢ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã¯é™¤ãï¼‰
+//   strDivPart  : åˆ†é›¢ã‚ªãƒ—ã‚·ãƒ§ãƒ³
+//   lenFullVar  : åˆ†é›¢ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¾¼ã¿ã®å¤‰æ•°æ–‡å­—åˆ—é•·
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::checkJlsRegDivide(string& strNamePart, string& strDivPart, int& lenFullVar){
 	lenFullVar = (int) strNamePart.length();
 
-	auto locSt = strNamePart.find("]");		// ƒŠƒXƒg”z—ñ‚Í—v‘fŒã‚©‚ç
+	auto locSt = strNamePart.find("]");		// ãƒªã‚¹ãƒˆé…åˆ—æ™‚ã¯è¦ç´ å¾Œã‹ã‚‰
 	if ( locSt == string::npos ){
 		locSt = 0;
 	}
@@ -589,20 +589,20 @@ bool JlsScrFuncReg::checkJlsRegDivide(string& strNamePart, string& strDivPart, i
 	return true;
 }
 //---------------------------------------------------------------------
-// ƒpƒXEŠg’£q•ª—£ƒIƒvƒVƒ‡ƒ“‚ÌÀs
-// “ü—ÍF
-//   strVal      : •Ï”’li•ª—£‘Oj
-//   strDivPart  : •ª—£ƒIƒvƒVƒ‡ƒ“
-// o—ÍF
-//   •Ô‚è’l  : true=•ª—£ƒIƒvƒVƒ‡ƒ“Às  false=•ª—£ƒIƒvƒVƒ‡ƒ“ƒGƒ‰[
-//   strVal      : •Ï”’li•ª—£Œãj
+// ãƒ‘ã‚¹ãƒ»æ‹¡å¼µå­åˆ†é›¢ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®å®Ÿè¡Œ
+// å…¥åŠ›ï¼š
+//   strVal      : å¤‰æ•°å€¤ï¼ˆåˆ†é›¢å‰ï¼‰
+//   strDivPart  : åˆ†é›¢ã‚ªãƒ—ã‚·ãƒ§ãƒ³
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  : true=åˆ†é›¢ã‚ªãƒ—ã‚·ãƒ§ãƒ³å®Ÿè¡Œ  false=åˆ†é›¢ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼
+//   strVal      : å¤‰æ•°å€¤ï¼ˆåˆ†é›¢å¾Œï¼‰
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::divideJlsRegVar(string& strVal, const string& strDivPart){
 	auto locSt = strDivPart.find(":");
-	if ( locSt == string::npos ) return true;	// ’Êíi:‚È‚µj‚Í³íI—¹
+	if ( locSt == string::npos ) return true;	// é€šå¸¸ï¼ˆ:ãªã—ï¼‰ã¯æ­£å¸¸çµ‚äº†
 
 	string strOpt = strDivPart;
-	if ( strDivPart.find("$") != string::npos ){	// “à•”‚É•Ï”‚ªg‚í‚ê‚Ä‚¢‚½‚ç’uŠ·
+	if ( strDivPart.find("$") != string::npos ){	// å†…éƒ¨ã«å¤‰æ•°ãŒä½¿ã‚ã‚Œã¦ã„ãŸã‚‰ç½®æ›
 		replaceBufVar(strOpt, strDivPart);
 	}
 	while( locSt != string::npos ){
@@ -620,41 +620,41 @@ bool JlsScrFuncReg::divideJlsRegVar(string& strVal, const string& strDivPart){
 	}
 	return true;
 }
-//--- ƒpƒXEŠg’£q•ª—£ƒRƒ}ƒ“ƒh‚ÌƒfƒR[ƒh‚ÆÀsBƒGƒ‰[‚Ì‚Ífalse‚ğ•Ô‚· ---
+//--- ãƒ‘ã‚¹ãƒ»æ‹¡å¼µå­åˆ†é›¢ã‚³ãƒãƒ³ãƒ‰ã®ãƒ‡ã‚³ãƒ¼ãƒ‰ã¨å®Ÿè¡Œã€‚ã‚¨ãƒ©ãƒ¼ã®æ™‚ã¯falseã‚’è¿”ã™ ---
 bool JlsScrFuncReg::divideJlsRegVarDecode(string& strVal, const string& strCmd){
-	//--- ƒRƒ}ƒ“ƒh•¶š—ñƒfƒR[ƒh ---
+	//--- ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—ãƒ‡ã‚³ãƒ¼ãƒ‰ ---
 	VarProcRecord var;
 	bool success = divideJlsRegVarDecodeIn(var, strCmd);
 	if ( !success ){
 		return false;
 	}
-	//--- Šg’£qİ’è ---
+	//--- æ‹¡å¼µå­è¨­å®š ---
 	string strDelim;
 	if ( pGlobalState->getRegVarCommon(strDelim, DefRegExtChar, true) <= 0 ){
 		strDelim.clear();
 	}
-	if ( strDelim.empty() ){	// ê‡•ª‚¯•s—v‚É‚·‚é‚½‚ß•K‚¸’·‚³1ˆÈã‚Ì•¶š—ñ‚É‚·‚é
+	if ( strDelim.empty() ){	// å ´åˆåˆ†ã‘ä¸è¦ã«ã™ã‚‹ãŸã‚å¿…ãšé•·ã•1ä»¥ä¸Šã®æ–‡å­—åˆ—ã«ã™ã‚‹
 		strDelim = ".";
 	}
 	string strSubDelim;
 	pGlobalState->getRegVarCommon(strSubDelim, DefRegExtCsub, true);
-	//--- Šeíˆ—Às ---
+	//--- å„ç¨®å‡¦ç†å®Ÿè¡Œ ---
 	switch( var.typeProc ){
-		case VarProcType::path :		// ƒpƒX•ªŠ„
+		case VarProcType::path :		// ãƒ‘ã‚¹åˆ†å‰²
 			pdata->cnv.getStrDivPath(strVal, var.selHead, var.withDelim);
 			break;
-		case VarProcType::divext :		// Šg’£q•ªŠ„
+		case VarProcType::divext :		// æ‹¡å¼µå­åˆ†å‰²
 			pdata->cnv.getStrDivide(strVal, strDelim, var.selHead, var.selPath);
 			break;
-		case VarProcType::substr :	// •”•ª•¶š—ñ‚ÌŠJnˆÊ’u‚Æ’·‚³‚ğ“Ç‚İ‚İÀs
+		case VarProcType::substr :	// éƒ¨åˆ†æ–‡å­—åˆ—ã®é–‹å§‹ä½ç½®ã¨é•·ã•ã‚’èª­ã¿è¾¼ã¿å®Ÿè¡Œ
 			{
 				int nSt;
 				int pos = pdata->cnv.getStrValFuncNum(nSt, strCmd, 1);
 				if ( pos >= 0 ){
 					LocalStr lcstr;
-					if ( pos == (int) strCmd.length() ){	// ’·‚³È—ª
+					if ( pos == (int) strCmd.length() ){	// é•·ã•çœç•¥æ™‚
 						strVal = lcstr.getSubStr(strVal, nSt);
-					}else if ( strCmd[pos] != ',' ){	// ‹æØ‚è‚Í , ŒÀ’è
+					}else if ( strCmd[pos] != ',' ){	// åŒºåˆ‡ã‚Šã¯ , é™å®š
 						pos = -1;
 					}else{
 						int nLen;
@@ -665,11 +665,11 @@ bool JlsScrFuncReg::divideJlsRegVarDecode(string& strVal, const string& strCmd){
 				if ( pos < 0 ) return false;
 			}
 			break;
-		case VarProcType::exchg :	// Šg’£q•¶š—ñ‚ğ’uŠ·
-			if ( var.selInStr ){	// Še•¶š‚»‚ê‚¼‚ê’uŠ·
+		case VarProcType::exchg :	// æ‹¡å¼µå­æ–‡å­—åˆ—ã‚’ç½®æ›
+			if ( var.selInStr ){	// å„æ–‡å­—ãã‚Œãã‚Œç½®æ›
 				LocalStr lcstr;
 				success = lcstr.replaceInStr(strVal, strDelim, strSubDelim);
-			}else if ( var.selQuote ){		// ƒNƒH[ƒg’uŠ·
+			}else if ( var.selQuote ){		// ã‚¯ã‚©ãƒ¼ãƒˆç½®æ›
 				if ( var.selBackup ){
 					backupStrQuote(strVal);
 				}else{
@@ -679,13 +679,13 @@ bool JlsScrFuncReg::divideJlsRegVarDecode(string& strVal, const string& strCmd){
 				replaceStrAllFind(strVal, strDelim, strSubDelim);
 			}
 			break;
-		case VarProcType::blank :	// ƒXƒy[ƒX•¶š‚ğ‘S•”œ‚­
+		case VarProcType::blank :	// ã‚¹ãƒšãƒ¼ã‚¹æ–‡å­—ã‚’å…¨éƒ¨é™¤ã
 			{
-				std::regex re("\\s+");	// ƒXƒy[ƒX‚Í³‹K•\Œ»‚Å‚àƒ}ƒ‹ƒ`ƒoƒCƒgˆ—•s—v
+				std::regex re("\\s+");	// ã‚¹ãƒšãƒ¼ã‚¹ã¯æ­£è¦è¡¨ç¾ã§ã‚‚ãƒãƒ«ãƒãƒã‚¤ãƒˆå‡¦ç†ä¸è¦
 				strVal = std::regex_replace(strVal, re, "");
 			}
 			break;
-		case VarProcType::trim :	// ƒXƒy[ƒX•¶š‚ğ‘OŒã‚Åœ‚­
+		case VarProcType::trim :	// ã‚¹ãƒšãƒ¼ã‚¹æ–‡å­—ã‚’å‰å¾Œã§é™¤ã
 			{
 				if ( var.selHead ){
 					std::regex re("^\\s+");
@@ -697,10 +697,10 @@ bool JlsScrFuncReg::divideJlsRegVarDecode(string& strVal, const string& strCmd){
 				}
 			}
 			break;
-		case VarProcType::chpath :	// ÅŒã‚ªƒpƒX‹æØ‚è‚Å‚È‚¯‚ê‚ÎƒpƒX‹æØ‚è‚ğ’Ç‰Á
-			pdata->cnv.getStrFileAllPath(strVal);	// ÅŒã‚É‹æØ‚è•t‰Á
+		case VarProcType::chpath :	// æœ€å¾ŒãŒãƒ‘ã‚¹åŒºåˆ‡ã‚Šã§ãªã‘ã‚Œã°ãƒ‘ã‚¹åŒºåˆ‡ã‚Šã‚’è¿½åŠ 
+			pdata->cnv.getStrFileAllPath(strVal);	// æœ€å¾Œã«åŒºåˆ‡ã‚Šä»˜åŠ 
 			break;
-		case VarProcType::frame :	// ŠÔ‚ğƒtƒŒ[ƒ€”‚É•ÏŠ·
+		case VarProcType::frame :	// æ™‚é–“ã‚’ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã«å¤‰æ›
 			{
 				vector<Msec> listTmp;
 				if ( pdata->cnv.getListValMsecM1(listTmp, strVal) ){
@@ -712,20 +712,20 @@ bool JlsScrFuncReg::divideJlsRegVarDecode(string& strVal, const string& strCmd){
 				}
 			}
 			break;
-		case VarProcType::match :	// ³‹K•\Œ»ŒŸõ
+		case VarProcType::match :	// æ­£è¦è¡¨ç¾æ¤œç´¢
 			{
 				LocalStr lcstr;
 				strVal = lcstr.getRegMAtch(strVal, strDelim);
 			}
 			break;
-		case VarProcType::count :	// Šg’£qoŒ»”‚ğo—Í
+		case VarProcType::count :	// æ‹¡å¼µå­å‡ºç¾æ•°ã‚’å‡ºåŠ›
 			{
 				int mc = 0;
-				if ( var.selInStr ){		// ‚¢‚¸‚ê‚©‚Ì•¶š
+				if ( var.selInStr ){		// ã„ãšã‚Œã‹ã®æ–‡å­—
 					LocalStr lcstr;
 					mc = lcstr.countInStr(strVal, strDelim);
 				}
-				else if ( var.selRegEx ){		// ³‹K•\Œ»‚Å
+				else if ( var.selRegEx ){		// æ­£è¦è¡¨ç¾ã§
 					LocalStr lcstr;
 					mc = lcstr.countRegExMatch(strVal, strDelim);
 				}
@@ -739,7 +739,7 @@ bool JlsScrFuncReg::divideJlsRegVarDecode(string& strVal, const string& strCmd){
 				strVal = to_string(mc);
 			}
 			break;
-		case VarProcType::len :	// •¶š—ñ’·‚ğo—Í
+		case VarProcType::len :	// æ–‡å­—åˆ—é•·ã‚’å‡ºåŠ›
 			{
 				LocalStr lcstr;
 				int len = lcstr.getStrLen(strVal);
@@ -751,67 +751,67 @@ bool JlsScrFuncReg::divideJlsRegVarDecode(string& strVal, const string& strCmd){
 	}
 	return true;
 }
-//--- ƒRƒ}ƒ“ƒh•”•ª•¶š—ñ‚ğ”F¯ ---
+//--- ã‚³ãƒãƒ³ãƒ‰éƒ¨åˆ†æ–‡å­—åˆ—ã‚’èªè­˜ ---
 bool JlsScrFuncReg::divideJlsRegVarDecodeIn(VarProcRecord& var, const string& strCmd){
 	bool success   = true;
 	var.typeProc = VarProcType::none;
 	var.selHead   = false;
 	var.selTail   = false;
-	var.selPath   = true;		// Šg’£qŒŸõ‚ÍƒpƒXŒã‚ÉŒÀ’è‚µ‚Äs‚¤İ’è
-	var.withDelim = false;		// ƒpƒX‚ÌÅI‹æØ‚è‚Ío—Í‚µ‚È‚¢İ’è
-	var.selRegEx  = false;		// ³‹K•\Œ»‚ÅŒŸõ
-	var.selInStr  = false;		// Še•¶š‚ÅŒŸõ
-	var.selQuote  = false;		// ˆø—p•„ˆ—
-	var.selBackup = false;		// ƒoƒbƒNƒAƒbƒv‘I‘ğ
+	var.selPath   = true;		// æ‹¡å¼µå­æ¤œç´¢ã¯ãƒ‘ã‚¹å¾Œã«é™å®šã—ã¦è¡Œã†è¨­å®š
+	var.withDelim = false;		// ãƒ‘ã‚¹ã®æœ€çµ‚åŒºåˆ‡ã‚Šã¯å‡ºåŠ›ã—ãªã„è¨­å®š
+	var.selRegEx  = false;		// æ­£è¦è¡¨ç¾ã§æ¤œç´¢
+	var.selInStr  = false;		// å„æ–‡å­—ã§æ¤œç´¢
+	var.selQuote  = false;		// å¼•ç”¨ç¬¦å‡¦ç†
+	var.selBackup = false;		// ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—é¸æŠ
 	if ( strCmd.length() == 1 ){
 		switch( strCmd[0] ){
-			case 'r' :			// Šg’£q‚ğæ‚èœ‚­
+			case 'r' :			// æ‹¡å¼µå­ã‚’å–ã‚Šé™¤ã
 				var.typeProc = VarProcType::divext;
 				var.selHead = true;
 				break;
-			case 'e' :			// Šg’£q‚Ì‚İc‚·
+			case 'e' :			// æ‹¡å¼µå­ã®ã¿æ®‹ã™
 				var.typeProc = VarProcType::divext;
 				var.selTail = true;
 				break;
-			case 'h' :			// ƒpƒX•”•ª‚Ì‚İc‚·
+			case 'h' :			// ãƒ‘ã‚¹éƒ¨åˆ†ã®ã¿æ®‹ã™
 				var.typeProc = VarProcType::path;
 				var.selHead = true;
 				break;
-			case 't' :			// ƒtƒ@ƒCƒ‹–¼ˆÈ~‚Ì‚İc‚·
+			case 't' :			// ãƒ•ã‚¡ã‚¤ãƒ«åä»¥é™ã®ã¿æ®‹ã™
 				var.typeProc = VarProcType::path;
 				var.selTail = true;
 				break;
-			case '~' :			// •”•ª•¶š—ñ‚ğc‚·
+			case '~' :			// éƒ¨åˆ†æ–‡å­—åˆ—ã‚’æ®‹ã™
 				var.typeProc = VarProcType::substr;
 				break;
-			case '<' :			// ƒXƒy[ƒX•¶š‚ğ‘O‘¤‚Åœ‚­
+			case '<' :			// ã‚¹ãƒšãƒ¼ã‚¹æ–‡å­—ã‚’å‰å´ã§é™¤ã
 				var.typeProc = VarProcType::trim;
 				var.selHead = true;
 				break;
-			case '>' :			// ƒXƒy[ƒX•¶š‚ğŒã‘¤‚Åœ‚­
+			case '>' :			// ã‚¹ãƒšãƒ¼ã‚¹æ–‡å­—ã‚’å¾Œå´ã§é™¤ã
 				var.typeProc = VarProcType::trim;
 				var.selTail = true;
 				break;
-			case '/' :			// ÅŒã‚ªƒpƒX‹æØ‚è‚Å‚È‚¯‚ê‚ÎƒpƒX‹æØ‚è‚ğ’Ç‰Á
+			case '/' :			// æœ€å¾ŒãŒãƒ‘ã‚¹åŒºåˆ‡ã‚Šã§ãªã‘ã‚Œã°ãƒ‘ã‚¹åŒºåˆ‡ã‚Šã‚’è¿½åŠ 
 				var.typeProc = VarProcType::chpath;
 				break;
-			case 'f' :			// ŠÔ‚ğƒtƒŒ[ƒ€”‚É•ÏŠ·
+			case 'f' :			// æ™‚é–“ã‚’ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã«å¤‰æ›
 				var.typeProc = VarProcType::frame;
 				break;
-			case 'X' :			// Šg’£q•¶š—ñ‚ğ’uŠ·
+			case 'X' :			// æ‹¡å¼µå­æ–‡å­—åˆ—ã‚’ç½®æ›
 				var.typeProc = VarProcType::exchg;
 				break;
-			case 'R' :			// Šg’£q‚ğæ‚èœ‚­iƒpƒX‚ğ–³‹‚µ‚Äæ“ª‚©‚çŒŸõj
+			case 'R' :			// æ‹¡å¼µå­ã‚’å–ã‚Šé™¤ãï¼ˆãƒ‘ã‚¹ã‚’ç„¡è¦–ã—ã¦å…ˆé ­ã‹ã‚‰æ¤œç´¢ï¼‰
 				var.typeProc = VarProcType::divext;
 				var.selHead = true;
 				var.selPath = false;
 				break;
-			case 'E' :			// Šg’£q‚Ì‚İc‚·iƒpƒX‚ğ–³‹‚µ‚Äæ“ª‚©‚çŒŸõj
+			case 'E' :			// æ‹¡å¼µå­ã®ã¿æ®‹ã™ï¼ˆãƒ‘ã‚¹ã‚’ç„¡è¦–ã—ã¦å…ˆé ­ã‹ã‚‰æ¤œç´¢ï¼‰
 				var.typeProc = VarProcType::divext;
 				var.selTail = true;
 				var.selPath = false;
 				break;
-			case 'H' :			// ƒpƒX•”•ª‚Ì‚İc‚·iÅŒã‚ÌƒpƒX‹æØ‚è‚ğŠÜ‚Şj
+			case 'H' :			// ãƒ‘ã‚¹éƒ¨åˆ†ã®ã¿æ®‹ã™ï¼ˆæœ€å¾Œã®ãƒ‘ã‚¹åŒºåˆ‡ã‚Šã‚’å«ã‚€ï¼‰
 				var.typeProc = VarProcType::path;
 				var.selHead = true;
 				var.withDelim = true;
@@ -819,10 +819,10 @@ bool JlsScrFuncReg::divideJlsRegVarDecodeIn(VarProcRecord& var, const string& st
 			case 'M' :
 				var.typeProc = VarProcType::match;
 				break;
-			case 'C' :			// Šg’£qoŒ»”‚ğo—Í
+			case 'C' :			// æ‹¡å¼µå­å‡ºç¾æ•°ã‚’å‡ºåŠ›
 				var.typeProc = VarProcType::count;
 				break;
-			case 'L' :			// •¶š—ñ’·‚ğo—Í
+			case 'L' :			// æ–‡å­—åˆ—é•·ã‚’å‡ºåŠ›
 				var.typeProc = VarProcType::len;
 				break;
 			default :
@@ -832,33 +832,33 @@ bool JlsScrFuncReg::divideJlsRegVarDecodeIn(VarProcRecord& var, const string& st
 		}
 	}
 	else{
-		if ( strCmd == "<>" ){		// ƒXƒy[ƒX•¶š‚ğ‘OŒã‚Åœ‚­
+		if ( strCmd == "<>" ){		// ã‚¹ãƒšãƒ¼ã‚¹æ–‡å­—ã‚’å‰å¾Œã§é™¤ã
 			var.typeProc = VarProcType::trim;
 			var.selHead = true;
 			var.selTail = true;
 		}
-		else if ( strCmd == "Xi" ){		// Šg’£q‚¢‚¸‚ê‚©•¶š‚ğ’uŠ·
+		else if ( strCmd == "Xi" ){		// æ‹¡å¼µå­ã„ãšã‚Œã‹æ–‡å­—ã‚’ç½®æ›
 			var.typeProc = VarProcType::exchg;
 			var.selInStr = true;
 		}
-		else if ( strCmd == "Xb" ){		//  ƒXƒy[ƒX•¶š‚ğ‘S•”œ‚­
+		else if ( strCmd == "Xb" ){		//  ã‚¹ãƒšãƒ¼ã‚¹æ–‡å­—ã‚’å…¨éƒ¨é™¤ã
 			var.typeProc = VarProcType::blank;
 		}
-		else if ( strCmd == "Xq" ){		// ƒNƒH[ƒg‚ğ’uŠ·‘Ş”ğ
+		else if ( strCmd == "Xq" ){		// ã‚¯ã‚©ãƒ¼ãƒˆã‚’ç½®æ›é€€é¿
 			var.typeProc = VarProcType::exchg;
 			var.selQuote = true;
 			var.selBackup = true;
 		}
-		else if ( strCmd == "Xqr" ){	// ’uŠ·‘Ş”ğ‚ğŒ³‚É–ß‚·
+		else if ( strCmd == "Xqr" ){	// ç½®æ›é€€é¿ã‚’å…ƒã«æˆ»ã™
 			var.typeProc = VarProcType::exchg;
 			var.selQuote = true;
 			var.selBackup = false;
 		}
-		else if ( strCmd == "Ci" ){		// Šg’£q‚¢‚¸‚ê‚©•¶š‚ÌoŒ»”‚ğo—Í
+		else if ( strCmd == "Ci" ){		// æ‹¡å¼µå­ã„ãšã‚Œã‹æ–‡å­—ã®å‡ºç¾æ•°ã‚’å‡ºåŠ›
 			var.typeProc = VarProcType::count;
 			var.selInStr = true;
 		}
-		else if ( strCmd == "Cm" ){		// ³‹K•\Œ»‚ÅŠg’£qoŒ»”‚ğo—Í
+		else if ( strCmd == "Cm" ){		// æ­£è¦è¡¨ç¾ã§æ‹¡å¼µå­å‡ºç¾æ•°ã‚’å‡ºåŠ›
 			var.typeProc = VarProcType::count;
 			var.selRegEx = true;
 		}
@@ -867,7 +867,7 @@ bool JlsScrFuncReg::divideJlsRegVarDecodeIn(VarProcRecord& var, const string& st
 		}
 	}
 	if ( strCmd.length() > 0 ){
-		if ( strCmd[0] == '~' ){		// •”•ª•¶š—ñ‚ğc‚·
+		if ( strCmd[0] == '~' ){		// éƒ¨åˆ†æ–‡å­—åˆ—ã‚’æ®‹ã™
 			var.typeProc = VarProcType::substr;
 			success = true;
 		}
@@ -876,24 +876,24 @@ bool JlsScrFuncReg::divideJlsRegVarDecodeIn(VarProcRecord& var, const string& st
 }
 
 //---------------------------------------------------------------------
-// ƒŠƒXƒg•Ï”‚Ì—v‘f‚ğC³B—v‘f‚¾‚Á‚½‚Í—v‘f“à‚Ì‰‰Z‚ğ‚µ‚Ä®”’l‚É‚·‚é
-// “ü—ÍF
-//   strNamePart : •Ï”–¼i[”Ô†]‚İj
-//   exact       : true=•Ï”–¼‘S‘Ì  false=æ“ª‚©‚ç•Ï”–¼‚Æˆê’v‚ ‚è
-// o—ÍF
-//   •Ô‚è’l  : true=¬Œ÷  false=¸”s
-//   strNamePart : •Ï”–¼i[”Ô†]‚Í‰‰ZÏ‚İ‚Ì”’lj
-//   lenFullVar  : [”Ô†]‚İ‚Ì•Ï”•¶š—ñ’·i•ÏX‘O‚Ì•Ï”–¼‚Åj
+// ãƒªã‚¹ãƒˆå¤‰æ•°ã®è¦ç´ ã‚’ä¿®æ­£ã€‚è¦ç´ ã ã£ãŸæ™‚ã¯è¦ç´ å†…ã®æ¼”ç®—ã‚’ã—ã¦æ•´æ•°å€¤ã«ã™ã‚‹
+// å…¥åŠ›ï¼š
+//   strNamePart : å¤‰æ•°åï¼ˆ[ç•ªå·]è¾¼ã¿ï¼‰
+//   exact       : true=å¤‰æ•°åå…¨ä½“  false=å…ˆé ­ã‹ã‚‰å¤‰æ•°åã¨ä¸€è‡´ã‚ã‚Š
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  : true=æˆåŠŸ  false=å¤±æ•—
+//   strNamePart : å¤‰æ•°åï¼ˆ[ç•ªå·]ã¯æ¼”ç®—æ¸ˆã¿ã®æ•°å€¤ï¼‰
+//   lenFullVar  : [ç•ªå·]è¾¼ã¿ã®å¤‰æ•°æ–‡å­—åˆ—é•·ï¼ˆå¤‰æ›´å‰ã®å¤‰æ•°åã§ï¼‰
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::fixJlsRegNameAtList(string& strNamePart, int& lenFullVar, bool exact){
-	//--- •Ï”–¼[€–Ú”Ô†] ‚È‚çƒŠƒXƒg•Ï”‚Ì—v‘f ---
+	//--- å¤‰æ•°å[é …ç›®ç•ªå·] ãªã‚‰ãƒªã‚¹ãƒˆå¤‰æ•°ã®è¦ç´  ---
 	lenFullVar = (int)strNamePart.length();
 	auto locSt = strNamePart.find("[");
-	if ( locSt == string::npos ){	// ”z—ñ‚ª‚È‚¯‚ê‚Î³íI—¹
+	if ( locSt == string::npos ){	// é…åˆ—ãŒãªã‘ã‚Œã°æ­£å¸¸çµ‚äº†
 		return true;
 	}else{
 		auto locCt = strNamePart.find("$");
-		if ( locCt != string::npos && locCt < locSt ){	// [‚Ì‘O‚É$‚ª‚ ‚ê‚Î¡‰ñ‚Ì•Ï”‚Å‚Í‚È‚¢‚Ì‚Åœ‚­
+		if ( locCt != string::npos && locCt < locSt ){	// [ã®å‰ã«$ãŒã‚ã‚Œã°ä»Šå›ã®å¤‰æ•°ã§ã¯ãªã„ã®ã§é™¤ã
 			if ( exact ){
 				pGlobalState->addMsgErrorN("error: bad $ in " + strNamePart);
 				return false;
@@ -907,7 +907,7 @@ bool JlsScrFuncReg::fixJlsRegNameAtList(string& strNamePart, int& lenFullVar, bo
 	string strNew = strNamePart.substr(0, locSt);
 	bool success = true;
 	bool cont = true;
-	while( cont ){		// ‘½ŸŒ³‘Î‰ƒ‹[ƒv
+	while( cont ){		// å¤šæ¬¡å…ƒå¯¾å¿œãƒ«ãƒ¼ãƒ—
 		int dup = 0;
 		auto locEd = locSt + 1;
 		while( (strNamePart[locEd] != ']' || dup > 0) && strNamePart[locEd] != '\0' ){
@@ -920,11 +920,11 @@ bool JlsScrFuncReg::fixJlsRegNameAtList(string& strNamePart, int& lenFullVar, bo
 		}
 		success = false;
 		cont = false;
-		if ( strNamePart[locEd] == ']' && locSt+1 < locEd ){	// []“à‚Ì•¶š—ñ‚ğæ“¾‚µA‚»‚Ì’†‚Ì•Ï”’uŠ·‚ğÀ{
+		if ( strNamePart[locEd] == ']' && locSt+1 < locEd ){	// []å†…ã®æ–‡å­—åˆ—ã‚’å–å¾—ã—ã€ãã®ä¸­ã®å¤‰æ•°ç½®æ›ã‚’å®Ÿæ–½
 			string strAryBuf = strNamePart.substr(locSt + 1, locEd - locSt - 1);
 			string strItem;
 			if ( replaceBufVar(strItem, strAryBuf) ){
-				//--- €–Ú”Ô†‚Ìæ“¾ ---
+				//--- é …ç›®ç•ªå·ã®å–å¾— ---
 				int numItem;
 				if ( pdata->cnv.getStrValNum(numItem, strItem, 0) >= 0 ){
 					success = true;
@@ -932,7 +932,7 @@ bool JlsScrFuncReg::fixJlsRegNameAtList(string& strNamePart, int& lenFullVar, bo
 					strNew += to_string(numItem);
 					strNew += "]";
 					lenFullVar = (int) locEd + 1;
-					if ( strNamePart[locEd+1] == '[' ){		// ‘½ŸŒ³‘Î‰
+					if ( strNamePart[locEd+1] == '[' ){		// å¤šæ¬¡å…ƒå¯¾å¿œ
 						locSt = locEd + 1;
 						cont = true;
 					}
@@ -950,7 +950,7 @@ bool JlsScrFuncReg::fixJlsRegNameAtList(string& strNamePart, int& lenFullVar, bo
 	pGlobalState->addMsgErrorN("error: [value] must be integer in " + strNamePart);
 	return false;
 }
-//--- ‘ÎÛ•¶š—ñ‚ğ‚·‚×‚Ä’uŠ· ---
+//--- å¯¾è±¡æ–‡å­—åˆ—ã‚’ã™ã¹ã¦ç½®æ› ---
 void JlsScrFuncReg::replaceStrAllFind(string& strVal, const string& strFrom, const string& strTo){
 	if ( !strVal.empty() && !strFrom.empty() ){
 		auto n = strVal.find(strFrom);
@@ -960,7 +960,7 @@ void JlsScrFuncReg::replaceStrAllFind(string& strVal, const string& strFrom, con
 		}
 	}
 }
-//--- ˆø—p•„‚ğ§Œä–³ŠÖŒW•¶š‚É’uŠ·‘Ş”ğ ---
+//--- å¼•ç”¨ç¬¦ã‚’åˆ¶å¾¡ç„¡é–¢ä¿‚æ–‡å­—ã«ç½®æ›é€€é¿ ---
 void JlsScrFuncReg::backupStrQuote(string& strVal){
 	string strFrom = "\"";
 	string strTo;
@@ -970,7 +970,7 @@ void JlsScrFuncReg::backupStrQuote(string& strVal){
 	pGlobalState->getRegVarCommon(strTo, DefRegSQuote, true);
 	replaceStrAllFind(strVal, strFrom, strTo);
 }
-//--- ‘Ş”ğ‚µ‚Ä‚¢‚éˆø—p•„•¶š—ñ‚ğŒ³‚É–ß‚· ---
+//--- é€€é¿ã—ã¦ã„ã‚‹å¼•ç”¨ç¬¦æ–‡å­—åˆ—ã‚’å…ƒã«æˆ»ã™ ---
 void JlsScrFuncReg::restoreStrQuote(string& strVal){
 	string strFrom;
 	pGlobalState->getRegVarCommon(strFrom, DefRegDQuote, true);
@@ -982,16 +982,16 @@ void JlsScrFuncReg::restoreStrQuote(string& strVal){
 }
 
 //=====================================================================
-// •Ï”–¼•”•ª‚Ì’uŠ·
+// å¤‰æ•°åéƒ¨åˆ†ã®ç½®æ›
 //=====================================================================
 
 //---------------------------------------------------------------------
-// •Ï”•”•ª‚ğ’uŠ·‚µ‚½•¶š—ño—Í
-// “ü—ÍF
-//   strBuf : •¶š—ñ
-// o—ÍF
-//   •Ô‚è’l  F’uŠ·Œ‹‰Êitrue=¬Œ÷  false=¸”sj
-//   dstBuf  : o—Í•¶š—ñ
+// å¤‰æ•°éƒ¨åˆ†ã‚’ç½®æ›ã—ãŸæ–‡å­—åˆ—å‡ºåŠ›
+// å…¥åŠ›ï¼š
+//   strBuf : æ–‡å­—åˆ—
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  ï¼šç½®æ›çµæœï¼ˆtrue=æˆåŠŸ  false=å¤±æ•—ï¼‰
+//   dstBuf  : å‡ºåŠ›æ–‡å­—åˆ—
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::replaceBufVar(string& dstBuf, const string& srcBuf){
 	dstBuf.clear();
@@ -999,41 +999,41 @@ bool JlsScrFuncReg::replaceBufVar(string& dstBuf, const string& srcBuf){
 	int pos_cmt = pdata->cnv.getStrPosComment(srcBuf, 0);
 	int pos_base = 0;
 	while(pos_base >= 0){
-		//--- •Ï”•”•ª‚Ì’uŠ· ---
-		int pos_var = pdata->cnv.getStrPosReplaceVar(srcBuf, pos_base);	// $ˆÊ’u
+		//--- å¤‰æ•°éƒ¨åˆ†ã®ç½®æ› ---
+		int pos_var = pdata->cnv.getStrPosReplaceVar(srcBuf, pos_base);	// $ä½ç½®
 		if (pos_var >= 0){
-			//--- ƒRƒƒ“ƒg—ÌˆæŠm”F ---
+			//--- ã‚³ãƒ¡ãƒ³ãƒˆé ˜åŸŸç¢ºèª ---
 			bool bakCmt = pGlobalState->isStopAddMsgError();
 			bool flagCmt = ( pos_var >= pos_cmt && pos_cmt >= 0 )? true : bakCmt;
 			if ( flagCmt ){
-				pGlobalState->stopAddMsgError(true);	// ƒGƒ‰[o—Í’â~
+				pGlobalState->stopAddMsgError(true);	// ã‚¨ãƒ©ãƒ¼å‡ºåŠ›åœæ­¢
 			}
-			//--- $è‘O‚Ü‚Å‚Ì•¶š—ñ‚ğŠm’è ---
+			//--- $æ‰‹å‰ã¾ã§ã®æ–‡å­—åˆ—ã‚’ç¢ºå®š ---
 			if (pos_var > pos_base){
 				dstBuf += srcBuf.substr(pos_base, pos_var-pos_base);
 				pos_base = pos_var;
 			}
-			//--- •Ï”‚ğŒŸõ‚µ‚Ä’uŠ· ---
+			//--- å¤‰æ•°ã‚’æ¤œç´¢ã—ã¦ç½®æ› ---
 			string strVal;
 			int len_var = replaceRegVarInBuf(strVal, srcBuf, pos_var);
 			if (len_var > 0){
 				string strRev;
-				success = replaceBufVar(strRev, strVal);	// “à•”ÄŒŸõi–¢“WŠJ•Ï”‘Î‰j
+				success = replaceBufVar(strRev, strVal);	// å†…éƒ¨å†æ¤œç´¢ï¼ˆæœªå±•é–‹å¤‰æ•°å¯¾å¿œï¼‰
 				dstBuf += strRev;
 				pos_base += len_var;
 			}
 			else{
-				if ( flagCmt == false ){		// ƒRƒƒ“ƒg‚Å‚È‚¯‚ê‚Î’uŠ·¸”s
+				if ( flagCmt == false ){		// ã‚³ãƒ¡ãƒ³ãƒˆã§ãªã‘ã‚Œã°ç½®æ›å¤±æ•—
 					success = false;
 					pGlobalState->addMsgErrorN("warning: not defined variable in " + srcBuf);
 				}
 				pos_var = -1;
 			}
 			if ( flagCmt ){
-				pGlobalState->stopAddMsgError(bakCmt);	// ƒGƒ‰[o—Íó‘Ô•œ‹A
+				pGlobalState->stopAddMsgError(bakCmt);	// ã‚¨ãƒ©ãƒ¼å‡ºåŠ›çŠ¶æ…‹å¾©å¸°
 			}
 		}
-		//--- •Ï”‚ª‚È‚¯‚ê‚Îc‚è‚·‚×‚ÄƒRƒs[ ---
+		//--- å¤‰æ•°ãŒãªã‘ã‚Œã°æ®‹ã‚Šã™ã¹ã¦ã‚³ãƒ”ãƒ¼ ---
 		if (pos_var < 0){
 			dstBuf += srcBuf.substr(pos_base);
 			pos_base = -1;
@@ -1043,13 +1043,13 @@ bool JlsScrFuncReg::replaceBufVar(string& dstBuf, const string& srcBuf){
 }
 
 //---------------------------------------------------------------------
-// ‘ÎÛˆÊ’u‚Ì•Ï”‚ğ“Ç‚İo‚µ
-// “ü—ÍF
-//   strBuf : •¶š—ñ
-//   pos    : ”F¯ŠJnˆÊ’u
-// o—ÍF
-//   •Ô‚è’l  F•Ï”•”•ª‚Ì•¶š”
-//   strVal  : •Ï”’l
+// å¯¾è±¡ä½ç½®ã®å¤‰æ•°ã‚’èª­ã¿å‡ºã—
+// å…¥åŠ›ï¼š
+//   strBuf : æ–‡å­—åˆ—
+//   pos    : èªè­˜é–‹å§‹ä½ç½®
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  ï¼šå¤‰æ•°éƒ¨åˆ†ã®æ–‡å­—æ•°
+//   strVal  : å¤‰æ•°å€¤
 //---------------------------------------------------------------------
 int JlsScrFuncReg::replaceRegVarInBuf(string& strVal, const string& strBuf, int pos){
 	int var_st, var_ed;
@@ -1060,13 +1060,13 @@ int JlsScrFuncReg::replaceRegVarInBuf(string& strVal, const string& strBuf, int 
 	int ret = 0;
 	if (strBuf[pos] == '$'){
 		flagConv = true;
-		//--- •Ï”•”•ª‚ğæ“¾ ---
+		//--- å¤‰æ•°éƒ¨åˆ†ã‚’å–å¾— ---
 		pos ++;
-		if ( strBuf[pos] == '#' ){		// $#‚ÍƒŠƒXƒg—v‘f”
+		if ( strBuf[pos] == '#' ){		// $#ã¯ãƒªã‚¹ãƒˆè¦ç´ æ•°
 			flagNum = true;
 			pos ++;
 		}
-		if (strBuf[pos] == '{'){		// ${•Ï”–¼}ƒtƒH[ƒ}ƒbƒg‚Ìˆ—
+		if (strBuf[pos] == '{'){		// ${å¤‰æ•°å}ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæ™‚ã®å‡¦ç†
 			exact = true;
 			pos ++;
 			int dup = 0;
@@ -1083,7 +1083,7 @@ int JlsScrFuncReg::replaceRegVarInBuf(string& strVal, const string& strBuf, int 
 				flagConv = false;
 			}
 		}
-		else{							// $•Ï”–¼ƒtƒH[ƒ}ƒbƒg‚Ìˆ—
+		else{							// $å¤‰æ•°åãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæ™‚ã®å‡¦ç†
 			exact = false;
 			var_st = pos;
 			while(strBuf[pos] != ' ' && strBuf[pos] != '\0'){
@@ -1094,22 +1094,22 @@ int JlsScrFuncReg::replaceRegVarInBuf(string& strVal, const string& strBuf, int 
 		if (strBuf[pos] == '}' || strBuf[pos] == ' '){
 			var_ed -= 1;
 		}
-		//--- •Ï”“Ç‚İo‚µÀs ---
+		//--- å¤‰æ•°èª­ã¿å‡ºã—å®Ÿè¡Œ ---
 		if ( var_st <= var_ed && flagConv ){
 			string strCandName = strBuf.substr(var_st, var_ed-var_st+1);
-			if ( flagNum ){			// ƒŠƒXƒg—v‘f”
+			if ( flagNum ){			// ãƒªã‚¹ãƒˆè¦ç´ æ•°
 				strCandName = "#" + strCandName;
 			}
 			int nmatch = getJlsRegVarPartName(strVal, strCandName, exact);
 			if (nmatch > 0){
-				ret = nmatch + 1;	// •Ï”–¼” + $
+				ret = nmatch + 1;	// å¤‰æ•°åæ•° + $
 				if ( flagNum ){
 					ret += 1;		// #
 				}
 				if ( exact ){
 					ret += 2;		// {}
 					if ( ret < var_ed-var_st+2 ){
-						// ƒGƒ‰[‚Å‚ ‚é‚ªˆÙí‚ÍƒGƒ‰[o‚³‚È‚­‚Ä‚à‚í‚©‚é‚Ì‚Å‚»‚Ì‚Ü‚Ü
+						// ã‚¨ãƒ©ãƒ¼ã§ã‚ã‚‹ãŒç•°å¸¸ã¯ã‚¨ãƒ©ãƒ¼å‡ºã•ãªãã¦ã‚‚ã‚ã‹ã‚‹ã®ã§ãã®ã¾ã¾
 					}
 				}
 			}
@@ -1120,32 +1120,32 @@ int JlsScrFuncReg::replaceRegVarInBuf(string& strVal, const string& strBuf, int 
 
 
 //=====================================================================
-// ƒVƒXƒeƒ€•Ï”İ’è
+// ã‚·ã‚¹ãƒ†ãƒ å¤‰æ•°è¨­å®š
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ‰Šúİ’è•Ï”
+// åˆæœŸè¨­å®šå¤‰æ•°
 //---------------------------------------------------------------------
 void JlsScrFuncReg::setSystemRegInit(){
 	setSystemRegHeadtail(-1, -1);
 	setSystemRegUpdate();
-	//--- ‘‚«Š·‚¦‚Éwarning‚ğo‚·ƒOƒ[ƒoƒ‹•Ï”İ’è‚Ì‰ğœ ---
+	//--- æ›¸ãæ›ãˆã«warningã‚’å‡ºã™ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°è¨­å®šã®è§£é™¤ ---
 	pGlobalState->setGlobalLock(DefRegExtChar, false);
 	pGlobalState->setGlobalLock(DefRegDQuote, false);
 	pGlobalState->setGlobalLock(DefRegSQuote, false);
-	//--- ŒÅ’èƒOƒ[ƒoƒ‹•Ï” ---
+	//--- å›ºå®šã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•° ---
 	setJlsRegVar(DefRegExtChar, ".", true);
 	setJlsRegVar(DefRegExtCsub, ".", true);
 	setJlsRegVar(DefRegDQuote, DefStrRepDQ, true);
 	setJlsRegVar(DefRegSQuote, DefStrRepSQ, true);
-	//--- ‘‚«Š·‚¦‚Éwarning‚ğo‚·ƒOƒ[ƒoƒ‹•Ï”İ’è ---
+	//--- æ›¸ãæ›ãˆã«warningã‚’å‡ºã™ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°è¨­å®š ---
 	pGlobalState->setGlobalLock(DefRegExtChar, true);
 	pGlobalState->setGlobalLock(DefRegDQuote, true);
 	pGlobalState->setGlobalLock(DefRegSQuote, true);
 }
 
 //---------------------------------------------------------------------
-// ‰Šúİ’è•Ï”‚ÌŒ»İ’l‚É‚æ‚é•ÏX
+// åˆæœŸè¨­å®šå¤‰æ•°ã®ç¾åœ¨å€¤ã«ã‚ˆã‚‹å¤‰æ›´
 //---------------------------------------------------------------------
 void JlsScrFuncReg::setSystemRegUpdate(){
 	int n = pdata->getMsecTotalMax();
@@ -1159,27 +1159,27 @@ void JlsScrFuncReg::setSystemRegUpdate(){
 	setSystemRegFileOpen();
 }
 //---------------------------------------------------------------------
-// PathŠÖ˜A‚ÌŒ»İ’l‚É‚æ‚é•ÏX
+// Pathé–¢é€£ã®ç¾åœ¨å€¤ã«ã‚ˆã‚‹å¤‰æ›´
 //---------------------------------------------------------------------
 void JlsScrFuncReg::setSystemRegFilePath(){
-	string strDataLast = "data";		// ƒŠƒXƒgƒf[ƒ^“Ç‚İ‚İ—pJLƒTƒuƒpƒX‚©‚ç‚ÌˆÊ’u
+	string strDataLast = "data";		// ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿ç”¨JLã‚µãƒ–ãƒ‘ã‚¹ã‹ã‚‰ã®ä½ç½®
 
-	//--- JLƒTƒuƒpƒX“Ç‚İ‚İ ---
+	//--- JLã‚µãƒ–ãƒ‘ã‚¹èª­ã¿è¾¼ã¿ ---
 	string strPathSub;
 	if ( pdata->extOpt.subPath.empty() == false ){
 		strPathSub = pdata->extOpt.subPath;
 	}else{
 		strPathSub = pGlobalState->getPathNameJL();
 	}
-	pdata->cnv.getStrFileAllPath(strPathSub);	// ÅŒã‚É‹æØ‚è•t‰Á
-	//--- JLƒf[ƒ^ƒpƒX ---
+	pdata->cnv.getStrFileAllPath(strPathSub);	// æœ€å¾Œã«åŒºåˆ‡ã‚Šä»˜åŠ 
+	//--- JLãƒ‡ãƒ¼ã‚¿ãƒ‘ã‚¹ ---
 	string strPathData = strPathSub + strDataLast;
-	pdata->cnv.getStrFileAllPath(strPathData);	// ÅŒã‚É‹æØ‚è•t‰Á
-	//--- ‰Šúİ’è•Ï”‚Ì•ÏX ---
+	pdata->cnv.getStrFileAllPath(strPathData);	// æœ€å¾Œã«åŒºåˆ‡ã‚Šä»˜åŠ 
+	//--- åˆæœŸè¨­å®šå¤‰æ•°ã®å¤‰æ›´ ---
 	setJlsRegVar("JLDATAPATH", strPathData, true);
 }
 //---------------------------------------------------------------------
-// Echoo—Íæ‚ªƒtƒ@ƒCƒ‹‚©”»•Êİ’è
+// Echoå‡ºåŠ›å…ˆãŒãƒ•ã‚¡ã‚¤ãƒ«ã‹åˆ¤åˆ¥è¨­å®š
 //---------------------------------------------------------------------
 void JlsScrFuncReg::setSystemRegFileOpen(){
 	string strVal = ( pGlobalState->fileIsOpen() )? "1" : "0";
@@ -1187,7 +1187,7 @@ void JlsScrFuncReg::setSystemRegFileOpen(){
 }
 
 //---------------------------------------------------------------------
-// HEADFRAME/TAILFRAME‚ğİ’è
+// HEADFRAME/TAILFRAMEã‚’è¨­å®š
 //---------------------------------------------------------------------
 void JlsScrFuncReg::setSystemRegHeadtail(int headframe, int tailframe){
 	string str_head = pdata->cnv.getStringTimeMsecM1(headframe);
@@ -1197,11 +1197,11 @@ void JlsScrFuncReg::setSystemRegHeadtail(int headframe, int tailframe){
 }
 
 //---------------------------------------------------------------------
-// –³Œø‚ÈƒƒS‚ÌŠm”FiƒƒSŠúŠÔ‚ª‹É’[‚É’Z‚©‚Á‚½‚çƒƒS‚È‚µˆµ‚¢‚É‚·‚éj
+// ç„¡åŠ¹ãªãƒ­ã‚´ã®ç¢ºèªï¼ˆãƒ­ã‚´æœŸé–“ãŒæ¥µç«¯ã«çŸ­ã‹ã£ãŸã‚‰ãƒ­ã‚´ãªã—æ‰±ã„ã«ã™ã‚‹ï¼‰
 //---------------------------------------------------------------------
 void JlsScrFuncReg::setSystemRegNologo(bool need_check){
 	bool flag_nologo = false;
-	//--- ƒƒSŠúŠÔ‚ª‹É’[‚É­‚È‚¢ê‡‚ÉƒƒS–³Œø‰»‚·‚éê‡‚Ìˆ— ---
+	//--- ãƒ­ã‚´æœŸé–“ãŒæ¥µç«¯ã«å°‘ãªã„å ´åˆã«ãƒ­ã‚´ç„¡åŠ¹åŒ–ã™ã‚‹å ´åˆã®å‡¦ç† ---
 	if (need_check == true && pdata->extOpt.flagNoLogo == 0){
 		int msec_sum = 0;
 		int nrf_rise = -1;
@@ -1217,32 +1217,32 @@ void JlsScrFuncReg::setSystemRegNologo(bool need_check){
 			flag_nologo = true;
 		}
 	}
-	else{		// ƒ`ƒFƒbƒN‚È‚µ‚ÅƒƒS–³Œø‚Ìê‡
+	else{		// ãƒã‚§ãƒƒã‚¯ãªã—ã§ãƒ­ã‚´ç„¡åŠ¹ã®å ´åˆ
 			flag_nologo = true;
 	}
 	if (flag_nologo == true){
-		// ƒƒS“Ç‚İ‚İ‚È‚µ‚É•ÏX
+		// ãƒ­ã‚´èª­ã¿è¾¼ã¿ãªã—ã«å¤‰æ›´
 		pdata->extOpt.flagNoLogo = 1;
-		// ƒVƒXƒeƒ€•Ï”‚ğXV
-		setJlsRegVar("NOLOGO", "1", true);	// ã‘‚«‹–‰Â‚Å"1"İ’è
+		// ã‚·ã‚¹ãƒ†ãƒ å¤‰æ•°ã‚’æ›´æ–°
+		setJlsRegVar("NOLOGO", "1", true);	// ä¸Šæ›¸ãè¨±å¯ã§"1"è¨­å®š
 	}
 }
 
 //---------------------------------------------------------------------
-// ReadƒRƒ}ƒ“ƒhŒ‹‰Ê‚Ì—LŒø—L–³‚ğİ’è
+// Readã‚³ãƒãƒ³ãƒ‰çµæœã®æœ‰åŠ¹æœ‰ç„¡ã‚’è¨­å®š
 //---------------------------------------------------------------------
 void JlsScrFuncReg::setSystemRegReadValid(bool valid){
 	string strVal = ( valid )? "1" : "0";
 	setJlsRegVar("READVALID", strVal, true);
 }
 //---------------------------------------------------------------------
-// ‘O‰ñ‚ÌÀsó‘Ô‚ğİ’è
+// å‰å›ã®å®Ÿè¡ŒçŠ¶æ…‹ã‚’è¨­å®š
 //---------------------------------------------------------------------
 void JlsScrFuncReg::setSystemRegLastexe(bool exe_command){
-	//--- ‘O‰ñ‚ÌÀsó‘Ô‚ğ•Ï”‚Éİ’è ---
+	//--- å‰å›ã®å®Ÿè¡ŒçŠ¶æ…‹ã‚’å¤‰æ•°ã«è¨­å®š ---
 	setJlsRegVar("LASTEXE", to_string((int)exe_command), true);
 }
-//--- ’¼‘O‚ÌÀsó‘Ôæ“¾ ---
+//--- ç›´å‰ã®å®Ÿè¡ŒçŠ¶æ…‹å–å¾— ---
 bool JlsScrFuncReg::isSystemRegLastexe(){
 	string strVal = "0";
 	getJlsRegVarNormal(strVal, "LASTEXE");
@@ -1252,7 +1252,7 @@ bool JlsScrFuncReg::isSystemRegLastexe(){
 
 
 //---------------------------------------------------------------------
-// CMƒJƒbƒgˆÊ’u‚ğ’¼Úo—Í
+// CMã‚«ãƒƒãƒˆä½ç½®ã‚’ç›´æ¥å‡ºåŠ›
 //---------------------------------------------------------------------
 void JlsScrFuncReg::setOutDirect(){
 	string strList;
@@ -1261,7 +1261,7 @@ void JlsScrFuncReg::setOutDirect(){
 		return;
 	}
 	int nsize = pFuncList->getListStrSize(strList);
-	if ( nsize % 2 == 1 ){	// •K‚¸2ƒf[ƒ^’PˆÊ
+	if ( nsize % 2 == 1 ){	// å¿…ãš2ãƒ‡ãƒ¼ã‚¿å˜ä½
 		nsize = nsize - 1;
 	}
 	vector<Msec> listMsec;
@@ -1285,16 +1285,16 @@ void JlsScrFuncReg::setOutDirect(){
 
 
 //---------------------------------------------------------------------
-// ƒXƒNƒŠƒvƒg“à‚Å‹LÚ‚·‚é‹N“®ƒIƒvƒVƒ‡ƒ“
-// “ü—ÍF
-//   strBuf     FƒIƒvƒVƒ‡ƒ“‚ğŠÜ‚Ş•¶š—ñ
-//   pos        F“Ç‚İ‚İŠJnˆÊ’u
-//   overwrite  F‘‚«‚İÏ‚İ‚ÌƒIƒvƒVƒ‡ƒ“İ’èifalse=‚µ‚È‚¢ true=‚·‚éj
-// o—ÍF
-//   •Ô‚è’l  Ftrue=³íI—¹ false=İ’èƒGƒ‰[
+// ã‚¹ã‚¯ãƒªãƒ—ãƒˆå†…ã§è¨˜è¼‰ã™ã‚‹èµ·å‹•ã‚ªãƒ—ã‚·ãƒ§ãƒ³
+// å…¥åŠ›ï¼š
+//   strBuf     ï¼šã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å«ã‚€æ–‡å­—åˆ—
+//   pos        ï¼šèª­ã¿è¾¼ã¿é–‹å§‹ä½ç½®
+//   overwrite  ï¼šæ›¸ãè¾¼ã¿æ¸ˆã¿ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®šï¼ˆfalse=ã—ãªã„ true=ã™ã‚‹ï¼‰
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  ï¼štrue=æ­£å¸¸çµ‚äº† false=è¨­å®šã‚¨ãƒ©ãƒ¼
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::setSystemRegOptions(const string& strBuf, int pos, bool overwrite){
-	//--- •¶š—ñ‹æØ‚è”F¯ ---
+	//--- æ–‡å­—åˆ—åŒºåˆ‡ã‚Šèªè­˜ ---
 	vector <string> listarg;
 	string strWord;
 	while(pos >= 0){
@@ -1307,7 +1307,7 @@ bool JlsScrFuncReg::setSystemRegOptions(const string& strBuf, int pos, bool over
 	if (argc <= 0){
 		return true;
 	}
-	//--- ƒXƒNƒŠƒvƒg“à‚Åİ’è‰Â”\‚ÈƒIƒvƒVƒ‡ƒ“ ---
+	//--- ã‚¹ã‚¯ãƒªãƒ—ãƒˆå†…ã§è¨­å®šå¯èƒ½ãªã‚ªãƒ—ã‚·ãƒ§ãƒ³ ---
 	int i = 0;
 	while(i >= 0 && i < argc){
 		int argrest = argc - i;
@@ -1327,17 +1327,17 @@ bool JlsScrFuncReg::setSystemRegOptions(const string& strBuf, int pos, bool over
 		if (numarg > 0){
 			i += numarg;
 		}
-		else{		// Às‰Â”\ƒRƒ}ƒ“ƒh‚Å‚È‚¯‚ê‚ÎŸ‚ÉˆÚs
+		else{		// å®Ÿè¡Œå¯èƒ½ã‚³ãƒãƒ³ãƒ‰ã§ãªã‘ã‚Œã°æ¬¡ã«ç§»è¡Œ
 			i ++;
 		}
 	}
-	setSystemRegUpdate();	// Pathî•ñ‚ÌXVi”O‚Ì‚½‚ß‰Šúİ’è•Ï”‘S‘Ìj
+	setSystemRegUpdate();	// Pathæƒ…å ±ã®æ›´æ–°ï¼ˆå¿µã®ãŸã‚åˆæœŸè¨­å®šå¤‰æ•°å…¨ä½“ï¼‰
 	return true;
 }
 
 
 //---------------------------------------------------------------------
-// î•ñæ“¾
+// æƒ…å ±å–å¾—
 //---------------------------------------------------------------------
 void JlsScrFuncReg::getSystemData(JlsCmdArg& cmdarg, const string& strIdent){
 	string strData;
@@ -1378,7 +1378,7 @@ void JlsScrFuncReg::getSystemData(JlsCmdArg& cmdarg, const string& strIdent){
 		strData = to_string(pGlobalState->readGCodeNum());
 	}
 	else if ( strIdent == "TRIMLIST" ){
-		//--- Œ‹‰Êì¬ ---
+		//--- çµæœä½œæˆ ---
 		pdata->outputResultTrimGen();
 		pFuncList->setListStrClear(strData);
 		int num_data = (int) pdata->resultTrim.size();
@@ -1393,56 +1393,56 @@ void JlsScrFuncReg::getSystemData(JlsCmdArg& cmdarg, const string& strIdent){
 		pGlobalState->addMsgErrorN("error: No SysData name(" + strIdent + ")");
 		return;
 	}
-	setRegOutSingle(cmdarg, strData, true);	// RegOut‚É–³ğŒ‚Å‘‚«‚İ
+	setRegOutSingle(cmdarg, strData, true);	// RegOutã«ç„¡æ¡ä»¶ã§æ›¸ãè¾¼ã¿
 }
 
 
 //=====================================================================
-// ƒRƒ}ƒ“ƒhŒ‹‰Ê‚É‚æ‚é•Ï”XV
+// ã‚³ãƒãƒ³ãƒ‰çµæœã«ã‚ˆã‚‹å¤‰æ•°æ›´æ–°
 //=====================================================================
 
-//--- $POSHOLD/$LISTHOLD‚ÌƒŒƒWƒXƒ^XV ---
+//--- $POSHOLD/$LISTHOLDã®ãƒ¬ã‚¸ã‚¹ã‚¿æ›´æ–° ---
 void JlsScrFuncReg::updateResultRegWrite(JlsCmdArg& cmdarg){
-	//--- ‹¤’Êİ’è ---
+	//--- å…±é€šè¨­å®š ---
 	bool   overwrite = ( cmdarg.getOpt(OptType::FlagDefault) == 0 )? true : false;
 	bool   flagLocal = ( cmdarg.getOpt(OptType::FlagLocal) > 0 )? true : false;
-	//--- POSHOLD‚ÌXV ---
+	//--- POSHOLDã®æ›´æ–° ---
 	if ( cmdarg.isUpdateStrOpt(OptType::StrValPosW) ){
-		string strName   = cmdarg.getStrOpt(OptType::StrRegOut);	// •Ï”–¼($POSHOLD)
+		string strName   = cmdarg.getStrOpt(OptType::StrRegOut);	// å¤‰æ•°å($POSHOLD)
 		string strVal    = cmdarg.getStrOpt(OptType::StrValPosW);
 		setJlsRegVarWithLocal(strName, strVal, overwrite, flagLocal);	// $POSHOLD
-		cmdarg.clearStrOptUpdate(OptType::StrValPosW);	// XVŠ®—¹’Ê’m
+		cmdarg.clearStrOptUpdate(OptType::StrValPosW);	// æ›´æ–°å®Œäº†é€šçŸ¥
 	}
-	//--- LISTHOLD‚ÌXV ---
+	//--- LISTHOLDã®æ›´æ–° ---
 	if ( cmdarg.isUpdateStrOpt(OptType::StrValListW) ){
-		string strName   = cmdarg.getStrOpt(OptType::StrRegOut);	// •Ï”–¼($LISTHOLD)
+		string strName   = cmdarg.getStrOpt(OptType::StrRegOut);	// å¤‰æ•°å($LISTHOLD)
 		string strList   = cmdarg.getStrOpt(OptType::StrValListW);
 		setJlsRegVarWithLocal(strName, strList, overwrite, flagLocal);	// $LISTHOLD
-		cmdarg.clearStrOptUpdate(OptType::StrValListW);	// XVŠ®—¹’Ê’m
+		cmdarg.clearStrOptUpdate(OptType::StrValListW);	// æ›´æ–°å®Œäº†é€šçŸ¥
 	}
 }
-//--- $SIZEHOLD‚ÌƒŒƒWƒXƒ^İ’è ---
+//--- $SIZEHOLDã®ãƒ¬ã‚¸ã‚¹ã‚¿è¨­å®š ---
 void JlsScrFuncReg::setResultRegWriteSize(JlsCmdArg& cmdarg, const string& strList){
-	string strSizeName = cmdarg.getStrOpt(OptType::StrRegSize);	// •Ï”–¼($SIZEHOLD)
-	int    numList     = pFuncList->getListStrSize(strList);	// €–Ú”æ“¾
+	string strSizeName = cmdarg.getStrOpt(OptType::StrRegSize);	// å¤‰æ•°å($SIZEHOLD)
+	int    numList     = pFuncList->getListStrSize(strList);	// é …ç›®æ•°å–å¾—
 	string strNumList  = std::to_string(numList);
 	bool   overwrite   = ( cmdarg.getOpt(OptType::FlagDefault) == 0 )? true : false;
 	bool   flagLocal   = ( cmdarg.getOpt(OptType::FlagLocal) > 0 )? true : false;
 	setJlsRegVarWithLocal(strSizeName, strNumList, overwrite, flagLocal);	// $SIZEHOLD
 }
-//--- $POSHOLD‚ÌXV ---
+//--- $POSHOLDã®æ›´æ–° ---
 void JlsScrFuncReg::setResultRegPoshold(JlsCmdArg& cmdarg, Msec msecPos){
 	string strVal  = pdata->cnv.getStringTimeMsecM1(msecPos);
 	cmdarg.setStrOpt(OptType::StrValPosW, strVal);			// $POSHOLD write
 	updateResultRegWrite(cmdarg);
 }
 
-//--- $LISTHOLD‚ÌXV ---
+//--- $LISTHOLDã®æ›´æ–° ---
 void JlsScrFuncReg::setResultRegListhold(JlsCmdArg& cmdarg, Msec msecPos){
-	//--- ƒŒƒWƒXƒ^‚ÌŒ»İ’l‚ğæ“¾ ---
-	string strList = cmdarg.getStrOpt(OptType::StrValListW);	// write•Ï”’l
+	//--- ãƒ¬ã‚¸ã‚¹ã‚¿ã®ç¾åœ¨å€¤ã‚’å–å¾— ---
+	string strList = cmdarg.getStrOpt(OptType::StrValListW);	// writeå¤‰æ•°å€¤
 
-	//--- €–Ú’Ç‰Á ---
+	//--- é …ç›®è¿½åŠ  ---
 	if ( msecPos != -1 ){
 		if ( pFuncList->isListStrEmpty(strList) ){
 			strList.clear();
@@ -1452,30 +1452,30 @@ void JlsScrFuncReg::setResultRegListhold(JlsCmdArg& cmdarg, Msec msecPos){
 		string strVal = pdata->cnv.getStringTimeMsecM1(msecPos);
 		strList += strVal;
 	}
-	//--- ListHold‚Éİ’è ---
+	//--- ListHoldã«è¨­å®š ---
 	writeResultRegListW(cmdarg, strList);
 }
-//--- ListGetAt‚É‚æ‚éXV ---
+//--- ListGetAtã«ã‚ˆã‚‹æ›´æ–° ---
 void JlsScrFuncReg::setResultRegListGetAt(JlsCmdArg& cmdarg, int numItem){
-	//--- ƒŒƒWƒXƒ^‚ÌŒ»İ’l‚ğæ“¾ ---
+	//--- ãƒ¬ã‚¸ã‚¹ã‚¿ã®ç¾åœ¨å€¤ã‚’å–å¾— ---
 	string strList   = cmdarg.getStrOpt(OptType::StrValListR);
 	string strValPos = cmdarg.getStrOpt(OptType::StrValPosW);
-	//--- ‘ÎÛˆÊ’u‚Ì€–Ú‚ğæ“¾ ---
+	//--- å¯¾è±¡ä½ç½®ã®é …ç›®ã‚’å–å¾— ---
 	{
 		string strItem;
 		if ( pFuncList->getListStrElement(strItem, strList, numItem) ){
 			strValPos = strItem;
 		}
 	}
-	//--- PosHold‚Éİ’è ---
+	//--- PosHoldã«è¨­å®š ---
 	cmdarg.setStrOpt(OptType::StrValPosW, strValPos);		// $POSHOLD write
 	updateResultRegWrite(cmdarg);
-	//--- ƒŠƒXƒg”XV ---
+	//--- ãƒªã‚¹ãƒˆæ•°æ›´æ–° ---
 	setResultRegWriteSize(cmdarg, strList);
 }
-//--- ListIns‚É‚æ‚éXV ---
+//--- ListInsã«ã‚ˆã‚‹æ›´æ–° ---
 void JlsScrFuncReg::setResultRegListIns(JlsCmdArg& cmdarg, int numItem){
-	//--- ƒŒƒWƒXƒ^‚ÌŒ»İ’l‚ğæ“¾ ---
+	//--- ãƒ¬ã‚¸ã‚¹ã‚¿ã®ç¾åœ¨å€¤ã‚’å–å¾— ---
 	string strList   = cmdarg.getStrOpt(OptType::StrValListR);
 	string strValPos = cmdarg.getStrOpt(OptType::StrValPosR);
 	if ( cmdarg.isSetStrOpt(OptType::StrRegArg) ){		// -RegArg
@@ -1485,72 +1485,72 @@ void JlsScrFuncReg::setResultRegListIns(JlsCmdArg& cmdarg, int numItem){
 			pGlobalState->addMsgErrorN("error: -RegArg " + strName + " at ListIns");
 		}
 	}
-	//--- Insˆ— ---
+	//--- Inså‡¦ç† ---
 	if ( pFuncList->setListStrIns(strList, strValPos, numItem) ){
-		writeResultRegListW(cmdarg, strList);	// ListHold‚Éİ’è
+		writeResultRegListW(cmdarg, strList);	// ListHoldã«è¨­å®š
 	}
 }
-//--- ListDel‚É‚æ‚éXV ---
+//--- ListDelã«ã‚ˆã‚‹æ›´æ–° ---
 void JlsScrFuncReg::setResultRegListDel(JlsCmdArg& cmdarg, int numItem){
-	//--- ƒŒƒWƒXƒ^‚ÌŒ»İ’l‚ğæ“¾ ---
+	//--- ãƒ¬ã‚¸ã‚¹ã‚¿ã®ç¾åœ¨å€¤ã‚’å–å¾— ---
 	string strList   = cmdarg.getStrOpt(OptType::StrValListR);
-	//--- Delˆ— ---
+	//--- Delå‡¦ç† ---
 	if ( pFuncList->setListStrDel(strList, numItem) ){
-		writeResultRegListW(cmdarg, strList);	// ListHold‚Éİ’è
+		writeResultRegListW(cmdarg, strList);	// ListHoldã«è¨­å®š
 	}
 }
-//--- ListJoin‚É‚æ‚éXV ---
+//--- ListJoinã«ã‚ˆã‚‹æ›´æ–° ---
 void JlsScrFuncReg::setResultRegListJoin(JlsCmdArg& cmdarg){
-	//--- ƒŒƒWƒXƒ^‚ÌŒ»İ’l‚ğæ“¾ ---
+	//--- ãƒ¬ã‚¸ã‚¹ã‚¿ã®ç¾åœ¨å€¤ã‚’å–å¾— ---
 	string strList   = cmdarg.getStrOpt(OptType::StrValListR);
-	int numItem = -1;	// ƒŠƒXƒgÅŒã‚É’Ç‰Á
-	//--- ƒŠƒXƒg’lƒf[ƒ^‚ğæ“¾ ---
+	int numItem = -1;	// ãƒªã‚¹ãƒˆæœ€å¾Œã«è¿½åŠ 
+	//--- ãƒªã‚¹ãƒˆå€¤ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾— ---
 	string strListIns;
 	if ( !setResultRegSubGetRegVal(cmdarg, strListIns, true) ){	// must=true
 		return;
 	}
-	//--- Insˆ— ---
+	//--- Inså‡¦ç† ---
 	int numCur = numItem;
 	int nsizeIns = pFuncList->getListStrSize(strListIns);
 	for(int i=1; i<=nsizeIns; i++){
 		string strItem;
 		if ( pFuncList->getListStrElement(strItem, strListIns, i) ){
 			if ( pFuncList->setListStrIns(strList, strItem, numCur) ){
-				if ( numItem > 0 ) numCur++;	// ‘O‚©‚ç”‚¦‚é‚ÍŸ‚Ì‘}“üˆÊ’u‚ğ•ÏX
+				if ( numItem > 0 ) numCur++;	// å‰ã‹ã‚‰æ•°ãˆã‚‹æ™‚ã¯æ¬¡ã®æŒ¿å…¥ä½ç½®ã‚’å¤‰æ›´
 			}
 		}
 	}
 	if ( cmdarg.getOptFlag(OptType::FlagSort) ){	// -sort
 		sortResultRegList(cmdarg, strList);
 	}
-	//--- ListHold‚Éİ’è ---
+	//--- ListHoldã«è¨­å®š ---
 	writeResultRegListW(cmdarg, strList);
 }
-//--- ListRemove‚É‚æ‚éXV ---
+//--- ListRemoveã«ã‚ˆã‚‹æ›´æ–° ---
 void JlsScrFuncReg::setResultRegListRemove(JlsCmdArg& cmdarg){
-	//--- ƒŒƒWƒXƒ^‚ÌŒ»İ’l‚ğæ“¾ ---
+	//--- ãƒ¬ã‚¸ã‚¹ã‚¿ã®ç¾åœ¨å€¤ã‚’å–å¾— ---
 	string strList   = cmdarg.getStrOpt(OptType::StrValListR);
 	bool   flagLap   = cmdarg.getOptFlag(OptType::FlagOverlap);
-	//--- ƒŠƒXƒg’lƒf[ƒ^‚ğæ“¾ ---
+	//--- ãƒªã‚¹ãƒˆå€¤ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾— ---
 	string strListRm;
 	if ( !setResultRegSubGetRegVal(cmdarg, strListRm, true) ){	// must=true
 		return;
 	}
-	//--- Removeˆ— ---
+	//--- Removeå‡¦ç† ---
 	bool success = true;
 	if ( flagLap ){
 		success = pFuncList->setListStrRemoveLap(strList, strListRm);
 	}else{
 		success = pFuncList->setListStrRemove(strList, strListRm);
 	}
-	//--- ListHold‚Éİ’è ---
+	//--- ListHoldã«è¨­å®š ---
 	if ( success ){
-		writeResultRegListW(cmdarg, strList);	// ListHold‚Éİ’è
+		writeResultRegListW(cmdarg, strList);	// ListHoldã«è¨­å®š
 	}else{
 		pGlobalState->addMsgErrorN("error: list data at ListRemove");
 	}
 }
-//--- ˆø”ƒŠƒXƒg’l‚ğæ“¾ ---
+//--- å¼•æ•°ãƒªã‚¹ãƒˆå€¤ã‚’å–å¾— ---
 bool JlsScrFuncReg::setResultRegSubGetRegVal(JlsCmdArg& cmdarg, string& strListSub, bool must){
 	bool success = false;
 	string mesErr;
@@ -1572,73 +1572,73 @@ bool JlsScrFuncReg::setResultRegSubGetRegVal(JlsCmdArg& cmdarg, string& strListS
 	}
 	return success;
 }
-//--- ListSel‚É‚æ‚éæ‚è‚İ ---
+//--- ListSelã«ã‚ˆã‚‹å–ã‚Šè¾¼ã¿ ---
 void JlsScrFuncReg::setResultRegListSel(JlsCmdArg& cmdarg, string strListNum){
-	//--- ƒŒƒWƒXƒ^‚ÌŒ»İ’l‚ğæ“¾ ---
+	//--- ãƒ¬ã‚¸ã‚¹ã‚¿ã®ç¾åœ¨å€¤ã‚’å–å¾— ---
 	string strList   = cmdarg.getStrOpt(OptType::StrValListR);
-	//--- List‘I‘ğˆ— ---
+	//--- Listé¸æŠå‡¦ç† ---
 	if ( pFuncList->setListStrSel(strList, strListNum) ){
-		writeResultRegListW(cmdarg, strList);	// ListHold‚Éİ’è
+		writeResultRegListW(cmdarg, strList);	// ListHoldã«è¨­å®š
 	}
 }
-//--- ListSetAt‚É‚æ‚éXV ---
+//--- ListSetAtã«ã‚ˆã‚‹æ›´æ–° ---
 void JlsScrFuncReg::setResultRegListRep(JlsCmdArg& cmdarg, int numItem){
-	//--- ƒŒƒWƒXƒ^‚ÌŒ»İ’l‚ğæ“¾ ---
+	//--- ãƒ¬ã‚¸ã‚¹ã‚¿ã®ç¾åœ¨å€¤ã‚’å–å¾— ---
 	string strList   = cmdarg.getStrOpt(OptType::StrValListR);
 	string strValPos = cmdarg.getStrOpt(OptType::StrValPosR);
-	//--- Replaceˆ— ---
+	//--- Replaceå‡¦ç† ---
 	if ( pFuncList->setListStrRep(strList, strValPos, numItem) ){
-		writeResultRegListW(cmdarg, strList);	// ListHold‚Éİ’è
+		writeResultRegListW(cmdarg, strList);	// ListHoldã«è¨­å®š
 	}
 }
-//--- ListClear‚É‚æ‚éƒŠƒXƒg•Ï”“à—e‚ğÁ‹ ---
+//--- ListClearã«ã‚ˆã‚‹ãƒªã‚¹ãƒˆå¤‰æ•°å†…å®¹ã‚’æ¶ˆå» ---
 void JlsScrFuncReg::setResultRegListClear(JlsCmdArg& cmdarg){
-	//--- ƒŠƒXƒg•Ï”‚Ì‰Šú’l ---
+	//--- ãƒªã‚¹ãƒˆå¤‰æ•°ã®åˆæœŸå€¤ ---
 	string strList;
 	pFuncList->setListStrClear(strList);
-	//--- ListHold‚Éİ’è ---
+	//--- ListHoldã«è¨­å®š ---
 	writeResultRegListW(cmdarg, strList);
 }
-//--- ListDim‚É‚æ‚éƒŠƒXƒg•Ï”€–ÚŠm•Û ---
+//--- ListDimã«ã‚ˆã‚‹ãƒªã‚¹ãƒˆå¤‰æ•°é …ç›®ç¢ºä¿ ---
 void JlsScrFuncReg::setResultRegListDim(JlsCmdArg& cmdarg, int num){
 	string strVal;
 	setResultRegSubGetRegVal(cmdarg, strVal, false);	// must=false
 	string strList;
 	pFuncList->setListStrDim(strList, num, strVal);
-	//--- ListHold‚Éİ’è ---
+	//--- ListHoldã«è¨­å®š ---
 	writeResultRegListW(cmdarg, strList);
 }
-//--- ListSort‚É‚æ‚éXV ---
+//--- ListSortã«ã‚ˆã‚‹æ›´æ–° ---
 void JlsScrFuncReg::setResultRegListSort(JlsCmdArg& cmdarg){
-	//--- ƒŒƒWƒXƒ^‚ÌŒ»İ’l‚ğæ“¾ ---
+	//--- ãƒ¬ã‚¸ã‚¹ã‚¿ã®ç¾åœ¨å€¤ã‚’å–å¾— ---
 	string strList   = cmdarg.getStrOpt(OptType::StrValListR);
 	sortResultRegList(cmdarg, strList);
-	//--- ListHold‚Éİ’è ---
+	//--- ListHoldã«è¨­å®š ---
 	writeResultRegListW(cmdarg, strList);
 }
 void JlsScrFuncReg::sortResultRegList(JlsCmdArg& cmdarg, string& strList){
 	bool   flagUni   = ( cmdarg.getOpt(OptType::FlagUnique)>0 )? true : false;
 	bool   flagLap   = ( cmdarg.getOpt(OptType::FlagOverlap) > 0 );
 	bool   flagMerge = ( cmdarg.getOpt(OptType::FlagMerge) > 0 );
-	//--- sortˆ— ---
+	//--- sortå‡¦ç† ---
 	if ( flagLap ){		// -overlap
 		pFuncList->setListStrSortLap(strList, flagMerge);
 	}else{
 		pFuncList->setListStrSort(strList, flagUni);
 	}
 }
-//--- ƒŠƒXƒg•Ï”o—ÍXV ---
+//--- ãƒªã‚¹ãƒˆå¤‰æ•°å‡ºåŠ›æ›´æ–° ---
 void JlsScrFuncReg::writeResultRegListW(JlsCmdArg& cmdarg, const string& strList){
-	//--- ListHold‚Éİ’è ---
+	//--- ListHoldã«è¨­å®š ---
 	cmdarg.setStrOpt(OptType::StrValListW, strList);		// $LISTHOLD write
 	updateResultRegWrite(cmdarg);
-	//--- ƒŠƒXƒg”XV ---
+	//--- ãƒªã‚¹ãƒˆæ•°æ›´æ–° ---
 	setResultRegWriteSize(cmdarg, strList);
 }
 
-//--- ’¼Ú•¶š—ñw’è‚ÅCSVŒ`®•¶š—ñ‚ğƒŠƒXƒg•¶š—ñ‚É•ª‰ğ ---
+//--- ç›´æ¥æ–‡å­—åˆ—æŒ‡å®šã§CSVå½¢å¼æ–‡å­—åˆ—ã‚’ãƒªã‚¹ãƒˆæ–‡å­—åˆ—ã«åˆ†è§£ ---
 string JlsScrFuncReg::getStrRegListByCsvStr(const string& strBuf){
-	//--- ƒŠƒXƒg‚É•ª‰ğ ---
+	//--- ãƒªã‚¹ãƒˆã«åˆ†è§£ ---
 	string strList;
 	pFuncList->setListStrClear(strList);
 	int pos = 0;
@@ -1651,24 +1651,24 @@ string JlsScrFuncReg::getStrRegListByCsvStr(const string& strBuf){
 	}
 	return strList;
 }
-//--- CSVŒ`®•¶š—ñ‚ğƒŠƒXƒg‚É•ª‰ğ‚µ‚ÄŠi”[ ---
+//--- CSVå½¢å¼æ–‡å­—åˆ—ã‚’ãƒªã‚¹ãƒˆã«åˆ†è§£ã—ã¦æ ¼ç´ ---
 void JlsScrFuncReg::setStrRegListByCsv(JlsCmdArg& cmdarg){
 	string strArg;
 	if ( getRegArg(cmdarg, strArg) ){
 		string strList = getStrRegListByCsvStr(strArg);
-		setRegOutSingle(cmdarg, strList, true);		// –³ğŒ‚Å‘‚«‚İ
+		setRegOutSingle(cmdarg, strList, true);		// ç„¡æ¡ä»¶ã§æ›¸ãè¾¼ã¿
 	}
 }
-//--- ƒXƒy[ƒX‹æØ‚è‚Ì•¶š—ñ‚ğƒŠƒXƒg‚É•ª‰ğ‚µ‚ÄŠi”[ ---
+//--- ã‚¹ãƒšãƒ¼ã‚¹åŒºåˆ‡ã‚Šã®æ–‡å­—åˆ—ã‚’ãƒªã‚¹ãƒˆã«åˆ†è§£ã—ã¦æ ¼ç´ ---
 void JlsScrFuncReg::setStrRegListBySpc(JlsCmdArg& cmdarg){
 	string strArg;
 	if ( getRegArg(cmdarg, strArg) ){
 		setStrRegListCommon(cmdarg, strArg, 0);
 	}
 }
-//--- •¶š—ñ‚ğƒŠƒXƒg‚É•ª‰ğ‚µ‚ÄŠi”[‚Ì‹¤’Êˆ— ---
+//--- æ–‡å­—åˆ—ã‚’ãƒªã‚¹ãƒˆã«åˆ†è§£ã—ã¦æ ¼ç´ã®å…±é€šå‡¦ç† ---
 void JlsScrFuncReg::setStrRegListCommon(JlsCmdArg& cmdarg, const string& strBuf, int readtype){
-	//--- ƒŠƒXƒg‚É•ª‰ğ ---
+	//--- ãƒªã‚¹ãƒˆã«åˆ†è§£ ---
 	string strList;
 	pFuncList->setListStrClear(strList);
 	int pos = 0;
@@ -1683,60 +1683,60 @@ void JlsScrFuncReg::setStrRegListCommon(JlsCmdArg& cmdarg, const string& strBuf,
 			pFuncList->setListStrIns(strList, strItem, -1);
 		}
 	}
-	setRegOutSingle(cmdarg, strList, true);		// –³ğŒ‚Å‘‚«‚İ
+	setRegOutSingle(cmdarg, strList, true);		// ç„¡æ¡ä»¶ã§æ›¸ãè¾¼ã¿
 }
 
 //=====================================================================
-// ƒf[ƒ^—pƒtƒ@ƒCƒ‹“Ç‚İ‚İ
+// ãƒ‡ãƒ¼ã‚¿ç”¨ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚é‚©ƒŠƒXƒgƒf[ƒ^‚Éİ’è
+// ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã™ã‚‹ã‹ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã«è¨­å®š
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::readDataCheck(JlsCmdArg& cmdarg, const string& fname){
-	ReadFileType rtype = ReadFileType::Check;	// ƒtƒ@ƒCƒ‹—L–³‚ğŠm”F
+	ReadFileType rtype = ReadFileType::Check;	// ãƒ•ã‚¡ã‚¤ãƒ«æœ‰ç„¡ã‚’ç¢ºèª
 	return readDataCommon(cmdarg, fname, rtype);
 }
 //---------------------------------------------------------------------
-// ƒŠƒXƒgƒf[ƒ^i”’lj‚ğƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚İi‚Ps‚Pƒf[ƒ^j
+// ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ï¼ˆæ•°å€¤ï¼‰ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã¿ï¼ˆï¼‘è¡Œï¼‘ãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::readDataList(JlsCmdArg& cmdarg, const string& fname){
-	ReadFileType rtype = ReadFileType::List;	// ƒŠƒXƒg‚©‚ç”’l‚ğ“Ç‚İ‚İ
+	ReadFileType rtype = ReadFileType::List;	// ãƒªã‚¹ãƒˆã‹ã‚‰æ•°å€¤ã‚’èª­ã¿è¾¼ã¿
 	return readDataCommon(cmdarg, fname, rtype);
 }
 //---------------------------------------------------------------------
-// ƒŠƒXƒgƒf[ƒ^‚ğAVSƒtƒ@ƒCƒ‹‚ÌTrim‚©‚ç“Ç‚İ‚İ
+// ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’AVSãƒ•ã‚¡ã‚¤ãƒ«ã®Trimã‹ã‚‰èª­ã¿è¾¼ã¿
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::readDataTrim(JlsCmdArg& cmdarg, const string& fname){
-	ReadFileType rtype = ReadFileType::Trim;	// Trim‚©‚ç‚Ì”’l‚ğ“Ç‚İ‚İ
+	ReadFileType rtype = ReadFileType::Trim;	// Trimã‹ã‚‰ã®æ•°å€¤ã‚’èª­ã¿è¾¼ã¿
 	return readDataCommon(cmdarg, fname, rtype);
 }
 //---------------------------------------------------------------------
-// ƒŠƒXƒgƒf[ƒ^i•¶š—ñj‚ğƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚İi‚Ps‚Pƒf[ƒ^j
+// ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ï¼ˆæ–‡å­—åˆ—ï¼‰ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã¿ï¼ˆï¼‘è¡Œï¼‘ãƒ‡ãƒ¼ã‚¿ï¼‰
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::readDataString(JlsCmdArg& cmdarg, const string& fname){
-	ReadFileType rtype = ReadFileType::String;	// •¶š—ñ‚ğ“Ç‚İ‚İ
+	ReadFileType rtype = ReadFileType::String;	// æ–‡å­—åˆ—ã‚’èª­ã¿è¾¼ã¿
 	return readDataCommon(cmdarg, fname, rtype);
 }
 //---------------------------------------------------------------------
-// ƒŠƒXƒgƒf[ƒ^‚ğƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚İ‚Ì‹¤’Êˆ—
+// ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã¿ã®å…±é€šå‡¦ç†
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::readDataCommon(JlsCmdArg& cmdarg, const string& fname, ReadFileType rtype){
-	//--- ƒŠƒXƒgƒf[ƒ^ƒNƒŠƒA ---
-	updateResultRegWrite(cmdarg);	// •Ï”($LISTHOLD)ƒNƒŠƒA
-	//--- ƒf[ƒ^”ãŒÀİ’è ---
+	//--- ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã‚¯ãƒªã‚¢ ---
+	updateResultRegWrite(cmdarg);	// å¤‰æ•°($LISTHOLD)ã‚¯ãƒªã‚¢
+	//--- ãƒ‡ãƒ¼ã‚¿æ•°ä¸Šé™è¨­å®š ---
 	int nMax = -1;
 	if ( cmdarg.isSetOpt(OptType::NumMaxSize) ){
 		nMax = cmdarg.getOpt(OptType::NumMaxSize);
 	}
-	//--- ƒtƒ@ƒCƒ‹“Ç‚İ‚İ ---
+	//--- ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ ---
 	LocalIfs ifs(fname.c_str());
-	//--- ‘¶İƒ`ƒFƒbƒN ---
+	//--- å­˜åœ¨ãƒã‚§ãƒƒã‚¯ ---
 	if ( rtype == ReadFileType::Check ){
 		bool exist = ifs.is_open();
 		if ( cmdarg.isSetStrOpt(OptType::StrRegOut) ){
 			string strVal = ( exist )? "1" : "0";
-			setRegOutSingle(cmdarg, strVal, true);	// RegOut‚É–³ğŒ‚Å‘‚«‚İ
+			setRegOutSingle(cmdarg, strVal, true);	// RegOutã«ç„¡æ¡ä»¶ã§æ›¸ãè¾¼ã¿
 		}
 		return exist;
 	}
@@ -1746,18 +1746,18 @@ bool JlsScrFuncReg::readDataCommon(JlsCmdArg& cmdarg, const string& fname, ReadF
 		}
 		return false;
 	}
-	//--- ƒf[ƒ^“Ç‚İ‚İ ---
+	//--- ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿ ---
 	int nCur = 0;
 	if ( rtype == ReadFileType::Trim ){
 		string strCmd;
-		if ( readDataFileTrim(strCmd, ifs) ){	// Trims“Ç‚İ‚İ
+		if ( readDataFileTrim(strCmd, ifs) ){	// Trimè¡Œèª­ã¿è¾¼ã¿
 			readDataCommonIns(cmdarg, nCur, strCmd, nMax, rtype);
 		}
 	}else{
 		bool cont = true;
 		while( cont ){
 			string strLine;
-			cont = readDataFileLine(strLine, ifs);	// ‚Ps“Ç‚İ‚İ
+			cont = readDataFileLine(strLine, ifs);	// ï¼‘è¡Œèª­ã¿è¾¼ã¿
 			if ( cont ){
 				cont = readDataCommonIns(cmdarg, nCur, strLine, nMax, rtype);
 			}
@@ -1765,22 +1765,22 @@ bool JlsScrFuncReg::readDataCommon(JlsCmdArg& cmdarg, const string& fname, ReadF
 	}
 	return ( nCur > 0 );
 }
-//--- 1s•ªƒf[ƒ^‚ğŠi”[ ---
+//--- 1è¡Œåˆ†ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ ---
 bool JlsScrFuncReg::readDataCommonIns(JlsCmdArg& cmdarg, int& nCur, const string& strLine, int nMax, ReadFileType rtype){
-	//--- ƒf[ƒ^”ãŒÀ‚ÌŠm”F ---
+	//--- ãƒ‡ãƒ¼ã‚¿æ•°ä¸Šé™ã®ç¢ºèª ---
 	if ( nCur >= nMax && nMax >= 0 ){
 		return false;
 	}
-	//--- í—Ş•Ê‚Ì‘}“üˆ— ---
+	//--- ç¨®é¡åˆ¥ã®æŒ¿å…¥å‡¦ç† ---
 	switch( rtype ){
 		case ReadFileType::Trim :
 			{
 				string strRest = strLine;
 				bool cont = true;
-				while( cont ){			// Trim‚Ì”‚¾‚¯Œp‘±
+				while( cont ){			// Trimã®æ•°ã ã‘ç¶™ç¶š
 					string strLocSt;
 					string strLocEd;
-					if ( nCur+1 >= nMax && nMax >= 0 ){		// ƒf[ƒ^”ãŒÀ
+					if ( nCur+1 >= nMax && nMax >= 0 ){		// ãƒ‡ãƒ¼ã‚¿æ•°ä¸Šé™
 						cont = false;
 					}else{
 						cont = readDataStrTrimGet(strLocSt, strLocEd, strRest);
@@ -1796,9 +1796,9 @@ bool JlsScrFuncReg::readDataCommonIns(JlsCmdArg& cmdarg, int& nCur, const string
 		case ReadFileType::List :
 			{
 				string sdata;
-				if ( pdata->cnv.getStrItem(sdata, strLine, 0) > 0 ){	// 1€–Úæ“¾
+				if ( pdata->cnv.getStrItem(sdata, strLine, 0) > 0 ){	// 1é …ç›®å–å¾—
 					int val;
-					if ( pdata->cnv.getStrValNum(val, sdata, 0) > 0 ){	// €–Ú‚ª”’l
+					if ( pdata->cnv.getStrValNum(val, sdata, 0) > 0 ){	// é …ç›®ãŒæ•°å€¤
 						nCur ++;
 						readDataStrAdd(cmdarg, sdata);
 					}
@@ -1810,24 +1810,24 @@ bool JlsScrFuncReg::readDataCommonIns(JlsCmdArg& cmdarg, int& nCur, const string
 			readDataStrAdd(cmdarg, strLine);
 			break;
 	}
-	//--- ƒf[ƒ^”ãŒÀ‚ÌŠm”F ---
+	//--- ãƒ‡ãƒ¼ã‚¿æ•°ä¸Šé™ã®ç¢ºèª ---
 	if ( nCur >= nMax && nMax >= 0 ){
 		return false;
 	}
 	return true;
 }
 //---------------------------------------------------------------------
-// ƒŠƒXƒg‚É‚P€–Ú’Ç‰Á
+// ãƒªã‚¹ãƒˆã«ï¼‘é …ç›®è¿½åŠ 
 //---------------------------------------------------------------------
 void JlsScrFuncReg::readDataStrAdd(JlsCmdArg& cmdarg, const string& sdata){
-	//--- ƒŒƒWƒXƒ^‚ÌŒ»İ’l‚ğæ“¾ ---
-	string strList = cmdarg.getStrOpt(OptType::StrValListW);	// write•Ï”’l
+	//--- ãƒ¬ã‚¸ã‚¹ã‚¿ã®ç¾åœ¨å€¤ã‚’å–å¾— ---
+	string strList = cmdarg.getStrOpt(OptType::StrValListW);	// writeå¤‰æ•°å€¤
 	cmdarg.setStrOpt(OptType::StrValListR, strList);
 	cmdarg.setStrOpt(OptType::StrValPosR, sdata);
 	setResultRegListIns(cmdarg, -1);
 }
 //---------------------------------------------------------------------
-// Trim•¶š—ñ‚ÌŠJnEI—¹ˆÊ’u‚ğæ“¾‚µ‚Ä•¶š—ñ‚ÍŸ‚ÌˆÊ’u‚ÉˆÚs
+// Trimæ–‡å­—åˆ—ã®é–‹å§‹ãƒ»çµ‚äº†ä½ç½®ã‚’å–å¾—ã—ã¦æ–‡å­—åˆ—ã¯æ¬¡ã®ä½ç½®ã«ç§»è¡Œ
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::readDataStrTrimGet(string& strLocSt, string& strLocEd, string& strTarget){
 	std::regex re(DefRegExpTrim, std::regex_constants::icase);
@@ -1841,7 +1841,7 @@ bool JlsScrFuncReg::readDataStrTrimGet(string& strLocSt, string& strLocEd, strin
 	return success;
 }
 //---------------------------------------------------------------------
-// Trim•¶š—ñ‚Ì‘¶İŠm”F
+// Trimæ–‡å­—åˆ—ã®å­˜åœ¨ç¢ºèª
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::readDataStrTrimDetect(const string& strLine){
 	string strTarget = strLine;
@@ -1851,13 +1851,13 @@ bool JlsScrFuncReg::readDataStrTrimDetect(const string& strLine){
 }
 
 //---------------------------------------------------------------------
-// ƒf[ƒ^‚Ps“Ç‚İ‚İ
+// ãƒ‡ãƒ¼ã‚¿ï¼‘è¡Œèª­ã¿è¾¼ã¿
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::readDataFileLine(string& strLine, LocalIfs& ifs){
 	return pGlobalState->readLineIfs(strLine, ifs);
 }
 //---------------------------------------------------------------------
-// AVSƒtƒ@ƒCƒ‹Trims“Ç‚İ‚İ
+// AVSãƒ•ã‚¡ã‚¤ãƒ«Trimè¡Œèª­ã¿è¾¼ã¿
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::readDataFileTrim(string& strCmd, LocalIfs& ifs){
 	strCmd = "";
@@ -1866,31 +1866,31 @@ bool JlsScrFuncReg::readDataFileTrim(string& strCmd, LocalIfs& ifs){
 	bool cont = true;
 	while( cont ){
 		string strLine;
-		cont = readDataFileLine(strLine, ifs);	// ‚Ps“Ç‚İ‚İ
+		cont = readDataFileLine(strLine, ifs);	// ï¼‘è¡Œèª­ã¿è¾¼ã¿
 		if ( cont ){
 			int len = (int) strLine.length();
-			//--- Œp‘±Šm”F ---
+			//--- ç¶™ç¶šç¢ºèª ---
 			bool flagKeepCur = flagKeepNext;
 			flagKeepNext = false;
 			if ( len >= 1 ){
-				if ( strLine.substr(0,1) == R"(\)" ){	// Å‰‚ÉŒp‘±•¶š
+				if ( strLine.substr(0,1) == R"(\)" ){	// æœ€åˆã«ç¶™ç¶šæ–‡å­—
 					flagKeepCur = true;
 					strLine = strLine.substr(1);
 					len = (int) strLine.length();
 				}
 			}
 			if ( len >= 1 ){
-				if ( strLine.substr(len-1) == R"(\)" ){	// ÅŒã‚ÉŒp‘±•¶š
+				if ( strLine.substr(len-1) == R"(\)" ){	// æœ€å¾Œã«ç¶™ç¶šæ–‡å­—
 					flagKeepNext = true;
 					strLine = strLine.substr(0, len-1);
 					len = (int) strLine.length();
 				}
 			}
-			//--- Œp‘±‚Í–³ğŒ‚É’Ç‰Á ---
+			//--- ç¶™ç¶šæ™‚ã¯ç„¡æ¡ä»¶ã«è¿½åŠ  ---
 			if ( flagKeepCur ){
 				strCmd += strLine;
 			}else{
-				//--- æ‚è‚İÏ‚İ‚Ì‚ÍI—¹ ---
+				//--- å–ã‚Šè¾¼ã¿æ¸ˆã¿ã®æ™‚ã¯çµ‚äº† ---
 				if ( flagTrim ){
 					cont = false;
 				}else{
@@ -1898,7 +1898,7 @@ bool JlsScrFuncReg::readDataFileTrim(string& strCmd, LocalIfs& ifs){
 				}
 			}
 		}
-		//--- Trim•¶š—ñŠm”F ---
+		//--- Trimæ–‡å­—åˆ—ç¢ºèª ---
 		if ( cont ){
 			if ( flagTrim == false ){
 				flagTrim = readDataStrTrimDetect(strCmd);
@@ -1908,13 +1908,13 @@ bool JlsScrFuncReg::readDataFileTrim(string& strCmd, LocalIfs& ifs){
 	return flagTrim;
 }
 //---------------------------------------------------------------------
-// ƒOƒ[ƒoƒ‹—Ìˆæì¬‚Ìƒtƒ@ƒCƒ‹“Ç‚İ‚İ
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«é ˜åŸŸä½œæˆã®ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::readGlobalOpen(JlsCmdArg& cmdarg, const string& fname){
 	bool success = pGlobalState->readGOpen(fname);
 	if ( cmdarg.isSetStrOpt(OptType::StrRegOut) ){
 		string strVal = ( success )? "1" : "0";
-		return setRegOutSingle(cmdarg, strVal, true);	// RegOut‚É–³ğŒ‚Å‘‚«‚İ
+		return setRegOutSingle(cmdarg, strVal, true);	// RegOutã«ç„¡æ¡ä»¶ã§æ›¸ãè¾¼ã¿
 	}
 	return success;
 }
@@ -1922,22 +1922,22 @@ void JlsScrFuncReg::readGlobalClose(JlsCmdArg& cmdarg){
 	pGlobalState->readGClose();
 	if ( cmdarg.isSetStrOpt(OptType::StrRegOut) ){
 		string strVal = "1";
-		setRegOutSingle(cmdarg, strVal, true);	// RegOut‚É–³ğŒ‚Å‘‚«‚İ
+		setRegOutSingle(cmdarg, strVal, true);	// RegOutã«ç„¡æ¡ä»¶ã§æ›¸ãè¾¼ã¿
 	}
 }
 bool JlsScrFuncReg::readGlobalLine(JlsCmdArg& cmdarg){
 	string strLine;
 	bool success = pGlobalState->readGLine(strLine);
 	if ( cmdarg.isSetStrOpt(OptType::StrRegOut) ){
-		setRegOutSingle(cmdarg, strLine, true);	// RegOut‚É–³ğŒ‚Å‘‚«‚İ
+		setRegOutSingle(cmdarg, strLine, true);	// RegOutã«ç„¡æ¡ä»¶ã§æ›¸ãè¾¼ã¿
 	}
 	return success;
 }
 //---------------------------------------------------------------------
-// -RegArg‚Åw’è‚³‚ê‚½•¶š—ñ‚ğæ“¾
+// -RegArgã§æŒ‡å®šã•ã‚ŒãŸæ–‡å­—åˆ—ã‚’å–å¾—
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::getRegArg(JlsCmdArg& cmdarg, string& strArg){
-	//--- •ª‰ğ‚·‚é•¶š—ñ‚ğæ“¾ ---
+	//--- åˆ†è§£ã™ã‚‹æ–‡å­—åˆ—ã‚’å–å¾— ---
 	if ( cmdarg.isSetStrOpt(OptType::StrRegArg) ){
 		string strName;
 		strName = cmdarg.getStrOpt(OptType::StrRegArg);
@@ -1952,35 +1952,35 @@ bool JlsScrFuncReg::getRegArg(JlsCmdArg& cmdarg, string& strArg){
 	return true;
 }
 //---------------------------------------------------------------------
-// RegOut‚É’P‘Ìƒf[ƒ^‘‚«‚İ
+// RegOutã«å˜ä½“ãƒ‡ãƒ¼ã‚¿æ›¸ãè¾¼ã¿
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::setRegOutSingle(JlsCmdArg& cmdarg, const string& strVal, bool certain){
-	//--- ƒIƒvƒVƒ‡ƒ“æ“¾ ---
-	string strName   =  cmdarg.getStrOpt(OptType::StrRegOut);	// •Ï”–¼
+	//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³å–å¾— ---
+	string strName   =  cmdarg.getStrOpt(OptType::StrRegOut);	// å¤‰æ•°å
 	bool   overwrite = !cmdarg.getOptFlag(OptType::FlagDefault);
 	bool   flagLocal =  cmdarg.getOptFlag(OptType::FlagLocal);
 	bool   flagClear =  cmdarg.getOptFlag(OptType::FlagClear);
-	//--- •Ï”İ’è ---
+	//--- å¤‰æ•°è¨­å®š ---
 	if ( certain || flagClear ){
-		bool flagW = setJlsRegVarWithLocal(strName, strVal, overwrite, flagLocal);	// •Ï”İ’è
-		if ( !flagW ) return false;	// ‘‚«‚İ¸”s
+		bool flagW = setJlsRegVarWithLocal(strName, strVal, overwrite, flagLocal);	// å¤‰æ•°è¨­å®š
+		if ( !flagW ) return false;	// æ›¸ãè¾¼ã¿å¤±æ•—
 	}
 	return certain;
 }
 
 //---------------------------------------------------------------------
-// ŠÂ‹«•Ï”‚©‚çƒf[ƒ^æ“¾
+// ç’°å¢ƒå¤‰æ•°ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿å–å¾—
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::readDataEnvGet(JlsCmdArg& cmdarg, const string& strEnvName){
-	//--- ’l‚ğæ“¾‚µ‚Ä•Ï”‚Éİ’è ---
+	//--- å€¤ã‚’å–å¾—ã—ã¦å¤‰æ•°ã«è¨­å®š ---
 	string strVal;
 	bool success = LSys.getEnvString(strVal, strEnvName);
-	//--- •Ï”İ’è ---
+	//--- å¤‰æ•°è¨­å®š ---
 	success = setRegOutSingle(cmdarg, strVal, success);
 	return success;
 }
 //---------------------------------------------------------------------
-// ƒGƒ‰[’¼Úo—Í
+// ã‚¨ãƒ©ãƒ¼ç›´æ¥å‡ºåŠ›
 //---------------------------------------------------------------------
 void JlsScrFuncReg::outputMesErr(const string& mes){
 	lcerr << mes;

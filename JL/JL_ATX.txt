@@ -1,102 +1,102 @@
-# join_logo_scpópÇÃé¿çsì‡óeÉXÉNÉäÉvÉg
+Ôªø# join_logo_scpÁî®„ÅÆÂÆüË°åÂÜÖÂÆπ„Çπ„ÇØ„É™„Éó„Éà
 #
-# ì‡óeÅFÉçÉSÇégÇÌÇ∏ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇæÇØÇ≈ëOå„ÇÉJÉbÉg
-#       ATXÇëzíËÇµÇΩê›íË
+# ÂÜÖÂÆπÔºö„É≠„Ç¥„Çí‰Ωø„Çè„ÅöÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„Å†„Åë„ÅßÂâçÂæå„Çí„Ç´„ÉÉ„Éà
+#       ATX„ÇíÊÉ≥ÂÆö„Åó„ÅüË®≠ÂÆö
 #
 
 #----------------------------------------------
-# ê›íË
+# Ë®≠ÂÆö
 #----------------------------------------------
-#--- äJénÅEèIóπÉ}Å[ÉWÉìê›íË ---
-Default base      -1          # äJénÉ}Å[ÉWÉìÇÃÉtÉåÅ[ÉÄÅi-1ÇÃéûÇÕé©ìÆê›íËÅj
-Default lastbase  -1          # èIóπÉ}Å[ÉWÉìÇÃÉtÉåÅ[ÉÄÅi-1ÇÃéûÇÕé©ìÆê›íËÅj
-Default autobase  00:00:30    # äJénÉ}Å[ÉWÉìÇÃé©ìÆê›íËÇ≈åüçıÇ∑ÇÈç≈ëÂéûä‘
+#--- ÈñãÂßã„ÉªÁµÇ‰∫Ü„Éû„Éº„Ç∏„É≥Ë®≠ÂÆö ---
+Default base      -1          # ÈñãÂßã„Éû„Éº„Ç∏„É≥„ÅÆ„Éï„É¨„Éº„É†Ôºà-1„ÅÆÊôÇ„ÅØËá™ÂãïË®≠ÂÆöÔºâ
+Default lastbase  -1          # ÁµÇ‰∫Ü„Éû„Éº„Ç∏„É≥„ÅÆ„Éï„É¨„Éº„É†Ôºà-1„ÅÆÊôÇ„ÅØËá™ÂãïË®≠ÂÆöÔºâ
+Default autobase  00:00:30    # ÈñãÂßã„Éû„Éº„Ç∏„É≥„ÅÆËá™ÂãïË®≠ÂÆö„ÅßÊ§úÁ¥¢„Åô„ÇãÊúÄÂ§ßÊôÇÈñì
 
-#--- óDêÊåüçıê›íË ---
-Default end30pmin   00:22:30  # 30ï™î‘ëgèIóπåüçıéûä‘Åiç≈è¨Åj
-Default end30pavg   00:23:00  # 30ï™î‘ëgèIóπåüçıéûä‘ÅióDêÊÅj
-Default end30pmax   00:30:30  # 30ï™î‘ëgèIóπåüçıéûä‘Åiç≈ëÂÅj
+#--- ÂÑ™ÂÖàÊ§úÁ¥¢Ë®≠ÂÆö ---
+Default end30pmin   00:22:30  # 30ÂàÜÁï™ÁµÑÁµÇ‰∫ÜÊ§úÁ¥¢ÊôÇÈñìÔºàÊúÄÂ∞èÔºâ
+Default end30pavg   00:23:00  # 30ÂàÜÁï™ÁµÑÁµÇ‰∫ÜÊ§úÁ¥¢ÊôÇÈñìÔºàÂÑ™ÂÖàÔºâ
+Default end30pmax   00:30:30  # 30ÂàÜÁï™ÁµÑÁµÇ‰∫ÜÊ§úÁ¥¢ÊôÇÈñìÔºàÊúÄÂ§ßÔºâ
 
-#--- ï°êîòbåüèoèàóùÇÃê›íË ---
-Default divuse      0         # ï°êîòbï™äÑÅi0=é©ìÆ 1=ä˙ä‘å≈íËílï™äÑ 2=ä˙ä‘ÉtÉ@ÉCÉãì«çûâ¬ïœï™äÑÅj
-Default divoff      0         # ï°êîòbï™äÑé©ìÆê›íËÇ≈ï™äÑîªíËÅi0=ãñâ¬ 1=ã÷é~Åj
-Default len_unit    00:30:00  # ä˙ä‘å≈íËílï™äÑéûÇÃ1òbä˙ä‘Çê›íË
-Default divprecise  0         # ê›íËÇµÇΩï™äÑä˙ä‘ÇÃê∏ìxÅi0=í èÌ 1=ê≥ämÇ»ä˙ä‘Åj
-Default divout_all  0         # äJénèIóπèåèïsîıÇÃï™äÑèoóÕÅi0=Ç»Çµ 1=Ç†ÇËÅj
-Default div15minute 0         # é©ìÆåüèoÇ≈15ï™å≈íËç\ê¨îªíËÅi0=Ç»Çµ 1=Ç†ÇËÅj
-Default div30minute 1         # é©ìÆåüèoÇ≈30ï™å≈íËç\ê¨îªíËÅi0=Ç»Çµ 1=Ç†ÇËÅj
-Default divlastoff  0         # ï°êîòbç\ê¨ÇÃç≈èIòbã≠êßï™äÑÅi0=ãñâ¬ 1=ã÷é~Åj
-Default divwide_num 10        # ï™äÑé¿çséûÇÃï™äÑà íuåüçıägëÂÅi0=Ç»Çµ 1-=åüçıïùägëÂÅj
-Default file_period_list "${JLDATAPATH}list_60ï™30ï™.txt"  # ä˙ä‘ì«çûÉtÉ@ÉCÉãñº
+#--- Ë§áÊï∞Ë©±Ê§úÂá∫Âá¶ÁêÜ„ÅÆË®≠ÂÆö ---
+Default divuse      0         # Ë§áÊï∞Ë©±ÂàÜÂâ≤Ôºà0=Ëá™Âãï 1=ÊúüÈñìÂõ∫ÂÆöÂÄ§ÂàÜÂâ≤ 2=ÊúüÈñì„Éï„Ç°„Ç§„É´Ë™≠ËæºÂèØÂ§âÂàÜÂâ≤Ôºâ
+Default divoff      0         # Ë§áÊï∞Ë©±ÂàÜÂâ≤Ëá™ÂãïË®≠ÂÆö„ÅßÂàÜÂâ≤Âà§ÂÆöÔºà0=Ë®±ÂèØ 1=Á¶ÅÊ≠¢Ôºâ
+Default len_unit    00:30:00  # ÊúüÈñìÂõ∫ÂÆöÂÄ§ÂàÜÂâ≤ÊôÇ„ÅÆ1Ë©±ÊúüÈñì„ÇíË®≠ÂÆö
+Default divprecise  0         # Ë®≠ÂÆö„Åó„ÅüÂàÜÂâ≤ÊúüÈñì„ÅÆÁ≤æÂ∫¶Ôºà0=ÈÄöÂ∏∏ 1=Ê≠£Á¢∫„Å™ÊúüÈñìÔºâ
+Default divout_all  0         # ÈñãÂßãÁµÇ‰∫ÜÊù°‰ª∂‰∏çÂÇô„ÅÆÂàÜÂâ≤Âá∫ÂäõÔºà0=„Å™„Åó 1=„ÅÇ„ÇäÔºâ
+Default div15minute 0         # Ëá™ÂãïÊ§úÂá∫„Åß15ÂàÜÂõ∫ÂÆöÊßãÊàêÂà§ÂÆöÔºà0=„Å™„Åó 1=„ÅÇ„ÇäÔºâ
+Default div30minute 1         # Ëá™ÂãïÊ§úÂá∫„Åß30ÂàÜÂõ∫ÂÆöÊßãÊàêÂà§ÂÆöÔºà0=„Å™„Åó 1=„ÅÇ„ÇäÔºâ
+Default divlastoff  0         # Ë§áÊï∞Ë©±ÊßãÊàê„ÅÆÊúÄÁµÇË©±Âº∑Âà∂ÂàÜÂâ≤Ôºà0=Ë®±ÂèØ 1=Á¶ÅÊ≠¢Ôºâ
+Default divwide_num 10        # ÂàÜÂâ≤ÂÆüË°åÊôÇ„ÅÆÂàÜÂâ≤‰ΩçÁΩÆÊ§úÁ¥¢Êã°Â§ßÔºà0=„Å™„Åó 1-=Ê§úÁ¥¢ÂπÖÊã°Â§ßÔºâ
+Default file_period_list "${JLDATAPATH}list_60ÂàÜ30ÂàÜ.txt"  # ÊúüÈñìË™≠Ëæº„Éï„Ç°„Ç§„É´Âêç
 
-# ä˙ä‘ì«çûÉtÉ@ÉCÉãÇÕ1òbÇ©ÇÁ1çsÇ∏Ç¬ä˙ä‘ãLç⁄ÅAãLç⁄èIóπå„ÇÕç≈å„ÇÃä˙ä‘Ç≈à»å„åpë±
+# ÊúüÈñìË™≠Ëæº„Éï„Ç°„Ç§„É´„ÅØ1Ë©±„Åã„Çâ1Ë°å„Åö„Å§ÊúüÈñìË®òËºâ„ÄÅË®òËºâÁµÇ‰∫ÜÂæå„ÅØÊúÄÂæå„ÅÆÊúüÈñì„Åß‰ª•ÂæåÁ∂ôÁ∂ö
 
-#--- êÊì™ÉJÉbÉgÇ∑ÇÈí∑Ç¢ñ≥âπä˙ä‘Åiï˙ëóãxé~ÇÃÇ®ímÇÁÇπópÅj---
-Default len_infohead_list[1] 20.0  # êÊì™éwíËéûä‘ñ≥âπÉJÉbÉgÅi-1ÇÃéûÇÕñ≥å¯Åj
-Default len_infohead_list[2] 15.0  # êÊì™éwíËéûä‘ñ≥âπÉJÉbÉgÅBíZÇ¢ÉPÅ[ÉX
+#--- ÂÖàÈ†≠„Ç´„ÉÉ„Éà„Åô„ÇãÈï∑„ÅÑÁÑ°Èü≥ÊúüÈñìÔºàÊîæÈÄÅ‰ºëÊ≠¢„ÅÆ„ÅäÁü•„Çâ„ÅõÁî®Ôºâ---
+Default len_infohead_list[1] 20.0  # ÂÖàÈ†≠ÊåáÂÆöÊôÇÈñìÁÑ°Èü≥„Ç´„ÉÉ„ÉàÔºà-1„ÅÆÊôÇ„ÅØÁÑ°ÂäπÔºâ
+Default len_infohead_list[2] 15.0  # ÂÖàÈ†≠ÊåáÂÆöÊôÇÈñìÁÑ°Èü≥„Ç´„ÉÉ„Éà„ÄÇÁü≠„ÅÑ„Ç±„Éº„Çπ
 
 
 #----------------------------------------------
-# ì‡ïîéûä‘í≤êÆóp
+# ÂÜÖÈÉ®ÊôÇÈñìË™øÊï¥Áî®
 #----------------------------------------------
-# êÊì™à íuåüèoópÇÃñ≥âπä˙ä‘
-Default len_headmute 1.8         # êÊì™îFéØÇ∑ÇÈÉVÅ[ÉìÉ`ÉFÉìÉWÇ©ÇÁÇÃñ≥âπä˙ä‘
-Default len_htime    2.0         # êÊì™ÇÃà√ì]èÛë‘ÇÃä˙ä‘
+# ÂÖàÈ†≠‰ΩçÁΩÆÊ§úÂá∫Áî®„ÅÆÁÑ°Èü≥ÊúüÈñì
+Default len_headmute 1.8         # ÂÖàÈ†≠Ë™çË≠ò„Åô„Çã„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„Åã„Çâ„ÅÆÁÑ°Èü≥ÊúüÈñì
+Default len_htime    2.0         # ÂÖàÈ†≠„ÅÆÊöóËª¢Áä∂ÊÖã„ÅÆÊúüÈñì
 
-# èIóπà íuåüèoópÇÃñ≥âπä˙ä‘
-Default len_enddetect_aft 4.7    # é¿ç€ÇÃèIóπïtãﬂÇ∆îFéØÇ∑ÇÈñ≥âπä˙ä‘Åiå„ë§Åj
-Default len_enddetect_bef -1.1   # é¿ç€ÇÃèIóπïtãﬂÇ∆îFéØÇ∑ÇÈñ≥âπä˙ä‘ÅiëOë§Åj
+# ÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÂá∫Áî®„ÅÆÁÑ°Èü≥ÊúüÈñì
+Default len_enddetect_aft 4.7    # ÂÆüÈöõ„ÅÆÁµÇ‰∫Ü‰ªòËøë„Å®Ë™çË≠ò„Åô„ÇãÁÑ°Èü≥ÊúüÈñìÔºàÂæåÂÅ¥Ôºâ
+Default len_enddetect_bef -1.1   # ÂÆüÈöõ„ÅÆÁµÇ‰∫Ü‰ªòËøë„Å®Ë™çË≠ò„Åô„ÇãÁÑ°Èü≥ÊúüÈñìÔºàÂâçÂÅ¥Ôºâ
 
-# èIóπà íuåüçıîÕàÕÇÃèâä˙ílÅiç≈å„Ç©ÇÁéËëOë§Ç…ÉJÉbÉgÇ∑ÇÈà íuåüçıÅBå„Ç≈ïœçXÇ†ÇËÅj
-Default sft_c   00:03:00       # èIóπà íuåüçıîÕàÕÅióDêÊà íuÅj
-Default sft_l   00:08:00       # èIóπà íuåüçıîÕàÕÅiéËëOÅj
-Default sft_r   00:00:10       # èIóπà íuåüçıîÕàÕÅiç≈èIÅj
-Default sft_mc  $sft_l         # èIóπà íuåüçıîÕàÕÅiñ≥âπåüçıóDêÊà íuÅEóDêÊÅj
-Default sft_ml  $sft_l         # èIóπà íuåüçıîÕàÕÅiñ≥âπåüçıóDêÊà íuÅEéËëOÅj
-Default sft_mr  $sft_r         # èIóπà íuåüçıîÕàÕÅiñ≥âπåüçıóDêÊà íuÅEç≈èIÅj
+# ÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÁ¥¢ÁØÑÂõ≤„ÅÆÂàùÊúüÂÄ§ÔºàÊúÄÂæå„Åã„ÇâÊâãÂâçÂÅ¥„Å´„Ç´„ÉÉ„Éà„Åô„Çã‰ΩçÁΩÆÊ§úÁ¥¢„ÄÇÂæå„ÅßÂ§âÊõ¥„ÅÇ„ÇäÔºâ
+Default sft_c   00:03:00       # ÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÁ¥¢ÁØÑÂõ≤ÔºàÂÑ™ÂÖà‰ΩçÁΩÆÔºâ
+Default sft_l   00:08:00       # ÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÁ¥¢ÁØÑÂõ≤ÔºàÊâãÂâçÔºâ
+Default sft_r   00:00:10       # ÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÁ¥¢ÁØÑÂõ≤ÔºàÊúÄÁµÇÔºâ
+Default sft_mc  $sft_l         # ÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÁ¥¢ÁØÑÂõ≤ÔºàÁÑ°Èü≥Ê§úÁ¥¢ÂÑ™ÂÖà‰ΩçÁΩÆ„ÉªÂÑ™ÂÖàÔºâ
+Default sft_ml  $sft_l         # ÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÁ¥¢ÁØÑÂõ≤ÔºàÁÑ°Èü≥Ê§úÁ¥¢ÂÑ™ÂÖà‰ΩçÁΩÆ„ÉªÊâãÂâçÔºâ
+Default sft_mr  $sft_r         # ÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÁ¥¢ÁØÑÂõ≤ÔºàÁÑ°Èü≥Ê§úÁ¥¢ÂÑ™ÂÖà‰ΩçÁΩÆ„ÉªÊúÄÁµÇÔºâ
 
-# ï°êîòbä˙ä‘Çé©ìÆåüèoÇ∑ÇÈéûÇÃä˙ä‘à íuê›íËíl
-Default len_divdetp_max   00:39:30  # é©ìÆåüèoÇ∑ÇÈä˙ä‘åüçıÇÃç≈ëÂ
-Default len_divdetp_sc2nd 00:22:00  # ìríÜñ≥âπãÊä‘ÇîÚÇŒÇµåüçıÇ∑ÇÈéûÇÃåüçıäJén
-Default len_divdetp_dif2a 00:10:00  # ÇPòbñ⁄ä˙ä‘äÓèÄÇÃÇQòbñ⁄åüçıïùÅiå„ë§Åj
-Default len_divdetp_dif2b 00:10:00  # ÇPòbñ⁄ä˙ä‘äÓèÄÇÃÇQòbñ⁄åüçıïùÅiëOë§Åj
-Default len_divdetp_dif3d 00:00:30  # ÇRòbñ⁄Ç≈ä˙ä‘åàíËÇ∑ÇÈä˙ä‘ç∑
-Default len_divdetp_dif4d 00:03:00  # ÇSòbñ⁄Ç≈ä˙ä‘åàíËÇ∑ÇÈä˙ä‘ç∑
+# Ë§áÊï∞Ë©±ÊúüÈñì„ÇíËá™ÂãïÊ§úÂá∫„Åô„ÇãÊôÇ„ÅÆÊúüÈñì‰ΩçÁΩÆË®≠ÂÆöÂÄ§
+Default len_divdetp_max   00:39:30  # Ëá™ÂãïÊ§úÂá∫„Åô„ÇãÊúüÈñìÊ§úÁ¥¢„ÅÆÊúÄÂ§ß
+Default len_divdetp_sc2nd 00:22:00  # ÈÄî‰∏≠ÁÑ°Èü≥Âå∫Èñì„ÇíÈ£õ„Å∞„ÅóÊ§úÁ¥¢„Åô„ÇãÊôÇ„ÅÆÊ§úÁ¥¢ÈñãÂßã
+Default len_divdetp_dif2a 00:10:00  # ÔºëË©±ÁõÆÊúüÈñìÂü∫Ê∫ñ„ÅÆÔºíË©±ÁõÆÊ§úÁ¥¢ÂπÖÔºàÂæåÂÅ¥Ôºâ
+Default len_divdetp_dif2b 00:10:00  # ÔºëË©±ÁõÆÊúüÈñìÂü∫Ê∫ñ„ÅÆÔºíË©±ÁõÆÊ§úÁ¥¢ÂπÖÔºàÂâçÂÅ¥Ôºâ
+Default len_divdetp_dif3d 00:00:30  # ÔºìË©±ÁõÆ„ÅßÊúüÈñìÊ±∫ÂÆö„Åô„ÇãÊúüÈñìÂ∑Æ
+Default len_divdetp_dif4d 00:03:00  # ÔºîË©±ÁõÆ„ÅßÊúüÈñìÊ±∫ÂÆö„Åô„ÇãÊúüÈñìÂ∑Æ
 
-# ï°êîòbä˙ä‘Çé©ìÆåüèoÇ∑ÇÈéûÇÃí∑éûä‘ñ≥âπê›íËíl
-Default len_divdet_chk[1] 4.7    # ÇPòbèIóπå„ÇÃñ≥âπÇ∆îFéØÇ∑ÇÈä˙ä‘1ÅiåüèoópÅj
-Default len_divdet_bef[1] -1.1   # ÇPòbèIóπå„ÇÃñ≥âπÇ∆îFéØÇ∑ÇÈä˙ä‘1ÅiëOë§Åj
-Default len_divdet_chk[2] 6.1    # ÇPòbèIóπå„ÇÃñ≥âπÇ∆îFéØÇ∑ÇÈä˙ä‘2ÅiåüèoópÅj
-Default len_divdet_bef[2] 0.0    # ÇPòbèIóπå„ÇÃñ≥âπÇ∆îFéØÇ∑ÇÈä˙ä‘2ÅiëOë§Åj
-Default len_divdet_chk[3] 11.0   # ÇPòbèIóπå„ÇÃñ≥âπÇ∆îFéØÇ∑ÇÈä˙ä‘3ÅiåüèoópÅj
-Default len_divdet_bef[3] 0.0    # ÇPòbèIóπå„ÇÃñ≥âπÇ∆îFéØÇ∑ÇÈä˙ä‘3ÅiëOë§Åj
-Default len_divdet_chk[4] 13.0   # ÇPòbèIóπå„ÇÃñ≥âπÇ∆îFéØÇ∑ÇÈä˙ä‘4ÅiåüèoópÅj
-Default len_divdet_bef[4] 0.0    # ÇPòbèIóπå„ÇÃñ≥âπÇ∆îFéØÇ∑ÇÈä˙ä‘4ÅiëOë§Åj
+# Ë§áÊï∞Ë©±ÊúüÈñì„ÇíËá™ÂãïÊ§úÂá∫„Åô„ÇãÊôÇ„ÅÆÈï∑ÊôÇÈñìÁÑ°Èü≥Ë®≠ÂÆöÂÄ§
+Default len_divdet_chk[1] 4.7    # ÔºëË©±ÁµÇ‰∫ÜÂæå„ÅÆÁÑ°Èü≥„Å®Ë™çË≠ò„Åô„ÇãÊúüÈñì1ÔºàÊ§úÂá∫Áî®Ôºâ
+Default len_divdet_bef[1] -1.1   # ÔºëË©±ÁµÇ‰∫ÜÂæå„ÅÆÁÑ°Èü≥„Å®Ë™çË≠ò„Åô„ÇãÊúüÈñì1ÔºàÂâçÂÅ¥Ôºâ
+Default len_divdet_chk[2] 6.1    # ÔºëË©±ÁµÇ‰∫ÜÂæå„ÅÆÁÑ°Èü≥„Å®Ë™çË≠ò„Åô„ÇãÊúüÈñì2ÔºàÊ§úÂá∫Áî®Ôºâ
+Default len_divdet_bef[2] 0.0    # ÔºëË©±ÁµÇ‰∫ÜÂæå„ÅÆÁÑ°Èü≥„Å®Ë™çË≠ò„Åô„ÇãÊúüÈñì2ÔºàÂâçÂÅ¥Ôºâ
+Default len_divdet_chk[3] 11.0   # ÔºëË©±ÁµÇ‰∫ÜÂæå„ÅÆÁÑ°Èü≥„Å®Ë™çË≠ò„Åô„ÇãÊúüÈñì3ÔºàÊ§úÂá∫Áî®Ôºâ
+Default len_divdet_bef[3] 0.0    # ÔºëË©±ÁµÇ‰∫ÜÂæå„ÅÆÁÑ°Èü≥„Å®Ë™çË≠ò„Åô„ÇãÊúüÈñì3ÔºàÂâçÂÅ¥Ôºâ
+Default len_divdet_chk[4] 13.0   # ÔºëË©±ÁµÇ‰∫ÜÂæå„ÅÆÁÑ°Èü≥„Å®Ë™çË≠ò„Åô„ÇãÊúüÈñì4ÔºàÊ§úÂá∫Áî®Ôºâ
+Default len_divdet_bef[4] 0.0    # ÔºëË©±ÁµÇ‰∫ÜÂæå„ÅÆÁÑ°Èü≥„Å®Ë™çË≠ò„Åô„ÇãÊúüÈñì4ÔºàÂâçÂÅ¥Ôºâ
 
-# ï°êîòbï™äÑé¿çsÇ∑ÇÈéûÇÃà íuämíËópÇ…égópÇ∑ÇÈí∑éûä‘ñ≥âπê›íËíl
-Default len_divsma_a   4.7       # ï™äÑé¿çséûÇ…ãÊêÿÇËîªíËÇ∑ÇÈñ≥âπä˙ä‘Åiå„ë§Åj
-Default len_divsma_b   -2.0      # ï™äÑé¿çséûÇ…ãÊêÿÇËîªíËÇ∑ÇÈñ≥âπä˙ä‘ÅiëOë§Åj
+# Ë§áÊï∞Ë©±ÂàÜÂâ≤ÂÆüË°å„Åô„ÇãÊôÇ„ÅÆ‰ΩçÁΩÆÁ¢∫ÂÆöÁî®„Å´‰ΩøÁî®„Åô„ÇãÈï∑ÊôÇÈñìÁÑ°Èü≥Ë®≠ÂÆöÂÄ§
+Default len_divsma_a   4.7       # ÂàÜÂâ≤ÂÆüË°åÊôÇ„Å´Âå∫Âàá„ÇäÂà§ÂÆö„Åô„ÇãÁÑ°Èü≥ÊúüÈñìÔºàÂæåÂÅ¥Ôºâ
+Default len_divsma_b   -2.0      # ÂàÜÂâ≤ÂÆüË°åÊôÇ„Å´Âå∫Âàá„ÇäÂà§ÂÆö„Åô„ÇãÁÑ°Èü≥ÊúüÈñìÔºàÂâçÂÅ¥Ôºâ
 
-# ï°êîòbï™äÑé¿çsÇ≈ê≥ämÇ»ä˙ä‘ê›íËéûÇ∆ç≈èIòbã≠êßï™äÑÇ∑ÇÈéûÇÃï™äÑà íuåüçıÉ}Å[ÉWÉì
-Default len_divmgn_precise_a 2.5        # ê≥ämê›íËÇÃåüçıîÕàÕÅiå„ë§Åj
-Default len_divmgn_precise_b 2.5        # ê≥ämê›íËÇÃåüçıîÕàÕÅiëOë§Åj
-Default len_divmgn_last_a    00:01:05   # ç≈èIòbåüçıîÕàÕÅiå„ë§Åj
-Default len_divmgn_last_b    00:01:05   # ç≈èIòbåüçıîÕàÕÅiëOë§Åj
+# Ë§áÊï∞Ë©±ÂàÜÂâ≤ÂÆüË°å„ÅßÊ≠£Á¢∫„Å™ÊúüÈñìË®≠ÂÆöÊôÇ„Å®ÊúÄÁµÇË©±Âº∑Âà∂ÂàÜÂâ≤„Åô„ÇãÊôÇ„ÅÆÂàÜÂâ≤‰ΩçÁΩÆÊ§úÁ¥¢„Éû„Éº„Ç∏„É≥
+Default len_divmgn_precise_a 2.5        # Ê≠£Á¢∫Ë®≠ÂÆö„ÅÆÊ§úÁ¥¢ÁØÑÂõ≤ÔºàÂæåÂÅ¥Ôºâ
+Default len_divmgn_precise_b 2.5        # Ê≠£Á¢∫Ë®≠ÂÆö„ÅÆÊ§úÁ¥¢ÁØÑÂõ≤ÔºàÂâçÂÅ¥Ôºâ
+Default len_divmgn_last_a    00:01:05   # ÊúÄÁµÇË©±Ê§úÁ¥¢ÁØÑÂõ≤ÔºàÂæåÂÅ¥Ôºâ
+Default len_divmgn_last_b    00:01:05   # ÊúÄÁµÇË©±Ê§úÁ¥¢ÁØÑÂõ≤ÔºàÂâçÂÅ¥Ôºâ
 
 
-#===== ï™äÑèàóùíËã`Åiä˙ä‘åüèoÅj =====
+#===== ÂàÜÂâ≤Âá¶ÁêÜÂÆöÁæ©ÔºàÊúüÈñìÊ§úÂá∫Ôºâ =====
 #----------------------------------------------
-# ï™äÑä˙ä‘åüèoÅiëSëÃÅj
+# ÂàÜÂâ≤ÊúüÈñìÊ§úÂá∫ÔºàÂÖ®‰ΩìÔºâ
 #----------------------------------------------
-#--- ä˙ä‘åüèoèàóùÇÃëSëÃ ---
+#--- ÊúüÈñìÊ§úÂá∫Âá¶ÁêÜ„ÅÆÂÖ®‰Ωì ---
 Memory mdiv_period_select
 {
-  #--- é©ìÆåüèo ---
+  #--- Ëá™ÂãïÊ§úÂá∫ ---
   If !$divoff && $divuse==0
-    MemCall mdiv_period_detect_a   # í∑éûä‘ñ≥âπä‘äuÇ©ÇÁêÑíËÅi3-4òbïKóvÅj
-    MemCall mdiv_period_detect_b   # 15ï™/30ï™å≈íËÇ≈ñ≥âπÇ©ÇÁîªíËÅi2òbïKóvÅj
+    MemCall mdiv_period_detect_a   # Èï∑ÊôÇÈñìÁÑ°Èü≥ÈñìÈöî„Åã„ÇâÊé®ÂÆöÔºà3-4Ë©±ÂøÖË¶ÅÔºâ
+    MemCall mdiv_period_detect_b   # 15ÂàÜ/30ÂàÜÂõ∫ÂÆö„ÅßÁÑ°Èü≥„Åã„ÇâÂà§ÂÆöÔºà2Ë©±ÂøÖË¶ÅÔºâ
   EndIf
-  #--- ÉtÉ@ÉCÉãÇ©ÇÁï™äÑä˙ä‘ì«Ç›çûÇ› ---
+  #--- „Éï„Ç°„Ç§„É´„Åã„ÇâÂàÜÂâ≤ÊúüÈñìË™≠„ÅøËæº„Åø ---
   If $divuse==2
     ReadData "${file_period_list}" -RegList period_list
   EndIf
@@ -104,54 +104,54 @@ Memory mdiv_period_select
 EndMemory
 
 #------------------------------------------------------------------
-# ï°êîòbç\ê¨ÇÃï™äÑÇåüèo
-#   ç\ê¨Ç™å©Ç¬Ç©ÇÁÇ»ÇØÇÍÇŒ divuse=0Ç©ÇÁïœçXÇµÇ»Ç¢
-#   ç\ê¨Ç™å©Ç¬Ç©Ç¡ÇΩÇÁdivuse=1Ç∆Ç»ÇËÅAÇPòbä˙ä‘ÇÕ$len_unitÇ…ê›íËÇ≥ÇÍÇÈ
-# ì¸óÕÅiïœçXÇ»ÇØÇÍÇŒéñëOê›íËïsóvÅj
-#  len_divdet*  : ÇPòbèIóπå„ÇÃñ≥âπÇ∆îFéØÇ∑ÇÈä˙ä‘ê›íË
-#  div15minute  : 15ï™x2òbÇÃï™äÑÅi0:Ç»Çµ 1:åüèoÇ∑ÇÈÅj
-#  div30minute  : 30ï™å≈íËÇÃï™äÑÅi0:Ç»Çµ 1:åüèoÇ∑ÇÈÅj
-# èoóÕ
-#  divuse       : ï°êîòbä˙ä‘åüèoÅi0:Ç»Çµ 1:ï°êîòbåüèoÅj
-#  len_unit     : ï°êîòbÇÃÇPòbä˙ä‘
+# Ë§áÊï∞Ë©±ÊßãÊàê„ÅÆÂàÜÂâ≤„ÇíÊ§úÂá∫
+#   ÊßãÊàê„ÅåË¶ã„Å§„Åã„Çâ„Å™„Åë„Çå„Å∞ divuse=0„Åã„ÇâÂ§âÊõ¥„Åó„Å™„ÅÑ
+#   ÊßãÊàê„ÅåË¶ã„Å§„Åã„Å£„Åü„Çâdivuse=1„Å®„Å™„Çä„ÄÅÔºëË©±ÊúüÈñì„ÅØ$len_unit„Å´Ë®≠ÂÆö„Åï„Çå„Çã
+# ÂÖ•ÂäõÔºàÂ§âÊõ¥„Å™„Åë„Çå„Å∞‰∫ãÂâçË®≠ÂÆö‰∏çË¶ÅÔºâ
+#  len_divdet*  : ÔºëË©±ÁµÇ‰∫ÜÂæå„ÅÆÁÑ°Èü≥„Å®Ë™çË≠ò„Åô„ÇãÊúüÈñìË®≠ÂÆö
+#  div15minute  : 15ÂàÜx2Ë©±„ÅÆÂàÜÂâ≤Ôºà0:„Å™„Åó 1:Ê§úÂá∫„Åô„ÇãÔºâ
+#  div30minute  : 30ÂàÜÂõ∫ÂÆö„ÅÆÂàÜÂâ≤Ôºà0:„Å™„Åó 1:Ê§úÂá∫„Åô„ÇãÔºâ
+# Âá∫Âäõ
+#  divuse       : Ë§áÊï∞Ë©±ÊúüÈñìÊ§úÂá∫Ôºà0:„Å™„Åó 1:Ë§áÊï∞Ë©±Ê§úÂá∫Ôºâ
+#  len_unit     : Ë§áÊï∞Ë©±„ÅÆÔºëË©±ÊúüÈñì
 #------------------------------------------------------------------
-#--- ï°êîòbç\ê¨Çí∑éûä‘ñ≥âπà íuÇ©ÇÁé©ìÆåüèoÇ∑ÇÈèàóù ---
+#--- Ë§áÊï∞Ë©±ÊßãÊàê„ÇíÈï∑ÊôÇÈñìÁÑ°Èü≥‰ΩçÁΩÆ„Åã„ÇâËá™ÂãïÊ§úÂá∫„Åô„ÇãÂá¶ÁêÜ ---
 Memory mdiv_period_detect_a
 {
   Default divuse 0
-  # í∑éûä‘ÇÃí∑Ç≥ÇïœÇ¶Çƒìôä‘äuÇÃí∑éûä‘ñ≥âπÇíTÇ∑
-  # ñ{ï“íÜÇ…í∑éûä‘ñ≥âπÇ™Ç†ÇÈèÍçáÇÃëŒçÙÇ≈5âÒñ⁄ÇÕ30ï™î‘ëgèIóπïtãﬂÇ©ÇÁåüçı
+  # Èï∑ÊôÇÈñì„ÅÆÈï∑„Åï„ÇíÂ§â„Åà„Å¶Á≠âÈñìÈöî„ÅÆÈï∑ÊôÇÈñìÁÑ°Èü≥„ÇíÊé¢„Åô
+  # Êú¨Á∑®‰∏≠„Å´Èï∑ÊôÇÈñìÁÑ°Èü≥„Åå„ÅÇ„ÇãÂ†¥Âêà„ÅÆÂØæÁ≠ñ„Åß5ÂõûÁõÆ„ÅØ30ÂàÜÁï™ÁµÑÁµÇ‰∫Ü‰ªòËøë„Åã„ÇâÊ§úÁ¥¢
   LocalSet repcount  0
   Repeat 5
     CountUp repcount
-    If $repcount>=5                    # 5âÒñ⁄
+    If $repcount>=5                    # 5ÂõûÁõÆ
       LocalSet len_check  $len_divdet_chk[$repcount-4]
       LocalSet len_before $len_divdet_bef[$repcount-4]
-    Else                               # 1âÒñ⁄Ç©ÇÁ4âÒñ⁄
+    Else                               # 1ÂõûÁõÆ„Åã„Çâ4ÂõûÁõÆ
       LocalSet len_check  $len_divdet_chk[$repcount]
       LocalSet len_before $len_divdet_bef[$repcount]
     EndIf
-    # ç≈èâÇÃèIóπà íuåüçıÇäJénÇ∑ÇÈà íuê›íË
+    # ÊúÄÂàù„ÅÆÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÁ¥¢„ÇíÈñãÂßã„Åô„Çã‰ΩçÁΩÆË®≠ÂÆö
     LocalSet det_continue 1
-    LocalSet pos_tmp_end1st 00:03:00       # ç≈èâÇÃèIóπà íuåüçıäJén
-    If $repcount>=5                   # 5âÒñ⁄åüçı
-      If ($divuse!=0)                 # ä˘Ç…ï™äÑî≠å©ÇµÇƒÇ¢ÇÈéûÇÕåüçıÇµÇ»Ç¢
+    LocalSet pos_tmp_end1st 00:03:00       # ÊúÄÂàù„ÅÆÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÁ¥¢ÈñãÂßã
+    If $repcount>=5                   # 5ÂõûÁõÆÊ§úÁ¥¢
+      If ($divuse!=0)                 # Êó¢„Å´ÂàÜÂâ≤Áô∫Ë¶ã„Åó„Å¶„ÅÑ„ÇãÊôÇ„ÅØÊ§úÁ¥¢„Åó„Å™„ÅÑ
         Set det_continue 0
       Else
-        Set pos_tmp_end1st ${len_divdetp_sc2nd}  # 5âÒñ⁄ópÇÃç≈èâÇÃèIóπà íuåüçıäJén
+        Set pos_tmp_end1st ${len_divdetp_sc2nd}  # 5ÂõûÁõÆÁî®„ÅÆÊúÄÂàù„ÅÆÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÁ¥¢ÈñãÂßã
       EndIf
     EndIf
-    # ç≈èâÇÃí∑éûä‘ñ≥âπà íuÇí≤ç∏
+    # ÊúÄÂàù„ÅÆÈï∑ÊôÇÈñìÁÑ°Èü≥‰ΩçÁΩÆ„ÇíË™øÊüª
     If $det_continue
       GetPos S ${pos_tmp_end1st} ${pos_tmp_end1st} ${len_divdetp_max} -N 1 -RSMA $len_before $len_check
       If $LASTEXE
-        LocalSet pos_tmp1 $POSHOLD                     # ç≈èâÇÃí∑éûä‘ñ≥âπà íu
-        LocalSet pos_tmp2 $POSHOLD+$POSHOLD            # ÇQî‘ñ⁄ÇÃí∑éûä‘ñ≥âπà íuÅió\ëzÅj
+        LocalSet pos_tmp1 $POSHOLD                     # ÊúÄÂàù„ÅÆÈï∑ÊôÇÈñìÁÑ°Èü≥‰ΩçÁΩÆ
+        LocalSet pos_tmp2 $POSHOLD+$POSHOLD            # ÔºíÁï™ÁõÆ„ÅÆÈï∑ÊôÇÈñìÁÑ°Èü≥‰ΩçÁΩÆÔºà‰∫àÊÉ≥Ôºâ
       Else
-        Set det_continue 0       # ñ≥âπà íuÇ»Ç≠ï°êîòbç\ê¨Ç≈ÇÕÇ»Ç¢
+        Set det_continue 0       # ÁÑ°Èü≥‰ΩçÁΩÆ„Å™„ÅèË§áÊï∞Ë©±ÊßãÊàê„Åß„ÅØ„Å™„ÅÑ
       EndIf
     EndIf
-    # ÇQî‘ñ⁄ÇÃí∑éûä‘ñ≥âπà íuÇí≤ç∏
+    # ÔºíÁï™ÁõÆ„ÅÆÈï∑ÊôÇÈñìÁÑ°Èü≥‰ΩçÁΩÆ„ÇíË™øÊüª
     If $det_continue
       LocalSet dif_tmp2a ${len_divdetp_dif2a}
       LocalSet dif_tmp2b ${len_divdetp_dif2b}
@@ -160,14 +160,14 @@ Memory mdiv_period_detect_a
       EndIf
       GetPos S ${pos_tmp2} ${pos_tmp2}-${dif_tmp2b} ${pos_tmp2}+${dif_tmp2a} -N 1 -RSMA $len_before $len_check
       If $LASTEXE
-        LocalSet pos_tmp2 $POSHOLD                 # ÇQî‘ñ⁄ÇÃí∑éûä‘ñ≥âπà íuÅiämíËÅj
-        EvalTime len_tmpu ${pos_tmp2}-${pos_tmp1}  # ÇPòbï™ÇÃä˙ä‘ÅiämíËÅj
-        LocalSet pos_tmp3 ${pos_tmp2}+${len_tmpu}  # ÇRî‘ñ⁄ÇÃí∑éûä‘ñ≥âπà íuÅió\ëzÅj
+        LocalSet pos_tmp2 $POSHOLD                 # ÔºíÁï™ÁõÆ„ÅÆÈï∑ÊôÇÈñìÁÑ°Èü≥‰ΩçÁΩÆÔºàÁ¢∫ÂÆöÔºâ
+        EvalTime len_tmpu ${pos_tmp2}-${pos_tmp1}  # ÔºëË©±ÂàÜ„ÅÆÊúüÈñìÔºàÁ¢∫ÂÆöÔºâ
+        LocalSet pos_tmp3 ${pos_tmp2}+${len_tmpu}  # ÔºìÁï™ÁõÆ„ÅÆÈï∑ÊôÇÈñìÁÑ°Èü≥‰ΩçÁΩÆÔºà‰∫àÊÉ≥Ôºâ
       Else
-        Set det_continue 0       # ñ≥âπà íuÇ»Ç≠ï°êîòbç\ê¨Ç≈ÇÕÇ»Ç¢
+        Set det_continue 0       # ÁÑ°Èü≥‰ΩçÁΩÆ„Å™„ÅèË§áÊï∞Ë©±ÊßãÊàê„Åß„ÅØ„Å™„ÅÑ
       EndIf
     EndIf
-    # ÇRî‘ñ⁄ÇÃí∑éûä‘ñ≥âπà íuÇí≤ç∏Åió\ëzà íuÇ…Ç†ÇÍÇŒï™äÑÇåàíËÅj
+    # ÔºìÁï™ÁõÆ„ÅÆÈï∑ÊôÇÈñìÁÑ°Èü≥‰ΩçÁΩÆ„ÇíË™øÊüªÔºà‰∫àÊÉ≥‰ΩçÁΩÆ„Å´„ÅÇ„Çå„Å∞ÂàÜÂâ≤„ÇíÊ±∫ÂÆöÔºâ
     If $det_continue
       LocalSet dif_tmp3d  ${len_divdetp_dif3d}
       LocalSet dif_tmp4d  ${len_divdetp_dif4d}
@@ -178,20 +178,20 @@ Memory mdiv_period_detect_a
         Set dif_tmp4d ${len_tmpu}/2
       EndIf
       GetPos S ${pos_tmp3} ${pos_tmp3}-${dif_tmp3d} ${pos_tmp3}+${dif_tmp3d} -N 1 -RSMA $len_before $len_check
-      # ÇRî‘ñ⁄Ç™ê≥ämÇ»à íuÇ…Ç»ÇØÇÍÇŒîÕàÕÇçLÇ∞ÇSî‘ñ⁄Ç‹Ç≈ämîFÇ∑ÇÈ
+      # ÔºìÁï™ÁõÆ„ÅåÊ≠£Á¢∫„Å™‰ΩçÁΩÆ„Å´„Å™„Åë„Çå„Å∞ÁØÑÂõ≤„ÇíÂ∫É„ÅíÔºîÁï™ÁõÆ„Åæ„ÅßÁ¢∫Ë™ç„Åô„Çã
       If !$LASTEXE && $len_tmpu>00:20:00
         GetPos S ${pos_tmp3} ${pos_tmp3}-${dif_tmp4d} ${pos_tmp3}+${dif_tmp4d} -N 1 -RSMA $len_before $len_check
-        If $LASTEXE                 # îÕàÕÇçLÇ∞Çƒë∂ç›ÇµÇΩÇÁÇSî‘ñ⁄Ç‡ämîF
+        If $LASTEXE                 # ÁØÑÂõ≤„ÇíÂ∫É„Åí„Å¶Â≠òÂú®„Åó„Åü„ÇâÔºîÁï™ÁõÆ„ÇÇÁ¢∫Ë™ç
           LocalSet pos_tmp3  $POSHOLD
-          LocalSet pos_tmp4  ${pos_tmp3}+${len_tmpu}  # ÇSî‘ñ⁄ÇÃí∑éûä‘ñ≥âπà íuÅió\ëzÅj
+          LocalSet pos_tmp4  ${pos_tmp3}+${len_tmpu}  # ÔºîÁï™ÁõÆ„ÅÆÈï∑ÊôÇÈñìÁÑ°Èü≥‰ΩçÁΩÆÔºà‰∫àÊÉ≥Ôºâ
           GetPos S ${pos_tmp4} ${pos_tmp4}-${dif_tmp4d} ${pos_tmp4}+${dif_tmp4d} -N 1 -RSMA $len_before $len_check
         EndIf
       EndIf
       If !$LASTEXE
-        Set det_continue 0       # ñ≥âπà íuÇ»Ç≠ï°êîòbç\ê¨Ç≈ÇÕÇ»Ç¢
+        Set det_continue 0       # ÁÑ°Èü≥‰ΩçÁΩÆ„Å™„ÅèË§áÊï∞Ë©±ÊßãÊàê„Åß„ÅØ„Å™„ÅÑ
       EndIf
     EndIf
-    # ó\ëzà íuÇ…Ç†ÇÍÇŒï™äÑåàíË
+    # ‰∫àÊÉ≥‰ΩçÁΩÆ„Å´„ÅÇ„Çå„Å∞ÂàÜÂâ≤Ê±∫ÂÆö
     If $det_continue
       Set divuse         1
       Set len_unit       $len_tmpu
@@ -200,27 +200,27 @@ Memory mdiv_period_detect_a
 }
 EndMemory
 
-#--- éñëOê›íËä˙ä‘ÇÃñ≥âπèÛë‘Ç©ÇÁï°êîòbç\ê¨ÇîªíË ---
+#--- ‰∫ãÂâçË®≠ÂÆöÊúüÈñì„ÅÆÁÑ°Èü≥Áä∂ÊÖã„Åã„ÇâË§áÊï∞Ë©±ÊßãÊàê„ÇíÂà§ÂÆö ---
 Memory mdiv_period_detect_b
 {
-  # 15ï™x2òbÇÃÉPÅ[ÉXëŒâûÅiåÎåüèoâ¬î\ê´Ç©ÇÁí èÌÇÕñ¢égópÅBÉtÉâÉOê›íËéûÇÃÇ›ìÆçÏÅj
+  # 15ÂàÜx2Ë©±„ÅÆ„Ç±„Éº„ÇπÂØæÂøúÔºàË™§Ê§úÂá∫ÂèØËÉΩÊÄß„Åã„ÇâÈÄöÂ∏∏„ÅØÊú™‰ΩøÁî®„ÄÇ„Éï„É©„Ç∞Ë®≠ÂÆöÊôÇ„ÅÆ„ÅøÂãï‰ΩúÔºâ
   If $divuse==0
     If $div15minute
       GetPos S 00:15:00 00:14:30 00:15:30 -N 1 -LenN 00:20:00 -1 -flat -RSMA 0 $len_headmute
       If $LASTEXE
-        Set divuse 1            # ï°êîòbç\ê¨Çåüèo
-        Set len_unit 00:15:00   # 15ï™å≈íË
+        Set divuse 1            # Ë§áÊï∞Ë©±ÊßãÊàê„ÇíÊ§úÂá∫
+        Set len_unit 00:15:00   # 15ÂàÜÂõ∫ÂÆö
       EndIf
     EndIf
   EndIf
 
-  # é©ìÆåüèoÇ≈Ç´Ç»Ç©Ç¡ÇΩèÍçáÇÕ30ï™å≈íËÇ≈Ç‡Ç§àÍìxåüèo
+  # Ëá™ÂãïÊ§úÂá∫„Åß„Åç„Å™„Åã„Å£„ÅüÂ†¥Âêà„ÅØ30ÂàÜÂõ∫ÂÆö„Åß„ÇÇ„ÅÜ‰∏ÄÂ∫¶Ê§úÂá∫
   If $divuse==0
     If $div30minute
       GetPos S 00:30:00 00:29:30 00:30:30 -N 1 -LenN 00:50:00 -1 -flat -RSMA 0 $len_headmute
       If $LASTEXE
-        Set divuse 1            # ï°êîòbç\ê¨Çåüèo
-        Set len_unit 00:30:00   # 30ï™å≈íË
+        Set divuse 1            # Ë§áÊï∞Ë©±ÊßãÊàê„ÇíÊ§úÂá∫
+        Set len_unit 00:30:00   # 30ÂàÜÂõ∫ÂÆö
       EndIf
     EndIf
   EndIf
@@ -228,89 +228,89 @@ Memory mdiv_period_detect_b
 EndMemory
 
 
-#===== ï™äÑèàóùíËã`Åiï™äÑìÆçÏÅj =====
+#===== ÂàÜÂâ≤Âá¶ÁêÜÂÆöÁæ©ÔºàÂàÜÂâ≤Âãï‰ΩúÔºâ =====
 #----------------------------------------------
-# ï™äÑé¿çsÅiëSëÃÅj
+# ÂàÜÂâ≤ÂÆüË°åÔºàÂÖ®‰ΩìÔºâ
 #----------------------------------------------
-#--- ï™äÑé¿çsÇÃëSëÃèàóù ---
+#--- ÂàÜÂâ≤ÂÆüË°å„ÅÆÂÖ®‰ΩìÂá¶ÁêÜ ---
 Memory mdiv_divide_start
-  #--- ï™äÑé¿çs ---
+  #--- ÂàÜÂâ≤ÂÆüË°å ---
   If $divuse==1 || $divuse==2
     MemCall mdiv_divide_main
   EndIf
 EndMemory
 
 #------------------------------------
-# ï°êîòbç\ê¨ÇÃï™äÑèàóù
-# ì¸óÕ
-#  divuse        : ï°êîòbï™äÑèàóùÅi0:Ç»Çµ 1-:Ç†ÇËÅj
-#  len_unit      : ï°êîòbÇÃÇPòbä˙ä‘
-#  divlastoff    : ï°êîòbç\ê¨ÇÃç≈èIòbã≠êßï™äÑÅi0:ãñâ¬ 1:ã÷é~Åj
-#  period_list   : ä˙ä‘â¬ïœéûÇÃä˙ä‘ÉäÉXÉg
-# èoóÕ
-#  divexe        : ï™äÑé¿çsÅi0:ï™äÑé¿çsÇ»Çµ 1:ï™äÑé¿çsÅj
-#  (äeÉçÉS)      : ÉçÉSï™äÑÇ≈ç\ê¨Çï™äÑ
-#  divide_pos_list : ï™äÑà íuÉäÉXÉg
-#  divend_short  : èIóπà íuí∑éûä‘ñ≥âπÇ∆éüÇÃäJénÇåìÇÀÇƒÇ¢ÇΩÇÁ1
+# Ë§áÊï∞Ë©±ÊßãÊàê„ÅÆÂàÜÂâ≤Âá¶ÁêÜ
+# ÂÖ•Âäõ
+#  divuse        : Ë§áÊï∞Ë©±ÂàÜÂâ≤Âá¶ÁêÜÔºà0:„Å™„Åó 1-:„ÅÇ„ÇäÔºâ
+#  len_unit      : Ë§áÊï∞Ë©±„ÅÆÔºëË©±ÊúüÈñì
+#  divlastoff    : Ë§áÊï∞Ë©±ÊßãÊàê„ÅÆÊúÄÁµÇË©±Âº∑Âà∂ÂàÜÂâ≤Ôºà0:Ë®±ÂèØ 1:Á¶ÅÊ≠¢Ôºâ
+#  period_list   : ÊúüÈñìÂèØÂ§âÊôÇ„ÅÆÊúüÈñì„É™„Çπ„Éà
+# Âá∫Âäõ
+#  divexe        : ÂàÜÂâ≤ÂÆüË°åÔºà0:ÂàÜÂâ≤ÂÆüË°å„Å™„Åó 1:ÂàÜÂâ≤ÂÆüË°åÔºâ
+#  (ÂêÑ„É≠„Ç¥)      : „É≠„Ç¥ÂàÜÂâ≤„ÅßÊßãÊàê„ÇíÂàÜÂâ≤
+#  divide_pos_list : ÂàÜÂâ≤‰ΩçÁΩÆ„É™„Çπ„Éà
+#  divend_short  : ÁµÇ‰∫Ü‰ΩçÁΩÆÈï∑ÊôÇÈñìÁÑ°Èü≥„Å®Ê¨°„ÅÆÈñãÂßã„ÇíÂÖº„Å≠„Å¶„ÅÑ„Åü„Çâ1
 #------------------------------------
-# ÅEï°êîòbç\ê¨Ç≈ãÊêÿÇËínì_Ç…ÇQïb($len_headmuteÇÃíl)à»è„ÇÃñ≥âπÇ™Ç†ÇÍÇŒÉçÉSÇï™äÑ
-# divlastoff:ï™äÑÇ∑ÇÈéûÇ…ç≈èIòbÇÃéûä‘Ç…ÇÊÇÈã≠êßï™äÑÇ¢ÇÁÇ»Ç¢éûÇÕ1Çê›íËÇ∑ÇÈ
+# „ÉªË§áÊï∞Ë©±ÊßãÊàê„ÅßÂå∫Âàá„ÇäÂú∞ÁÇπ„Å´ÔºíÁßí($len_headmute„ÅÆÂÄ§)‰ª•‰∏ä„ÅÆÁÑ°Èü≥„Åå„ÅÇ„Çå„Å∞„É≠„Ç¥„ÇíÂàÜÂâ≤
+# divlastoff:ÂàÜÂâ≤„Åô„ÇãÊôÇ„Å´ÊúÄÁµÇË©±„ÅÆÊôÇÈñì„Å´„Çà„ÇãÂº∑Âà∂ÂàÜÂâ≤„ÅÑ„Çâ„Å™„ÅÑÊôÇ„ÅØ1„ÇíË®≠ÂÆö„Åô„Çã
 
 Memory mdiv_divide_main
 {
-  Echo ï°êîòbï™äÑÇé¿çsÅiÇPòbÇ†ÇΩÇËÇÃä˙ä‘ = $len_unitÅj
-  Set      divexe        1              # ï™äÑé¿çsämîFÉtÉâÉO
-  Default  divend_short  0              # í∑éûä‘ñ≥âπÇ∆éüÇÃäJénÇåìÇÀÇƒÇ¢ÇΩÇÁ1Ç…Ç»ÇÈ
+  Echo Ë§áÊï∞Ë©±ÂàÜÂâ≤„ÇíÂÆüË°åÔºàÔºëË©±„ÅÇ„Åü„Çä„ÅÆÊúüÈñì = $len_unitÔºâ
+  Set      divexe        1              # ÂàÜÂâ≤ÂÆüË°åÁ¢∫Ë™ç„Éï„É©„Ç∞
+  Default  divend_short  0              # Èï∑ÊôÇÈñìÁÑ°Èü≥„Å®Ê¨°„ÅÆÈñãÂßã„ÇíÂÖº„Å≠„Å¶„ÅÑ„Åü„Çâ1„Å´„Å™„Çã
 
-  #--- åüçıÇ∑ÇÈç≈ëÂòbêîÇéÊìæ ---
-  LocalSet divmax 0                     # ÉçÅ[ÉJÉãïœêîÇ…ê›íË
+  #--- Ê§úÁ¥¢„Åô„ÇãÊúÄÂ§ßË©±Êï∞„ÇíÂèñÂæó ---
+  LocalSet divmax 0                     # „É≠„Éº„Ç´„É´Â§âÊï∞„Å´Ë®≠ÂÆö
   MemCall mdiv_divide_divmax
 
-  LocalSet strdiv_range   ""            # ÉçÅ[ÉJÉãïœêîÇ…ê›íË
-  LocalSet strdiv_force   ""            # ÉçÅ[ÉJÉãïœêîÇ…ê›íË
-  LocalSet strdiv_len_s   ""            # ÉçÅ[ÉJÉãïœêîÇ…ê›íË
-  LocalSet strdiv_len_w   ""            # ÉçÅ[ÉJÉãïœêîÇ…ê›íË
-  LocalSet strdiv_sma_a   ""            # ÉçÅ[ÉJÉãïœêîÇ…ê›íË
-  LocalSet strdiv_sma_b   ""            # ÉçÅ[ÉJÉãïœêîÇ…ê›íË
-  LocalSet strdiv_sma_c   ""            # ÉçÅ[ÉJÉãïœêîÇ…ê›íË
-  LocalSet strdiv_sma_d   ""            # ÉçÅ[ÉJÉãïœêîÇ…ê›íË
-  #--- ä˙ä‘ÇÃçXêV ---
-  LocalSet len_unext     ${len_unit}    # éüÇÃÇPòbä˙ä‘Çê›íË
-  LocalSet numdiv        1              # ÉçÉSî‘çÜ=ï™äÑî‘çÜ
-  MemCall mdiv_divide_update_unit       # ä˙ä‘â¬ïœÇ≈ÇÕä˙ä‘ïœçX
+  LocalSet strdiv_range   ""            # „É≠„Éº„Ç´„É´Â§âÊï∞„Å´Ë®≠ÂÆö
+  LocalSet strdiv_force   ""            # „É≠„Éº„Ç´„É´Â§âÊï∞„Å´Ë®≠ÂÆö
+  LocalSet strdiv_len_s   ""            # „É≠„Éº„Ç´„É´Â§âÊï∞„Å´Ë®≠ÂÆö
+  LocalSet strdiv_len_w   ""            # „É≠„Éº„Ç´„É´Â§âÊï∞„Å´Ë®≠ÂÆö
+  LocalSet strdiv_sma_a   ""            # „É≠„Éº„Ç´„É´Â§âÊï∞„Å´Ë®≠ÂÆö
+  LocalSet strdiv_sma_b   ""            # „É≠„Éº„Ç´„É´Â§âÊï∞„Å´Ë®≠ÂÆö
+  LocalSet strdiv_sma_c   ""            # „É≠„Éº„Ç´„É´Â§âÊï∞„Å´Ë®≠ÂÆö
+  LocalSet strdiv_sma_d   ""            # „É≠„Éº„Ç´„É´Â§âÊï∞„Å´Ë®≠ÂÆö
+  #--- ÊúüÈñì„ÅÆÊõ¥Êñ∞ ---
+  LocalSet len_unext     ${len_unit}    # Ê¨°„ÅÆÔºëË©±ÊúüÈñì„ÇíË®≠ÂÆö
+  LocalSet numdiv        1              # „É≠„Ç¥Áï™Âè∑=ÂàÜÂâ≤Áï™Âè∑
+  MemCall mdiv_divide_update_unit       # ÊúüÈñìÂèØÂ§â„Åß„ÅØÊúüÈñìÂ§âÊõ¥
   Repeat $divmax
-    #--- åüçıÅïï™äÑäJén ---
+    #--- Ê§úÁ¥¢ÔºÜÂàÜÂâ≤ÈñãÂßã ---
     MemCall mdiv_divide_diveach
-    #--- éüÇÃï™äÑî‘çÜÇ…çXêV ---
+    #--- Ê¨°„ÅÆÂàÜÂâ≤Áï™Âè∑„Å´Êõ¥Êñ∞ ---
     CountUp numdiv
-    #--- ï™äÑñàÇ…ä˙ä‘â¬ïœéûÇÃä˙ä‘ïœçX ---
+    #--- ÂàÜÂâ≤ÊØé„Å´ÊúüÈñìÂèØÂ§âÊôÇ„ÅÆÊúüÈñìÂ§âÊõ¥ ---
     MemCall mdiv_divide_update_unit
   EndRepeat
-  #--- àÍî‘ç≈å„ÇæÇØÇÕñ≥âπãÊêÿÇËÇ™Ç»Ç≠ÇƒÇ‡éûä‘Ç≈ï™äÑ ---
-  If !$divlastoff          # ê›íËÇ…ÇÊÇËÇ±ÇÃèàóùÇÕñ≥å¯
-    #--- åüçıèåèÇê›íË ---
+  #--- ‰∏ÄÁï™ÊúÄÂæå„Å†„Åë„ÅØÁÑ°Èü≥Âå∫Âàá„Çä„Åå„Å™„Åè„Å¶„ÇÇÊôÇÈñì„ÅßÂàÜÂâ≤ ---
+  If !$divlastoff          # Ë®≠ÂÆö„Å´„Çà„Çä„Åì„ÅÆÂá¶ÁêÜ„ÅØÁÑ°Âäπ
+    #--- Ê§úÁ¥¢Êù°‰ª∂„ÇíË®≠ÂÆö ---
     LocalSet len_divma    ${len_divmgn_last_a}
     LocalSet len_divmb    ${len_divmgn_last_b}
-    LocalSet numdiv       -1        # ç≈å„î‘çÜ
+    LocalSet numdiv       -1        # ÊúÄÂæåÁï™Âè∑
     MemCall mdiv_divide_condition
-    #--- åüçıÅïï™äÑäJén ---
+    #--- Ê§úÁ¥¢ÔºÜÂàÜÂâ≤ÈñãÂßã ---
     DivLogo ${strdiv_range} ${strdiv_len_s} ${strdiv_sma_d}
   EndIf
 
-  # ï™äÑÉtÉåÅ[ÉÄÇïœêî(divide_pos_list)Ç…ê›íË
-  GetList S -RegList divide_pos_list # ÉçÉSóßè„ÇËà íuÉäÉXÉg
+  # ÂàÜÂâ≤„Éï„É¨„Éº„É†„ÇíÂ§âÊï∞(divide_pos_list)„Å´Ë®≠ÂÆö
+  GetList S -RegList divide_pos_list # „É≠„Ç¥Á´ã‰∏ä„Çä‰ΩçÁΩÆ„É™„Çπ„Éà
 }
 EndMemory
 
 #----------------------------------------------
-# ï™äÑç≈ëÂòbêîÇéÊìæ
-#   divmax Ç…ï™äÑç≈ëÂòbêîÇê›íË
+# ÂàÜÂâ≤ÊúÄÂ§ßË©±Êï∞„ÇíÂèñÂæó
+#   divmax „Å´ÂàÜÂâ≤ÊúÄÂ§ßË©±Êï∞„ÇíË®≠ÂÆö
 #----------------------------------------------
 Memory mdiv_divide_divmax
 {
-  LocalSet len_now  ${len_unit}    # 1òbä˙ä‘
-  LocalSet len_sum  ${MAXTIME}     # ÉäÉXÉgñ¢ãLç⁄ÇÃä˙ä‘
-  #--- ÉäÉXÉgñ¢ãLç⁄ÇÃä˙ä‘ÇåvéZ ---
+  LocalSet len_now  ${len_unit}    # 1Ë©±ÊúüÈñì
+  LocalSet len_sum  ${MAXTIME}     # „É™„Çπ„ÉàÊú™Ë®òËºâ„ÅÆÊúüÈñì
+  #--- „É™„Çπ„ÉàÊú™Ë®òËºâ„ÅÆÊúüÈñì„ÇíË®àÁÆó ---
   If $#{period_list}>0
     LocalSet cnti     0
     Repeat $#{period_list}
@@ -319,26 +319,26 @@ Memory mdiv_divide_divmax
       EvalTime len_sum  ${len_sum}-${len_now}
     EndRepeat
   EndIf
-  #--- òbêîç≈ëÂåüçıÅiéûä‘/éûä‘ÇÕêÆêîÇ≈é¿é{Åj ---
+  #--- Ë©±Êï∞ÊúÄÂ§ßÊ§úÁ¥¢ÔºàÊôÇÈñì/ÊôÇÈñì„ÅØÊï¥Êï∞„ÅßÂÆüÊñΩÔºâ ---
   EvalNum divmax $#{period_list}+2
   If ${len_sum}>0
-    EvalNum divmax (${len_sum}/${len_now})+${divmax}  # ÉäÉXÉgñ¢ãLç⁄ï™ÇÃí«â¡
+    EvalNum divmax (${len_sum}/${len_now})+${divmax}  # „É™„Çπ„ÉàÊú™Ë®òËºâÂàÜ„ÅÆËøΩÂä†
   EndIf
 }
 EndMemory
 
 #----------------------------------------------
-# ï™äÑäeòbÇÃä˙ä‘â¬ïœèàóù
-#   len_unit,len_unext ÇçXêV
+# ÂàÜÂâ≤ÂêÑË©±„ÅÆÊúüÈñìÂèØÂ§âÂá¶ÁêÜ
+#   len_unit,len_unext „ÇíÊõ¥Êñ∞
 #----------------------------------------------
 Memory mdiv_divide_update_unit
   If $#{period_list}>0
-    #--- ä˙ä‘çXêV ---
-    If ${numdiv}<=$#{period_list}  # ÉäÉXÉgÇÃêîÇæÇØèáî‘Ç…ÅAà»ç~ç≈èIèÛë‘Ç≈å≈íË
+    #--- ÊúüÈñìÊõ¥Êñ∞ ---
+    If ${numdiv}<=$#{period_list}  # „É™„Çπ„Éà„ÅÆÊï∞„Å†„ÅëÈ†ÜÁï™„Å´„ÄÅ‰ª•ÈôçÊúÄÁµÇÁä∂ÊÖã„ÅßÂõ∫ÂÆö
       Set len_unit ${period_list[${numdiv}]}
-      Echo ä˙ä‘çƒê›íËÅi${numdiv}òb = $len_unitÅj
+      Echo ÊúüÈñìÂÜçË®≠ÂÆöÔºà${numdiv}Ë©± = $len_unitÔºâ
     EndIf
-    #--- ÉäÉXÉgÇÃéüà íuämîF ---
+    #--- „É™„Çπ„Éà„ÅÆÊ¨°‰ΩçÁΩÆÁ¢∫Ë™ç ---
     Set len_unext  ${len_unit}
     If ${numdiv}<$#{period_list}  
       Set len_unext ${period_list[${numdiv}+1]}
@@ -347,25 +347,25 @@ Memory mdiv_divide_update_unit
 EndMemory
 
 #----------------------------------------------
-# ï™äÑà íuîªíËÇ…égópÇ∑ÇÈèåèê›íË
-#   strdiv_* Ç…èåèï∂éöóÒÇê›íË
+# ÂàÜÂâ≤‰ΩçÁΩÆÂà§ÂÆö„Å´‰ΩøÁî®„Åô„ÇãÊù°‰ª∂Ë®≠ÂÆö
+#   strdiv_* „Å´Êù°‰ª∂ÊñáÂ≠óÂàó„ÇíË®≠ÂÆö
 #----------------------------------------------
 Memory mdiv_divide_condition
-  #--- åüçıîÕàÕÇ∆ã§í èåè ---
-  #   range  : í èÌÇÃê›íË
-  #   force  : ä˙ä‘ì¸óÕÇ™ê≥ämÇ∆ÇµÇƒã≠êßê›íËÇ∑ÇÈèÍçá
+  #--- Ê§úÁ¥¢ÁØÑÂõ≤„Å®ÂÖ±ÈÄöÊù°‰ª∂ ---
+  #   range  : ÈÄöÂ∏∏„ÅÆË®≠ÂÆö
+  #   force  : ÊúüÈñìÂÖ•Âäõ„ÅåÊ≠£Á¢∫„Å®„Åó„Å¶Âº∑Âà∂Ë®≠ÂÆö„Åô„ÇãÂ†¥Âêà
   Set strdiv_range  "S ${len_unit} ${len_unit}-${len_divmb} ${len_unit}+${len_divma} -N ${numdiv} -flat"
   Set strdiv_force  "S ${len_unit} ${len_unit}-${len_divmb} ${len_unit}+${len_divma} -N ${numdiv} -force"
-  #--- strdiv_len_ : ï™äÑëOÇÃä˙ä‘èåè ---
-  #   s : ï™äÑä˙ä‘ÇÃÇ›ïKóv
-  #   w : ï™äÑä˙ä‘Å{éüÇÃï™äÑä˙ä‘ÇÃçáåvà»è„Ç™ïKóv
+  #--- strdiv_len_ : ÂàÜÂâ≤Ââç„ÅÆÊúüÈñìÊù°‰ª∂ ---
+  #   s : ÂàÜÂâ≤ÊúüÈñì„ÅÆ„ÅøÂøÖË¶Å
+  #   w : ÂàÜÂâ≤ÊúüÈñìÔºãÊ¨°„ÅÆÂàÜÂâ≤ÊúüÈñì„ÅÆÂêàË®à‰ª•‰∏ä„ÅåÂøÖË¶Å
   Set strdiv_len_s  "-LenN ${len_unit} -1"
   Set strdiv_len_w  "-LenN ${len_unit}+${len_unext} -1"
-  #--- strdiv_sma_* : í∑éûä‘ñ≥âπÇ©ÇÁîªíËÇ∑ÇÈèåè ---
-  #   a : í∑éûä‘ñ≥âπÇ…Ç©Ç©ÇÁÇ»Ç¢äJénà íu
-  #   b : äJénà íuèåèÇÃÇ›
-  #   c : í∑éûä‘ñ≥âπÇ∆éüÇÃäJénÇåìÇÀÇΩäJénà íu
-  #   d : í∑éûä‘ñ≥âπÇ»ÇµÇ≈ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÅiç≈å„ÇÃã≠êßï™äÑópÅj
+  #--- strdiv_sma_* : Èï∑ÊôÇÈñìÁÑ°Èü≥„Åã„ÇâÂà§ÂÆö„Åô„ÇãÊù°‰ª∂ ---
+  #   a : Èï∑ÊôÇÈñìÁÑ°Èü≥„Å´„Åã„Åã„Çâ„Å™„ÅÑÈñãÂßã‰ΩçÁΩÆ
+  #   b : ÈñãÂßã‰ΩçÁΩÆÊù°‰ª∂„ÅÆ„Åø
+  #   c : Èï∑ÊôÇÈñìÁÑ°Èü≥„Å®Ê¨°„ÅÆÈñãÂßã„ÇíÂÖº„Å≠„ÅüÈñãÂßã‰ΩçÁΩÆ
+  #   d : Èï∑ÊôÇÈñìÁÑ°Èü≥„Å™„Åó„ÅßÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏ÔºàÊúÄÂæå„ÅÆÂº∑Âà∂ÂàÜÂâ≤Áî®Ôºâ
   Set strdiv_sma_a  "-RSMA 0 ${len_headmute} -RNoSMA ${len_divsma_b} 0 -RNoSMA ${len_htime} ${len_divsma_a}"
   Set strdiv_sma_b  "-RSMA 0 ${len_headmute}"
   Set strdiv_sma_c  "-RSMA ${len_divsma_b} ${len_headmute} -RNoSMA ${len_htime} ${len_divsma_a}"
@@ -373,56 +373,56 @@ Memory mdiv_divide_condition
 EndMemory
 
 #----------------------------------------------
-# ï™äÑà íuÇíTÇµÇƒï™äÑé¿çs
+# ÂàÜÂâ≤‰ΩçÁΩÆ„ÇíÊé¢„Åó„Å¶ÂàÜÂâ≤ÂÆüË°å
 #----------------------------------------------
 Memory mdiv_divide_diveach
 {
-  #--- åüçıîÕàÕê›íË ---
-  ListClear -local -RegList len_divma_list  # ÉäÉXÉgèâä˙âª
-  ListClear -local -RegList len_divmb_list  # ÉäÉXÉgèâä˙âª
-  MemCall mdiv_divide_scopelist             # åüçıîÕàÕÇê›íË
-  #--- äeåüçıä˙ä‘èåèÇ≈èáî‘Ç…ï™äÑà íuÇ™Ç†ÇÈÇ©ämîF ---
-  LocalSet flag_exediv  0   # ï™äÑé¿é{çœÇ›ÉtÉâÉO
-  LocalSet cntd         0   # ÉJÉEÉìÉg
+  #--- Ê§úÁ¥¢ÁØÑÂõ≤Ë®≠ÂÆö ---
+  ListClear -local -RegList len_divma_list  # „É™„Çπ„ÉàÂàùÊúüÂåñ
+  ListClear -local -RegList len_divmb_list  # „É™„Çπ„ÉàÂàùÊúüÂåñ
+  MemCall mdiv_divide_scopelist             # Ê§úÁ¥¢ÁØÑÂõ≤„ÇíË®≠ÂÆö
+  #--- ÂêÑÊ§úÁ¥¢ÊúüÈñìÊù°‰ª∂„ÅßÈ†ÜÁï™„Å´ÂàÜÂâ≤‰ΩçÁΩÆ„Åå„ÅÇ„Çã„ÅãÁ¢∫Ë™ç ---
+  LocalSet flag_exediv  0   # ÂàÜÂâ≤ÂÆüÊñΩÊ∏à„Åø„Éï„É©„Ç∞
+  LocalSet cntd         0   # „Ç´„Ç¶„É≥„Éà
   Repeat $#{len_divma_list}
     CountUp cntd
-    LocalSet len_divma  ${len_divma_list[$cntd]}  # åüçıà íuÉ}Å[ÉWÉìÅiå„ë§Åj
-    LocalSet len_divmb  ${len_divmb_list[$cntd]}  # åüçıà íuÉ}Å[ÉWÉìÅiëOë§Åj
+    LocalSet len_divma  ${len_divma_list[$cntd]}  # Ê§úÁ¥¢‰ΩçÁΩÆ„Éû„Éº„Ç∏„É≥ÔºàÂæåÂÅ¥Ôºâ
+    LocalSet len_divmb  ${len_divmb_list[$cntd]}  # Ê§úÁ¥¢‰ΩçÁΩÆ„Éû„Éº„Ç∏„É≥ÔºàÂâçÂÅ¥Ôºâ
     If ${flag_exediv}==0 && ${len_divma}>=0 && ${len_divmb}>=0
-      #--- åüçıèåèÇê›íË ---
+      #--- Ê§úÁ¥¢Êù°‰ª∂„ÇíË®≠ÂÆö ---
       MemCall mdiv_divide_condition
-      #--- åüçıäJén ---
-      If ${cntd}==1    # ÇPâÒñ⁄Åiï™äÑä˙ä‘Ç™ê≥ämÇ»èÍçáÇÃèàóùÅj
-        # åJÇËï‘Çµï™äÑé¿çsÅiç≈èâÇÕí∑éûä‘ñ≥âπÇ…Ç©Ç©ÇÁÇ»Ç¢ÇÊÇ§Ç…Åj
+      #--- Ê§úÁ¥¢ÈñãÂßã ---
+      If ${cntd}==1    # ÔºëÂõûÁõÆÔºàÂàÜÂâ≤ÊúüÈñì„ÅåÊ≠£Á¢∫„Å™Â†¥Âêà„ÅÆÂá¶ÁêÜÔºâ
+        # Áπ∞„ÇäËøî„ÅóÂàÜÂâ≤ÂÆüË°åÔºàÊúÄÂàù„ÅØÈï∑ÊôÇÈñìÁÑ°Èü≥„Å´„Åã„Åã„Çâ„Å™„ÅÑ„Çà„ÅÜ„Å´Ôºâ
         DivLogo ${strdiv_range} ${strdiv_len_s} ${strdiv_sma_a}
-        If !$LASTEXE          # Ç»Ç©Ç¡ÇΩÇÁí∑éûä‘ñ≥âπÇãCÇ…ÇπÇ∏åüçı
+        If !$LASTEXE          # „Å™„Åã„Å£„Åü„ÇâÈï∑ÊôÇÈñìÁÑ°Èü≥„ÇíÊ∞ó„Å´„Åõ„ÅöÊ§úÁ¥¢
           DivLogo ${strdiv_range} ${strdiv_len_s} ${strdiv_sma_b}
           If $LASTEXE
-            Set divend_short 1    # í∑éûä‘ñ≥âπÇ∆éüÇÃäJénÇÃåìópÇ†ÇË
+            Set divend_short 1    # Èï∑ÊôÇÈñìÁÑ°Èü≥„Å®Ê¨°„ÅÆÈñãÂßã„ÅÆÂÖºÁî®„ÅÇ„Çä
           EndIf
         EndIf
-        If !$LASTEXE          # Ç»Ç©Ç¡ÇΩÇÁä˙ä‘ê›íËÇ™ê≥ämÇ»éûÇÕã≠êß
-          If ${divprecise}>0    # ä˙ä‘ê›íËÇ™ê≥ämÇ∆ÇµÇƒï™äÑÇ∑ÇÈèÍçá
+        If !$LASTEXE          # „Å™„Åã„Å£„Åü„ÇâÊúüÈñìË®≠ÂÆö„ÅåÊ≠£Á¢∫„Å™ÊôÇ„ÅØÂº∑Âà∂
+          If ${divprecise}>0    # ÊúüÈñìË®≠ÂÆö„ÅåÊ≠£Á¢∫„Å®„Åó„Å¶ÂàÜÂâ≤„Åô„ÇãÂ†¥Âêà
             DivLogo ${strdiv_force} ${strdiv_len_s}
           EndIf
         EndIf
-      Else    # 2âÒñ⁄à»ç~Åiï™äÑà íuåÛï‚ÇÃîÕàÕÇçLÇ∞ÇƒåüçıÅj
-        If ${divend_short}        # í∑éûä‘ñ≥âπåìópÇ†ÇËç\ê¨ÇÃåüçı
+      Else    # 2ÂõûÁõÆ‰ª•ÈôçÔºàÂàÜÂâ≤‰ΩçÁΩÆÂÄôË£ú„ÅÆÁØÑÂõ≤„ÇíÂ∫É„Åí„Å¶Ê§úÁ¥¢Ôºâ
+        If ${divend_short}        # Èï∑ÊôÇÈñìÁÑ°Èü≥ÂÖºÁî®„ÅÇ„ÇäÊßãÊàê„ÅÆÊ§úÁ¥¢
           DivLogo ${strdiv_range} ${strdiv_len_w} ${strdiv_sma_c}
-          If !$LASTEXE            # Ç»Ç©Ç¡ÇΩÇÁí∑éûä‘ñ≥âπåìópÇ»ÇµÇ≈Ç‡åüçı
+          If !$LASTEXE            # „Å™„Åã„Å£„Åü„ÇâÈï∑ÊôÇÈñìÁÑ°Èü≥ÂÖºÁî®„Å™„Åó„Åß„ÇÇÊ§úÁ¥¢
             DivLogo ${strdiv_range} ${strdiv_len_w} ${strdiv_sma_a}
           EndIf
-        Else                      # í∑éûä‘ñ≥âπåìópÇ»ÇµÇ≈åüçı
+        Else                      # Èï∑ÊôÇÈñìÁÑ°Èü≥ÂÖºÁî®„Å™„Åó„ÅßÊ§úÁ¥¢
           DivLogo ${strdiv_range} ${strdiv_len_w} ${strdiv_sma_a}
         EndIf
-        If !$LASTEXE            # Ç»Ç©Ç¡ÇΩÇÁéüÇÃèåè
-          If ${cntd}==$#{len_divma_list}  # ç≈å„ÇÃí«â¡ê›íËÇ»ÇÁñ≥âπäJénèåèÇÃÇ›
+        If !$LASTEXE            # „Å™„Åã„Å£„Åü„ÇâÊ¨°„ÅÆÊù°‰ª∂
+          If ${cntd}==$#{len_divma_list}  # ÊúÄÂæå„ÅÆËøΩÂä†Ë®≠ÂÆö„Å™„ÇâÁÑ°Èü≥ÈñãÂßãÊù°‰ª∂„ÅÆ„Åø
             DivLogo ${strdiv_range} ${strdiv_len_w} ${strdiv_sma_b}
           EndIf
         EndIf
       EndIf
       If $LASTEXE
-        Set flag_exediv  1   # ï™äÑé¿é{çœÇ›ÉtÉâÉO
+        Set flag_exediv  1   # ÂàÜÂâ≤ÂÆüÊñΩÊ∏à„Åø„Éï„É©„Ç∞
       EndIf
     EndIf
   EndRepeat
@@ -430,14 +430,14 @@ Memory mdiv_divide_diveach
 EndMemory
 
 #----------------------------------------------
-# ï™äÑà íuåüçıÇçsÇ§îÕàÕÇê›íË
-#   len_divma_list,len_divmb_listÇ…îÕàÕÅiÇPâÒñ⁄Ç©ÇÁèáî‘Ç…ÅjÇê›íË
+# ÂàÜÂâ≤‰ΩçÁΩÆÊ§úÁ¥¢„ÇíË°å„ÅÜÁØÑÂõ≤„ÇíË®≠ÂÆö
+#   len_divma_list,len_divmb_list„Å´ÁØÑÂõ≤ÔºàÔºëÂõûÁõÆ„Åã„ÇâÈ†ÜÁï™„Å´Ôºâ„ÇíË®≠ÂÆö
 #----------------------------------------------
 Memory mdiv_divide_scopelist
-  If ${divprecise}>0    # ä˙ä‘ê›íËÇ™ê≥ämÇ∆ÇµÇƒï™äÑÇ∑ÇÈèÍçá
+  If ${divprecise}>0    # ÊúüÈñìË®≠ÂÆö„ÅåÊ≠£Á¢∫„Å®„Åó„Å¶ÂàÜÂâ≤„Åô„ÇãÂ†¥Âêà
     Set len_divma_list[1]  ${len_divmgn_precise_a}
     Set len_divmb_list[1]  ${len_divmgn_precise_b}
-  Else                  # ä˙ä‘ê›íËÇÕñ⁄à¿ÇÃèÍçá
+  Else                  # ÊúüÈñìË®≠ÂÆö„ÅØÁõÆÂÆâ„ÅÆÂ†¥Âêà
     Set len_divma_list[1]  00:00:15
     Set len_divmb_list[1]  00:00:15
     Set len_divma_list[2]  00:01:05
@@ -451,7 +451,7 @@ Memory mdiv_divide_scopelist
       Set len_divmb_list[3]  00:03:00
     EndIf
     If ${divwide_num}>0
-      # ägí£éûä‘çÏê¨Åi20ï™à»è„ÇÃç\ê¨Ç≈ÅA30ïb * ${divwide_num} + 3ï™Åj
+      # Êã°ÂºµÊôÇÈñì‰ΩúÊàêÔºà20ÂàÜ‰ª•‰∏ä„ÅÆÊßãÊàê„Åß„ÄÅ30Áßí * ${divwide_num} + 3ÂàÜÔºâ
       LocalSet scope_ext ${len_unit}
       If ${scope_ext}>00:20:00
         Set scope_ext 00:20:00
@@ -465,56 +465,56 @@ EndMemory
 
 
 
-#===== ìÆçÏäJén =====
+#===== Âãï‰ΩúÈñãÂßã =====
 #----------------------------------------------
-# ÉçÉSÇÕñ≥å¯âª
+# „É≠„Ç¥„ÅØÁÑ°ÂäπÂåñ
 #----------------------------------------------
 LogoOff
 #----------------------------------------------
-# äJénÅEèIóπÉ}Å[ÉWÉìÇÃê›íË
+# ÈñãÂßã„ÉªÁµÇ‰∫Ü„Éû„Éº„Ç∏„É≥„ÅÆË®≠ÂÆö
 #----------------------------------------------
-#---Åiê›íËë}ì¸ÅjåüçıäJénèÍèä ---
+#---ÔºàË®≠ÂÆöÊåøÂÖ•ÔºâÊ§úÁ¥¢ÈñãÂßãÂ†¥ÊâÄ ---
 MemCall mbase_first
 
 If $base == -1
-  # ê›íËÇ»Ç¢éûÇÃäJénÉ}Å[ÉWÉìé©ìÆåüçı
+  # Ë®≠ÂÆö„Å™„ÅÑÊôÇ„ÅÆÈñãÂßã„Éû„Éº„Ç∏„É≥Ëá™ÂãïÊ§úÁ¥¢
   #Select S 0 0 0 -N 1 -Shift 0 0 $autobase -logoext 0 $autobase+1.3 -SMA 0 $len_headmute
   Select S 0 0 $autobase -logoext 0 $autobase+1.3 -RSMA 0 $len_headmute
 Else
-  # äJénÉ}Å[ÉWÉìïtãﬂÇ…åÛï‚Ç™Ç†ÇÍÇŒóDêÊëIë
+  # ÈñãÂßã„Éû„Éº„Ç∏„É≥‰ªòËøë„Å´ÂÄôË£ú„Åå„ÅÇ„Çå„Å∞ÂÑ™ÂÖàÈÅ∏Êäû
   Select S $base 0 $base+1.3 -N 1 -logoext 0 $base+1.3 -RSMA 0 $len_headmute
 EndIf
 
-# èIóπÉ}Å[ÉWÉìéwíËÇ†ÇÍÇŒåÛï‚ÇíTÇµóDêÊëIëÅièIóπë§ÇÃé©ìÆåüçıÇÕâΩÇ‡ê›íËÇµÇ»Ç¢Åj
+# ÁµÇ‰∫Ü„Éû„Éº„Ç∏„É≥ÊåáÂÆö„ÅÇ„Çå„Å∞ÂÄôË£ú„ÇíÊé¢„ÅóÂÑ™ÂÖàÈÅ∏ÊäûÔºàÁµÇ‰∫ÜÂÅ¥„ÅÆËá™ÂãïÊ§úÁ¥¢„ÅØ‰Ωï„ÇÇË®≠ÂÆö„Åó„Å™„ÅÑÔºâ
 If ${lastbase}>0
   Select E -${lastbase} -${lastbase}-1.3 0 -logoext -${lastbase}-1.3 0
 EndIf
 
 #----------------------------------------------
-# ï™äÑä˙ä‘ÇÃåüèo
+# ÂàÜÂâ≤ÊúüÈñì„ÅÆÊ§úÂá∫
 #----------------------------------------------
-ListClear -default -RegList period_list  # ÉtÉ@ÉCÉãì«Ç›çûÇ›ópÅièâä˙ê›íËÅj
+ListClear -default -RegList period_list  # „Éï„Ç°„Ç§„É´Ë™≠„ÅøËæº„ÅøÁî®ÔºàÂàùÊúüË®≠ÂÆöÔºâ
 MemCall mdiv_period_select
 
 #----------------------------------------------
-# ï™äÑé¿çs
+# ÂàÜÂâ≤ÂÆüË°å
 #----------------------------------------------
-#---Åiê›íËë}ì¸Åjï™äÑëO ---
+#---ÔºàË®≠ÂÆöÊåøÂÖ•ÔºâÂàÜÂâ≤Ââç ---
 MemCall mbase_divide_before
 
-Default divexe   0               # ï™äÑé¿çsämîFÉtÉâÉO
+Default divexe   0               # ÂàÜÂâ≤ÂÆüË°åÁ¢∫Ë™ç„Éï„É©„Ç∞
 MemCall mdiv_divide_start
 
-#---Åiê›íËë}ì¸Åjï™äÑå„ ---
+#---ÔºàË®≠ÂÆöÊåøÂÖ•ÔºâÂàÜÂâ≤Âæå ---
 MemCall mbase_divide_after
 
 #----------------------------------------------
-# éûä‘Ç…ÇÊÇÈï‚ê≥ÅièIóπà íuåüçıópÅj
+# ÊôÇÈñì„Å´„Çà„ÇãË£úÊ≠£ÔºàÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÁ¥¢Áî®Ôºâ
 #----------------------------------------------
-# åüçıà íuÇéËìÆê›íËÇ∑ÇÈèÍçáÇÕ1Ç…ê›íËÇµÇƒÇ®Ç≠
-Default stay_endloc_sft 0   # èIóπà íuåüçıà íuÇÃé©ìÆïœçXÅi0=ãñâ¬ 1=ã÷é~Åj
+# Ê§úÁ¥¢‰ΩçÁΩÆ„ÇíÊâãÂãïË®≠ÂÆö„Åô„ÇãÂ†¥Âêà„ÅØ1„Å´Ë®≠ÂÆö„Åó„Å¶„Åä„Åè
+Default stay_endloc_sft 0   # ÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÁ¥¢‰ΩçÁΩÆ„ÅÆËá™ÂãïÂ§âÊõ¥Ôºà0=Ë®±ÂèØ 1=Á¶ÅÊ≠¢Ôºâ
 
-# ä˙ä‘Ç…ÇÊÇËèIóπåüçıà íuÇï‚ê≥Ç∑ÇÈÅiï™äÑéûÇÕç≈å„Ç…ê›íËÇ≥ÇÍÇΩï™äÑä˙ä‘ÇéQè∆Åj
+# ÊúüÈñì„Å´„Çà„ÇäÁµÇ‰∫ÜÊ§úÁ¥¢‰ΩçÁΩÆ„ÇíË£úÊ≠£„Åô„ÇãÔºàÂàÜÂâ≤ÊôÇ„ÅØÊúÄÂæå„Å´Ë®≠ÂÆö„Åï„Çå„ÅüÂàÜÂâ≤ÊúüÈñì„ÇíÂèÇÁÖßÔºâ
 Default eachframe $MAXTIME
 If $divexe
   Set eachframe $len_unit
@@ -522,101 +522,101 @@ EndIf
 
 If ${stay_endloc_sft}==0
   If $eachframe >= 00:14:00
-#    ïWèÄê›íËÇégópÇ∑ÇÈ
-#    Set sft_c   00:03:00       # èIóπà íuÅióDêÊà íuÅj
-#    Set sft_l   00:08:00       # èIóπà íuÅiéËëOÅj
-#    Set sft_r   00:00:10       # èIóπà íuÅiç≈èIÅj
+#    Ê®ôÊ∫ñË®≠ÂÆö„Çí‰ΩøÁî®„Åô„Çã
+#    Set sft_c   00:03:00       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÂÑ™ÂÖà‰ΩçÁΩÆÔºâ
+#    Set sft_l   00:08:00       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÊâãÂâçÔºâ
+#    Set sft_r   00:00:10       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÊúÄÁµÇÔºâ
   ElsIf $eachframe >= 00:07:00
-    Set sft_c   00:02:00       # èIóπà íuÅióDêÊà íuÅj
-    Set sft_l   00:05:00       # èIóπà íuÅiéËëOÅj
-#   Set sft_r   00:00:10       # èIóπà íuÅiç≈èIÅj
+    Set sft_c   00:02:00       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÂÑ™ÂÖà‰ΩçÁΩÆÔºâ
+    Set sft_l   00:05:00       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÊâãÂâçÔºâ
+#   Set sft_r   00:00:10       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÊúÄÁµÇÔºâ
   ElsIf $eachframe >= 00:04:00
-    Set sft_c   00:00:30       # èIóπà íuÅióDêÊà íuÅj
-    Set sft_l   00:03:30       # èIóπà íuÅiéËëOÅj
-#   Set sft_r   00:00:10       # èIóπà íuÅiç≈èIÅj
+    Set sft_c   00:00:30       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÂÑ™ÂÖà‰ΩçÁΩÆÔºâ
+    Set sft_l   00:03:30       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÊâãÂâçÔºâ
+#   Set sft_r   00:00:10       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÊúÄÁµÇÔºâ
   Else
-    Set sft_c   00:00:30       # èIóπà íuÅióDêÊà íuÅj
-    Set sft_l   00:02:30       # èIóπà íuÅiéËëOÅj
-#   Set sft_r   00:00:10       # èIóπà íuÅiç≈èIÅj
+    Set sft_c   00:00:30       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÂÑ™ÂÖà‰ΩçÁΩÆÔºâ
+    Set sft_l   00:02:30       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÊâãÂâçÔºâ
+#   Set sft_r   00:00:10       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÊúÄÁµÇÔºâ
   EndIf
 
-  # óDêÊÇ∑ÇÈñ≥âπà íuåüçıóp
-  Set sft_mc $sft_c             # èIóπà íuÅiñ≥âπåüçıóDêÊà íuÅEóDêÊÅj
-  Set sft_ml $sft_l             # èIóπà íuÅiñ≥âπåüçıóDêÊà íuÅEéËëOÅj
-  Set sft_mr $sft_r             # èIóπà íuÅiñ≥âπåüçıóDêÊà íuÅEç≈èIÅj
-  If ($eachframe-$sft_mr>=$end30pavg && $eachframe<=$end30pmax)  # ëŒè€ãÊä‘ÇÃï‚ê≥
+  # ÂÑ™ÂÖà„Åô„ÇãÁÑ°Èü≥‰ΩçÁΩÆÊ§úÁ¥¢Áî®
+  Set sft_mc $sft_c             # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÁÑ°Èü≥Ê§úÁ¥¢ÂÑ™ÂÖà‰ΩçÁΩÆ„ÉªÂÑ™ÂÖàÔºâ
+  Set sft_ml $sft_l             # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÁÑ°Èü≥Ê§úÁ¥¢ÂÑ™ÂÖà‰ΩçÁΩÆ„ÉªÊâãÂâçÔºâ
+  Set sft_mr $sft_r             # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÁÑ°Èü≥Ê§úÁ¥¢ÂÑ™ÂÖà‰ΩçÁΩÆ„ÉªÊúÄÁµÇÔºâ
+  If ($eachframe-$sft_mr>=$end30pavg && $eachframe<=$end30pmax)  # ÂØæË±°Âå∫Èñì„ÅÆË£úÊ≠£
     EvalTime sft_mc $eachframe-$end30pavg
     If $sft_ml>=$eachframe-$end30pmin
       EvalTime sft_ml $eachframe-$end30pmin
-      If $sft_l<$sft_ml         # $end30pminê›íËÇ≈íZÇ¢30ï™î‘ëgëŒâûÇµÇΩèÍçá
+      If $sft_l<$sft_ml         # $end30pminË®≠ÂÆö„ÅßÁü≠„ÅÑ30ÂàÜÁï™ÁµÑÂØæÂøú„Åó„ÅüÂ†¥Âêà
         Set $sft_l $sft_ml
       EndIf
     EndIf
   EndIf
 EndIf
 
-# ÅEèIóπà íuí∑éûä‘ñ≥âπÇ∆éüÇÃäJénÇåìÇÀÇƒÇ¢ÇΩéûÇÕñ≥èåèÇ≈à íuï‚ê≥
-Default divend_short  0        # ñ¢ê›íËéûÇÕ0
+# „ÉªÁµÇ‰∫Ü‰ΩçÁΩÆÈï∑ÊôÇÈñìÁÑ°Èü≥„Å®Ê¨°„ÅÆÈñãÂßã„ÇíÂÖº„Å≠„Å¶„ÅÑ„ÅüÊôÇ„ÅØÁÑ°Êù°‰ª∂„Åß‰ΩçÁΩÆË£úÊ≠£
+Default divend_short  0        # Êú™Ë®≠ÂÆöÊôÇ„ÅØ0
 If ${divend_short}==1
-    Set sft_r   00:00:00       # èIóπà íuÅiç≈èIÅj
-    Set sft_mc  00:01:00       # èIóπà íuÅiñ≥âπåüçıóDêÊà íuÅEóDêÊÅj
-    Set sft_mr  $sft_r         # èIóπà íuÅiñ≥âπåüçıóDêÊà íuÅEç≈èIÅj
+    Set sft_r   00:00:00       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÊúÄÁµÇÔºâ
+    Set sft_mc  00:01:00       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÁÑ°Èü≥Ê§úÁ¥¢ÂÑ™ÂÖà‰ΩçÁΩÆ„ÉªÂÑ™ÂÖàÔºâ
+    Set sft_mr  $sft_r         # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÁÑ°Èü≥Ê§úÁ¥¢ÂÑ™ÂÖà‰ΩçÁΩÆ„ÉªÊúÄÁµÇÔºâ
 EndIf
 
-# ÅE45ï™à»è„Ç≈ï™äÑÇ»ÇØÇÍÇŒèIóπà íuÇëΩÇﬂÇ…åüçı
+# „Éª45ÂàÜ‰ª•‰∏ä„ÅßÂàÜÂâ≤„Å™„Åë„Çå„Å∞ÁµÇ‰∫Ü‰ΩçÁΩÆ„ÇíÂ§ö„ÇÅ„Å´Ê§úÁ¥¢
 If ${stay_endloc_sft}==0
   If $MAXTIME >= 00:45:00
     If !$divexe
-      Set sft_c   00:03:00       # èIóπà íuÅióDêÊà íuÅj
-      Set sft_l   00:14:00       # èIóπà íuÅiéËëOÅj
-#     Set sft_r   00:00:10       # èIóπà íuÅiç≈èIÅj
-      Set sft_mc  $sft_l         # èIóπà íuÅiñ≥âπåüçıóDêÊà íuÅEóDêÊÅj
-      Set sft_ml  $sft_l         # èIóπà íuÅiñ≥âπåüçıóDêÊà íuÅEéËëOÅj
+      Set sft_c   00:03:00       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÂÑ™ÂÖà‰ΩçÁΩÆÔºâ
+      Set sft_l   00:14:00       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÊâãÂâçÔºâ
+#     Set sft_r   00:00:10       # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÊúÄÁµÇÔºâ
+      Set sft_mc  $sft_l         # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÁÑ°Èü≥Ê§úÁ¥¢ÂÑ™ÂÖà‰ΩçÁΩÆ„ÉªÂÑ™ÂÖàÔºâ
+      Set sft_ml  $sft_l         # ÁµÇ‰∫Ü‰ΩçÁΩÆÔºàÁÑ°Èü≥Ê§úÁ¥¢ÂÑ™ÂÖà‰ΩçÁΩÆ„ÉªÊâãÂâçÔºâ
     EndIf
   EndIf
 EndIf
 
 #------------------------------------
-# äJénà íuåüèo
+# ÈñãÂßã‰ΩçÁΩÆÊ§úÂá∫
 #------------------------------------
-#---Åiê›íËë}ì¸ÅjêÊì™ïîï™èàóùäJéníºëO ---
+#---ÔºàË®≠ÂÆöÊåøÂÖ•ÔºâÂÖàÈ†≠ÈÉ®ÂàÜÂá¶ÁêÜÈñãÂßãÁõ¥Ââç ---
 MemCall mbase_header_before
 
-{ # ï˙ëóãxé~ÇÃÇ®ímÇÁÇπÇÃÉJÉbÉgèàóù
+{ # ÊîæÈÄÅ‰ºëÊ≠¢„ÅÆ„ÅäÁü•„Çâ„Åõ„ÅÆ„Ç´„ÉÉ„ÉàÂá¶ÁêÜ
   LocalSet cnt 1
   Repeat $#{len_infohead_list}
     LocalSet lentmp ${len_infohead_list[${cnt}]}
     If ${lentmp}>0
-      # ÅExïbñ≥âπÇ™ë±Ç´ê≥ämÇ…xïbå„ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ†ÇÍÇŒäJénà íuÇ∆ÇµÇƒê›íË
+      # „ÉªxÁßíÁÑ°Èü≥„ÅåÁ∂ö„ÅçÊ≠£Á¢∫„Å´xÁßíÂæåÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„ÅÇ„Çå„Å∞ÈñãÂßã‰ΩçÁΩÆ„Å®„Åó„Å¶Ë®≠ÂÆö
       Find S ${lentmp} ${lentmp}-0.2 ${lentmp}+0.2 -SMA 0.0 ${lentmp}-${len_htime}+${len_headmute}
-      # ÅExïbà»è„ñ≥âπÇ™ë±ÇØÇŒäJénà íuÇ∆ÇµÇƒê›íË
+      # „ÉªxÁßí‰ª•‰∏äÁÑ°Èü≥„ÅåÁ∂ö„Åë„Å∞ÈñãÂßã‰ΩçÁΩÆ„Å®„Åó„Å¶Ë®≠ÂÆö
       Force S ${lentmp} -SMA 0 ${lentmp}-${len_htime}+${len_headmute}
     EndIf
     CountUp cnt
   EndRepeat
 }
-# ÅEê≥ämÇ…ÇQïbå„ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ†ÇÍÇŒäJénà íuÇ∆ÇµÇƒê›íË
+# „ÉªÊ≠£Á¢∫„Å´ÔºíÁßíÂæåÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„ÅÇ„Çå„Å∞ÈñãÂßã‰ΩçÁΩÆ„Å®„Åó„Å¶Ë®≠ÂÆö
 Find S ${len_htime} ${len_htime}-0.2 ${len_htime}+0.2
-# ÅEÇQïbà»è„ñ≥âπÇ™ë±ÇØÇŒäJénà íuÇ∆ÇµÇƒê›íË
+# „ÉªÔºíÁßí‰ª•‰∏äÁÑ°Èü≥„ÅåÁ∂ö„Åë„Å∞ÈñãÂßã‰ΩçÁΩÆ„Å®„Åó„Å¶Ë®≠ÂÆö
 Force S ${len_htime} -SMA 0 $len_headmute
-# ÅEäJénà íuÇê›íË
+# „ÉªÈñãÂßã‰ΩçÁΩÆ„ÇíË®≠ÂÆö
 Find S 0 -1.3 1.3
 
-#---Åiê›íËë}ì¸ÅjêÊì™ïîï™èàóùíºå„ ---
+#---ÔºàË®≠ÂÆöÊåøÂÖ•ÔºâÂÖàÈ†≠ÈÉ®ÂàÜÂá¶ÁêÜÁõ¥Âæå ---
 MemCall mbase_header_after
 
 #------------------------------------
-# èIóπà íuåüèo
+# ÁµÇ‰∫Ü‰ΩçÁΩÆÊ§úÂá∫
 #------------------------------------
-# èIóπïtãﬂÇÃà íuîFéØ
+# ÁµÇ‰∫Ü‰ªòËøë„ÅÆ‰ΩçÁΩÆË™çË≠ò
 GetList E -$sft_mc -$sft_ml -$sft_mr -RSMA $len_enddetect_bef $len_enddetect_aft
 # Echo $LISTHOLD
 
-#---Åiê›íËë}ì¸Åjî‘ëgèIóπïîï™èàóùíºëO ---
+#---ÔºàË®≠ÂÆöÊåøÂÖ•ÔºâÁï™ÁµÑÁµÇ‰∫ÜÈÉ®ÂàÜÂá¶ÁêÜÁõ¥Ââç ---
 MemCall mbase_trailer_before
 
-# îOÇÃÇΩÇﬂÇQâÒé¿çsÅiÇPâÒñ⁄:é¿ç€ÇÃèIóπïtãﬂÇæÇØÇ…å¿íËÅAÇQâÒñ⁄ÅFå¿íËÇ»ÇµÅj
-# èIóπå„ÇÃî‘êÈì‡Ç…í∑éûä‘ñ≥âπÇ™Ç†ÇÈÇ∆ä‘à·Ç¶ÇÈÇÃÇ≈èIóπïtãﬂÇæÇØÇ…å¿íËÇµÇƒëŒçÙ
+# Âøµ„ÅÆ„Åü„ÇÅÔºíÂõûÂÆüË°åÔºàÔºëÂõûÁõÆ:ÂÆüÈöõ„ÅÆÁµÇ‰∫Ü‰ªòËøë„Å†„Åë„Å´ÈôêÂÆö„ÄÅÔºíÂõûÁõÆÔºöÈôêÂÆö„Å™„ÅóÔºâ
+# ÁµÇ‰∫ÜÂæå„ÅÆÁï™ÂÆ£ÂÜÖ„Å´Èï∑ÊôÇÈñìÁÑ°Èü≥„Åå„ÅÇ„Çã„Å®ÈñìÈÅï„Åà„Çã„ÅÆ„ÅßÁµÇ‰∫Ü‰ªòËøë„Å†„Åë„Å´ÈôêÂÆö„Åó„Å¶ÂØæÁ≠ñ
 LocalSet repcount 0
 Repeat 2
 EvalNum repcount $repcount+1
@@ -627,114 +627,114 @@ Else
   LocalSet endcommon "E -$sft_c -$sft_l -$sft_r -relative"
 EndIf
 
-#---Åiê›íËë}ì¸ÅjèIóπà íuÇÃÉÅÉCÉìåüçıäJénèÍèä ---
+#---ÔºàË®≠ÂÆöÊåøÂÖ•ÔºâÁµÇ‰∫Ü‰ΩçÁΩÆ„ÅÆ„É°„Ç§„É≥Ê§úÁ¥¢ÈñãÂßãÂ†¥ÊâÄ ---
 MemCall mbase_main_start
 
-# ÅE10ïbëOÇ…ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ™Ç†ÇËÅA10ïbä‘ñ≥âπSCÇ»Ç≠ÅA-10Å`5ïbÇ‹Ç≈ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „Éª10ÁßíÂâç„Å´ÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„Åå„ÅÇ„Çä„ÄÅ10ÁßíÈñìÁÑ°Èü≥SC„Å™„Åè„ÄÅ-10ÔΩû5Áßí„Åæ„ÅßÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SC -10.2 -9.8 -NoSC -9.5 -0.5 -SMA -10.0 5.0
 
-# ÅE10ïbëOÇ…ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ™Ç†ÇËÅA10ïbä‘ñ≥âπSCÇ»Ç≠ÅA-10Å`0,31Å`35ïbÇ‹Ç≈ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „Éª10ÁßíÂâç„Å´ÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„Åå„ÅÇ„Çä„ÄÅ10ÁßíÈñìÁÑ°Èü≥SC„Å™„Åè„ÄÅ-10ÔΩû0,31ÔΩû35Áßí„Åæ„ÅßÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SC -10.2 -9.8 -NoSC -9.5 -0.5 -SMA -10.0 0.0 -SMA 31.0 35.0
 
-# ÅEÇSïbëOÅAÇPïbå„Ç…ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ™Ç†ÇËÅA-4Å`10ïbÇ‹Ç≈ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÔºîÁßíÂâç„ÄÅÔºëÁßíÂæå„Å´ÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„Åå„ÅÇ„Çä„ÄÅ-4ÔΩû10Áßí„Åæ„ÅßÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SC -4.2 -3.8 -SC 0.8 1.2 -SMA -5.0 10.0
 
-# ÅEÇTïbëOÇ…ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ™Ç†ÇËÅA-5Å`9ïbÇ‹Ç≈ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÔºïÁßíÂâç„Å´ÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„Åå„ÅÇ„Çä„ÄÅ-5ÔΩû9Áßí„Åæ„ÅßÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SC -5.2 -4.8 -SMA -5.0 9.0
 
-# ÅEÇUïbëOÇ…ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ™Ç†ÇËÅAÇUïbä‘ñ≥âπSCÇ»Ç≠ÅA-6Å`10ïbÇ‹Ç≈ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÔºñÁßíÂâç„Å´ÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„Åå„ÅÇ„Çä„ÄÅÔºñÁßíÈñìÁÑ°Èü≥SC„Å™„Åè„ÄÅ-6ÔΩû10Áßí„Åæ„ÅßÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SC -6.2 -5.8 -NoSC -5.5 -0.5 -SMA -5.9 10.0
 
-# ÅEñ≥âπäJénÇ©ÇÁÇPïbà»ì‡Ç≈ÅA4,5,6ïbå„Ç…ñ≥âπSCÇ»Ç≠ÅA10ïbà»è„ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÁÑ°Èü≥ÈñãÂßã„Åã„ÇâÔºëÁßí‰ª•ÂÜÖ„Åß„ÄÅ4,5,6ÁßíÂæå„Å´ÁÑ°Èü≥SC„Å™„Åè„ÄÅ10Áßí‰ª•‰∏äÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SMA 0.0 10.0 -NoSM -1.0 -1.0 -NoSC 3.8 4.2 -NoSC 4.8 5.2 -NoSC 5.8 6.2
 
-# ÅEÇTïbëOÇ…ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ™Ç†ÇËÅAÇPïbëOÇ…Ç»Ç≠ÅA-5Å`8ïbÇ‹Ç≈ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÔºïÁßíÂâç„Å´ÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„Åå„ÅÇ„Çä„ÄÅÔºëÁßíÂâç„Å´„Å™„Åè„ÄÅ-5ÔΩû8Áßí„Åæ„ÅßÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SC -5.2 -4.8 -NoSC -1.2 -0.8 -SMA -5.0 8.0
 
-# ÅEñ≥âπäJénÇ©ÇÁÇQïbà»ì‡Ç≈ÅA4,5,6ïbå„Ç…ñ≥âπSCÇ»Ç≠ÅA10ïbà»è„ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÁÑ°Èü≥ÈñãÂßã„Åã„ÇâÔºíÁßí‰ª•ÂÜÖ„Åß„ÄÅ4,5,6ÁßíÂæå„Å´ÁÑ°Èü≥SC„Å™„Åè„ÄÅ10Áßí‰ª•‰∏äÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SMA 0.0 10.0 -NoSM -2.0 -2.0 -NoSC 3.8 4.2 -NoSC 4.8 5.2 -NoSC 5.8 6.2
 
-# ÅEÇTïbëOÇ…ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ™Ç†ÇËÅAÇPïbëOÇ…Ç»Ç≠ÅA-5Å`7ïbÇ‹Ç≈ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÔºïÁßíÂâç„Å´ÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„Åå„ÅÇ„Çä„ÄÅÔºëÁßíÂâç„Å´„Å™„Åè„ÄÅ-5ÔΩû7Áßí„Åæ„ÅßÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SC -5.2 -4.8 -NoSC -1.2 -0.8 -SMA -5.0 7.0
 
-# ÅEñ≥âπäJénÇ©ÇÁÇRïbà»ì‡Ç≈ÅA4,5,6ïbå„Ç…ñ≥âπSCÇ»Ç≠ÅA10ïbà»è„ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÁÑ°Èü≥ÈñãÂßã„Åã„ÇâÔºìÁßí‰ª•ÂÜÖ„Åß„ÄÅ4,5,6ÁßíÂæå„Å´ÁÑ°Èü≥SC„Å™„Åè„ÄÅ10Áßí‰ª•‰∏äÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SMA 0.0 10.0 -NoSM -3.0 -3.0 -NoSC 3.8 4.2 -NoSC 4.8 5.2 -NoSC 5.8 6.2
 
-# ÅEÇRïbëOÅAÇPïbå„Ç…ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ™Ç†ÇËÅA-3Å`7ïbÇ‹Ç≈ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÔºìÁßíÂâç„ÄÅÔºëÁßíÂæå„Å´ÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„Åå„ÅÇ„Çä„ÄÅ-3ÔΩû7Áßí„Åæ„ÅßÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SC -3.2 -2.8 -SC 0.8 1.2 -SMA -3.0 7.0
 
-# ÅEÇSïbëOÅAÇPïbå„Ç…ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ™Ç†ÇËÅA-4Å`7ïbÇ‹Ç≈ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÔºîÁßíÂâç„ÄÅÔºëÁßíÂæå„Å´ÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„Åå„ÅÇ„Çä„ÄÅ-4ÔΩû7Áßí„Åæ„ÅßÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SC -4.2 -3.8 -SC 0.8 1.2 -SMA -4.0 7.0
 
-# ÅEÇTïbëOÇ…ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ™Ç†ÇËÅA-5Å`6ïbÇ‹Ç≈ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÔºïÁßíÂâç„Å´ÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„Åå„ÅÇ„Çä„ÄÅ-5ÔΩû6Áßí„Åæ„ÅßÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SC -5.2 -4.8 -SMA -5.0 6.0
 
-# ÅEÇUïbëOÇ…ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ™Ç†ÇËÅA-6Å`6ïbÇ‹Ç≈ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÔºñÁßíÂâç„Å´ÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„Åå„ÅÇ„Çä„ÄÅ-6ÔΩû6Áßí„Åæ„ÅßÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SC -6.2 -5.8 -SMA -5.9 6.0
 
-# ÅEñ≥âπäJénÇ©ÇÁÇPïbà»ì‡Ç≈ÅA5ïbà»è„ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÁÑ°Èü≥ÈñãÂßã„Åã„ÇâÔºëÁßí‰ª•ÂÜÖ„Åß„ÄÅ5Áßí‰ª•‰∏äÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SMA 0.0 5.0 -NoSMA -1.0 0.0
 
-# ÅEñ≥âπäJénÇ©ÇÁÇQïbà»ì‡Ç≈ÅA5ïbà»è„ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÁÑ°Èü≥ÈñãÂßã„Åã„ÇâÔºíÁßí‰ª•ÂÜÖ„Åß„ÄÅ5Áßí‰ª•‰∏äÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SMA 0.0 5.0 -NoSMA -2.0 0.0
 
-# ÅEñ≥âπäJénÇ©ÇÁÇRïbà»ì‡Ç≈ÅA5ïbà»è„ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÁÑ°Èü≥ÈñãÂßã„Åã„ÇâÔºìÁßí‰ª•ÂÜÖ„Åß„ÄÅ5Áßí‰ª•‰∏äÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SMA 0.0 5.0 -NoSMA -3.0 0.0
 
-# ÅEñ≥âπäJénÇ©ÇÁÇTïbà»ì‡Ç≈ÅA5ïbà»è„ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÁÑ°Èü≥ÈñãÂßã„Åã„ÇâÔºïÁßí‰ª•ÂÜÖ„Åß„ÄÅ5Áßí‰ª•‰∏äÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SMA 0.0 5.0 -NoSMA -5.0 0.0
 
-# ÅEñ≥âπäJénÇ©ÇÁÇTïbà»ì‡Ç≈ÅAåüèoê›íËïbà»è„ñ≥âπÇ™ë±Ç≠ÉVÅ[ÉìÉ`ÉFÉìÉWà íu
+# „ÉªÁÑ°Èü≥ÈñãÂßã„Åã„ÇâÔºïÁßí‰ª•ÂÜÖ„Åß„ÄÅÊ§úÂá∫Ë®≠ÂÆöÁßí‰ª•‰∏äÁÑ°Èü≥„ÅåÁ∂ö„Åè„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏‰ΩçÁΩÆ
 Find $endcommon -SMA $len_enddetect_bef $len_enddetect_aft -NoSMA -5.0 0.0
 
-#---Åiê›íËë}ì¸ÅjèIóπà íuÇÃÉÅÉCÉìåüçıèIóπèÍèä ---
+#---ÔºàË®≠ÂÆöÊåøÂÖ•ÔºâÁµÇ‰∫Ü‰ΩçÁΩÆ„ÅÆ„É°„Ç§„É≥Ê§úÁ¥¢ÁµÇ‰∫ÜÂ†¥ÊâÄ ---
 MemCall mbase_main_end
 
 EndRepeat
 
-#---Åiê›íËë}ì¸Åjî‘ëgèIóπïîï™èàóùíºå„ ---
+#---ÔºàË®≠ÂÆöÊåøÂÖ•ÔºâÁï™ÁµÑÁµÇ‰∫ÜÈÉ®ÂàÜÂá¶ÁêÜÁõ¥Âæå ---
 MemCall mbase_trailer_after
 
-# ÅEï°êîòbç\ê¨Ç≈àÍî‘ç≈å„ÇÃà íuåüèoÇ»ÇØÇÍÇŒç≈å„ÇÃç\ê¨ÇÕñ≥å¯âª
+# „ÉªË§áÊï∞Ë©±ÊßãÊàê„Åß‰∏ÄÁï™ÊúÄÂæå„ÅÆ‰ΩçÁΩÆÊ§úÂá∫„Å™„Åë„Çå„Å∞ÊúÄÂæå„ÅÆÊßãÊàê„ÅØÁÑ°ÂäπÂåñ
 If $divexe
   Abort E -N -1 -WithP
 EndIf
 
-# ÅE ï°êîòbç\ê¨Ç≈äJénèIóπèåèïsîıÇ≈Ç‡èoóÕÇ∑ÇÈèÍçá
+# „Éª Ë§áÊï∞Ë©±ÊßãÊàê„ÅßÈñãÂßãÁµÇ‰∫ÜÊù°‰ª∂‰∏çÂÇô„Åß„ÇÇÂá∫Âäõ„Åô„ÇãÂ†¥Âêà
 If $divexe
   If ${divout_all}>0
     Force B
   EndIf
 EndIf
 
-# ÅEññîˆÇ…àÍî‘ãﬂÇ¢ñ≥âπÉVÅ[ÉìÉ`ÉFÉìÉWÇ≈èIóπ
+# „ÉªÊú´Â∞æ„Å´‰∏ÄÁï™Ëøë„ÅÑÁÑ°Èü≥„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏„ÅßÁµÇ‰∫Ü
 Find E 0 -1.2 0 -noedge
 Find E 0 -120.0 0
 
 
 #----------------------------------------------
-# ó\çêç\ê¨ÇÃêÑë™
+# ‰∫àÂëäÊßãÊàê„ÅÆÊé®Ê∏¨
 #----------------------------------------------
-#--- ÉtÉ@ÉCÉãç≈å„ïîï™ÇÃó\çêåüèoóp ---
-Default cuttr_code     3    # ìÆçÏê›íËÅi0:åüèoÇ»Çµ 1:CMñæÇØÇ©ÇÁêîÇ¶ÇÈ 2:CMñæÇØÅ^CMíºëOÇé©ìÆ 3:CMíºëOÇ©ÇÁêîÇ¶ÇÈÅj
-Default cuttr_limit    5    # ó\çêÇ∆îFéØÇ≥ÇπÇÈç\ê¨êîÅi0:ó\çêÇ»Çµ 1Å`:ç\ê¨êîÅj
-Default cuttr_trscope  42   # ó\çêÇCMíºëOÇ©ÇÁåüçıÇ∑ÇÈèÍçáÇÃCMëOç≈ëÂåüçıïbêî
+#--- „Éï„Ç°„Ç§„É´ÊúÄÂæåÈÉ®ÂàÜ„ÅÆ‰∫àÂëäÊ§úÂá∫Áî® ---
+Default cuttr_code     3    # Âãï‰ΩúË®≠ÂÆöÔºà0:Ê§úÂá∫„Å™„Åó 1:CMÊòé„Åë„Åã„ÇâÊï∞„Åà„Çã 2:CMÊòé„ÅëÔºèCMÁõ¥Ââç„ÇíËá™Âãï 3:CMÁõ¥Ââç„Åã„ÇâÊï∞„Åà„ÇãÔºâ
+Default cuttr_limit    5    # ‰∫àÂëä„Å®Ë™çË≠ò„Åï„Åõ„ÇãÊßãÊàêÊï∞Ôºà0:‰∫àÂëä„Å™„Åó 1ÔΩû:ÊßãÊàêÊï∞Ôºâ
+Default cuttr_trscope  42   # ‰∫àÂëä„ÇíCMÁõ¥Ââç„Åã„ÇâÊ§úÁ¥¢„Åô„ÇãÂ†¥Âêà„ÅÆCMÂâçÊúÄÂ§ßÊ§úÁ¥¢ÁßíÊï∞
 
-#---Åiê›íËë}ì¸ÅjAutoç\ê¨ïœä∑íºëO ---
+#---ÔºàË®≠ÂÆöÊåøÂÖ•ÔºâAutoÊßãÊàêÂ§âÊèõÁõ¥Ââç ---
 MemCall mbase_autoup_before
 
 AutoUp B -code 2
 AutoCut TR -autoeach -code $cuttr_code -limit $cuttr_limit -trscope $cuttr_trscope
 
-#--- ïsóvÇ»ç≈å„ÇÃï™äÑÇçÌèú ---
+#--- ‰∏çË¶Å„Å™ÊúÄÂæå„ÅÆÂàÜÂâ≤„ÇíÂâäÈô§ ---
 If $divexe
   If $#{divide_pos_list}>1
     GetPos E -final -N -1
     If ${LASTEXE} && ${POSHOLD}<=${divide_pos_list[-1]}
-      ListDel -1 -RegList divide_pos_list  # ç≈å„ÇÃï™äÑÇÇ‚ÇﬂÇÈ
+      ListDel -1 -RegList divide_pos_list  # ÊúÄÂæå„ÅÆÂàÜÂâ≤„Çí„ÇÑ„ÇÅ„Çã
     EndIf
   EndIf
 EndIf
 
-#---Åiê›íËë}ì¸ÅjåüçıèIóπèÍèä ---
+#---ÔºàË®≠ÂÆöÊåøÂÖ•ÔºâÊ§úÁ¥¢ÁµÇ‰∫ÜÂ†¥ÊâÄ ---
 MemCall mbase_last

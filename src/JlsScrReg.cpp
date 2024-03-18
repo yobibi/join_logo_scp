@@ -1,5 +1,5 @@
-//
-// •Ï”‚ÌŠi”[
+ï»¿//
+// å¤‰æ•°ã®æ ¼ç´
 //
 #include "stdafx.h"
 #include "CommonJls.hpp"
@@ -8,18 +8,18 @@
 
 ///////////////////////////////////////////////////////////////////////
 //
-// •Ï”ƒNƒ‰ƒX
+// å¤‰æ•°ã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 
 //---------------------------------------------------------------------
-// •Ï”‚ğİ’è
-// “ü—ÍF
-//   strName   : •Ï”–¼
-//   strVal    : •Ï”’l
-//   overwrite : 0=–¢’è‹`‚Ì‚İİ’è  1=ã‘‚«‹–‰Âİ’è
-// o—ÍF
-//   •Ô‚è’l    : ’Êí=trueA¸”s=false
+// å¤‰æ•°ã‚’è¨­å®š
+// å…¥åŠ›ï¼š
+//   strName   : å¤‰æ•°å
+//   strVal    : å¤‰æ•°å€¤
+//   overwrite : 0=æœªå®šç¾©æ™‚ã®ã¿è¨­å®š  1=ä¸Šæ›¸ãè¨±å¯è¨­å®š
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤    : é€šå¸¸=trueã€å¤±æ•—æ™‚=false
 //---------------------------------------------------------------------
 bool JlsRegFile::setRegVar(const string& strName, const string& strVal, bool overwrite){
 	int n;
@@ -29,7 +29,7 @@ bool JlsRegFile::setRegVar(const string& strName, const string& strVal, bool ove
 	string strOrgName, strOrgVal;
 	string strPair;
 
-	//--- Šù‘¶•Ï”‚Ì‘‚«Š·‚¦‚©ƒ`ƒFƒbƒN ---
+	//--- æ—¢å­˜å¤‰æ•°ã®æ›¸ãæ›ãˆã‹ãƒã‚§ãƒƒã‚¯ ---
 	for(int i=0; i<nMaxList; i++){
 		n = getRegNameVal(strOrgName, strOrgVal, m_strListVar[i]);
 		if (nlenvar == n){
@@ -38,17 +38,17 @@ bool JlsRegFile::setRegVar(const string& strName, const string& strVal, bool ove
 			}
 		}
 	}
-	//--- İ’è•¶š—ñì¬ ---
+	//--- è¨­å®šæ–‡å­—åˆ—ä½œæˆ ---
 	strPair = strName + ":" + strVal;
-	//--- Šù‘¶•Ï”‚Ì‘‚«Š·‚¦ ---
+	//--- æ—¢å­˜å¤‰æ•°ã®æ›¸ãæ›ãˆ ---
 	if (nloc >= 0){
 		if (overwrite){
 			m_strListVar[nloc] = strPair;
 		}
 	}
-	//--- V‹K•Ï”‚Ì’Ç‰Á ---
+	//--- æ–°è¦å¤‰æ•°ã®è¿½åŠ  ---
 	else{
-		if (nMaxList < SIZE_VARNUM_MAX){		// ”O‚Ì‚½‚ß•Ï”Å‘å”‚Ü‚Å
+		if (nMaxList < SIZE_VARNUM_MAX){		// å¿µã®ãŸã‚å¤‰æ•°æœ€å¤§æ•°ã¾ã§
 			m_strListVar.push_back(strPair);
 		}
 		else{
@@ -58,11 +58,11 @@ bool JlsRegFile::setRegVar(const string& strName, const string& strVal, bool ove
 	return true;
 }
 //---------------------------------------------------------------------
-// •Ï”‚ğíœ
-// “ü—ÍF
-//   strName   : •Ï”–¼
-// o—ÍF
-//   •Ô‚è’l    : ’Êí=trueA¸”s=false
+// å¤‰æ•°ã‚’å‰Šé™¤
+// å…¥åŠ›ï¼š
+//   strName   : å¤‰æ•°å
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤    : é€šå¸¸=trueã€å¤±æ•—æ™‚=false
 //---------------------------------------------------------------------
 bool JlsRegFile::unsetRegVar(const string& strName){
 	int nloc   = -1;
@@ -70,7 +70,7 @@ bool JlsRegFile::unsetRegVar(const string& strName){
 	int nMaxList = (int) m_strListVar.size();
 	string strOrgName, strOrgVal;
 
-	//--- ˆÊ’uæ“¾ ---
+	//--- ä½ç½®å–å¾— ---
 	for(int i=0; i<nMaxList; i++){
 		int n = getRegNameVal(strOrgName, strOrgVal, m_strListVar[i]);
 		if (nlenvar == n){
@@ -80,18 +80,18 @@ bool JlsRegFile::unsetRegVar(const string& strName){
 		}
 	}
 	if ( nloc < 0 ) return false;
-	//--- íœ ---
+	//--- å‰Šé™¤ ---
 	m_strListVar.erase(m_strListVar.begin() + nloc);
 	return true;
 }
 //---------------------------------------------------------------------
-// •Ï”‚ğ“Ç‚İo‚µ
-// “ü—ÍF
-//   strCandName : “Ç‚İo‚µ•Ï”–¼iŒó•âj
-//   excact      : 0=“ü—Í•¶š‚ÉÅ‘åƒ}ƒbƒ`‚·‚é•Ï”  1=“ü—Í•¶š‚ÆŠ®‘Sˆê’v‚·‚é•Ï”
-// o—ÍF
-//   •Ô‚è’l  : •Ï”–¼‚Ì•¶š”i0‚Ì‚Í‘Î‰•Ï”‚È‚µj
-//   strVal  : •Ï”’l
+// å¤‰æ•°ã‚’èª­ã¿å‡ºã—
+// å…¥åŠ›ï¼š
+//   strCandName : èª­ã¿å‡ºã—å¤‰æ•°åï¼ˆå€™è£œï¼‰
+//   excact      : 0=å…¥åŠ›æ–‡å­—ã«æœ€å¤§ãƒãƒƒãƒã™ã‚‹å¤‰æ•°  1=å…¥åŠ›æ–‡å­—ã¨å®Œå…¨ä¸€è‡´ã™ã‚‹å¤‰æ•°
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  : å¤‰æ•°åã®æ–‡å­—æ•°ï¼ˆ0ã®æ™‚ã¯å¯¾å¿œå¤‰æ•°ãªã—ï¼‰
+//   strVal  : å¤‰æ•°å€¤
 //---------------------------------------------------------------------
 int JlsRegFile::getRegVar(string& strVal, const string& strCandName, bool exact){
 	int n;
@@ -101,22 +101,22 @@ int JlsRegFile::getRegVar(string& strVal, const string& strCandName, bool exact)
 	int nMaxList = (int) m_strListVar.size();
 	string strOrgName, strOrgVal;
 
-	//--- –¼‘O‚Æƒ}ƒbƒ`‚·‚éˆÊ’u‚ğŒŸõ ---
+	//--- åå‰ã¨ãƒãƒƒãƒã™ã‚‹ä½ç½®ã‚’æ¤œç´¢ ---
 	for(int i=0; i<nMaxList; i++){
-		//--- •Ï”–¼‚Æ’l‚ğ“à•”ƒe[ƒuƒ‹‚©‚çæ“¾ ---
+		//--- å¤‰æ•°åã¨å€¤ã‚’å†…éƒ¨ãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰å–å¾— ---
 		n = getRegNameVal(strOrgName, strOrgVal, m_strListVar[i]);
-		//--- “à•”ƒe[ƒuƒ‹•Ï”–¼’·‚ª¡‚Ü‚Å‚ÌÅ‘åˆê’v‚æ‚è’·‚¯‚ê‚ÎŒŸõ ---
+		//--- å†…éƒ¨ãƒ†ãƒ¼ãƒ–ãƒ«å¤‰æ•°åé•·ãŒä»Šã¾ã§ã®æœ€å¤§ä¸€è‡´ã‚ˆã‚Šé•·ã‘ã‚Œã°æ¤œç´¢ ---
 		if (nmatch < n){
-			if (isSameInLen(strCandName, strOrgName, n) &&		// æ“ªˆÊ’u‚©‚çƒ}ƒbƒ`
-				(n == nlencand || exact == false)){								// “¯ˆê•¶š—ñ‚©exact=false
+			if (isSameInLen(strCandName, strOrgName, n) &&		// å…ˆé ­ä½ç½®ã‹ã‚‰ãƒãƒƒãƒ
+				(n == nlencand || exact == false)){								// åŒä¸€æ–‡å­—åˆ—ã‹exact=false
 				nloc   = i;
 				nmatch = n;
 			}
 		}
 	}
-	//--- ƒ}ƒbƒ`‚µ‚½ê‡‚Ì’l‚Ì“Ç‚İo‚µ ---
+	//--- ãƒãƒƒãƒã—ãŸå ´åˆã®å€¤ã®èª­ã¿å‡ºã— ---
 	if (nloc >= 0){
-		n = getRegNameVal(strOrgName, strVal, m_strListVar[nloc]);			// •Ï”’l‚ğo—Í
+		n = getRegNameVal(strOrgName, strVal, m_strListVar[nloc]);			// å¤‰æ•°å€¤ã‚’å‡ºåŠ›
 		if ( strOrgName != strCandName.substr(0, n) ){
 			msgErr += "warning : mismatch capital letter of register name(";
 			msgErr += strCandName.substr(0, n) + " " + strOrgName + ")\n";
@@ -126,12 +126,12 @@ int JlsRegFile::getRegVar(string& strVal, const string& strCandName, bool exact)
 }
 
 //---------------------------------------------------------------------
-// Ši”[•Ï”‚ğ–¼‘O‚Æ’l‚É•ª‰ği•Ï”“Ç‚İ‘‚«ŠÖ”‚©‚ç‚ÌƒTƒuƒ‹[ƒ`ƒ“j
+// æ ¼ç´å¤‰æ•°ã‚’åå‰ã¨å€¤ã«åˆ†è§£ï¼ˆå¤‰æ•°èª­ã¿æ›¸ãé–¢æ•°ã‹ã‚‰ã®ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ï¼‰
 //---------------------------------------------------------------------
 int JlsRegFile::getRegNameVal(string& strName, string& strVal, const string& strPair){
-	//--- Å‰‚ÌƒfƒŠƒ~ƒ^ŒŸõ ---
+	//--- æœ€åˆã®ãƒ‡ãƒªãƒŸã‚¿æ¤œç´¢ ---
 	int n = (int) strPair.find(":");
-	//--- ƒfƒŠƒ~ƒ^‚ğ•ª‰ğ‚µ‚Äo—Í‚Éİ’è ---
+	//--- ãƒ‡ãƒªãƒŸã‚¿ã‚’åˆ†è§£ã—ã¦å‡ºåŠ›ã«è¨­å®š ---
 	if (n > 0){
 		strName = strPair.substr(0, n);
 		int nLenPair = (int) strPair.length();
@@ -145,19 +145,19 @@ int JlsRegFile::getRegNameVal(string& strName, string& strVal, const string& str
 	return n;
 }
 //---------------------------------------------------------------------
-// ‘å•¶š¬•¶šŠÖ˜A
+// å¤§æ–‡å­—å°æ–‡å­—é–¢é€£
 //---------------------------------------------------------------------
 void JlsRegFile::setIgnoreCase(bool valid){
 	m_ignoreCase = valid;
 }
 bool JlsRegFile::isSameInLen(const string& s1, const string& s2, int nLen){
 	if ( m_ignoreCase ){
-		return ( _strnicmp(s1.c_str(), s2.c_str(), nLen) == 0 );	// æ“ªˆÊ’u‚©‚çƒ}ƒbƒ`
+		return ( _strnicmp(s1.c_str(), s2.c_str(), nLen) == 0 );	// å…ˆé ­ä½ç½®ã‹ã‚‰ãƒãƒƒãƒ
 	}
 	return ( s1.substr(0, nLen) == s2.substr(0, nLen) );
 }
 //---------------------------------------------------------------------
-// QÆ“n‚µ•Ï”‚Æ‚µ‚Ä‚Ìİ’è
+// å‚ç…§æ¸¡ã—å¤‰æ•°ã¨ã—ã¦ã®è¨­å®š
 //---------------------------------------------------------------------
 void JlsRegFile::setFlagAsRef(const string& strName){
 	m_flagListRef[strName] = true;
@@ -166,10 +166,10 @@ bool JlsRegFile::isRegNameRef(const string& strName){
 	return ( m_flagListRef.find(strName) != m_flagListRef.end() );
 }
 //---------------------------------------------------------------------
-// ƒGƒ‰[ƒƒbƒZ[ƒW‚ª‘¶İ‚µ‚½‚çæ‚èo‚·
-// o—ÍF
-//   •Ô‚è’l   : ƒGƒ‰[ƒƒbƒZ[ƒW—L–³i0=‚È‚µA1=‚ ‚èj
-//   msg      : æ“¾‚µ‚½ƒGƒ‰[ƒƒbƒZ[ƒW
+// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒå­˜åœ¨ã—ãŸã‚‰å–ã‚Šå‡ºã™
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤   : ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸æœ‰ç„¡ï¼ˆ0=ãªã—ã€1=ã‚ã‚Šï¼‰
+//   msg      : å–å¾—ã—ãŸã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 //---------------------------------------------------------------------
 bool JlsRegFile::popMsgError(string& msg){
 	if ( msgErr.empty() ){
@@ -183,19 +183,19 @@ bool JlsRegFile::popMsgError(string& msg){
 
 ///////////////////////////////////////////////////////////////////////
 //
-// ŠK‘w\‘¢•Ï”ƒNƒ‰ƒX
+// éšå±¤æ§‹é€ å¤‰æ•°ã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 
 JlsScrReg::JlsScrReg(){
 	onlyLocal = false;
-	ignoreCase = true;		// Œ»İ‚Ì‰Šúİ’è’l
+	ignoreCase = true;		// ç¾åœ¨ã®åˆæœŸè¨­å®šå€¤
 	globalReg.setIgnoreCase(ignoreCase);
 }
 //---------------------------------------------------------------------
-// ƒ[ƒJƒ‹•Ï”ŠK‘w‚ğì¬
-// o—ÍF
-//   •Ô‚è’l    : ì¬ŠK‘wi0=¸”sA1ˆÈã=ŠK‘wj
+// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°éšå±¤ã‚’ä½œæˆ
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤    : ä½œæˆéšå±¤ï¼ˆ0=å¤±æ•—ã€1ä»¥ä¸Š=éšå±¤ï¼‰
 //---------------------------------------------------------------------
 int JlsScrReg::createLocalCall(){
 	return createLocalCommon(RegOwner::Call);
@@ -207,9 +207,9 @@ int JlsScrReg::createLocalOne(){
 	return createLocalCommon(RegOwner::One);
 }
 //---------------------------------------------------------------------
-// ƒ[ƒJƒ‹•Ï”ŠK‘w‚ÌI—¹
-// o—ÍF
-//   •Ô‚è’l    : I—¹ŠK‘wi0=¸”sA1ˆÈã=ŠK‘wj
+// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°éšå±¤ã®çµ‚äº†
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤    : çµ‚äº†éšå±¤ï¼ˆ0=å¤±æ•—ã€1ä»¥ä¸Š=éšå±¤ï¼‰
 //---------------------------------------------------------------------
 int JlsScrReg::releaseLocalAny(){
 	return releaseLocalCommon(RegOwner::Any);
@@ -224,33 +224,33 @@ int JlsScrReg::releaseLocalOne(){
 	return releaseLocalCommon(RegOwner::One);
 }
 //---------------------------------------------------------------------
-// ƒ[ƒJƒ‹•Ï”ŠK‘w‚Ìæ“¾
-// o—ÍF
-//   •Ô‚è’l    : I—¹ŠK‘wi0=¸”sA1ˆÈã=ŠK‘wj
+// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°éšå±¤ã®å–å¾—
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤    : çµ‚äº†éšå±¤ï¼ˆ0=å¤±æ•—ã€1ä»¥ä¸Š=éšå±¤ï¼‰
 //---------------------------------------------------------------------
 int JlsScrReg::getLocalLayer(){
 	return (int) layerReg.size();
 }
 //---------------------------------------------------------------------
-// ‹¤’Êˆ—
+// å…±é€šå‡¦ç†
 //---------------------------------------------------------------------
 int JlsScrReg::createLocalCommon(RegOwner owner){
-	if ( layerReg.size() >= INT_MAX/4 ){		// ”O‚Ì‚½‚ßƒTƒCƒY§–ñ
+	if ( layerReg.size() >= INT_MAX/4 ){		// å¿µã®ãŸã‚ã‚µã‚¤ã‚ºåˆ¶ç´„
 		msgErr += "error:too many create local-register\n";
 		return 0;
 	}
-	bool flagBase = ( owner != RegOwner::One );	// ŒŸõŠK‘wi0=ãˆÊŠK‘wŒŸõ‹–‰Â  1=ÅãˆÊŠK‘wˆµ‚¢j
+	bool flagBase = ( owner != RegOwner::One );	// æ¤œç´¢éšå±¤ï¼ˆ0=ä¸Šä½éšå±¤æ¤œç´¢è¨±å¯  1=æœ€ä¸Šä½éšå±¤æ‰±ã„ï¼‰
 	RegLayer layer;
 	layer.owner  = owner;
 	layer.base   = flagBase;
 	layer.regfile.setIgnoreCase(ignoreCase);
-	//--- ƒ[ƒJƒ‹•Ï”ŠK‘w‚ğì¬ ---
+	//--- ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°éšå±¤ã‚’ä½œæˆ ---
 	layerReg.push_back(layer);
-	//--- ÅãˆÊŠK‘wˆµ‚¢‚ÌCall‚Å‚ ‚ê‚Îˆø”‚ğƒ[ƒJƒ‹•Ï”‚ÉŠi”[ ---
+	//--- æœ€ä¸Šä½éšå±¤æ‰±ã„ã®Callã§ã‚ã‚Œã°å¼•æ•°ã‚’ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã«æ ¼ç´ ---
 	if ( flagBase ){
 		setRegFromArg();
 	}else{
-		clearArgReg();			// g‚í‚È‚©‚Á‚½ˆø”íœ
+		clearArgReg();			// ä½¿ã‚ãªã‹ã£ãŸå¼•æ•°å‰Šé™¤
 	}
 
 	return (int) layerReg.size();
@@ -260,9 +260,9 @@ int JlsScrReg::releaseLocalCommon(RegOwner owner){
 	if ( layerReg.empty() == false ){
 		numLayer = (int) (layerReg.size() - 1);
 		bool allow = ( layerReg[numLayer].owner == owner || owner == RegOwner::Any );
-		if ( allow ){	// I—¹ğŒ
+		if ( allow ){	// çµ‚äº†æ¡ä»¶
 			layerReg.pop_back();
-			clearArgReg();			// g‚í‚È‚©‚Á‚½ˆø”íœ
+			clearArgReg();			// ä½¿ã‚ãªã‹ã£ãŸå¼•æ•°å‰Šé™¤
 			numLayer = (int) (layerReg.size() + 1);	
 		}else{
 			msgErr += "error:not match release local-register layer\n";
@@ -276,12 +276,12 @@ int JlsScrReg::releaseLocalCommon(RegOwner owner){
 	return numLayer;
 }
 //---------------------------------------------------------------------
-// •Ï”‚ğÁ‹
-// “ü—ÍF
-//   strName   : •Ï”–¼
-//   flagLocal : 0=‚·‚×‚Ä‚Ì•Ï”  1=ƒ[ƒJƒ‹•Ï”‚Ì‚İ‚P‰ÓŠ
-// o—ÍF
-//   •Ô‚è’l    : ’Êí=trueA¸”s=false
+// å¤‰æ•°ã‚’æ¶ˆå»
+// å…¥åŠ›ï¼š
+//   strName   : å¤‰æ•°å
+//   flagLocal : 0=ã™ã¹ã¦ã®å¤‰æ•°  1=ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã®ã¿ï¼‘ç®‡æ‰€
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤    : é€šå¸¸=trueã€å¤±æ•—æ™‚=false
 //---------------------------------------------------------------------
 bool JlsScrReg::unsetRegVar(const string& strName, bool flagLocal){
 	bool success = false;
@@ -291,13 +291,13 @@ bool JlsScrReg::unsetRegVar(const string& strName, bool flagLocal){
 		int numLast = numLayer;
 		cont = findRegForUnset(numLayer, strName, flagLocal);
 		if ( cont ){
-			cont = unsetRegCore(strName, numLayer);		// •Ï”Á‹
+			cont = unsetRegCore(strName, numLayer);		// å¤‰æ•°æ¶ˆå»
 		}
 		if ( cont ){
 			success = true;
 			if ( numLayer <= 0 || flagLocal ){
 				cont = false;
-			}else if ( numLast <= numLayer && numLast >= 0 ){	// ”O‚Ì‚½‚ß
+			}else if ( numLast <= numLayer && numLast >= 0 ){	// å¿µã®ãŸã‚
 				cont = false;
 			}
 		}
@@ -305,58 +305,58 @@ bool JlsScrReg::unsetRegVar(const string& strName, bool flagLocal){
 	return success;
 }
 //---------------------------------------------------------------------
-// ƒ[ƒJƒ‹•Ï”‚ğİ’è
-// “ü—ÍF
-//   strName   : •Ï”–¼
-//   strVal    : •Ï”’l
-//   overwrite : 0=–¢’è‹`‚Ì‚İİ’è  1=ã‘‚«‹–‰Âİ’è
-// o—ÍF
-//   •Ô‚è’l    : ’Êí=trueA¸”s=false
+// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã‚’è¨­å®š
+// å…¥åŠ›ï¼š
+//   strName   : å¤‰æ•°å
+//   strVal    : å¤‰æ•°å€¤
+//   overwrite : 0=æœªå®šç¾©æ™‚ã®ã¿è¨­å®š  1=ä¸Šæ›¸ãè¨±å¯è¨­å®š
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤    : é€šå¸¸=trueã€å¤±æ•—æ™‚=false
 //---------------------------------------------------------------------
 bool JlsScrReg::setLocalRegVar(const string& strName, const string& strVal, bool overwrite){
-	if ( layerReg.empty() ){	// ƒ[ƒJƒ‹•Ï”ŠK‘w‚Ì‘¶İ‚ğ”O‚Ì‚½‚ßƒ`ƒFƒbƒN
+	if ( layerReg.empty() ){	// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°éšå±¤ã®å­˜åœ¨ã‚’å¿µã®ãŸã‚ãƒã‚§ãƒƒã‚¯
 		msgErr += "error:internal setting(empty local-register layer)\n";
 		return false;
 	}
-	//--- Œ»İ‚Ìƒ[ƒJƒ‹•Ï”ŠK‘w‚É‘‚«‚İ ---
+	//--- ç¾åœ¨ã®ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°éšå±¤ã«æ›¸ãè¾¼ã¿ ---
 	int numLayer = (int) layerReg.size();
 	return setRegCore(strName, strVal, overwrite, numLayer);
 }
 //---------------------------------------------------------------------
-// •Ï”‚ğİ’èiƒ[ƒJƒ‹•Ï”‚É‘¶İ‚µ‚½‚ç—DæA‚È‚¯‚ê‚ÎƒOƒ[ƒoƒ‹•Ï”‚Éj
-// “ü—ÍF
-//   strName   : •Ï”–¼
-//   strVal    : •Ï”’l
-//   overwrite : 0=–¢’è‹`‚Ì‚İİ’è  1=ã‘‚«‹–‰Âİ’è
-// o—ÍF
-//   •Ô‚è’l    : ’Êí=trueA¸”s=false
+// å¤‰æ•°ã‚’è¨­å®šï¼ˆãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã«å­˜åœ¨ã—ãŸã‚‰å„ªå…ˆã€ãªã‘ã‚Œã°ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã«ï¼‰
+// å…¥åŠ›ï¼š
+//   strName   : å¤‰æ•°å
+//   strVal    : å¤‰æ•°å€¤
+//   overwrite : 0=æœªå®šç¾©æ™‚ã®ã¿è¨­å®š  1=ä¸Šæ›¸ãè¨±å¯è¨­å®š
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤    : é€šå¸¸=trueã€å¤±æ•—æ™‚=false
 //---------------------------------------------------------------------
 bool JlsScrReg::setRegVar(const string& strName, const string& strVal, bool overwrite){
-	//--- ŠK‘w‚Í©“®ŒŸõ‚Å‘‚«‚İ ---
+	//--- éšå±¤ã¯è‡ªå‹•æ¤œç´¢ã§æ›¸ãè¾¼ã¿ ---
 	int  numLayer = -1;
 	return setRegCore(strName, strVal, overwrite, numLayer);
 }
 //---------------------------------------------------------------------
-// •Ï”‚ğ“Ç‚İo‚µiƒ[ƒJƒ‹•Ï”—DæA‚È‚¯‚ê‚ÎƒOƒ[ƒoƒ‹•Ï”j
-// “ü—ÍF
-//   strCandName : “Ç‚İo‚µ•Ï”–¼iŒó•âj
-//   excact      : 0=“ü—Í•¶š‚ÉÅ‘åƒ}ƒbƒ`‚·‚é•Ï”  1=“ü—Í•¶š‚ÆŠ®‘Sˆê’v‚·‚é•Ï”
-// o—ÍF
-//   •Ô‚è’l  : •Ï”–¼‚Ì•¶š”i0‚Ì‚Í‘Î‰•Ï”‚È‚µj
-//   strVal  : •Ï”’l
+// å¤‰æ•°ã‚’èª­ã¿å‡ºã—ï¼ˆãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°å„ªå…ˆã€ãªã‘ã‚Œã°ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ï¼‰
+// å…¥åŠ›ï¼š
+//   strCandName : èª­ã¿å‡ºã—å¤‰æ•°åï¼ˆå€™è£œï¼‰
+//   excact      : 0=å…¥åŠ›æ–‡å­—ã«æœ€å¤§ãƒãƒƒãƒã™ã‚‹å¤‰æ•°  1=å…¥åŠ›æ–‡å­—ã¨å®Œå…¨ä¸€è‡´ã™ã‚‹å¤‰æ•°
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤  : å¤‰æ•°åã®æ–‡å­—æ•°ï¼ˆ0ã®æ™‚ã¯å¯¾å¿œå¤‰æ•°ãªã—ï¼‰
+//   strVal  : å¤‰æ•°å€¤
 //---------------------------------------------------------------------
 int JlsScrReg::getRegVar(string& strVal, const string& strCandName, bool exact){
 	return findRegForRead(strCandName, strVal, exact);
 }
 //---------------------------------------------------------------------
-// Call‚Åˆø”‚Æ‚µ‚Äg‚í‚ê‚é•Ï”‚ğİ’è
-// “ü—ÍF
-//   strName : ˆø”‚Ég‚í‚ê‚é•Ï”–¼
-//   strVal  : ˆø”‚Ég‚í‚ê‚é•Ï”’l
+// Callã§å¼•æ•°ã¨ã—ã¦ä½¿ã‚ã‚Œã‚‹å¤‰æ•°ã‚’è¨­å®š
+// å…¥åŠ›ï¼š
+//   strName : å¼•æ•°ã«ä½¿ã‚ã‚Œã‚‹å¤‰æ•°å
+//   strVal  : å¼•æ•°ã«ä½¿ã‚ã‚Œã‚‹å¤‰æ•°å€¤
 //---------------------------------------------------------------------
 bool JlsScrReg::setArgReg(const string& strName, const string& strVal){
-	//--- ˆø”ƒŠƒXƒg‚É’Ç‰Á ---
-	if ( listValArg.size() >= INT_MAX/4 ){		// ”O‚Ì‚½‚ßƒTƒCƒY§–ñ
+	//--- å¼•æ•°ãƒªã‚¹ãƒˆã«è¿½åŠ  ---
+	if ( listValArg.size() >= INT_MAX/4 ){		// å¿µã®ãŸã‚ã‚µã‚¤ã‚ºåˆ¶ç´„
 		msgErr += "error:too many create arg-registers\n";
 		return false;
 	}
@@ -364,10 +364,10 @@ bool JlsScrReg::setArgReg(const string& strName, const string& strVal){
 	listValArg.push_back(strVal);
 	return true;
 }
-//--- QÆ“n‚µ—p ---
+//--- å‚ç…§æ¸¡ã—ç”¨ ---
 bool JlsScrReg::setArgRefReg(const string& strName, const string& strVal){
-	//--- ˆø”ƒŠƒXƒg‚É’Ç‰Á ---
-	if ( listRefArg.size() >= INT_MAX/4 ){		// ”O‚Ì‚½‚ßƒTƒCƒY§–ñ
+	//--- å¼•æ•°ãƒªã‚¹ãƒˆã«è¿½åŠ  ---
+	if ( listRefArg.size() >= INT_MAX/4 ){		// å¿µã®ãŸã‚ã‚µã‚¤ã‚ºåˆ¶ç´„
 		msgErr += "error:too many create arg-registers\n";
 		return false;
 	}
@@ -375,14 +375,14 @@ bool JlsScrReg::setArgRefReg(const string& strName, const string& strVal){
 	listRefArg.push_back(strVal);
 	return true;
 }
-//--- •Ô‚è’l•Ï”‚Æ‚È‚éŠÖ”–¼‚ğİ’è ---
+//--- è¿”ã‚Šå€¤å¤‰æ•°ã¨ãªã‚‹é–¢æ•°åã‚’è¨­å®š ---
 void JlsScrReg::setArgFuncName(const string& strName){
 	nameFuncReg = strName;
 }
 //---------------------------------------------------------------------
-// “Ç‚İo‚µ‚ÅƒOƒ[ƒoƒ‹•Ï”‚ğŒ©‚È‚¢İ’è
-// “ü—ÍF
-//   flag : ƒ[ƒJƒ‹•Ï”‚É‚È‚¢‚ÌƒOƒ[ƒoƒ‹•Ï”QÆifalse=‹–‰Â  true=‹Ö~j
+// èª­ã¿å‡ºã—ã§ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã‚’è¦‹ãªã„è¨­å®š
+// å…¥åŠ›ï¼š
+//   flag : ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã«ãªã„æ™‚ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°å‚ç…§ï¼ˆfalse=è¨±å¯  true=ç¦æ­¢ï¼‰
 //---------------------------------------------------------------------
 void JlsScrReg::setLocalOnly(bool flag){
 	onlyLocal = flag;
@@ -408,10 +408,10 @@ bool JlsScrReg::isGlobalLocked(const string& strName){
 	return ( m_mapGlobalLock.count(strName) != 0 );
 }
 //---------------------------------------------------------------------
-// ƒGƒ‰[ƒƒbƒZ[ƒW‚ª‘¶İ‚µ‚½‚çæ‚èo‚·
-// o—ÍF
-//   •Ô‚è’l   : ƒGƒ‰[ƒƒbƒZ[ƒW—L–³i0=‚È‚µA1=‚ ‚èj
-//   msg      : æ“¾‚µ‚½ƒGƒ‰[ƒƒbƒZ[ƒW
+// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒå­˜åœ¨ã—ãŸã‚‰å–ã‚Šå‡ºã™
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤   : ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸æœ‰ç„¡ï¼ˆ0=ãªã—ã€1=ã‚ã‚Šï¼‰
+//   msg      : å–å¾—ã—ãŸã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 //---------------------------------------------------------------------
 bool JlsScrReg::popMsgError(string& msg){
 	if ( msgErr.empty() ){
@@ -423,11 +423,11 @@ bool JlsScrReg::popMsgError(string& msg){
 }
 
 //---------------------------------------------------------------------
-// •Ï”‚ğŠK‘ww’è‚Å‘‚«‚İ
+// å¤‰æ•°ã‚’éšå±¤æŒ‡å®šã§æ›¸ãè¾¼ã¿
 //---------------------------------------------------------------------
-//--- •Ï”‚ÌÁ‹ ---
+//--- å¤‰æ•°ã®æ¶ˆå» ---
 bool JlsScrReg::unsetRegCore(const string& strName, int numLayer){
-	if ( checkErrRegName(strName) ){	// •Ï”–¼ˆÙí‚ÌI—¹
+	if ( checkErrRegName(strName) ){	// å¤‰æ•°åç•°å¸¸æ™‚ã®çµ‚äº†
 		return false;
 	}
 	bool success;
@@ -438,30 +438,30 @@ bool JlsScrReg::unsetRegCore(const string& strName, int numLayer){
 	}
 	return success;
 }
-//--- ’Êí‚Ì•Ï”‘‚«‚İ ---
-// numLayer=-1 ‚Ì‚ÍŠK‘w‚ğ©“®ŒŸõ‚·‚é
+//--- é€šå¸¸ã®å¤‰æ•°æ›¸ãè¾¼ã¿ ---
+// numLayer=-1 ã®æ™‚ã¯éšå±¤ã‚’è‡ªå‹•æ¤œç´¢ã™ã‚‹
 bool JlsScrReg::setRegCore(const string& strName, const string& strVal, bool overwrite, int numLayer){
-	if ( checkErrRegName(strName) ){	// •Ï”–¼ˆÙí‚ÌI—¹
+	if ( checkErrRegName(strName) ){	// å¤‰æ•°åç•°å¸¸æ™‚ã®çµ‚äº†
 		return false;
 	}
-	//--- Šù‘¶•Ï”‚ğŠm”F ---
+	//--- æ—¢å­˜å¤‰æ•°ã‚’ç¢ºèª ---
 	string strWriteName = strName;
 	string strWriteVal = strVal;
 	bool flagOvw = overwrite;
 	int  numWriteLayer = numLayer;
 	if ( !findRegForWrite(strWriteName, strWriteVal, flagOvw, numWriteLayer) ){
-		return false;		// ƒAƒNƒZƒX‚Å‚«‚È‚¢‚Í–³Œø
+		return false;		// ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„æ™‚ã¯ç„¡åŠ¹
 	}
 	if ( numWriteLayer < 0 ){
-		numWriteLayer = 0;		// Šù‘¶‚ªŒ©‚Â‚©‚ç‚È‚¯‚ê‚ÎƒOƒ[ƒoƒ‹•Ï”‚É‘‚«‚İ
+		numWriteLayer = 0;		// æ—¢å­˜ãŒè¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã«æ›¸ãè¾¼ã¿
 	}
 	if ( numWriteLayer > 0 ){
 		if ( isRegNameRef(strWriteName, numWriteLayer) && overwrite ){
 			msgErr += "error: overwrite ref register " + strWriteName + "\n";
-			return false;		// QÆ“n‚µ•Ï”©‘Ì‚Ìƒ[ƒJƒ‹‘‚«Š·‚¦‚Í‹Ö~
+			return false;		// å‚ç…§æ¸¡ã—å¤‰æ•°è‡ªä½“ã®ãƒ­ãƒ¼ã‚«ãƒ«æ›¸ãæ›ãˆã¯ç¦æ­¢
 		}
 	}
-	//--- ÀÛ‚Ì‘‚«‚İ ---
+	//--- å®Ÿéš›ã®æ›¸ãè¾¼ã¿ ---
 	bool success;
 	if ( numWriteLayer > 0 ){
 		success = layerReg[numWriteLayer-1].regfile.setRegVar(strWriteName, strWriteVal, flagOvw);
@@ -473,9 +473,9 @@ bool JlsScrReg::setRegCore(const string& strName, const string& strVal, bool ove
 	}
 	return success;
 }
-//--- QÆ“n‚µ‚Æ‚µ‚Ä•Ï”‘‚«‚İ ---
+//--- å‚ç…§æ¸¡ã—ã¨ã—ã¦å¤‰æ•°æ›¸ãè¾¼ã¿ ---
 bool JlsScrReg::setRegCoreAsRef(const string& strName, const string& strVal, int numLayer){
-	if ( checkErrRegName(strName) ){	// •Ï”–¼ˆÙí‚ÌI—¹
+	if ( checkErrRegName(strName) ){	// å¤‰æ•°åç•°å¸¸æ™‚ã®çµ‚äº†
 		return false;
 	}
 	bool success;
@@ -484,22 +484,22 @@ bool JlsScrReg::setRegCoreAsRef(const string& strName, const string& strVal, int
 		success = layerReg[numLayer-1].regfile.setRegVar(strName, strVal, overwrite);
 		layerReg[numLayer-1].regfile.setFlagAsRef(strName);
 	}else{
-		success = false;		// ƒOƒ[ƒoƒ‹•Ï”‚ÍQÆ“n‚µ‚É‚Å‚«‚È‚¢
+		success = false;		// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã¯å‚ç…§æ¸¡ã—ã«ã§ããªã„
 	}
 	return success;
 }
 //---------------------------------------------------------------------
-// •Ï”‚ğ“Ç‚İo‚µ
+// å¤‰æ•°ã‚’èª­ã¿å‡ºã—
 //---------------------------------------------------------------------
-//--- Á‹‚·‚é•Ï”ŠK‘w‚ğŒŸõ ---
+//--- æ¶ˆå»ã™ã‚‹å¤‰æ•°éšå±¤ã‚’æ¤œç´¢ ---
 bool JlsScrReg::findRegForUnset(int& numLayer, const string& strName, bool flagLocal){
 	RegSearch data(strName);
 	data.numLayer = numLayer;
-	data.stopRef = true;	// QÆ“n‚µ‚Í~‚ß‚é
+	data.stopRef = true;	// å‚ç…§æ¸¡ã—ã¯æ­¢ã‚ã‚‹
 	bool success = findRegData(data);
 	if ( success ){
 		numLayer = data.numLayer;
-		if ( numLayer < 0 || data.flagRef ){	// QÆ“n‚µ‚Í‘ÎÛŠO
+		if ( numLayer < 0 || data.flagRef ){	// å‚ç…§æ¸¡ã—ã¯å¯¾è±¡å¤–
 			success = false;
 		}else if ( numLayer == 0 && flagLocal){
 			success = false;
@@ -507,20 +507,20 @@ bool JlsScrReg::findRegForUnset(int& numLayer, const string& strName, bool flagL
 	}
 	return success;
 }
-//--- ‘‚«‚İ‘O‚ÉŠù‘¶•Ï”‚ğŒŸõ ---
-// QÆ•Ï”‚âƒŠƒXƒg‚¾‚Á‚½‚ÍÅI“I‚É‘‚«‚Ş•Ï”î•ñ‚É•ÏX‚·‚é
+//--- æ›¸ãè¾¼ã¿å‰ã«æ—¢å­˜å¤‰æ•°ã‚’æ¤œç´¢ ---
+// å‚ç…§å¤‰æ•°ã‚„ãƒªã‚¹ãƒˆã ã£ãŸæ™‚ã¯æœ€çµ‚çš„ã«æ›¸ãè¾¼ã‚€å¤‰æ•°æƒ…å ±ã«å¤‰æ›´ã™ã‚‹
 bool JlsScrReg::findRegForWrite(string& strName, string& strVal, bool& overwrite, int& numLayer){
 	RegSearch data(strName);
-	if ( numLayer >= 0 ){		// ŠK‘wŒÀ’è‚Ìê‡
+	if ( numLayer >= 0 ){		// éšå±¤é™å®šã®å ´åˆ
 		data.numLayer = numLayer;
 		data.onlyOneLayer = true;
 	}
-	if ( !findRegData(data) ){	// ƒf[ƒ^æ“¾
-		//--- Šù‘¶ƒf[ƒ^‚ª‚È‚¢ê‡‚Ìˆ— ---
+	if ( !findRegData(data) ){	// ãƒ‡ãƒ¼ã‚¿å–å¾—
+		//--- æ—¢å­˜ãƒ‡ãƒ¼ã‚¿ãŒãªã„å ´åˆã®å‡¦ç† ---
 		auto nList = data.regOrg.listElem.size();
-		if ( nList >= 2 ){	// 2Ÿ”z—ñˆÈã‚Í–³Œø
+		if ( nList >= 2 ){	// 2æ¬¡é…åˆ—ä»¥ä¸Šã¯ç„¡åŠ¹
 			return false;
-		}else if ( nList == 1 ){	// ”z—ñ‚ÍÅ‰‚Ì—v‘f‚Ì‚İ‘‚«‚İ‰Â”\‚Å‚«‚é
+		}else if ( nList == 1 ){	// é…åˆ—ã¯æœ€åˆã®è¦ç´ ã®ã¿æ›¸ãè¾¼ã¿å¯èƒ½ã§ãã‚‹
 			if ( data.regOrg.listElem[0] != 1 ) return false;
 			strName = data.regOrg.nameBase;
 			string listTmp;
@@ -529,33 +529,33 @@ bool JlsScrReg::findRegForWrite(string& strName, string& strVal, bool& overwrite
 		}
 		return true;
 	}
-	//--- Šù‘¶ƒf[ƒ^‚ª‚ ‚éê‡‚Ìˆ— ---
+	//--- æ—¢å­˜ãƒ‡ãƒ¼ã‚¿ãŒã‚ã‚‹å ´åˆã®å‡¦ç† ---
 	strName = data.regSel.nameBase;
 	numLayer = data.numLayer;
 	return findRegListForWrite(data.regSel, strVal, overwrite, data.strVal);
 }
-//--- “Ç‚İo‚µƒf[ƒ^‚ğæ“¾ ---
+//--- èª­ã¿å‡ºã—ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾— ---
 int JlsScrReg::findRegForRead(const string& strName, string& strVal, bool exact){
 	int retMatch = 0;
-	//--- •Ï”‚É‘¶İ‚·‚é‚©ŒŸõ ---
+	//--- å¤‰æ•°ã«å­˜åœ¨ã™ã‚‹ã‹æ¤œç´¢ ---
 	RegSearch data(strName);
 	data.exact = exact;
 	if ( findRegData(data) ){
 		strVal = data.strVal;
-		retMatch = data.regOrg.nMatch;		// Œ³ƒf[ƒ^‚Ìƒ}ƒbƒ`”
-		//--- ƒŠƒXƒg—v‘f‘Î‰ ---
+		retMatch = data.regOrg.nMatch;		// å…ƒãƒ‡ãƒ¼ã‚¿ã®ãƒãƒƒãƒæ•°
+		//--- ãƒªã‚¹ãƒˆè¦ç´ å¯¾å¿œ ---
 		findRegListForRead(data.regSel, strVal);
 	}
 	return retMatch;
 }
-//--- ƒŠƒXƒg—v‘f‚¾‚Á‚½ê‡‚Í‘S‘Ì‚Ìƒf[ƒ^‚©‚ç‘ÎÛ•”•ª‚Ì‚İ·‚µ‘Ö‚¦‚é ---
+//--- ãƒªã‚¹ãƒˆè¦ç´ ã ã£ãŸå ´åˆã¯å…¨ä½“ã®ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰å¯¾è±¡éƒ¨åˆ†ã®ã¿å·®ã—æ›¿ãˆã‚‹ ---
 bool JlsScrReg::findRegListForWrite(RegDivList& regName, string& strVal, bool& overwrite, const string& strRead){
-	if ( regName.listElem.empty() ){	// ƒŠƒXƒg‚Ì‚È‚¢’Êíƒf[ƒ^‚Í‰½‚à‚¹‚¸I—¹
+	if ( regName.listElem.empty() ){	// ãƒªã‚¹ãƒˆã®ãªã„é€šå¸¸ãƒ‡ãƒ¼ã‚¿ã¯ä½•ã‚‚ã›ãšçµ‚äº†
 		return true;
 	}
 	bool success = true;
 	string strParts = strRead;
-	//--- Še—v‘f‚ğæ“¾ ---
+	//--- å„è¦ç´ ã‚’å–å¾— ---
 	int nElem = (int)regName.listElem.size();
 	vector<string> listHold;
 	for(int i=nElem-1; i>=1; i--){
@@ -565,20 +565,20 @@ bool JlsScrReg::findRegListForWrite(RegDivList& regName, string& strVal, bool& o
 			success = false;
 		}
 	}
-	//--- ‘‚«‚İƒf[ƒ^İ’è ---
+	//--- æ›¸ãè¾¼ã¿ãƒ‡ãƒ¼ã‚¿è¨­å®š ---
 	if ( success ){
 		int sizeParts = funcList.getListStrSize(strParts);
 		int selElem = regName.listElem[0];
-		if ( selElem > sizeParts + 1 ){		// —v‘f‘‚«‚İ‚ÍŠù‘¶+1—v‘f‚Ü‚Å
+		if ( selElem > sizeParts + 1 ){		// è¦ç´ æ›¸ãè¾¼ã¿ã¯æ—¢å­˜+1è¦ç´ ã¾ã§
 			success = false;
-		}else if ( selElem == sizeParts + 1 ){		// —v‘fÅŒã‚É’Ç‰Á
-			overwrite = true;		// ’Ç‰Á‚Å‚à‘S‘Ì‚Æ‚µ‚Ä‚ÍŠù‘¶•Ï”‚È‚Ì‚Åİ’è•ÏX
+		}else if ( selElem == sizeParts + 1 ){		// è¦ç´ æœ€å¾Œã«è¿½åŠ 
+			overwrite = true;		// è¿½åŠ ã§ã‚‚å…¨ä½“ã¨ã—ã¦ã¯æ—¢å­˜å¤‰æ•°ãªã®ã§è¨­å®šå¤‰æ›´
 			success = funcList.setListStrIns(strParts, strVal, selElem);
 		}else{
 			success = funcList.setListStrRep(strParts, strVal, selElem);
 		}
 	}
-	//--- Še—v‘f‚Éİ’èŒãƒf[ƒ^‚ğ–ß‚· ---
+	//--- å„è¦ç´ ã«è¨­å®šå¾Œãƒ‡ãƒ¼ã‚¿ã‚’æˆ»ã™ ---
 	if ( success ){
 		for(int i=1; i<=nElem-1; i++){
 			string strItem = strParts;
@@ -592,9 +592,9 @@ bool JlsScrReg::findRegListForWrite(RegDivList& regName, string& strVal, bool& o
 	}
 	return success;
 }
-//--- ƒŠƒXƒg—v‘f‚¾‚Á‚½ê‡‚ÍŠY“–ƒŠƒXƒg‚Ì‚İ”²‚«o‚· ---
+//--- ãƒªã‚¹ãƒˆè¦ç´ ã ã£ãŸå ´åˆã¯è©²å½“ãƒªã‚¹ãƒˆã®ã¿æŠœãå‡ºã™ ---
 bool JlsScrReg::findRegListForRead(RegDivList& regName, string& strVal){
-	if ( regName.listElem.empty() ){	// ƒŠƒXƒg‚Ì‚È‚¢’Êíƒf[ƒ^‚Í‰½‚à‚¹‚¸I—¹
+	if ( regName.listElem.empty() ){	// ãƒªã‚¹ãƒˆã®ãªã„é€šå¸¸ãƒ‡ãƒ¼ã‚¿ã¯ä½•ã‚‚ã›ãšçµ‚äº†
 		return true;
 	}
 	int nElem = (int)regName.listElem.size();
@@ -609,75 +609,75 @@ bool JlsScrReg::findRegListForRead(RegDivList& regName, string& strVal){
 	return true;
 }
 //
-// •Ï”‚ğŠK‘wŒŸõ‚µ‚Ä“Ç‚İo‚µ
-// o—ÍF
-//   •Ô‚è’l   : •Ï”—L–³
-//   data     : “Ç‚İo‚µ‚½•Ï”î•ñ ŠK‘wi-1:ŠY“–‚È‚µA0:ƒOƒ[ƒoƒ‹ŠK‘wA1-:ƒ[ƒJƒ‹ŠK‘wj
+// å¤‰æ•°ã‚’éšå±¤æ¤œç´¢ã—ã¦èª­ã¿å‡ºã—
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤   : å¤‰æ•°æœ‰ç„¡
+//   data     : èª­ã¿å‡ºã—ãŸå¤‰æ•°æƒ…å ± éšå±¤ï¼ˆ-1:è©²å½“ãªã—ã€0:ã‚°ãƒ­ãƒ¼ãƒãƒ«éšå±¤ã€1-:ãƒ­ãƒ¼ã‚«ãƒ«éšå±¤ï¼‰
 //
 bool JlsScrReg::findRegData(RegSearch& data){
-	//--- •Ï”‚ÌŠK‘w‚Æ’l‚ğæ“¾ ---
+	//--- å¤‰æ•°ã®éšå±¤ã¨å€¤ã‚’å–å¾— ---
 	bool success = findRegDataFromLayer(data);
-	data.decide();		// İ’èÀs
-	if ( !success ){	// •Ï”‚ªŒ©‚Â‚©‚ç‚È‚¯‚ê‚Î¸”s
+	data.decide();		// è¨­å®šå®Ÿè¡Œ
+	if ( !success ){	// å¤‰æ•°ãŒè¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°å¤±æ•—
 		return false;
 	}
-	//--- ƒ[ƒJƒ‹•Ï”‚Ì‚ÍQÆ“n‚µ‚©Šm”F ---
+	//--- ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã®æ™‚ã¯å‚ç…§æ¸¡ã—ã‹ç¢ºèª ---
 	if ( data.numLayer > 0 ){
 		data.flagRef = isRegNameRef(data.strName, data.numLayer);
 	}
-	if ( !data.flagRef ){		// QÆ“n‚µ‚Å‚È‚¯‚ê‚ÎŠ®—¹
+	if ( !data.flagRef ){		// å‚ç…§æ¸¡ã—ã§ãªã‘ã‚Œã°å®Œäº†
 		return true;
 	}
-	if ( data.stopRef || data.onlyOneLayer ){		// QÆ“n‚µæ‚Ü‚Åƒ`ƒFƒbƒN‚Å‚È‚¯‚ê‚ÎŠ®—¹
+	if ( data.stopRef || data.onlyOneLayer ){		// å‚ç…§æ¸¡ã—å…ˆã¾ã§ãƒã‚§ãƒƒã‚¯ã§ãªã‘ã‚Œã°å®Œäº†
 		return true;
 	}
-	//--- QÆ“n‚µ‚ÌQÆæ•Ï”‚ğæ“¾ ---
+	//--- å‚ç…§æ¸¡ã—ã®å‚ç…§å…ˆå¤‰æ•°ã‚’å–å¾— ---
 	bool cont = true;
 	while( success && cont ){
-		//--- ‚PŠK‘w‰º‚ÌQÆæ•Ï”‚ğæ“¾ ---
-		success = data.updateRef(data.strVal);		// QÆæ‚ğV‚µ‚¢•Ï”–¼‚É‚·‚é
+		//--- ï¼‘éšå±¤ä¸‹ã®å‚ç…§å…ˆå¤‰æ•°ã‚’å–å¾— ---
+		success = data.updateRef(data.strVal);		// å‚ç…§å…ˆã‚’æ–°ã—ã„å¤‰æ•°åã«ã™ã‚‹
 		if ( success ){
 			success = findRegDataFromLayer(data);
 		}
 		if ( success ){
 			data.flagRef = isRegNameRef(data.strName, data.numLayer);
-			if ( !data.flagRef ){	// QÆ“n‚µ‚Å‚Í‚È‚¢À•Ï”‚ªŒ©‚Â‚©‚Á‚½‚çI—¹
+			if ( !data.flagRef ){	// å‚ç…§æ¸¡ã—ã§ã¯ãªã„å®Ÿå¤‰æ•°ãŒè¦‹ã¤ã‹ã£ãŸã‚‰çµ‚äº†
 				cont = false;
 			}
 		}
 	}
 	return success;
 }
-// “ü—Í: data(strName, numLayer)
-// o—Í: data(numLayer, numMatch, [strName, strVal]) []‚Íó‹µ‚É‚æ‚èo—Í
+// å…¥åŠ›: data(strName, numLayer)
+// å‡ºåŠ›: data(numLayer, numMatch, [strName, strVal]) []ã¯çŠ¶æ³ã«ã‚ˆã‚Šå‡ºåŠ›
 bool JlsScrReg::findRegDataFromLayer(RegSearch& data){
-	//--- ŒŸõŠK‘w‚Ìİ’è ---
+	//--- æ¤œç´¢éšå±¤ã®è¨­å®š ---
 	int n = (int) layerReg.size();
-	if ( n > data.numLayer && data.numLayer >= 0 ){		// Å‘åƒŒƒCƒ„[w’è‚ª‚ ‚é
+	if ( n > data.numLayer && data.numLayer >= 0 ){		// æœ€å¤§ãƒ¬ã‚¤ãƒ¤ãƒ¼æŒ‡å®šãŒã‚ã‚‹æ™‚
 		n = data.numLayer;
 	}
 	bool skipGlobal = ( data.numLayer != 0 && data.onlyOneLayer );
 	data.numLayer = -1;
 	data.numMatch = 0;
 	bool scope = true;
-	//--- ‰ºˆÊŠK‘w‚©‚çŒŸõ‹–‰ÂŠK‘w‚Ü‚Å•Ï”ŒŸõ ---
+	//--- ä¸‹ä½éšå±¤ã‹ã‚‰æ¤œç´¢è¨±å¯éšå±¤ã¾ã§å¤‰æ•°æ¤œç´¢ ---
 	while( scope && n > 0 ){
 		n --;
 		string str;
 		int nmatch = layerReg[n].regfile.getRegVar(str, data.strName, data.exact);
-		if ( nmatch > 0 ){				// •Ï””­Œ©
+		if ( nmatch > 0 ){				// å¤‰æ•°ç™ºè¦‹
 			data.numLayer = n+1;
 			data.numMatch = nmatch;
 			data.strVal   = str;
 			scope         = false;
 			popErrLower(layerReg[n].regfile);
-		}else if ( layerReg[n].base ){	// ãˆÊŠK‘w‚ğŒŸõ‚µ‚È‚¢ŠK‘w
+		}else if ( layerReg[n].base ){	// ä¸Šä½éšå±¤ã‚’æ¤œç´¢ã—ãªã„éšå±¤
 			scope    = false;
-		}else if ( data.onlyOneLayer ){	// 1ŠK‘w‚µ‚©ŒŸõ‚µ‚È‚¢
+		}else if ( data.onlyOneLayer ){	// 1éšå±¤ã—ã‹æ¤œç´¢ã—ãªã„
 			scope    = false;
 		}
 	}
-	//--- ‚È‚¯‚ê‚ÎƒOƒ[ƒoƒ‹•Ï”‚ğŒŸõ ---
+	//--- ãªã‘ã‚Œã°ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã‚’æ¤œç´¢ ---
 	if ( data.numMatch == 0 && !onlyLocal && !skipGlobal ){
 		string str;
 		int nMatch = globalReg.getRegVar(str, data.strName, data.exact);
@@ -694,42 +694,42 @@ bool JlsScrReg::findRegDataFromLayer(RegSearch& data){
 	}
 	return success;
 }
-//--- QÆ“n‚µƒtƒ‰ƒOæ“¾ ---
+//--- å‚ç…§æ¸¡ã—ãƒ•ãƒ©ã‚°å–å¾— ---
 bool JlsScrReg::isRegNameRef(const string& strName, int numLayer){
-	if ( numLayer <= 0 ){		// ƒOƒ[ƒoƒ‹•Ï”‚ÍQÆ‚È‚µ
+	if ( numLayer <= 0 ){		// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã¯å‚ç…§ãªã—
 		return false;
 	}
 	return layerReg[numLayer-1].regfile.isRegNameRef(strName);
 }
 
 //---------------------------------------------------------------------
-// ˆø”Ši”[ƒf[ƒ^‚ğíœ
+// å¼•æ•°æ ¼ç´ãƒ‡ãƒ¼ã‚¿ã‚’å‰Šé™¤
 //---------------------------------------------------------------------
 void JlsScrReg::clearArgReg(){
-	//--- ˆø”ƒŠƒXƒg‚ğíœ ---
+	//--- å¼•æ•°ãƒªã‚¹ãƒˆã‚’å‰Šé™¤ ---
 	listValArg.clear();
 	listRefArg.clear();
 	nameFuncReg.clear();
 }
 //---------------------------------------------------------------------
-// ˆø”‚ğƒ[ƒJƒ‹•Ï”‚Éİ’è
+// å¼•æ•°ã‚’ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã«è¨­å®š
 //---------------------------------------------------------------------
 void JlsScrReg::setRegFromArg(){
-	//--- İ’è ---
+	//--- è¨­å®š ---
 	setRegFromArgSub( listValArg, false );		// ref=false
 	setRegFromArgSub( listRefArg, true );		// ref=true
-	//--- •Ô‚è’l‚Ìó‚¯æ‚èæ‚ª‚È‚¢‚Ìƒ_ƒ~[ƒ[ƒJƒ‹•Ï”İ’è ---
+	//--- è¿”ã‚Šå€¤ã®å—ã‘å–ã‚Šå…ˆãŒãªã„æ™‚ã®ãƒ€ãƒŸãƒ¼ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°è¨­å®š ---
 	if ( !nameFuncReg.empty() ){
-		bool overwrite = false;		// –¢İ’è‚Ì‚İƒ_ƒ~[ƒŒƒWƒXƒ^‚Æ‚µ‚Ä•Ô‚è’l•Ï”‚ğì¬
+		bool overwrite = false;		// æœªè¨­å®šæ™‚ã®ã¿ãƒ€ãƒŸãƒ¼ãƒ¬ã‚¸ã‚¹ã‚¿ã¨ã—ã¦è¿”ã‚Šå€¤å¤‰æ•°ã‚’ä½œæˆ
 		setLocalRegVar(nameFuncReg, "", overwrite);
 	}
-	//--- ˆø”ƒŠƒXƒg‚ğíœ ---
+	//--- å¼•æ•°ãƒªã‚¹ãƒˆã‚’å‰Šé™¤ ---
 	clearArgReg();
 }
 void JlsScrReg::setRegFromArgSub(vector<string>& listArg, bool ref){
 	int sizeList = (int) listArg.size();
 	if ( sizeList > 0 ){
-		//--- ˆø”ƒŠƒXƒg‚ğƒ[ƒJƒ‹•Ï”‚Éİ’è ---
+		//--- å¼•æ•°ãƒªã‚¹ãƒˆã‚’ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã«è¨­å®š ---
 		if ( ref ){
 			int numLayer = (int) layerReg.size();
 			for(int i=0; i<sizeList-1; i+=2){
@@ -744,14 +744,14 @@ void JlsScrReg::setRegFromArgSub(vector<string>& listArg, bool ref){
 	}
 }
 //---------------------------------------------------------------------
-// •Ï”–¼‚ÌÅ’áŒÀ‚Ìˆá”½•¶šŠm”F
-// o—ÍF
-//   •Ô‚è’l   : ƒGƒ‰[—L–³i0=³íA1=ƒGƒ‰[‚ ‚èj
+// å¤‰æ•°åã®æœ€ä½é™ã®é•åæ–‡å­—ç¢ºèª
+// å‡ºåŠ›ï¼š
+//   è¿”ã‚Šå€¤   : ã‚¨ãƒ©ãƒ¼æœ‰ç„¡ï¼ˆ0=æ­£å¸¸ã€1=ã‚¨ãƒ©ãƒ¼ã‚ã‚Šï¼‰
 //---------------------------------------------------------------------
 bool JlsScrReg::checkErrRegName(const string& strName, bool silent){
-	//--- Å’áŒÀ‚Ìˆá”½•¶šŠm”F ---
-	string strCheckFull  = "!#$%&'()*+,-./:;<=>?\"";		// •Ï”•¶š—ñ‚Æ‚µ‚Äg—p‹Ö~
-	string strCheckFirst = strCheckFull + "0123456789";		// •Ï”æ“ª•¶š‚Æ‚µ‚Äg—p‹Ö~
+	//--- æœ€ä½é™ã®é•åæ–‡å­—ç¢ºèª ---
+	string strCheckFull  = "!#$%&'()*+,-./:;<=>?\"";		// å¤‰æ•°æ–‡å­—åˆ—ã¨ã—ã¦ä½¿ç”¨ç¦æ­¢
+	string strCheckFirst = strCheckFull + "0123456789";		// å¤‰æ•°å…ˆé ­æ–‡å­—ã¨ã—ã¦ä½¿ç”¨ç¦æ­¢
 	string strFirst = strName.substr(0, 1);
 	if ( strCheckFirst.find(strFirst) != string::npos ){
 		if ( !silent ){
@@ -771,7 +771,7 @@ bool JlsScrReg::checkErrRegName(const string& strName, bool silent){
 	return false;
 }
 //---------------------------------------------------------------------
-// ‰ºˆÊŠK‘w‚ÌƒGƒ‰[æ“¾
+// ä¸‹ä½éšå±¤ã®ã‚¨ãƒ©ãƒ¼å–å¾—
 //---------------------------------------------------------------------
 bool JlsScrReg::popErrLower(JlsRegFile& regfile){
 	string msgTmp;

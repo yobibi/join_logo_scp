@@ -1,93 +1,93 @@
-# join_logo_scp�p�̎��s���e�X�N���v�g
+﻿# join_logo_scp用の実行内容スクリプト
 #
-# ���e�F�ԑg��CM�Ȃ��ǂ̍ŏ��̃��S�ȑO�ƍŌ�̃��S�ȍ~���J�b�g����
-#       �Ō�ɒZ���s�v�ȃ��S�t����`�����������Ă���ꍇ�͐ݒ�񐔂܂ō폜
-#       NHK��z�肵���ݒ�
+# 内容：番組中CMない局の最初のロゴ以前と最後のロゴ以降をカットする
+#       最後に短い不要なロゴ付き宣伝が複数入っている場合は設定回数まで削除
+#       NHKを想定した設定
 #
 #----------------------------------------------
-# �J�n�E�I���}�[�W���̐ݒ�
+# 開始・終了マージンの設定
 #----------------------------------------------
-#--- �J�n�}�[�W���̐ݒ� ---
-Default base               -1     # �J�n�}�[�W���̃t���[���i-1�̎��͎������o�j
-Default param_zone_first   0.0    # �ŏ�����w����ԓ��ɑS�̂����܂�\���̓��S�Ȃ��Ƃ���
+#--- 開始マージンの設定 ---
+Default base               -1     # 開始マージンのフレーム（-1の時は自動検出）
+Default param_zone_first   0.0    # 最初から指定期間内に全体が収まる構成はロゴなしとする
 
-#--- �I���}�[�W���̐ݒ� ---
-Default param_wcomp_last   30.5   # �Ō�\�����S�Ȃ������Ƃ���ő����
-Default param_zone_last    0.0    # �Ōォ��w����ԓ��ɑS�̂����܂�\���̓��S�Ȃ��Ƃ���
-
-#----------------------------------------------
-# �J�b�g�ݒ�
-#----------------------------------------------
-#----- �J�b�g�L���I�� -----
-Default lastcut_num    6    # �Ō�̃��S�t����`���J�b�g����ő��
-Default lastcut_long   1    # �Ō�̒����ԁi1�����j�Ԑ�J�b�g�i0:�J�b�g�Ȃ� 1:�J�b�g�j
-
-#----- ���S�Ȃ����̃J�b�g -----
-Default autocm_code    6    # ���S�Ȃ�����15�b�P��CM���o�i0:�Ȃ� 1-10:CM���o-�傫�����������o�j
-Default autocm_sub     10   # ���S�Ȃ����̕⏕�ݒ�i0:�Ȃ� 1:�擪15�b�P�ʍ\���͏����ł�CM�� +10:45�b�͊܂߂Ȃ��j
-Default autocm_scope   0    # �Ōォ��w��b�ȍ~�̈ʒu���܂ލ\���͎�O��CM�����Ȃ疳����CM�p��
-
-#----- �J�b�g�L���I���p�����[�^ -----
-Default param_adduc    0    # ���S�Ȃ��s���\���i0:����Ȃ� 1:�c���j
-Default param_cuttr    0    # �\�����I����̃��S�t��15�b�P�ʍ\���i0:�c�� 1:�J�b�g�j
-Default param_cutsp    0    # �ԑg�񋟃J�b�g�i0:�c�� 1:�J�b�g�j���댟�o�̉\������c���𐄏�
-Default param_nosc     0    # �V�[���`�F���W�Ȃ������ʒu��CM���f�i0:���� 1:�g�p���Ȃ� 2:�g�p����j
-Default param_cntsc    0    # �����V�[���`�F���W���������\�����̕����i0:�Ȃ� 1:����j
-
-#----- �t�@�C���Ō�̗\���ʒu�F�� -----
-Default cuttr_code     3    # ����ݒ�i0:���o�Ȃ� 1:CM�������琔���� 2:CM�����^CM���O������ 3:CM���O���琔����j
-Default cuttr_limit    1    # �\���ƔF��������\�����i0:�\���Ȃ� 1�`:�\�����j
-
+#--- 終了マージンの設定 ---
+Default param_wcomp_last   30.5   # 最後構成ロゴなし扱いとする最大期間
+Default param_zone_last    0.0    # 最後から指定期間内に全体が収まる構成はロゴなしとする
 
 #----------------------------------------------
-# �t���O�ݒ�
+# カット設定
 #----------------------------------------------
-#--- TRLONG : �Ō�̒����ԁi1�����j�Ԑ���J�b�g���Ȃ� ---
+#----- カット有無選択 -----
+Default lastcut_num    6    # 最後のロゴ付き宣伝をカットする最大回数
+Default lastcut_long   1    # 最後の長時間（1分超）番宣カット（0:カットなし 1:カット）
+
+#----- ロゴなし時のカット -----
+Default autocm_code    6    # ロゴなし時の15秒単位CM検出（0:なし 1-10:CM検出-大きい程強く検出）
+Default autocm_sub     10   # ロゴなし時の補助設定（0:なし 1:先頭15秒単位構成は少数でもCM化 +10:45秒は含めない）
+Default autocm_scope   0    # 最後から指定秒以降の位置を含む構成は手前がCM扱いなら無条件CM継続
+
+#----- カット有無選択パラメータ -----
+Default param_adduc    0    # ロゴなし不明構成（0:制御なし 1:残す）
+Default param_cuttr    0    # 予告等終了後のロゴ付き15秒単位構成（0:残す 1:カット）
+Default param_cutsp    0    # 番組提供カット（0:残す 1:カット）※誤検出の可能性から残すを推奨
+Default param_nosc     0    # シーンチェンジなし無音位置のCM判断（0:自動 1:使用しない 2:使用する）
+Default param_cntsc    0    # 無音シーンチェンジ数が多い構成内の分離（0:なし 1:あり）
+
+#----- ファイル最後の予告位置認識 -----
+Default cuttr_code     3    # 動作設定（0:検出なし 1:CM明けから数える 2:CM明け／CM直前を自動 3:CM直前から数える）
+Default cuttr_limit    1    # 予告と認識させる構成数（0:予告なし 1～:構成数）
+
+
+#----------------------------------------------
+# フラグ設定
+#----------------------------------------------
+#--- TRLONG : 最後の長時間（1分超）番宣をカットしない ---
 If TRLONG
-  Set lastcut_long   0    # �Ō�̒����ԁi1�����j�Ԑ�J�b�g�i0:�J�b�g�Ȃ� 1:�J�b�g�j
+  Set lastcut_long   0    # 最後の長時間（1分超）番宣カット（0:カットなし 1:カット）
 EndIf
 
-#--- TCTR : �\���F�����s��Ȃ� ---
+#--- TCTR : 予告認識を行わない ---
 If TCTR
-  Set cuttr_code     0    # ����ݒ�i0:���o�Ȃ� 1:CM�������琔���� 2:CM�����^CM���O������ 3:CM���O���琔����j
-  Set addtr_code1    0    # �i���S�Ȃ����̂݁j���S�Ȃ��\�����o�i0:���o���Ȃ� 3:�אڎw��b�ȉ��j
+  Set cuttr_code     0    # 動作設定（0:検出なし 1:CM明けから数える 2:CM明け／CM直前を自動 3:CM直前から数える）
+  Set addtr_code1    0    # （ロゴなし時のみ）ロゴなし予告検出（0:検出しない 3:隣接指定秒以下）
 EndIf
 
-#--- TRTR : �\���F�����s�� ---
+#--- TRTR : 予告認識を行う ---
 If TRTR
-  Set cuttr_code     3    # ����ݒ�i0:���o�Ȃ� 1:CM�������琔���� 2:CM�����^CM���O������ 3:CM���O���琔����j
-  Set addtr_code1    3    # �i���S�Ȃ����̂݁j���S�Ȃ��\�����o�i0:���o���Ȃ� 3:�אڎw��b�ȉ��j
+  Set cuttr_code     3    # 動作設定（0:検出なし 1:CM明けから数える 2:CM明け／CM直前を自動 3:CM直前から数える）
+  Set addtr_code1    3    # （ロゴなし時のみ）ロゴなし予告検出（0:検出しない 3:隣接指定秒以下）
 EndIf
 
-#--- TPTRLIM2 : ���S�Ȃ����̗\���\����=2 ---
+#--- TPTRLIM2 : ロゴなし時の予告構成数=2 ---
 If TPTRLIM2
-  Set cuttr_limit   2     # �\���ƔF��������\�����i0:�\���Ȃ� 1�`:�\�����j
+  Set cuttr_limit   2     # 予告と認識させる構成数（0:予告なし 1～:構成数）
 EndIf
 
 
 #----------------------------------------------
-# ���S�ʒu���
+# ロゴ位置情報
 #----------------------------------------------
-OptDefault -CutMrgWI 2          # CutMrgIn�l�̎g�p���f�i0:�w��l 1:�w��l��0�̂Q�_���画�f 2:�������f�j
-OptDefault -CutMrgWO 2          # CutMrgOut�l�̎g�p���f�i0:�w��l 1:�w��l��0�̂Q�_���画�f 2:�������f�j
+OptDefault -CutMrgWI 2          # CutMrgIn値の使用判断（0:指定値 1:指定値と0の２点から判断 2:自動判断）
+OptDefault -CutMrgWO 2          # CutMrgOut値の使用判断（0:指定値 1:指定値と0の２点から判断 2:自動判断）
 
 #----------------------------------------------
-# �����p�����[�^�ݒ�
+# 内部パラメータ設定
 #----------------------------------------------
-Default param_wlogo_trmax  00:02:10   # �\���Ԑ镔���ƔF������ő働�S����
-Default param_wcomp_trmax  00:01:10   # �\���Ԑ镔���ƔF������P�\��������ő����
-Default param_wlogo_sftmrg 3.5        # ���S���Ԃ��ʏ��菭���Z���ꍇ�ɉ����␳����ő����
-Default param_wlogo_summin 00:00:20   # ���S���ԍ��v���w����Ԃ��Z���ꍇ�̓��S�Ȃ��Ƃ���
-Default param_wlogo_lgmin  20.0       # �������̃��S�L���m��ƔF���������
-Default param_wlogo_cmmin  40.0       # �������̃��S�����m��ƔF���������
-Default param_wlogo_revmin 125.0      # CM�\���ł͂Ȃ����S�Ȃ����Ԃ��s���\���ƔF������\���ŏ�����
-Default param_mgn_cmdetect 0.25       # CM�\����15�b�P�ʂł͂Ȃ��\���ƔF������덷�t���[������
-Default param_mgn_cmdivide 0.1        # CM�\�������̕�����������덷�t���[������
-#--- �J�n�}�[�W���ڍ� ---
-Default cutbaselogo        1          # �O�ԑg���瑱�����S�i0:����Ȃ� 1:�J�b�g���j
-Default param_pos_first    $base      # �J�n�}�[�W���ʒu
-Default param_lvpos_first  $cutbaselogo # �J�n�}�[�W���ݒ�i0:����Ȃ� 1:�擪����̃��S���� 2:�w��ʒu�ŗD�� 3:Select�ʒu�D��j
-Default param_wcomp_first  30.0       # �擪�\�����S�Ȃ��Ƃ���ő����
+Default param_wlogo_trmax  00:02:10   # 予告番宣部分と認識する最大ロゴ期間
+Default param_wcomp_trmax  00:01:10   # 予告番宣部分と認識する１構成あたり最大期間
+Default param_wlogo_sftmrg 3.5        # ロゴ期間が通常より少し短い場合に延長補正する最大期間
+Default param_wlogo_summin 00:00:20   # ロゴ期間合計が指定期間より短い場合はロゴなしとする
+Default param_wlogo_lgmin  20.0       # 推測時のロゴ有情報確定と認識する期間
+Default param_wlogo_cmmin  40.0       # 推測時のロゴ無情報確定と認識する期間
+Default param_wlogo_revmin 125.0      # CM構成ではないロゴなし期間が不明構成と認識する構成最小期間
+Default param_mgn_cmdetect 0.25       # CM構成で15秒単位ではない可能性と認識する誤差フレーム期間
+Default param_mgn_cmdivide 0.1        # CM構成内部の分割を許可する誤差フレーム期間
+#--- 開始マージン詳細 ---
+Default cutbaselogo        1          # 前番組から続くロゴ（0:制御なし 1:カット許可）
+Default param_pos_first    $base      # 開始マージン位置
+Default param_lvpos_first  $cutbaselogo # 開始マージン設定（0:制御なし 1:先頭からのロゴ無視 2:指定位置最優先 3:Select位置優先）
+Default param_wcomp_first  30.0       # 先頭構成ロゴなしとする最大期間
 
 SetParam CutTR       $param_cuttr
 SetParam CutSP       $param_cutsp
@@ -113,91 +113,91 @@ SetParam PosFirst    $param_pos_first
 #SetParam LogoRevise  $logo_revise
 SetParam AutoCmSub   $autocm_sub
 
-#---�i�ݒ�}���j�����J�n�ꏊ ---
+#---（設定挿入）検索開始場所 ---
 MemCall mbase_first
 
 #----------------------------------------------
-# �J�n�}�[�W���I�𓮍�
+# 開始マージン選択動作
 #----------------------------------------------
-# �J�n�}�[�W���t�߂Ɍ�₪����ΊJ�n�ʒu�Ƃ��ėD�悳����
+# 開始マージン付近に候補があれば開始位置として優先させる
 Select S 0 -1.2 1.2 -fromabs $base
 
 #----------------------------------------------
-# ���S�Ȃ�����15�b�P��CM���o
+# ロゴなし時の15秒単位CM検出
 #----------------------------------------------
-#---�i�ݒ�}���j Auto�����J�n���O ---
+#---（設定挿入） Auto処理開始直前 ---
 MemCall mbase_auto_start_before
 
-#--- ���S�Ȃ����̂�15�b�P�ʍ\����CM�� ---
+#--- ロゴなし時のみ15秒単位構成をCM化 ---
 AutoCM B -code $autocm_code -scope $autocm_scope
 
-#---�i�ݒ�}���jAuto�����J�n���� ---
+#---（設定挿入）Auto処理開始直後 ---
 MemCall mbase_auto_start_after
 
 #------------------------------------
-# �擪�����̒ǉ��J�b�g
+# 先頭部分の追加カット
 #------------------------------------
-#---�i�ݒ�}���j�擪�ԑg��`�������O ---
+#---（設定挿入）先頭番組宣伝処理直前 ---
 MemCall mbase_firstsp_before
 
-# �E�ŏ��̃��S�\�����P�����O�ɏI���ꍇ�͖���
+# ・最初のロゴ表示が１分より前に終わる場合は無視
 Abort E -N  1 -Fhead 0 00:01:01 -WithP -AC -1.2 1.2
 
-#---�i�ݒ�}���j�擪�ԑg��`�������� ---
+#---（設定挿入）先頭番組宣伝処理直後 ---
 MemCall mbase_firstsp_after
 
 #------------------------------------
-# �Ō�̒ǉ��J�b�g
+# 最後の追加カット
 #------------------------------------
-Default ftail_st      00:00:00  # �Ō�̔ԑg��`�ƔF������ŏI�t���[������̈ʒu�i�N�_�j
-Default ftail_ed      00:10:00  # �Ō�̔ԑg��`�ƔF������ŏI�t���[������̈ʒu�i�I�_�j
+Default ftail_st      00:00:00  # 最後の番組宣伝と認識する最終フレームからの位置（起点）
+Default ftail_ed      00:10:00  # 最後の番組宣伝と認識する最終フレームからの位置（終点）
 
-#---�i�ݒ�}���j�ԑg��`�����������O ---
+#---（設定挿入）番組宣伝部分処理直前 ---
 MemCall mbase_trailer_before
 
-# �E�Ō�̃��S�\�����P���ȓ��ɏI���ꍇ�͖���
-#   �iNHK�ԑg��`��z��j
+# ・最後のロゴ表示が１分以内に終わる場合は無視
+#   （NHK番組宣伝を想定）
 Repeat $lastcut_num
   Abort S -NR -1 -Ftail $ftail_st $ftail_ed -LenN -1 00:01:01 -WithN -AC -1.2 1.2
 EndRepeat
 
-# �E�Ō�̃��S�\������P�O���ȓ��ɏI���ꍇ�͖���
-#   �iNHK�ԑg��`�������ꍇ��z��j
+# ・最後のロゴ表示が約１０分以内に終わる場合は無視
+#   （NHK番組宣伝が長い場合を想定）
 If $lastcut_long
   Abort S -NR -1 -Ftail $ftail_st $ftail_ed -LenN 00:01:01 00:10:01 -WithN -AC -1.2 1.2
 EndIf
 
-#---�i�ݒ�}���j�ԑg��`������������ ---
+#---（設定挿入）番組宣伝部分処理直後 ---
 MemCall mbase_trailer_after
 
 #----------------------------------------------
-# �K�{�ݒ�
+# 必須設定
 #----------------------------------------------
-# �E�ŏ��̃��S�J�n�ȑO�������J�b�g�i�}�P�b�͈ʒu�m�F����B�t���[��0�͖����j
-#   �}�P�b�ɊY���Ȃ���Δ͈͍L�����č\��������؂�ʒu�̌�����ǉ�
+# ・最初のロゴ開始以前を強制カット（±１秒は位置確認する。フレーム0は無視）
+#   ±１秒に該当なければ範囲広くして構成推測区切り位置の検索を追加
 Find  S 0 -1.2 1.2 -NR  1 -wide -noedge
 Find  S 0 -10.2 10.2 -NR  1 -wide -noedge -RAC -0.1 0.1
 Force S 0          -NR  1
 
-# �E�Ō�̃��S�I���ȍ~�������J�b�g�i�}�P�b�͈ʒu�m�F����B�ŏI�t���[���͖����j
-#   �}�P�b�ɊY���Ȃ���Δ͈͍L�����č\��������؂�ʒu�̌�����ǉ�
+# ・最後のロゴ終了以降を強制カット（±１秒は位置確認する。最終フレームは無視）
+#   ±１秒に該当なければ範囲広くして構成推測区切り位置の検索を追加
 Find  E 0 -1.2 1.2 -NR -1 -wide -noedge
 Find  E 0 -10.2 10.2 -NR -1 -wide -noedge -RAC -0.1 0.1
 Force E 0          -NR -1
 
 #----------------------------------------------
-# �\���\���̐���
+# 予告構成の推測
 #----------------------------------------------
-#--- �t�@�C���Ō㕔���̗\�����o�p ---
-Default cuttr_trscope  27   # �\����CM���O���猟������ꍇ��CM�O�ő匟���b��
-Default cuttr_tr1stprd 45   # �\���J�n�ƔF������\���̍ő�b���i�w��b���ȉ��̍\���������܂ŗ\���ɂ��Ȃ��j
-Default addtr_code1     3   # �i���S�Ȃ����̂݁j�\����������Ȃ����̃��S�Ȃ��\�����o1�i0:���o���Ȃ� 3:�אڎw��b�ȉ��j
-Default addtr_period1  50   # �i���S�Ȃ����̂݁j���S�Ȃ��\�����o1�̊��Ԏw�莞�\������b��(code��1��=3�̎�)
-Default cuttr_limit_lg  3   # �i���S���莞�̂݁j�\���ƔF��������\�����i0:�\���Ȃ� 1�`:�\�����j
-Default ftail_st      00:00:00  # �Ō�̗\���ȍ~�ƔF������ŏI�t���[������̈ʒu�i�N�_�j
-Default ftail_ed      00:07:00  # �Ō�̗\���ȍ~�ƔF������ŏI�t���[������̈ʒu�i�I�_�j
+#--- ファイル最後部分の予告検出用 ---
+Default cuttr_trscope  27   # 予告をCM直前から検索する場合のCM前最大検索秒数
+Default cuttr_tr1stprd 45   # 予告開始と認識する構成の最大秒数（指定秒数以下の構成が現れるまで予告にしない）
+Default addtr_code1     3   # （ロゴなし時のみ）予告が見つからない時のロゴなし予告検出1（0:検出しない 3:隣接指定秒以下）
+Default addtr_period1  50   # （ロゴなし時のみ）ロゴなし予告検出1の期間指定時構成上限秒数(code下1桁=3の時)
+Default cuttr_limit_lg  3   # （ロゴあり時のみ）予告と認識させる構成数（0:予告なし 1～:構成数）
+Default ftail_st      00:00:00  # 最後の予告以降と認識する最終フレームからの位置（起点）
+Default ftail_ed      00:07:00  # 最後の予告以降と認識する最終フレームからの位置（終点）
 
-#---�i�ݒ�}���jAuto�\���ϊ����O ---
+#---（設定挿入）Auto構成変換直前 ---
 MemCall mbase_autoup_before
 
 If $NOLOGO
@@ -208,5 +208,5 @@ Else
   AutoCut TR -Ftail $ftail_st $ftail_ed -code $cuttr_code -limit $cuttr_limit_lg -trscope $cuttr_trscope -tr1stprd $cuttr_tr1stprd
 EndIf
 
-#---�i�ݒ�}���j�����I���ꏊ ---
+#---（設定挿入）検索終了場所 ---
 MemCall mbase_last

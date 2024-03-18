@@ -1,5 +1,5 @@
-//
-// join_logo_scp ƒf[ƒ^\¬‰Šú•â³
+ï»¿//
+// join_logo_scp ãƒ‡ãƒ¼ã‚¿æ§‹æˆåˆæœŸè£œæ­£
 //
 #pragma once
 
@@ -25,6 +25,6 @@ private:
 	int  getMsec30fpsFromFrm(int frm);
 
 private:
-	//--- ŠÖ”ƒ|ƒCƒ“ƒ^ì¬ ---
+	//--- é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ä½œæˆ ---
 	JlsDataset *pdata;
 };

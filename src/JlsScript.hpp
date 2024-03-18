@@ -1,12 +1,12 @@
+ï»¿//
+// JLã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œç”¨
 //
-// JLƒRƒ}ƒ“ƒhÀs—p
-//
-// ƒNƒ‰ƒX\¬
-//   JlsScript           : JLƒRƒ}ƒ“ƒhÀs
-//     |-JlsScrGlobal    : ƒOƒ[ƒoƒ‹ó‘Ô•ÛiÀ‘ÌŠi”[j
-//     |-JlsScriptDecode : ƒRƒ}ƒ“ƒh•¶š—ñ‰ğÍ
-//     |-JlsScriptLimit  : ˆø”ğŒ‚©‚çƒ^[ƒQƒbƒgŒÀ’è
-//     |-JlsAutoScript   : AutoŒnJLƒRƒ}ƒ“ƒhÀs
+// ã‚¯ãƒ©ã‚¹æ§‹æˆ
+//   JlsScript           : JLã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œ
+//     |-JlsScrGlobal    : ã‚°ãƒ­ãƒ¼ãƒãƒ«çŠ¶æ…‹ä¿æŒï¼ˆå®Ÿä½“æ ¼ç´ï¼‰
+//     |-JlsScriptDecode : ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—è§£æ
+//     |-JlsScriptLimit  : å¼•æ•°æ¡ä»¶ã‹ã‚‰ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé™å®š
+//     |-JlsAutoScript   : Autoç³»JLã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œ
 //
 ///////////////////////////////////////////////////////////////////////
 #pragma once
@@ -28,7 +28,7 @@ class JlsScriptLimit;
 
 ///////////////////////////////////////////////////////////////////////
 //
-// JLƒXƒNƒŠƒvƒgÀsƒNƒ‰ƒX
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆå®Ÿè¡Œã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsScript
@@ -41,10 +41,10 @@ public:
 
 private:
 	void checkInitial();
-	// ƒRƒ}ƒ“ƒhÀsŠJnİ’è
+	// ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œé–‹å§‹æ™‚è¨­å®š
 	bool makeFullPath(string& strFull, const string& strSrc, bool flagFull);
 	bool makeFullPathIsExist(const string& str);
-	// ƒRƒ}ƒ“ƒhÀsŠJnˆ—
+	// ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œé–‹å§‹å‡¦ç†
 	int  startCmdEnter(const string& fnameMain, const string& fnameSetup);
 	int  startCmdLoop(const string& fname, int loop);
 	void startCmdLoopLazyEnd(JlsScriptState& state);
@@ -56,29 +56,29 @@ private:
 	bool startCmdGetLineFromFileDivCache(string& strBufOrg, JlsScriptState& state);
 	bool startCmdGetLineFromFileParseDiv(string& strBufOrg, JlsScriptState& state);
 	void startCmdDispErr(const string& strBuf, CmdErrType errval);
-	// ’x‰„Às‚Ìİ’è
+	// é…å»¶å®Ÿè¡Œã®è¨­å®š
 	bool setStateMem(JlsScriptState& state, JlsCmdArg& cmdarg, const string& strBuf);
 	bool setStateMemLazy(JlsScriptState& state, JlsCmdArg& cmdarg, const string& strBuf);
 	bool isLazyAutoModeInitial(JlsScriptState& state);
 	bool setStateMemLazyRevise(LazyType& typeLazy, JlsScriptState& state, JlsCmdArg& cmdarg);
-	// ƒRƒ}ƒ“ƒh‰ğÍŒã‚Ì•Ï”“WŠJ
+	// ã‚³ãƒãƒ³ãƒ‰è§£æå¾Œã®å¤‰æ•°å±•é–‹
 	bool expandDecodeCmd(JlsScriptState& state, JlsCmdArg& cmdarg, const string& strBuf);
 	int  getCondFlagGetItem(string& strItem, const string& strBuf, int pos);
 	bool getCondFlag(bool& flagCond, const string& strBuf);
 	void getCondFlagConnectWord(string& strCalc, const string& strItem);
 	void getDecodeReg(JlsCmdArg& cmdarg);
-	// ƒƒS’¼Úİ’è
+	// ãƒ­ã‚´ç›´æ¥è¨­å®š
 	void setLogoDirect(JlsCmdArg& cmdarg);
 	void setLogoDirectString(const string& strList);
 	void setLogoReset();
-	// Call‚ÆMemory—pˆø”’Ç‰Áˆ—
+	// Callã¨Memoryç”¨å¼•æ•°è¿½åŠ å‡¦ç†
 	bool setArgAreaDefault(JlsCmdArg& cmdarg, JlsScriptState& state);
 	bool makeArgMemStore(JlsCmdArg& cmdarg, JlsScriptState& state);
 	void makeArgMemStoreLocalSet(JlsScriptState& state, const string& strName, const string& strVal);
 	bool makeArgMemStoreByDefault(JlsScriptState& state);
 	bool makeArgMemStoreByMemSet(JlsCmdArg& cmdarg, JlsScriptState& state);
 	bool makeArgMemFunc(JlsCmdArg& cmdarg, JlsScriptState& state);
-	// İ’èƒRƒ}ƒ“ƒhˆ—
+	// è¨­å®šã‚³ãƒãƒ³ãƒ‰å‡¦ç†
 	bool setCmdCondIf(JlsCmdArg& cmdarg, JlsScriptState& state);
 	bool setCmdCall(JlsCmdArg& cmdarg, JlsScriptState& state, int loop);
 	bool taskCmdCall(string strName, int loop, bool fcall);
@@ -93,7 +93,7 @@ private:
 	bool setCmdReg(JlsCmdArg& cmdarg, JlsScriptState& state);
 	bool setCmdMemFlow(JlsCmdArg& cmdarg, JlsScriptState& state);
 	bool setCmdMemExe(JlsCmdArg& cmdarg, JlsScriptState& state);
-	// ƒRƒ}ƒ“ƒhÀsˆ—
+	// ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œå‡¦ç†
 	bool exeCmd(JlsCmdSet& cmdset);
 	bool exeCmdCallAutoScript(JlsCmdSet& cmdset);
 	bool exeCmdCallAutoSetup(JlsCmdSet& cmdset);
@@ -114,15 +114,15 @@ private:
 	string getFcallName(const string& str){ return str.substr(2); };
 
 private:
-	//--- ŠÖ” ---
-	JlsDataset *pdata;									// “ü—Íƒf[ƒ^ƒAƒNƒZƒX
-	unique_ptr <JlsAutoScript>    m_funcAutoScript;		// ©“®\¬„‘ªƒXƒNƒŠƒvƒg
-	unique_ptr <JlsScriptDecode>  m_funcDecode;			// ƒRƒ}ƒ“ƒh•¶š—ñ‰ğÍ
-	unique_ptr <JlsScriptLimit>   m_funcLimit;			// §–ñğŒ‚É‚æ‚éƒ^[ƒQƒbƒgŒÀ’è
+	//--- é–¢æ•° ---
+	JlsDataset *pdata;									// å…¥åŠ›ãƒ‡ãƒ¼ã‚¿ã‚¢ã‚¯ã‚»ã‚¹
+	unique_ptr <JlsAutoScript>    m_funcAutoScript;		// è‡ªå‹•æ§‹æˆæ¨æ¸¬ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+	unique_ptr <JlsScriptDecode>  m_funcDecode;			// ã‚³ãƒãƒ³ãƒ‰æ–‡å­—åˆ—è§£æ
+	unique_ptr <JlsScriptLimit>   m_funcLimit;			// åˆ¶ç´„æ¡ä»¶ã«ã‚ˆã‚‹ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé™å®š
 
-	//--- ƒŒƒWƒXƒ^ƒAƒNƒZƒXˆ— ---
+	//--- ãƒ¬ã‚¸ã‚¹ã‚¿ã‚¢ã‚¯ã‚»ã‚¹å‡¦ç† ---
 	JlsScrFuncReg  funcReg;
 	JlsScrFuncList funcList;
-	//--- ƒOƒ[ƒoƒ‹§Œäó‘Ô ---
+	//--- ã‚°ãƒ­ãƒ¼ãƒãƒ«åˆ¶å¾¡çŠ¶æ…‹ ---
 	JlsScrGlobal globalState;
 };

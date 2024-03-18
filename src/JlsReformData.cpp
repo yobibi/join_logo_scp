@@ -1,5 +1,5 @@
-//
-// join_logo_scp ƒf[ƒ^\¬‰Šú•â³
+ï»¿//
+// join_logo_scp ãƒ‡ãƒ¼ã‚¿æ§‹æˆåˆæœŸè£œæ­£
 //
 #include "stdafx.h"
 #include "CommonJls.hpp"
@@ -8,20 +8,20 @@
 
 
 //---------------------------------------------------------------------
-// \’z
+// æ§‹ç¯‰
 //---------------------------------------------------------------------
 JlsReformData::JlsReformData(JlsDataset *pdata){
-	//--- ŠÖ”ƒ|ƒCƒ“ƒ^ì¬ ---
+	//--- é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ä½œæˆ ---
 	this->pdata = pdata;
 }
 
 //---------------------------------------------------------------------
-// “ü—Íƒf[ƒ^‚©‚ç‚Ì”÷’²®‚ğs‚¤ˆ—
+// å…¥åŠ›ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ã®å¾®èª¿æ•´ã‚’è¡Œã†å‡¦ç†
 //---------------------------------------------------------------------
 void JlsReformData::adjustData(){
 	pdata->setFlagSetupAdj( true );
 	adjustScpos();
-	//--- ƒƒSƒ}[ƒWƒ“’²® ---
+	//--- ãƒ­ã‚´ãƒãƒ¼ã‚¸ãƒ³èª¿æ•´ ---
 	if ( (pdata->extOpt.nLgExact & 0x01) == 0 ){
 		detectCutmrg();
 		updateCutmrg();
@@ -32,7 +32,7 @@ void JlsReformData::adjustData(){
 
 
 //---------------------------------------------------------------------
-// CutMrgIn/CutMrgOut ‚ğİ’è
+// CutMrgIn/CutMrgOut ã‚’è¨­å®š
 //---------------------------------------------------------------------
 void JlsReformData::updateCutmrg(){
 	int num_logo  = pdata->sizeDataLogo();
@@ -41,7 +41,7 @@ void JlsReformData::updateCutmrg(){
 		DataLogoRecord dtlogo;
 		pdata->getRecordLogo(dtlogo, i);
 
-		// riseİ’è
+		// riseè¨­å®š
 		{
 			int intl = dtlogo.intl_rise;
 			int msec_cutin = pdata->extOpt.msecCutIn;
@@ -62,11 +62,11 @@ void JlsReformData::updateCutmrg(){
 			if (n3 < 0){
 				n3 = 0;
 			}
-			//--- ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚É‚æ‚èXV”»’f ---
+			//--- ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã«ã‚ˆã‚Šæ›´æ–°åˆ¤æ–­ ---
 			int nsc_base = pdata->getNscFromMsecAll(dtlogo.org_rise);
 			int msec_base = pdata->getMsecScp(nsc_base);
 			if (nsc_base > 0){
-				if (pdata->getScpStill(nsc_base)){		// “®‚«‚È‚µˆÊ’u‚Íœ‚­
+				if (pdata->getScpStill(nsc_base)){		// å‹•ããªã—ä½ç½®ã¯é™¤ã
 					nsc_base = -1;
 				}
 			}
@@ -76,7 +76,7 @@ void JlsReformData::updateCutmrg(){
 				dtlogo.org_rise_l - pdata->msecValExact > msec_base ||
 				dtlogo.org_rise_r + pdata->msecValExact < msec_base ||
 				(dtlogo.org_rise - msec_base >= (dtlogo.org_rise - n1) / 2)){
-				//--- XV ---
+				//--- æ›´æ–° ---
 				dtlogo.rise   = pdata->cnv.getMsecAlignFromMsec( n1 );
 				dtlogo.rise_l = pdata->cnv.getMsecAlignFromMsec( n2 );
 				dtlogo.rise_r = pdata->cnv.getMsecAlignFromMsec( n3 );
@@ -88,7 +88,7 @@ void JlsReformData::updateCutmrg(){
 			}
 		}
 
-		// fallİ’è
+		// fallè¨­å®š
 		{
 			int intl = dtlogo.intl_fall;
 			int msec_cutout = pdata->extOpt.msecCutOut;
@@ -119,11 +119,11 @@ void JlsReformData::updateCutmrg(){
 			if (n3 > msec_max){
 				n3 = msec_max;
 			}
-			//--- ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚É‚æ‚èXV”»’f ---
+			//--- ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã«ã‚ˆã‚Šæ›´æ–°åˆ¤æ–­ ---
 			int nsc_base  = pdata->getNscFromMsecAll(dtlogo.org_fall);
 			int msec_base = pdata->getMsecScpBk(nsc_base);
 			if (nsc_base > 0){
-				if (pdata->getScpStill(nsc_base)){		// “®‚«‚È‚µˆÊ’u‚Íœ‚­
+				if (pdata->getScpStill(nsc_base)){		// å‹•ããªã—ä½ç½®ã¯é™¤ã
 					nsc_base = -1;
 				}
 			}
@@ -133,7 +133,7 @@ void JlsReformData::updateCutmrg(){
 				dtlogo.org_fall_l - pdata->msecValExact > msec_base ||
 				dtlogo.org_fall_r + pdata->msecValExact < msec_base ||
 				(msec_base - dtlogo.org_fall >= (n1 - dtlogo.org_fall) / 2)){
-				//--- XV ---
+				//--- æ›´æ–° ---
 				dtlogo.fall   = pdata->cnv.getMsecAlignFromMsec( n1 );
 				dtlogo.fall_l = pdata->cnv.getMsecAlignFromMsec( n2 );
 				dtlogo.fall_r = pdata->cnv.getMsecAlignFromMsec( n3 );
@@ -150,7 +150,7 @@ void JlsReformData::updateCutmrg(){
 
 
 //---------------------------------------------------------------------
-// –³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ÌŒó•â‘I•Ê
+// ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã®å€™è£œé¸åˆ¥
 //---------------------------------------------------------------------
 void JlsReformData::adjustScpos(){
 	int num_scpos = pdata->sizeDataScp();
@@ -159,12 +159,12 @@ void JlsReformData::adjustScpos(){
 	vector<int> nd5_nxt(num_scpos, -1);
 	vector<int> nd15_flag(num_scpos, 0);
 
-	// ‚T‚Ì”{”•b‚ÌƒV[ƒ“ƒ`ƒFƒ“ƒWŠÔŠuêŠ‚ğ’Tõ
+	// ï¼•ã®å€æ•°ç§’ã®ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸é–“éš”å ´æ‰€ã‚’æ¢ç´¢
 	for(int i=0; i<num_scpos; i++){
 		int msec_src = pdata->getMsecScp(i);
 		int sec_last = 0;
-		if (i > 0 && i < num_scpos-1){			// æ“ª‚ÆÅŒã‚Íœ‚­
-			for(int j=1; j<num_scpos-1; j++){		// æ“ª‚ÆÅŒã‚Íœ‚­
+		if (i > 0 && i < num_scpos-1){			// å…ˆé ­ã¨æœ€å¾Œã¯é™¤ã
+			for(int j=1; j<num_scpos-1; j++){		// å…ˆé ­ã¨æœ€å¾Œã¯é™¤ã
 				int msec_dst = pdata->getMsecScp(j);
 				CalcDifInfo calc;
 				if (calcDifFunc(calc, msec_src, msec_dst) > 0){
@@ -200,19 +200,19 @@ void JlsReformData::adjustScpos(){
 			pdata->setScpStatpos(i, SCP_PRIOR_NONE);
 		}
 	}
-	// 15‚Ì”{”‚ÌƒV[ƒ“ƒ`ƒFƒ“ƒWŠÔŠu‚ª‚ ‚éêŠ‚ÉŠÖŒW‚ ‚é‚©ƒ`ƒFƒbƒN
+	// 15ã®å€æ•°ã®ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸é–“éš”ãŒã‚ã‚‹å ´æ‰€ã«é–¢ä¿‚ã‚ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
 	for(int i=0; i<num_scpos; i++){
 		if (pdata->getScpStatpos(i) > SCP_PRIOR_NONE){
 			int flag_nd15 = 0;
-			// ŠÖŒW«‚ğƒ`ƒFƒbƒN
+			// é–¢ä¿‚æ€§ã‚’ãƒã‚§ãƒƒã‚¯
 			int j = i;
-			while(j >= 1 && j < num_scpos-1 && flag_nd15 == 0){		// æ“ª‚ÆÅŒã‚Íœ‚­
-				if (nd15_flag[j] > 0){		// 15‚Ì”{”‚¾‚Á‚½ê‡ƒtƒ‰ƒO‚ğ—§‚Ä‚é
+			while(j >= 1 && j < num_scpos-1 && flag_nd15 == 0){		// å…ˆé ­ã¨æœ€å¾Œã¯é™¤ã
+				if (nd15_flag[j] > 0){		// 15ã®å€æ•°ã ã£ãŸå ´åˆãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 					flag_nd15 = 1;
 				}
 				j = nd5_nxt[j];
 			}
-			// ŠÖŒW«‚ª‚ ‚Á‚½ê‡‚ÌƒZƒbƒg
+			// é–¢ä¿‚æ€§ãŒã‚ã£ãŸå ´åˆã®ã‚»ãƒƒãƒˆ
 			if (flag_nd15 > 0){
 				j = i;
 				while(j >= 0 && j < num_scpos){
@@ -223,7 +223,7 @@ void JlsReformData::adjustScpos(){
 		}
 	}
 	for(int i=0; i<num_scpos; i++){
-		if (nd15_flag[i] == 0){			// 15‚Ì”{”‚ÉŠÖ˜A‚È‚¯‚ê‚Î“¯ŠúƒXƒe[ƒ^ƒX‚ğ‰ğœ
+		if (nd15_flag[i] == 0){			// 15ã®å€æ•°ã«é–¢é€£ãªã‘ã‚Œã°åŒæœŸã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è§£é™¤
 			pdata->setScpStatpos(i, SCP_PRIOR_NONE);
 		}
 	}
@@ -231,11 +231,11 @@ void JlsReformData::adjustScpos(){
 //		printf("(%ld:%d,%d,%d)", plogo->frm_scpos_s[i], nd15_flag[i], nd5_sum[i], nd5_bsum[i]);
 //	}
 
-	// ‚Q‚TƒtƒŒ[ƒ€ˆÈ“à‚É‚T‚Ì”{”•bŠÔŠuƒV[ƒ“ƒ`ƒFƒ“ƒW‚ªd‚È‚éê‡A•Ğ•û‚Ì‚İ‚É‚·‚é
+	// ï¼’ï¼•ãƒ•ãƒ¬ãƒ¼ãƒ ä»¥å†…ã«ï¼•ã®å€æ•°ç§’é–“éš”ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒé‡ãªã‚‹å ´åˆã€ç‰‡æ–¹ã®ã¿ã«ã™ã‚‹
 	{
 		int ncmp_i = -1;
 		int ncmp_msec = 0;
-		for(int i=1; i<num_scpos-1; i++){		// æ“ª‚ÆÅŒã‚Íœ‚­
+		for(int i=1; i<num_scpos-1; i++){		// å…ˆé ­ã¨æœ€å¾Œã¯é™¤ã
 			int msec_src = pdata->getMsecScp(i);
 			if (msec_src - ncmp_msec >= 870 && ncmp_i >= 0){
 				ncmp_i = -1;
@@ -248,7 +248,7 @@ void JlsReformData::adjustScpos(){
 				else{
 					int count_src = 0;
 					int count_cmp = 0;
-					for(int j=1; j<num_scpos-1; j++){		// æ“ª‚ÆÅŒãˆÈŠO‚Å”äŠr
+					for(int j=1; j<num_scpos-1; j++){		// å…ˆé ­ã¨æœ€å¾Œä»¥å¤–ã§æ¯”è¼ƒ
 						if (pdata->getScpStatpos(j) > SCP_PRIOR_NONE){
 							int msec_dst = pdata->getMsecScp(j);
 							CalcDifInfo calc1;
@@ -284,11 +284,11 @@ void JlsReformData::adjustScpos(){
 					}
 //printf("(0:%d-%d,%d,%d)", frm_src,ncmp_frm,count_src,count_cmp);
 					if (count_src <= 1 && count_cmp <= 1){
-						// ŠÖ˜AƒtƒŒ[ƒ€‚ª‰½‚à‚È‚¢ê‡‚Íc‚·
+						// é–¢é€£ãƒ•ãƒ¬ãƒ¼ãƒ ãŒä½•ã‚‚ãªã„å ´åˆã¯æ®‹ã™
 					}
 					else if (count_src > count_cmp){
 //printf("(1:%d,%d,%d)", ncmp_i,count_src,count_cmp);
-						for(int j=0; j<ncmp_i; j++){		// ·‚µ‘Ö‚¦Œ³QÆ‚ğ“ü‚ê‘Ö‚¦‚é
+						for(int j=0; j<ncmp_i; j++){		// å·®ã—æ›¿ãˆå…ƒå‚ç…§ã‚’å…¥ã‚Œæ›¿ãˆã‚‹
 							if (nd5_nxt[j] == ncmp_i){
 								nd5_nxt[j] = i;
 							}
@@ -300,7 +300,7 @@ void JlsReformData::adjustScpos(){
 					else{
 //printf("(2:%d,%d,%d)", i,count_src,count_cmp);
 						for(int j=0; j<i; j++){
-							if (nd5_nxt[j] == i){	// ·‚µ‘Ö‚¦Œ³QÆ‚ğ“ü‚ê‘Ö‚¦‚é
+							if (nd5_nxt[j] == i){	// å·®ã—æ›¿ãˆå…ƒå‚ç…§ã‚’å…¥ã‚Œæ›¿ãˆã‚‹
 								nd5_nxt[j] = ncmp_i;
 							}
 						}
@@ -311,23 +311,23 @@ void JlsReformData::adjustScpos(){
 		}
 	}
 
-	// æ“ª‚©‚ç‡”Ô‚ÉƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ğ‚½‚Ç‚Á‚Ä‚¢‚­
+	// å…ˆé ­ã‹ã‚‰é †ç•ªã«ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‚’ãŸã©ã£ã¦ã„ã
 	{
 		int nst = 0;
 //	plogo->stat_scpos[nst] = 2;
 		while( nst<num_scpos-1 ){
-			// ”ñ“¯ŠúI—¹’n“_‚ğŒŸõ
+			// éåŒæœŸçµ‚äº†åœ°ç‚¹ã‚’æ¤œç´¢
 			int ned = nst+1;
 			while((pdata->getScpStatpos(ned) <= SCP_PRIOR_NONE || nd5_sum[ned] == 0) && ned < num_scpos-1){
 				ned ++;
 			}
-			// ­‚µæ‚É³‚µ‚¢”ñ“¯ŠúI—¹’n“_‚ª‚È‚¢‚©ŒŸõ
+			// å°‘ã—å…ˆã«æ­£ã—ã„éåŒæœŸçµ‚äº†åœ°ç‚¹ãŒãªã„ã‹æ¤œç´¢
 			if (ned < num_scpos-1){
 				int nc_nxt = nd5_nxt[ned];
 				int i = ned + 1;
 				while(i < nc_nxt){
 					if (pdata->getScpStatpos(i) >= SCP_PRIOR_NONE && nd5_sum[i] > 0){
-						if (nd5_sum[i] > nd5_sum[ned]){		// 5‚Ì”{”ŠÔŠu‚ª‘½‚¯‚ê‚Î”ñ“¯ŠúI—¹’n“_‚ğ•ÏX
+						if (nd5_sum[i] > nd5_sum[ned]){		// 5ã®å€æ•°é–“éš”ãŒå¤šã‘ã‚Œã°éåŒæœŸçµ‚äº†åœ°ç‚¹ã‚’å¤‰æ›´
 							ned = i;
 							nc_nxt = nd5_nxt[ned];
 						}
@@ -336,8 +336,8 @@ void JlsReformData::adjustScpos(){
 				}
 			}
 
-			// ”ñ“¯Šú‚Q’n“_ŠÔ‚ÌƒV[ƒ“ƒ`ƒFƒ“ƒW‚ª‚È‚¢‚©ŒŸõ
-			// ŠÔŠu‚ª5‚Ì”{”‚Å‚Í‚È‚­‚Ä‚à”ñ“¯Šú—¼’[‚©‚ç3`10•b‚ÌƒV[ƒ“ƒ`ƒFƒ“ƒW‚Í“ü‚ê‚é
+			// éåŒæœŸï¼’åœ°ç‚¹é–“ã®ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒãªã„ã‹æ¤œç´¢
+			// é–“éš”ãŒ5ã®å€æ•°ã§ã¯ãªãã¦ã‚‚éåŒæœŸä¸¡ç«¯ã‹ã‚‰3ï½10ç§’ã®ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã¯å…¥ã‚Œã‚‹
 			int msec_st = pdata->getMsecScp(nst);
 			int msec_ed = pdata->getMsecScp(ned);
 			pdata->setScpStatpos(ned, SCP_PRIOR_DECIDE);
@@ -345,15 +345,15 @@ void JlsReformData::adjustScpos(){
 			int ncmp_msec = 0;
 			for(int i=nst+1; i<ned; i++){
 				int msec_dst = pdata->getMsecScp(i);
-				// ‚P‚Â‘O‚ÌŒó•â’n“_‚©‚ç—£‚ê‚½‚ç‚P‚Â‘O‚ÌŒó•â‚ÍŠm’è‚·‚é
+				// ï¼‘ã¤å‰ã®å€™è£œåœ°ç‚¹ã‹ã‚‰é›¢ã‚ŒãŸã‚‰ï¼‘ã¤å‰ã®å€™è£œã¯ç¢ºå®šã™ã‚‹
 				if (msec_dst - ncmp_msec >= 940 && ncmp_i >= 0){
 					ncmp_i = -1;
 				}
-				// ”ñ“¯Šú‚Q’n“_‚Ì‚Ç‚¿‚ç‚©‚ç‚à‚R•bˆÈã—£‚ê‚Ä‚¢‚é‚±‚Æ‚ª‘O’ñ
+				// éåŒæœŸï¼’åœ°ç‚¹ã®ã©ã¡ã‚‰ã‹ã‚‰ã‚‚ï¼“ç§’ä»¥ä¸Šé›¢ã‚Œã¦ã„ã‚‹ã“ã¨ãŒå‰æ
 				if (msec_dst - msec_st >= 2670 && msec_ed - msec_dst >= 2670){
 					int dis_ncmp = 0;
 					int dis_dst = 1;
-					// ‘O•û‚©‚ç‚ÌŠÔŠuƒ`ƒFƒbƒNiƒtƒŒ[ƒ€‚O‚Íœ‚­j
+					// å‰æ–¹ã‹ã‚‰ã®é–“éš”ãƒã‚§ãƒƒã‚¯ï¼ˆãƒ•ãƒ¬ãƒ¼ãƒ ï¼ã¯é™¤ãï¼‰
 					CalcDifInfo calc1;
 					CalcDifInfo calc2;
 					if (calcDifFunc(calc1, msec_st, msec_dst) > 0 && nst > 0){
@@ -371,7 +371,7 @@ void JlsReformData::adjustScpos(){
 							}
 						}
 					}
-					// Œã•û‚©‚ç‚ÌŠÔŠuƒ`ƒFƒbƒN
+					// å¾Œæ–¹ã‹ã‚‰ã®é–“éš”ãƒã‚§ãƒƒã‚¯
 					if (calcDifFunc(calc1, msec_dst, msec_ed) > 0){
 						if (calc1.sec < 10){
 							dis_dst = 0;
@@ -387,43 +387,43 @@ void JlsReformData::adjustScpos(){
 							}
 						}
 					}
-					if (dis_ncmp > 0){			// ‚P‚Â‘O‚ÌŒó•â‚ª–³Œø‚Æ”»’è‚³‚ê‚½ê‡
+					if (dis_ncmp > 0){			// ï¼‘ã¤å‰ã®å€™è£œãŒç„¡åŠ¹ã¨åˆ¤å®šã•ã‚ŒãŸå ´åˆ
 						pdata->setScpStatpos(ncmp_i, SCP_PRIOR_DUPE);
 						ncmp_i = -1;
 					}
-					if (dis_dst == 0){			// Œ»İ‚ÌŒó•â‚ª–³Œø‚Å‚Í‚È‚¢‚Æ”»’è‚³‚ê‚½ê‡
+					if (dis_dst == 0){			// ç¾åœ¨ã®å€™è£œãŒç„¡åŠ¹ã§ã¯ãªã„ã¨åˆ¤å®šã•ã‚ŒãŸå ´åˆ
 						pdata->setScpStatpos(i, SCP_PRIOR_DECIDE);
 						ncmp_i = i;
 						ncmp_msec = msec_dst;
 					}
 				}
 			}
-			// “¯Šú‚µ‚Ä‚¢‚éƒV[ƒ“ƒ`ƒFƒ“ƒW‚ÌÅIˆÊ’u‚ğæ“¾
+			// åŒæœŸã—ã¦ã„ã‚‹ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã®æœ€çµ‚ä½ç½®ã‚’å–å¾—
 			int nc_st = ned;
 			int nc_nxt = nd5_nxt[nc_st];
 			int i = nc_st + 1;
 			while(nc_nxt > 0 && i <= nc_nxt && i <= num_scpos-1){
-				if (i == nc_nxt){				// “¯ŠúƒtƒŒ[ƒ€“’…
+				if (i == nc_nxt){				// åŒæœŸãƒ•ãƒ¬ãƒ¼ãƒ åˆ°ç€æ™‚
 					nc_st = i;
 					nc_nxt = nd5_nxt[nc_st];
 					pdata->setScpStatpos(nc_st, SCP_PRIOR_DECIDE);
 				}
-				else if (i == num_scpos-1){		// ÅIƒtƒŒ[ƒ€
+				else if (i == num_scpos-1){		// æœ€çµ‚ãƒ•ãƒ¬ãƒ¼ãƒ æ™‚
 					nc_st = i;
 					nc_nxt = 0;
 				}
 				else{
-					if (nd5_sum[i] > nd5_sum[nc_st] && pdata->getScpStatpos(i) >= SCP_PRIOR_NONE){	// “¯ŠúƒtƒŒ[ƒ€“’…‘O‚ÉŒó•â‚ª‚ ‚Á‚½ê‡
+					if (nd5_sum[i] > nd5_sum[nc_st] && pdata->getScpStatpos(i) >= SCP_PRIOR_NONE){	// åŒæœŸãƒ•ãƒ¬ãƒ¼ãƒ åˆ°ç€å‰ã«å€™è£œãŒã‚ã£ãŸå ´åˆ
 						int ntmp_nxt = nd5_nxt[i];
-						int msec_tmp_st = pdata->getMsecScp(i);				// V‹KŒó•âˆÊ’u
+						int msec_tmp_st = pdata->getMsecScp(i);				// æ–°è¦å€™è£œä½ç½®
 						int msec_tmp_ed = pdata->getMsecScp(ntmp_nxt);
-						int msec_tmp_st2 = pdata->getMsecScp(nc_st);		// Œ³‚ÌˆÊ’u
+						int msec_tmp_st2 = pdata->getMsecScp(nc_st);		// å…ƒã®ä½ç½®
 						int msec_tmp_ed2 = pdata->getMsecScp(nc_nxt);
 						CalcDifInfo calc1;
 						CalcDifInfo calc2;
 						int flag1 = calcDifFunc(calc1, msec_tmp_st, msec_tmp_ed);
 						int flag2 = calcDifFunc(calc2, msec_tmp_st2, msec_tmp_ed2);
-						if (flag1 > 0 && calc1.gap <= pdata->msecValNear1){	// Œë·‚ª¬‚³‚©‚Á‚½ê‡‚Ì‚İ”ñ“¯Šú’n“_‚Æ‚·‚é
+						if (flag1 > 0 && calc1.gap <= pdata->msecValNear1){	// èª¤å·®ãŒå°ã•ã‹ã£ãŸå ´åˆã®ã¿éåŒæœŸåœ°ç‚¹ã¨ã™ã‚‹
 							if (flag2 == 0 ||
 								(calc2.sec % 15 != 0 && (calc1.sec <= 30 || calc1.sec <= calc2.sec)) || 
 								(msec_tmp_ed <= msec_tmp_ed2 + 10*1000)){
@@ -438,20 +438,20 @@ void JlsReformData::adjustScpos(){
 		}
 	}
 
-	// ŠJn’¼Œã‚ÌƒV[ƒ“ƒ`ƒFƒ“ƒW‚Ìƒ`ƒFƒbƒN
+	// é–‹å§‹ç›´å¾Œã®ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã®ãƒã‚§ãƒƒã‚¯
 	{
 //		int ncmp_i = -1;
 		ScpPriorType ncmp_stat = SCP_PRIOR_DUPE;
 		int i = 1;
-		while(pdata->getMsecScp(i) <= 30400 && i < num_scpos){		// 30•bˆÈ“à‚ğƒ`ƒFƒbƒN
+		while(pdata->getMsecScp(i) <= 30400 && i < num_scpos){		// 30ç§’ä»¥å†…ã‚’ãƒã‚§ãƒƒã‚¯
 			ScpPriorType ntmp_stat = pdata->getScpStatpos(i);
-			if (ntmp_stat == SCP_PRIOR_DECIDE && ncmp_stat <= SCP_PRIOR_LV1){	// Å‰‚ÌŠm’èŒó•â
+			if (ntmp_stat == SCP_PRIOR_DECIDE && ncmp_stat <= SCP_PRIOR_LV1){	// æœ€åˆã®ç¢ºå®šå€™è£œ
 				ntmp_stat = SCP_PRIOR_LV1;
-				if (nd15_flag[i] > 0){		// 15‚Ì”{”‚ªŒã‚Å‘¶İ‚·‚éê‡‚Ì‚İ
+				if (nd15_flag[i] > 0){		// 15ã®å€æ•°ãŒå¾Œã§å­˜åœ¨ã™ã‚‹å ´åˆã®ã¿
 					int flag1 = 0;
 					int flag2 = 0;
-					int j = 0;					// ”O‚Ì‚½‚ßƒ‹[ƒv–h~
-					// ‚P‰ñ–Ú‚ÌŠÔŠuæ“¾
+					int j = 0;					// å¿µã®ãŸã‚ãƒ«ãƒ¼ãƒ—é˜²æ­¢
+					// ï¼‘å›ç›®ã®é–“éš”å–å¾—
 					int nc_st  = i;
 					int nc_nxt = nc_st;
 					CalcDifInfo calc1;
@@ -465,7 +465,7 @@ void JlsReformData::adjustScpos(){
 							flag1 = calcDifExact(calc1, msec_src, msec_dst);
 						}
 					}
-					// ‚Q‰ñ–Ú‚ÌŠÔŠuæ“¾
+					// ï¼’å›ç›®ã®é–“éš”å–å¾—
 					nc_st  = nc_nxt;
 					while(nc_nxt > 0 && flag2 <= 0 && j < 100){
 						nc_nxt = nd5_nxt[nc_nxt];
@@ -482,19 +482,19 @@ void JlsReformData::adjustScpos(){
 				}
 				pdata->setScpStatpos(i, ntmp_stat);
 			}
-			if (ntmp_stat > SCP_PRIOR_LV1){							// “¯Šú‚ªŠù‚É‚ ‚éê‡‚Í‰½‚à‚µ‚È‚¢
+			if (ntmp_stat > SCP_PRIOR_LV1){							// åŒæœŸãŒæ—¢ã«ã‚ã‚‹å ´åˆã¯ä½•ã‚‚ã—ãªã„
 //				ncmp_i = -1;
 				ncmp_stat = ntmp_stat;
 			}
-			else if (pdata->getMsecScp(i) <= 30400){		// ŠJn30•bˆÈ“à‚ªŒó•â
-				if (ntmp_stat > ncmp_stat){				// Å‰‚Ì“¯Šú‚È‚µƒV[ƒ“ƒ`ƒFƒ“ƒW‚ªŒó•â
+			else if (pdata->getMsecScp(i) <= 30400){		// é–‹å§‹30ç§’ä»¥å†…ãŒå€™è£œ
+				if (ntmp_stat > ncmp_stat){				// æœ€åˆã®åŒæœŸãªã—ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒå€™è£œ
 					ncmp_stat = ntmp_stat;
 //					ncmp_i = i;
 				}
 			}
 			i ++;
 		}
-//		if (ncmp_i > 0){				// Å‰‚Ì“¯Šú‚È‚µƒV[ƒ“ƒ`ƒFƒ“ƒW‚ª‚ ‚Á‚½ê‡
+//		if (ncmp_i > 0){				// æœ€åˆã®åŒæœŸãªã—ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒã‚ã£ãŸå ´åˆ
 //			pdata->m_nchk_scpos_1st = ncmp_i;
 //		}
 //		else{
@@ -506,14 +506,14 @@ void JlsReformData::adjustScpos(){
 //		printf("(%ld:%d, %d,%d,%d)", plogo->frm_scpos_s[i], plogo->stat_scpos[i], nd15_flag[i], nd5_sum[i], nd5_bsum[i]);
 //	}
 
-	// ’P‚È‚éŒó•â‚Í‰Šúó‘Ô‚É–ß‚·
-	for(int i=1; i<num_scpos-1; i++){		// æ“ª‚ÆÅŒã‚Íœ‚­
+	// å˜ãªã‚‹å€™è£œã¯åˆæœŸçŠ¶æ…‹ã«æˆ»ã™
+	for(int i=1; i<num_scpos-1; i++){		// å…ˆé ­ã¨æœ€å¾Œã¯é™¤ã
 		if (pdata->getScpStatpos(i) == SCP_PRIOR_LV1){
 			pdata->setScpStatpos(i, SCP_PRIOR_NONE);
 		}
 	}
 
-//	// ”z’uî•ñ‰Šú‰»
+//	// é…ç½®æƒ…å ±åˆæœŸåŒ–
 //	for(i=0; i<plogo->num_scpos; i++){
 //		plogo->arstat_sc_e[i] = D_SCINT_UNKNOWN;
 //	}
@@ -521,13 +521,13 @@ void JlsReformData::adjustScpos(){
 
 
 //---------------------------------------------------------------------
-// CutMrgIn/CutMrgOutˆÊ’u‚Ì©“®ŒŸo
+// CutMrgIn/CutMrgOutä½ç½®ã®è‡ªå‹•æ¤œå‡º
 //---------------------------------------------------------------------
 void JlsReformData::detectCutmrg(){
-	//--- ©“®ŒŸoŒ‹‰Ê ---
+	//--- è‡ªå‹•æ¤œå‡ºçµæœ ---
 	Msec cutin  = detectCutmrgSub(1);
 	Msec cutout = detectCutmrgSub(0);
-	//--- –¢İ’è‚¾‚Á‚½ê‡‚ÍXV ---
+	//--- æœªè¨­å®šã ã£ãŸå ´åˆã¯æ›´æ–° ---
 	if (pdata->extOpt.fixCutIn == 0){
 		pdata->extOpt.msecCutIn = cutin;
 	}
@@ -539,31 +539,31 @@ void JlsReformData::detectCutmrg(){
 	{
 		string str_cutin;
 		string str_cutout;
-		// ŒŸoƒ}[ƒWƒ“
+		// æ¤œå‡ºãƒãƒ¼ã‚¸ãƒ³
 		detectCutmrgDispval(str_cutin,  cutin );
 		detectCutmrgDispval(str_cutout, cutout);
 		string mes1 = "auto detect CutMrgIn=" + str_cutin + " CutMrgOut=" + str_cutout;
 
-		// İ’èƒ}[ƒWƒ“
+		// è¨­å®šãƒãƒ¼ã‚¸ãƒ³
 		detectCutmrgDispval(str_cutin,  pdata->extOpt.msecCutIn );
 		detectCutmrgDispval(str_cutout, pdata->extOpt.msecCutOut);
 		string mes2 = "current set CutMrgIn=" + str_cutin + " CutMrgOut=" + str_cutout;
 
-		// •\¦
+		// è¡¨ç¤º
 		pdata->dispSysMesN(mes1, JlsDataset::SysMesType::CutMrg);
 		pdata->dispSysMesN(mes2, JlsDataset::SysMesType::CutMrg);
 	}
 }
 
-//--- •\¦—p‚Ìƒ}[ƒWƒ“’l‚ğæ“¾ ---
+//--- è¡¨ç¤ºç”¨ã®ãƒãƒ¼ã‚¸ãƒ³å€¤ã‚’å–å¾— ---
 void JlsReformData::detectCutmrgDispval(string &strdisp, Msec mrg){
-	//--- 16”{‚µ‚½’l‚Ìƒx[ƒX’l‚ğæ“¾ ---
+	//--- 16å€ã—ãŸå€¤ã®ãƒ™ãƒ¼ã‚¹å€¤ã‚’å–å¾— ---
 	int mrg_abs = abs(mrg);
 	int valbase = getFrm30fpsFromMsec(mrg_abs * 16 + 8);
-	//--- Œ‹‰Ê ---
+	//--- çµæœ ---
 	int valint = valbase / 16;
 	int valmod = valbase % 16;
-	//--- •\¦•¶š—ñì¬ ---
+	//--- è¡¨ç¤ºæ–‡å­—åˆ—ä½œæˆ ---
 	strdisp = "";
 	if (mrg < 0 && (valint != 0 || valmod != 0)){
 		strdisp += "-";
@@ -582,11 +582,11 @@ void JlsReformData::detectCutmrgDispval(string &strdisp, Msec mrg){
 }
 
 //---------------------------------------------------------------------
-// CutMrgIn/CutMrgOutˆÊ’u‚Ì©“®ŒŸo
-// “ü—Í
+// CutMrgIn/CutMrgOutä½ç½®ã®è‡ªå‹•æ¤œå‡º
+// å…¥åŠ›
 //   rise : 0=CutMrgOut  1=CutMrgIn
-// o—Í
-// •Ô‚è’lF ƒ~ƒŠ•b
+// å‡ºåŠ›
+// è¿”ã‚Šå€¤ï¼š ãƒŸãƒªç§’
 //---------------------------------------------------------------------
 Msec JlsReformData::detectCutmrgSub(int rise){
 	int num_logo  = pdata->sizeDataLogo();
@@ -600,7 +600,7 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 
 	int loop = 2;
 	while(loop > 0){
-		// g—p‚·‚éŠm’è“x
+		// ä½¿ç”¨ã™ã‚‹ç¢ºå®šåº¦
 		ScpPriorType stat_level = SCP_PRIOR_NONE;
 		if (loop == 2){
 			stat_level = SCP_PRIOR_DECIDE;
@@ -637,7 +637,7 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 					Msec msec_tmp = pdata->cnv.getMsecAdjustFrmFromMsec(msec_logo, fade);
 					msec_fade = abs(msec_tmp - msec_logo);
 				}
-				// ƒƒS‚Ì•sŠm’è“x‚Åd‚İ‚Ã‚¯
+				// ãƒ­ã‚´ã®ä¸ç¢ºå®šåº¦ã§é‡ã¿ã¥ã‘
 				scale = 1;
 				if (msec_logo <= 50 || msec_logo >= pdata->getMsecTotalMax() - 50){
 					scale = 0;
@@ -646,7 +646,7 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 					scale = 3;
 				}
 				sum_scale += scale;
-				// ƒtƒF[ƒhİ’è‚ ‚è‚Ì”»•Ê
+				// ãƒ•ã‚§ãƒ¼ãƒ‰è¨­å®šã‚ã‚Šã®åˆ¤åˆ¥
 				if (fade != 0){
 					fade_cnt += scale;
 				}
@@ -654,7 +654,7 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 					fade_cnt -= scale;
 				}
 			}
-			// Šm’è–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ğƒ}[ƒWƒ“ˆÊ’uŒó•â‚Æ‚µ‚Ä’Ç‰Á‚µ‚Ä‚¢‚­
+			// ç¢ºå®šç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã‚’ãƒãƒ¼ã‚¸ãƒ³ä½ç½®å€™è£œã¨ã—ã¦è¿½åŠ ã—ã¦ã„ã
 			if (scale > 0){
 				for(int j=1; j < num_scpos - 1; j++){
 					Msec msec_dif;
@@ -665,7 +665,7 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 					else{
 						msec_dif = msec_scpj - msec_logo;
 					}
-					int tmp_dif = getFrm30fpsFromMsec( msec_dif );		// 30fpsŠ·Z‚Å„‘ª
+					int tmp_dif = getFrm30fpsFromMsec( msec_dif );		// 30fpsæ›ç®—ã§æ¨æ¸¬
 					tmp_dif += MINUS;
 //printf("[%d:%d,%d]", j, tmp_dif, frm_logo);
 					if (pdata->getScpStatpos(j) >= stat_level){
@@ -681,7 +681,7 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 			}
 		}
 
-		// Œó•â‚©‚çˆÊ’u‚ğŒˆ‚ß‚é
+		// å€™è£œã‹ã‚‰ä½ç½®ã‚’æ±ºã‚ã‚‹
 		loc_max = 0;
 		int val_max = 0;
 		for(int i=2; i<200-2; i++){
@@ -692,13 +692,13 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 			else{
 				val = hist[i-1] + hist[i] + hist[i+1];
 			}
-			if (i >= MINUS-2 && i <= 36+MINUS){	// •W€“I‚Èƒ}[ƒWƒ“”ÍˆÍ
-				val *= 2;						// ‘å‚«–Ú‚Éİ’è
+			if (i >= MINUS-2 && i <= 36+MINUS){	// æ¨™æº–çš„ãªãƒãƒ¼ã‚¸ãƒ³ç¯„å›²
+				val *= 2;						// å¤§ãç›®ã«è¨­å®š
 			}
-			else if (val == sum_scale){			// ‘SˆÊ’u‚ÅŒŸo‚µ‚½ê‡
-				val = val * 5 / 3;				// ­‚µ‘å‚«–Ú‚Éİ’è
+			else if (val == sum_scale){			// å…¨ä½ç½®ã§æ¤œå‡ºã—ãŸå ´åˆ
+				val = val * 5 / 3;				// å°‘ã—å¤§ãç›®ã«è¨­å®š
 			}
-			else if (i >= 60+MINUS){			// 2•bˆÈã‚Í‚Ù‚Ú‘ÎÛŠO
+			else if (i >= 60+MINUS){			// 2ç§’ä»¥ä¸Šã¯ã»ã¼å¯¾è±¡å¤–
 				val /= 4;
 			}
 			if (val_max < val){
@@ -712,11 +712,11 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 				}
 			}
 		}
-		// Œó•â‚ª‘¶İ‚·‚é‚©Šm”F
-		if (num_logo == 1 && val_max > 0){		// ƒƒS‚P‚Â‚¾‚¯‚Ìê‡
+		// å€™è£œãŒå­˜åœ¨ã™ã‚‹ã‹ç¢ºèª
+		if (num_logo == 1 && val_max > 0){		// ãƒ­ã‚´ï¼‘ã¤ã ã‘ã®å ´åˆ
 			loop = 0;
 		}
-		if (val_max <= 1 || val_max <= num_logo * 2/3){	// Œó•â•s‘«
+		if (val_max <= 1 || val_max <= num_logo * 2/3){	// å€™è£œä¸è¶³
 			loop --;
 			loc_max = 0;
 		}
@@ -725,11 +725,11 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 		}
 	}
 
-	// Œó•â‚Ì’†‚©‚çŠm’è‚³‚¹‚é
+	// å€™è£œã®ä¸­ã‹ã‚‰ç¢ºå®šã•ã›ã‚‹
 	int loc_det = MINUS;
 	int loc_half = 0;
 	if (loc_max >= 2){
-		if (fade_cnt <= 0){				// ƒtƒF[ƒh‚È‚µ
+		if (fade_cnt <= 0){				// ãƒ•ã‚§ãƒ¼ãƒ‰ãªã—
 			loc_det = loc_max-1;
 			int val_max = 0;
 			short tmp_hist1[3];
@@ -746,22 +746,22 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 //printf("(%d,%d:%d,%d,%d - %d,%d,%d)", loc_det,loc_max,
 // tmp_hist1[0],tmp_hist1[1],tmp_hist1[2],tmp_hist2[0],tmp_hist2[1],tmp_hist2[2]);
 			if (loc_det == loc_max-1){
-				if (tmp_hist2[0] < 3){		// HALFƒf[ƒ^‚È‚µ
+				if (tmp_hist2[0] < 3){		// HALFãƒ‡ãƒ¼ã‚¿ãªã—
 					loc_half = 0;
 					if (loc_det <= MINUS){
 						loc_half = 1;
 					}
 				}
-				else if ((tmp_hist1[1] + tmp_hist1[2])*5 <= tmp_hist1[0]){ // ‘S•”Å¬
+				else if ((tmp_hist1[1] + tmp_hist1[2])*5 <= tmp_hist1[0]){ // å…¨éƒ¨æœ€å°
 					loc_half = 1;
 				}
-				else{				// ALL:’†ŠÔ HALF:Å¬
+				else{				// ALL:ä¸­é–“ HALF:æœ€å°
 					loc_det += 1;
 					loc_half = 0;
 				}
 			}
 			else if (loc_det == loc_max + 1){
-				if (tmp_hist2[0] < 3 && tmp_hist2[1] < 3 && tmp_hist2[2] < 3){	// HALFƒf[ƒ^‚È‚µ
+				if (tmp_hist2[0] < 3 && tmp_hist2[1] < 3 && tmp_hist2[2] < 3){	// HALFãƒ‡ãƒ¼ã‚¿ãªã—
 					loc_half = 0;
 					if (tmp_hist1[1] >= 3 && tmp_hist1[1] > tmp_hist1[0] * 2){
 						loc_det -= 1;
@@ -771,18 +771,18 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 					}
 				}
 				else if (tmp_hist2[0] >= 3 && tmp_hist2[0] > tmp_hist2[2] * 2){
-					loc_det -= 1;		// ALL:’†ŠÔ HALF:Å¬
+					loc_det -= 1;		// ALL:ä¸­é–“ HALF:æœ€å°
 					loc_half = 0;
 				}
 				else if (tmp_hist2[1] >= 3 && tmp_hist2[1] > tmp_hist2[0] * 2){
-					loc_half = 0;		// ALL:Å‘å HALF:’†ŠÔ
+					loc_half = 0;		// ALL:æœ€å¤§ HALF:ä¸­é–“
 				}
 				else{
-					loc_half = 1;		// ‘S•”’†ŠÔ
+					loc_half = 1;		// å…¨éƒ¨ä¸­é–“
 				}
 			}
 			else{
-				if (tmp_hist2[0] < 3 && tmp_hist2[1] < 3){	// HALFƒf[ƒ^‚È‚µ
+				if (tmp_hist2[0] < 3 && tmp_hist2[1] < 3){	// HALFãƒ‡ãƒ¼ã‚¿ãªã—
 					loc_half = 0;
 					if (tmp_hist1[0] >= 3 && tmp_hist1[0] > tmp_hist1[2] * 2){
 						loc_det -= 1;
@@ -792,18 +792,18 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 					}
 				}
 				else if (tmp_hist2[0] >= 3 && tmp_hist2[0] > tmp_hist2[2] * 2){
-					loc_half = 0;		// ALL:’†ŠÔ HALF:Å¬
+					loc_half = 0;		// ALL:ä¸­é–“ HALF:æœ€å°
 				}
 				else if (tmp_hist1[2] >= 3 && tmp_hist1[2] > tmp_hist1[0] * 2){
-					loc_det += 1;		// ALL:Å‘å HALF:’†ŠÔ
+					loc_det += 1;		// ALL:æœ€å¤§ HALF:ä¸­é–“
 					loc_half = 0;
 				}
 				else{
-					loc_half = 1;		// ‘S•”’†ŠÔ
+					loc_half = 1;		// å…¨éƒ¨ä¸­é–“
 				}
 			}
 		}
-		else{					// ƒtƒF[ƒh
+		else{					// ãƒ•ã‚§ãƒ¼ãƒ‰æ™‚
 			loc_det = loc_max-2;
 			int val_max  = hist[loc_max-2];
 			if (loc_det == 0){
@@ -825,7 +825,7 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 			}
 		}
 	}
-	//--- Œ‹‰Ê‚ğƒ~ƒŠ•bŠ·Z‚Å•Ô‚· ---
+	//--- çµæœã‚’ãƒŸãƒªç§’æ›ç®—ã§è¿”ã™ ---
 	Msec msec_mrg = getMsec30fpsFromFrm(loc_det - MINUS);
 	if (loc_half != 0){
 		msec_mrg += getMsec30fpsFromFrm(loc_half) / 2;
@@ -837,11 +837,11 @@ Msec JlsReformData::detectCutmrgSub(int rise){
 
 
 //---------------------------------------------------------------------
-// ƒƒSˆÊ’u‚ğ–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚©‚ç•â³
-// ê‡‚É‚æ‚Á‚Ä‚ÍƒƒSˆÊ’u‚©‚ç–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ğC³
+// ãƒ­ã‚´ä½ç½®ã‚’ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‹ã‚‰è£œæ­£
+// å ´åˆã«ã‚ˆã£ã¦ã¯ãƒ­ã‚´ä½ç½®ã‹ã‚‰ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‚’ä¿®æ­£
 //---------------------------------------------------------------------
 void JlsReformData::adjustLogo(){
-	// ƒƒSƒf[ƒ^w’è‚ª‚È‚¢ê‡A‘S‘Ì‚ğƒƒSƒf[ƒ^‚Æ‚·‚é
+	// ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿æŒ‡å®šãŒãªã„å ´åˆã€å…¨ä½“ã‚’ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ã¨ã™ã‚‹
 	if (pdata->sizeDataLogo() == 0 || pdata->extOpt.flagNoLogo > 0){
 		pdata->clearDataLogoAll();
 		DataLogoRecord dtlogo;
@@ -850,11 +850,11 @@ void JlsReformData::adjustLogo(){
 		dtlogo.fall_l = dtlogo.fall;
 		dtlogo.fall_r = dtlogo.fall;
 		pdata->pushRecordLogo(dtlogo);
-		// ƒƒS“Ç‚İ‚İ‚È‚µ‚É•ÏX
+		// ãƒ­ã‚´èª­ã¿è¾¼ã¿ãªã—ã«å¤‰æ›´
 		pdata->extOpt.flagNoLogo = 1;
 	}
 
-	// ‹Œ’²®‚ğs‚í‚È‚¢ê‡
+	// æ—§èª¿æ•´ã‚’è¡Œã‚ãªã„å ´åˆ
 	if (pdata->extOpt.oldAdjust == 0){
 		return;
 	}
@@ -872,13 +872,13 @@ void JlsReformData::adjustLogo(){
 			msec_lg_c = dtlogo.rise;
 			msec_lg_l = dtlogo.rise_l;
 			msec_lg_r = dtlogo.rise_r;
-			dtlogo.stat_rise = LOGO_PRIOR_NONE;			 	// ‰Šú‰»
+			dtlogo.stat_rise = LOGO_PRIOR_NONE;			 	// åˆæœŸåŒ–
 		}
 		else{
 			msec_lg_c = dtlogo.fall;
 			msec_lg_l = dtlogo.fall_l;
 			msec_lg_r = dtlogo.fall_r;
-			dtlogo.stat_fall = LOGO_PRIOR_NONE;			 	// ‰Šú‰»
+			dtlogo.stat_fall = LOGO_PRIOR_NONE;			 	// åˆæœŸåŒ–
 		}
 		msec_lg_l -= pdata->msecValNear1;
 		msec_lg_r += pdata->msecValNear1;
@@ -899,7 +899,7 @@ void JlsReformData::adjustLogo(){
 		int lgn_dif   = -1;
 		int lgn2_num  = -1;
 		int lgn2_dif  = -1;
-		// ƒƒSˆÊ’u‚É‹ß‚¢–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ğŒŸõ
+		// ãƒ­ã‚´ä½ç½®ã«è¿‘ã„ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã‚’æ¤œç´¢
 		int num_scp = pdata->sizeDataScp();
 		for(int j=1; j<num_scp-1; j++){
 			DataScpRecord dtscp;
@@ -918,7 +918,7 @@ void JlsReformData::adjustLogo(){
 			int msec_dif          = abs(msec_sc - msec_lg_c);
 
 //		printf("(%d %d)", stat_sc, frm_sc);
-			// ƒƒS‹æŠÔ“à‚É‚ ‚é–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWŒŸo
+			// ãƒ­ã‚´åŒºé–“å†…ã«ã‚ã‚‹ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸æ¤œå‡º
 			if (msec_sc >= msec_lg_l && msec_sc <= msec_lg_r){
 				if ((stat_sc >= lgr_stat && (msec_dif < lgr_dif || lgr_dif < 0)) ||
 					stat_sc > lgr_stat){
@@ -928,27 +928,27 @@ void JlsReformData::adjustLogo(){
 					lgr_msec = msec_sc;
 				}
 			}
-			// ŒëŒŸo’²¸—p‚ÌƒƒS‹æŠÔ•t‹ß–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWŒŸo
+			// èª¤æ¤œå‡ºèª¿æŸ»ç”¨ã®ãƒ­ã‚´åŒºé–“ä»˜è¿‘ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸æ¤œå‡º
 			if (msec_sc >= msec_lgn_l && msec_sc <= msec_lgn_r){
 				if ((msec_dif < lgn_dif || lgn_dif < 0) && stat_sc <= LOGO_PRIOR_LV1){
 					lgn_num = j;
 					lgn_dif = msec_dif;
 				}
 			}
-			// ŒëŒŸo’²¸2—p‚ÌƒƒS‹æŠÔ•t‹ß–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWŒŸo
+			// èª¤æ¤œå‡ºèª¿æŸ»2ç”¨ã®ãƒ­ã‚´åŒºé–“ä»˜è¿‘ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸æ¤œå‡º
 			if (msec_sc >= msec_smute_s && msec_sc <= msec_smute_e){
 				if ((msec_dif < lgn2_dif || lgn2_dif < 0) && stat_sc <= LOGO_PRIOR_LV1){
 					lgn2_num = j;
 					lgn2_dif = msec_dif;
 				}
 			}
-			// ‹ß‚­‚ÌŠm’è–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ğŒŸo
+			// è¿‘ãã®ç¢ºå®šç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‚’æ¤œå‡º
 			if ((msec_dif < lgm1_dif || lgm1_dif < 0) && stat_sc == LOGO_PRIOR_DECIDE){
 				lgm1_num  = j;
 				lgm1_dif  = msec_dif;
 				lgm1_msec = msec_sc;
 			}
-			// —×‚ÌŠm’è–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ğŒŸo
+			// éš£ã®ç¢ºå®šç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã‚’æ¤œå‡º
 			if ((msec_dif < lgm2_dif || lgm2_dif < 0) && stat_sc == LOGO_PRIOR_DECIDE && msec_dif > pdata->msecValLap2){
 				if ((edge == LOGO_EDGE_RISE && msec_sc < msec_lg_c) ||
 					(edge != LOGO_EDGE_RISE && msec_sc > msec_lg_c)){
@@ -959,19 +959,19 @@ void JlsReformData::adjustLogo(){
 			}
 		}
 //		printf("%d %d %d %d %d\n", lgr_stat, lgr_frm, lgm1_frm, lgm1_dif, lgm2_frm);
-		// ƒƒS‚ÌŠm’è“x
+		// ãƒ­ã‚´ã®ç¢ºå®šåº¦
 		if (edge == LOGO_EDGE_RISE){
 			dtlogo.stat_rise = lgr_stat;
 		}
 		else{
 			dtlogo.stat_fall = lgr_stat;
 		}
-		// ƒƒSˆÊ’u‚ğ•ÏX‚·‚é‚©”»’f
+		// ãƒ­ã‚´ä½ç½®ã‚’å¤‰æ›´ã™ã‚‹ã‹åˆ¤æ–­
 		int flag_lg_change = 0;
 		int flag_sc_change = 0;
 		int num_sc_change;
 		int msec_change;
-		// –T‚É–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ª‚ ‚Á‚½ê‡
+		// å‚ã«ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒã‚ã£ãŸå ´åˆ
 		if (lgm1_dif > pdata->msecValExact && lgm1_dif <= pdata->msecValNear3 && lgm2_num >= 0){
 			CalcDifInfo calc1;
 			CalcDifInfo calc2;
@@ -989,22 +989,22 @@ void JlsReformData::adjustLogo(){
 //					flag1 = 0;
 //				}
 //			}
-			// ƒƒS”ÍˆÍ“à‚ÉŠm’è‚µ‚½–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ª‚ ‚Á‚½ê‡‚Ìˆ—
+			// ãƒ­ã‚´ç¯„å›²å†…ã«ç¢ºå®šã—ãŸç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒã‚ã£ãŸå ´åˆã®å‡¦ç†
 			if (lgr_stat == LOGO_PRIOR_DECIDE){
-				if (flag1 == 0 && flag2 == 0){		// —¼•û‚Æ‚à’PˆÊ‹——£ŠO‚Ìê‡
-					flag2 = 1;						// ƒƒS‚ğ–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ÉˆÚ‚·
+				if (flag1 == 0 && flag2 == 0){		// ä¸¡æ–¹ã¨ã‚‚å˜ä½è·é›¢å¤–ã®å ´åˆ
+					flag2 = 1;						// ãƒ­ã‚´ã‚’ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã«ç§»ã™
 				}
-				else if (flag1 != 0 && flag2 != 0){	// —¼•û‚Æ‚à’PˆÊ‹——£“à‚Ìê‡
-					if (calc1.sec != calc2.sec){		// ŠÔ‚ª‘S‘Rˆá‚¤ê‡
-						flag1 = 0;					// ƒƒS‚ğ–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u‚ÉˆÚ‚·
+				else if (flag1 != 0 && flag2 != 0){	// ä¸¡æ–¹ã¨ã‚‚å˜ä½è·é›¢å†…ã®å ´åˆ
+					if (calc1.sec != calc2.sec){		// æ™‚é–“ãŒå…¨ç„¶é•ã†å ´åˆ
+						flag1 = 0;					// ãƒ­ã‚´ã‚’ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®ã«ç§»ã™
 					}
 					else{
-						calc1.gap += pdata->msecValNear1;		// ƒƒS‘¤‚ğŒµ‚µ‚­æ‚é
+						calc1.gap += pdata->msecValNear1;		// ãƒ­ã‚´å´ã‚’å³ã—ãå–ã‚‹
 					}
 				}
 			}
-			// Šm’èƒV[ƒ“ƒ`ƒFƒ“ƒW‚©‚ç’PˆÊ‹——£‚É‚È‚éˆÊ’u‚É‹ß‚¢•û‚ğ‘I‘ğ‚·‚é
-			if (flag1 == 0 && flag2 == 0){		// —¼•û‚Æ‚à’PˆÊ‹——£ŠO‚Ìê‡
+			// ç¢ºå®šã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã‹ã‚‰å˜ä½è·é›¢ã«ãªã‚‹ä½ç½®ã«è¿‘ã„æ–¹ã‚’é¸æŠã™ã‚‹
+			if (flag1 == 0 && flag2 == 0){		// ä¸¡æ–¹ã¨ã‚‚å˜ä½è·é›¢å¤–ã®å ´åˆ
 			}
 			else if ((calc1.sec == calc2.sec && calc1.gap > calc2.gap) || flag1 == 0){
 				flag_lg_change = 1;
@@ -1017,15 +1017,15 @@ void JlsReformData::adjustLogo(){
 				msec_change    = msec_lg_c;
 			}
 		}
-		else if (lgr_stat == LOGO_PRIOR_DECIDE){	// ƒƒS”ÍˆÍ“à‚ÉŠm’è‚µ‚½–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ª‚ ‚Á‚½ê‡
+		else if (lgr_stat == LOGO_PRIOR_DECIDE){	// ãƒ­ã‚´ç¯„å›²å†…ã«ç¢ºå®šã—ãŸç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒã‚ã£ãŸå ´åˆ
 			flag_lg_change = 1;
 			msec_change    = lgr_msec;
 		}
-		else if (lgn_num >= 0 && lgm2_num >= 0){	// •sŠm’è^Šm’èƒV[ƒ“ƒ`ƒFƒ“ƒW‚ª‹ß‚­‚É—¼•û‚ ‚éê‡
+		else if (lgn_num >= 0 && lgm2_num >= 0){	// ä¸ç¢ºå®šï¼ç¢ºå®šã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒè¿‘ãã«ä¸¡æ–¹ã‚ã‚‹å ´åˆ
 			CalcDifInfo calc;
 			if (calcDifFunc(calc, lgm2_msec, msec_lg_c) > 0){
-				if (calc.sec % 15 == 0 || calc.sec == 10){	// ƒƒS‚ªŠm’èƒV[ƒ“ƒ`ƒFƒ“ƒW‚©‚ç’PˆÊ‹——£‚É‚È‚éê‡
-					if (lgn_dif > pdata->msecValExact){		// ƒƒS‚Æ–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ª—×Ú‚µ‚Ä‚¢‚È‚¢ê‡
+				if (calc.sec % 15 == 0 || calc.sec == 10){	// ãƒ­ã‚´ãŒç¢ºå®šã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã‹ã‚‰å˜ä½è·é›¢ã«ãªã‚‹å ´åˆ
+					if (lgn_dif > pdata->msecValExact){		// ãƒ­ã‚´ã¨ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒéš£æ¥ã—ã¦ã„ãªã„å ´åˆ
 						flag_sc_change = 1;
 						num_sc_change  = lgn_num;
 						msec_change    = msec_lg_c;
@@ -1033,18 +1033,18 @@ void JlsReformData::adjustLogo(){
 				}
 			}
 		}
-		else if (lgn_num >= 0 && edge == LOGO_EDGE_RISE && dtlogo.rise <= 30*1000+400 &&	// æ“ª•”•ª‚ÌƒƒS
+		else if (lgn_num >= 0 && edge == LOGO_EDGE_RISE && dtlogo.rise <= 30*1000+400 &&	// å…ˆé ­éƒ¨åˆ†ã®ãƒ­ã‚´
 				 (n == 0 || n == 1)){
-			if (lgr_num >= 0){										// Œó•â–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ ‚è
-				if (msec_lg_l <= 0 && (lgr_msec > msec_lg_c * 2)){	// 0’n“_‚Ì•û‚ª‹ß‚¢ê‡‰½‚à‚µ‚È‚¢
+			if (lgr_num >= 0){										// å€™è£œç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã‚ã‚Š
+				if (msec_lg_l <= 0 && (lgr_msec > msec_lg_c * 2)){	// 0åœ°ç‚¹ã®æ–¹ãŒè¿‘ã„å ´åˆä½•ã‚‚ã—ãªã„
 				}
 				else{
 					flag_lg_change = 1;
 					msec_change    = lgr_msec;
 				}
 			}
-			else{											// ƒƒS‹æŠÔ‚ÉƒV[ƒ“ƒ`ƒFƒ“ƒW‚È‚µ
-				if (lgn2_num >= 0){							// ƒƒS‹æŠÔ‚É–³‰¹‚ ‚è
+			else{											// ãƒ­ã‚´åŒºé–“ã«ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãªã—
+				if (lgn2_num >= 0){							// ãƒ­ã‚´åŒºé–“ã«ç„¡éŸ³ã‚ã‚Š
 					if (pdata->getScpStatpos(lgn2_num) <= SCP_PRIOR_NONE){
 						flag_sc_change = 1;
 						num_sc_change  = lgn2_num;
@@ -1053,8 +1053,8 @@ void JlsReformData::adjustLogo(){
 				}
 			}
 		}
-		// Å‰‚ÌŠJnˆÊ’uŒó•â‚ª•sŠm’è‚¾‚Á‚½ê‡‚É‚Í•ÏX
-		// Å‰‚©‚çŠJnˆÊ’u‚ÅAŸ‚ÌƒƒS‚ª30•bˆÈ“à‚Én‚Ü‚éê‡‚à’Ç‰Á
+		// æœ€åˆã®é–‹å§‹ä½ç½®å€™è£œãŒä¸ç¢ºå®šã ã£ãŸå ´åˆã«ã¯å¤‰æ›´
+		// æœ€åˆã‹ã‚‰é–‹å§‹ä½ç½®ã§ã€æ¬¡ã®ãƒ­ã‚´ãŒ30ç§’ä»¥å†…ã«å§‹ã¾ã‚‹å ´åˆã‚‚è¿½åŠ 
 //		if (lgr_num >= 0){
 //			if ((n == 0 && edge == LOGO_EDGE_RISE && plogo->nchk_scpos_1st != 0) ||
 //				(n == 1 && edge == LOGO_EDGE_RISE && plogo->nchk_scpos_1st != 0 &&
@@ -1062,11 +1062,11 @@ void JlsReformData::adjustLogo(){
 //				plogo->nchk_scpos_1st = lgr_num;
 //			}
 //		}
-		// ƒƒS•ÏX‚ªÅIƒV[ƒ“ƒ`ƒFƒ“ƒW‚æ‚èŒã‚ÌƒtƒŒ[ƒ€‚¾‚Á‚½ê‡‚Í•ÏX‚¹‚¸
+		// ãƒ­ã‚´å¤‰æ›´ãŒæœ€çµ‚ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã‚ˆã‚Šå¾Œã®ãƒ•ãƒ¬ãƒ¼ãƒ ã ã£ãŸå ´åˆã¯å¤‰æ›´ã›ãš
 		if (flag_lg_change > 0 && msec_change > pdata->getMsecTotalMax()){
 			flag_lg_change = 0;
 		}
-		// ƒƒSˆÊ’u‚Ì•ÏX
+		// ãƒ­ã‚´ä½ç½®ã®å¤‰æ›´
 		if (flag_lg_change > 0){
 			if (edge == LOGO_EDGE_RISE){
 				if (dtlogo.rise != msec_change){
@@ -1101,10 +1101,10 @@ void JlsReformData::adjustLogo(){
 				}
 			}
 		}
-		// ƒƒSƒf[ƒ^XV
+		// ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿æ›´æ–°
 		pdata->setRecordLogo(dtlogo, n);
 
-		// ƒV[ƒ“ƒ`ƒFƒ“ƒWˆÊ’u•ÏX
+		// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ä½ç½®å¤‰æ›´
 		if (flag_sc_change > 0){
 			DataScpRecord dtscp;
 			pdata->getRecordScp(dtscp, num_sc_change);
@@ -1141,18 +1141,18 @@ void JlsReformData::adjustLogo(){
 
 
 //---------------------------------------------------------------------
-// ‚QƒtƒŒ[ƒ€ŠÔ‚Ì•b”‚ğæ“¾
-// “ü—ÍF
-//   frm_src  : ”äŠrŒ³ƒtƒŒ[ƒ€”Ô†
-//   frm_dst  : ”äŠræƒtƒŒ[ƒ€”Ô†
-// o—ÍF
-//   calc.sgn : ”äŠrƒtƒŒ[ƒ€‘å¬
-//   calc.sec : ƒtƒŒ[ƒ€ŠÔ•b”
-//   calc.gap : ƒtƒŒ[ƒ€ŠÔ•b”‚ÌŒë·
-// •Ô‚è’lF
-//   2 : 1‚ÌğŒ‚ğ–‚½‚·’†‚Å25•bˆÈ‰º‚Ü‚½‚Í30,45,60,90,120•b
-//   1 : ‚R•bˆÈã‚©‚Â•b’PˆÊ‚ÅŒë·‚ª­‚È‚¢ê‡i‚P‚T•b’PˆÊ‚Å‚ÍŒë·ŠÃ‚ßj
-//   0 : ‚»‚êˆÈŠO
+// ï¼’ãƒ•ãƒ¬ãƒ¼ãƒ é–“ã®ç§’æ•°ã‚’å–å¾—
+// å…¥åŠ›ï¼š
+//   frm_src  : æ¯”è¼ƒå…ƒãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·
+//   frm_dst  : æ¯”è¼ƒå…ˆãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·
+// å‡ºåŠ›ï¼š
+//   calc.sgn : æ¯”è¼ƒãƒ•ãƒ¬ãƒ¼ãƒ å¤§å°
+//   calc.sec : ãƒ•ãƒ¬ãƒ¼ãƒ é–“ç§’æ•°
+//   calc.gap : ãƒ•ãƒ¬ãƒ¼ãƒ é–“ç§’æ•°ã®èª¤å·®
+// è¿”ã‚Šå€¤ï¼š
+//   2 : 1ã®æ¡ä»¶ã‚’æº€ãŸã™ä¸­ã§25ç§’ä»¥ä¸‹ã¾ãŸã¯30,45,60,90,120ç§’
+//   1 : ï¼“ç§’ä»¥ä¸Šã‹ã¤ç§’å˜ä½ã§èª¤å·®ãŒå°‘ãªã„å ´åˆï¼ˆï¼‘ï¼•ç§’å˜ä½ã§ã¯èª¤å·®ç”˜ã‚ï¼‰
+//   0 : ãã‚Œä»¥å¤–
 //---------------------------------------------------------------------
 int JlsReformData::calcDifFunc(CalcDifInfo &calc, int msec_src, int msec_dst){
 	int flag = 0;
@@ -1160,9 +1160,9 @@ int JlsReformData::calcDifFunc(CalcDifInfo &calc, int msec_src, int msec_dst){
 	Msec msec_dif_abs = abs(msec_dif_org);
 	Sec  sec_dif      = (msec_dif_abs + 500) / 1000;
 	Msec msec_gap     = abs(sec_dif * 1000 - msec_dif_abs);
-	if ((msec_gap <= pdata->msecValNear1 && sec_dif >= 3) ||						// 3•bˆÈã‚Å•b’PˆÊØ‘Ö
-		(msec_gap <= pdata->msecValNear2 && sec_dif == 10) ||						// 10•b
-		(msec_gap <= pdata->msecValNear2 && sec_dif >= 15 && sec_dif % 15 == 0)){	// 15•b’PˆÊØ‚è‘Ö‚¦
+	if ((msec_gap <= pdata->msecValNear1 && sec_dif >= 3) ||						// 3ç§’ä»¥ä¸Šã§ç§’å˜ä½åˆ‡æ›¿
+		(msec_gap <= pdata->msecValNear2 && sec_dif == 10) ||						// 10ç§’
+		(msec_gap <= pdata->msecValNear2 && sec_dif >= 15 && sec_dif % 15 == 0)){	// 15ç§’å˜ä½åˆ‡ã‚Šæ›¿ãˆ
 		if (sec_dif <= 120){
 			flag = 1;
 			if (sec_dif <= 25 || sec_dif == 30 || sec_dif == 45 || sec_dif == 60 ||
@@ -1171,7 +1171,7 @@ int JlsReformData::calcDifFunc(CalcDifInfo &calc, int msec_src, int msec_dst){
 			}
 		}
 	}
-	// Œ‹‰ÊŠi”[
+	// çµæœæ ¼ç´
 	if (msec_dif_org < 0 && sec_dif != 0){
 		calc.sgn = -1;
 	}
@@ -1189,18 +1189,18 @@ int JlsReformData::calcDifFunc(CalcDifInfo &calc, int msec_src, int msec_dst){
 
 
 //---------------------------------------------------------------------
-// ‚QƒtƒŒ[ƒ€ŠÔ‚Ì•b”‚ğæ“¾iŒë·­‚È‚¢‘O’ñj
-// “ü—ÍF
-//   frm_src  : ”äŠrŒ³ƒtƒŒ[ƒ€”Ô†
-//   frm_dst  : ”äŠræƒtƒŒ[ƒ€”Ô†
-// o—ÍF
-//   ncal_sgn : ”äŠrƒtƒŒ[ƒ€‘å¬
-//   ncal_sec : ƒtƒŒ[ƒ€ŠÔ•b”
-//   ncal_dis : ƒtƒŒ[ƒ€ŠÔ•b”‚ÌŒë·
-// •Ô‚è’lF
-//   2 : 10,15,30,45,60,90,120•b
-//   1 : ‚R•bˆÈã‚Q‚T•bˆÈ‰º‚©‚Â•b’PˆÊ‚ÅŒë·‚ª­‚È‚¢ê‡
-//   0 : ‚»‚êˆÈŠO
+// ï¼’ãƒ•ãƒ¬ãƒ¼ãƒ é–“ã®ç§’æ•°ã‚’å–å¾—ï¼ˆèª¤å·®å°‘ãªã„å‰æï¼‰
+// å…¥åŠ›ï¼š
+//   frm_src  : æ¯”è¼ƒå…ƒãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·
+//   frm_dst  : æ¯”è¼ƒå…ˆãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·
+// å‡ºåŠ›ï¼š
+//   ncal_sgn : æ¯”è¼ƒãƒ•ãƒ¬ãƒ¼ãƒ å¤§å°
+//   ncal_sec : ãƒ•ãƒ¬ãƒ¼ãƒ é–“ç§’æ•°
+//   ncal_dis : ãƒ•ãƒ¬ãƒ¼ãƒ é–“ç§’æ•°ã®èª¤å·®
+// è¿”ã‚Šå€¤ï¼š
+//   2 : 10,15,30,45,60,90,120ç§’
+//   1 : ï¼“ç§’ä»¥ä¸Šï¼’ï¼•ç§’ä»¥ä¸‹ã‹ã¤ç§’å˜ä½ã§èª¤å·®ãŒå°‘ãªã„å ´åˆ
+//   0 : ãã‚Œä»¥å¤–
 //---------------------------------------------------------------------
 int JlsReformData::calcDifExact(CalcDifInfo &calc, int msec_src, int msec_dst){
 	int flag = 0;
@@ -1216,7 +1216,7 @@ int JlsReformData::calcDifExact(CalcDifInfo &calc, int msec_src, int msec_dst){
 	else if (msec_gap <= pdata->msecValExact && (sec_dif >= 3 && sec_dif <= 25)){
 		flag = 1;
 	}
-	// Œ‹‰ÊŠi”[
+	// çµæœæ ¼ç´
 	if (msec_dif_org < 0 && sec_dif != 0){
 		calc.sgn = -1;
 	}
@@ -1233,7 +1233,7 @@ int JlsReformData::calcDifExact(CalcDifInfo &calc, int msec_src, int msec_dst){
 }
 
 //---------------------------------------------------------------------
-// 33ms‚ğ1‚Æ‚µ‚½’PˆÊ‚É•ÏŠ·
+// 33msã‚’1ã¨ã—ãŸå˜ä½ã«å¤‰æ›
 //---------------------------------------------------------------------
 int JlsReformData::getFrm30fpsFromMsec(int msec){
 	int frate_n = 30000;

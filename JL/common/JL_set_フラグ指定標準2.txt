@@ -1,86 +1,86 @@
-# join_logo_scp—p‚ÌŽÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eFƒtƒ‰ƒOÝ’èî•ñ‚ðŽg‚Á‚Ä•s—v•”•ª‚ÌƒJƒbƒg‚ðs‚¤
-#       ŒŸõiJL_•W€.txtj‚ðŽÀs‚·‚é‘O‚ÉÝ’è‚·‚é
-#       ver5.0‚©‚ç’Ç‰Á‚ÌiAutoIns/AutoDel‚ðŽg‚Á‚½jƒtƒ‰ƒOŽw’è“®ì
+# å†…å®¹ï¼šãƒ•ãƒ©ã‚°è¨­å®šæƒ…å ±ã‚’ä½¿ã£ã¦ä¸è¦éƒ¨åˆ†ã®ã‚«ãƒƒãƒˆã‚’è¡Œã†
+#       æ¤œç´¢ï¼ˆJL_æ¨™æº–.txtï¼‰ã‚’å®Ÿè¡Œã™ã‚‹å‰ã«è¨­å®šã™ã‚‹
+#       ver5.0ã‹ã‚‰è¿½åŠ ã®ï¼ˆAutoIns/AutoDelã‚’ä½¿ã£ãŸï¼‰ãƒ•ãƒ©ã‚°æŒ‡å®šå‹•ä½œ
 #
 #----------------------------------------------
 #  [flag list]
-## —\“™ŒŸo‘O‚ÌÝ’è
-#   fHCA        : Å‰‚Ì3`10•b‚Å–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ª‚ ‚ê‚ÎƒJƒbƒg
-#   vHC:n       : Å‰‚Ìn•b‚ðƒJƒbƒgi–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ª‚ ‚éê‡j
-#   vHCF:n      : Å‰‚Ìn•b‚ðƒJƒbƒgi–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚È‚¯‚ê‚Î‹­§“I‚Éj
-#   fTC30       : ÅŒã‚Ì30/15•b\¬‚ð•s—v•”•ª‚Æ‚µ‚ÄƒJƒbƒg
-#   fSC30Mid    : “r’†‚ÌƒƒSŠJŽn’¼Œã30/15•b\¬‚ð•s—v•”•ª‚Æ‚µ‚ÄƒJƒbƒg
-#   fEC30Mid    : “r’†‚ÌƒƒSI—¹’¼‘O30/15•b\¬‚ð•s—v•”•ª‚Æ‚µ‚ÄƒJƒbƒg
-#   vTC120C1M:n : Œã”¼ÅŒã‚Ìn•ª‚Å120•b\¬ˆÈ~ƒJƒbƒg
-#   vTC90C2M:n  : Œã”¼ÅŒã‚Ìn•ª‚Å2‰ñ–Ú‚Ì90•b\¬ˆÈ~ƒJƒbƒg
-## —\“™ŒŸoŒã‚ÌÝ’è
-#   vTC:n       : ÅŒã‚Ìn•b‚ðƒJƒbƒgi–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ª‚ ‚éê‡j
-#   fTCB        : ÅŒã‚Ì15•b–¢–ž1\¬‚ðƒJƒbƒg
-#   fTCE        : ƒGƒ“ƒhƒJ[ƒh”FŽ¯‚ÍƒJƒbƒg
-#   vTRC5E90M:n : ÅŒãn•ª“à‚ÌƒƒS‚ ‚è90•b\¬Œã1•ªˆÈ“à‚É–³‰¹SCŠÔ‚ª5•b‚Ì‹æŠÔ‚ ‚ê‚ÎŽè‘OŽc‚µÅŒã‚Ü‚ÅƒJƒbƒg
-## ƒtƒ@ƒCƒ‹•ªŠ„Ý’è
-#   vTDLE:n     : ƒƒS•”•ªÅŒã‚Ìn•b‚ðƒtƒ@ƒCƒ‹•ªŠ„ˆµ‚¢‚Å\¬•ª—£ˆ—‚ðs‚¤
-## \¬Œ‹‡i—\“™ŒŸo‘Oj
-#   fAMrL15     : ƒƒS•t‚«15•b\¬Œ‹‡iðŒ‚È‚µj
-#   fAMrL15A    : ƒƒS•t‚«15•b\¬Œ‹‡i5/10•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMrL15B    : ƒƒS•t‚«15•b\¬Œ‹‡i12•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMrL30A    : ƒƒS•t‚«30•b\¬Œ‹‡i10/15/20/25•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMrL90A    : ƒƒS•t‚«90•b\¬Œ‹‡i30/60/75•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMcN15     : ƒƒS–³‚µ15•b\¬Œ‹‡iðŒ‚È‚µj
-#   fAMcN15A    : ƒƒS–³‚µ15•b\¬Œ‹‡i5/10•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMcN30A    : ƒƒS–³‚µ30•b\¬Œ‹‡i15•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMcN60A    : ƒƒS–³‚µ60•b\¬Œ‹‡i15/30/45•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMcN90A    : ƒƒS–³‚µ90•b\¬Œ‹‡i30/60/75•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMcN120A   : ƒƒS–³‚µ120•b\¬Œ‹‡i30/60/90/105•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-## \¬Œ‹‡i—\“™ŒŸoŒãj
-#   fAMcSpN15   : ”Ô‘g’ñ‹Ÿ‚ªƒƒS–³‚µ15•b\¬‚Ìˆê•”‚È‚çŒ‹‡ƒJƒbƒgiðŒ‚È‚µj
-#   fAMcSpN15A  : ”Ô‘g’ñ‹Ÿ‚ªƒƒS–³‚µ15•b\¬‚Ìˆê•”‚È‚çŒ‹‡ƒJƒbƒgiTrailer(add)’¼Œãœ‚­j
-#   fAMcSpN15B  : ”Ô‘g’ñ‹Ÿ‚ªƒƒS–³‚µ15•b\¬‚Ìˆê•”‚È‚çŒ‹‡ƒJƒbƒgiTrailer(add)Œã100•bœ‚­j
-#   fAMcSpN15C  : ”Ô‘g’ñ‹Ÿ‚ªƒƒS–³‚µ15•b\¬‚Ìˆê•”‚È‚çŒ‹‡ƒJƒbƒgiÅIƒƒSŒã100•bœ‚­j
-#   fAMcSpNL15  : ”Ô‘g’ñ‹Ÿ‚ªNologo‚ð‡‚í‚¹‚é‚Æ15•b‚È‚çŒ‹‡ƒJƒbƒg
-#   fAMcSpNL30  : ”Ô‘g’ñ‹Ÿ‚ªNologo‚ð‡‚í‚¹‚é‚Æ30•b‚È‚çŒ‹‡ƒJƒbƒg
-## ƒƒS”FŽ¯\¬•ÏXi—\“™ŒŸo‘Oj
-#   vAGrCmMg:n    : CM•\Ž¦‚Å15•b’PˆÊ‚©‚çn•b‚ð’´‚¦‚Ä‚¸‚ê‚Ä‚¢‚éŠ‚ÍŽc‚·i0=–³Œøj
-#   vAGrCmMgS45:n : 40•bˆÈã30•b’PˆÊ‚Å‚È‚¢CMˆÊ’u‚ÉŒÀ’è‚µ‚Än•b’´‚¦‚Ì‚¸‚ê‚ÍŽc‚·i0=–³Œøj
-#   vAGrNlOv:n    : n•bˆÈã‚ÌNologo\¬‚ÍŽc‚·i0=–³Œøj
+## äºˆå‘Šç­‰æ¤œå‡ºå‰ã®è¨­å®š
+#   fHCA        : æœ€åˆã®3ï½ž10ç§’ã§ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒã‚ã‚Œã°ã‚«ãƒƒãƒˆ
+#   vHC:n       : æœ€åˆã®nç§’ã‚’ã‚«ãƒƒãƒˆï¼ˆç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒã‚ã‚‹å ´åˆï¼‰
+#   vHCF:n      : æœ€åˆã®nç§’ã‚’ã‚«ãƒƒãƒˆï¼ˆç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãªã‘ã‚Œã°å¼·åˆ¶çš„ã«ï¼‰
+#   fTC30       : æœ€å¾Œã®30/15ç§’æ§‹æˆã‚’ä¸è¦éƒ¨åˆ†ã¨ã—ã¦ã‚«ãƒƒãƒˆ
+#   fSC30Mid    : é€”ä¸­ã®ãƒ­ã‚´é–‹å§‹ç›´å¾Œ30/15ç§’æ§‹æˆã‚’ä¸è¦éƒ¨åˆ†ã¨ã—ã¦ã‚«ãƒƒãƒˆ
+#   fEC30Mid    : é€”ä¸­ã®ãƒ­ã‚´çµ‚äº†ç›´å‰30/15ç§’æ§‹æˆã‚’ä¸è¦éƒ¨åˆ†ã¨ã—ã¦ã‚«ãƒƒãƒˆ
+#   vTC120C1M:n : å¾ŒåŠæœ€å¾Œã®nåˆ†ã§120ç§’æ§‹æˆä»¥é™ã‚«ãƒƒãƒˆ
+#   vTC90C2M:n  : å¾ŒåŠæœ€å¾Œã®nåˆ†ã§2å›žç›®ã®90ç§’æ§‹æˆä»¥é™ã‚«ãƒƒãƒˆ
+## äºˆå‘Šç­‰æ¤œå‡ºå¾Œã®è¨­å®š
+#   vTC:n       : æœ€å¾Œã®nç§’ã‚’ã‚«ãƒƒãƒˆï¼ˆç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒã‚ã‚‹å ´åˆï¼‰
+#   fTCB        : æœ€å¾Œã®15ç§’æœªæº€1æ§‹æˆã‚’ã‚«ãƒƒãƒˆ
+#   fTCE        : ã‚¨ãƒ³ãƒ‰ã‚«ãƒ¼ãƒ‰èªè­˜ã¯ã‚«ãƒƒãƒˆ
+#   vTRC5E90M:n : æœ€å¾Œnåˆ†å†…ã®ãƒ­ã‚´ã‚ã‚Š90ç§’æ§‹æˆå¾Œ1åˆ†ä»¥å†…ã«ç„¡éŸ³SCé–“ãŒ5ç§’ã®åŒºé–“ã‚ã‚Œã°æ‰‹å‰æ®‹ã—æœ€å¾Œã¾ã§ã‚«ãƒƒãƒˆ
+## ãƒ•ã‚¡ã‚¤ãƒ«åˆ†å‰²è¨­å®š
+#   vTDLE:n     : ãƒ­ã‚´éƒ¨åˆ†æœ€å¾Œã®nç§’ã‚’ãƒ•ã‚¡ã‚¤ãƒ«åˆ†å‰²æ‰±ã„ã§æ§‹æˆåˆ†é›¢å‡¦ç†ã‚’è¡Œã†
+## æ§‹æˆçµåˆï¼ˆäºˆå‘Šç­‰æ¤œå‡ºå‰ï¼‰
+#   fAMrL15     : ãƒ­ã‚´ä»˜ã15ç§’æ§‹æˆçµåˆï¼ˆæ¡ä»¶ãªã—ï¼‰
+#   fAMrL15A    : ãƒ­ã‚´ä»˜ã15ç§’æ§‹æˆçµåˆï¼ˆ5/10ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMrL15B    : ãƒ­ã‚´ä»˜ã15ç§’æ§‹æˆçµåˆï¼ˆ12ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMrL30A    : ãƒ­ã‚´ä»˜ã30ç§’æ§‹æˆçµåˆï¼ˆ10/15/20/25ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMrL90A    : ãƒ­ã‚´ä»˜ã90ç§’æ§‹æˆçµåˆï¼ˆ30/60/75ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMcN15     : ãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆçµåˆï¼ˆæ¡ä»¶ãªã—ï¼‰
+#   fAMcN15A    : ãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆçµåˆï¼ˆ5/10ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMcN30A    : ãƒ­ã‚´ç„¡ã—30ç§’æ§‹æˆçµåˆï¼ˆ15ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMcN60A    : ãƒ­ã‚´ç„¡ã—60ç§’æ§‹æˆçµåˆï¼ˆ15/30/45ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMcN90A    : ãƒ­ã‚´ç„¡ã—90ç§’æ§‹æˆçµåˆï¼ˆ30/60/75ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMcN120A   : ãƒ­ã‚´ç„¡ã—120ç§’æ§‹æˆçµåˆï¼ˆ30/60/90/105ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+## æ§‹æˆçµåˆï¼ˆäºˆå‘Šç­‰æ¤œå‡ºå¾Œï¼‰
+#   fAMcSpN15   : ç•ªçµ„æä¾›ãŒãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆã®ä¸€éƒ¨ãªã‚‰çµåˆã‚«ãƒƒãƒˆï¼ˆæ¡ä»¶ãªã—ï¼‰
+#   fAMcSpN15A  : ç•ªçµ„æä¾›ãŒãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆã®ä¸€éƒ¨ãªã‚‰çµåˆã‚«ãƒƒãƒˆï¼ˆTrailer(add)ç›´å¾Œé™¤ãï¼‰
+#   fAMcSpN15B  : ç•ªçµ„æä¾›ãŒãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆã®ä¸€éƒ¨ãªã‚‰çµåˆã‚«ãƒƒãƒˆï¼ˆTrailer(add)å¾Œ100ç§’é™¤ãï¼‰
+#   fAMcSpN15C  : ç•ªçµ„æä¾›ãŒãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆã®ä¸€éƒ¨ãªã‚‰çµåˆã‚«ãƒƒãƒˆï¼ˆæœ€çµ‚ãƒ­ã‚´å¾Œ100ç§’é™¤ãï¼‰
+#   fAMcSpNL15  : ç•ªçµ„æä¾›ãŒNologoã‚’åˆã‚ã›ã‚‹ã¨15ç§’ãªã‚‰çµåˆã‚«ãƒƒãƒˆ
+#   fAMcSpNL30  : ç•ªçµ„æä¾›ãŒNologoã‚’åˆã‚ã›ã‚‹ã¨30ç§’ãªã‚‰çµåˆã‚«ãƒƒãƒˆ
+## ãƒ­ã‚´èªè­˜æ§‹æˆå¤‰æ›´ï¼ˆäºˆå‘Šç­‰æ¤œå‡ºå‰ï¼‰
+#   vAGrCmMg:n    : CMè¡¨ç¤ºã§15ç§’å˜ä½ã‹ã‚‰nç§’ã‚’è¶…ãˆã¦ãšã‚Œã¦ã„ã‚‹æ‰€ã¯æ®‹ã™ï¼ˆ0=ç„¡åŠ¹ï¼‰
+#   vAGrCmMgS45:n : 40ç§’ä»¥ä¸Š30ç§’å˜ä½ã§ãªã„CMä½ç½®ã«é™å®šã—ã¦nç§’è¶…ãˆã®ãšã‚Œã¯æ®‹ã™ï¼ˆ0=ç„¡åŠ¹ï¼‰
+#   vAGrNlOv:n    : nç§’ä»¥ä¸Šã®Nologoæ§‹æˆã¯æ®‹ã™ï¼ˆ0=ç„¡åŠ¹ï¼‰
 #----------------------------------------------
 #
-# ‹N“®ŽžƒIƒvƒVƒ‡ƒ“‚Å•K—v‚Èƒtƒ‰ƒO‚ðÝ’è‚·‚éB":0"‚Å‰ðœÝ’è‚à‰Â”\B
-#i—áj-flags fSC30Mid,vTDLE:90,fAMrL15A:0
+# èµ·å‹•æ™‚ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§å¿…è¦ãªãƒ•ãƒ©ã‚°ã‚’è¨­å®šã™ã‚‹ã€‚":0"ã§è§£é™¤è¨­å®šã‚‚å¯èƒ½ã€‚
+#ï¼ˆä¾‹ï¼‰-flags fSC30Mid,vTDLE:90,fAMrL15A:0
 #
-# ƒXƒNƒŠƒvƒg“à‚ÅŽw’è‚·‚éê‡‚ÍSeti‚Ü‚½‚ÍDefaultjƒRƒ}ƒ“ƒh‚Å‹LÚ‚·‚éiƒtƒ‰ƒOÝ’èŽž‚Í1j
-#i—ájSet vHCF 5
+# ã‚¹ã‚¯ãƒªãƒ—ãƒˆå†…ã§æŒ‡å®šã™ã‚‹å ´åˆã¯Setï¼ˆã¾ãŸã¯Defaultï¼‰ã‚³ãƒžãƒ³ãƒ‰ã§è¨˜è¼‰ã™ã‚‹ï¼ˆãƒ•ãƒ©ã‚°è¨­å®šæ™‚ã¯1ï¼‰
+#ï¼ˆä¾‹ï¼‰Set vHCF 5
 #
-# –¢Ý’è‚Æ0Ý’è‚Í“¯‚¶
+# æœªè¨­å®šã¨0è¨­å®šã¯åŒã˜
 #
-# –½–¼ƒƒ‚
-#  f:ƒtƒ‰ƒOŽw’è v:’lŽw’è
-#  A:‘S‘Ì H:æ“ª T:––”ö S:ƒƒSŠJŽn E:ƒƒSI—¹
-#  R:Žc‚· C:ƒJƒbƒg D:•ªŠ„ Mr:Œ‹‡+Žc‚· Mc:Œ‹‡+ƒJƒbƒg Gr:\¬ˆê”Ê+Žc‚· Gc:\¬ˆê”Ê+ƒJƒbƒg
-#  ‚ ‚Æ‚Í“K“–
+# å‘½åãƒ¡ãƒ¢
+#  f:ãƒ•ãƒ©ã‚°æŒ‡å®š v:å€¤æŒ‡å®š
+#  A:å…¨ä½“ H:å…ˆé ­ T:æœ«å°¾ S:ãƒ­ã‚´é–‹å§‹ E:ãƒ­ã‚´çµ‚äº†
+#  R:æ®‹ã™ C:ã‚«ãƒƒãƒˆ D:åˆ†å‰² Mr:çµåˆ+æ®‹ã™ Mc:çµåˆ+ã‚«ãƒƒãƒˆ Gr:æ§‹æˆä¸€èˆ¬+æ®‹ã™ Gc:æ§‹æˆä¸€èˆ¬+ã‚«ãƒƒãƒˆ
+#  ã‚ã¨ã¯é©å½“
 #
 
-LazyAuto   # ‚±‚Ìƒtƒ@ƒCƒ‹‚ÍŽ©“®‚ÅŽÀsƒ^ƒCƒ~ƒ“ƒO§Œä
+LazyAuto   # ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯è‡ªå‹•ã§å®Ÿè¡Œã‚¿ã‚¤ãƒŸãƒ³ã‚°åˆ¶å¾¡
 
 CountUp once_check_def_flag_std2
-If ${once_check_def_flag_std2}!=1 { Return };  # ‚±‚Ìƒtƒ@ƒCƒ‹‚Íˆê“x‚¾‚¯ŽÀs
-#MemOnce ${once_check_def_flag_std2}  # ‚±‚Ìƒtƒ@ƒCƒ‹‚ÌMemory/MemSet•¶‚Íˆê“x‚¾‚¯ŽÀs
+If ${once_check_def_flag_std2}!=1 { Return };  # ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ä¸€åº¦ã ã‘å®Ÿè¡Œ
+#MemOnce ${once_check_def_flag_std2}  # ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã®Memory/MemSetæ–‡ã¯ä¸€åº¦ã ã‘å®Ÿè¡Œ
 
 
-# ‹¤’Ê—˜—p‚ÌƒOƒ[ƒoƒ‹•Ï”
-Default g_noedge "-Fmid 2.0 2.0"     # ’[•”•ª‚ðœ‚­
+# å…±é€šåˆ©ç”¨ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
+Default g_noedge "-Fmid 2.0 2.0"     # ç«¯éƒ¨åˆ†ã‚’é™¤ã
 
-#***************** ƒtƒ‰ƒO“à—e ********************************************
-#   fHCA        : Å‰‚Ì3`10•b‚Å–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ª‚ ‚ê‚ÎƒJƒbƒg
-#   vHC:n       : Å‰‚Ìn•b‚ðƒJƒbƒgi–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚ª‚ ‚éê‡j
-#   vHCF:n      : Å‰‚Ìn•b‚ðƒJƒbƒgi–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚È‚¯‚ê‚Î‹­§“I‚Éj
-#   fTC30       : ÅŒã‚Ì30/15•b\¬‚ð•s—v•”•ª‚Æ‚µ‚ÄƒJƒbƒg
-#   fSC30Mid    : “r’†‚ÌƒƒSŠJŽn’¼Œã30/15•b\¬‚ð•s—v•”•ª‚Æ‚µ‚ÄƒJƒbƒg
-#   fEC30Mid    : “r’†‚ÌƒƒSI—¹’¼‘O30/15•b\¬‚ð•s—v•”•ª‚Æ‚µ‚ÄƒJƒbƒg
-#   vTC120C1M:n : Œã”¼ÅŒã‚Ìn•ª‚Å120•b\¬ˆÈ~ƒJƒbƒg
-#   vTC90C2M:n  : Œã”¼ÅŒã‚Ìn•ª‚Å2‰ñ–Ú‚Ì90•b\¬ˆÈ~ƒJƒbƒg
+#***************** ãƒ•ãƒ©ã‚°å†…å®¹ ********************************************
+#   fHCA        : æœ€åˆã®3ï½ž10ç§’ã§ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒã‚ã‚Œã°ã‚«ãƒƒãƒˆ
+#   vHC:n       : æœ€åˆã®nç§’ã‚’ã‚«ãƒƒãƒˆï¼ˆç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãŒã‚ã‚‹å ´åˆï¼‰
+#   vHCF:n      : æœ€åˆã®nç§’ã‚’ã‚«ãƒƒãƒˆï¼ˆç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãªã‘ã‚Œã°å¼·åˆ¶çš„ã«ï¼‰
+#   fTC30       : æœ€å¾Œã®30/15ç§’æ§‹æˆã‚’ä¸è¦éƒ¨åˆ†ã¨ã—ã¦ã‚«ãƒƒãƒˆ
+#   fSC30Mid    : é€”ä¸­ã®ãƒ­ã‚´é–‹å§‹ç›´å¾Œ30/15ç§’æ§‹æˆã‚’ä¸è¦éƒ¨åˆ†ã¨ã—ã¦ã‚«ãƒƒãƒˆ
+#   fEC30Mid    : é€”ä¸­ã®ãƒ­ã‚´çµ‚äº†ç›´å‰30/15ç§’æ§‹æˆã‚’ä¸è¦éƒ¨åˆ†ã¨ã—ã¦ã‚«ãƒƒãƒˆ
+#   vTC120C1M:n : å¾ŒåŠæœ€å¾Œã®nåˆ†ã§120ç§’æ§‹æˆä»¥é™ã‚«ãƒƒãƒˆ
+#   vTC90C2M:n  : å¾ŒåŠæœ€å¾Œã®nåˆ†ã§2å›žç›®ã®90ç§’æ§‹æˆä»¥é™ã‚«ãƒƒãƒˆ
 #*************************************************************************
 
 If fHCA
@@ -109,39 +109,39 @@ EndIf
 
 If fSC30Mid
   MemSet AUTO {
-    Default vDefMidFrmSt   00:10:00  # ’†ŠÔ”ÍˆÍ‚Æ‚·‚éæ“ª‚©‚ç‚ÌˆÊ’u
-    Default vDefMidFrmEd   00:10:00  # ’†ŠÔ”ÍˆÍ‚Æ‚·‚é––”ö‚©‚ç‚ÌˆÊ’u
-    Default vDefMidLenLg   00:02:00  # ƒJƒbƒg‘ÎÛ‚Æ‚·‚éƒƒSÅ’áŠúŠÔ
+    Default vDefMidFrmSt   00:10:00  # ä¸­é–“ç¯„å›²ã¨ã™ã‚‹å…ˆé ­ã‹ã‚‰ã®ä½ç½®
+    Default vDefMidFrmEd   00:10:00  # ä¸­é–“ç¯„å›²ã¨ã™ã‚‹æœ«å°¾ã‹ã‚‰ã®ä½ç½®
+    Default vDefMidLenLg   00:02:00  # ã‚«ãƒƒãƒˆå¯¾è±¡ã¨ã™ã‚‹ãƒ­ã‚´æœ€ä½ŽæœŸé–“
     AutoDel S -Nauto -Dlist 30.0,15.0 -Fmid ${vDefMidFrmSt} ${vDefMidFrmEd} -LenN ${vDefMidLenLg} -1
   };
 EndIf
 
 If fEC30Mid
   MemSet AUTO {
-    Default vDefMidFrmSt   00:10:00  # ’†ŠÔ”ÍˆÍ‚Æ‚·‚éæ“ª‚©‚ç‚ÌˆÊ’u
-    Default vDefMidFrmEd   00:10:00  # ’†ŠÔ”ÍˆÍ‚Æ‚·‚é––”ö‚©‚ç‚ÌˆÊ’u
-    Default vDefMidLenLg   00:02:00  # ƒJƒbƒg‘ÎÛ‚Æ‚·‚éƒƒSÅ’áŠúŠÔ
+    Default vDefMidFrmSt   00:10:00  # ä¸­é–“ç¯„å›²ã¨ã™ã‚‹å…ˆé ­ã‹ã‚‰ã®ä½ç½®
+    Default vDefMidFrmEd   00:10:00  # ä¸­é–“ç¯„å›²ã¨ã™ã‚‹æœ«å°¾ã‹ã‚‰ã®ä½ç½®
+    Default vDefMidLenLg   00:02:00  # ã‚«ãƒƒãƒˆå¯¾è±¡ã¨ã™ã‚‹ãƒ­ã‚´æœ€ä½ŽæœŸé–“
     AutoDel E -Nauto -Dlist -30.0,-15.0 -Fmid ${vDefMidFrmSt} ${vDefMidFrmEd} -LenP ${vDefMidLenLg} -1
   };
 EndIf
 
 If vTC120C1M
-  MemSet AUTO  -order 40 {     # —Dæ‡ˆÊ‚ð­‚µã‚°‚é
+  MemSet AUTO  -order 40 {     # å„ªå…ˆé †ä½ã‚’å°‘ã—ä¸Šã’ã‚‹
     AutoDel E -120.0 -fromC -underC -EndTail -Ftail S(${vTC120C1M})*60 -keepC -pick 1
   };
 EndIf
 
 If vTC90C2M
-  MemSet AUTO  -order 40 {     # —Dæ‡ˆÊ‚ð­‚µã‚°‚é
+  MemSet AUTO  -order 40 {     # å„ªå…ˆé †ä½ã‚’å°‘ã—ä¸Šã’ã‚‹
     AutoDel E -90.0 -fromC -underC -EndTail -Ftail S(${vTC90C2M})*60 -keepC -pick 2
   };
 EndIf
 
-#***************** ƒtƒ‰ƒO“à—e ********************************************
-#   vTC:n       : ÅŒã‚Ìn•b‚ðƒJƒbƒg
-#   fTCB        : ÅŒã‚Ì15•b–¢–ž1\¬‚ðƒJƒbƒg
-#   fTCE        : ƒGƒ“ƒhƒJ[ƒh”FŽ¯‚ÍƒJƒbƒg
-#   vTC5End90M:n : ÅŒã12•ª“à‚ÌƒƒS‚ ‚è90•b\¬Œã1•ªˆÈ“à‚É5•b‹æŠÔ–³‰¹SC‚ ‚ê‚ÎÅŒã‚Ü‚ÅƒJƒbƒg
+#***************** ãƒ•ãƒ©ã‚°å†…å®¹ ********************************************
+#   vTC:n       : æœ€å¾Œã®nç§’ã‚’ã‚«ãƒƒãƒˆ
+#   fTCB        : æœ€å¾Œã®15ç§’æœªæº€1æ§‹æˆã‚’ã‚«ãƒƒãƒˆ
+#   fTCE        : ã‚¨ãƒ³ãƒ‰ã‚«ãƒ¼ãƒ‰èªè­˜ã¯ã‚«ãƒƒãƒˆ
+#   vTC5End90M:n : æœ€å¾Œ12åˆ†å†…ã®ãƒ­ã‚´ã‚ã‚Š90ç§’æ§‹æˆå¾Œ1åˆ†ä»¥å†…ã«5ç§’åŒºé–“ç„¡éŸ³SCã‚ã‚Œã°æœ€å¾Œã¾ã§ã‚«ãƒƒãƒˆ
 #*************************************************************************
 
 If vTC
@@ -170,36 +170,36 @@ If vTRC5E90M
   };
 EndIf
 
-#***************** ƒtƒ‰ƒO“à—e ********************************************
-#   vTDLE       : ƒƒS•”•ªÅŒã‚ÌŽw’è•b‚ðƒtƒ@ƒCƒ‹•ªŠ„ˆµ‚¢‚Å\¬•ª—£ˆ—‚ðs‚¤
+#***************** ãƒ•ãƒ©ã‚°å†…å®¹ ********************************************
+#   vTDLE       : ãƒ­ã‚´éƒ¨åˆ†æœ€å¾Œã®æŒ‡å®šç§’ã‚’ãƒ•ã‚¡ã‚¤ãƒ«åˆ†å‰²æ‰±ã„ã§æ§‹æˆåˆ†é›¢å‡¦ç†ã‚’è¡Œã†
 #*************************************************************************
 
-#---iÝ’è‹L‰¯jŒŸõŠJŽnêŠ ---
+#---ï¼ˆè¨­å®šè¨˜æ†¶ï¼‰æ¤œç´¢é–‹å§‹å ´æ‰€ ---
 If vTDLE
-  ArgSet divone_num   -1     # •ª—£‹N“_‚ÌƒƒS”Ô†iÅŒã‚©‚ç”‚¦‚éŽž‚Íƒ}ƒCƒiƒXj
-  ArgSet divone_ch    E      # •ª—£‹N“_iS=ƒƒSŠJŽnˆÊ’u  E=ƒƒSI—¹ˆÊ’uj
-  ArgSet divone_len_s 0.0    # •ª—£‹N“_‚©‚ç‚Ì\¬Žn“_ˆÊ’u
-  ArgSet divone_len_e -S(${vTDLE})  # •ª—£‹N“_‚©‚ç‚Ì\¬I“_ˆÊ’u
-  ArgSet divone_deltr 1      # —\“™ŒŸo‘O‚É\¬ˆêŽžíœi0=‚È‚µ 1=‚ ‚èj
-  Call "JL_set_ˆê•”\¬•ª—£.txt"
+  ArgSet divone_num   -1     # åˆ†é›¢èµ·ç‚¹ã®ãƒ­ã‚´ç•ªå·ï¼ˆæœ€å¾Œã‹ã‚‰æ•°ãˆã‚‹æ™‚ã¯ãƒžã‚¤ãƒŠã‚¹ï¼‰
+  ArgSet divone_ch    E      # åˆ†é›¢èµ·ç‚¹ï¼ˆS=ãƒ­ã‚´é–‹å§‹ä½ç½®  E=ãƒ­ã‚´çµ‚äº†ä½ç½®ï¼‰
+  ArgSet divone_len_s 0.0    # åˆ†é›¢èµ·ç‚¹ã‹ã‚‰ã®æ§‹æˆå§‹ç‚¹ä½ç½®
+  ArgSet divone_len_e -S(${vTDLE})  # åˆ†é›¢èµ·ç‚¹ã‹ã‚‰ã®æ§‹æˆçµ‚ç‚¹ä½ç½®
+  ArgSet divone_deltr 1      # äºˆå‘Šç­‰æ¤œå‡ºå‰ã«æ§‹æˆä¸€æ™‚å‰Šé™¤ï¼ˆ0=ãªã— 1=ã‚ã‚Šï¼‰
+  Call "JL_set_ä¸€éƒ¨æ§‹æˆåˆ†é›¢.txt"
 EndIf
 
 
-#***************** ƒtƒ‰ƒO“à—e ********************************************
-#   fAMrL15A    : ƒƒS•t‚«15•b\¬Œ‹‡i5/10•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMrL15B    : ƒƒS•t‚«15•b\¬Œ‹‡i12•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMrL30A    : ƒƒS•t‚«30•b\¬Œ‹‡i10/15/20/25•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMrL90A    : ƒƒS•t‚«90•b\¬Œ‹‡i30/60/75•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMcN15     : ƒƒS–³‚µ15•b\¬Œ‹‡iðŒ‚È‚µj
-#   fAMcN15A    : ƒƒS–³‚µ15•b\¬Œ‹‡i5/10•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMcN30A    : ƒƒS–³‚µ30•b\¬Œ‹‡i15•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMcN60A    : ƒƒS–³‚µ60•b\¬Œ‹‡i15/30/45•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMcN90A    : ƒƒS–³‚µ90•b\¬Œ‹‡i30/60/75•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
-#   fAMcN120A   : ƒƒS–³‚µ120•b\¬Œ‹‡i30/60/90/105•b’n“_‚É\¬‘¶ÝŽž‚ðœ‚­j
+#***************** ãƒ•ãƒ©ã‚°å†…å®¹ ********************************************
+#   fAMrL15A    : ãƒ­ã‚´ä»˜ã15ç§’æ§‹æˆçµåˆï¼ˆ5/10ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMrL15B    : ãƒ­ã‚´ä»˜ã15ç§’æ§‹æˆçµåˆï¼ˆ12ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMrL30A    : ãƒ­ã‚´ä»˜ã30ç§’æ§‹æˆçµåˆï¼ˆ10/15/20/25ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMrL90A    : ãƒ­ã‚´ä»˜ã90ç§’æ§‹æˆçµåˆï¼ˆ30/60/75ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMcN15     : ãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆçµåˆï¼ˆæ¡ä»¶ãªã—ï¼‰
+#   fAMcN15A    : ãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆçµåˆï¼ˆ5/10ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMcN30A    : ãƒ­ã‚´ç„¡ã—30ç§’æ§‹æˆçµåˆï¼ˆ15ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMcN60A    : ãƒ­ã‚´ç„¡ã—60ç§’æ§‹æˆçµåˆï¼ˆ15/30/45ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMcN90A    : ãƒ­ã‚´ç„¡ã—90ç§’æ§‹æˆçµåˆï¼ˆ30/60/75ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
+#   fAMcN120A   : ãƒ­ã‚´ç„¡ã—120ç§’æ§‹æˆçµåˆï¼ˆ30/60/90/105ç§’åœ°ç‚¹ã«æ§‹æˆå­˜åœ¨æ™‚ã‚’é™¤ãï¼‰
 #*************************************************************************
 
 If fAMrL15A fAMrL15B
-  MemSet AUTO  -order 30 {     # Œ‹‡‚ÌŽÀs‡ˆÊ‚Í‘‚­
+  MemSet AUTO  -order 30 {     # çµåˆã®å®Ÿè¡Œé †ä½ã¯æ—©ã
     LocalSet noac "-Em 0.25"
     If fAMrL15A
       Set noac "${noac} -NoAC 5.0 -NoAC 10.0"
@@ -212,21 +212,21 @@ If fAMrL15A fAMrL15B
 EndIf
 
 If fAMrL30A
-  MemSet AUTO  -order 30 {     # Œ‹‡‚ÌŽÀs‡ˆÊ‚Í‘‚­
+  MemSet AUTO  -order 30 {     # çµåˆã®å®Ÿè¡Œé †ä½ã¯æ—©ã
     LocalSet noac "-Em 0.25 -NoAC 10.0 -NoAC 15.0 -NoAC 20.0 -NoAC 25.0"
     AutoIns 30.0 -Dm 0.25 -fromC -ZoneL -overC ${g_noedge} ${noac}
   };
 EndIf
 
 If fAMrL90A
-  MemSet AUTO  -order 30 {     # Œ‹‡‚ÌŽÀs‡ˆÊ‚Í‘‚­
+  MemSet AUTO  -order 30 {     # çµåˆã®å®Ÿè¡Œé †ä½ã¯æ—©ã
     LocalSet noac "-Em 0.25 -NoAC 30.0 -NoAC 60.0 -NoAC 75.0"
     AutoIns 90.0 -Dm 0.25 -fromC -ZoneL -overC ${g_noedge} ${noac}
   };
 EndIf
 
 If fAMcN15 fAMcN15A
-  MemSet AUTO  -order 30 {     # Œ‹‡‚ÌŽÀs‡ˆÊ‚Í‘‚­
+  MemSet AUTO  -order 30 {     # çµåˆã®å®Ÿè¡Œé †ä½ã¯æ—©ã
     LocalSet noac "-Em 0.25"
     If fAMcN15A && !fAMcN15
       Set noac "${noac} -NoAC 5.0 -NoAC 10.0"
@@ -236,28 +236,28 @@ If fAMcN15 fAMcN15A
 EndIf
 
 If fAMcN30A
-  MemSet AUTO  -order 30 {     # Œ‹‡‚ÌŽÀs‡ˆÊ‚Í‘‚­
+  MemSet AUTO  -order 30 {     # çµåˆã®å®Ÿè¡Œé †ä½ã¯æ—©ã
     LocalSet noac "-Em 0.25 -NoAC 15.0"
     AutoDel 30.0 -Dm 0.25 -fromC -ZoneN ${g_noedge} ${noac}
   };
 EndIf
 
 If fAMcN60A
-  MemSet AUTO  -order 30 {     # Œ‹‡‚ÌŽÀs‡ˆÊ‚Í‘‚­
+  MemSet AUTO  -order 30 {     # çµåˆã®å®Ÿè¡Œé †ä½ã¯æ—©ã
     LocalSet noac "-Em 0.25 -NoAC 15.0 -NoAC 30.0 -NoAC 45.0"
     AutoDel 60.0 -Dm 0.25 -fromC -ZoneN ${g_noedge} ${noac}
   };
 EndIf
 
 If fAMcN90A
-  MemSet AUTO  -order 30 {     # Œ‹‡‚ÌŽÀs‡ˆÊ‚Í‘‚­
+  MemSet AUTO  -order 30 {     # çµåˆã®å®Ÿè¡Œé †ä½ã¯æ—©ã
     LocalSet noac "-Em 0.25 -NoAC 30.0 -NoAC 60.0 -NoAC 75.0"
     AutoDel 90.0 -Dm 0.25 -fromC -ZoneN ${g_noedge} ${noac}
   };
 EndIf
 
 If fAMcN120A
-  MemSet AUTO  -order 30 {     # Œ‹‡‚ÌŽÀs‡ˆÊ‚Í‘‚­
+  MemSet AUTO  -order 30 {     # çµåˆã®å®Ÿè¡Œé †ä½ã¯æ—©ã
     LocalSet noac "-Em 0.25 -NoAC 30.0 -NoAC 60.0 -NoAC 90.0 -NoAC 105.0"
     AutoDel 120.0 -Dm 0.25 -fromC -ZoneN ${g_noedge} ${noac}
   };
@@ -265,36 +265,36 @@ EndIf
 
 
 #*************************************************************************
-#   fAMcSpN15    : ”Ô‘g’ñ‹Ÿ‚ªƒƒS–³‚µ15•b\¬‚Ìˆê•”‚È‚çŒ‹‡ƒJƒbƒgiðŒ‚È‚µj
-#   fAMcSpN15A   : ”Ô‘g’ñ‹Ÿ‚ªƒƒS–³‚µ15•b\¬‚Ìˆê•”‚È‚çŒ‹‡ƒJƒbƒgiTrailer(add)’¼Œãœ‚­j
-#   fAMcSpN15B   : ”Ô‘g’ñ‹Ÿ‚ªƒƒS–³‚µ15•b\¬‚Ìˆê•”‚È‚çŒ‹‡ƒJƒbƒgiTrailer(add)Œã100•bœ‚­j
-#   fAMcSpN15C   : ”Ô‘g’ñ‹Ÿ‚ªƒƒS–³‚µ15•b\¬‚Ìˆê•”‚È‚çŒ‹‡ƒJƒbƒgiÅIƒƒSŒã100•bœ‚­j
-#   fAMcSpNL15   : ”Ô‘g’ñ‹Ÿ‚ªNologo‚ð‡‚í‚¹‚é‚Æ15•b‚È‚çŒ‹‡ƒJƒbƒg
-#   fAMcSpNL30   : ”Ô‘g’ñ‹Ÿ‚ªNologo‚ð‡‚í‚¹‚é‚Æ30•b‚È‚çŒ‹‡ƒJƒbƒg
+#   fAMcSpN15    : ç•ªçµ„æä¾›ãŒãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆã®ä¸€éƒ¨ãªã‚‰çµåˆã‚«ãƒƒãƒˆï¼ˆæ¡ä»¶ãªã—ï¼‰
+#   fAMcSpN15A   : ç•ªçµ„æä¾›ãŒãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆã®ä¸€éƒ¨ãªã‚‰çµåˆã‚«ãƒƒãƒˆï¼ˆTrailer(add)ç›´å¾Œé™¤ãï¼‰
+#   fAMcSpN15B   : ç•ªçµ„æä¾›ãŒãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆã®ä¸€éƒ¨ãªã‚‰çµåˆã‚«ãƒƒãƒˆï¼ˆTrailer(add)å¾Œ100ç§’é™¤ãï¼‰
+#   fAMcSpN15C   : ç•ªçµ„æä¾›ãŒãƒ­ã‚´ç„¡ã—15ç§’æ§‹æˆã®ä¸€éƒ¨ãªã‚‰çµåˆã‚«ãƒƒãƒˆï¼ˆæœ€çµ‚ãƒ­ã‚´å¾Œ100ç§’é™¤ãï¼‰
+#   fAMcSpNL15   : ç•ªçµ„æä¾›ãŒNologoã‚’åˆã‚ã›ã‚‹ã¨15ç§’ãªã‚‰çµåˆã‚«ãƒƒãƒˆ
+#   fAMcSpNL30   : ç•ªçµ„æä¾›ãŒNologoã‚’åˆã‚ã›ã‚‹ã¨30ç§’ãªã‚‰çµåˆã‚«ãƒƒãƒˆ
 #*************************************************************************
 
 If fAMcSpN15 fAMcSpN15A fAMcSpN15B fAMcSpN15C
-  MemSet mbase_last  -order 30 {     # ”Ô‘g’ñ‹Ÿ”FŽ¯ŒãBŒ‹‡‚ÌŽÀs‡ˆÊ‚Í‘‚­
-    ListClear -RegList lista  -local   # ‹ÖŽ~—Ìˆæ
-    If fAMcSpN15A && !fAMcSpN15  # —\(add)’¼Œã‚Ì\¬‚Ü‚ÅŒ‹‡‹ÖŽ~—Ìˆæ
+  MemSet mbase_last  -order 30 {     # ç•ªçµ„æä¾›èªè­˜å¾Œã€‚çµåˆã®å®Ÿè¡Œé †ä½ã¯æ—©ã
+    ListClear -RegList lista  -local   # ç¦æ­¢é ˜åŸŸ
+    If fAMcSpN15A && !fAMcSpN15  # äºˆå‘Š(add)ç›´å¾Œã®æ§‹æˆã¾ã§çµåˆç¦æ­¢é ˜åŸŸ
       GetList S -fromTRa -DstNextC 2 -holdB -RegOut listtmp -local
       ListJoin -RegArg listtmp -RegList lista -sort -overlap
     EndIf
-    If fAMcSpN15B && !fAMcSpN15  # —\(add)‚©‚ç—\I—¹‚Ì100•bŒã‚Ì‹æØ‚è‚Ü‚ÅŒ‹‡‹ÖŽ~—Ìˆæ
+    If fAMcSpN15B && !fAMcSpN15  # äºˆå‘Š(add)ã‹ã‚‰äºˆå‘Šçµ‚äº†ã®100ç§’å¾Œã®åŒºåˆ‡ã‚Šã¾ã§çµåˆç¦æ­¢é ˜åŸŸ
       GetList S 100.0 0.0 101.2 -fromTRa -DstNextC -holdB -RegOut listtmp -local
       ListJoin -RegArg listtmp -RegList lista -sort -overlap
     EndIf
-    If fAMcSpN15C && !fAMcSpN15  # ÅIƒƒSˆÈ~100•bŒã‚Ì‹æØ‚è‚Ü‚ÅŒ‹‡‹ÖŽ~—Ìˆæ
+    If fAMcSpN15C && !fAMcSpN15  # æœ€çµ‚ãƒ­ã‚´ä»¥é™100ç§’å¾Œã®åŒºåˆ‡ã‚Šã¾ã§çµåˆç¦æ­¢é ˜åŸŸ
       GetList E 100.0 0.0 101.2  -Nauto -1 -C -holdB -RegOut listtmp -local
       ListJoin -RegArg listtmp -RegList lista -sort -overlap
     EndIf
-    AutoDel S  15.0 -fromSp -ZoneN -ZoneImmN ${lista} -overC ${g_noedge}  # ”Ô‘g’ñ‹Ÿ\¬‘O‘¤‚©‚çŒã‚É
-    AutoDel E -15.0 -fromSp -ZoneN -ZoneImmN ${lista} -overC ${g_noedge}  # ”Ô‘g’ñ‹Ÿ\¬Œã‘¤‚©‚ç‘O‚É
+    AutoDel S  15.0 -fromSp -ZoneN -ZoneImmN ${lista} -overC ${g_noedge}  # ç•ªçµ„æä¾›æ§‹æˆå‰å´ã‹ã‚‰å¾Œã«
+    AutoDel E -15.0 -fromSp -ZoneN -ZoneImmN ${lista} -overC ${g_noedge}  # ç•ªçµ„æä¾›æ§‹æˆå¾Œå´ã‹ã‚‰å‰ã«
   };
 EndIf
 
 If fAMcSpNL15
-  MemSet mbase_last  -order 30 {     # ”Ô‘g’ñ‹Ÿ”FŽ¯ŒãBŒ‹‡‚ÌŽÀs‡ˆÊ‚Í‘‚­
+  MemSet mbase_last  -order 30 {     # ç•ªçµ„æä¾›èªè­˜å¾Œã€‚çµåˆã®å®Ÿè¡Œé †ä½ã¯æ—©ã
     GetList B -fromSP -fromNL -merge
     AutoDel S  15.0 -fromSP -overC -ZoneImmL ${LISTHOLD} ${g_noedge}
     AutoDel E -15.0 -fromSP -overC -ZoneImmL ${LISTHOLD} ${g_noedge}
@@ -302,7 +302,7 @@ If fAMcSpNL15
 EndIf
 
 If fAMcSpNL30
-  MemSet mbase_last  -order 30 {     # ”Ô‘g’ñ‹Ÿ”FŽ¯ŒãBŒ‹‡‚ÌŽÀs‡ˆÊ‚Í‘‚­
+  MemSet mbase_last  -order 30 {     # ç•ªçµ„æä¾›èªè­˜å¾Œã€‚çµåˆã®å®Ÿè¡Œé †ä½ã¯æ—©ã
     GetList B -fromSP -fromNL -merge
     AutoDel S  30.0 -fromSP -overC -ZoneImmL ${LISTHOLD} ${g_noedge}
     AutoDel E -30.0 -fromSP -overC -ZoneImmL ${LISTHOLD} ${g_noedge}
@@ -311,9 +311,9 @@ EndIf
 
 
 #*************************************************************************
-##   vAGrCmMg:n    : CM•\Ž¦‚Å15•b’PˆÊ‚©‚çn•b‚ð’´‚¦‚Ä‚¸‚ê‚Ä‚¢‚éŠ‚ÍŽc‚·i0=–³Œøj
-##   vAGrCmMgS45:n : 40•bˆÈã30•b’PˆÊ‚Å‚È‚¢CMˆÊ’u‚ÉŒÀ’è‚µ‚Än•b’´‚¦‚Ì‚¸‚ê‚ÍŽc‚·i0=–³Œøj
-##   vAGrNlOv:n    : n•bˆÈã‚ÌNologo\¬‚ÍŽc‚·i0=–³Œøj
+##   vAGrCmMg:n    : CMè¡¨ç¤ºã§15ç§’å˜ä½ã‹ã‚‰nç§’ã‚’è¶…ãˆã¦ãšã‚Œã¦ã„ã‚‹æ‰€ã¯æ®‹ã™ï¼ˆ0=ç„¡åŠ¹ï¼‰
+##   vAGrCmMgS45:n : 40ç§’ä»¥ä¸Š30ç§’å˜ä½ã§ãªã„CMä½ç½®ã«é™å®šã—ã¦nç§’è¶…ãˆã®ãšã‚Œã¯æ®‹ã™ï¼ˆ0=ç„¡åŠ¹ï¼‰
+##   vAGrNlOv:n    : nç§’ä»¥ä¸Šã®Nologoæ§‹æˆã¯æ®‹ã™ï¼ˆ0=ç„¡åŠ¹ï¼‰
 #*************************************************************************
 
 If vAGrCmMg
@@ -321,7 +321,7 @@ If vAGrCmMg
     LocalSet listcm 15.0,30.0,45.0,60.0,75.0,90.0,105.0,120.0
     GetList -fromCM -Dlist ${listcm} -Dm 5.0 -underC -holdB -RegOut lista -local
     GetList -fromCM -Dlist ${listcm} -Dm S(${vAGrCmMg}) -underC -holdB -RegOut listb -local
-    ListRemove -RegArg listb -RegList lista -overlap  # ‚¸‚ê‚ª¬‚³‚¢ˆÊ’u‚ðœ‚­
+    ListRemove -RegArg listb -RegList lista -overlap  # ãšã‚ŒãŒå°ã•ã„ä½ç½®ã‚’é™¤ã
     AutoIns -fromCM -ZoneImmL ${lista} ${g_noedge}
   };
 EndIf
@@ -331,7 +331,7 @@ If vAGrCmMgS45
     LocalSet listcm 45.0,75.0,105.0
     GetList -fromCM -Dlist ${listcm} -Dm 5.0 -underC -holdB -RegOut lista -local
     GetList -fromCM -Dlist ${listcm} -Dm S(${vAGrCmMgS45}) -underC -holdB -RegOut listb -local
-    ListRemove -RegArg listb -RegList lista -overlap  # ‚¸‚ê‚ª¬‚³‚¢ˆÊ’u‚ðœ‚­
+    ListRemove -RegArg listb -RegList lista -overlap  # ãšã‚ŒãŒå°ã•ã„ä½ç½®ã‚’é™¤ã
     AutoIns -fromCM -ZoneImmL ${lista} ${g_noedge}
   };
 EndIf

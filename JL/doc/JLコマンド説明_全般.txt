@@ -1,475 +1,475 @@
+﻿-----------------------------------------
+join_logo_scp用の実行内容スクリプト
+コマンド説明  ver5.0対応
 -----------------------------------------
-join_logo_scp�p�̎��s���e�X�N���v�g
-�R�}���h����  ver5.0�Ή�
------------------------------------------
 
-�y��{�z
-�E�t�@�C���擪����P�s�����s����B
-�E�J�b�g�ʒu���m�肵�����͈ȍ~�̎��s�����͖�������B
-�E�J�b�g�ʒu���Ō�܂Ŋm�肵�Ȃ���������CM�J�b�g���s��Ȃ��B
-�E�擪������ # �̍s�̓R�����g�Ƃ��ēǂݔ�΂��B�r����#�ȍ~���ǂݔ�΂��B
-�E���S�\���I������␳�����ꏊ��CM�J�b�g�J�n�ʒu�A
-  ���̃��S�\���J�n����␳�����ꏊ��CM�J�b�g�I���ʒu�ƂȂ�B
-�E�s���܂��͒���󔒂�" \"�L�ڂłP�s�𕡐��s�ɕ����B(ver4.0�ǉ�)
-����L�J�b�g�ʒu�Ɋւ��铮��͏]�������J�b�g�����s�������̓���ŁA
-  �����\���������s����Auto�n�J�b�g�ł͖��֌W(ver5.0�ǉ��L��)
+【基本】
+・ファイル先頭から１行ずつ実行する。
+・カット位置が確定した所は以降の実行条件は無視する。
+・カット位置が最後まで確定しなかった所はCMカットを行わない。
+・先頭文字が # の行はコメントとして読み飛ばす。途中の#以降も読み飛ばす。
+・ロゴ表示終了から補正した場所がCMカット開始位置、
+  次のロゴ表示開始から補正した場所がCMカット終了位置となる。
+・行末または直後空白の" \"記載で１行を複数行に分割可。(ver4.0追加)
+※上記カット位置に関する動作は従来方式カットを実行した時の動作で、
+  自動構成推測が行われるAuto系カットでは無関係(ver5.0追加記載)
 
 
-�y�R�}���h�z
-�P�s���ɉ��L���ڂ��L�ڂ���B
+【コマンド】
+１行毎に下記項目を記載する。
 
-�R�}���h �R�}���h���� �I�v�V����
-
-
-���R�}���h����уR�}���h�����ꗗ
-
-���L�R�}���h�����ŁAS/E/B��SEB�̂ǂꂩ�P������\���A���S�\���J�n�܂��͏I����
-�ǂ����I�Ԃ����߂�BS:�J�n,E:�I��,B:������\���B
-
-�L�ڒ��̃��S�ʒu�Ƃ́A�i�I�v�V�����ŕύX���Ȃ�����j���S�J�n�^�I���ʒu����
-�N�����I�v�V����CutMrgIn/CutMrgOut�ŕ␳��������\���B
-
-(ver4.0�ǉ�)
-���s�R�}���h�̍ŏ��Ɏw�肷��͈͂͑S���ȗ��܂��͒��S�w�肾�����\�B
-�ȗ������ꍇ�ɂ͒��S�w���0�A�͈͂͒��S�}1.2�b���ݒ�B
-�ʓr��q�̃I�v�V�����Őݒ肷�邱�Ƃ��\�B
-�R�}���h�����S/E/B���ȗ��\�B�ȗ�����S�B(ver5.0�ǉ�)
-
-���啶���Ə������̋�ʂɂ���(ver5.0�ǉ��L��)
-  �R�}���h�ƃI�v�V�����̑啶���Ə������͋�ʂ��Ȃ��i�ǐ��D��ō\��Ȃ��j�B
-  ���������ʕ�����͋�ʂ����i����������j�B
-  �ϐ��͋�ʂ��Ďg�p�𐄏��i�ߋ��݊������ʂ��Ȃ��ݒ���c���Ă���j
+コマンド コマンド引数 オプション
 
 
-�����s�R�}���h�i�]�������J�b�g�j
+■コマンドおよびコマンド引数一覧
 
-  ���S�[�ʒu�𒲐����Ċm�肷�邱�ƂŃ��S�Ȃ����Ԃ�CM�Ƃ�������̐ݒ�
+下記コマンド説明で、S/E/BはSEBのどれか１文字を表し、ロゴ表示開始または終了の
+どちらを選ぶか決める。S:開始,E:終了,B:両方を表す。
 
-  Find  S/E/B ���S�w�� �͈͐擪 �͈͖���
-    ���S�ʒu����ɖ����V�[���`�F���W�ꏊ��T���B
-    �w��͈͓��ɂ���΁A���S�w��ɍł��߂��ꏊ��CM�J�b�g�ʒu�Ƃ��Ċm�肷��B
+記載中のロゴ位置とは、（オプションで変更しない限り）ロゴ開始／終了位置から
+起動時オプションCutMrgIn/CutMrgOutで補正した所を表す。
 
-  Force S/E/B �w��ʒu
-    ���S�ʒu����Ɏw��ʒu�����␳�����ꏊ��CM�J�b�g�ʒu�Ƃ��Ċm�肷��B
-    �����V�[���`�F���W���͎g��Ȃ��B
+(ver4.0追加)
+実行コマンドの最初に指定する範囲は全部省略または中心指定だけも可能。
+省略した場合には中心指定は0、範囲は中心±1.2秒が設定。
+別途後述のオプションで設定することも可能。
+コマンド直後のS/E/Bを省略可能。省略時はS。(ver5.0追加)
+
+※大文字と小文字の区別について(ver5.0追加記載)
+  コマンドとオプションの大文字と小文字は区別しない（可読性優先で構わない）。
+  メモリ識別文字列は区別される（実装時から）。
+  変数は区別して使用を推奨（過去互換から区別しない設定を残している）
+
+
+■実行コマンド（従来方式カット）
+
+  ロゴ端位置を調整して確定することでロゴなし期間をCMとする方式の設定
+
+  Find  S/E/B 中心指定 範囲先頭 範囲末尾
+    ロゴ位置を基準に無音シーンチェンジ場所を探す。
+    指定範囲内にあれば、中心指定に最も近い場所をCMカット位置として確定する。
+
+  Force S/E/B 指定位置
+    ロゴ位置を基準に指定位置だけ補正した場所をCMカット位置として確定する。
+    無音シーンチェンジ情報は使わない。
 
   Abort S/E/B
-    ���S�ʒu��CM�J�b�g�͍s��Ȃ����Ƃ��m�肷��B
+    ロゴ位置のCMカットは行わないことを確定する。
 
-  MkLogo S/E/B ���S�w�� �͈͐擪 �͈͖���
-    ���S�ʒu����Ɏw��͈͂ɂ��閳���V�[���`�F���W���J�n�ʒu�Ƃ��鉼�z���S
-    ���쐬����B�w��͈͓��ɕ�������ꍇ�͒��S�w��Ɉ�ԋ߂��ꏊ�Ƃ���B
-    �I���ʒu�� -EndLen �I�v�V�����Ŏw�肷��B
-    �ʏ�͉��z���S�͈͓��Ɋ������S���Ȃ��ꍇ�̂ݗL���ł��邪�A
-    -overlap�I�v�V������t�����ꍇ�͊������S�Ɋ֌W�Ȃ��쐬����B
-    AutoCut�R�}���h�O�ɓ��ꂽ��Auto�n�R�}���h�ɂ����f�����B
+  MkLogo S/E/B 中心指定 範囲先頭 範囲末尾
+    ロゴ位置を基準に指定範囲にある無音シーンチェンジを開始位置とする仮想ロゴ
+    を作成する。指定範囲内に複数ある場合は中心指定に一番近い場所とする。
+    終了位置は -EndLen オプションで指定する。
+    通常は仮想ロゴ範囲内に既存ロゴがない場合のみ有効であるが、
+    -overlapオプションを付けた場合は既存ロゴに関係なく作成する。
+    AutoCutコマンド前に入れたらAuto系コマンドにも反映される。
 
-�i��jMkLogo E 300 290 310 -N -1 -EndLen 600 590 610
-    ��Ƃ��郍�S�͍ŏI���S�i-N -1�j�\���I���iE�j�ʒu�ŁA�����
-    �P�O�b��i290�`310�t���[���j�̃V�[���`�F���W�����z���S�J�n�ʒu�Ƃ���B
-    ���z���S�J�n�ʒu����Q�O�b��i590�`610�t���[���j�̃V�[���`�F���W�������
-    ���z���S�I���ʒu�Ƃ��Đݒ肪�L���ɂȂ�B
-
-
-  DivLogo S/E/B ���S�w�� �͈͐擪 �͈͖���
-    ���S�ʒu����Ɏw��͈͂ɂ��閳���V�[���`�F���W���������S���ł����
-    ���S�𕪊�����B�w��͈͓��ɕ�������ꍇ�͒��S�w��Ɉ�ԋ߂��ꏊ�Ƃ���B
-    ���̃R�}���h�Ń��S���������ꍇ�A�o��AVS��Trim�����������B
-    �����I�ȋ�؂����ꂽ���ꍇ�ɐݒ肷��B(ver2.1�ǉ�)
-
-  Select S/E/B ���S�w�� �͈͐擪 �͈͖���
-    ���S�ʒu���������o�ł͌���ł��Ȃ����A���S�\���͈͓���Select�w��͈͓���
-    �����V�[���`�F���W������Β��S�w��Ɉ�ԋ߂��ꏊ��I������B
-    �I�����ꂽ�ꏊ�̓��S�ʒu�ƂȂ�ACM�Ԋu���玩�����o�������Ɠ��lFind�R�}���h
-    �ł́i-flat�I�v�V�����w�莞�������j�D�悵�đI�������B
-    -reset�I�v�V������t����ƃ��S�ʒu���o�ł��Ă��鎞�ł����s�B
-    -logoext�I�v�V�����Ń��S�\���͈͂��L���Č����\�B
-
-  �������܂ł̃R�}���h�̓��S�[�ʒu�𒲐����邱�ƂŃ��S�Ȃ����Ԃ�CM�Ƃ���
-    �]�����������ɍ쐬���ꂽ�R�}���h�ŁAAuto�n�R�}���h�ɂ��\���������s���
-    ��{�I�Ɍ��ʂ̂Ȃ��R�}���h�B(ver5.0�ǉ��L��)
+（例）MkLogo E 300 290 310 -N -1 -EndLen 600 590 610
+    基準とするロゴは最終ロゴ（-N -1）表示終了（E）位置で、基準から
+    １０秒後（290～310フレーム）のシーンチェンジを仮想ロゴ開始位置とする。
+    仮想ロゴ開始位置から２０秒後（590～610フレーム）のシーンチェンジがあれば
+    仮想ロゴ終了位置として設定が有効になる。
 
 
-�����s�R�}���h�i��ʁj
+  DivLogo S/E/B 中心指定 範囲先頭 範囲末尾
+    ロゴ位置を基準に指定範囲にある無音シーンチェンジが同じロゴ内であれば
+    ロゴを分割する。指定範囲内に複数ある場合は中心指定に一番近い場所とする。
+    このコマンドでロゴ分割した場合、出力AVSのTrimも分割される。
+    明示的な区切りを入れたい場合に設定する。(ver2.1追加)
 
-  Default �ϐ��� �ݒ�l
-  Set  �ϐ��� �ݒ�l
-    �ǂ�����ϐ��ɒl��ݒ�BDefault�͕ϐ�������`���̂ݔ��f�����B
-    �g�p���͕ϐ����̐擪��$���������O��u�����ƂŐݒ�l�ɒu�������B
-    �ʏ��$�̌��v�����Ԓ����ϐ����ɂȂ邪�A${�ϐ���}�̌`���Ŗ������\�B
-    �ϐ����̈�v���钷���������[�J���ϐ��ň�v����ΗD�悳���B(ver4.0�ǉ�)
-    �ŏ�����ݒ肳��Ă��Ďg�p�\�ȃV�X�e���ϐ��Ƃ��ĉ��L����B
-      $MAXFRAME�F�ŏI�t���[���l(ver2.1�ǉ�)
-      $MAXTIME �F�ŏI�t���[�����ԕ\�L(ver3.0�ǉ�)
-      $NOLOGO  �F���S�Ȃ�����1�A���S���莞��0(ver2.1�ǉ�)
-      $LASTEXE �F���O�R�}���h�̎��s��ԁi0:���s�Ȃ� 1:���s�j(ver2.1�ǉ�)
-      $JLDATAPATH : JL�T�u�t�H���_"data"�̃t�@�C�����w��ppath(ver4.1�ǉ�)
-      $FILEOPEN  : �ʏ�0�AEcho�n�̏o�͐悪�t�@�C���ɂȂ��Ă��鎞1(ver5.0�ǉ�)
-      $EXTCHAR   : �����񕪊��ΏۂƂȂ�g���q�L���B���[�J���ϐ���(ver5.0�ǉ�)
-      $EXTCHSUB  : �����񕪊��Ώۂ̏����Ŏg�p�B���[�J���ϐ���(ver5.0�ǉ�)
-      $DQUOTE    : �_�u���N�H�[�g�u���ޔ𕶎���B���[�J���ϐ���(ver5.0�ǉ�)
-      $SQUOTE    : �V���O���N�H�[�g�u���ޔ𕶎���B���[�J���ϐ���(ver5.0�ǉ�)
-      $RANGETYPE : GetPos/GetList��HEAD/TAIL�͈͐���K�p�ݒ�(ver5.0�ǉ�)
-      $HEADFRAME : -Fhead/-Ftail/-Fmid�I�v�V�����w�莞�ɗ��p�����(ver2.1�ǉ�)
-      $TAILFRAME : -Fhead/-Ftail/-Fmid�I�v�V�����w�莞�ɗ��p�����(ver2.1�ǉ�)
-      $HEADTIME  : �����ł�$HEADFRAME�Ɠ����B���ԕ\�L�ŕ\�������(ver3.0�ǉ�)
-      $TAILTIME  : �����ł�$TAILFRAME�Ɠ����B���ԕ\�L�ŕ\�������(ver3.0�ǉ�)
-      $ABSHEAD   : HEADTIME������A���������ݒ莞��0������(ver5.0�ǉ�)
-      $ABSTAIL   : TAILTIME������A���������ݒ莞��MAXTIME������(ver5.0�ǉ�)
-       ��$HEADTIME,$TAILTIME�͐����ʋL�ڂ���R�}���h�ł����p(ver3.0�ǉ�)
-         $HEADFRAME��$HEADTIME�A$TAILFRAME��$TAILTIME�͂ǂ���ł��g�p�\
-    ���ɃV�X�e���ϐ��Ƃ��Ďg�p�����ϐ��͉��L
-      $POSHOLD  : GetPos�R�}���h�g�p���ɑ�������(ver3.0�ǉ�)
-      $LISTHOLD : GetList�R�}���h�g�p���ɑ�������(ver3.0�ǉ�)
-      $SIZEHOLD : GetList�R�}���h�g�p���ɑ�������(ver4.0�ǉ�)
-      $READVALID : Read�n�R�}���h�g�p���ɑ�������(ver5.0�ǉ�)
-    �ݒ肵������ꏈ�������ϐ�
-      $OUTDIRECT : �ʒu�L�ڂ̃��X�g�ϐ��ł���Ώo��AVS�ɂȂ�(ver5.0�ǉ�)
-    �ݒ�l��""�ň͂ނ��Ƃŋ󔒂��܂߂��ݒ�\(ver3.0�ǉ�)
-    �ݒ�l���ŕϐ����g��ꂽ�ꍇ�͂��̏�œW�J����A���Z���g��ꂽ�ꍇ��
-    ���̂܂܂Ŏg�p���ɓW�J�����B(ver3.0��������ǉ�)
-    �ݒ�l��''�ň͂ނ��Ƃ�""�ƈႢ�ϐ����܂߂��̏�ł͓W�J���Ȃ�(ver5.0�ǉ�)
-    �����̈����A�I�v�V�������܂Ƃ߂�1�̕ϐ��Ɋi�[���邱�Ƃ͂ł��邪�A
-    ���s�R�}���h�̕ϐ��i�[�͂ł��Ȃ��B(ver5.0�ǉ��L��)
-    �V�X�e���ϐ��͋L�ڂ�����̈ȊO�̓O���[�o���ϐ�����B
+  Select S/E/B 中心指定 範囲先頭 範囲末尾
+    ロゴ位置が自動検出では決定できない時、ロゴ可能性範囲内でSelect指定範囲内の
+    無音シーンチェンジがあれば中心指定に一番近い場所を選択する。
+    選択された場所はロゴ位置となり、CM間隔から自動検出した時と同様Findコマンド
+    では（-flatオプション指定時を除き）優先して選択される。
+    -resetオプションを付けるとロゴ位置検出できている時でも実行。
+    -logoextオプションでロゴ可能性範囲を広げて検索可能。
 
-    ���X�g�ϐ���$�ϐ���[�ԍ�]�Ń��X�g���f�[�^�𒼐ڃA�N�Z�X�\(ver4.1�ǉ�)
-    �ԍ��͐擪�f�[�^��1�Ƃ���B0�͐ݒ�s�B���̎��͍Ōォ�琔����B
-    �ϐ��������݂ł͔ԍ��ɗv�f��+1���w��ł��A���̏ꍇ�͖���`�ϐ��̒ǉ������B
-    $#�ϐ����Ń��X�g�ϐ����̗v�f���i���ڐ��j���擾�\�B
-    ���X�g�ϐ��̃R�s�[�́i�v�f0�����l�����ājSetReg�R�}���h�𐄏�(ver5.0�ǉ�)
-    ���X�g�ϐ��S�̑����SetList��SplitCsv�����X�g��p�̐ݒ�R�}���h�����邪�A
-    �v�f�����l�i���ԕ\�L�܂ށj�̎��̓R���}��؂��Set�R�}���h���ڐݒ���\
+  ※ここまでのコマンドはロゴ端位置を調整することでロゴなし期間をCMとする
+    従来方式向けに作成されたコマンドで、Auto系コマンドによる構成推測実行後は
+    基本的に効果のないコマンド。(ver5.0追加記載)
 
-�i��jSet lista 3,4,5
-    $lista[1]=3,$lista[2]=4,$lista[3]=5��3�v�f���X�g�ϐ�lista���쐬
 
-    ${�ϐ���}�`���̕ϐ����Ō�ɕt���������ǉ����邱�ƂŁA
-    �p�X�A�t�@�C�����A�g���q�ŕ�������������������擾�\(ver5.0�ǉ�)
-    �ϐ��ݒ�(EXTCHAR)�ɂ����ۂ̊g���q�ȊO�̕�����ł��ݒ�\�B
-      :r    : �g���q��������菜��
-      :e    : �g���q�̂ݎc��
-      :h    : �p�X�̂ݎc��
-      :t    : �t�@�C�����ȍ~�̂ݎc��
+■実行コマンド（一般）
 
-    �����܂ł̊g���q�̓p�X�����̌��������Ȃ��B�ȍ~�̓p�X���֌W�Ɍ�������
+  Default 変数名 設定値
+  Set  変数名 設定値
+    どちらも変数に値を設定。Defaultは変数が未定義時のみ反映される。
+    使用時は変数名の先頭に$をつけた名前を置くことで設定値に置換される。
+    通常は$の後一致する一番長い変数名になるが、${変数名}の形式で明示も可能。
+    変数名の一致する長さよりもローカル変数で一致あれば優先される。(ver4.0追加)
+    最初から設定されていて使用可能なシステム変数として下記あり。
+      $MAXFRAME：最終フレーム値(ver2.1追加)
+      $MAXTIME ：最終フレーム時間表記(ver3.0追加)
+      $NOLOGO  ：ロゴなし時に1、ロゴあり時に0(ver2.1追加)
+      $LASTEXE ：直前コマンドの実行状態（0:実行なし 1:実行）(ver2.1追加)
+      $JLDATAPATH : JLサブフォルダ"data"のファイル名指定用path(ver4.1追加)
+      $FILEOPEN  : 通常0、Echo系の出力先がファイルになっている時1(ver5.0追加)
+      $EXTCHAR   : 文字列分割対象となる拡張子記号。ローカル変数可(ver5.0追加)
+      $EXTCHSUB  : 文字列分割対象の処理で使用。ローカル変数可(ver5.0追加)
+      $DQUOTE    : ダブルクォート置換退避文字列。ローカル変数可(ver5.0追加)
+      $SQUOTE    : シングルクォート置換退避文字列。ローカル変数可(ver5.0追加)
+      $RANGETYPE : GetPos/GetListのHEAD/TAIL範囲制約適用設定(ver5.0追加)
+      $HEADFRAME : -Fhead/-Ftail/-Fmidオプション指定時に利用される(ver2.1追加)
+      $TAILFRAME : -Fhead/-Ftail/-Fmidオプション指定時に利用される(ver2.1追加)
+      $HEADTIME  : 内部では$HEADFRAMEと同じ。時間表記で表示される(ver3.0追加)
+      $TAILTIME  : 内部では$TAILFRAMEと同じ。時間表記で表示される(ver3.0追加)
+      $ABSHEAD   : HEADTIMEが入る、ただし未設定時は0が入る(ver5.0追加)
+      $ABSTAIL   : TAILTIMEが入る、ただし未設定時はMAXTIMEが入る(ver5.0追加)
+       ※$HEADTIME,$TAILTIMEは説明個別記載あるコマンドでも利用(ver3.0追加)
+         $HEADFRAMEと$HEADTIME、$TAILFRAMEと$TAILTIMEはどちらでも使用可能
+    他にシステム変数として使用される変数は下記
+      $POSHOLD  : GetPosコマンド使用時に代入される(ver3.0追加)
+      $LISTHOLD : GetListコマンド使用時に代入される(ver3.0追加)
+      $SIZEHOLD : GetListコマンド使用時に代入される(ver4.0追加)
+      $READVALID : Read系コマンド使用時に代入される(ver5.0追加)
+    設定したら特殊処理される変数
+      $OUTDIRECT : 位置記載のリスト変数であれば出力AVSになる(ver5.0追加)
+    設定値は""で囲むことで空白を含めた設定可能(ver3.0追加)
+    設定値内で変数が使われた場合はその場で展開され、演算が使われた場合は
+    そのままで使用時に展開される。(ver3.0説明文を追加)
+    設定値を''で囲むことで""と違い変数も含めその場では展開しない(ver5.0追加)
+    複数の引数、オプションをまとめて1つの変数に格納することはできるが、
+    実行コマンドの変数格納はできない。(ver5.0追加記載)
+    システム変数は記載あるもの以外はグローバル変数限定。
 
-      :~m   : 0�n�܂�m�����ڂ���Ō�܂ł̕���������i-m�͌㑤����j
-      :~m,n : 0�n�܂�m�����ڂ���n�����̕���������i-n�͍Ō�n���������j
-      :f    : ���ԃf�[�^���t���[�����ɕϊ�
-      :<    : �󔒂������Ŏ�菜��
-      :>    : �󔒂��E���Ŏ�菜��
-      :<>   : �󔒂����E�Ŏ�菜��
-      :/    : �Ōオ�p�X��؂�łȂ���΃p�X��؂��ǉ�
-      :R    : �g���q�ȍ~����菜���i�擪���猟���j
-      :E    : �g���q��̂ݎc���i�擪���猟���j
-      :H    : �p�X�̂ݎc���i�Ō�̃p�X��؂���܂ށj
-      :X    : �g���q�������ϐ��ݒ�(EXTCHSUB)�ɂ��ׂĒu��
-      :Xi   : �g���q������̊e������ϐ��ݒ�(EXTCHSUB)�Ή��ʒu�����ɂ��ׂĒu��
-      :Xb   : �ϐ����󔒂����ׂĎ�菜��
-      :Xq   : �ϐ������p�����ׂĂ�ϐ��ݒ�(DQUOTE/SQUOTE)������ɒu���ޔ�
-      :Xqr  : �u���ޔ����ꂽ�ϐ��ݒ�(DQUOTE/SQUOTE)����������p���ɖ߂�
-      :M    : �g���q������𐳋K�\���Ƃ��Č������Ή����镶����
-      :C    : �g���q�o����
-      :Ci   : �g���q������̊e���������ꂩ�̏o����
-      :Cm   : ���K�\���Ƃ��Ă̊g���q������o����
-      :L    : �����񒷂��o��
+    リスト変数は$変数名[番号]でリスト内データを直接アクセス可能(ver4.1追加)
+    番号は先頭データを1とする。0は設定不可。負の時は最後から数える。
+    変数書き込みでは番号に要素数+1を指定でき、この場合は未定義変数の追加扱い。
+    $#変数名でリスト変数内の要素数（項目数）を取得可能。
+    リスト変数のコピーは（要素0等も考慮して）SetRegコマンドを推奨(ver5.0追加)
+    リスト変数全体代入はSetListやSplitCsv等リスト専用の設定コマンドもあるが、
+    要素が数値（時間表記含む）の時はコンマ区切りでSetコマンド直接設定も可能
 
-�i��j${name:t:~2,4}
-    �ϐ���name�̃p�X���������t�@�C����������3�����ڂ����4����
+（例）Set lista 3,4,5
+    $lista[1]=3,$lista[2]=4,$lista[3]=5の3要素リスト変数listaを作成
 
-  Unset �ϐ���
-    �w��ϐ��𖢒�`��Ԃɖ߂��B(ver5.0�ǉ�)
-    -local��t�������猻�ݎQ�Ƃ��Ă��郍�[�J���ϐ��Ɍ���B
-    �w��ϐ����̂��ΏۂŁA�v�f�̍폜��ListDel�g�p�܂��͕ϐ��Đݒ肷��B
+    ${変数名}形式の変数名最後に付加文字列を追加することで、
+    パス、ファイル名、拡張子で分割した部分文字列を取得可能(ver5.0追加)
+    変数設定(EXTCHAR)により実際の拡張子以外の文字列でも設定可能。
+      :r    : 拡張子部分を取り除く
+      :e    : 拡張子のみ残す
+      :h    : パスのみ残す
+      :t    : ファイル名以降のみ残す
 
-  SetReg �ϐ��� �ϐ��� 
-    1�Ԗڂ̕ϐ���2�Ԗڂ̕ϐ����e��ݒ�B(ver5.0�ǉ�)
-    ���p����ϐ��W�J���C�ɂ����ϐ����e�����̂܂ܓ���邱�Ƃ��\�B
+    ここまでの拡張子はパス部分の検索をしない。以降はパス無関係に検索する
 
-  LocalSet �ϐ��� �ݒ�l
-    Call�Ăяo����E�Ăяo�����ɉe����^���Ȃ����[�J���ϐ��ݒ�B(ver4.0�ǉ�)
-    ��x���̃R�}���h�Ń��[�J���ϐ��Ƃ��Đݒ肳�ꂽ��A�ȍ~����t�@�C������
-    �A�N�Z�X�͑S�����[�J���ϐ��ɍs����B
-    ��q��{}�g�p�œ���t�@�C�����ł��A�N�Z�X�̈�̐����\(ver5.0�ǉ��L��)
+      :~m   : 0始まりm文字目から最後までの部分文字列（-mは後側から）
+      :~m,n : 0始まりm文字目からn文字の部分文字列（-nは最後n文字除く）
+      :f    : 時間データをフレーム数に変換
+      :<    : 空白を左側で取り除く
+      :>    : 空白を右側で取り除く
+      :<>   : 空白を左右で取り除く
+      :/    : 最後がパス区切りでなければパス区切りを追加
+      :R    : 拡張子以降を取り除く（先頭から検索）
+      :E    : 拡張子後のみ残す（先頭から検索）
+      :H    : パスのみ残す（最後のパス区切りを含む）
+      :X    : 拡張子文字列を変数設定(EXTCHSUB)にすべて置換
+      :Xi   : 拡張子文字列の各文字を変数設定(EXTCHSUB)対応位置文字にすべて置換
+      :Xb   : 変数内空白をすべて取り除く
+      :Xq   : 変数内引用符すべてを変数設定(DQUOTE/SQUOTE)文字列に置換退避
+      :Xqr  : 置換退避された変数設定(DQUOTE/SQUOTE)文字列を引用符に戻す
+      :M    : 拡張子文字列を正規表現として検索し対応する文字列
+      :C    : 拡張子出現数
+      :Ci   : 拡張子文字列の各文字いずれかの出現数
+      :Cm   : 正規表現としての拡張子文字列出現数
+      :L    : 文字列長を出力
 
-  ArgSet �ϐ��� �ݒ�l
-    ����Call���s���ɌĂяo����Ń��[�J���ϐ��Ƃ��Đݒ肳���B(ver4.1�ǉ�)
-    ����Call�҂��̓��[�J���ϐ��̈���ŁA�̈悪�ς��Ɛݒ�̓L�����Z���B
+（例）${name:t:~2,4}
+    変数名nameのパスを除いたファイル名部分の3文字目からの4文字
 
-  ArgSetReg �ϐ��� �ϐ���
-    �ݒ�l��ϐ����Ŏw�肵��ArgSet�����s�B(ver5.0�ǉ�)
+  Unset 変数名
+    指定変数を未定義状態に戻す。(ver5.0追加)
+    -localを付加したら現在参照しているローカル変数に限定。
+    指定変数自体が対象で、要素の削除はListDel使用または変数再設定する。
+
+  SetReg 変数名 変数名 
+    1番目の変数に2番目の変数内容を設定。(ver5.0追加)
+    引用符や変数展開を気にせず変数内容をそのまま入れることが可能。
+
+  LocalSet 変数名 設定値
+    Call呼び出し先・呼び出し元に影響を与えないローカル変数設定。(ver4.0追加)
+    一度このコマンドでローカル変数として設定されたら、以降同一ファイル内の
+    アクセスは全部ローカル変数に行われる。
+    後述の{}使用で同一ファイル内でもアクセス領域の制限可能(ver5.0追加記載)
+
+  ArgSet 変数名 設定値
+    次のCall実行時に呼び出し先でローカル変数として設定される。(ver4.1追加)
+    次のCall待ちはローカル変数領域内で、領域が変わると設定はキャンセル。
+
+  ArgSetReg 変数名 変数名
+    設定値を変数名で指定してArgSetを実行。(ver5.0追加)
 
   ArgBegin
-    �yDefault�R�}���h�z
+    【Defaultコマンド】
   ArgEnd
-    ArgBegin��ArgEnd�ň͂܂ꂽ�̈����Default�R�}���h�͈��������ƂȂ�
-    ���[�J���ϐ��ɐݒ肳���B(ver4.1�ǉ�)
-    ����Default�R�}���h�Ŏw�肵���ϐ��������ɑ��݂���������l�Őݒ肳���B
-    ����Default�R�}���h�Ń��[�J���ϐ��ł͂Ȃ������ϐ��𖳎����Đݒ肵�����ꍇ�A
-    ArgBegin�R�}���h�ɃI�v�V����(-local)���w�肵����\�B
+    ArgBeginとArgEndで囲まれた領域内のDefaultコマンドは引数扱いとなり
+    ローカル変数に設定される。(ver4.1追加)
+    このDefaultコマンドで指定した変数名が既に存在したら既存値で設定される。
+    このDefaultコマンドでローカル変数ではない既存変数を無視して設定したい場合、
+    ArgBeginコマンドにオプション(-local)を指定したら可能。
 
-  �������������[�J���ϐ��̓��ꏈ��
-    �ϐ��W�J����ōs����LazyStart/Memory�R�}���h�������t�@�C�����ɂ������ꍇ
-    �����{�Ŏn�܂�{��}�ň͂܂ꂽ���[�J���ϐ��̈�Ƃ��č쐬������A
-    �����ϐ��͂��̗̈�̃��[�J���ϐ��Ƃ��ăR�}���h���_�̒l�����߂Đݒ肳���B
-    �iLazyStart/Memory�R�}���h���g�p����ꍇ�A�ʏ�̕ϐ��͒x������ۂ̎��s�܂�
-      �l���c���K�v���邪�A�����ϐ��͍ŏ��̐ݒ莞�ɑ��݂���Ύ��s�ł���j
+  ※引数扱いローカル変数の特殊処理
+    変数展開が後で行われるLazyStart/Memoryコマンドが同じファイル内にあった場合
+    直後に{で始まり{と}で囲まれたローカル変数領域として作成したら、
+    引数変数はその領域のローカル変数としてコマンド時点の値が改めて設定される。
+    （LazyStart/Memoryコマンドを使用する場合、通常の変数は遅延後実際の実行まで
+      値を残す必要あるが、引数変数は最初の設定時に存在すれば実行できる）
 
   {
-    �y���s�R�}���h�z
+    【実行コマンド】
   }
-    {��}�ň͂܂ꂽ�̈����LocalSet�ݒ�́A���͈͓̔��̂ݗL���B(ver4.0�ǉ�)
-    {��}�́A�R�}���h�ł��邪����s���ɕʃR�}���h�ƕ��L�\�B(ver5.0�ǉ�)
-    �O������Ƃ͋�ʂɋ󔒕K�v�ł��邪�A�擪�R�}���h�Ԃ͋󔒂��ȗ��B
+    {と}で囲まれた領域内のLocalSet設定は、この範囲内のみ有効。(ver4.0追加)
+    {と}は、コマンドであるが同一行内に別コマンドと併記可能。(ver5.0追加)
+    前後引数とは区別に空白必要であるが、先頭コマンド間は空白を省略可。
 
   };
-    }�̓���ƁAEndIf/EndRepeat/EndLazy/EndMemory/EndFunction
-    �i�󋵂��玩���I���j�̓���ŗ����L�ڂ������Ɠ�������(ver5.0�ǉ�)
+    }の動作と、EndIf/EndRepeat/EndLazy/EndMemory/EndFunction
+    （状況から自動選択）の動作で両方記載した時と同じ動作(ver5.0追加)
 
-  EvalTime �ϐ��� ����
-  EvalNum �ϐ��� ����
-    �ǂ�������������Z���Č��ʂ�ϐ��ɐݒ�B(ver3.0�ǉ�)
-    EvalTime�͐��������ԉ��Z�Ƃ��Ĉ����AEvalNum�͐����Ƃ��Ĉ����B
-    EvalNum�Ő����Ɏ��Ԃ��g�������͕b���̐����Ƃ��Ĉ����B
+  EvalTime 変数名 数式
+  EvalNum 変数名 数式
+    どちらも数式を演算して結果を変数に設定。(ver3.0追加)
+    EvalTimeは数式を時間演算として扱い、EvalNumは整数として扱う。
+    EvalNumで数式に時間を使った時は秒数の整数として扱う。
 
-  EvalFrame �ϐ��� ����
-    EvalTime�Ɠ������Z��EvalTime�g�p�𐄏��B(ver3.0�ǉ�)
-    �t���[�����\�L��Echo�R�}���h�ɂ��\���p�ɒǉ��B
-    ���ԏ��ł͂Ȃ��t���[�����K�v���Ɏg�p�B�����Ƃ��Ă��g�p��(ver4.1�ǉ��L��)
+  EvalFrame 変数名 数式
+    EvalTimeと同じ演算でEvalTime使用を推奨。(ver3.0追加)
+    フレーム数表記でEchoコマンドによる表示用に追加。
+    時間情報ではなくフレーム数必要時に使用。整数としても使用可(ver4.1追加記載)
 
-  SetT �ϐ��� ����
-  SetN �ϐ��� ����
-  SetF �ϐ��� ����
-  LocalSetT �ϐ��� ����
-  LocalSetN �ϐ��� ����
-  LocalSetF �ϐ��� ����
-    Set(T/N/F)��Eval(Time/Num/Frame)�̕ʖ��œ����Eval�����Q��(ver5.0�ǉ�)
-    LocalSet*�͕ϐ������[�J���ϐ��ɂ������̂�-local�t���Ɠ�������B
+  SetT 変数名 数式
+  SetN 変数名 数式
+  SetF 変数名 数式
+  LocalSetT 変数名 数式
+  LocalSetN 変数名 数式
+  LocalSetF 変数名 数式
+    Set(T/N/F)はEval(Time/Num/Frame)の別名で動作はEval側を参照(ver5.0追加)
+    LocalSet*は変数をローカル変数にしたもので-local付加と同じ動作。
 
-  CountUp �ϐ���
-    �����l�̕ϐ��� +1 ���ď����߂�(ver4.0�ǉ�)
-    ����`�̕ϐ��ɂ��g�p�ł��A����`��0�Ɠ��������Ō��ʂ�1�ɂȂ�B
-    �ϐ����̌��-step�I�v�V������+1�ȊO�̒l���ݒ�\(ver5.0�ǉ�)
+  CountUp 変数名
+    整数値の変数を +1 して書き戻す(ver4.0追加)
+    未定義の変数にも使用でき、未定義は0と同じ扱いで結果は1になる。
+    変数名の後に-stepオプションで+1以外の値も設定可能(ver5.0追加)
 
-  NextTail S/B ���S�w�� �͈͐擪 �͈͖���
-    ���݂�$TAILTIME�ʒu����Ƃ��Ďw��t���[���͈͓��ɖ����V�[���`�F���W��
-    ����ꍇ�A���S�w��Ɉ�ԋ߂��ꏊ��$TAILTIME�ɐݒ肵�A
-    ����$TAILTIME�l��$HEADTIME�ɐݒ肷��B(ver3.0�ǉ�)
-    �����b�\���͈͈̔ړ���z��B
-    NextTail��S/B�w��́AB�w�莞�͖����V�[���`�F���W�ӏ��S�������Ƃ��āA
-    S�w�莞�͂��̒��ł����S�J�n�ӏ�������΍ŗD��Ƃ��đI������B
-    -force/-autochg�I�v�V�����ɑΉ�(ver4.0�ǉ�)
+  NextTail S/B 中心指定 範囲先頭 範囲末尾
+    現在の$TAILTIME位置を基準として指定フレーム範囲内に無音シーンチェンジが
+    ある場合、中心指定に一番近い場所を$TAILTIMEに設定し、
+    元の$TAILTIME値は$HEADTIMEに設定する。(ver3.0追加)
+    複数話構成の範囲移動を想定。
+    NextTailのS/B指定は、B指定時は無音シーンチェンジ箇所全部を候補として、
+    S指定時はその中でもロゴ開始箇所があれば最優先として選択する。
+    -force/-autochgオプションに対応(ver4.0追加)
 
-  GetPos S/E/B ���S�w�� �͈͐擪 �͈͖���
-    ���S�ʒu����ɖ����V�[���`�F���W�ꏊ��T���B(ver3.0�ǉ�)
-    �w��͈͓��ɂ���΁A���S�w��ɍł��߂��ꏊ��ϐ�($POSHOLD)�ɑ������B
-    �Ȃ���Εϐ�($POSHOLD)�͕ύX���Ȃ��B
-    �I�v�V����(-RegPos/-clear)�Ŏg�p�ϐ��̐ݒ�\�B(ver4.0�ǉ�)
+  GetPos S/E/B 中心指定 範囲先頭 範囲末尾
+    ロゴ位置を基準に無音シーンチェンジ場所を探す。(ver3.0追加)
+    指定範囲内にあれば、中心指定に最も近い場所を変数($POSHOLD)に代入する。
+    なければ変数($POSHOLD)は変更しない。
+    オプション(-RegPos/-clear)で使用変数の設定可能。(ver4.0追加)
 
-  GetList S/E/B ���S�w�� �͈͐擪 �͈͖���
-    ���S�ʒu����ɖ����V�[���`�F���W�ꏊ���e���S�ŒT���B(ver3.0�ǉ�)
-    �w��͈͓��ɂ���΁A���S�w��ɍł��߂��ꏊ��ϐ�($LISTHOLD)�ɑ������B
-    �Ȃ���Εϐ�($LISTHOLD)�͕�����Ȃ��ɂȂ�B
-    GetPos�Ƃ͈Ⴂ�������ڕ�����̂��߉��Z���l�Ƃ��Ă͎g�p�ł��Ȃ��B
-    -TgtLimit�I�v�V�����ł��̃R�}���h���ʂ𗘗p�ł���B
-    �擾�������ڐ���ϐ�($SIZEHOLD)�ɑ������B(ver4.0�ǉ�)
-    �I�v�V����(-RegList/-RegSize)�Ŏg�p�ϐ��̐ݒ�\�B
-    ListGetAt�łP���ڂ������o���Ή��Z���l�Ƃ��ė��p�\�B
+  GetList S/E/B 中心指定 範囲先頭 範囲末尾
+    ロゴ位置を基準に無音シーンチェンジ場所を各ロゴで探す。(ver3.0追加)
+    指定範囲内にあれば、中心指定に最も近い場所を変数($LISTHOLD)に代入する。
+    なければ変数($LISTHOLD)は文字列なしになる。
+    GetPosとは違い複数項目文字列のため演算数値としては使用できない。
+    -TgtLimitオプションでこのコマンド結果を利用できる。
+    取得した項目数を変数($SIZEHOLD)に代入する。(ver4.0追加)
+    オプション(-RegList/-RegSize)で使用変数の設定可能。
+    ListGetAtで１項目だけ取り出せば演算数値として利用可能。
 
-  ListGetAt ���ڔԍ�
-    GetList�̎擾�ϐ�($LISTHOLD)����w�荀�ڔԍ��ʒu�̃f�[�^�擾�B(ver4.0�ǉ�)
-    �f�[�^�����݂�����ϐ�($POSHOLD)�ɑ�����A�Ȃ���ΕύX���Ȃ��B
-    �I�v�V����(-clear)�Ńf�[�^���Ȃ��ꍇ�ł�������邱�Ɖ\�i-1�ɂȂ�j�B
+  ListGetAt 項目番号
+    GetListの取得変数($LISTHOLD)から指定項目番号位置のデータ取得。(ver4.0追加)
+    データが存在したら変数($POSHOLD)に代入し、なければ変更しない。
+    オプション(-clear)でデータがない場合でも代入すること可能（-1になる）。
 
-  ListIns ���ڔԍ�
-    GetList�̎擾�ϐ�($LISTHOLD)����w�荀�ڔԍ��ʒu�Ƀf�[�^�}���B(ver4.0�ǉ�)
-    �}���f�[�^�͕ϐ�($POSHOLD)�B
-    �}���f�[�^�͔ėp����(-RegArg)�ɂ��ϐ����w����\�B(ver5.0�ǉ�)
-    ���ڔԍ���1�̎��擪�f�[�^�O�A-1�̎��ŏI�f�[�^��B(ver5.0�ǉ��L��)
+  ListIns 項目番号
+    GetListの取得変数($LISTHOLD)から指定項目番号位置にデータ挿入。(ver4.0追加)
+    挿入データは変数($POSHOLD)。
+    挿入データは汎用引数(-RegArg)による変数名指定も可能。(ver5.0追加)
+    項目番号は1の時先頭データ前、-1の時最終データ後。(ver5.0追加記載)
 
-  ListDel ���ڔԍ�
-    GetList�̎擾�ϐ�($LISTHOLD)����w�荀�ڔԍ��ʒu�̃f�[�^�폜�B(ver4.0�ǉ�)
+  ListDel 項目番号
+    GetListの取得変数($LISTHOLD)から指定項目番号位置のデータ削除。(ver4.0追加)
 
-  ListSetAt ���ڔԍ�
-    ���X�g�ϐ�($LISTHOLD)����w�荀�ڔԍ��ʒu�̃f�[�^�u���B(ver4.1�ǉ�)
-    �i���X�g�ϐ���GetList�̎擾�ϐ��͓����B�쐬��i���������̂ŕ\���̂ݕύX�j
-    �}���f�[�^�͕ϐ�($POSHOLD)�B
+  ListSetAt 項目番号
+    リスト変数($LISTHOLD)から指定項目番号位置のデータ置換。(ver4.1追加)
+    （リスト変数とGetListの取得変数は同じ。作成手段が増えたので表現のみ変更）
+    挿入データは変数($POSHOLD)。
 
   ListJoin
-    ���X�g�ϐ�($LISTHOLD)�̍Ō�ɕ������ڃf�[�^�}���B(ver5.0�ǉ�)
-    �}���f�[�^��-RegArg�ŕϐ����A�܂���-val�Ń��X�g�ϐ��̒l���w�肷��B
-    -sort��t��������ListSort����������Ɏ��s�����B
+    リスト変数($LISTHOLD)の最後に複数項目データ挿入。(ver5.0追加)
+    挿入データは-RegArgで変数名、または-valでリスト変数の値を指定する。
+    -sortを付加したらListSort動作も同時に実行される。
 
   ListRemove
-    ���X�g�ϐ�($LISTHOLD)����w�胊�X�g���ɑ��݂���f�[�^���폜�B(ver5.0�ǉ�)
-    �폜�f�[�^��-RegArg�ŕϐ����A�܂���-val�Ń��X�g�ϐ��̒l���w�肷��B
-    -overlap�I�v�V������t��������J�n�^�I���Q�f�[�^���݂̃��S��ԂƔF����
-    ���X�g�ϐ�����d�������Ԃ��폜����B
+    リスト変数($LISTHOLD)から指定リスト内に存在するデータを削除。(ver5.0追加)
+    削除データは-RegArgで変数名、または-valでリスト変数の値を指定する。
+    -overlapオプションを付加したら開始／終了２データ交互のロゴ区間と認識し
+    リスト変数から重複する区間を削除する。
 
-  ListSel ���ڔԍ����X�g
-    ���X�g�ϐ�($LISTHOLD)����w�荀�ڔԍ��ʒu�̃f�[�^�̂ݎ擾�B(ver5.0�ǉ�)
-    �w��ԍ��͕����i�R���}��؂�j�A�͈́i����������ɂ��ĂQ�̔ԍ���..�j�A
-    �(odd)�E����(even)���g���ĕ����I���\�B
+  ListSel 項目番号リスト
+    リスト変数($LISTHOLD)から指定項目番号位置のデータのみ取得。(ver5.0追加)
+    指定番号は複数（コンマ区切り）、範囲（小さい側先にして２つの番号間..）、
+    奇数(odd)・偶数(even)を使って複数選択可能。
 
   ListClear
-    ���X�g�ϐ�($LISTHOLD)�Ɋ܂܂��S�f�[�^�폜�B(ver4.1�ǉ�)
+    リスト変数($LISTHOLD)に含まれる全データ削除。(ver4.1追加)
 
-  ListDim ���ڐ�
-    ���X�g�ϐ�($LISTHOLD)���w�荀�ڐ��̃f�[�^�ŏ������B(ver5.0�ǉ�)
-    ����������f�[�^��-val�܂���-RegArg�I�v�V�����Ŏw��A�Ȃ���΋�f�[�^�B
+  ListDim 項目数
+    リスト変数($LISTHOLD)を指定項目数のデータで初期化。(ver5.0追加)
+    初期化するデータは-valまたは-RegArgオプションで指定、なければ空データ。
 
   ListSort
-    ���X�g�ϐ�($LISTHOLD)�Ɋ܂܂�鎞�ԃf�[�^�������ɕ��ёւ���B(ver4.1�ǉ�)
-    ���̃R�}���h�͎��Ԃɕϊ��ł���f�[�^�̂ݗL���B
-    -overlap�I�v�V������t��������J�n�^�I���Q�f�[�^���݂̃��S��ԂƔF����
-    �d����Ԃ͌����������ɕ��ёւ���B-merge�ǉ��ŗאڂ������\�B(ver5.0�ǉ�)
+    リスト変数($LISTHOLD)に含まれる時間データを昇順に並び替える。(ver4.1追加)
+    このコマンドは時間に変換できるデータのみ有効。
+    -overlapオプションを付加したら開始／終了２データ交互のロゴ区間と認識し
+    重複区間は結合し昇順に並び替える。-merge追加で隣接を結合可能。(ver5.0追加)
 
-  ��List�n�R�}���h����
-    ���ڔԍ��͐擪��1�ŁA���̎��͍Ōォ�琔�����ԍ��B0�̎��͐ݒ肵�Ȃ��B
-    �ݒ��̃��X�g���ڐ����ϐ�($SIZEHOLD)�ɑ�������B
-    �I�v�V����(-RegPos/-RegList/-RegSize)�Ŏg�p�ϐ��̐ݒ�\�B
-    �I�v�V����(-val)�ő}���f�[�^�͕ϐ��ʂ������ڎw��\�B(ver4.1�ǉ�)
-    �ϐ��o�͂͋��ʂ̃I�v�V����(-RegOut)�ł��w��\�B(ver5.0�ǉ�)
-    -RegOut�g�p�ɂ�胊�X�g�����͓���(-RegList)�ƕʕϐ��ɏo�͂��\�B
+  ※List系コマンド共通
+    項目番号は先頭が1で、負の時は最後から数えた番号。0の時は設定しない。
+    設定後のリスト項目数が変数($SIZEHOLD)に代入される。
+    オプション(-RegPos/-RegList/-RegSize)で使用変数の設定可能。
+    オプション(-val)で挿入データは変数通さず直接指定可能。(ver4.1追加)
+    変数出力は共通のオプション(-RegOut)でも指定可能。(ver5.0追加)
+    -RegOut使用によりリスト処理は入力(-RegList)と別変数に出力が可能。
 
-  SetList  �ϐ��� �ݒ�l
-    ���X�g�f�[�^�ݒ�l���w��ϐ��ɑ��(ver5.0�ǉ�)
-    �ݒ�l��CSV�`���œǂݍ��ނ��A�󔒂͏I����؂�ł��邽�߈��p���͂ݕK�v�B
-    ���̐���̓t�@�C������ǂݍ���SplitCsv�R�}���h�Ŏ擾����ꍇ�͉e���Ȃ��B
+  SetList  変数名 設定値
+    リストデータ設定値を指定変数に代入(ver5.0追加)
+    設定値はCSV形式で読み込むが、空白は終了区切りであるため引用符囲み必要。
+    この制約はファイルから読み込みSplitCsvコマンドで取得する場合は影響ない。
 
-  SplitCsv -RegArg �ϐ��� -RegOut �ϐ���
-    CSV�`���̕�����ϐ������ڕ�������-RegOut�̃��X�g�ϐ��ɑ��(ver5.0�ǉ�)
+  SplitCsv -RegArg 変数名 -RegOut 変数名
+    CSV形式の文字列変数を項目分解して-RegOutのリスト変数に代入(ver5.0追加)
 
-  SplitItem -RegArg �ϐ��� -RegOut �ϐ���
-    ������ϐ����󔒂ō��ڕ�������-RegOut�̃��X�g�ϐ��ɑ��(ver5.0�ǉ�)
+  SplitItem -RegArg 変数名 -RegOut 変数名
+    文字列変数を空白で項目分解して-RegOutのリスト変数に代入(ver5.0追加)
 
 
-  ReadCheck "�t�@�C����"
-    �t�@�C�����ݗL�����m�F�B(ver5.0�ǉ�)
-    �t�@�C�������݂�����1�A�Ȃ�����0���V�X�e���ϐ�($READVALID)�ɐݒ�
-    -RegOut�Ŏw��ϐ��ɂ��ݒ�\
+  ReadCheck "ファイル名"
+    ファイル存在有無を確認。(ver5.0追加)
+    ファイルが存在したら1、ない時は0をシステム変数($READVALID)に設定
+    -RegOutで指定変数にも設定可能
 
-  ReadOpen "�t�@�C����"
+  ReadOpen "ファイル名"
   ReadClose
-    ReadOpen����ReadClose�܂ł̊ԁAReadLine���g�p�\(ver5.0�ǉ�)
+    ReadOpenからReadCloseまでの間、ReadLineを使用可能(ver5.0追加)
 
-  ReadLine -RegOut �ϐ���
-    ReadOpen�Ŏw�肵���t�@�C������1�s�ǂݍ��ށB(ver5.0�ǉ�)
-    1�s����������ꍇ�Ɏg�p�B-RegOut�w�肪�Ȃ����1�s�ǂݔ�΂��B
-    �f�[�^�ǂݍ��ݗL���̓V�X�e���ϐ�($READVALID)�Ŋm�F�ł���(0=�Ȃ� 1=����)
-
-
-  ReadData "�t�@�C����"
-    �t�@�C���ɋL�ڂ��ꂽ�f�[�^��ϐ�($LISTHOLD)�ɓǂݍ��ށB(ver4.1�ǉ�)
-    �f�[�^�͂P�s�ɂ��P���ڋL�ڂŁA���l�i�����\�L���\�j�݂̂��擾����B
-
-  ReadTrim "�t�@�C����"
-    �t�@�C���ɋL�ڂ��ꂽ�f�[�^��ϐ�($LISTHOLD)�ɓǂݍ��ށB(ver4.1�ǉ�)
-    avisynth��Trim�R�}���h���L�ڂ��ꂽ�s��T����Trim�ݒ�l���擾����B
-
-  ReadString "�t�@�C����"
-    �t�@�C���ɋL�ڂ��ꂽ�������ϐ�($LISTHOLD)�ɓǂݍ��ށB(ver4.1�ǉ�)
-    �P�s���P���ڂ̕�����Ƃ��ăt�@�C���s�����̍��ڂ��擾����B
-
-  ��Read�n�R�}���h���ʃI�v�V�����i�t�@�C�����̌�ɒǉ�����j(ver5.0�ǉ�)
-    �����f�[�^�擾(ReadData/ReadTrim/ReadString)�͕ϐ�($LISTHOLD)�Ɋi�[�B
-    -RegList�ŕϐ��ύX�\�ŁA�ϐ��o�͂̋��ʃI�v�V����(-RegOut)�ł��w��\�B
-    -silent��ǉ�������t�@�C���ǂݍ��݂��ł��Ȃ��Ă�warning��\�����Ȃ��B
-    -maxsize�œǍ��f�[�^���i���ڐ��j�����ݒ�\�B
-
-  EnvGet ���ϐ��� -RegEnv �ϐ���
-    ���ϐ��ɐݒ肳��Ă���l���擾����B(ver4.1�ǉ�)
-    -RegEnv�Ŏw�肵���ϐ��Ɋi�[����邪�A�l���擾�ł��Ȃ��������͍X�V���Ȃ��B
-    �I�v�V����(-clear)�Ŏ擾�ł��Ȃ��������͕�����Ȃ��ɍX�V�\�B
-    -default�ǉ��ŕϐ�������`�̎��̂ݎ擾���邱�Ɖ\�B(ver5.0�ǉ�)
-    -RegEnv�̑���ɋ��ʂ̃I�v�V����(-RegOut)�ł���������B
-
-  SysDataGet �Ώۖ� -RegOut �ϐ���
-    �V�X�e���ێ����Ă���f�[�^���擾����B�Ώۖ��͉��L����I���B(ver5.0�ǉ�)
-      DETMODE   : ������0�A�����R�}���h�����s���ꂽ���1
-      AUTOMODE  : ������0�AAuto�n�\���������1
-      FCURRENT  : �J�����g�t�H���_�̃p�X��
-      FINLOGO   : �N�����Ɏw�肵�����S���t�@�C����
-      FINSCP    : �N�����Ɏw�肵�������V�[���`�F���W���t�@�C����
-      FINCMD    : �N�����Ɏw�肵��JL�X�N���v�g�t�@�C����
-      FOUTAVS   : �N�����Ɏw�肵��CM�J�b�g���o�̓t�@�C����
-      FOUTSCP   : �N�����Ɏw�肵����͏��o�̓t�@�C����
-      FOUTDIV   : �N�����Ɏw�肵���������o�̓t�@�C����
-      SYSCODE   : �N�����Ɏw�肵��-syscode�W���o�͕����R�[�h�ԍ�
-      FILECODE  : FileCode�ݒ�i�o�̓t�@�C���̕����R�[�h�ݒ�ԍ��j
-      READCODE  : ReadOpen�œǂݍ��񂾃t�@�C���̕����R�[�h�ԍ�
-      TRIMLIST  : ���ʂ�Trim�o�̓t���[���ʒu���X�g
+  ReadLine -RegOut 変数名
+    ReadOpenで指定したファイルから1行読み込む。(ver5.0追加)
+    1行ずつ処理する場合に使用。-RegOut指定がなければ1行読み飛ばし。
+    データ読み込み有無はシステム変数($READVALID)で確認できる(0=なし 1=あり)
 
 
-  Call �t�@�C����
-    �����s�X�N���v�g�Ɠ����t�H���_�ɂ���ʎ��s�X�N���v�g��ǂݍ��ݎ��s�B
-    ���s��͌����s�X�N���v�g�ɖ߂�̂Őݒ蓙��ʃt�@�C���ɂ���g�����Ȃǉ\�B
+  ReadData "ファイル名"
+    ファイルに記載されたデータを変数($LISTHOLD)に読み込む。(ver4.1追加)
+    データは１行につき１項目記載で、数値（時刻表記も可能）のみを取得する。
+
+  ReadTrim "ファイル名"
+    ファイルに記載されたデータを変数($LISTHOLD)に読み込む。(ver4.1追加)
+    avisynthのTrimコマンドが記載された行を探してTrim設定値を取得する。
+
+  ReadString "ファイル名"
+    ファイルに記載された文字列を変数($LISTHOLD)に読み込む。(ver4.1追加)
+    １行を１項目の文字列としてファイル行数分の項目を取得する。
+
+  ※Read系コマンド共通オプション（ファイル名の後に追加する）(ver5.0追加)
+    複数データ取得(ReadData/ReadTrim/ReadString)は変数($LISTHOLD)に格納。
+    -RegListで変数変更可能で、変数出力の共通オプション(-RegOut)でも指定可能。
+    -silentを追加したらファイル読み込みができなくてもwarningを表示しない。
+    -maxsizeで読込データ数（項目数）上限を設定可能。
+
+  EnvGet 環境変数名 -RegEnv 変数名
+    環境変数に設定されている値を取得する。(ver4.1追加)
+    -RegEnvで指定した変数に格納されるが、値が取得できなかった時は更新しない。
+    オプション(-clear)で取得できなかった時は文字列なしに更新可能。
+    -default追加で変数が未定義の時のみ取得すること可能。(ver5.0追加)
+    -RegEnvの代わりに共通のオプション(-RegOut)でも同じ動作。
+
+  SysDataGet 対象名 -RegOut 変数名
+    システム保持しているデータを取得する。対象名は下記から選択。(ver5.0追加)
+      DETMODE   : 初期は0、検索コマンドが実行された後は1
+      AUTOMODE  : 初期は0、Auto系構成推測後は1
+      FCURRENT  : カレントフォルダのパス名
+      FINLOGO   : 起動時に指定したロゴ情報ファイル名
+      FINSCP    : 起動時に指定した無音シーンチェンジ情報ファイル名
+      FINCMD    : 起動時に指定したJLスクリプトファイル名
+      FOUTAVS   : 起動時に指定したCMカット情報出力ファイル名
+      FOUTSCP   : 起動時に指定した解析情報出力ファイル名
+      FOUTDIV   : 起動時に指定した分割情報出力ファイル名
+      SYSCODE   : 起動時に指定した-syscode標準出力文字コード番号
+      FILECODE  : FileCode設定（出力ファイルの文字コード設定番号）
+      READCODE  : ReadOpenで読み込んだファイルの文字コード番号
+      TRIMLIST  : 結果のTrim出力フレーム位置リスト
+
+
+  Call ファイル名
+    現実行スクリプトと同じフォルダにある別実行スクリプトを読み込み実行。
+    実行後は現実行スクリプトに戻るので設定等を別ファイルにする使い方など可能。
 
   Return
-    Call�ŌĂяo���ꂽ������r���ŏI�����Ė߂�B(ver4.0�ǉ�)
-    Fcall�����l�ŁAFunction�������I�����Ė߂�B(ver5.0�ǉ�)
-    Memory/MemSet���ł͎g�p�֎~�B
+    Callで呼び出された処理を途中で終了して戻る。(ver4.0追加)
+    Fcallも同様で、Function処理を終了して戻る。(ver5.0追加)
+    Memory/MemSet内では使用禁止。
 
   Exit
-    ���ׂĂ̓ǂݍ��݂�r���ŏI������B(ver4.0�ǉ�)
+    すべての読み込みを途中で終了する。(ver4.0追加)
 
 
-  Echo ������
-    �������\���B�ϐ��͓W�J�����B�f�o�b�O�ړI�Œǉ�(ver2.1�ǉ�)
-    FileOpen/FileAppend���͎w��t�@�C���ɏo�͂����B(ver4.0�ǉ�)
-    �ŏ��Ɍ����󔒈ȊO�̕�������s���܂őS�����\��(ver5.0�ǉ��L��)
+  Echo 文字列
+    文字列を表示。変数は展開される。デバッグ目的で追加(ver2.1追加)
+    FileOpen/FileAppend中は指定ファイルに出力される。(ver4.0追加)
+    最初に現れる空白以外の文字から行末まで全文字表示(ver5.0追加記載)
 
-  EchoItem ������
-  EchoItemQ ������
-    Echo�͂P�s�S�̕\���ɑ΂��AEchoItem�͂P���ڂ̂ݕ\���B(ver5.0�ǉ�)
-    EchoItem�͈��p�����O���ĕ\�����邪�AEchoItemQ�͈��p�����c���ĕ\���B
-    ���ڌ�ɃI�v�V�����ǉ����\�ŁA-merge�ŉ��s���Ȃ��A#�ňȍ~�R�����g�A
-    -restore�őޔ���Ԃ̈��p��������߂��B
+  EchoItem 文字列
+  EchoItemQ 文字列
+    Echoは１行全体表示に対し、EchoItemは１項目のみ表示。(ver5.0追加)
+    EchoItemは引用符を外して表示するが、EchoItemQは引用符を残して表示。
+    項目後にオプション追加が可能で、-mergeで改行しない、#で以降コメント、
+    -restoreで退避状態の引用符文字を戻す。
 
-  EchoFile "�t�@�C����"
-    �e�L�X�g�t�@�C�����e��ǂݍ���ł��̂܂܏o�́B(ver5.0�ǉ�)
+  EchoFile "ファイル名"
+    テキストファイル内容を読み込んでそのまま出力。(ver5.0追加)
 
   EchoOavs
   EchoOscp
-    EchoOavs��CM�J�b�g���AEchoOscp�͉�͗p�t�@�C�����e���o�́B(ver5.0�ǉ�)
-    JL�X�N���v�g�I���O�Ɍ��ʏ����擾�\�i���ʊm��͒x�����s��OUTPUT���O�j
+    EchoOavsはCMカット情報、EchoOscpは解析用ファイル内容を出力。(ver5.0追加)
+    JLスクリプト終了前に結果情報を取得可能（結果確定は遅延実行のOUTPUT直前）
 
   EchoMemo
-    ���������ŕێ����Ă���f�[�^���o�͂��āA���������̓N���A�B(ver5.0�ǉ�)
+    内部メモで保持しているデータを出力して、内部メモはクリア。(ver5.0追加)
 
-  Mkdir �t�H���_��
-    �t�H���_���쐬�B(ver5.0�ǉ�)
+  Mkdir フォルダ名
+    フォルダを作成。(ver5.0追加)
 
-  FileCopy �R�s�[���t�@�C���� �R�s�[��t�@�C����
-    �w��t�@�C�����R�s�[�B(ver5.0�ǉ�)
+  FileCopy コピー元ファイル名 コピー先ファイル名
+    指定ファイルをコピー。(ver5.0追加)
 
-  FileOpen �t�@�C����
-  FileAppend �t�@�C����
+  FileOpen ファイル名
+  FileAppend ファイル名
   FileClose
-    FileOpen �܂��� FileAppend����FileClose�܂ł̊ԁAEcho�R�}���h�ɂ��o�͂�
-    �w�肵���t�@�C���ɏ������ށB(ver4.0�ǉ�)
-    FileOpen�͊������e�������ď������݁AFileAppend�͊������e�ɒǉ��ŏ������ށB
-    Echo�n�̒ǉ����ꂽ�R�}���h�ɂ��K�p�B(ver5.0�ǉ�)
-    FileOpen/FileAppend��-filecode�I�v�V�����ŏo�͕����R�[�h�w��A
-    -silent�ŏ������݂��ł��Ȃ��Ă�warning��\�����Ȃ��B
+    FileOpen または FileAppendからFileCloseまでの間、Echoコマンドによる出力を
+    指定したファイルに書き込む。(ver4.0追加)
+    FileOpenは既存内容を消して書き込み、FileAppendは既存内容に追加で書き込む。
+    Echo系の追加されたコマンドにも適用。(ver5.0追加)
+    FileOpen/FileAppendは-filecodeオプションで出力文字コード指定可、
+    -silentで書き込みができなくてもwarningを表示しない。
 
-  -filecode ���
-    FileOpen/FileAppend���ɏo�͕����R�[�h���w�肷��B(ver5.0�ǉ�)
-    ��ނ͉��L�����܂��͒���()���̕�����B
-      0        : �w��Ȃ��i�I�v�V�����w��Ȃ�������FileCode�ݒ���g�p�j
-      1(STD)   : �W���iShift-JIS�j
+  -filecode 種類
+    FileOpen/FileAppend時に出力文字コードを指定する。(ver5.0追加)
+    種類は下記数字または直後()内の文字列。
+      0        : 指定なし（オプション指定なし扱いでFileCode設定を使用）
+      1(STD)   : 標準（Shift-JIS）
       2(UTF8)  : UTF-8
       3(UTF16) : UTF-16
 
-  FileCode ���
-    �ȍ~�ɍ쐬����o�̓t�@�C���̕����R�[�h��ݒ�B(ver5.0�ǉ�)
-    ��ނ�-filecode���Q�ƁB�����l��1�̕W���B
-    �ŏI���ʃt�@�C�����ύX�����̂ŁA���̃R�}���h�Œl��ς��鎞�͒��ӁB
+  FileCode 種類
+    以降に作成する出力ファイルの文字コードを設定。(ver5.0追加)
+    種類は-filecodeを参照。初期値は1の標準。
+    最終結果ファイルも変更されるので、このコマンドで値を変える時は注意。
 
-  FileToMemo �����l
-    1��ݒ肵����0��ݒ肷��܂�Echo�n����������݂̂ɏo�́B(ver5.0�ǉ�)
-    ���O�Ƃ��ĕK�v�Ȃ��������I�Ɏc���������̊i�[��z��B
+  FileToMemo 整数値
+    1を設定したら0を設定するまでEcho系を内部メモのみに出力。(ver5.0追加)
+    ログとして必要ないがメモ的に残したい情報の格納を想定。
 
   AutoCut
   AutoAdd
@@ -479,399 +479,399 @@ join_logo_scp�p�̎��s���e�X�N���v�g
   AutoCM
   AutoUp
   SetParam
-    ���������ԑg�\������J�b�g�ʒu�����߂�R�}���h�B
-    ���e�͕ʂ̐����t�@�C���ɋL�ځB
+    推測した番組構成からカット位置を決めるコマンド。
+    内容は別の説明ファイルに記載。
 
 
-�����s�R�}���h�i�����ݒ�j
+■実行コマンド（初期設定）
 
-  �����R�}���h�i�ϐ��ݒ��Call���������s�R�}���h�j���g�p����O�ɐݒ肷��B
+  検索コマンド（変数設定やCallを除く実行コマンド）を使用する前に設定する。
 
   LogoOff
-     ���S��ǂݍ���ł��Ă�����������B(ver3.0�ǉ�)
+     ロゴを読み込んでいても無効化する。(ver3.0追加)
 
-  OptDefault ����������
-  OptSet  ����������
-    �N�����̃I�v�V�����̂������o�p�����[�^���w��\(ver3.0�ǉ�)
-    -���܂ߋN�����Ɠ���������𗅗񂷂�B
-    �ǂ�����I�v�V�����X�V���邪�AOptDefault�͖��w�荀�ڂ̂ݔ��f�����B
-    �w��\���ڂ͉��L�̒ʂ�B
+  OptDefault 引数文字列
+  OptSet  引数文字列
+    起動時のオプションのうち検出パラメータを指定可能(ver3.0追加)
+    -を含め起動時と同じ文字列を羅列する。
+    どちらもオプション更新するが、OptDefaultは未指定項目のみ反映される。
+    指定可能項目は下記の通り。
     -CutMrgIn,-CutMrgOut,-CutMrgWI,-CutMrgWO,-flags,-set
-    -sublist,-subpath (ver4.0�ǉ�)
+    -sublist,-subpath (ver4.0追加)
 
-  OldAdjust �l
-    ���o�[�W�����Ŏg�p���Ă����s���m���S�ʒu�������g�p����ꍇ�͒l=1��ݒ肷��B
-    0�܂��̓R�}���h���Ȃ��ꍇ�͎g�p���Ȃ��B(ver3.0�ǉ�)
+  OldAdjust 値
+    旧バージョンで使用していた不明確ロゴ位置調整を使用する場合は値=1を設定する。
+    0またはコマンドがない場合は使用しない。(ver3.0追加)
 
-  IgnoreCase �l
-    �ϐ��̑啶�������������̐ݒ�B0�̎���ʂ���B(ver5.0�ǉ�)
-    �ߋ��݊���1�܂��̓R�}���h���Ȃ��ꍇ�͋�ʂ��Ȃ���warning�Œʒm�B
+  IgnoreCase 値
+    変数の大文字小文字無視の設定。0の時区別する。(ver5.0追加)
+    過去互換で1またはコマンドがない場合は区別しないがwarningで通知。
 
-  SysMesDisp �l
-    �W���o�͂ɑΏۂ̃V�X�e�����b�Z�[�W���o�͂���ݒ�B(ver5.0�ǉ�)
-    �r�b�g�ʂ̐ݒ�ŁA+1��Call�t�@�C���ꏊ�A+2��OUTDIRECT�A+4��CutMrgIn/Out�B
-    ���̐ݒ�Ɋ֌W�Ȃ����������ɂ͎c���B
+  SysMesDisp 値
+    標準出力に対象のシステムメッセージを出力する設定。(ver5.0追加)
+    ビット別の設定で、+1はCallファイル場所、+2はOUTDIRECT、+4はCutMrgIn/Out。
+    この設定に関係なく内部メモには残す。
 
-  SysMemoSel �l
-    �W���o�͂ƕW���G���[���e����������ł��ێ�����B(ver5.0�ǉ�)
-    ��Ńt�@�C���o�͂���z��ŁA�ێ��������e��EchoMemo�ŏo�́A�N���A�����B
-    �l��1�ŕW���o�́A2�ŕW���G���[�A3�ŗ������ȍ~�ێ��B
+  SysMemoSel 値
+    標準出力と標準エラー内容を内部メモでも保持する。(ver5.0追加)
+    後でファイル出力する想定で、保持した内容はEchoMemoで出力、クリアされる。
+    値は1で標準出力、2で標準エラー、3で両方を以降保持。
 
-  UnitSec �l
-    ���Ԑݒ�ɐ������L�ڂ����ꍇ�̒P��(ver3.0�ǉ�)
-    �l��0�̎��̓t���[�����A1�̎��͕b���Ƃ��Čv�Z����B������Ԃ�0�B
-    ���̐ݒ�Ɋ֌W�Ȃ����Ԃɕb����ݒ肵�����ꍇ�͏����_���L�ځA
-    �t���[������ݒ肵�����ꍇ��F(�t���[����)�ƋL�ڂŉ\�B
-    �����̃R�}���h�͒ǉ������������X�N���v�g�ł͖��g�p�B
+  UnitSec 値
+    期間設定に整数を記載した場合の単位(ver3.0追加)
+    値が0の時はフレーム数、1の時は秒数として計算する。初期状態は0。
+    この設定に関係なく期間に秒数を設定したい場合は小数点を記載、
+    フレーム数を設定したい場合はF(フレーム数)と記載で可能。
+    ※このコマンドは追加したが既存スクリプトでは未使用。
 
   LogoDirect
-    ���X�g�ϐ�($LISTHOLD)�̊e���ڂ����ԂɊm��O���S�ʒu�Ƃ��Đݒ�B(ver4.1�ǉ�)
-    �I�v�V����(-RegList)�ŕϐ����͕ύX�\�B
-    �N�����ɓǂݍ��܂�Ă������S���͏��������B
-    �����R�}���h���s��̐ݒ�͓�����ԕs��v���N�����\�������邽�߁A
-    �����O�܂���LogoReset�R�}���h�Ō����O�ɖ߂��Ă�����s����B
+    リスト変数($LISTHOLD)の各項目を順番に確定前ロゴ位置として設定。(ver4.1追加)
+    オプション(-RegList)で変数名は変更可能。
+    起動時に読み込まれていたロゴ情報は消去される。
+    検索コマンド実行後の設定は内部状態不一致を起こす可能性があるため、
+    検索前またはLogoResetコマンドで検索前に戻してから実行する。
 
-  LogoExact �l
-    ���S�ʒu�␳��}���B(ver4.1�ǉ�)
-    �l��0�̎��͏]���ʂ�A2,3�͓����ϊ�����ŕ␳�Ȃ��A1,3��-CutMrg*�n�␳�Ȃ��B
-    LogoDirect��ݒ肵���玩���I��3���ݒ肳���B�Đݒ�ŕύX�͉\�B
+  LogoExact 値
+    ロゴ位置補正を抑制。(ver4.1追加)
+    値が0の時は従来通り、2,3は内部変換動作で補正なし、1,3は-CutMrg*系補正なし。
+    LogoDirectを設定したら自動的に3が設定される。再設定で変更は可能。
 
   LogoReset
-    ���S���iAuto�n�������܂ށj���N�����ɖ߂��B(ver4.1�ǉ�)
-    ���̃R�}���h�͌����R�}���h���s��ł��g�p�\�ŁA�g�p��͖����s��Ԃɖ߂�B
-    �����R�}���h�œ�������ϐ����Ɏc���ď����ݒ���ēx���s���\�ɂȂ�B
+    ロゴ情報（Auto系推測も含む）を起動時に戻す。(ver4.1追加)
+    このコマンドは検索コマンド実行後でも使用可能で、使用後は未実行状態に戻る。
+    検索コマンドで得た情報を変数等に残して初期設定を再度実行が可能になる。
 
 
-����������R�}���h
+■条件分岐コマンド
 
-  If �t���O �t���O �t���O
-    �y���s�R�}���h�z
-  ElsIf �t���O �t���O �t���O
-    �y���s�R�}���h�z
+  If フラグ フラグ フラグ
+    【実行コマンド】
+  ElsIf フラグ フラグ フラグ
+    【実行コマンド】
   Else
-    �y���s�R�}���h�z
+    【実行コマンド】
   EndIf
 
-    If�����ɋL�ڂ̃t���O���P�ł��N�����I�v�V�����܂��͕ϐ���`�ł��邩���f�B
-      ��`����F����ElsIf/Else/EndIf�������܂ł̎��s�R�}���h�����s
-      ��`�Ȃ��F���s��������ElsIf/Else/EndIf�ȍ~�Ɉڂ�
-    ElsIf��If�ȍ~��������x���������ĂȂ����If�Ɠ�������������B
-    Else��If�ȍ~��������x���������ĂȂ���Ζ������Ŏ��s����B
-    ElsIf/Else�͏ȗ��\�B
-    �t���O�ƒʏ�̕ϐ����ʉ��ɂ���`�͉��L���e�Ƃ���B
-       ��`����F�t���O��`�ς݂܂��͕ϐ��ݒ�l=1
-       ��`�Ȃ��F�t���O�E�ϐ��ǂ��������`�܂��͕ϐ��ݒ�l=0
-    �t���O�̐擪�P������!��ǉ��������`����Ȃ��𔽓]���Ĕ��f�B(ver2.1�ǉ�)
-    �t���O�̂����ɏ�����r���\�ŏڍׂ͌�q�B
+    If条件に記載のフラグが１つでも起動時オプションまたは変数定義であるか判断。
+      定義あり：次のElsIf/Else/EndIfが現れるまでの実行コマンドを実行
+      定義なし：実行せず次のElsIf/Else/EndIf以降に移る
+    ElsIfはIf以降条件を一度も満たしてなければIfと同じ処理をする。
+    ElseはIf以降条件を一度も満たしてなければ無条件で実行する。
+    ElsIf/Elseは省略可能。
+    フラグと通常の変数共通化により定義は下記内容とする。
+       定義あり：フラグ定義済みまたは変数設定値=1
+       定義なし：フラグ・変数どちらも未定義または変数設定値=0
+    フラグの先頭１文字に!を追加したら定義ありなしを反転して判断。(ver2.1追加)
+    フラグのかわりに条件比較も可能で詳細は後述。
 
 
-���J��Ԃ��R�}���h
+■繰り返しコマンド
 
-  Repeat ��
-    �y���s�R�}���h�z
+  Repeat 回数
+    【実行コマンド】
   EndRepeat
 
-    Repeat����EndRepeat�܂ł̊Ԃ��w��񐔂����J��Ԃ����s����B(ver3.0�ǉ�)
-    �񐔂̌��-counter�I�v�V�����ŌJ��Ԃ��񐔘A���̕ϐ��ݒ�\�B(ver5.0�ǉ�)
-    �񐔂͍ŏ��ɓǂݍ��ނ̂ŁA�J��Ԃ����ɉ񐔂̕ϐ��l���ύX����Ă��e���Ȃ��B
+    RepeatからEndRepeatまでの間を指定回数だけ繰り返し実行する。(ver3.0追加)
+    回数の後に-counterオプションで繰り返し回数連動の変数設定可能。(ver5.0追加)
+    回数は最初に読み込むので、繰り返し中に回数の変数値が変更されても影響ない。
 
-  Break ������
-    ���������^�ł����Repeat�J��Ԃ���Ԃ𔲂���B(ver5.0�ǉ�)
+  Break 条件式
+    条件式が真であればRepeat繰り返し区間を抜ける。(ver5.0追加)
 
 
-���x�����s�R�}���h(ver4.0�ǉ�)
+■遅延実行コマンド(ver4.0追加)
 
-  LazyStart �x�����s�I�v�V����
-    �y���s�R�}���h�z
+  LazyStart 遅延実行オプション
+    【実行コマンド】
   EndLazy
 
-    LazyStart����EndLazy�܂ł̊Ԃ�x�����s�I�v�V�����ɏ]���Č�Ŏ��s�B
-    ���̋�ԓ��ł͕ϐ��W�J�����s�܂ōs���Ȃ��B
-    LazyStart�̒x�����s�I�v�V�����͏ȗ��\�i�ȗ����� -lazy �t���j
+    LazyStartからEndLazyまでの間を遅延実行オプションに従って後で実行。
+    この区間内では変数展開も実行まで行われない。
+    LazyStartの遅延実行オプションは省略可能（省略時は -lazy 付加）
 
-  ���x�����s�̓R�}���h���ʉ��̂��߁Aver5.0�ł�memory�n�ŉ\�Ȑ���𑝂₵
-    memory�n�̋@�\���������Ă���(ver5.0�ǉ�)
+  ※遅延実行はコマンド共通化のため、ver5.0ではmemory系で可能な制御を増やし
+    memory系の機能を強化している(ver5.0追加)
 
-�� �x�����s�I�v�V����
-  -lazy     �F��ԍŌ�Ɏ��s
-  -lazy_s   �F���̌����R�}���h���O�Ɏ��s
-  -lazy_a   �F����Auto�n�R�}���h����Ɏ��s
-  -lazy_e   �F-lazy�Ɠ�������
-    LazyStart�ȊO�Ɍ����R�}���h�ł����̒x�����s�I�v�V�����͎w��\�B
-    �i�����R�}���h�ŃI�v�V�����w�肵���ꍇ�A�w�肵���R�}���h�̂ݓK�p�����j
-    AutoIns/AutoDel/AutoEdge���\�������O�Ɏg�p�����ꍇ�͖��w��ł������t���B
-    �i-final�w�莞��-lazy_e�A����ȊO�ł�-lazy_a�j
+★ 遅延実行オプション
+  -lazy     ：一番最後に実行
+  -lazy_s   ：次の検索コマンド直前に実行
+  -lazy_a   ：次のAuto系コマンド直後に実行
+  -lazy_e   ：-lazyと同じ処理
+    LazyStart以外に検索コマンドでもこの遅延実行オプションは指定可能。
+    （検索コマンドでオプション指定した場合、指定したコマンドのみ適用される）
+    AutoIns/AutoDel/AutoEdgeを構成推測前に使用した場合は未指定でも自動付加。
+    （-final指定時は-lazy_e、それ以外では-lazy_a）
 
   LazyFlush
-    Lazy�w��ɂ��ҋ@��Ԃ̃R�}���h�������I�ɑS�����s�Ɉڂ��B
+    Lazy指定により待機状態のコマンドを強制的に全部実行に移す。
 
   LazyAuto
-    ���̃R�}���h���w�肵���t�@�C�����ł͌������J�n���Ȃ����Ƃ̐錾�ƂȂ�A
-    �����R�}���h�͎����I��Lazy�n�I�v�V�������t�������B
-    Memory�R�}���h�͓W�J�O�̕t���Ȃ�MemCall�ɂ����s�ꏊ�̐ݒ肪�K�p�����B
+    このコマンドを指定したファイル内では検索を開始しないことの宣言となり、
+    検索コマンドは自動的にLazy系オプションが付加される。
+    Memoryコマンドは展開前の付加なくMemCallによる実行場所の設定が適用される。
 
-  �������R�}���h�̓��S�△���V�[���`�F���W�����g�p����R�}���h�ł��邪�A
-    NextTail�͑ΏۊO�i�����\�����g�p����I�v�V������t�������ꍇ�͏����j�B
+  ※検索コマンドはロゴや無音シーンチェンジ情報を使用するコマンドであるが、
+    NextTailは対象外（推測構成を使用するオプションを付加した場合は除く）。
 
   ExpandOn
   ExpandOff
-    LazyStart-EndLazy,Memory-EndMemory�Ԃ͎��s���܂ŕϐ��W�J����Ȃ����A
-    ExpandOn�R�}���h��u�����ƂŎ��s���炻�̏�ŕϐ��W�J�����B(ver4.1�ǉ�)
-    ExpandOff�R�}���h�ɂ��ϐ��W�J����Ȃ����[�h�ɖ߂�B
-    �l�X�g���ǉ����ꕡ�G�ɂȂ邽�߈����n���ɂ�鐧��𐄏�(ver5.0�ǉ��L��)
+    LazyStart-EndLazy,Memory-EndMemory間は実行時まで変数展開されないが、
+    ExpandOnコマンドを置くことで次行からその場で変数展開される。(ver4.1追加)
+    ExpandOffコマンドにより変数展開されないモードに戻る。
+    ネストも追加され複雑になるため引数渡しによる制御を推奨(ver5.0追加記載)
 
-�� �֐��^�R�}���h
+★ 関数型コマンド
 
-  Function ���ʕ�����(�ϐ��� �ϐ���){
-    �y���s�R�}���h�z
+  Function 識別文字列(変数名 変数名){
+    【実行コマンド】
   } EndFunction
 
-    ��ʓI�Ȋ֐���`�ŁAFcall����̌Ăяo���Ŏ��s�����B(ver5.0�ǉ�)
-    �����ϐ��Ȃ���()�݂̂��\�A�K�v�Ȃ����ϐ������󔒂�����ŋL�ڂ��Ă����B
-    �ϐ�����ref(�ϐ���)�Ƃ�����Q�Ɠn���ƂȂ�A�Ăяo�����̕ϐ����ύX�����B
-    ���ʕ�����Ɠ������O�̕ϐ��͕Ԃ�l�Ƃ��ČĂяo�����ɓn�����Ƃ��\�B
-    ����()�O��̋󔒂͓���Ă��悭�ȗ����\�B
-    Memory�Ɣ�r�����֐��^�̓����F
-      �������ʕ�����œ��e�ǉ��͂ł��Ȃ�
-      �Ăяo�����̃��[�J���ϐ��͌����Ȃ��Ȃ�
-      ���ʕ������Memory�Ƌ��p�œ������O�͎g���Ȃ�
+    一般的な関数定義で、Fcallからの呼び出しで実行される。(ver5.0追加)
+    引数変数なしで()のみも可能、必要なだけ変数名を空白を挟んで記載していく。
+    変数名をref(変数名)としたら参照渡しとなり、呼び出し元の変数が変更される。
+    識別文字列と同じ名前の変数は返り値として呼び出し元に渡すことが可能。
+    引数()前後の空白は入れてもよく省略も可能。
+    Memoryと比較した関数型の特徴：
+      同じ識別文字列で内容追加はできない
+      呼び出し元のローカル変数は見えなくなる
+      識別文字列はMemoryと共用で同じ名前は使えない
 
-  Fcall ���ʕ�����(�ϐ� �ϐ�)
-  Fcall ���ʕ�����(�ϐ� �ϐ�) -RegOut �ϐ���
-    Function��`�R�}���h�̌Ăяo���B��`���Ɠ������̕ϐ����w��B(ver5.0�ǉ�)
-    �ϐ��͕ϐ����L�ڂƁi�Q�Ɠn���łȂ���΁j�ݒ�l�L�ڂ̂ǂ�����\�B
-    -RegOut��������Ԃ�l���擾�\�B
+  Fcall 識別文字列(変数 変数)
+  Fcall 識別文字列(変数 変数) -RegOut 変数名
+    Function定義コマンドの呼び出し。定義時と同じ数の変数を指定。(ver5.0追加)
+    変数は変数名記載と（参照渡しでなければ）設定値記載のどちらも可能。
+    -RegOutをつけたら返り値を取得可能。
 
-�� memory�n�R�}���h
+★ memory系コマンド
 
-  Memory ���ʕ�����
-    �y���s�R�}���h�z
+  Memory 識別文字列
+    【実行コマンド】
   EndMemory
 
-    Memory����EndMemory�܂ł̊Ԃ̓��e���L���ɒǉ�����B
-    ���̋�ԓ��ł͕ϐ��W�J��MemCall�ɂ����s�܂ōs���Ȃ��B
-    �������ʕ�������g�����ꍇ�͑O��܂ł̓��e�ɒǉ�����B
-    -arg�ŕt�����������ϐ��͎��s���ł͂Ȃ��ݒ莞�̕ϐ��l���g�p�B(ver5.0�ǉ�)
-    -order�œ��ꎯ�ʎq���ł̎��s���ʂ��w��\�B
+    MemoryからEndMemoryまでの間の内容を記憶に追加する。
+    この区間内では変数展開もMemCallによる実行まで行われない。
+    同じ識別文字列を使った場合は前回までの内容に追加する。
+    -argで付加した引数変数は実行時ではなく設定時の変数値を使用。(ver5.0追加)
+    -orderで同一識別子内での実行順位を指定可能。
 
-  MemSet ���ʕ�����
-    �y���s�R�}���h�z
+  MemSet 識別文字列
+    【実行コマンド】
   EndMemory
 
-    Memory�Ɠ�������ł��邪�AMemory/MemSet/Function���Ŏg�p����l�X�g����
-    ���\�B(ver5.0�ǉ�)
-    �EMemory�͂Ƃ肠������`���Ă������e
-    �EMemSet�͐ݒ肵����K���Ăяo�������e
-    �Ŏg��������z��BMemSet�ݒ��A�N�Z�X�Ȃ��ŏI�������warning�\�������B
+    Memoryと同じ動作であるが、Memory/MemSet/Function内で使用するネスト動作
+    が可能。(ver5.0追加)
+    ・Memoryはとりあえず定義しておく内容
+    ・MemSetは設定したら必ず呼び出される内容
+    で使い分けを想定。MemSet設定後アクセスなしで終了するとwarning表示される。
 
-  MemCall ���ʕ�����
-    Memory�R�}���h�̎��ʕ�����ŋL�����ꂽ���e�����s�Ɉڂ��B
-    �L�����e�͎c��̂ŉ��x�ł����s�\�B
+  MemCall 識別文字列
+    Memoryコマンドの識別文字列で記憶された内容を実行に移す。
+    記憶内容は残るので何度でも実行可能。
 
-  MemErase ���ʕ�����
-    Memory�R�}���h�̎��ʕ�����ŋL�����ꂽ���e���ׂď�������B
+  MemErase 識別文字列
+    Memoryコマンドの識別文字列で記憶された内容すべて消去する。
 
-  MemCopy ���ʕ�����(��) ���ʕ�����(��)
-    ���ʕ�����(��)�ɋL������Ă�����e�����ʕ�����(��)�ɕ�������B
+  MemCopy 識別文字列(元) 識別文字列(先)
+    識別文字列(元)に記憶されている内容を識別文字列(先)に複製する。
 
-  MemMove ���ʕ�����(��) ���ʕ�����(��)
-    ���ʕ�����(��)�ɋL������Ă�����e�����ʕ�����(��)�Ɉړ�����B
+  MemMove 識別文字列(元) 識別文字列(先)
+    識別文字列(元)に記憶されている内容を識別文字列(先)に移動する。
 
-  MemAppend ���ʕ�����(��) ���ʕ�����(��)
-    ���ʕ�����(��)�ɋL������Ă�����e�����ʕ�����(��)�ɒǉ�����B
+  MemAppend 識別文字列(元) 識別文字列(先)
+    識別文字列(元)に記憶されている内容を識別文字列(先)に追加する。
 
-  MemOnce �����l
-    �����l��1�ȊO���������́A�ȍ~����t�@�C������Memory�R�}���h�����s���Ȃ��B
-    MemOnce 1 ���ēx�ݒ肵���瓯��t�@�C�����ł������\�B
-    Memory�͓��e��ǉ����Ă������ߏd���L����h���������Ɏg�p�B
-    MemSet/Function�ɂ��K�p�B(ver5.0�ǉ�)
+  MemOnce 整数値
+    整数値が1以外だった時は、以降同一ファイル内のMemoryコマンドを実行しない。
+    MemOnce 1 を再度設定したら同一ファイル内でも解除可能。
+    Memoryは内容を追加していくため重複記憶を防ぎたい時に使用。
+    MemSet/Functionにも適用。(ver5.0追加)
 
-  MemEcho ���ʕ�����
-    MemCall�Ŏ��s�������e��\���B�f�o�b�O�p�B
+  MemEcho 識別文字列
+    MemCallで実行される内容を表示。デバッグ用。
 
-    �V�X�e����`����Ă���Memory�p�̎��ʕ�����Ƃ��ĉ��L�����݂���B
-      START    : �������s�i���̌����R�}���h���O�j(ver5.0�ǉ�)
-      AUTO     : �������s�i����Auto�n�R�}���h����j(ver5.0�ǉ�)
-      END      : �������s�i�R�}���h�̈�ԍŌ�j(ver5.0�ǉ�)
-      FINALIZE : �������s�iOUTPUT�̒��O�B�S�̂ň�x�������s�j(ver5.0�ǉ�)
-      OUTPUT   : �������s�i�I�����ɏo�͂�ړI�B�S�̂ň�x�������s�j
+    システム定義されているMemory用の識別文字列として下記が存在する。
+      START    : 自動実行（次の検索コマンド直前）(ver5.0追加)
+      AUTO     : 自動実行（次のAuto系コマンド直後）(ver5.0追加)
+      END      : 自動実行（コマンドの一番最後）(ver5.0追加)
+      FINALIZE : 自動実行（OUTPUTの直前。全体で一度だけ実行）(ver5.0追加)
+      OUTPUT   : 自動実行（終了時に出力を目的。全体で一度だけ実行）
 
-      DUMMY   : �������݂����s����������Ȃ�
-      LAZY    : START/AUTO/END���e�Z�b�g�ŕ��������܂Ƃ߂ď���(ver5.0�L�ڕύX)
-                LAZY�ŕ������ꂽ�f�[�^�̂݁AMemCall�ł͌��̏ꏊ�ɖ߂����ꏈ��
+      DUMMY   : 書き込みも実行も何もされない
+      LAZY    : START/AUTO/END内容セットで複製等をまとめて処理(ver5.0記載変更)
+                LAZYで複製されたデータのみ、MemCallでは元の場所に戻す特殊処理
 
-      LAZY_S  : -lazy_s�ɂ��ҋ@���R�}���h
-      LAZY_A  : -lazy_a�ɂ��ҋ@���R�}���h
-      LAZY_E  : -lazy_e(-lazy)�ɂ��ҋ@���R�}���h
+      LAZY_S  : -lazy_sによる待機中コマンド
+      LAZY_A  : -lazy_aによる待機中コマンド
+      LAZY_E  : -lazy_e(-lazy)による待機中コマンド
 
-  ��START/AUTO/END�͎��s���ꂽ����e�͏��������B(ver5.0�ǉ�)
-    LAZY_S/LAZY_A/LAZY_E��START/AUTO/END�Ɠ���Œu�������\�B
+  ※START/AUTO/ENDは実行されたら内容は消去される。(ver5.0追加)
+    LAZY_S/LAZY_A/LAZY_EはSTART/AUTO/ENDと同一で置き換え可能。
 
-���I�v�V�����ꗗ
+■オプション一覧
 
-�I�v�V�����Ŏ��s�R�}���h�K�p����ӏ������肷��B
-�L�ڒ��A�P�O�̃��S�ʒu�Ƃ́A
-  ���S�I���ʒu�̏ꍇ�F���S�J�n�ʒu
-  ���S�J�n�ʒu�̏ꍇ�F�P�O�̃��S�I���ʒu
-��\���B
+オプションで実行コマンド適用する箇所を限定する。
+記載中、１つ前のロゴ位置とは、
+  ロゴ終了位置の場合：ロゴ開始位置
+  ロゴ開始位置の場合：１つ前のロゴ終了位置
+を表す。
 
-���肷��ʒu�͈ȉ����`�Ƃ��āA�B���������\�L�𒼂��ċL�ځB(ver5.0�ǉ�)
-    ����S�ʒu : ���S��Ԃ̊J�n�܂��͏I���ʒu
-    ��ʒu     : �ʏ�͊���S�ʒu�A-from������ΕύX��B�������ƂȂ�ʒu
-    �ړI�ʒu     : ��ʒu����I�v�V�����ɏ]���Č����B���s�Ɏg�p����ʒu
-    �I���ʒu     : �Q�_�w��I�����Œʏ�͊�ʒu�B�I�v�V�����ŕʈʒu���\�B
+決定する位置は以下を定義として、曖昧だった表記を直して記載。(ver5.0追加)
+    基準ロゴ位置 : ロゴ区間の開始または終了位置
+    基準位置     : 通常は基準ロゴ位置、-from等あれば変更後。検索元となる位置
+    目的位置     : 基準位置からオプションに従って検索。実行に使用する位置
+    終了位置     : ２点指定終了側で通常は基準位置。オプションで別位置も可能。
 
-�� ���o�͂���ъ���S�ʒu�Ō��肷��I�v�V����
+★ 入出力および基準ロゴ位置で限定するオプション
 
-  -N �ԍ�
-    �S�̂ŉ��Ԗڂ̃��S�\���ɑ΂���R�}���h�����肷��B
-    ���̎��͍Ōォ�琔�����ԍ���\���B
-    0�܂���-N�n�I�v�V�����Ȃ��̏ꍇ�͊��蓖�Ă���ԍ��S����\���B
-    Auto�n�R�}���h��I�v�V�����i-final���j�ł���ΐ������S�����\���A
-    ����ȊO�ł͎��ۂ̃��S��ΏۂƂ���B(ver4.1�ǉ��L��)
+  -N 番号
+    全体で何番目のロゴ表示に対するコマンドか決定する。
+    負の時は最後から数えた番号を表す。
+    0または-N系オプションなしの場合は割り当てられる番号全部を表す。
+    Auto系コマンドやオプション（-final等）であれば推測ロゴ扱い構成、
+    それ以外では実際のロゴを対象とする。(ver4.1追加記載)
 
-  -NR �ԍ�
-    ����Abort�R�}���h�Ŗ��������ꂽ�ʒu�͔�΂���
-    �S�̂ŉ��Ԗڂ̃��S�\���ɑ΂���R�}���h�����肷��B
-    ���̎��͍Ōォ�琔�����ԍ���\���B
-    0�̏ꍇ�͊��蓖�Ă���ԍ��S����\���B
-    ���ۂ̃��S�Ɛ������S�����\���̑I����-N�Ɠ��l�ł��邪�A
-    ���ۂ̃��S�Ŏg�p��z��B(ver4.1�ǉ��L��)
+  -NR 番号
+    既にAbortコマンドで無効化された位置は飛ばして
+    全体で何番目のロゴ表示に対するコマンドか決定する。
+    負の時は最後から数えた番号を表す。
+    0の場合は割り当てられる番号全部を表す。
+    実際のロゴと推測ロゴ扱い構成の選択は-Nと同様であるが、
+    実際のロゴで使用を想定。(ver4.1追加記載)
 
-  -Nlogo �ԍ�
-  -Nauto �ԍ�
-    $HEADTIME,$TAILTIME��ݒ肵�Ă�����͈͂����肵�i�Ȃ���ΑS�́j�A
-    �͈͓��ŉ��Ԗڂ̃��S�\���ɑ΂���R�}���h�����肷��B(ver3.0�ǉ�)
-    ���̎��͍Ōォ�琔�����ԍ���\���B
-    0�̏ꍇ�͊��蓖�Ă���ԍ��S����\���B
-    -Nlogo�͎��ۂ̃��S�ʒu�w�肷��R�}���h(Find��)�Ŏg�p�ł��A
-    -Nauto�͐����\���̃��S�����\�������S�ʒu�Ƃ���Auto�n�R�}���h�Ŏg�p�ł���B
-    Auto�n�R�}���h(AutoIns,AutoDel,AutoEdge)�ł͐����\�������S�ʒu�Ƃ��邪�A
-    -Nlogo�w�莞�͎��ۂ̃��S�ʒu�Ŏw��ƂȂ�B(ver4.0�ǉ��L��)
+  -Nlogo 番号
+  -Nauto 番号
+    $HEADTIME,$TAILTIMEを設定していたら範囲を限定し（なければ全体）、
+    範囲内で何番目のロゴ表示に対するコマンドか決定する。(ver3.0追加)
+    負の時は最後から数えた番号を表す。
+    0の場合は割り当てられる番号全部を表す。
+    -Nlogoは実際のロゴ位置指定するコマンド(Find等)で使用でき、
+    -Nautoは推測構成のロゴ扱い構成をロゴ位置とするAuto系コマンドで使用できる。
+    Auto系コマンド(AutoIns,AutoDel,AutoEdge)では推測構成をロゴ位置とするが、
+    -Nlogo指定時は実際のロゴ位置で指定となる。(ver4.0追加記載)
 
-  -NFlogo �ԍ�
-  -NFauto �ԍ�
-    $HEADTIME,$TAILTIME�̐ݒ�Ɋ֌W�Ȃ��S�̂ŉ��Ԗڂ̃��S�\���ɑ΂���
-    �R�}���h�����肷��B(ver4.1�ǉ�)
-    -Nlogo,-Nauto�ɔ͈͐������Ȃ��������̂ŁA���ۂ̃��S�Ɛ������S�����\����
-    �S�̐���ŋ�ʂ��Ďg�p�\�B
+  -NFlogo 番号
+  -NFauto 番号
+    $HEADTIME,$TAILTIMEの設定に関係なく全体で何番目のロゴ表示に対する
+    コマンドか決定する。(ver4.1追加)
+    -Nlogo,-Nautoに範囲制限をなくしたもので、実際のロゴと推測ロゴ扱い構成を
+    全体制御で区別して使用可能。
 
-  -NFXlogo �ԍ�
-    Abort�R�}���h�Ŗ��������ꂽ�ʒu���c���đS�̂ŉ��Ԗڂ̃��S�\���ɑ΂���
-    �R�}���h�����肷��B(ver4.1�ǉ�)
-    -N�ƈႢ�A���͔ԍ������łȂ��o�̓��X�g�����������ꂽ�ʒu���c������
-    -NFXlogo 0 ��GetList�Ɏw��Ŗ������ψʒu���܂߂��S���S���X�g�擾�\�B
+  -NFXlogo 番号
+    Abortコマンドで無効化された位置も残して全体で何番目のロゴ表示に対する
+    コマンドか決定する。(ver4.1追加)
+    -Nと違い、入力番号だけでなく出力リストも無効化された位置を残すため
+    -NFXlogo 0 をGetListに指定で無効化済位置も含めた全ロゴリスト取得可能。
 
-  ��-N,-NR,-Nlogo,-Nauto,-NF*�͂����ꂩ�P�����P�R�}���h�ɂ��P��w��B
-    �ԍ��̓R���}�ŋ�؂��ĕ����w��\(ver3.0�ǉ�)
-    3..5�̂悤�ɏ���������ɂ��ĂQ�̔ԍ���..�Ŕ͈͎w��\(ver4.0�ǉ�)
-    �ԍ���0�̎��͏ȗ��\(ver5.0�ǉ�)
+  ※-N,-NR,-Nlogo,-Nauto,-NF*はいずれか１つだけ１コマンドにつき１回指定可。
+    番号はコンマで区切って複数指定可能(ver3.0追加)
+    3..5のように小さい側先にして２つの番号間..で範囲指定可能(ver4.0追加)
+    番号が0の時は省略可能(ver5.0追加)
 
   -pair
-    $HEADTIME,$TAILTIME�Ŕ͈͌��肵�����A���S�̊J�n�ƏI�����Z�b�g�Ƃ���
-    �Б����͈͊O�ł������ꍇ�ł��ԍ������蓖�Ă�B(ver4.0�ǉ�)
+    $HEADTIME,$TAILTIMEで範囲限定した時、ロゴの開始と終了をセットとして
+    片側が範囲外であった場合でも番号を割り当てる。(ver4.0追加)
 
-  -pickin �ԍ�
-  -pick   �ԍ�
-    �����𖞂����ʒu�����Ԃɔԍ��ɂ��āA�w��ԍ��̂ݎ��s����B(ver5.0�ǉ�)
-    AutoIns/AutoDel/GetPos/GetList�̂ݎw��\�B
-    �ԍ��͍ŏ���1�ŁA-N�Ɠ��l�ɕ����E�͈͎w�肪�\�B
-    -pickin�͊�ʒu�����Ԃɔԍ��ɂ���B
-    -pick�͍ŏI�I�ɏ����𖞂����ړI�ʒu�����Ԃɔԍ��ɂ���B
+  -pickin 番号
+  -pick   番号
+    条件を満たす位置を順番に番号にして、指定番号のみ実行する。(ver5.0追加)
+    AutoIns/AutoDel/GetPos/GetListのみ指定可能。
+    番号は最初が1で、-Nと同様に複数・範囲指定が可能。
+    -pickinは基準位置を順番に番号にする。
+    -pickは最終的に条件を満たす目的位置を順番に番号にする。
 
   -final
-    AutoIns,AutoDel,GetPos,GetList�p�ɒǉ��̃R�}���h�ŁA
-    �\���E�ԑg�񋟓����܂߂��ŏI�o�͂���镔�������S�����Ƃ���B(ver4.0�ǉ�)
-    �����\�����ŏI�o�͂ɒu�����邽��Auto�n�R�}���h�����ƂȂ�B
-    �����\�����g�p���Ȃ��]�������ł��g�p�\(ver5.0�ǉ�)
+    AutoIns,AutoDel,GetPos,GetList用に追加のコマンドで、
+    予告・番組提供等も含めた最終出力される部分をロゴ扱いとする。(ver4.0追加)
+    推測構成を最終出力に置換するためAuto系コマンド扱いとなる。
+    推測構成を使用しない従来方式でも使用可能(ver5.0追加)
 
-  -LenP �Œ�t���[���� �ō��t���[����
-    �P�O�̃��S�ʒu����Ώۃ��S�ʒu�܂ł̃t���[�������w����̏ꍇ�̂�
-    �ΏۂƂ���B�����s�v�̏ꍇ��-1������B
+  -LenP 最低フレーム数 最高フレーム数
+    １つ前のロゴ位置から対象ロゴ位置までのフレーム数が指定内の場合のみ
+    対象とする。制限不要の場合は-1を入れる。
 
-  -LenN �Œ�t���[���� �ō��t���[����
-    �Ώۃ��S�ʒu����P��̃��S�ʒu�܂ł̃t���[�������w����̏ꍇ�̂�
-    �ΏۂƂ���B�����s�v�̏ꍇ��-1������B
+  -LenN 最低フレーム数 最高フレーム数
+    対象ロゴ位置から１つ先のロゴ位置までのフレーム数が指定内の場合のみ
+    対象とする。制限不要の場合は-1を入れる。
 
-  -LenPE �Œ�t���[���� �ō��t���[����
-    �Q�O�̃��S�ʒu(�P�O�̊J�n�^�I�����G�b�W)�ő���-LenP���l�B(ver4.0�ǉ�)
+  -LenPE 最低フレーム数 最高フレーム数
+    ２つ前のロゴ位置(１つ前の開始／終了同エッジ)で他は-LenP同様。(ver4.0追加)
 
-  -LenNE �Œ�t���[���� �ō��t���[����
-    �Q��̃��S�ʒu(�P��̊J�n�^�I�����G�b�W)�ő���-LenN���l�B(ver4.0�ǉ�)
+  -LenNE 最低フレーム数 最高フレーム数
+    ２つ先のロゴ位置(１つ先の開始／終了同エッジ)で他は-LenN同様。(ver4.0追加)
 
   -wide
-    ���S���o�ɕs�m��x������\���͈͂�����ꍇ�A�\���͈͓��Ɍ����͈�
-    ���L���Ė����V�[���`�F���W�ꏊ��T���BFind�p�I�v�V�����B
+    ロゴ検出に不確定度があり可能性範囲がある場合、可能性範囲内に検索範囲
+    を広げて無音シーンチェンジ場所を探す。Find用オプション。
 
   -WithP
-    Abort�����s�������ɂP�O�̈ʒu���i���Ɋm�肵�Ă��Ă��j�ꏏ��Abort����B
-    Abort�p�I�v�V�����B
+    Abortを実行した時に１つ前の位置も（既に確定していても）一緒にAbortする。
+    Abort用オプション。
 
   -WithN
-    Abort�����s�������ɂP��̈ʒu���i���Ɋm�肵�Ă��Ă��j�ꏏ��Abort����B
-    Abort�p�I�v�V�����B
+    Abortを実行した時に１つ後の位置も（既に確定していても）一緒にAbortする。
+    Abort用オプション。
 
   -nolap
-    �ݒ�͈͂�אڃ��S�܂łɌ��肷��B(ver4.0�ǉ�)
+    設定範囲を隣接ロゴまでに限定する。(ver4.0追加)
 
   -noedge
-    �����V�[���`�F���W�ʒu���������鎞��0�t���[���ƍŏI�t���[���͏����B
+    無音シーンチェンジ位置を検索する時に0フレームと最終フレームは除く。
 
   -flat
-    �����V�[���`�F���W�I�����̓����D�揇�ʏ����g�p���Ȃ��B
-    Select�R�}���h�͎w�肵�Ȃ��Ă��ŏ����炱�̃I�v�V������t������ԁB
+    無音シーンチェンジ選択時の内部優先順位情報を使用しない。
+    Selectコマンドは指定しなくても最初からこのオプションを付けた状態。
 
   -autochg
-    ���S�I���ʒu���𐄑��\���iAuto�n�R�}���h�j�ɔ��f������B(ver2.1�ǉ�)
-    Auto�n�ł͂Ȃ��]���F���ɂ͔��f�����Ȃ��ύX�B(ver2.2�ǉ�)
-    �]���F���ɔ��f������ꍇ�͂��̃I�v�V�����Ȃ��ł�����x�����R�}���h��ݒ�B
-    Find/Force�p�I�v�V�����B
-    NextTail�ł��g�p�\�Őݒ�ʒu�𐄑��\���ɔ��f������B(ver4.0�ǉ�)
+    ロゴ選択位置情報を推測構成（Auto系コマンド）に反映させる。(ver2.1追加)
+    Auto系ではない従来認識には反映させない変更。(ver2.2追加)
+    従来認識に反映させる場合はこのオプションなしでもう一度同じコマンドを設定。
+    Find/Force用オプション。
+    NextTailでも使用可能で設定位置を推測構成に反映させる。(ver4.0追加)
 
 
-�� �͈͌���I�v�V����
-  ��ʒu����іړI�ʒu�͈̔͂����肷��B(ver5.0�ǉ��L��)
+★ 範囲限定オプション
+  基準位置および目的位置の範囲を限定する。(ver5.0追加記載)
 
-  -F �͈͐擪 �͈͖���
-    �Ώۃ��S�ʒu���w��t���[���͈͓��ɂ���ꍇ�̂ݑΏۂƂ���B
-    �����s�v�̏ꍇ��-1������B
+  -F 範囲先頭 範囲末尾
+    対象ロゴ位置が指定フレーム範囲内にある場合のみ対象とする。
+    制限不要の場合は-1を入れる。
 
-  -FR �͈͐擪 �͈͖���
-    �擪���S�i�I�v�V���� -NR 1 �����j�J�n�ʒu���t���[��0�Ƃ��āA
-    �Ώۃ��S�ʒu���w��t���[���͈͓��ɂ���ꍇ�̂ݑΏۂƂ���B
+  -FR 範囲先頭 範囲末尾
+    先頭ロゴ（オプション -NR 1 相当）開始位置をフレーム0として、
+    対象ロゴ位置が指定フレーム範囲内にある場合のみ対象とする。
 
-  -Fhead �͈͐擪 �͈͖���
-    �擪�t���[������Ɏw��t���[���͈͓��ɂ���ꍇ�̂ݑΏۂƂ���B
-    �������ŏ��̃��S�J�n�ƍŌ�̃��S�I���̒��Ԓn�_�܂łɈʒu���������A
-    �����I�ɑS�̂̌㔼�t���[�����͈͂ɓ���Ȃ��悤�ɂ���B
-    �͈͐擪��0�̎��ɏȗ��\�B(ver4.0�ǉ�)
+  -Fhead 範囲先頭 範囲末尾
+    先頭フレームを基準に指定フレーム範囲内にある場合のみ対象とする。
+    ただし最初のロゴ開始と最後のロゴ終了の中間地点までに位置制限かけ、
+    自動的に全体の後半フレームが範囲に入らないようにする。
+    範囲先頭は0の時に省略可能。(ver4.0追加)
 
-  -Ftail �͈͐擪 �͈͖���
-    �ŏI�t���[������ɑO�������w��t���[���͈͓��ɂ���ꍇ�̂ݑΏۂƂ���B
-    �������ŏ��̃��S�J�n�ƍŌ�̃��S�I���̒��Ԓn�_�܂łɈʒu���������A
-    �����I�ɑS�̂̑O���t���[�����͈͂ɓ���Ȃ��悤�ɂ���B
-    �͈͐擪��0�̎��ɏȗ��\�B(ver4.0�ǉ�)
+  -Ftail 範囲先頭 範囲末尾
+    最終フレームを基準に前方方向指定フレーム範囲内にある場合のみ対象とする。
+    ただし最初のロゴ開始と最後のロゴ終了の中間地点までに位置制限かけ、
+    自動的に全体の前半フレームが範囲に入らないようにする。
+    範囲先頭は0の時に省略可能。(ver4.0追加)
 
-  -Fmid �͈͐擪 �͈͖���
-    �͈͐擪�͐擪�t���[������A�͈͖����͍ŏI�t���[������Ɏw��t���[��
-    ���ԑ��Ɉړ������ʒu�̊Ԃ�Ώ۔͈͂Ƃ���B
-    �͈͐擪�A�͈͖����͂��ꂼ��-Fhead,-Ftail�̈ʒu������������B
+  -Fmid 範囲先頭 範囲末尾
+    範囲先頭は先頭フレームを基準、範囲末尾は最終フレームを基準に指定フレーム
+    中間側に移動した位置の間を対象範囲とする。
+    範囲先頭、範囲末尾はそれぞれ-Fhead,-Ftailの位置制限がかかる。
 
   -FheadX
   -FtailX
   -FmidX
-    ���ꂼ��-Fhead,-Ftail,-Fmid�Ɠ��������B���Ԓn�_�܂ł̈ʒu������
-    ������Ȃ����Ƃ����قȂ�B(ver3.0�ǉ�)
+    それぞれ-Fhead,-Ftail,-Fmidと同じ扱い。中間地点までの位置制限が
+    かからないことだけ異なる。(ver3.0追加)
 
-    ��-Fhead,-Ftail,-Fmid���ʂ�(ver2.1�ǉ�)
-    �ϐ�$HEADFRAME���ݒ�ς݂Ȃ�擪�t���[���E�ŏ��̃��S�J�n�Ƃ��Ďg�p�����B
-    �ϐ�$TAILFRAME���ݒ�ς݂Ȃ�ŏI�t���[���E�Ō�̃��S�I���Ƃ��Ďg�p�����B
-    $HEADFRAME,$TAILFRAME�Ƃ��ɏ����l=-1�ŁA-1�̎��͐ݒ�Ȃ������B
-    $HEADTIME,$TAILTIME����������(ver3.0�ǉ�)
+    ※-Fhead,-Ftail,-Fmid共通で(ver2.1追加)
+    変数$HEADFRAMEが設定済みなら先頭フレーム・最初のロゴ開始として使用される。
+    変数$TAILFRAMEが設定済みなら最終フレーム・最後のロゴ終了として使用される。
+    $HEADFRAME,$TAILFRAMEともに初期値=-1で、-1の時は設定なし扱い。
+    $HEADTIME,$TAILTIMEも同じ扱い(ver3.0追加)
 
-    -F,-FR,-Fhead,-Ftail,-Fmid�͂����ꂩ�P�����P�R�}���h�ɂ��P��w��B
-    �͈͎w��ɐ����s�v�̏ꍇ��-1������B
-    -F�n�R�}���h�͊�ʒu�ƖړI�ʒu�̗����ɔ͈͐��񂩂���B
+    -F,-FR,-Fhead,-Ftail,-Fmidはいずれか１つだけ１コマンドにつき１回指定可。
+    範囲指定に制限不要の場合は-1を入れる。
+    -F系コマンドは基準位置と目的位置の両方に範囲制約かかる。
 
   -FT
   -FTR
@@ -881,551 +881,551 @@ join_logo_scp�p�̎��s���e�X�N���v�g
   -FTheadX
   -FTtailX
   -FTmidX
-    ��ʒu�ɂ͔͈͐��񂩂��炸�ړI�ʒu�݂̂ɔ͈͐���B(ver4.0�ǉ�)
-    ����ȊO��T�𔲂����R�}���h�Ɠ�������B
+    基準位置には範囲制約かからず目的位置のみに範囲制約。(ver4.0追加)
+    それ以外はTを抜いたコマンドと同じ動作。
 
-    ��-F�n�I�v�V�����̎w��Ȃ�HEADTIME/TAILTIME�̎w�肪����ꍇ��
-    �ړI�ʒu��HEADTIME/TAILTIME�͈͐��������B(GetPos/GetList�͏���)
-    �ϐ�(RANGETYPE)��1�ɂ�����GetPos/GetList���͈͐���B(ver5.0�ǉ�)
+    ※-F系オプションの指定なくHEADTIME/TAILTIMEの指定がある場合は
+    目的位置にHEADTIME/TAILTIME範囲制約をする。(GetPos/GetListは除く)
+    変数(RANGETYPE)を1にしたらGetPos/GetListも範囲制約。(ver5.0追加)
 
   -ZoneL
   -ZoneN
-    ��ʒu�ƖړI�ʒu�̗����𓯈ꃍ�S��ԓ��ɔ͈͐���B(ver5.0�ǉ�)
-    -ZoneL�̓��S�����ԁA-ZoneN�̓��S�Ȃ���ԂɌ��肷��B
+    基準位置と目的位置の両方を同一ロゴ区間内に範囲制約。(ver5.0追加)
+    -ZoneLはロゴあり区間、-ZoneNはロゴなし区間に限定する。
 
-  -ZoneImmL �t���[���ʒu���X�g
-  -ZoneImmN �t���[���ʒu���X�g
-    ��ʒu�ƖړI�ʒu�̗����𓯈�w�胍�S��ԓ��ɔ͈͐���B(ver5.0�ǉ�)
-    �t���[���ʒu���X�g�͊J�n�^�I���Q�f�[�^���݂̃��S��ԁB
-    -ZoneImmL�̓��S�����ԁA-ZoneImmN�̓��S�Ȃ���ԂɌ��肷��B
-    -ZoneL/N��-ZoneImmL/N�͂��ꂼ��P������R�}���h���Ŏg�p�\�B
+  -ZoneImmL フレーム位置リスト
+  -ZoneImmN フレーム位置リスト
+    基準位置と目的位置の両方を同一指定ロゴ区間内に範囲制約。(ver5.0追加)
+    フレーム位置リストは開始／終了２データ交互のロゴ区間。
+    -ZoneImmLはロゴあり区間、-ZoneImmNはロゴなし区間に限定する。
+    -ZoneL/Nと-ZoneImmL/Nはそれぞれ１つずつ同一コマンド内で使用可能。
 
-  -overC �����l
-  -underC �����l
-    ��ʒu�ƖړI�ʒu�̊Ԃ̐����\����؂萔�Ŕ͈͐���(ver5.0�ǉ�)
-    ��ʒu����ړI�ʒu�܂ł̊Ԃ�
-     -overC�͎w�萮���l�̐����\����؂�͍Œ�ł������邱�Ɓi�\����؂葶�݁j
-     -underC�͎w�萮���l�̐����\����؂肪�Ȃ����Ɓi�\����؂�Ȃ��j
-    �i�J�b�R���͐����l=1�̎��̈Ӗ��j
-    �����l���ȗ�����1�B-overC��-underC�͕��p�\�B
+  -overC 整数値
+  -underC 整数値
+    基準位置と目的位置の間の推測構成区切り数で範囲制限(ver5.0追加)
+    基準位置から目的位置までの間に
+     -overCは指定整数値の推測構成区切りは最低でも超えること（構成区切り存在）
+     -underCは指定整数値の推測構成区切りがないこと（構成区切りなし）
+    （カッコ内は整数値=1の時の意味）
+    整数値を省略時は1。-overCと-underCは併用可能。
 
   -ZEnd
-    Zone�͈͐���i-overC/-underC�܂ށj�͊�ʒu�ƖړI�ʒu�̊ԂɓK�p����邪�A
-    �ړI�ʒu�ƏI���ʒu�̊ԂɕύX�B(ver5.0�ǉ�)
+    Zone範囲制約（-overC/-underC含む）は基準位置と目的位置の間に適用されるが、
+    目的位置と終了位置の間に変更。(ver5.0追加)
 
-  -TgtLimit �͈͐擪 �͈͖���
-    �ϐ�($LISTHOLD)�ɋL�ڂ��ꂽ���X�g�e���ڈʒu����Ɏw��t���[���͈̓V�t�g
-    �����ʒu�����ɖړI�ʒu������ꍇ�̂ݗL���Ƃ���B(ver3.0�ǉ�)
-    -TgtLimit�͖ړI�ʒu�݂̂ɔ͈͐��񂩂���B$LISTHOLD�ɍ��ڂȂ����͐���Ȃ��B
-    �I�v�V����(-RegList)�Ŏg�p���郊�X�g�ϐ��͕ύX�\�B(ver5.0�ǉ��L��)
+  -TgtLimit 範囲先頭 範囲末尾
+    変数($LISTHOLD)に記載されたリスト各項目位置を基準に指定フレーム範囲シフト
+    した位置内部に目的位置がある場合のみ有効とする。(ver3.0追加)
+    -TgtLimitは目的位置のみに範囲制約かかる。$LISTHOLDに項目ない時は制約なし。
+    オプション(-RegList)で使用するリスト変数は変更可能。(ver5.0追加記載)
 
-�i��j-TgtLimit -4.0 5.0
-    �ϐ�($LISTHOLD)�̒l���u25.0,45.0�v�������Ƃ���ƁA
-    �ړI�ʒu��21�b�`30�b�܂���41�b�`50�b�̎������ɐ��������B
+（例）-TgtLimit -4.0 5.0
+    変数($LISTHOLD)の値が「25.0,45.0」だったとすると、
+    目的位置は21秒～30秒または41秒～50秒の時だけに制限される。
 
 
-�� ��ʒu��ύX����I�v�V����
+★ 基準位置を変更するオプション
 
   -fromlast
-    ����S�ʒu����P�O�̃��S�ʒu�Ɋ�ʒu��ύX����B
+    基準ロゴ位置から１つ前のロゴ位置に基準位置を変更する。
 
-  -Shift ���S�w�� �͈͐擪 �͈͖���
-    ���̊�ʒu����w��͈͓��̖����V�[���`�F���W�ʒu�������Ċ�ʒu�Ƃ���B
-    ���̊�ʒu����I�v�V�����ōi�荞��ł�������₪�c�����ꍇ�́A
-    ���S�w��ɍł��߂��ꏊ����ʒu�Ƃ���B
+  -Shift 中心指定 範囲先頭 範囲末尾
+    元の基準位置から指定範囲内の無音シーンチェンジ位置検索して基準位置とする。
+    他の基準位置限定オプションで絞り込んでも複数候補が残った場合は、
+    中心指定に最も近い場所を基準位置とする。
 
   -SftLogo
-    �L���i���S�ԍ��ƊJ�n�^�I���w������𖞂������j���S�ω��n�_�ň�ԋ߂��ʒu��
-    ��ʒu�Ƃ���B(ver5.0�ǉ�)
+    有効（ロゴ番号と開始／終了指定条件を満たした）ロゴ変化地点で一番近い位置を
+    基準位置とする。(ver5.0追加)
 
   -relative
-    ��ʒu���猟������ʒu����I�v�V������ړI�ʒu����ɕύX���Ď��s����B
-    (ver3.0�ǉ�)
+    基準位置から検索する位置限定オプションを目的位置からに変更して実行する。
+    (ver3.0追加)
 
-  -fromabs �t���[���ʒu
-    ��ʒu���w��t���[���ʒu�Ƃ���B���̒l�̎��̓R�}���h�𖳌��Ƃ���B
+  -fromabs フレーム位置
+    基準位置を指定フレーム位置とする。負の値の時はコマンドを無効とする。
 
-  -fromhead �t���[���ʒu
-    $HEADTIME����̎w��t���[����̈ʒu����ʒu�Ƃ���B(ver3.0�ǉ�)
-    ���̒l�̎��̓R�}���h�𖳌��Ƃ���B
-    �t���[���ʒu�͏ȗ��\�ŏȗ�����0�ɂȂ�B(ver4.0�ǉ�)
+  -fromhead フレーム位置
+    $HEADTIMEからの指定フレーム後の位置を基準位置とする。(ver3.0追加)
+    負の値の時はコマンドを無効とする。
+    フレーム位置は省略可能で省略時は0になる。(ver4.0追加)
 
-  -fromtail �t���[���ʒu
-    $TAILTIME����̎w��t���[����O�ʒu����ʒu�Ƃ���B(ver3.0�ǉ�)
-    ���̒l�̎��̓R�}���h�𖳌��Ƃ���B
-    �t���[���ʒu�͏ȗ��\�ŏȗ�����0�ɂȂ�B(ver4.0�ǉ�)
+  -fromtail フレーム位置
+    $TAILTIMEからの指定フレーム手前位置を基準位置とする。(ver3.0追加)
+    負の値の時はコマンドを無効とする。
+    フレーム位置は省略可能で省略時は0になる。(ver4.0追加)
 
-  ��-from*�̃t���[���ʒu�͕����w��\(ver5.0�ǉ�)
-    ���ꂼ��̈ʒu����Ɨ����Ď��s�����B-Shift/-SftLogo�ƕ��p���\�B
-    �����w��̓R���}�ŋ�؂邩�A���X�g�ϐ��̒l�B
+  ※-from*のフレーム位置は複数指定可能(ver5.0追加)
+    それぞれの位置から独立して実行される。-Shift/-SftLogoと併用も可能。
+    複数指定はコンマで区切るか、リスト変数の値。
 
-  -AbsSetFD �t���[���ʒu���X�g
-  -AbsSetFE �t���[���ʒu���X�g
-  -AbsSetFX �t���[���ʒu���X�g
-  -AbsSetXF �t���[���ʒu���X�g
-    �J�n�^�I���Q�f�[�^���݂̃��X�g�ŕБ���-fromabs�Ɏg�p����B(ver5.0�ǉ�)
-    -AbsSet��̕����ł��ꂼ��J�n���^�I�����̃f�[�^�����ɋL�ڂ̍��ڂɎg�p�B
+  -AbsSetFD フレーム位置リスト
+  -AbsSetFE フレーム位置リスト
+  -AbsSetFX フレーム位置リスト
+  -AbsSetXF フレーム位置リスト
+    開始／終了２データ交互のリストで片側を-fromabsに使用する。(ver5.0追加)
+    -AbsSet後の文字でそれぞれ開始側／終了側のデータを下に記載の項目に使用。
       F : -fromabs
       D : -DstAbs
       E : -EndAbs
-      X : �g�p���Ȃ�
+      X : 使用しない
 
-  -fromC        # �����\���̋�؂�S��
-  -fromTR       # Trailer�Ŏc���\��
-  -fromSP       # Sponsor�\��
-  -fromEC       # Endcard�\��
-  -fromBD       # Border�\���i���S���O����̍\���ł��邪������؂�Ȃ��j
-  -fromMX       # Mix�\���i���S��ԓ��Ƀ��S�Ȃ���Ԃ��邪������؂�Ȃ��j
-  -fromTRa      # Trailer(add)�\��
-  -fromTRr      # Trailer(add)�ȊO��Trailer�Ŏc���\��
-  -fromTRc      # Trailer�ŃJ�b�g����\��
-  -fromAEa      # �ǉ��������t�����ꂽ�\���iAutoEdge,AutoIns -fix/keep�j
-  -fromAEc      # �J�b�g�������t�����ꂽ�\���iAutoEdge,AutoDel -fix/keep�j
-  -fromCM       # CM�\��
-  -fromNL       # NoLogo�\��
-  -fromL        # L�\��
-    �\��������ʒu�ɂ���I�v�V�����B(ver5.0�ǉ�)
-    �Ώۍ\���̋�؂�S���A���ꂼ��̈ʒu����Ɨ����Ď��s�B
-    �R�}���h�擪��S/E/B�ō\���̑O���^�㑤�^������I���B
-    ���̃I�v�V�����͕����w��\�œ����ɕ����̑Ώۍ\����I���ł���B
-    -merge���w�肵����A�������̈�͂P�Ƃ��Ĉ����B
-    ���̃I�v�V������t���������͉��L�����ݒ肳���B
-      �ݒ�ʒu���\����؂�Ɍ���(-C)�B��������������-Coff������
-      �R�}���h�擪S/E�ŖړI�ʒu�ݒ�Ȃ��̎��A�ړI�ʒu�͍\�����̔��Α���؂��
+  -fromC        # 推測構成の区切り全部
+  -fromTR       # Trailerで残す構成
+  -fromSP       # Sponsor構成
+  -fromEC       # Endcard構成
+  -fromBD       # Border構成（ロゴ直前直後の構成であるが無音区切りなし）
+  -fromMX       # Mix構成（ロゴ区間内にロゴなし区間あるが無音区切りなし）
+  -fromTRa      # Trailer(add)構成
+  -fromTRr      # Trailer(add)以外のTrailerで残す構成
+  -fromTRc      # Trailerでカットする構成
+  -fromAEa      # 追加属性が付加された構成（AutoEdge,AutoIns -fix/keep）
+  -fromAEc      # カット属性が付加された構成（AutoEdge,AutoDel -fix/keep）
+  -fromCM       # CM構成
+  -fromNL       # NoLogo構成
+  -fromL        # L構成
+    構成情報を基準位置にするオプション。(ver5.0追加)
+    対象構成の区切り全部、それぞれの位置から独立して実行。
+    コマンド先頭のS/E/Bで構成の前側／後側／両側を選択。
+    このオプションは複数指定可能で同時に複数の対象構成を選択できる。
+    -mergeも指定したら連続した領域は１つとして扱う。
+    このオプションを付加した時は下記自動設定される。
+      設定位置を構成区切りに限定(-C)。解除したい時は-Coffをつける
+      コマンド先頭S/Eで目的位置設定なしの時、目的位置は構成内の反対側区切りに
 
   -xfrom*
-    ��L-from�ɑΉ�����\���������O����B(ver5.0�ǉ�)
+    上記-fromに対応する構成情報を除外する。(ver5.0追加)
 
-�i��j-fromC -xfromAEa -xfromAEc
-    �ǉ��E�J�b�g�������ǉ����ꂽ�\�����������ׂĂ̍\������ʒu
+（例）-fromC -xfromAEa -xfromAEc
+    追加・カット属性が追加された構成を除くすべての構成を基準位置
 
   -merge
-    �����̍\����F�����ɘA���\���͂P�ɂ܂Ƃ߂ĔF���B(ver5.0�ǉ�)
-    EchoItem�Ɏg�p��������s�Ȃ��ŕ\���B
+    複数の構成を認識時に連続構成は１つにまとめて認識。(ver5.0追加)
+    EchoItemに使用したら改行なしで表示。
 
 
-�� ��ʒu���猟������I�v�V����
+★ 基準位置から検索するオプション
 
-  ���̍��ڂ̃I�v�V�����͈͂͑S���ȗ��܂��͒��S1�_�̂ݎw����\�B(ver4.0�ǉ�)
-  ���̏ꍇ�A�͈͕͂W���Œ��S�}1.2�b���ݒ肳���B�S���ȗ����̒��S��0�ɐݒ�B
+  この項目のオプション範囲は全部省略または中心1点のみ指定も可能。(ver4.0追加)
+  その場合、範囲は標準で中心±1.2秒が設定される。全部省略時の中心は0に設定。
 
-  -SC �͈͐擪 �͈͖���
-    ��ʒu����̎w��t���[���͈͓��ɖ����V�[���`�F���W������ꍇ�̂�
-    �ΏۂƂ���B���̒l�����邱�ƂőΏۃ��S�ȑO�̈ʒu�w����\�B
-    -1����ꂽ���̂ݐ����Ȃ��Ƃ���B�i�͈͐擪-1�͏������t���[���������Ȃ��A
-    �͈͖���-1�͑傫���t���[���������Ȃ��B�j
-    MkLogo�R�}���h�ł͕ύX�w��Ȃ���Ή��z���S�J�n�ʒu����ʒu�ƂȂ�B
-    DivLogo�R�}���h�ł͕ύX�w��Ȃ���Ε������ʒu����ʒu�ƂȂ�B
-    Select�R�}���h�ł͑I����̖����V�[���`�F���W����ʒu�ƂȂ�B
+  -SC 範囲先頭 範囲末尾
+    基準位置からの指定フレーム範囲内に無音シーンチェンジがある場合のみ
+    対象とする。負の値を入れることで対象ロゴ以前の位置指定も可能。
+    -1を入れた時のみ制限なしとする。（範囲先頭-1は小さいフレーム側制限なし、
+    範囲末尾-1は大きいフレーム側制限なし。）
+    MkLogoコマンドでは変更指定なければ仮想ロゴ開始位置が基準位置となる。
+    DivLogoコマンドでは変更指定なければ分割候補位置が基準位置となる。
+    Selectコマンドでは選択後の無音シーンチェンジが基準位置となる。
 
-  -NoSC �͈͐擪 �͈͖���
-    -SC�Ƃ͋t�Ɋ�ʒu����̎w��t���[���͈͓��ɖ����V�[���`�F���W���Ȃ�
-    �ꍇ�̂ݑΏۂƂ���B�ݒ�l�̎d�l��-SC�I�v�V�����Ɠ����B
+  -NoSC 範囲先頭 範囲末尾
+    -SCとは逆に基準位置からの指定フレーム範囲内に無音シーンチェンジがない
+    場合のみ対象とする。設定値の仕様は-SCオプションと同じ。
 
-  -SM �͈͐擪 �͈͖���
-    ��ʒu����̎w��t���[���͈͓��ɖ������Ԃ�����ꍇ�̂�
-    �ΏۂƂ���B
+  -SM 範囲先頭 範囲末尾
+    基準位置からの指定フレーム範囲内に無音期間がある場合のみ
+    対象とする。
 
-  -NoSM �͈͐擪 �͈͖���
-    -SM�Ƃ͋t�Ɋ�ʒu����̎w��t���[���͈͓��ɖ������Ԃ��Ȃ��ꍇ�̂�
-    �ΏۂƂ���B
+  -NoSM 範囲先頭 範囲末尾
+    -SMとは逆に基準位置からの指定フレーム範囲内に無音期間がない場合のみ
+    対象とする。
 
-  -SMA �͈͐擪 �͈͖���
-    ��ʒu����̎w��t���[���͈͓��S�̂��������Ԃ������ꍇ�̂�
-    �ΏۂƂ���B
+  -SMA 範囲先頭 範囲末尾
+    基準位置からの指定フレーム範囲内全体が無音期間だった場合のみ
+    対象とする。
 
-  -NoSMA �͈͐擪 �͈͖���
-    ��ʒu����̎w��t���[���͈͓��ɖ����ł͂Ȃ����Ԃ�����ꍇ�̂�
-    �ΏۂƂ���B(ver3.0�ǉ�)
+  -NoSMA 範囲先頭 範囲末尾
+    基準位置からの指定フレーム範囲内に無音ではない期間がある場合のみ
+    対象とする。(ver3.0追加)
 
-  -AC �͈͐擪 �͈͖���
-    ��ʒu����̎w��t���[���͈͓��ɐ����\����؂肪����ꍇ�̂�
-    �ΏۂƂ���B(ver3.0�ǉ�)
+  -AC 範囲先頭 範囲末尾
+    基準位置からの指定フレーム範囲内に推測構成区切りがある場合のみ
+    対象とする。(ver3.0追加)
 
-  -NoAC �͈͐擪 �͈͖���
-    ��ʒu����̎w��t���[���͈͓��ɐ����\����؂肪�Ȃ��ꍇ�̂�
-    �ΏۂƂ���B(ver3.0�ǉ�)
+  -NoAC 範囲先頭 範囲末尾
+    基準位置からの指定フレーム範囲内に推測構成区切りがない場合のみ
+    対象とする。(ver3.0追加)
 
-  -ACC �͈͐擪 �͈͖���
-    ��ʒu����̎w��t���[���͈͓��ɐ����\����؂�i���i�K�܂ށj
-    ������ꍇ�̂ݑΏۂƂ���B(ver5.0�ǉ�)
+  -ACC 範囲先頭 範囲末尾
+    基準位置からの指定フレーム範囲内に推測構成区切り（候補段階含む）
+    がある場合のみ対象とする。(ver5.0追加)
 
-  -NoACC �͈͐擪 �͈͖���
-    ��ʒu����̎w��t���[���͈͓��ɐ����\����؂�i���i�K�܂ށj
-    ���Ȃ��ꍇ�̂ݑΏۂƂ���B(ver5.0�ǉ�)
+  -NoACC 範囲先頭 範囲末尾
+    基準位置からの指定フレーム範囲内に推測構成区切り（候補段階含む）
+    がない場合のみ対象とする。(ver5.0追加)
 
   -RSC,-RNoSC,-RSM,-RNoSM,-RSMA,-RNoSMA,-RAC,-RNoAC,-RACC,-RNoACC
-    �擪��R�������ꍇ�͊�ʒu��ړI�ʒu�ɕύX�B(ver3.0�ǉ�)
-    �ΏۃI�v�V�����S����R�������� -relative �Ɠ����B
-    ��ʒu��ړI�ʒu�ɒu��������R�𔲂����I�v�V�������Q�ƁB
+    先頭にRをつけた場合は基準位置を目的位置に変更。(ver3.0追加)
+    対象オプション全部にRをつけたら -relative と同じ。
+    基準位置を目的位置に置き換えてRを抜いたオプションを参照。
 
   -ReSC,-ReNoSC,-ReSM,-ReNoSM,-ReSMA,-ReNoSMA,-ReAC,-ReNoAC,-ReACC,-ReNoACC
-    �擪��Re�������ꍇ�͊�ʒu���I���ʒu�ɕύX�B(ver5.0�ǉ�)
+    先頭にReをつけた場合は基準位置を終了位置に変更。(ver5.0追加)
 
   -RxSC,-RxNoSC,-RxSM,-RxNoSM,-RxSMA,-RxNoSMA,-RxAC,-RxNoAC,-RxACC,-RxNoACC
-    �擪��Rx�������ꍇ�͊�ʒu��ړI�ʒu/�I���ʒu�����ɕύX�B(ver5.0�ǉ�)
-    �����-Shift�g�p���͌��������ʒu���Ώۂɒǉ��B
+    先頭にRxをつけた場合は基準位置を目的位置/終了位置両方に変更。(ver5.0追加)
+    さらに-Shift使用時は検索する基準位置も対象に追加。
 
   -C
-    �����Ώۂ𐄑��\����؂�ʒu�Ɍ��肷��B(ver5.0�ǉ�)
-    ����I�ɂ�-RxAC�Ɠ����B
-    �\��������ʒu�ɂ������i-fromC���j�͎����t�������B
+    検索対象を推測構成区切り位置に限定する。(ver5.0追加)
+    動作的には-RxACと同じ。
+    構成情報を基準位置にした時（-fromC等）は自動付加される。
 
   -Coff
-    -C�I�v�V�����𖳌��ɂ���B(ver5.0�ǉ�)
-    �\��������ʒu�ɂ������A�����t����-C����������ړI�Ŏg�p�B
+    -Cオプションを無効にする。(ver5.0追加)
+    構成情報を基準位置にした時、自動付加の-Cを解除する目的で使用。
 
   -Cdst
   -Cend
-    -Cdst�͖ړI�ʒu�B-Cend�͏I���ʒu�𐄑��\����؂�ʒu�Ɍ���B(ver5.0�ǉ�)
-    -C�I�v�V�����𖳌��ɂ�����ʂ�����A�ꕔ�ʒu�̂ݐݒ肷��ړI�Ŏg�p�B
+    -Cdstは目的位置。-Cendは終了位置を推測構成区切り位置に限定。(ver5.0追加)
+    -Cオプションを無効にする効果もあり、一部位置のみ設定する目的で使用。
 
 
-�� �ړI�ʒu��ύX����I�v�V����(ver5.0�ǉ�)
+★ 目的位置を変更するオプション(ver5.0追加)
 
-  �ړI�ʒu�̌����ŃR�}���h�擪�͈̔͂�K�p����O�ɁA��ʒu����ʒu�ύX�B
-  ��ʒu�͕ύX���Ȃ��̂ŁA�I���ʒu�Ɋ�ʒu��ݒ肵�����e�����Ȃ��B
+  目的位置の検索でコマンド先頭の範囲を適用する前に、基準位置から位置変更。
+  基準位置は変更しないので、終了位置に基準位置を設定した時影響しない。
 
-  -DstAbs �t���[���ʒu
-    �w��t���[���ʒu�������J�n�ʒu�Ƃ���B���̒l�̎��R�}���h�����B
-    -fromabs�ŕ����t���[���ʒu�w�肵������-DstAbs�������t���[���ʒu�w��\��
-    ���̏ꍇ�͑Ή����郊�X�g�ʒu�̒l���I�������B
+  -DstAbs フレーム位置
+    指定フレーム位置を検索開始位置とする。負の値の時コマンド無効。
+    -fromabsで複数フレーム位置指定した時は-DstAbsも複数フレーム位置指定可能で
+    その場合は対応するリスト位置の値が選択される。
 
-  -DstNextL �����l
-  -DstPrevL �����l
-  -DstNextC �����l
-  -DstPrevC �����l
-    �w�萔��̑Ή������؂�������J�n�ʒu�Ƃ���B
-    Prev*��Next*�̐����l���}�C�i�X�ɂ������̂ŁA�ȍ~Prev��Next�Ɠ��ꈵ���B
-    NextL�̓��S�ω��_�ANextC�͐����\����؂�B
-    �����l�́ANext�̕����͑O���A�����͌㑤�B�ȗ�����1(Next/Prev����)�B
-    -DstAbs���܂ߕ��p�\�B���p����DstAbs/DstNextL/DstNextC�̏��Ɏ��{�B
+  -DstNextL 整数値
+  -DstPrevL 整数値
+  -DstNextC 整数値
+  -DstPrevC 整数値
+    指定数先の対応する区切りを検索開始位置とする。
+    Prev*はNext*の整数値をマイナスにしたもので、以降PrevはNextと同一扱い。
+    NextLはロゴ変化点、NextCは推測構成区切り。
+    整数値は、Nextの負数は前側、正数は後側。省略時は1(Next/Prev両方)。
+    -DstAbsを含め併用可能。併用時はDstAbs/DstNextL/DstNextCの順に実施。
 
   -DstAnd
-    -DstNext*�������Č��܂�͈͂�-DstNext*�Ō��܂�ʒu�������Ă��鎞�̂ݗL��
+    -DstNext*を除いて決まる範囲に-DstNext*で決まる位置が入っている時のみ有効
 
 
-�� �Q�_�w��R�}���h�p(MkLogo, AutoIns, AutoDel)�̃I�v�V����
+★ ２点指定コマンド用(MkLogo, AutoIns, AutoDel)のオプション
 
-  -EndLen ���S�w�� �͈͐擪 �͈͖���
-    ���z���S�J�n�ʒu����Ƃ��Ďw��͈͓��ɖ����V�[���`�F���W�������
-    ���S�w��Ɉ�ԋ߂������I���ʒu�Ƃ���B�Ȃ����MkLogo�����s���Ȃ��B
-    MkLogo�p�I�v�V�����BAutoIns, AutoDel�ł��g�p�\�B
-    ���S�w��݂̂Ŕ͈͏ȗ��͉\�B���̏ꍇ�͈͕͂W���Œ��S�}1.2�b�B(ver4.0�ǉ�)
+  -EndLen 中心指定 範囲先頭 範囲末尾
+    仮想ロゴ開始位置を基準として指定範囲内に無音シーンチェンジがあれば
+    中心指定に一番近い所を終了位置とする。なければMkLogoを実行しない。
+    MkLogo用オプション。AutoIns, AutoDelでも使用可能。
+    中心指定のみで範囲省略は可能。その場合範囲は標準で中心±1.2秒。(ver4.0追加)
 
-  -EndList ���S�w�胊�X�g
-    -EndLen�̒��S�w�肾�����X�g�`���Ŏw��B��ɋL�ڂ��ꂽ�l��D��(ver5.0�ǉ�)
+  -EndList 中心指定リスト
+    -EndLenの中心指定だけリスト形式で指定。先に記載された値を優先(ver5.0追加)
 
-  -EndSft ���S�w�� �͈͐擪 �͈͖���
-    ����-End�n�I���ʒu����ɁA�w��͈͓��Œ��S�Ɉ�ԋ߂������V�[���`�F���W
-    �ʒu���I���ʒu�Ƃ���B(ver5.0�ǉ�)
-    �͈͂͑S���ȗ��܂��͒��S�w�肾�����\�ŁA���S�w���0�A�͈͂͒��S�}1.2�b�B
-    -EndLen/-EndList�ƕ��p���̖����V�[���`�F���W������-EndSft��̂ݍs���B
+  -EndSft 中心指定 範囲先頭 範囲末尾
+    他の-End系終了位置を基準に、指定範囲内で中心に一番近い無音シーンチェンジ
+    位置を終了位置とする。(ver5.0追加)
+    範囲は全部省略または中心指定だけも可能で、中心指定は0、範囲は中心±1.2秒。
+    -EndLen/-EndListと併用時の無音シーンチェンジ検索は-EndSft後のみ行う。
 
   -EndHead
-    $HEADTIME���I���ʒu�Ƃ���B(ver3.0�ǉ�)
+    $HEADTIMEを終了位置とする。(ver3.0追加)
 
   -EndTail
-    $TAILTIME���I���ʒu�Ƃ���B(ver3.0�ǉ�)
+    $TAILTIMEを終了位置とする。(ver3.0追加)
 
   -EndHold
-    ���O��GetPos�R�}���h�Ŏ擾�����ʒu���I���ʒu�Ƃ���B(ver3.0�ǉ�)
-    ���ۂɂ͕ϐ�($POSHOLD)�̈ʒu�B
+    直前のGetPosコマンドで取得した位置を終了位置とする。(ver3.0追加)
+    実際には変数($POSHOLD)の位置。
 
-  -EndAbs �t���[���ʒu
-    �w��t���[���ʒu���I���ʒu�Ƃ���B���̒l�̎��R�}���h�����B(ver4.0�ǉ�)
-    -fromabs�ŕ����t���[���ʒu�w�肵������-EndAbs�������t���[���ʒu�w��\��
-    ���̏ꍇ�͑Ή����郊�X�g�ʒu�̒l���I�������B(ver5.0�ǉ�)
+  -EndAbs フレーム位置
+    指定フレーム位置を終了位置とする。負の値の時コマンド無効。(ver4.0追加)
+    -fromabsで複数フレーム位置指定した時は-EndAbsも複数フレーム位置指定可能で
+    その場合は対応するリスト位置の値が選択される。(ver5.0追加)
 
   -EndBaseL
-    -fromabs/-Shift���ύX�͊܂܂Ȃ�����S�ʒu���I���ʒu�Ƃ���B(ver5.0�ǉ�)
+    -fromabs/-Shift等変更は含まない基準ロゴ位置を終了位置とする。(ver5.0追加)
 
   -EndBase
-    -fromabs/-Shift���̕ύX���܂߂���ʒu���I���ʒu�Ƃ���B(ver5.0�ǉ�)
-    �Q�_�w���-End�n�w��Ȃ����͂��̒l���g�p�����B
+    -fromabs/-Shift等の変更も含めた基準位置を終了位置とする。(ver5.0追加)
+    ２点指定で-End系指定ない時はこの値が使用される。
 
-  -EndNextL �����l
-  -EndPrevL �����l
-  -EndNextC �����l
-  -EndPrevC �����l
-    �w�萔��̑Ή������؂���I���ʒu�Ƃ���B(ver5.0�ǉ�)
-    Prev*��Next*�̐����l���}�C�i�X�ɂ������̂ŁA�ȍ~Prev��Next�Ɠ��ꈵ���B
-    NextL�̓��S�ω��_�ANextC�͐����\����؂�B
-    �����l�́ANext�̕����͑O���A�����͌㑤�B�ȗ�����1(Next/Prev����)�B
+  -EndNextL 整数値
+  -EndPrevL 整数値
+  -EndNextC 整数値
+  -EndPrevC 整数値
+    指定数先の対応する区切りを終了位置とする。(ver5.0追加)
+    Prev*はNext*の整数値をマイナスにしたもので、以降PrevはNextと同一扱い。
+    NextLはロゴ変化点、NextCは推測構成区切り。
+    整数値は、Nextの負数は前側、正数は後側。省略時は1(Next/Prev両方)。
 
-  ����ނ̈قȂ�-End�n�͕��p�\�ŁAEnd�ʒu�����ԂɈړ�����B(ver5.0�ǉ�)
-    ���p���̎��{���́A�ʒu�Œ�End/EndNextL/EndNextC/EndLen(EndList)/EndSft
+  ※種類の異なる-End系は併用可能で、End位置を順番に移動する。(ver5.0追加)
+    併用時の実施順は、位置固定End/EndNextL/EndNextC/EndLen(EndList)/EndSft
 
   -EndAnd
-    -EndNext*�ȊO�Ō��܂�͈͂�-EndNext*�ʒu���܂܂�鎞�̂ݗL��(ver5.0�ǉ�)
+    -EndNext*以外で決まる範囲に-EndNext*位置が含まれる時のみ有効(ver5.0追加)
 
 
-�� MkLogo�R�}���h�p�̃I�v�V����
+★ MkLogoコマンド用のオプション
 
   -overlap
-    ���z���S�͈͓��Ɋ������S�������Ă��L���Ƃ���B
-    �d�Ȃ����������S�̊J�n�I���ʒu�͉��z���S�̋��E�ʒu�܂ňړ�����B
-    MkLogo�p�I�v�V�����B
-    ListSort�ł����S��ԔF���p�Ɏg�p�B(ver5.0�ǉ�)
+    仮想ロゴ範囲内に既存ロゴがあっても有効とする。
+    重なった既存ロゴの開始終了位置は仮想ロゴの境界位置まで移動する。
+    MkLogo用オプション。
+    ListSortでもロゴ区間認識用に使用。(ver5.0追加)
 
   -confirm
-    Find�R�}���h��҂����Ƀ��S�ʒu�𑦎��m�肷��B
-    MkLogo�p�I�v�V�����BSelect�����DivLogo�ł��g�p�\�B
+    Findコマンドを待たずにロゴ位置を即時確定する。
+    MkLogo用オプション。SelectおよびDivLogoでも使用可能。
 
   -unit
-    ���̈�̃��S�Əd�Ȃ��Ă�Trim�͍쐬���S�����ŕ������ďo�͂���B
-    MkLogo�p�I�v�V�����B
-    AutoIns/AutoDel�ł��w��\�ł��ꂼ�ꕪ���ǉ�/�폜����B(ver4.1�ǉ�)
+    他領域のロゴと重なってもTrimは作成ロゴだけで分離して出力する。
+    MkLogo用オプション。
+    AutoIns/AutoDelでも指定可能でそれぞれ分離追加/削除する。(ver4.1追加)
 
   -else
-    ���O�̃R�}���h�����s�����ꍇ�͎��s�ΏۊO�Ƃ���B
-    ���O�R�}���h���s�ɂ��ΏۊO�ƂȂ����ꍇ�͎��s�����Ƃ��邽�߁A�����R�}���h
-    ��-else�I�v�V�����𑱂����ꍇ�͂P���s�������_�ňȍ~�͎��s�ΏۊO�ƂȂ�B
-    MkLogo�p�ɍ쐬�����I�v�V�����B
-    ���̌����R�}���h�ł��g�p�\(ver4.0�ǉ��L��)
+    直前のコマンドを実行した場合は実行対象外とする。
+    直前コマンド実行により対象外となった場合は実行扱いとするため、複数コマンド
+    で-elseオプションを続けた場合は１つ実行した時点で以降は実行対象外となる。
+    MkLogo用に作成したオプション。
+    他の検索コマンドでも使用可能(ver4.0追加記載)
 
   -cont
-    ���O�̃R�}���h�����s�����ꍇ�̂ݎ��s�ΏۂƂ���B
-    ���s�ΏۂƂȂ����ꍇ���̃R�}���h���s�L���Ɋւ�炸���s�����Ƃ��邽�߁A
-    ���̃R�}���h�ł͑O�R�}���h���s��Ԃ��p������B
-    ���̌����R�}���h�ł��g�p�\(ver4.0�ǉ��L��)
+    直前のコマンドを実行した場合のみ実行対象とする。
+    実行対象となった場合このコマンド実行有無に関わらず実行扱いとするため、
+    次のコマンドでは前コマンド実行状態を継続する。
+    他の検索コマンドでも使用可能(ver4.0追加記載)
 
 
-�� DivLogo(GetPos,GetList,AutoIns,AutoDel��)�R�}���h�p�̃I�v�V����
+★ DivLogo(GetPos,GetList,AutoIns,AutoDel等)コマンド用のオプション
 
   -force
-    �w��͈͓��ɖ����V�[���`�F���W���Ȃ��ꍇ�A�����V�[���`�F���W�ȊO�̏�����
-    �������Ă���΋����I�Ɏw�蒆�S�ʒu�ŕ�������B(ver2.1�ǉ�)
-    GetPos/GetList/AutoIns/AutoDel�ł��g�p�\�ŁA�����V�[���`�F���W���Ȃ��ꍇ��
-    �w�蒆�S�ʒu�ɖ����V�[���`�F���W���쐬���Đݒ肷��B(ver3.0�ǉ�)
-    NextTail�ł��g�p�\�œ��l�̓���B(ver4.0�ǉ�)
-    Find/MkLogo�ł��g�p�\��DivLogo���l(ver5.0�ǉ�)
-    �]�������R�}���h(DivLogo/Find/MkLogo)�͖����V�[���`�F���W���쐬���Ȃ��B
+    指定範囲内に無音シーンチェンジがない場合、無音シーンチェンジ以外の条件を
+    満たしていれば強制的に指定中心位置で分割する。(ver2.1追加)
+    GetPos/GetList/AutoIns/AutoDelでも使用可能で、無音シーンチェンジがない場合は
+    指定中心位置に無音シーンチェンジを作成して設定する。(ver3.0追加)
+    NextTailでも使用可能で同様の動作。(ver4.0追加)
+    Find/MkLogoでも使用可能でDivLogo同様(ver5.0追加)
+    従来方式コマンド(DivLogo/Find/MkLogo)は無音シーンチェンジを作成しない。
 
   -noforce
   -preforce
-    GetPos/GetList�݂̂ŗL���ȃR�}���h�B(ver3.0�ǉ�)
-    -force���s���̈ʒu���擾���邪�A���ۂ̖����V�[���`�F���W�쐬�͍s��Ȃ��B
-    -preforce�͓�����e�ł��邪������e��\�����ߒǉ�(ver5.0�ǉ�)
+    GetPos/GetListのみで有効なコマンド。(ver3.0追加)
+    -force実行時の位置を取得するが、実際の無音シーンチェンジ作成は行わない。
+    -preforceは同一内容であるが動作内容を表すため追加(ver5.0追加)
 
   -fixpos
-    �����V�[���`�F���W���������s�������S�n�_��ݒ�ʒu�Ƃ���B(ver5.0�ǉ�)
-    �����\�����쐬����AutoIns/AutoDel�ł́A�����V�[���`�F���W���Ȃ��ꍇ��
-    �����V�[���`�F���W�������쐬���Đݒ肷��B
+    無音シーンチェンジ検索を実行せず中心地点を設定位置とする。(ver5.0追加)
+    推測構成を作成するAutoIns/AutoDelでは、無音シーンチェンジがない場合は
+    無音シーンチェンジを強制作成して設定する。
 
 
-�� �ϐ����o�͗p�̃I�v�V����
+★ 変数入出力用のオプション
 
-  -RegPos �ϐ���
-    GetPos/List����n����ѕϐ����ʎg�p�R�}���h�݂̂ŗL���B(ver4.0�ǉ�)
-    POSHOLD�̂����Ɏw�肵���ϐ������g�p�B
-    -val�I�v�V�������w�肵����ǂݏo���l�͂����炪�g�p�����B(ver4.1�ǉ�)
+  -RegPos 変数名
+    GetPos/List操作系および変数結果使用コマンドのみで有効。(ver4.0追加)
+    POSHOLDのかわりに指定した変数名を使用。
+    -valオプションを指定したら読み出し値はそちらが使用される。(ver4.1追加)
 
-  -RegList �ϐ���
-    GetList/List����n����ѕϐ����ʎg�p�R�}���h�݂̂ŗL���B(ver4.0�ǉ�)
-    LISTHOLD�̂����Ɏw�肵���ϐ������g�p�B
+  -RegList 変数名
+    GetList/List操作系および変数結果使用コマンドのみで有効。(ver4.0追加)
+    LISTHOLDのかわりに指定した変数名を使用。
 
-  -RegSize �ϐ���
-    GetList/List����n�݂̂ŗL���ȃR�}���h�B(ver4.0�ǉ�)
-    SIZEHOLD�̂����Ɏw�肵���ϐ������g�p�B
+  -RegSize 変数名
+    GetList/List操作系のみで有効なコマンド。(ver4.0追加)
+    SIZEHOLDのかわりに指定した変数名を使用。
 
-  -RegEnv �ϐ���
-    EnvGet�݂̂ŗL���B�w�肵���ϐ������g�p�B(ver4.1�ǉ�)
+  -RegEnv 変数名
+    EnvGetのみで有効。指定した変数名を使用。(ver4.1追加)
 
-  -RegOut �ϐ���
-    �ϐ��o�͂͋��ʂ�-RegOut�ɂ��\�B(ver5.0�ǉ�)
-    �w��Ȃ���Εϐ��o�͂̓R�}���h�ɂ��قȂ�]���̃I�v�V�������ɂ��w��B
+  -RegOut 変数名
+    変数出力は共通で-RegOutにより可能。(ver5.0追加)
+    指定なければ変数出力はコマンドにより異なる従来のオプション名による指定。
 
-  -RegArg �ϐ���
-    �ϐ����œ��͈������K�v�ȃR�}���h�Ŏg�p�B(ver5.0�ǉ�)
+  -RegArg 変数名
+    変数名で入力引数が必要なコマンドで使用。(ver5.0追加)
 
-  -val �ݒ�l
-    -RegPos�w��(POSHOLD)�œǂݏo�����l�̂����Ɏg�p�����B(ver4.1�ǉ�)
-    �ݒ�l�𒼐ڎw��ł��APOSHOLD���̕ϐ��Ɉ�U�i�[�͕s�v�ɂȂ�B
+  -val 設定値
+    -RegPos指定(POSHOLD)で読み出される値のかわりに使用される。(ver4.1追加)
+    設定値を直接指定でき、POSHOLD等の変数に一旦格納は不要になる。
 
   -clear
-    GetPos/ListGetAt�݂̂ŗL���B(ver4.0�ǉ�)
-    �����ɍ����Ώۂ��Ȃ������ꍇ�ł��ϐ�(�W����POSHOLD)��-1�ɏ���������B
-    EnvGet�ł��L���ŁA�w�肵���ꍇ�̏��������l�͕�����Ȃ��B(ver4.1�ǉ�)
+    GetPos/ListGetAtのみで有効。(ver4.0追加)
+    条件に合う対象がなかった場合でも変数(標準はPOSHOLD)を-1に書き換える。
+    EnvGetでも有効で、指定した場合の書き換え値は文字列なし。(ver4.1追加)
 
   -unique
-    ListSort�݂̂ŗL���B����l�͍폜�����B(ver4.1�ǉ�)
+    ListSortのみで有効。同一値は削除される。(ver4.1追加)
 
   -sort
-    ListJoin�݂̂ŗL���BListSort����������Ɏ��s�����B(ver5.0�ǉ�)
+    ListJoinのみで有効。ListSort動作も同時に実行される。(ver5.0追加)
 
   -EdgeS
   -EdgeE
   -EdgeB
-    GetPos/GetList�ŊJ�n�^�I���ǂ���̈ʒu���擾���邩�ݒ�(ver4.0�ǉ�)
-    �Ⴂ��1�`2�t���[���̍��ŁA���w�莞�̓R�}���h�擪��S/E/B�ɍ��킹�Đݒ�B
-    -EdgeB�͂Q�_�w��̑O�����J�n�A�㑤���I���Őݒ�(ver5.0�ǉ�)
-    -force�I�v�V�����ɂ�閳���V�[���`�F���W�쐬�ł���I���Ɏg�p
+    GetPos/GetListで開始／終了どちらの位置を取得するか設定(ver4.0追加)
+    違いは1～2フレームの差で、未指定時はコマンド先頭のS/E/Bに合わせて設定。
+    -EdgeBは２点指定の前側を開始、後側を終了で設定(ver5.0追加)
+    -forceオプションによる無音シーンチェンジ作成でも基準選択に使用
 
   -holdE
-    GetPos/GetList�݂̂ŗL���B(ver5.0�ǉ�)
-    �ړI�ʒu�ł͂Ȃ��I���ʒu��ϐ�(POSHOLD/LISTHOLD)�ɏo�́B
+    GetPos/GetListのみで有効。(ver5.0追加)
+    目的位置ではなく終了位置を変数(POSHOLD/LISTHOLD)に出力。
 
   -holdB
-    GetList�݂̂ŗL���B(ver5.0�ǉ�)
-    �ړI�ʒu�ƏI���ʒu�̗����Ƃ����X�g�ϐ�(LISTHOLD)�ɏo�́B
-    �Q�_�̃t���[���ʒu�͑O������ɂȂ�悤�����I�ɕ��ёւ���B
+    GetListのみで有効。(ver5.0追加)
+    目的位置と終了位置の両方ともリスト変数(LISTHOLD)に出力。
+    ２点のフレーム位置は前側が先になるよう自動的に並び替える。
 
   -silent
-    Read�n�R�}���h�Ńt�@�C�������݂��Ȃ��Ă�warning��\�����Ȃ��B(ver5.0�ǉ�)
-    FileOpen/FileAppend�ŏ������݂ł��Ȃ��Ă�warning��\�����Ȃ��B
+    Read系コマンドでファイルが存在しなくてもwarningを表示しない。(ver5.0追加)
+    FileOpen/FileAppendで書き込みできなくてもwarningを表示しない。
 
   -maxsize
-    Read�n�R�}���h�œǂݍ��ރf�[�^���i�s���j�̏����ݒ�B(ver5.0�ǉ�)
+    Read系コマンドで読み込むデータ数（行数）の上限を設定。(ver5.0追加)
 
 
-�� Select�R�}���h�p�̃I�v�V����
+★ Selectコマンド用のオプション
 
   -reset
-    �����܂��͎��OSelect�R�}���h�Ń��S�ʒu��I���ł��Ă��鎞�ł��đI������B
+    自動または事前Selectコマンドでロゴ位置を選択できている時でも再選択する。
 
-  -logoext �O���␳�t���[�� �㑤�␳�t���[��
-    ���S�\���͈͂�␳�B�O���͕��̒l�A�㑤�͐��̒l�Ŋg������B
-    -1�̎��͎w�葤�̃t���[�������Ȃ��Ƃ���B
-    -from*�n�Ŋ���S�ʒu����ύX�������͂��͈̔͐��񎩑̂�����(ver5.0�ǉ�)
+  -logoext 前側補正フレーム 後側補正フレーム
+    ロゴ可能性範囲を補正。前側は負の値、後側は正の値で拡張する。
+    -1の時は指定側のフレーム制限なしとする。
+    -from*系で基準ロゴ位置から変更した時はこの範囲制約自体が無効(ver5.0追加)
 
 
-�� �ϐ��ݒ�̃I�v�V����(ver4.0�ǉ�)
+★ 変数設定のオプション(ver4.0追加)
 
   -local
-    �ݒ肳���ϐ��̓��[�J���ϐ��Ƃ���B
-    ArgBegin�Ŏw�肵������ArgEnd�܂ŎQ�Ƃ̓��[�J���ϐ��݂̂Ƃ���B(ver4.1�ǉ�)
+    設定される変数はローカル変数とする。
+    ArgBeginで指定した時はArgEndまで参照はローカル変数のみとする。(ver4.1追加)
 
   -default
-    �ϐ�������`�������ꍇ�̂ݐݒ肳���B(ver4.1�ǉ�)
-    ListClear�R�}���h�Ŏg�p��z��B
+    変数が未定義だった場合のみ設定される。(ver4.1追加)
+    ListClearコマンドで使用を想定。
 
   -restore
-    �ϐ�����R�}���h�����EchoItem�ŗL���B�ޔ𒆂̈��p�������ɖ߂�(ver5.0�ǉ�)
-    ���p����ʏ핶���Ƃ��Ĉ����ɂ�$DQUOTE�g�p��${�ϐ���:Xq}�őޔ𕶎��Ƃ��邪�A
-    �߂��ɂ͒��ڋL�ڂł�${�ϐ���:Xqr}�A1���ڕێ��ɂ͂��̃I�v�V�������g�p����B
+    変数代入コマンドおよびEchoItemで有効。退避中の引用符を元に戻す(ver5.0追加)
+    引用符を通常文字として扱うには$DQUOTE使用や${変数名:Xq}で退避文字とするが、
+    戻すには直接記載では${変数名:Xqr}、1項目保持にはこのオプションを使用する。
 
-  -counter �ϐ��� �����l �ω��l
-    Repeat�R�}���h�݂̂ŗL���B(ver5.0�ǉ�)
-    �R�}���h�o�����Ƀ��[�J���ϐ��ŏ����l��ݒ�AEnd�n�_�Ŗ���ω��l�����Z�B
-    �ω��l�Ə����l�͏ȗ��\�ŁA�ȗ����͕ω��l��1�A�����l��0�ɐݒ肳���B
+  -counter 変数名 初期値 変化値
+    Repeatコマンドのみで有効。(ver5.0追加)
+    コマンド出現時にローカル変数で初期値を設定、End地点で毎回変化値を加算。
+    変化値と初期値は省略可能で、省略時は変化値は1、初期値は0に設定される。
 
-  -step �ω��l
-    CountUp�R�}���h�݂̂ŗL���B�ϐ��ɕω��l�i�����j�����Z����B(ver5.0�ǉ�)
+  -step 変化値
+    CountUpコマンドのみで有効。変数に変化値（整数）を加算する。(ver5.0追加)
 
 
-�� �x������p�̃I�v�V����(ver4.0�ǉ�)
+★ 遅延制御用のオプション(ver4.0追加)
 
   -lazy
   -lazy_s
   -lazy_a
   -lazy_e
-    �����R�}���h�ɕt�����邱�ƂŃR�}���h���s��x�点�邱�Ƃ��\�B
-    �e�I�v�V�����̎��s�^�C�~���O�͒x�����s�R�}���h���Q�ƁB
+    検索コマンドに付加することでコマンド実行を遅らせることが可能。
+    各オプションの実行タイミングは遅延実行コマンドを参照。
 
   -now
-    �����R�}���h�ɕt�����邱�ƂŁA�����t���x����I�v�V�����̒x���𖳌����B
+    検索コマンドに付加することで、自動付加遅延やオプションの遅延を無効化。
 
-  -arg �ϐ���
-    MemSet/Memory�݂̂ŗL���B(ver5.0�ǉ�)
-    �w�肵���ϐ��͒���"{"����"}"�܂Ŏ��s���ł͂Ȃ��ݒ莞�̕ϐ��l���g�p�����B
-    �ϐ����̓R���}��؂�ŕ����w��\�B
+  -arg 変数名
+    MemSet/Memoryのみで有効。(ver5.0追加)
+    指定した変数は直後"{"から"}"まで実行時ではなく設定時の変数値が使用される。
+    変数名はコンマ区切りで複数指定可能。
 
-  -order �����l
-    MemSet/Memory�݂̂ŗL���B(ver5.0�ǉ�)
-    ���ꎯ�ʎq���ł̎��s���ʂ��w�肷��BEndMemory�܂ł̋�ԂŗL���B
-  �A���w�莞50�ɑ΂��ď������ݒ�l���ɓ��ꎯ�ʎq���̃R�}���h�͎��s�����B
-
-
-�� �͈͎w��I�v�V����(ver4.0�ǉ�)
-
-  �ȗ��\�Ȕ͈͎w���ʓr�ݒ�ł���I�v�V�����B
-
-  -Dcenter ���S�w��
-  -Dc ���S�w��          # ����R�}���h�ʖ�
-    ���s�R�}���h�̍ŏ��Ɏw�肷�钆�S�w��݂̂�ݒ�B
-
-  -Dlist �t���[���ʒu���X�g
-    ���s�R�}���h�̍ŏ��Ɏw�肷�钆�S�w��݂̂𕡐��w��B(ver5.0�ǉ�)
-    ��ɋL�ڂ��ꂽ�l���猟���A���ׂĂ̏����𖞂����ʒu�����������猟���I���B
-
-  -Drange �͈͐擪 �͈͖���
-  -Dr �͈͐擪 �͈͖���          # ����R�}���h�ʖ�
-    ���s�R�}���h�̍ŏ��Ɏw�肷��͈͐擪�Ɣ͈͖����݂̂�ݒ�B
-    ���s�R�}���h�̍ŏ��Ɏw�肷��ꍇ�ƈႢ�A-1�̎��͐����Ȃ��Ƃ���B
-
-  -Dmargin �}�[�W���w��
-  -Dm �}�[�W���w��          # ����R�}���h�ʖ�
-    ���s�R�}���h�̍ŏ��Ɏw�肷��͈͐擪�Ɣ͈͖������}�[�W���Őݒ�B
-    ���S�w��}�}�[�W���w��̒l�ƂȂ�B
-    -Drange��-Dmargin�͂ǂ��炩�Е��̂ݐݒ�\�B
-
-  -Emargin �}�[�W���w��
-  -Em �}�[�W���w��          # ����R�}���h�ʖ�
-    �͈͏ȗ��\�ȃI�v�V�����i-EndLen,-Shift,-SC�n�j�Ŕ͈͏ȗ����̒l��ύX�B
-    �͈͐擪�Ɣ͈͖��������S�w��}�}�[�W���w��̒l�ƂȂ�B
+  -order 整数値
+    MemSet/Memoryのみで有効。(ver5.0追加)
+    同一識別子内での実行順位を指定する。EndMemoryまでの区間で有効。
+  、未指定時50に対して小さい設定値順に同一識別子内のコマンドは実行される。
 
 
-�� Auto�R�}���h�p�I�v�V����(ver5.0�ǉ��L��)
+★ 範囲指定オプション(ver4.0追加)
 
-  Auto�R�}���h�݂̂Ŏg�p����I�v�V�����͕ʂ̐����t�@�C���ɋL�ځB
-  �i-code,-fix,-keepC���j
+  省略可能な範囲指定を別途設定できるオプション。
+
+  -Dcenter 中心指定
+  -Dc 中心指定          # 同一コマンド別名
+    実行コマンドの最初に指定する中心指定のみを設定。
+
+  -Dlist フレーム位置リスト
+    実行コマンドの最初に指定する中心指定のみを複数指定。(ver5.0追加)
+    先に記載された値から検索、すべての条件を満たす位置が見つかったら検索終了。
+
+  -Drange 範囲先頭 範囲末尾
+  -Dr 範囲先頭 範囲末尾          # 同一コマンド別名
+    実行コマンドの最初に指定する範囲先頭と範囲末尾のみを設定。
+    実行コマンドの最初に指定する場合と違い、-1の時は制限なしとする。
+
+  -Dmargin マージン指定
+  -Dm マージン指定          # 同一コマンド別名
+    実行コマンドの最初に指定する範囲先頭と範囲末尾をマージンで設定。
+    中心指定±マージン指定の値となる。
+    -Drangeと-Dmarginはどちらか片方のみ設定可能。
+
+  -Emargin マージン指定
+  -Em マージン指定          # 同一コマンド別名
+    範囲省略可能なオプション（-EndLen,-Shift,-SC系）で範囲省略時の値を変更。
+    範囲先頭と範囲末尾が中心指定±マージン指定の値となる。
 
 
-���t���[���w����@
+★ Autoコマンド用オプション(ver5.0追加記載)
 
-�I�v�V�������t���[�����͐��l���͂Ŏw��ł��邪�A���Ԏw����\�ɂ����B
-�����_���L�ڂ��邱�Ƃŕb���w����\�ɂ����B
-�����L�ڂ��t���[�������b����������F(�����l) S(�����l)�ŉ\�ɂ����B(ver3.0�ǉ�)
-�i�w���j
-1234          1234�t���[���i�����ݒ莞�j
-01:23:45.678  1����23��45�b678�~���b
-01:23:45      1����23��45�b
-11:23.456     11��23�b456�~���b
-00:34.5       34�b500�~���b
-00:34         34�b
-34.5          34�b500�~���b
-34.0          34�b
-F(23)         23�t���[��
-S(23)         23�b
+  Autoコマンドのみで使用するオプションは別の説明ファイルに記載。
+  （-code,-fix,-keepC等）
 
 
-���t���[���w����̉��Z
+■フレーム指定方法
 
-�P���ȉ��Z�^���Z���\�ɂ����B�󔒂��J������+�܂���-���L�ڂŉ��Z���s���B
-��Z(*)���Z(/)��](%)�_�����Z(|&^)�����()�ɂ��D�揇�ʉ��Z�ǉ��B(ver3.0�ǉ�)
-�������揜�Z�̔�揜���i���Z�q�̉E���j�͎��Ԏw��ɑΉ������K���������w�肷��B
-�i�Ⴆ�Ύ��ԉ��Z�u30*15�v�́u1�b*0.5�b�v�łȂ��u1�b��15�{�v�Ƃ��Čv�Z�����j
+オプション中フレーム数は数値入力で指定できるが、時間指定も可能にした。
+小数点を記載することで秒数指定も可能にした。
+整数記載がフレーム数か秒数か明示をF(整数値) S(整数値)で可能にした。(ver3.0追加)
+（指定例）
+1234          1234フレーム（初期設定時）
+01:23:45.678  1時間23分45秒678ミリ秒
+01:23:45      1時間23分45秒
+11:23.456     11分23秒456ミリ秒
+00:34.5       34秒500ミリ秒
+00:34         34秒
+34.5          34秒500ミリ秒
+34.0          34秒
+F(23)         23フレーム
+S(23)         23秒
 
-�i�w���j
+
+■フレーム指定内の演算
+
+単純な加算／減算を可能にした。空白を開けずに+または-を記載で演算を行う。
+乗算(*)除算(/)剰余(%)論理演算(|&^)および()による優先順位演算追加。(ver3.0追加)
+ただし乗除算の被乗除数（演算子の右側）は時間指定に対応せず必ず整数を指定する。
+（例えば時間演算「30*15」は「1秒*0.5秒」でなく「1秒の15倍」として計算される）
+
+（指定例）
 Default base 200
 Default offset 50
 Default w  35
 Select S 0 -$w $w -fromabs $base+$offset
 
 
-��If���̏�����r
+■If文の条件比較
 
-If�������Ƃ��ăt���O�̕ς��ɐ��l��r���Z���\(ver2.1�ǉ�)
-�_���a(||)�_����(&&)��v�Z�����g�������Z���\�B(ver3.0�ǉ�)
-�t���O�����̂܂܎g�p����ꍇ�A���ʂ̂��߃t���O�Ƃ���ȊO������̊Ԃɋ󔒕K�{�B
-$�������ϐ��ŋL�ڂ���ꍇ��t���O�g�p���Ȃ��ꍇ�͋󔒕s�v�B(ver3.0�ǉ�)
-�����̍��ړ��łP�ӏ��ł�:�܂���.���g���Ă����玞�ԉ��Z�Ƃ��ă~���b�ɕϊ��A
-����ȊO�̎��͐����Ƃ��Ĉ����B
-""�ň͂����Q�̕�����Ԃł͕������v����(==,!=)���\�B(ver4.0�ǉ�)
+If文条件としてフラグの変わりに数値比較演算が可能(ver2.1追加)
+論理和(||)論理積(&&)や計算式を使った演算が可能。(ver3.0追加)
+フラグをそのまま使用する場合、判別のためフラグとそれ以外文字列の間に空白必須。
+$をつけた変数で記載する場合やフラグ使用しない場合は空白不要。(ver3.0追加)
+条件の項目内で１箇所でも:または.を使っていたら時間演算としてミリ秒に変換、
+それ以外の時は整数として扱う。
+""で囲った２つの文字列間では文字列一致判別(==,!=)が可能。(ver4.0追加)
 
-�i�L�ڕ��@�j
-  If ���lA ��r���Z�q ���lB
-�i��r���Z�q�j
-  == A��B��������
-  != A��B���قȂ�
-  <  A���B���傫��
-  <= A���B���傫����������
-  >  A���B��������
-  >= A���B����������������
-  || A��B�̂ǂ��炩��0�ȊO
-  && A��B�̗���0�ȊO
-�i�w���j
+（記載方法）
+  If 数値A 比較演算子 数値B
+（比較演算子）
+  == AとBが等しい
+  != AとBが異なる
+  <  AよりBが大きい
+  <= AよりBが大きいか等しい
+  >  AよりBが小さい
+  >= AよりBが小さいか等しい
+  || AとBのどちらかが0以外
+  && AとBの両方0以外
+（指定例）
 Default base 200
 Default offset 50
 Default w  35

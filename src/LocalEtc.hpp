@@ -1,30 +1,30 @@
+ï»¿//
+// ç’°å¢ƒä¾å­˜ã§é¢å€’ãã†ãªå‡¦ç†ã‚’ã¾ã¨ã‚ãŸã‚‚ã®
 //
-// ŠÂ‹«ˆË‘¶‚Å–Ê“|‚»‚¤‚Èˆ—‚ğ‚Ü‚Æ‚ß‚½‚à‚Ì
-//
-// UnicodeŠÖ˜A‚Ìˆ—‚ÍA“üo—Í‚Ìˆá‚¢‚ğ‘S•”‚±‚±‚Å‹zû‚µA“à•”‚Í‘S•”UTF-8‚Å“®ì‚³‚¹‚é
-// iŒ^‚Ístring,char‚Ì‚Ü‚ÜBShift-JIS‚İ‚½‚¢‚È§ŒäƒR[ƒhd‚È‚è‚à‚È‚­ŠÈˆÕ‰»‚Å‚«‚éj
-// Shift-JIS‚Ìˆ—‚Í‘S•”OS‚É‚Ü‚©‚¹‚éiƒƒCƒhƒoƒCƒgUTF-16ŠÔ‚ğWindows‹@”\‚Å‘ŠŒİ•ÏŠ·j
-// Windows‚Ì‚İ“®ìŠm”FiLinux“®ì‚àl—¶‚µ‚Äì¬j
+// Unicodeé–¢é€£ã®å‡¦ç†ã¯ã€å…¥å‡ºåŠ›ã®é•ã„ã‚’å…¨éƒ¨ã“ã“ã§å¸åã—ã€å†…éƒ¨ã¯å…¨éƒ¨UTF-8ã§å‹•ä½œã•ã›ã‚‹
+// ï¼ˆå‹ã¯string,charã®ã¾ã¾ã€‚Shift-JISã¿ãŸã„ãªåˆ¶å¾¡ã‚³ãƒ¼ãƒ‰é‡ãªã‚Šã‚‚ãªãç°¡æ˜“åŒ–ã§ãã‚‹ï¼‰
+// Shift-JISã®å‡¦ç†ã¯å…¨éƒ¨OSã«ã¾ã‹ã›ã‚‹ï¼ˆãƒ¯ã‚¤ãƒ‰ãƒã‚¤ãƒˆUTF-16é–“ã‚’Windowsæ©Ÿèƒ½ã§ç›¸äº’å¤‰æ›ï¼‰
+// Windowsã®ã¿å‹•ä½œç¢ºèªï¼ˆLinuxå‹•ä½œã‚‚è€ƒæ…®ã—ã¦ä½œæˆï¼‰
 //
 
 #pragma once
 
 
 #if defined(_MSC_VER)
-	// _s‚ª•t‰Á‚³‚ê‚½ˆÀ‘S‚ÉƒAƒNƒZƒX‚·‚éŠÖ”‚ğg‚¤ê‡‚Í’è‹`
+	// _sãŒä»˜åŠ ã•ã‚ŒãŸå®‰å…¨ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹é–¢æ•°ã‚’ä½¿ã†å ´åˆã¯å®šç¾©
 	#define USE_SAFETY_CALL
 #endif
 
 
 #if defined(_WIN32)
-  // Shift-JIS‚ğg—p‚·‚éê‡‚Í’è‹`iOSˆ—‚Ì‚½‚ßWindows‚Ì‚İ’è‹`j
-  #define WIDE_BYTE_SJIS		// Shift-JIS‚ğg‚¤ê‡‚ÍƒƒCƒhƒoƒCƒg‚ğg‚Á‚ÄOS‚Å•ÏŠ·
+  // Shift-JISã‚’ä½¿ç”¨ã™ã‚‹å ´åˆã¯å®šç¾©ï¼ˆOSå‡¦ç†ã®ãŸã‚Windowsã®ã¿å®šç¾©ï¼‰
+  #define WIDE_BYTE_SJIS		// Shift-JISã‚’ä½¿ã†å ´åˆã¯ãƒ¯ã‚¤ãƒ‰ãƒã‚¤ãƒˆã‚’ä½¿ã£ã¦OSã§å¤‰æ›
 #endif
 
 
 namespace LcParam
 {
-	enum class UtfType {		// •¶šƒR[ƒhí—Ş
+	enum class UtfType {		// æ–‡å­—ã‚³ãƒ¼ãƒ‰ç¨®é¡
 		none,
 		UTF8,
 		SJIS,
@@ -33,15 +33,15 @@ namespace LcParam
 	};
 
 #if defined(_WIN32)
-	static const UtfType UtfDefault = UtfType::SJIS;	// Windows‚ÍShift-JIS‚ª•W€
+	static const UtfType UtfDefault = UtfType::SJIS;	// Windowsã¯Shift-JISãŒæ¨™æº–
 #else
-	static const UtfType UtfDefault = UtfType::UTF8;	// WindowsˆÈŠO‚ÍUTF-8‚ª•W€
+	static const UtfType UtfDefault = UtfType::UTF8;	// Windowsä»¥å¤–ã¯UTF-8ãŒæ¨™æº–
 #endif
 }
 
-namespace LocalInc		// ˆê”Ê“I‚È‹¤’ÊƒRƒ}ƒ“ƒh‚ğ‹LÚ
+namespace LocalInc		// ä¸€èˆ¬çš„ãªå…±é€šã‚³ãƒãƒ³ãƒ‰ã‚’è¨˜è¼‰
 {
-	//--- ‘®®Œ`isnprintf‚Ì—ÌˆæŠm•Û‚ğ‘ãs‚µ‚Ästring‚Åo—Íj ---
+	//--- æ›¸å¼æ•´å½¢ï¼ˆsnprintfã®é ˜åŸŸç¢ºä¿ã‚’ä»£è¡Œã—ã¦stringã§å‡ºåŠ›ï¼‰ ---
 	template<typename ... Args>
 	std::string sformat(const std::string& fmt, Args ... args){
 		size_t len = std::snprintf(nullptr, 0, fmt.c_str(), args ... );
@@ -58,16 +58,16 @@ class LocalWbCnv;
 class LocalOfs;
 
 //---------------------------------------------------------------------
-// ‹¤’Ê—˜—p‚Ì•W€o—Í^ƒGƒ‰[•Ï”^ƒVƒXƒeƒ€§Œä
-// cout/cerr ‹LÚ‰ÓŠ‚ğ lcout/lcerr ‚É•ÏX‚·‚é‚±‚Æ‚ÅUnicode‘Î‰
+// å…±é€šåˆ©ç”¨ã®æ¨™æº–å‡ºåŠ›ï¼ã‚¨ãƒ©ãƒ¼å¤‰æ•°ï¼ã‚·ã‚¹ãƒ†ãƒ åˆ¶å¾¡
+// cout/cerr è¨˜è¼‰ç®‡æ‰€ã‚’ lcout/lcerr ã«å¤‰æ›´ã™ã‚‹ã“ã¨ã§Unicodeå¯¾å¿œ
 //---------------------------------------------------------------------
-extern LocalOutStream lcout;	// cout‘ã‚í‚è
-extern LocalErrStream lcerr;	// cerr‘ã‚í‚è
-extern LocalSys LSys;			// ƒVƒXƒeƒ€§Œä
+extern LocalOutStream lcout;	// coutä»£ã‚ã‚Š
+extern LocalErrStream lcerr;	// cerrä»£ã‚ã‚Š
+extern LocalSys LSys;			// ã‚·ã‚¹ãƒ†ãƒ åˆ¶å¾¡
 
-extern LocalWbCnv LWbCnv;	// LocalŠeƒNƒ‰ƒX“à‚Åg—p‚Ì•¶šƒR[ƒh•ÏŠ·ˆ—
+extern LocalWbCnv LWbCnv;	// Localå„ã‚¯ãƒ©ã‚¹å†…ã§ä½¿ç”¨ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›å‡¦ç†
 //---------------------------------------------------------------------
-// ƒVƒXƒeƒ€§Œä
+// ã‚·ã‚¹ãƒ†ãƒ åˆ¶å¾¡
 //---------------------------------------------------------------------
 class LocalSys {
 	LcParam::UtfType m_utfStd = LcParam::UtfDefault;
@@ -77,7 +77,7 @@ class LocalSys {
 	LocalWbCnv& wbc = LWbCnv;
 public:
 	LocalSys(){ m_listMemo.clear(); };
-	//--- •¶š—ño—Í ---
+	//--- æ–‡å­—åˆ—å‡ºåŠ› ---
 	void bufcout(const string& buf);
 	void bufcerr(const string& buf);
 	void bufMemoIns(const string& buf);
@@ -85,90 +85,90 @@ private:
 	void bufMemoInsSel(const string& buf, bool chkStd, bool chkErr);
 public:
 	void bufMemoFlush(LocalOfs& ofs);
-	//--- OSƒRƒ}ƒ“ƒh ---
+	//--- OSã‚³ãƒãƒ³ãƒ‰ ---
 	bool cmdMkdir(const string& strName);
 	bool cmdCopy(const string& strFrom, const string& strTo);
 	string getCurrentPath();
 	bool getEnvString(string& strVal, const string& strEnvName);
 	vector<string> getMainArg(int argc, char *argv[]);
 
-	// “à•”ƒƒ‚î•ñİ’è
+	// å†…éƒ¨ãƒ¡ãƒ¢æƒ…å ±è¨­å®š
 	void setMemoSel(int n);
-	// •¶šƒR[ƒh‚Ì”Ô†-ƒR[ƒhŠÔ‚ğ•ÏŠ·
+	// æ–‡å­—ã‚³ãƒ¼ãƒ‰ã®ç•ªå·-ã‚³ãƒ¼ãƒ‰é–“ã‚’å¤‰æ›
 	LcParam::UtfType getUtfCodeFromNum(int num);
 	int  getUtfNumFromCode(LcParam::UtfType utfcode);
 	int  getUtfNumFromStr(const string& strUtf);
-	// •W€o—Í^•W€ƒGƒ‰[‚Ì•¶šƒR[ƒhİ’è
+	// æ¨™æº–å‡ºåŠ›ï¼æ¨™æº–ã‚¨ãƒ©ãƒ¼ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰è¨­å®š
 	void setStdUtfCodeFromNum(int num);
 	void setStdUtfCode(LcParam::UtfType code);
 	int  getStdUtfNum();
 	LcParam::UtfType getStdUtfCode();
-	// ƒtƒ@ƒCƒ‹o—Í‚ÌƒfƒtƒHƒ‹ƒg•¶šƒR[ƒhİ’è
+	// ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆæ–‡å­—ã‚³ãƒ¼ãƒ‰è¨­å®š
 	void setFileUtfCodeFromNum(int num);
 	void setFileUtfCode(LcParam::UtfType code);
 	int  getFileUtfNum();
 	LcParam::UtfType getFileUtfCode();
 
-	// ƒfƒoƒbƒO—p
+	// ãƒ‡ãƒãƒƒã‚°ç”¨
 	void echoCodeWB(wstring str, int len = -1);
 	void echoCodeByte(string str, int len = -1);
 };
 //---------------------------------------------------------------------
-// •W€ƒXƒgƒŠ[ƒ€(lcout/lcerr—p)
+// æ¨™æº–ã‚¹ãƒˆãƒªãƒ¼ãƒ (lcout/lcerrç”¨)
 //---------------------------------------------------------------------
-//--- “à•”ˆ——p ---
-class LocalUtf8StreamBuf : public std::streambuf {	// UTF-8‚ğÀÛ‚Ì•¶š’PˆÊ‚Å‘—M‚·‚é
+//--- å†…éƒ¨å‡¦ç†ç”¨ ---
+class LocalUtf8StreamBuf : public std::streambuf {	// UTF-8ã‚’å®Ÿéš›ã®æ–‡å­—å˜ä½ã§é€ä¿¡ã™ã‚‹
 	int m_size = 0;
 	int m_pos = 0;
 	char m_buf[4];
 protected:
-	LocalWbCnv& wbc = LWbCnv;	// •¶šƒR[ƒh•ÏŠ·ŠÖ”
+	LocalWbCnv& wbc = LWbCnv;	// æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›é–¢æ•°
 	virtual int_type overflow(int_type ich = EOF);
 };
-class LocalOutStreamBuf : public LocalUtf8StreamBuf {	// lcout—pƒoƒbƒtƒ@o—Í
+class LocalOutStreamBuf : public LocalUtf8StreamBuf {	// lcoutç”¨ãƒãƒƒãƒ•ã‚¡å‡ºåŠ›
 protected:
 	virtual std::streamsize xsputn(const char_type* s, std::streamsize count);
 };
-class LocalErrStreamBuf : public LocalUtf8StreamBuf {	// lcerr—pƒoƒbƒtƒ@o—Í
+class LocalErrStreamBuf : public LocalUtf8StreamBuf {	// lcerrç”¨ãƒãƒƒãƒ•ã‚¡å‡ºåŠ›
 protected:
 	virtual std::streamsize xsputn(const char_type* s, std::streamsize count);
 };
-//--- lcoutƒXƒgƒŠ[ƒ€ ---
-class LocalOutStream : public std::ostream {		// lcout—pƒNƒ‰ƒX
+//--- lcoutã‚¹ãƒˆãƒªãƒ¼ãƒ  ---
+class LocalOutStream : public std::ostream {		// lcoutç”¨ã‚¯ãƒ©ã‚¹
 	LocalOutStreamBuf *m_streambuf;
 public:
 	~LocalOutStream() { delete m_streambuf; }
 	LocalOutStream() : std::ostream(m_streambuf = new LocalOutStreamBuf) {}
 };
-//--- lcerrƒXƒgƒŠ[ƒ€ ---
-class LocalErrStream : public std::ostream {		// lcerr—pƒNƒ‰ƒX
+//--- lcerrã‚¹ãƒˆãƒªãƒ¼ãƒ  ---
+class LocalErrStream : public std::ostream {		// lcerrç”¨ã‚¯ãƒ©ã‚¹
 	LocalErrStreamBuf *m_streambuf;
 public:
 	~LocalErrStream() { delete m_streambuf; }
 	LocalErrStream() : std::ostream(m_streambuf = new LocalErrStreamBuf) {}
 };
 //---------------------------------------------------------------------
-// ƒtƒ@ƒCƒ‹ƒ^ƒCƒvî•ñ
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‚¿ã‚¤ãƒ—æƒ…å ±
 //---------------------------------------------------------------------
 class LocalFileType {
-	bool m_set = false;			// ƒf[ƒ^‚ªİ’è‚³‚ê‚½‚çtrue
-	LcParam::UtfType m_utf;		// •¶šƒR[ƒhí—Ş
-	int m_unit;					// Å’á’PˆÊƒoƒCƒg”
-	int m_bom;					// BOM‚ÌƒoƒCƒg”i0=BOM•t‰Á‚È‚µj
-	string m_strbom;			// BOM‚Ì•¶š—ñiBOM•t‰Á‚È‚µ‚Ì‚à•¶š—ñ‚Íc‚·j
-	LocalWbCnv& wbc = LWbCnv;	// •¶šƒR[ƒh•ÏŠ·ŠÖ”
+	bool m_set = false;			// ãƒ‡ãƒ¼ã‚¿ãŒè¨­å®šã•ã‚ŒãŸã‚‰true
+	LcParam::UtfType m_utf;		// æ–‡å­—ã‚³ãƒ¼ãƒ‰ç¨®é¡
+	int m_unit;					// æœ€ä½å˜ä½ãƒã‚¤ãƒˆæ•°
+	int m_bom;					// BOMã®ãƒã‚¤ãƒˆæ•°ï¼ˆ0=BOMä»˜åŠ ãªã—ï¼‰
+	string m_strbom;			// BOMã®æ–‡å­—åˆ—ï¼ˆBOMä»˜åŠ ãªã—ã®æ™‚ã‚‚æ–‡å­—åˆ—ã¯æ®‹ã™ï¼‰
+	LocalWbCnv& wbc = LWbCnv;	// æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›é–¢æ•°
 public:
 	bool  setFromFile(const string& strName);
 	void  setDirect(LcParam::UtfType utfcode);
 	bool  isSet();
 
-	LcParam::UtfType utf() { return m_utf; };	// •¶šƒR[ƒhî•ñ
-	int              unit(){ return m_unit; };	// Å¬’PˆÊƒoƒCƒg”
-	int              bom() { return m_bom; };	// BOM•¶š”i0=BOM•t‰Á‚È‚µj
-	string           strbom(){ return m_strbom; };	// BOM•¶š—ñ
+	LcParam::UtfType utf() { return m_utf; };	// æ–‡å­—ã‚³ãƒ¼ãƒ‰æƒ…å ±
+	int              unit(){ return m_unit; };	// æœ€å°å˜ä½ãƒã‚¤ãƒˆæ•°
+	int              bom() { return m_bom; };	// BOMæ–‡å­—æ•°ï¼ˆ0=BOMä»˜åŠ ãªã—ï¼‰
+	string           strbom(){ return m_strbom; };	// BOMæ–‡å­—åˆ—
 };
 //---------------------------------------------------------------------
-// ifstreamˆ—iì¬ƒRƒ}ƒ“ƒh‚Ì‚İ‘Î‰j
+// ifstreamå‡¦ç†ï¼ˆä½œæˆã‚³ãƒãƒ³ãƒ‰ã®ã¿å¯¾å¿œï¼‰
 //---------------------------------------------------------------------
 class LocalIfs
 {
@@ -189,7 +189,7 @@ public:
 	int  getCodeNum();
 };
 //---------------------------------------------------------------------
-// ofstreamˆ—iì¬ƒRƒ}ƒ“ƒh‚Ì‚İ‘Î‰j
+// ofstreamå‡¦ç†ï¼ˆä½œæˆã‚³ãƒãƒ³ãƒ‰ã®ã¿å¯¾å¿œï¼‰
 //---------------------------------------------------------------------
 class LocalOfs
 {
@@ -212,7 +212,7 @@ public:
 	void setCodeType(LcParam::UtfType utf);
 };
 //---------------------------------------------------------------------
-// UTF-8‚Ì•¶š—ñ‘€ìi³‹K•\Œ»ŠÜ‚Şj
+// UTF-8ã®æ–‡å­—åˆ—æ“ä½œï¼ˆæ­£è¦è¡¨ç¾å«ã‚€ï¼‰
 //---------------------------------------------------------------------
 class LocalStr
 {
@@ -233,11 +233,11 @@ private:
 
 
 //---------------------------------------------------------------------
-// UTF-8 - ‘¼Œ`® •¶š—ñ•ÏŠ·ˆ—
+// UTF-8 - ä»–å½¢å¼ æ–‡å­—åˆ—å¤‰æ›å‡¦ç†
 //---------------------------------------------------------------------
 class LocalWbCnv {
 public:
-	// ƒtƒ@ƒCƒ‹IO‚Æ•¶šƒR[ƒh•ÏŠ·ˆ—
+	// ãƒ•ã‚¡ã‚¤ãƒ«IOã¨æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›å‡¦ç†
 	string cnvFromFileString(const string& lstr, LcParam::UtfType utype);
 	string cnvToFileString(const string& ustr, LcParam::UtfType utype);
 #if defined(WIDE_BYTE_SJIS)
@@ -246,7 +246,7 @@ private:
 	string getSjisFromWstr(const wstring& wstr);
 #endif
 public:
-	// WideByte - UTF-8 •¶š—ñ•ÏŠ·ˆ—
+	// WideByte - UTF-8 æ–‡å­—åˆ—å¤‰æ›å‡¦ç†
 	int getWlenFromUtf8(const string& str);
 	int getLenToUtf8(const wstring& wstr);
 	wstring getWstrFromUtf8(const string& str);

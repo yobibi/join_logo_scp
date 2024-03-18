@@ -1,52 +1,52 @@
-join_logo_scp �\�[�X�t�@�C���\��
+﻿join_logo_scp ソースファイル構成
 
-���R���p�C���w��t�@�C��
-�EVisual Studio 2022�iC++17�Ή����K�v�����j
+■コンパイル指定ファイル
+・Visual Studio 2022（C++17対応が必要条件）
   join_logo_scp.sln
-�EMinGW (C++17�Ή���)
+・MinGW (C++17対応版)
   compile.cmd
 
 
-���\�[�X�t�@�C���N���X�\��
-  JlsIF                          join_logo_scp Interface�K�w
-   |- JlsDataset                 �f�[�^�ێ�
-   |   |- CnvStrTime             ������E���ԁE�t���[���ʒu�̕ϊ�
-   |- JlsScript                  JL�X�N���v�g���s�N���X
-       |- JlsScrGlobal           JL�X�N���v�g���̏�ԕێ�
-         |- JlsScrReg            �K�w�ʂ̕ϐ��ێ�
-             |- JlsRegFile       1�K�w���̕ϐ��ێ�
-         |- JlsScrMem            �x�����s�R�}���h�̕ۊ�
-             |- JlsScrMemArg     �x�����s�R�}���h���̕�������
-       |- JlsScrFuncReg          �ϐ��A�N�Z�X�֘A����
-       |- JlsScrFuncList         ���X�g�f�[�^��{����
-       |- JlsScriptState         �������򏈗��̐���
-       |- JlsScriptDecode        �R�}���h������̉��
-       |- JlsScriptLimit         �R�}���h��������^�[�Q�b�g�ʒu����
-           |- JlsScriptLimVar    �^�[�Q�b�g�ʒu����p�̕ϐ��ێ�
-       |- JlsReformData          �f�[�^�\�������␳
-       |- JlsCmdSet              JL�X�N���v�g�̃R�}���h�����ێ�
-           |- JlsCmdArg          �R�}���h���C�����͂̈����ێ�
-           |- JlsCmdLimit        �^�[�Q�b�g�ʒu���茋�ʃf�[�^�ێ�
-       |- JlsAutoScript          (Auto�n) JL�X�N���v�g���s�N���X
-           |- JlsAutoArg         (Auto�n) JL�X�N���v�g�̃R�}���h�����ێ�
-           |- JlsAutoReform      (Auto�n) ��{�\����������
+■ソースファイルクラス構成
+  JlsIF                          join_logo_scp Interface階層
+   |- JlsDataset                 データ保持
+   |   |- CnvStrTime             文字列・時間・フレーム位置の変換
+   |- JlsScript                  JLスクリプト実行クラス
+       |- JlsScrGlobal           JLスクリプト内の状態保持
+         |- JlsScrReg            階層別の変数保持
+             |- JlsRegFile       1階層分の変数保持
+         |- JlsScrMem            遅延実行コマンドの保管
+             |- JlsScrMemArg     遅延実行コマンド内の文字列解析
+       |- JlsScrFuncReg          変数アクセス関連処理
+       |- JlsScrFuncList         リストデータ基本処理
+       |- JlsScriptState         条件分岐処理の制御
+       |- JlsScriptDecode        コマンド文字列の解析
+       |- JlsScriptLimit         コマンド条件からターゲット位置限定
+           |- JlsScriptLimVar    ターゲット位置限定用の変数保持
+       |- JlsReformData          データ構成初期補正
+       |- JlsCmdSet              JLスクリプトのコマンド引数保持
+           |- JlsCmdArg          コマンドライン入力の引数保持
+           |- JlsCmdLimit        ターゲット位置限定結果データ保持
+       |- JlsAutoScript          (Auto系) JLスクリプト実行クラス
+           |- JlsAutoArg         (Auto系) JLスクリプトのコマンド引数保持
+           |- JlsAutoReform      (Auto系) 基本構成推測処理
 
-  Local* (LocalEtc.hpp/cpp)      Unicode�֘A�͑S�������ŋz��
+  Local* (LocalEtc.hpp/cpp)      Unicode関連は全部ここで吸収
 
-  JlsTop.cpp   �ŏ��ɌĂяo�����֐�
+  JlsTop.cpp   最初に呼び出される関数
 
 
-���f�[�^�������
+■データ上限制約
   JlsDataset.hpp
-    MAXSIZE_LOGO  = 1024          ���S�f�[�^��
-    MAXSIZE_SCP   = 4096          �V�[���`�F���W�ʒu��
+    MAXSIZE_LOGO  = 1024          ロゴデータ数
+    MAXSIZE_SCP   = 4096          シーンチェンジ位置数
   JlsNameSpace.hpp (namespace jlscmd)
-    SIZE_VARNUM_MAX = 2048        �ϐ��̍ő吔
-    SIZE_MEMVARNUM_MAX = 2048     �x���ۊǕ�����̎��ʖ��ő吔
-    SIZE_MEMVARLINE_MAX = 4096    �x���ۊǕ�����̊e���ʖ��̍ő�s��
-    SIZE_REPLINE    = 4096        Repeat�p�L���b�V���ێ��ő�s��
-    SIZE_MEMLINE    = 8192        Mem/Lazy���s�ҋ@�L���b�V���ێ��ő�s��
-    SIZE_CALL_LOOP  = 32          Call���̊K�w�Ăяo���ő��
+    SIZE_VARNUM_MAX = 2048        変数の最大数
+    SIZE_MEMVARNUM_MAX = 2048     遅延保管文字列の識別名最大数
+    SIZE_MEMVARLINE_MAX = 4096    遅延保管文字列の各識別名の最大行数
+    SIZE_REPLINE    = 4096        Repeat用キャッシュ保持最大行数
+    SIZE_MEMLINE    = 8192        Mem/Lazy実行待機キャッシュ保持最大行数
+    SIZE_CALL_LOOP  = 32          Call文の階層呼び出し最大回数
   CnvStrTime.hpp
-    SIZE_BUF_MAX   = 16384        �X�N���v�g��͕�����i�P�s�j�ő咷
+    SIZE_BUF_MAX   = 16384        スクリプト解析文字列（１行）最大長
 

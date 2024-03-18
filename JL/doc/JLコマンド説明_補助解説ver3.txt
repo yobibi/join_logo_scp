@@ -1,179 +1,179 @@
+﻿-----------------------------------------
+join_logo_scp用の実行内容スクリプト
+補助解説 ver3.0対応
 -----------------------------------------
-join_logo_scp�p�̎��s���e�X�N���v�g
-�⏕��� ver3.0�Ή�
------------------------------------------
 
-��CM���o���@
- CM���o�ɂ͎��̂ǂ��炩��I���B���Α��̐ݒ�͊�{���ʂȂ��B
-   �]�������ݒ�F���S�[�ʒu�𒲐����邱�ƂŃ��S�Ȃ����Ԃ�CM�Ƃ���
-                 �i�]������̃��S�ʒu�����߂���s�R�}���h�j
-   ���������ݒ�F15�b�P�ʍ\����T���ă��S���l�����Ȃ���CM�ʒu�𐄑�����
-                 �iAuto����n�܂���s�R�}���h�g�p�ŗL���ɂȂ�j
- Auto�n�R�}���h����x�ł��g�����玩�������ݒ肪�I�������B
+■CM検出方法
+ CM検出には次のどちらかを選択。反対側の設定は基本効果なし。
+   従来方式設定：ロゴ端位置を調整することでロゴなし期間をCMとする
+                 （従来からのロゴ位置を決める実行コマンド）
+   自動推測設定：15秒単位構成を探してロゴも考慮しながらCM位置を推測する
+                 （Autoから始まる実行コマンド使用で有効になる）
+ Auto系コマンドを一度でも使ったら自動推測設定が選択される。
 
- JL�X�N���v�g�̕��ނ͉��L�̒ʂ�B
- Type1. �]�������ݒ���g�p
-        �g�p��FJL_�]���W��.txt
- Type2. ���������ݒ���g�p
-        �g�p��FJL_�W��.txt�AJL_�t���O�w��.txt
- Type3. �]�������ݒ肪��́A�⏕�I�Ɏ��������ݒ���g�p
-        �g�p��FJL_ATX.txt�AJL_NHK.txt
+ JLスクリプトの分類は下記の通り。
+ Type1. 従来方式設定を使用
+        使用例：JL_従来標準.txt
+ Type2. 自動推測設定を使用
+        使用例：JL_標準.txt、JL_フラグ指定.txt
+ Type3. 従来方式設定が主体、補助的に自動推測設定を使用
+        使用例：JL_ATX.txt、JL_NHK.txt
 
- Type3�͏]�������ݒ�Őݒ肵���͈͂�AutoUp�R�}���h�Ŏ��������ݒ�Ɉڂ��Ă���B
- Type2�ł����������O��MkLogo,Abort�̏]�������ݒ�R�}���h�͗L��
+ Type3は従来方式設定で設定した範囲をAutoUpコマンドで自動推測設定に移している。
+ Type2でも自動推測前にMkLogo,Abortの従来方式設定コマンドは有効
 
 
-�������������x���ݒ�
- logo_level,logo_revise�̓��S�L�ŗL���A
- autocm_code,autocm_sub�̓��S���ŗL���B
+■自動推測レベル設定
+ logo_level,logo_reviseはロゴ有で有効、
+ autocm_code,autocm_subはロゴ無で有効。
 
  logo_level  (SetParam LogoLevel)
-  �\���������̃��S�g�p�i1:�Ȃ��`8:���S���ŗD��j
-      1:���S�Ȃ��ō\�������B���S����S���g�p���Ȃ�
-      2:���S�Ȃ��ō\�������B�Ō�Ƀ��S��⏕�I�i�ǉ��̂݁j�Ɏg�p
-      3:���S�Ȃ��ō\�������B�Ō�Ƀ��S��⏕�I�i�ǉ��폜�j�Ɏg�p
-      4:���S�D��x=��   15�b�P�ʍ\����F���B
-      5:���S�D��x=���� 15�b�P�ʍ\����F���B5�b�P�ʍ\�����ꕔ�Œǉ��F���B
-      6:���S�D��x=��   15�b�P�ʍ\����F���B5�b�P�ʍ\����ǉ��F���B
-      7:���S�D��x=��   15�b�P�ʍ\����F���B�b���P�ʍ\����ǉ��F���B
-      8:���S�D��x=�ō� 15�b�P�ʍ\����F���B�b���Ɋ֌W�Ȃ��ǉ��F���B
-  �����l����ꂽ�烍�S�ʒu���f�����m�ɂȂ邪�댟�o�����f����₷���Ȃ�B
+  構成推測時のロゴ使用（1:なし～8:ロゴ情報最優先）
+      1:ロゴなしで構成推測。ロゴ情報を全く使用しない
+      2:ロゴなしで構成推測。最後にロゴを補助的（追加のみ）に使用
+      3:ロゴなしで構成推測。最後にロゴを補助的（追加削除）に使用
+      4:ロゴ優先度=低   15秒単位構成を認識。
+      5:ロゴ優先度=中低 15秒単位構成を認識。5秒単位構成を一部で追加認識。
+      6:ロゴ優先度=中   15秒単位構成を認識。5秒単位構成を追加認識。
+      7:ロゴ優先度=高   15秒単位構成を認識。秒数単位構成を追加認識。
+      8:ロゴ優先度=最高 15秒単位構成を認識。秒数に関係なく追加認識。
+  高い値を入れたらロゴ位置反映が正確になるが誤検出も反映されやすくなる。
 
  logo_revise  (SetParam LogoRevise)
-  ���S�g�p�֘A�̍\���ύX�i0-4:���S�[�폜 +10:���S���폜 +20:���S�O�L��폜�j
-      0:���S�[CM��=��   �s���m���S�\�������CM�����Ȃ�
-      1:���S�[CM��=��1  �ؑ֒n�_�ƃ��S�m��̈摶�݂�CM�����Ȃ�
-      2:���S�[CM��=��2  �ؑ֒n�_�݂̂Ŕ��f����CM��
-      3:���S�[CM��=��3  �ؑ֒n�_�ƃ��S�\���Ȃ��̈摶�݂�CM��
-      4:���S�[CM��=��   �\���Ŕ��f���Ăł��邾��CM��
-      +10: ���S�����̕���15�b�P�ʍ\����F������CM��
-      +20: ���S�O����CM�F�����Ă��Ȃ��L��\����CM��
+  ロゴ使用関連の構成変更（0-4:ロゴ端削除 +10:ロゴ内削除 +20:ロゴ外広域削除）
+      0:ロゴ端CM化=低   不明確ロゴ可能性あればCM化しない
+      1:ロゴ端CM化=中1  切替地点とロゴ確定領域存在でCM化しない
+      2:ロゴ端CM化=中2  切替地点のみで判断してCM化
+      3:ロゴ端CM化=中3  切替地点とロゴ可能性なし領域存在でCM化
+      4:ロゴ端CM化=高   構成で判断してできるだけCM化
+      +10: ロゴ内部の複数15秒単位構成を認識してCM化
+      +20: ロゴ外部のCM認識していない広域構成をCM化
 
  autocm_code  (AutoCM -code)
-  ���S���g�p���Ȃ��ꍇ�̐����\��CM��
-      0:   �������Ȃ�
-      1:   15�b�P��4�\���ȏ��CM
-      2-3: 15�b�P��3�`4�\���ȏ��CM
-      4:   15�b�P��3�\���ȏ��CM
-      5-6: 15�b�P��2�`3�\���ȏ��CM
-      7:   15�b�P��2�\���ȏ��CM
-      8:   15�b�P��1�`2�\���ȏ��CM
-      9:   15�b�P��1�\���ȏ��CM
-      10:  15�b�P��1�\���ȏ��CM�i120�b�܂�CM�����j
+  ロゴを使用しない場合の推測構成CM化
+      0:   推測しない
+      1:   15秒単位4構成以上をCM
+      2-3: 15秒単位3～4構成以上をCM
+      4:   15秒単位3構成以上をCM
+      5-6: 15秒単位2～3構成以上をCM
+      7:   15秒単位2構成以上をCM
+      8:   15秒単位1～2構成以上をCM
+      9:   15秒単位1構成以上をCM
+      10:  15秒単位1構成以上をCM（120秒までCM扱い）
 
  autocm_sub (SetParam AutoCmSub)
-  ���S���g�p���Ȃ��ꍇ�̕⏕�ݒ�
-      0:   �⏕�ݒ�Ȃ�
-      1:   �擪15�b�P�ʍ\���͏����ł�CM��
-      +10: 30�b�ȏ��30�b�P�ʂł͂Ȃ��\���i45�b�j��CM���ɓ���Ȃ�
+  ロゴを使用しない場合の補助設定
+      0:   補助設定なし
+      1:   先頭15秒単位構成は少数でもCM化
+      +10: 30秒以上で30秒単位ではない構成（45秒）はCM候補に入れない
 
 
-��ver3.0�ǉ��R�}���h�̎g�p��
- �ǉ��R�}���h�ꗗ
-  EvalTime   ���ԉ��Z���ĕϐ��ɑ��
-  EvalNum    �������Z���ĕϐ��ɑ��
-  EvalFrame  ���ԉ��Z���ĕϐ��ɑ���i�t���[�����ŕ\���p�j
-  NextTail   �����͈͂����Ɉړ�
-  GetPos     ���������ʒu���擾
-  GetList    �e���S���ꂼ�ꌟ�������ʒu���X�g���擾
-  Repeat     �J��Ԃ����s
-  EndRepeat  �J��Ԃ����s�̏I��
-  AutoBorder Border�ƂȂ�\���̏�Ԃ�ݒ�
-  AutoIns    �����\���Ƀ��S�����\���ǉ�
-  AutoDel    �����\�����烍�S�����\���폜
-  LogoOff    ���S��ǂݍ���ł��Ă��g�p���Ȃ�
-  OptDefault �N���I�v�V�����ǂݍ��݁i���w�荀�ڂ̂ݔ��f�j
-  OptSet     �N���I�v�V�����ǂݍ���
-  OldAdjust  ���o�[�W�����Ŏg�p���Ă������S�ʒu�������g�p
-  UnitSec    ���Ԃ𐮐��Ŏw�肵���ꍇ�̒P�ʂ�ݒ�
+■ver3.0追加コマンドの使用例
+ 追加コマンド一覧
+  EvalTime   時間演算して変数に代入
+  EvalNum    整数演算して変数に代入
+  EvalFrame  時間演算して変数に代入（フレーム数で表示用）
+  NextTail   検索範囲を次に移動
+  GetPos     検索した位置を取得
+  GetList    各ロゴそれぞれ検索した位置リストを取得
+  Repeat     繰り返し実行
+  EndRepeat  繰り返し実行の終了
+  AutoBorder Borderとなる構成の状態を設定
+  AutoIns    推測構成にロゴ扱い構成追加
+  AutoDel    推測構成からロゴ扱い構成削除
+  LogoOff    ロゴを読み込んでいても使用しない
+  OptDefault 起動オプション読み込み（未指定項目のみ反映）
+  OptSet     起動オプション読み込み
+  OldAdjust  旧バージョンで使用していたロゴ位置調整を使用
+  UnitSec    期間を整数で指定した場合の単位を設定
 
-  �y�g�p��z
+  【使用例】
   EvalTime da 00:01:00+1.5*3+2.0
-    ��00:01:06.500 ��da �ɑ��
-    EvalTime�͌v�Z���̊e���ڂ�����Ń~���b�����ɕϊ����Čv�Z���A���ԕ\�L�ŏo�́B
-    �������揜�Z�̔�揜���i���Z�q�̉E���j�͕ϊ��Ȃ������̂܂܈����B
-    �������Ԃ̓t���[���������Ŏ��ԕϊ�����邽�ߕb���̐����͕K�������_���L��
+    →00:01:06.500 をda に代入
+    EvalTimeは計算式の各項目を内部でミリ秒整数に変換して計算し、時間表記で出力。
+    ただし乗除算の被乗除数（演算子の右側）は変換なし整数のまま扱う。
+    整数時間はフレーム数扱いで時間変換されるため秒数の整数は必ず小数点を記載
 
   EvalNum db 00:25:00/00:10:00+1
-    ��3 �� db �ɑ��
-    EvalNum�͐������Z���s�����A���ԕ\�L�̎��͕b���̐����i�~���b�͐؂�̂āj�B
-    ���ԉ��Z�����܂ߏ��Z���ʂ̗]��͐؂�̂āB
+    →3 を db に代入
+    EvalNumは整数演算を行うが、時間表記の時は秒数の整数（ミリ秒は切り捨て）。
+    時間演算時も含め除算結果の余りは切り捨て。
 
   NextTail B 00:30:00 00:27:00 00:30:10
-    �������͈͂�����30���i27-30���̂���30���ɋ߂������V�[���`�F���W�j�Ɉڍs
-    HEADTIME,TAILTIME�ϐ����g���������͈͐ݒ�Ŏ��ʒu�Ɉڍs����B
+    →検索範囲を次の30分（27-30分のうち30分に近い無音シーンチェンジ）に移行
+    HEADTIME,TAILTIME変数を使った検索範囲設定で次位置に移行する。
 
   AutoBorder -code 1 -Fhead 00:00:00 00:10:00
-    ���O��10������Border�ƕ\�������\���̓��S�Ȃ������ɕύX����B
+    →前半10分内のBorderと表示される構成はロゴなし扱いに変更する。
 
   GetPos S 0.0 -1.0 1.0 -Nlogo 1 -force
   AutoIns S -5.0 -6.0 -4.0 -code 1 -Nlogo 1 -EndHold
-    ���擪���S�ʒu�ɖ����V�[���`�F���W���Ȃ���΋����I�ɐݒ肵�A
-      �擪���S�ʒu����5�b�O�̖����V�[���`�F���W�ʒu�܂Ń��S�����ɂ���B
+    →先頭ロゴ位置に無音シーンチェンジがなければ強制的に設定し、
+      先頭ロゴ位置から5秒前の無音シーンチェンジ位置までロゴ扱いにする。
 
   AutoDel S 3.0 2.8 3.2 -code 1 -Nauto 1
-    ���擪�̃��S�����\���ŊJ�n����3�b��ɖ����V�[���`�F���W������΃J�b�g�B
+    →先頭のロゴ扱い構成で開始から3秒後に無音シーンチェンジがあればカット。
 
   Set POSHOLD -1
   GetPos E -00:10:00 -00:10:00 0.0 -fromtail 0.0 -relative -AC -90.5 -89.5 -AC 0.0 0.0
   AutoDel E 3.0 2.0 32.0 -code 2 -fromabs $POSHOLD -EndTail -RAC 0.0 0.0
-    ���Ō��10���ȍ~��90�b�\��������΁A30�b�ȓ��Ɏ��̍\�������݂�����
-      ��������Ō�܂Ń��S�Ȃ������ɂ���
+    →最後の10分以降に90秒構成があれば、30秒以内に次の構成が存在したら
+      そこから最後までロゴなし扱いにする
 
- ��-Nauto��-Nlogo�̈Ⴂ
-    ver3.0�Ń��S�����\�������S�ʒu�Ƃ���@�\(-Nauto)��ǉ��B
+ ☆-Nautoと-Nlogoの違い
+    ver3.0でロゴ扱い構成をロゴ位置とする機能(-Nauto)を追加。
     -Nauto
-      �E���ۂ̃��S��Ԃł͂Ȃ����S���������\�����
-      �EAuto�n�R�}���h�Ŏg�p�\
-      �E���S�Ȃ����ł��g�p�\
+      ・実際のロゴ区間ではなくロゴ扱い推測構成区間
+      ・Auto系コマンドで使用可能
+      ・ロゴなし時でも使用可能
     -Nlogo
-      �E���ۂ̃��S�ʒu�Ŏw��
-      �E�]�������ݒ�Ŏg�p�\�BAuto�n�ł�AutoIns,AutoDel�Ŏg�p�\
-      �EAuto�n�ł�AutoEdge�ł��g�p�\(ver4.0�ǉ��L��)
-      �E���S�Ȃ����͑S�̂��P�̃��S�Ƃ��Ĉ�����
+      ・実際のロゴ位置で指定
+      ・従来方式設定で使用可能。Auto系ではAutoIns,AutoDelで使用可能
+      ・Auto系ではAutoEdgeでも使用可能(ver4.0追加記載)
+      ・ロゴなし時は全体が１つのロゴとして扱われる
 
- ��AutoEdge��AutoIns,AutoDel�̈Ⴂ
-    AutoEdge�R�}���h�͊����\���ɒǉ��E�J�b�g������t�����邱�Ƃɑ΂��A
-    AutoIns,AutoDel�͊����\���Ɋ֌W�Ȃ��Y�������̍\���ύX����B
+ ☆AutoEdgeとAutoIns,AutoDelの違い
+    AutoEdgeコマンドは既存構成に追加・カット属性を付加することに対し、
+    AutoIns,AutoDelは既存構成に関係なく該当部分の構成変更する。
 
 
-��Auto�n�̏����ݒ�p�����[�^�ݒ��
+■Auto系の初期設定パラメータ設定例
 
-�ŏ���Auto�n�R�}���h(AutoCM��z��)�g�p�O�ɁuSetParam �ϐ��� �ݒ�l�v�Őݒ�B
+最初のAuto系コマンド(AutoCMを想定)使用前に「SetParam 変数名 設定値」で設定。
 
-  �y�g�p��z
-�E�擪�ƍŌ�̒���
+  【使用例】
+・先頭と最後の調整
   SetParam PosFirst    -1
   SetParam ZoneFirst   7.0
-    ���擪�\����؂�Ƃ��čŗD�悷�閳���V�[���`�F���W�ʒu�͎������f������B
-      �擪����7�b�ȓ��ɑS�̂��܂܂��\���̓��S�Ȃ������Ƃ���B
+    →先頭構成区切りとして最優先する無音シーンチェンジ位置は自動判断させる。
+      先頭から7秒以内に全体が含まれる構成はロゴなし扱いとする。
   SetParam WCompLast   12.0
   SetParam ZoneLast    11.0
-    ���Ō�\����12�b�ȓ��Ȃ烍�S�Ȃ������Ƃ���B�Ōォ��11�b�ȓ��ɑS�̂�
-      �܂܂��\�������S�Ȃ������Ƃ���B
+    →最後構成は12秒以内ならロゴなし扱いとする。最後から11秒以内に全体が
+      含まれる構成もロゴなし扱いとする。
 
-�E�\���F���̒���
+・構成認識の調整
   SetParam MgnCmDivide 0.1
-    ��CM15�b�P�ʓ��ōX�ɕ����������闼���b�P�ʂ���̌덷��0.1�b�ɐݒ�B
-      15�b���ׂ���CM�\���������̂ݓƗ��ݒ�ŋ��e�덷�����������邱�Ƃ��\�B
+    →CM15秒単位内で更に分割を許可する両側秒単位からの誤差を0.1秒に設定。
+      15秒より細かいCM構成内分割のみ独立設定で許容誤差を厳しくすることが可能。
 
-�E���S���莞�̒���
+・ロゴあり時の調整
   SetParam LogoLevel 7
-    �����S�L�����Ԃ��b���P�ʂ��Ή�����V�[���`�F���W����΃��S���𔽉f����B
-      ���S���̐M����������΁A�����l�����邱�ƂŐ��m�Ƀ��S���𔽉f����B
+    →ロゴ有無期間が秒数単位かつ対応するシーンチェンジあればロゴ情報を反映する。
+      ロゴ情報の信頼性高ければ、高い値を入れることで正確にロゴ情報を反映する。
   SetParam LogoRevise 23
-    �����S���̔��f�ݒ�B+20�̓��S�Ȃ����L����ԑ��݂�����CM�F���ł��Ȃ��Ă�
-      �����V�[���`�F���W��������CM�Ƃ��Ĉ����B
+    →ロゴ情報の反映設定。+20はロゴなしが広域期間存在したらCM認識できなくても
+      無音シーンチェンジあったらCMとして扱う。
   SetParam WLogoLgMin 40.0
   SetParam WLogoCmMin 40.0
-    ���\�������Ń��S�L�����Ԃ�40�b�����̎��͌�F���̉\�����l���Ĕ��f����B
-      WLogoLgMin�̓��S�L�m��F���AWLogoCmMin��LogoRevise�̍L����ԂƂ��Ďg�p�B
+    →構成推測でロゴ有無期間が40秒未満の時は誤認識の可能性も考えて判断する。
+      WLogoLgMinはロゴ有確定認識、WLogoCmMinはLogoReviseの広域期間として使用。
 
-�E���S�Ȃ����̒���
+・ロゴなし時の調整
   SetParam MgnCmDetect 0.5
-    �����S�Ȃ���15�b�P�ʂ���0.5�b�ȏジ��Ă���CM�\����CM����O���B
-      ���̃p�����[�^�͍\���������f�Ɏg���邪���S�Ȃ�����CM�L�����f�ł��g�p�B
+    →ロゴなしで15秒単位から0.5秒以上ずれているCM構成はCMから外す。
+      このパラメータは構成分割判断に使われるがロゴなし時はCM有無判断でも使用。
   SetParam AutoCmSub 1
-    �����S�Ȃ����ɐ擪������15�b�P�ʍ\�������Ȃ����ł�CM�����ɂ���B
+    →ロゴなし時に先頭部分の15秒単位構成が少ない時でもCM扱いにする。
 
 

@@ -1,10 +1,10 @@
+ï»¿//
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆ ã‚°ãƒ­ãƒ¼ãƒãƒ«çŠ¶æ…‹ä¿æŒ
 //
-// JLƒXƒNƒŠƒvƒg ƒOƒ[ƒoƒ‹ó‘Ô•Û
-//
-// ƒNƒ‰ƒX\¬
-//   JlsScrGlobal    : ƒOƒ[ƒoƒ‹ó‘Ô•Û
-//     |- JlsScrReg  : Set/DefaultƒRƒ}ƒ“ƒh‚É‚æ‚éƒŒƒWƒXƒ^’l‚Ì•Û
-//     |- JlsScrMem  : ’x‰„ÀsƒRƒ}ƒ“ƒh‚Ì•ÛŠÇ
+// ã‚¯ãƒ©ã‚¹æ§‹æˆ
+//   JlsScrGlobal    : ã‚°ãƒ­ãƒ¼ãƒãƒ«çŠ¶æ…‹ä¿æŒ
+//     |- JlsScrReg  : Set/Defaultã‚³ãƒãƒ³ãƒ‰ã«ã‚ˆã‚‹ãƒ¬ã‚¸ã‚¹ã‚¿å€¤ã®ä¿æŒ
+//     |- JlsScrMem  : é…å»¶å®Ÿè¡Œã‚³ãƒãƒ³ãƒ‰ã®ä¿ç®¡
 //
 ///////////////////////////////////////////////////////////////////////
 #pragma once
@@ -15,13 +15,13 @@
 
 ///////////////////////////////////////////////////////////////////////
 //
-// JLƒXƒNƒŠƒvƒg ƒOƒ[ƒoƒ‹ó‘Ô•ÛƒNƒ‰ƒX
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆ ã‚°ãƒ­ãƒ¼ãƒãƒ«çŠ¶æ…‹ä¿æŒã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsScrGlobal
 {
 public:
-	// ƒtƒ@ƒCƒ‹o—Í
+	// ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›
 	bool fileOpen(const string& strName, bool flagAppend);
 	bool fileSetCodeDefault(const string& str);
 	int  fileGetCodeDefaultNum();
@@ -31,14 +31,14 @@ public:
 	void fileMemoOnly(bool flag);
 	void fileMemoFlush();
 	bool fileIsOpen();
-	// ƒtƒ@ƒCƒ‹“ü—Í
+	// ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›
 	bool readGOpen(const string& strName);
 	void readGClose();
 	int  readGCodeNum();
 	bool readGLine(string& strLine);
 	bool readLineIfs(string& strLine, LocalIfs& ifs);
 
-	// ƒŒƒWƒXƒ^ƒAƒNƒZƒX
+	// ãƒ¬ã‚¸ã‚¹ã‚¿ã‚¢ã‚¯ã‚»ã‚¹
 	int  setLocalRegCreateCall();
 	int  setLocalRegCreateFunc();
 	int  setLocalRegCreateOne();
@@ -60,11 +60,11 @@ public:
 	void checkRegError(bool flagDisp);
 	void clearRegError();
 
-	// ’x‰„Às•ÛŠÇ—Ìˆæ‚Ö‚ÌƒAƒNƒZƒXistate‚©‚ç‚ÌƒRƒ}ƒ“ƒh‚ğƒXƒ‹[j
+	// é…å»¶å®Ÿè¡Œä¿ç®¡é ˜åŸŸã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ï¼ˆstateã‹ã‚‰ã®ã‚³ãƒãƒ³ãƒ‰ã‚’ã‚¹ãƒ«ãƒ¼ï¼‰
 	bool isLazyExist(LazyType typeLazy);
 	bool popListByLazy(queue <string>& queStr, LazyType typeLazy);
 	bool getListByName(queue <string>& queStr, const string& strName);
-	// ’x‰„Às•ÛŠÇ—Ìˆæ‚Ö‚ÌƒAƒNƒZƒX
+	// é…å»¶å®Ÿè¡Œä¿ç®¡é ˜åŸŸã¸ã®ã‚¢ã‚¯ã‚»ã‚¹
 	void setOrderStore(int order);
 	void resetOrderStore();
 	bool setMemDefArg(vector<string>& argDef);
@@ -80,10 +80,10 @@ public:
 	void setMemEcho(const string& strName);
 	void setMemGetMapForDebug();
 
-	// ƒGƒ‰[ˆ—
+	// ã‚¨ãƒ©ãƒ¼å‡¦ç†
 	void checkErrorGlobalState(bool flagDisp);
 
-	//--- ŒÂ•Êƒf[ƒ^ ---
+	//--- å€‹åˆ¥ãƒ‡ãƒ¼ã‚¿ ---
 	void setExe1st(bool flag);
 	bool isExe1st();
 	void setCmdExit(bool flag);
@@ -103,28 +103,28 @@ public:
 	bool isStopAddMsgError();
 
 private:
-	//--- •Ûƒf[ƒ^ƒNƒ‰ƒX ---
-	JlsScrReg    regvar;				// set/defaultƒRƒ}ƒ“ƒh‚É‚æ‚é•Ï”’l‚Ì•Û
-	JlsScrMem    memcmd;				// ’x‰„“®ì—p‚ÌƒRƒ}ƒ“ƒhE‹L‰¯—Ìˆæ•Û
+	//--- ä¿æŒãƒ‡ãƒ¼ã‚¿ã‚¯ãƒ©ã‚¹ ---
+	JlsScrReg    regvar;				// set/defaultã‚³ãƒãƒ³ãƒ‰ã«ã‚ˆã‚‹å¤‰æ•°å€¤ã®ä¿æŒ
+	JlsScrMem    memcmd;				// é…å»¶å‹•ä½œç”¨ã®ã‚³ãƒãƒ³ãƒ‰ãƒ»è¨˜æ†¶é ˜åŸŸä¿æŒ
 
-	//--- ŒÂ•Êƒf[ƒ^ ---
-	bool m_exe1st         = true;	// Às‰‰ñ‚Ìİ’è—p
-	bool m_exit           = false;	// ExitI—¹ƒtƒ‰ƒO
-	bool m_lazyStIniAuto  = false;	// LazyFlush‚É‚æ‚é‹­§Auto–¢Àsó‘Ô
-	bool m_stopMsgErr     = false;	// ƒGƒ‰[ƒƒbƒZ[ƒW’Ç‰Á‚ğˆê“I‚É’â~
-	string m_pathFullJL   = "";		// JLƒXƒNƒŠƒvƒg‚Ìƒtƒ‹ƒpƒX
-	string m_pathNameJL   = "";		// JLƒXƒNƒŠƒvƒg‚ÌPath
-	string m_msgBufLine   = "";		// ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“•¶š—ñiƒGƒ‰[•\¦—pj
-	string m_msgErr       = "";		// ƒGƒ‰[ƒƒbƒZ[ƒW
-	//--- ƒtƒ@ƒCƒ‹o—Í—p ---
-	LocalOfs m_ofsScr;		// ƒtƒ@ƒCƒ‹o—Íî•ñ•Û
-	int  m_outCodeNum     = 0;		// Ÿ‚Éİ’è‚·‚é•¶šƒR[ƒh”Ô†i0‚Íİ’è‚È‚µj
-	bool m_outMemoOnly    = false;	// ƒƒO‚Ì‚İo—Í
-	//--- ƒtƒ@ƒCƒ‹“ü—Í—p ---
-	LocalIfs m_ifsScr;		// ƒtƒ@ƒCƒ‹“ü—Íî•ñ•Û
+	//--- å€‹åˆ¥ãƒ‡ãƒ¼ã‚¿ ---
+	bool m_exe1st         = true;	// å®Ÿè¡Œåˆå›ã®è¨­å®šç”¨
+	bool m_exit           = false;	// Exitçµ‚äº†ãƒ•ãƒ©ã‚°
+	bool m_lazyStIniAuto  = false;	// LazyFlushã«ã‚ˆã‚‹å¼·åˆ¶Autoæœªå®Ÿè¡ŒçŠ¶æ…‹
+	bool m_stopMsgErr     = false;	// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸è¿½åŠ ã‚’ä¸€æ™‚çš„ã«åœæ­¢
+	string m_pathFullJL   = "";		// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã®ãƒ•ãƒ«ãƒ‘ã‚¹
+	string m_pathNameJL   = "";		// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã®Path
+	string m_msgBufLine   = "";		// ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³æ–‡å­—åˆ—ï¼ˆã‚¨ãƒ©ãƒ¼è¡¨ç¤ºç”¨ï¼‰
+	string m_msgErr       = "";		// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+	//--- ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ç”¨ ---
+	LocalOfs m_ofsScr;		// ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›æƒ…å ±ä¿æŒ
+	int  m_outCodeNum     = 0;		// æ¬¡ã«è¨­å®šã™ã‚‹æ–‡å­—ã‚³ãƒ¼ãƒ‰ç•ªå·ï¼ˆ0ã¯è¨­å®šãªã—ï¼‰
+	bool m_outMemoOnly    = false;	// ãƒ­ã‚°ã®ã¿å‡ºåŠ›
+	//--- ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›ç”¨ ---
+	LocalIfs m_ifsScr;		// ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›æƒ…å ±ä¿æŒ
 };
 
-//--- ŒÂ•Êƒf[ƒ^’PƒƒAƒNƒZƒX ---
+//--- å€‹åˆ¥ãƒ‡ãƒ¼ã‚¿å˜ç´”ã‚¢ã‚¯ã‚»ã‚¹ ---
 inline void JlsScrGlobal::setExe1st(bool flag){
 	m_exe1st = flag;
 }

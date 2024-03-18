@@ -1,15 +1,15 @@
-# join_logo_scp�p�̎��s���e�X�N���v�g
+﻿# join_logo_scp用の実行内容スクリプト
 #
-# ���e�F�ʂ̎��s
+# 内容：個別の実行
 #
 
-#*** �ŏ��Ɏ��s����␳�͂����ɋL�� ***
-# �Ō�80�b�t�߂̍\����؂�ȍ~�����S�Ȃ��ɕύX�i�\�������o�O�Ɏ��s�j
-MemSet AUTO {    # AUTO�\���F������̎��s
+#*** 最初に実行する補正はここに記載 ***
+# 最後80秒付近の構成区切り以降をロゴなしに変更（予告等検出前に実行）
+MemSet AUTO {    # AUTO構成認識直後の実行
   AutoDel -80.0 -Dmargin 8.0 -fromabs ${MAXTIME} -C -keepC
 };
 
-#*** ���S�ƂȂ���s���� ***
+#*** 中心となる実行処理 ***
 Call "JL_MBS.txt"
 
-#*** �Ō�Ɏ��s����␳�͂����ɋL�� ***
+#*** 最後に実行する補正はここに記載 ***

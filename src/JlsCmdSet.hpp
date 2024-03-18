@@ -1,5 +1,5 @@
-//
-// JLƒXƒNƒŠƒvƒg—pƒRƒ}ƒ“ƒh“à—eŠi”[ƒf[ƒ^
+ï»¿//
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆç”¨ã‚³ãƒãƒ³ãƒ‰å†…å®¹æ ¼ç´ãƒ‡ãƒ¼ã‚¿
 //
 #pragma once
 
@@ -7,13 +7,13 @@
 
 ///////////////////////////////////////////////////////////////////////
 //
-// JLƒXƒNƒŠƒvƒgƒRƒ}ƒ“ƒhİ’è”½‰f—p
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚³ãƒãƒ³ãƒ‰è¨­å®šåæ˜ ç”¨
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsCmdLimit
 {
 private:
-	enum CmdProcessFlag {					// İ’èó‘Ô‹L‰¯—p
+	enum CmdProcessFlag {					// è¨­å®šçŠ¶æ…‹è¨˜æ†¶ç”¨
 		ARG_PROCESS_HEADTAIL    = 0x01,
 		ARG_PROCESS_FRAMELIMIT  = 0x02,
 		ARG_PROCESS_VALIDLOGO   = 0x04,
@@ -22,11 +22,11 @@ private:
 		ARG_PROCESS_SCPENABLE   = 0x20,
 		ARG_PROCESS_RESULT      = 0x40,
 	};
-	struct ArgLogoList {					// —LŒøƒƒSƒŠƒXƒgæ“¾—p
+	struct ArgLogoList {					// æœ‰åŠ¹ãƒ­ã‚´ãƒªã‚¹ãƒˆå–å¾—ç”¨
 		Msec            msec;
 		LogoEdgeType    edge;
 	};
-	struct TargetLocInfoSet {				// Œ‹‰ÊƒŠƒXƒg•ÛŠÇ—p
+	struct TargetLocInfoSet {				// çµæœãƒªã‚¹ãƒˆä¿ç®¡ç”¨
 		TargetLocInfo d;
 		TargetLocInfo e;
 	};
@@ -41,7 +41,7 @@ public:
 	bool			setHeadTail(RangeMsec rmsec);
 	bool			setFrameRange(RangeMsec rmsec);
 	RangeMsec		getFrameRange();
-	// —LŒø‚ÈƒƒS”Ô†ƒŠƒXƒg
+	// æœ‰åŠ¹ãªãƒ­ã‚´ç•ªå·ãƒªã‚¹ãƒˆ
 	void            clearLogoList();
 	bool            addLogoListStd(Msec msec, LogoEdgeType edge);
 	void            addLogoListDirectDummy(bool flag);
@@ -57,7 +57,7 @@ public:
 private:
 	bool            isErrorLogoList(int nlist);
 public:
-	// ‘ÎÛ‚Æ‚·‚éŠî€ƒƒS‘I‘ğ
+	// å¯¾è±¡ã¨ã™ã‚‹åŸºæº–ãƒ­ã‚´é¸æŠ
 	void            clearLogoBase();
 	bool			setLogoBaseNrf(Nrf nrf, jlsd::LogoEdgeType edge);
 	bool			setLogoBaseNsc(Nsc nsc, jlsd::LogoEdgeType edge);
@@ -66,12 +66,12 @@ public:
 	Nrf				getLogoBaseNrf();
 	Nsc				getLogoBaseNsc();
 	LogoEdgeType	getLogoBaseEdge();
-	// ƒ^[ƒQƒbƒg‘I‘ğ‰Â”\”ÍˆÍ
+	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé¸æŠå¯èƒ½ç¯„å›²
 	void            clearTargetData();
 	bool            setTargetRange(WideMsec wmsece, bool fromLogo);
 	WideMsec        getTargetRangeWide();
 	bool            isTargetRangeFromLogo();
-	// ƒ^[ƒQƒbƒg‚Éˆê”Ô‹ß‚¢ˆÊ’u
+	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã«ä¸€ç•ªè¿‘ã„ä½ç½®
 	void            setResultDst(TargetLocInfo tgIn);
 	void            setResultEnd(TargetLocInfo tgIn);
 private:
@@ -95,42 +95,42 @@ private:
 private:
 	void			signalInternalError(CmdProcessFlag flags);
 private:
-	RangeMsec		rmsecHeadTail;			// $HEADTIME/$TAILTIME§–ñ
-	RangeMsec		rmsecFrameLimit;		// -FƒIƒvƒVƒ‡ƒ“§–ñ
-	// —LŒø‚ÈƒƒS”Ô†ƒŠƒXƒg
-	vector<ArgLogoList>  listLogoStd;		// —LŒøƒƒSˆê——iƒƒS”Ô†‚É‚æ‚éˆÊ’uj
-	vector<ArgLogoList>  listLogoDir;		// —LŒøƒƒSˆê——i’¼ÚƒtƒŒ[ƒ€w’èˆÊ’uj
-	vector<ArgLogoList>  listLogoOrg;		// —LŒøƒƒSˆê——i’¼ÚƒtƒŒ[ƒ€w’è‚Ì–{—ˆƒƒSˆÊ’uj
-	bool            forceLogoStdFix;		// —LŒøƒƒS‚ğƒƒS”Ô†‚É‚æ‚éˆÊ’u‚É‹­§‘I‘ğ
-	bool            existLogoDirDmy;		// ’¼ÚƒtƒŒ[ƒ€w’èi‚½‚¾‚µ–³ŒøˆÊ’uj‘¶İ—L–³
-	// Šî€ƒƒS
-	bool            flagBaseNrf;			// Šî€ˆÊ’u‚ÍÀƒƒSg—p
-	Nrf				nrfBase;				// Šî€ˆÊ’u‚ÌÀƒƒS”Ô†
-	Nsc				nscBase;				// Šî€ˆÊ’u‚Ì„‘ª\¬ƒƒSˆµ‚¢–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW”Ô†
-	LogoEdgeType	edgeBase;				// Šî€ˆÊ’u‚ÌƒGƒbƒW‘I‘ğ
-	// ƒ^[ƒQƒbƒg‘I‘ğ‰Â”\”ÍˆÍ
-	WideMsec		wmsecTarget;			// ‘ÎÛˆÊ’u”ÍˆÍ
-	bool			fromLogo;				// ƒƒSî•ñ‚©‚ç‚Ì‘ÎÛˆÊ’u”ÍˆÍ
-	// ƒ^[ƒQƒbƒg‚Éˆê”Ô‹ß‚¢ˆÊ’u
-	TargetLocInfo   targetLocDst;			// ‘ÎÛˆÊ’uî•ñ
-	TargetLocInfo   targetLocEnd;			// EndˆÊ’uî•ñ
-	// -pickˆ—
-	int             numPickList;			// Œ‹‰Ê•ÛŠÇƒŠƒXƒg‚ÌŒ»İ‘I‘ğ”Ô†
-	vector<TargetLocInfoSet>  listPickResult;	// Œ‹‰Ê•ÛŠÇƒŠƒXƒg
+	RangeMsec		rmsecHeadTail;			// $HEADTIME/$TAILTIMEåˆ¶ç´„
+	RangeMsec		rmsecFrameLimit;		// -Fã‚ªãƒ—ã‚·ãƒ§ãƒ³åˆ¶ç´„
+	// æœ‰åŠ¹ãªãƒ­ã‚´ç•ªå·ãƒªã‚¹ãƒˆ
+	vector<ArgLogoList>  listLogoStd;		// æœ‰åŠ¹ãƒ­ã‚´ä¸€è¦§ï¼ˆãƒ­ã‚´ç•ªå·ã«ã‚ˆã‚‹ä½ç½®ï¼‰
+	vector<ArgLogoList>  listLogoDir;		// æœ‰åŠ¹ãƒ­ã‚´ä¸€è¦§ï¼ˆç›´æ¥ãƒ•ãƒ¬ãƒ¼ãƒ æŒ‡å®šä½ç½®ï¼‰
+	vector<ArgLogoList>  listLogoOrg;		// æœ‰åŠ¹ãƒ­ã‚´ä¸€è¦§ï¼ˆç›´æ¥ãƒ•ãƒ¬ãƒ¼ãƒ æŒ‡å®šã®æœ¬æ¥ãƒ­ã‚´ä½ç½®ï¼‰
+	bool            forceLogoStdFix;		// æœ‰åŠ¹ãƒ­ã‚´ã‚’ãƒ­ã‚´ç•ªå·ã«ã‚ˆã‚‹ä½ç½®ã«å¼·åˆ¶é¸æŠ
+	bool            existLogoDirDmy;		// ç›´æ¥ãƒ•ãƒ¬ãƒ¼ãƒ æŒ‡å®šï¼ˆãŸã ã—ç„¡åŠ¹ä½ç½®ï¼‰å­˜åœ¨æœ‰ç„¡
+	// åŸºæº–ãƒ­ã‚´
+	bool            flagBaseNrf;			// åŸºæº–ä½ç½®ã¯å®Ÿãƒ­ã‚´ä½¿ç”¨
+	Nrf				nrfBase;				// åŸºæº–ä½ç½®ã®å®Ÿãƒ­ã‚´ç•ªå·
+	Nsc				nscBase;				// åŸºæº–ä½ç½®ã®æ¨æ¸¬æ§‹æˆãƒ­ã‚´æ‰±ã„ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç•ªå·
+	LogoEdgeType	edgeBase;				// åŸºæº–ä½ç½®ã®ã‚¨ãƒƒã‚¸é¸æŠ
+	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé¸æŠå¯èƒ½ç¯„å›²
+	WideMsec		wmsecTarget;			// å¯¾è±¡ä½ç½®ç¯„å›²
+	bool			fromLogo;				// ãƒ­ã‚´æƒ…å ±ã‹ã‚‰ã®å¯¾è±¡ä½ç½®ç¯„å›²
+	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã«ä¸€ç•ªè¿‘ã„ä½ç½®
+	TargetLocInfo   targetLocDst;			// å¯¾è±¡ä½ç½®æƒ…å ±
+	TargetLocInfo   targetLocEnd;			// Endä½ç½®æƒ…å ±
+	// -pickå‡¦ç†
+	int             numPickList;			// çµæœä¿ç®¡ãƒªã‚¹ãƒˆã®ç¾åœ¨é¸æŠç•ªå·
+	vector<TargetLocInfoSet>  listPickResult;	// çµæœä¿ç®¡ãƒªã‚¹ãƒˆ
 
-	int				process;				// İ’èó‘Ô•Û
+	int				process;				// è¨­å®šçŠ¶æ…‹ä¿æŒ
 };
 
 
 
 ///////////////////////////////////////////////////////////////////////
 //
-// JLƒXƒNƒŠƒvƒgƒRƒ}ƒ“ƒh‘S‘Ì
+// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚³ãƒãƒ³ãƒ‰å…¨ä½“
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsCmdSet
 {
 public:
-	JlsCmdArg		arg;			// İ’è’l
-	JlsCmdLimit		limit;			// İ’è”½‰f
+	JlsCmdArg		arg;			// è¨­å®šå€¤
+	JlsCmdLimit		limit;			// è¨­å®šåæ˜ 
 };

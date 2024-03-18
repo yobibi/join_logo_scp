@@ -1,9 +1,9 @@
+ï»¿//
+// å¤‰æ•°ã®æ ¼ç´
 //
-// •Ï”‚ÌŠi”[
-//
-// ƒNƒ‰ƒX\¬
-//   JlsScrReg       : ƒ[ƒJƒ‹•Ï”iŠK‘w•Êj‚ÆƒOƒ[ƒoƒ‹•Ï”‚»‚ê‚¼‚êJlsRegFile‚ğ•Û
-//     |- JlsRegFile : •Ï”Ši”[
+// ã‚¯ãƒ©ã‚¹æ§‹æˆ
+//   JlsScrReg       : ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ï¼ˆéšå±¤åˆ¥ï¼‰ã¨ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ãã‚Œãã‚ŒJlsRegFileã‚’ä¿æŒ
+//     |- JlsRegFile : å¤‰æ•°æ ¼ç´
 //
 #pragma once
 
@@ -11,7 +11,7 @@
 
 ///////////////////////////////////////////////////////////////////////
 //
-// •Ï”Ši”[ƒNƒ‰ƒX
+// å¤‰æ•°æ ¼ç´ã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsRegFile
@@ -30,44 +30,44 @@ private:
 	int  getRegNameVal(string& strName, string& strVal, const string& strPair);
 
 private:
-	vector<string>   m_strListVar;	// •Ï”Ši”[
-	string           msgErr;		// ƒGƒ‰[ƒƒbƒZ[ƒWŠi”[
-	bool             m_ignoreCase;	// ‘å•¶š¬•¶š‹æ•Ê
-	unordered_map<string, bool>  m_flagListRef;		// QÆ“n‚µ•Ï”
+	vector<string>   m_strListVar;	// å¤‰æ•°æ ¼ç´
+	string           msgErr;		// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸æ ¼ç´
+	bool             m_ignoreCase;	// å¤§æ–‡å­—å°æ–‡å­—åŒºåˆ¥
+	unordered_map<string, bool>  m_flagListRef;		// å‚ç…§æ¸¡ã—å¤‰æ•°
 };
 
 ///////////////////////////////////////////////////////////////////////
 //
-// ŠK‘w\‘¢•Ï”ƒNƒ‰ƒX
+// éšå±¤æ§‹é€ å¤‰æ•°ã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsScrReg
 {
 private:
-	enum class RegOwner {		// ŠK‘wì¬Œ³
-		Any,					// iíœj‘S•”‹–‰Â
+	enum class RegOwner {		// éšå±¤ä½œæˆå…ƒ
+		Any,					// ï¼ˆå‰Šé™¤æ™‚ï¼‰å…¨éƒ¨è¨±å¯
 		Call,					// Call
 		Func,					// Function
-		One,					// ’ÊíƒRƒ}ƒ“ƒh
+		One,					// é€šå¸¸ã‚³ãƒãƒ³ãƒ‰
 	};
 	struct RegLayer {
-		RegOwner owner;			// ŠK‘wì¬å
-		bool base;				// ãˆÊŠK‘w‚ğŒŸõ‚µ‚È‚¢ŠK‘w
+		RegOwner owner;			// éšå±¤ä½œæˆä¸»
+		bool base;				// ä¸Šä½éšå±¤ã‚’æ¤œç´¢ã—ãªã„éšå±¤
 		JlsRegFile regfile;
 	};
-	class RegDivList {			// •Ï”–¼‚ğ–¼‘O‚ÆƒŠƒXƒg—v‘f‚É•ª‰ğ
+	class RegDivList {			// å¤‰æ•°åã‚’åå‰ã¨ãƒªã‚¹ãƒˆè¦ç´ ã«åˆ†è§£
 		public:
-			string nameBase;		// •Ï”–¼
-			vector<int>  listElem;	// —v‘f”Ô†
-			int    nMatch;			// •Ï”’·
+			string nameBase;		// å¤‰æ•°å
+			vector<int>  listElem;	// è¦ç´ ç•ªå·
+			int    nMatch;			// å¤‰æ•°é•·
 		public:
 			RegDivList(){};
 			RegDivList(const string& str){ set(str); };
-			void set(const string& str){	// İ’è
+			void set(const string& str){	// è¨­å®š
 				listElem.clear();
 				ref(str);
 			};
-			void ref(const string& str){	// QÆ“n‚µXV
+			void ref(const string& str){	// å‚ç…§æ¸¡ã—æ›´æ–°
 				bool flagDim = false;
 				auto ns = str.find("[");
 				if ( ns != string::npos ){
@@ -81,17 +81,17 @@ private:
 							flagDim = true;
 							listTmp.push_back( atoi(str.substr(ns+1, ne-ns-1).c_str()) );
 							nMatch = (int)ne + 1;
-							if ( str[ne+1] == '[' ){	// ‘½ŸŒ³”z—ñ
+							if ( str[ne+1] == '[' ){	// å¤šæ¬¡å…ƒé…åˆ—
 								ns = ne+1;
 								cont = true;
 							}
 						}
 					}
 					for(int i=(int)listTmp.size()-1; i>=0; i--){
-						listElem.push_back( listTmp[i] );	// ˆê”Ô[‚¢—v‘f‚ğæ“ª‚É
+						listElem.push_back( listTmp[i] );	// ä¸€ç•ªæ·±ã„è¦ç´ ã‚’å…ˆé ­ã«
 					}
 				}
-				if ( !flagDim ){	// ƒŠƒXƒg—v‘f‚Å‚Í‚È‚¢’Êí‚ÌXV
+				if ( !flagDim ){	// ãƒªã‚¹ãƒˆè¦ç´ ã§ã¯ãªã„é€šå¸¸ã®æ›´æ–°
 					nameBase = str;
 					nMatch = (int)nameBase.length();
 				}
@@ -99,20 +99,20 @@ private:
 	};
 	class RegSearch {
 		public:
-			string strName;			// •Ï”–¼
-			string strVal;			// •Ï”’l
-			bool   exact;			// true=•Ï”–¼‚Í‘S•¶šˆê’v  false=•Ï”–¼‚Íæ“ª‚©‚ç•”•ªˆê’v
-			int    numLayer;		// ŠK‘wi-1=ŒŸo‚È‚µ  0=ƒOƒ[ƒoƒ‹•Ï”  1-=ƒ[ƒJƒ‹•Ï”ŠK‘wj
-			bool   stopRef;			// QÆ“n‚µ‚Í‘ÎÛŠO
-			bool   onlyOneLayer;	// ŒŸõ‚Í1ŠK‘w‚Ì‚İ
-			bool   flagRef;			// QÆ“n‚µ•Ï”=true
-			int    numMatch;		// ƒ}ƒbƒ`‚µ‚½•Ï”–¼‚Ì’·‚³
-			RegDivList regOrg;		// —v‘f•ªŠ„‚µ‚½•Ï”–¼iŒ³‚Ì•Ï”j
-			RegDivList regSel;		// —v‘f•ªŠ„‚µ‚½•Ï”–¼i‘I‘ğŒã•Ï”j
+			string strName;			// å¤‰æ•°å
+			string strVal;			// å¤‰æ•°å€¤
+			bool   exact;			// true=å¤‰æ•°åã¯å…¨æ–‡å­—ä¸€è‡´  false=å¤‰æ•°åã¯å…ˆé ­ã‹ã‚‰éƒ¨åˆ†ä¸€è‡´
+			int    numLayer;		// éšå±¤ï¼ˆ-1=æ¤œå‡ºãªã—  0=ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°  1-=ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°éšå±¤ï¼‰
+			bool   stopRef;			// å‚ç…§æ¸¡ã—ã¯å¯¾è±¡å¤–
+			bool   onlyOneLayer;	// æ¤œç´¢ã¯1éšå±¤ã®ã¿
+			bool   flagRef;			// å‚ç…§æ¸¡ã—å¤‰æ•°=true
+			int    numMatch;		// ãƒãƒƒãƒã—ãŸå¤‰æ•°åã®é•·ã•
+			RegDivList regOrg;		// è¦ç´ åˆ†å‰²ã—ãŸå¤‰æ•°åï¼ˆå…ƒã®å¤‰æ•°ï¼‰
+			RegDivList regSel;		// è¦ç´ åˆ†å‰²ã—ãŸå¤‰æ•°åï¼ˆé¸æŠå¾Œå¤‰æ•°ï¼‰
 		public:
 			RegSearch(){};
 			RegSearch(const string& str){ set(str); };
-			void set(const string& str){		// ‰Šúİ’è
+			void set(const string& str){		// åˆæœŸè¨­å®š
 				regOrg.set(str);
 				strName = regOrg.nameBase;
 				exact = true;
@@ -122,25 +122,25 @@ private:
 				flagRef  = false;
 				numMatch = 0;
 			}
-			void decide(){		// ŒŸõŒ‹‰Ê‚ğŠi”[
-				// •Ï”–¼‚ğ•”•ªˆê’v‚Åæ“¾‚È‚ç[]‚ÍŠÜ‚ß‚¸ˆê’v•”•ª‚Ì‚İ
+			void decide(){		// æ¤œç´¢çµæœã‚’æ ¼ç´
+				// å¤‰æ•°åã‚’éƒ¨åˆ†ä¸€è‡´ã§å–å¾—ãªã‚‰[]ã¯å«ã‚ãšä¸€è‡´éƒ¨åˆ†ã®ã¿
 				if ( 0 < numMatch && numMatch < (int)regOrg.nameBase.length() ){
 					regOrg.set( regOrg.nameBase.substr(0, numMatch) );
 				}
 				regSel = regOrg;
 			}
-			bool updateRef(const string& str){	// QÆæ‚ğV‚µ‚¢•Ï”–¼‚É‚·‚é
+			bool updateRef(const string& str){	// å‚ç…§å…ˆã‚’æ–°ã—ã„å¤‰æ•°åã«ã™ã‚‹
 				regSel.ref(str);
 				strName = regSel.nameBase;
 				numLayer -= 1;
-				exact = true;		// QÆ‚Í³Šm‚È•Ï”–¼
+				exact = true;		// å‚ç…§ã¯æ­£ç¢ºãªå¤‰æ•°å
 				return ( numLayer>=0 );
 			}
 	};
 
 public:
 	JlsScrReg();
-	// ŠK‘w§Œä
+	// éšå±¤åˆ¶å¾¡
 	int  createLocalCall();
 	int  createLocalFunc();
 	int  createLocalOne();
@@ -153,16 +153,16 @@ private:
 	int  createLocalCommon(RegOwner owner);
 	int  releaseLocalCommon(RegOwner owner);
 public:
-	// •Ï”ƒAƒNƒZƒX
+	// å¤‰æ•°ã‚¢ã‚¯ã‚»ã‚¹
 	bool unsetRegVar(const string& strName, bool flagLocal);
 	bool setLocalRegVar(const string& strName, const string& strVal, bool overwrite);
 	bool setRegVar(const string& strName, const string& strVal, bool overwrite);
 	int  getRegVar(string& strVal, const string& strCandName, bool exact);
-	// ˆø”İ’è
+	// å¼•æ•°è¨­å®š
 	bool setArgReg(const string& strName, const string& strVal);
 	bool setArgRefReg(const string& strName, const string& strVal);
 	void setArgFuncName(const string& strName);
-	// ‚»‚Ì‘¼§Œä
+	// ãã®ä»–åˆ¶å¾¡
 	void setLocalOnly(bool flag);
 	void setIgnoreCase(bool valid);
 	void setGlobalLock(const string& strName, bool flag);
@@ -171,11 +171,11 @@ public:
 	bool popMsgError(string& msg);
 
 private:
-	// •Ï”‚ğŠK‘ww’è‚Å‘‚«‚İ
+	// å¤‰æ•°ã‚’éšå±¤æŒ‡å®šã§æ›¸ãè¾¼ã¿
 	bool unsetRegCore(const string& strName, int numLayer);
 	bool setRegCore(const string& strName, const string& strVal, bool overwrite, int numLayer);
 	bool setRegCoreAsRef(const string& strName, const string& strVal, int numLayer);
-	// •Ï”‚ğŒŸõ‚µ‚Ä“Ç‚İo‚µ
+	// å¤‰æ•°ã‚’æ¤œç´¢ã—ã¦èª­ã¿å‡ºã—
 	bool findRegForUnset(int& numLayer, const string& strName, bool flagLocal);
 	bool findRegForWrite(string& strName, string& strVal, bool& overwrite, int& numLayer);
 	int  findRegForRead(const string& strName, string& strVal, bool exact);
@@ -184,27 +184,27 @@ private:
 	bool findRegData(RegSearch& data);
 	bool findRegDataFromLayer(RegSearch& data);
 	bool isRegNameRef(const string& strName, int numLayer);
-	// ˆø”‚Ìİ’è
+	// å¼•æ•°ã®è¨­å®š
 	void clearArgReg();
 	void setRegFromArg();
 	void setRegFromArgSub(vector<string>& listArg, bool ref);
-	// ƒGƒ‰[ˆ—
+	// ã‚¨ãƒ©ãƒ¼å‡¦ç†
 	bool popErrLower(JlsRegFile& regfile);
-	// “à•”ˆ—
+	// å†…éƒ¨å‡¦ç†
 	string makeDummyReg(const string& str){ return "[]"+str; };
 	string backDummyReg(const string& str){ return str.substr(2); };
 
 private:
-	vector<RegLayer> layerReg;		// ŠK‘w•Êƒ[ƒJƒ‹•Ï”
-	JlsRegFile       globalReg;		// ƒOƒ[ƒoƒ‹•Ï”
-	vector<string>   listValArg;	// Call—pˆø”Ši”[
-	vector<string>   listRefArg;	// QÆ“n‚µˆø”Ši”[
-	string           nameFuncReg;	// ƒŒƒWƒXƒ^–¼‚Æ‚µ‚Äg—p‚³‚ê‚éŸ‚ÌŠÖ”–¼
-	bool             onlyLocal;		// ƒOƒ[ƒoƒ‹•Ï”‚ğ“Ç‚İo‚³‚È‚¢İ’è=true
-	bool             ignoreCase;	// ‘å•¶š¬•¶š‚Ì–³‹
-	string           msgErr;		// ƒGƒ‰[ƒƒbƒZ[ƒWŠi”[
+	vector<RegLayer> layerReg;		// éšå±¤åˆ¥ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°
+	JlsRegFile       globalReg;		// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
+	vector<string>   listValArg;	// Callç”¨å¼•æ•°æ ¼ç´
+	vector<string>   listRefArg;	// å‚ç…§æ¸¡ã—å¼•æ•°æ ¼ç´
+	string           nameFuncReg;	// ãƒ¬ã‚¸ã‚¹ã‚¿åã¨ã—ã¦ä½¿ç”¨ã•ã‚Œã‚‹æ¬¡ã®é–¢æ•°å
+	bool             onlyLocal;		// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã‚’èª­ã¿å‡ºã•ãªã„è¨­å®š=true
+	bool             ignoreCase;	// å¤§æ–‡å­—å°æ–‡å­—ã®ç„¡è¦–
+	string           msgErr;		// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸æ ¼ç´
 	unordered_map <string, bool> m_mapGlobalLock;
 
-	JlsScrFuncList   funcList;		// ƒŠƒXƒgˆ—
+	JlsScrFuncList   funcList;		// ãƒªã‚¹ãƒˆå‡¦ç†
 };
 

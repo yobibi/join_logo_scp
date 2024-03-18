@@ -1,6 +1,6 @@
-//
-// ÀsƒXƒNƒŠƒvƒgƒRƒ}ƒ“ƒh‚Ìˆø”ğŒ‚©‚çƒ^[ƒQƒbƒg‚ği‚é
-//  o—ÍF
+ï»¿//
+// å®Ÿè¡Œã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚³ãƒãƒ³ãƒ‰ã®å¼•æ•°æ¡ä»¶ã‹ã‚‰ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚’çµã‚‹
+//  å‡ºåŠ›ï¼š
 //    JlsCmdSet& cmdset.limit
 //
 #pragma once
@@ -14,30 +14,30 @@ class JlsDataset;
 
 ///////////////////////////////////////////////////////////////////////
 //
-// §–ñğŒ‚É‚æ‚éƒ^[ƒQƒbƒg‘I’èƒNƒ‰ƒX
+// åˆ¶ç´„æ¡ä»¶ã«ã‚ˆã‚‹ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé¸å®šã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 class JlsScriptLimit
 {
 private:
-	struct ScrTargetRecord {	// ƒ^[ƒQƒbƒgˆÊ’uŒŸõ‚Ìƒf[ƒ^
-		// İ’è
-		bool flagNoEdge;		// ‘S‘Ì‚Ìæ“ª‚ÆÅŒã‚ÌƒtƒŒ[ƒ€‚ÍŠÜ‚ß‚È‚¢
-		bool flagNextTail;		// NextTailƒRƒ}ƒ“ƒh—p
-		bool selectLogoRise;	// NextTailƒRƒ}ƒ“ƒh‚ÅƒƒS—§ã‚è—Dæ
-		// Œ‹‰Ê
-		TargetLocInfo tgDst;	// Œ‹‰ÊˆÊ’u
-		TargetLocInfo tgEnd;	// I—¹ˆÊ’u
-		int  numListDst;		// •¡”Œó•â‚Ì’†‚©‚ç‘I‘ğ‚³‚ê‚½”Ô†
-		int  numListEnd;		// •¡”Œó•â‚Ì’†‚©‚ç‘I‘ğ‚³‚ê‚½”Ô†
-		int  numListTryDst;		// •¡”Œó•â‚Ì’†‚©‚ç‘I‘ğ‚³‚ê‚½”Ô†iŒó•âŒŸõ—pj
-		ScpPriorType statDst;	// \¬‚Ì—Dæ‡ˆÊ
-		ScpPriorType statEnd;	// \¬‚Ì—Dæ‡ˆÊ
-		Msec gapDst;			// ’†S‚©‚ç‚Ì‹——£
-		Msec gapEnd;			// ’†S‚©‚ç‚Ì‹——£
-		bool flagOnLogo;		// NextTailƒRƒ}ƒ“ƒh‚ÌƒƒS—§ã‚èŒŸo—p
+	struct ScrTargetRecord {	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆä½ç½®æ¤œç´¢æ™‚ã®ãƒ‡ãƒ¼ã‚¿
+		// è¨­å®š
+		bool flagNoEdge;		// å…¨ä½“ã®å…ˆé ­ã¨æœ€å¾Œã®ãƒ•ãƒ¬ãƒ¼ãƒ ã¯å«ã‚ãªã„
+		bool flagNextTail;		// NextTailã‚³ãƒãƒ³ãƒ‰ç”¨
+		bool selectLogoRise;	// NextTailã‚³ãƒãƒ³ãƒ‰ã§ãƒ­ã‚´ç«‹ä¸Šã‚Šå„ªå…ˆ
+		// çµæœ
+		TargetLocInfo tgDst;	// çµæœä½ç½®
+		TargetLocInfo tgEnd;	// çµ‚äº†ä½ç½®
+		int  numListDst;		// è¤‡æ•°å€™è£œã®ä¸­ã‹ã‚‰é¸æŠã•ã‚ŒãŸç•ªå·
+		int  numListEnd;		// è¤‡æ•°å€™è£œã®ä¸­ã‹ã‚‰é¸æŠã•ã‚ŒãŸç•ªå·
+		int  numListTryDst;		// è¤‡æ•°å€™è£œã®ä¸­ã‹ã‚‰é¸æŠã•ã‚ŒãŸç•ªå·ï¼ˆå€™è£œæ¤œç´¢ç”¨ï¼‰
+		ScpPriorType statDst;	// æ§‹æˆã®å„ªå…ˆé †ä½
+		ScpPriorType statEnd;	// æ§‹æˆã®å„ªå…ˆé †ä½
+		Msec gapDst;			// ä¸­å¿ƒã‹ã‚‰ã®è·é›¢
+		Msec gapEnd;			// ä¸­å¿ƒã‹ã‚‰ã®è·é›¢
+		bool flagOnLogo;		// NextTailã‚³ãƒãƒ³ãƒ‰ã®ãƒ­ã‚´ç«‹ä¸Šã‚Šæ¤œå‡ºç”¨
 	};
-	struct ScrOptCRecord {		// „‘ª\¬ƒIƒvƒVƒ‡ƒ“
+	struct ScrOptCRecord {		// æ¨æ¸¬æ§‹æˆã‚ªãƒ—ã‚·ãƒ§ãƒ³
 		bool exist;
 		bool C;
 		bool Tra;
@@ -63,13 +63,13 @@ public:
 	void selectTargetByRange(JlsCmdSet& cmdset, WideMsec wmsec);
 
 private:
-	//--- ƒRƒ}ƒ“ƒh‹¤’Ê‚Ì”ÍˆÍŒÀ’è ---
+	//--- ã‚³ãƒãƒ³ãƒ‰å…±é€šã®ç¯„å›²é™å®š ---
 	void limitCustomLogo();
 	void limitHeadTail();
 	void limitHeadTailImm(RangeMsec rmsec);
 	void limitWindow();
 	void updateCommonRange(JlsCmdSet& cmdset);
-	//--- —LŒø‚ÈƒƒSˆÊ’uƒŠƒXƒg‚ğæ“¾ ---
+	//--- æœ‰åŠ¹ãªãƒ­ã‚´ä½ç½®ãƒªã‚¹ãƒˆã‚’å–å¾— ---
 	void getLogoListStd(JlsCmdSet& cmdset);
 	bool isLogoListStdNumUse(int curNum, int maxNum);
 	bool getLogoListStdData(vector<Msec>& listMsecLogoIn, int& locStart, int& locEnd);
@@ -80,13 +80,13 @@ private:
 	bool getLogoListDirectComOptSub(bool& data, int n);
 	bool isLogoListDirectComValid(Nsc nscCur, ScrOptCRecord optC);
 	int  getLogoListNearest(JlsCmdSet& cmdset, vector<Msec> listMsec, Msec msecFrom);
-	//--- ƒƒSˆÊ’uƒŠƒXƒg“à‚Ìw’èƒƒS‚ÅŠî€ƒƒSƒf[ƒ^‚ğì¬ ---
+	//--- ãƒ­ã‚´ä½ç½®ãƒªã‚¹ãƒˆå†…ã®æŒ‡å®šãƒ­ã‚´ã§åŸºæº–ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ã‚’ä½œæˆ ---
 	bool baseLogo(JlsCmdSet& cmdset, int nlist);
 	bool getBaseLogo(JlsCmdSet& cmdset, int nlist);
 	void getBaseLogoForTg(WideMsec& wmsecTg, LogoEdgeType& edgeTg, JlsCmdSet& cmdset, bool flagBase);
 	bool checkBaseLogo(JlsCmdSet& cmdset);
 	bool checkBaseLogoLength(WideMsec wmsecLg, RangeMsec lenP, RangeMsec lenN);
-	//--- ƒ^[ƒQƒbƒg”ÍˆÍ‚ğæ“¾ ---
+	//--- ã‚¿ãƒ¼ã‚²ãƒƒãƒˆç¯„å›²ã‚’å–å¾— ---
 	bool targetRangeByLogo(JlsCmdSet& cmdset);
 	void targetRangeByImm(JlsCmdSet& cmdset, WideMsec wmsec);
 	void updateTargetRange(JlsCmdSet& cmdset, bool fromLogo);
@@ -95,7 +95,7 @@ private:
 	bool findTargetRange(WideMsec& wmsecFind, WideMsec wmsecBase, Msec msecFrom);
 	bool findTargetRangeSetBase(WideMsec& wmsecFind, WideMsec& wmsecAnd, WideMsec wmsecBase, Msec msecFrom);
 	bool findTargetRangeLimit(WideMsec& wmsecFind, WideMsec& wmsecAnd);
-	//--- ƒ^[ƒQƒbƒgˆÊ’u‚ğæ“¾ ---
+	//--- ã‚¿ãƒ¼ã‚²ãƒƒãƒˆä½ç½®ã‚’å–å¾— ---
 	void targetPoint(JlsCmdSet& cmdset);
 	void setTargetPointOutEdge(JlsCmdSet& cmdset);
 	void seekTargetPoint(JlsCmdSet& cmdset);
@@ -106,8 +106,8 @@ private:
 	void prepTargetPoint(JlsCmdSet& cmdset);
 	void prepTargetPointEnd(JlsCmdSet& cmdset);
 	bool prepTargetPointEndAbs(TargetLocInfo& tgEnd, bool& multiBase, JlsCmdSet& cmdset);
-	//--- •¡”ˆ—‚Åg—p ---
-	// Šî€ˆÊ’u‚©‚ç‚ÌƒƒS‘OŒã•
+	//--- è¤‡æ•°å‡¦ç†ã§ä½¿ç”¨ ---
+	// åŸºæº–ä½ç½®ã‹ã‚‰ã®ãƒ­ã‚´å‰å¾Œå¹…
 	void getWidthLogoFromBase(WideMsec& wmsec, JlsCmdSet& cmdset, int step, bool flagWide);
 	void getWidthLogoFromBaseForTarget(WideMsec& wmsec, JlsCmdSet& cmdset, int step, bool flagWide);
 	void getWidthLogoCommon(WideMsec& wmsec, Msec msecLogo, LogoEdgeType edgeLogo, int step, bool flagWide);
@@ -116,5 +116,5 @@ private:
 	JlsScriptLimVar var;
 
 private:
-	JlsDataset *pdata;									// “ü—Íƒf[ƒ^ƒAƒNƒZƒX
+	JlsDataset *pdata;									// å…¥åŠ›ãƒ‡ãƒ¼ã‚¿ã‚¢ã‚¯ã‚»ã‚¹
 };

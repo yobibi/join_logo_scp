@@ -1,160 +1,160 @@
+﻿-----------------------------------------
+join_logo_scp用の実行内容スクリプト
+補助解説 ver5.0対応
 -----------------------------------------
-join_logo_scp�p�̎��s���e�X�N���v�g
-�⏕��� ver5.0�Ή�
------------------------------------------
 
-��ver5.0�ɂ���
- �]���̐����\���␳�̓p�����[�^�ŏC���K�v�Ȃ��Ƃ��������������䂪����A
- �ׂ����ǉ��␳���ł���悤�ɂ���ړI��JL�X�N���v�g�ɑ����̋@�\��ǉ��B
+■ver5.0について
+ 従来の推測構成補正はパラメータで修正必要なことも多かったが制御が難しく、
+ 細かい追加補正ができるようにする目的でJLスクリプトに多くの機能を追加。
 
- �o�O�I�ȓ���C���ȊO�͋@�\�ǉ��őΉ����Ă���̂ŁAver4�܂ł�JL�X�N���v�g��
- ��{�I�ɂ��̂܂܎g����͂��B
+ バグ的な動作修正以外は機能追加で対応しているので、ver4までのJLスクリプトは
+ 基本的にそのまま使えるはず。
 
 
-���p�ꓝ��
-���肷��ʒu�͈ȉ����`�Ƃ��āA�B���������\�L�𓝈�
-    ����S�ʒu : ���S��Ԃ̊J�n�܂��͏I���ʒu
-    ��ʒu     : �ʏ�͊���S�ʒu�A-from������ΕύX��B�������ƂȂ�ʒu
-    �ړI�ʒu     : ��ʒu����I�v�V�����ɏ]���Č����B���s�Ɏg�p����ʒu
-    �I���ʒu     : �Q�_�w��I�����Œʏ�͊�ʒu�B�I�v�V�����ŕʈʒu���\�B
+■用語統一
+決定する位置は以下を定義として、曖昧だった表記を統一
+    基準ロゴ位置 : ロゴ区間の開始または終了位置
+    基準位置     : 通常は基準ロゴ位置、-from等あれば変更後。検索元となる位置
+    目的位置     : 基準位置からオプションに従って検索。実行に使用する位置
+    終了位置     : ２点指定終了側で通常は基準位置。オプションで別位置も可能。
 
 
-���V�K�����@�\�̎g�p��
+■新規検索機能の使用例
 
- �����\����AutoIns/AutoDel�ň������߂̋@�\�������ǉ�����Ă��邪�A��̗���������L��
+ 推測構成をAutoIns/AutoDelで扱うための機能が多く追加されているが、具体例をいくつか記載
 
   Set pick 1,2,-1
   AutoDel -fromC -ZoneL -final -pick ${pick}
-    ���ŏI�I�ȏo�͍\���̐擪�Q�A�Ō�P���J�b�g
-      -fromC    : ���ׂĂ̍\����؂����ʒu
-      -ZoneL    : ���S��ԓ��Ɍ���
-      -final    : �ŏI�o�͂����S��ԂƂ���
-      -pick     : �����𖞂����ʒu�̒��Ŏw��Ԗڂ̂ݎ��s
-    �������I�ɂ͊�ʒu�ɍ\���J�n��(S)�A�ړI�ʒu�͎��̋�؂�(-DstNextC)�������t������Ă���B
+    →最終的な出力構成の先頭２つ、最後１つをカット
+      -fromC    : すべての構成区切りを基準位置
+      -ZoneL    : ロゴ区間内に限定
+      -final    : 最終出力をロゴ区間とする
+      -pick     : 条件を満たす位置の中で指定番目のみ実行
+    ※内部的には基準位置に構成開始側(S)、目的位置は次の区切り(-DstNextC)が自動付加されている。
 
   AutoDel -fromSP -ZoneN
-    �����S�Ȃ��ԑg�񋟂��J�b�g
-      -fromSP   : �ԑg�񋟂̍\����؂����ʒu
-      -ZoneN    : ���S�Ȃ���ԓ��Ɍ���
-    ���ԑg�񋟂��ŏI�o�͂ł͂Ȃ����S��ԂŃJ�b�g���f�������̂ŁA���̏ꍇ-final�̓_��
+    →ロゴなし番組提供をカット
+      -fromSP   : 番組提供の構成区切りを基準位置
+      -ZoneN    : ロゴなし区間内に限定
+    ※番組提供を最終出力ではなくロゴ状態でカット判断したいので、この場合-finalはダメ
 
   AutoIns -fromNL -Drange 31.0 -1 -underC
-    ��30�b�𒴂���Nologo�ƕ\��������Ԃ͎c��
-      -fromNL   : Nologo����ʒu�i�ȗ���S�ŊJ�n���\����؂�j
-      -Drange 31.0 -1 : ��ʒu����31�b�ȏ�ŏ���Ȃ����ړI�ʒu�͈̔�
-      -underC   : ��ʒu�ƖړI�ʒu�̊Ԃɍ\����؂肪�Ȃ��i1�\���������j
+    →30秒を超えるNologoと表示される区間は残す
+      -fromNL   : Nologoを基準位置（省略のSで開始側構成区切り）
+      -Drange 31.0 -1 : 基準位置から31秒以上で上限なしが目的位置の範囲
+      -underC   : 基準位置と目的位置の間に構成区切りがない（1構成が条件）
 
   GetList -fromCM -Dlist 15.0,30.0,45.0,60.0,75.0,90.0,105.0,120.0 -Dm 0.3 -underC -holdB
   AutoIns -fromCM -ZoneImmN ${LISTHOLD}
-    ��CM�\���\����15�b�P�ʂ���0.3�b�ȏジ��Ă��鏊�͎c��
-      -fromCM   : CM�̍\����؂����ʒu
-      -Dlist    : ��ʒu���烊�X�g�e���e�̐��ړI�ʒu
-      -Dm       : �ړI�ʒu�ł̌����͈̓}�[�W��
-      -underC   : ��ʒu�ƖړI�ʒu�̊Ԃɍ\����؂肪�Ȃ��i1�\���������j
-      -holdB    : �ړI�ʒu�ƏI���ʒu�i��ʒu�j�̗����Ƃ����X�g�ϐ�(LISTHOLD)�ɏo��
-      -ZoneImmN : �w�胊�X�g���J�n�^�I�����݂̃��S��ԂƂ��ċ�ԊO�Ɍ���
-    �����ꂪ0.3�b�ȓ���CM��Zone�p��ԂƂ��Ē�`���A����ȊO�̋�ԂɌ��肵��AutoIns��K�p
+    →CM表示構成で15秒単位から0.3秒以上ずれている所は残す
+      -fromCM   : CMの構成区切りを基準位置
+      -Dlist    : 基準位置からリスト各内容の先を目的位置
+      -Dm       : 目的位置での検索範囲マージン
+      -underC   : 基準位置と目的位置の間に構成区切りがない（1構成が条件）
+      -holdB    : 目的位置と終了位置（基準位置）の両方ともリスト変数(LISTHOLD)に出力
+      -ZoneImmN : 指定リストを開始／終了交互のロゴ区間として区間外に限定
+    ※ずれが0.3秒以内のCMをZone用区間として定義し、それ以外の区間に限定してAutoInsを適用
 
   AutoDel E -90.0 -fromC -underC -EndTail -Ftail 00:15:00 -keepC -pick 2
-    ���Ō�15���ȓ���2��ڂɌ����90�b�\���ȍ~�͍Ō�܂ŃJ�b�g
-      E -90.0 -fromC : ���ׂĂ̍\����؂�I��������ʒu�A��ʒu��90�b��O��ړI�ʒu
-      -underC   : ��ʒu�ƖړI�ʒu�̊Ԃɍ\����؂肪�Ȃ��i1�\����90�b�������j
-      -EndTail  : �Ō���I���ʒu
-      -Ftail 00:15:00 : ��ʒu�ƖړI�ʒu���Ō�15���ȓ��ɔ͈͌���
-      -keepC    : ��ԓ��̍\����؂��ێ������܂�AutoDel�����s
-      -pick 2   : �����𖞂���2�Ԗڂ̈ʒu�݂̂Ŏ��s
+    →最後15分以内で2回目に現れる90秒構成以降は最後までカット
+      E -90.0 -fromC : すべての構成区切り終了側を基準位置、基準位置の90秒手前を目的位置
+      -underC   : 基準位置と目的位置の間に構成区切りがない（1構成で90秒が条件）
+      -EndTail  : 最後を終了位置
+      -Ftail 00:15:00 : 基準位置と目的位置を最後15分以内に範囲限定
+      -keepC    : 区間内の構成区切りを保持したままAutoDelを実行
+      -pick 2   : 条件を満たす2番目の位置のみで実行
 
   GetList B -Nlogo -preforce
   AutoDel -fromC -ZoneL -ZoneImmN ${LISTHOLD}
-    �����S�F�����Ă����Ԃ̒��Ŏ��ۂ̃��S��������������Ȃ���Ԃ͍폜
-      B -Nlogo  : ���ۂ̃��S�S���̊J�n�ƏI���ʒu
-      -preforce : �����V�[���`�F���W���Ȃ����͒��S�ʒu�i�ʒu�擾�̂݁j
-    ��-Nlogo�Ŏ��ۂ̃��S�ʒu���擾���邪�A�����V�[���`�F���W�Ȃ�������̂�-preforce�ŕK���擾
-      -Zone��-ZoneImm�͓����Ɏg�p�\�B-ZoneImm��2�ȏ�K�v�Ȏ���ListJoin���ŕʓr1�ɂ܂Ƃ߂�
-      ListJoin��-sort -overlap -merge�̃I�v�V������ǉ������獡��̂܂Ƃߗp�r�Ɏg�p�\
+    →ロゴ認識している区間の中で実際のロゴが少しもかからない区間は削除
+      B -Nlogo  : 実際のロゴ全部の開始と終了位置
+      -preforce : 無音シーンチェンジがない時は中心位置（位置取得のみ）
+    ※-Nlogoで実際のロゴ位置を取得するが、無音シーンチェンジない時あるので-preforceで必ず取得
+      -Zoneと-ZoneImmは同時に使用可能。-ZoneImmが2つ以上必要な時はListJoin等で別途1つにまとめる
+      ListJoinは-sort -overlap -mergeのオプションを追加したら今回のまとめ用途に使用可能
 
   GetList B -fromSP -fromNL -merge
   AutoDel S  15.0 -fromSP -overC -ZoneImmL ${LISTHOLD}
   AutoDel E -15.0 -fromSP -overC -ZoneImmL ${LISTHOLD}
-    ���ԑg�񋟂Ɨא�Nologo�����킹���15�b�ɂȂ鎞�͌������ăJ�b�g
-      B -fromSP -fromNL : �ԑg�񋟂�Nologo�̍\�������̈ʒu�擾
-      -merge    : �אڋ�Ԃ͓���̈�Ƃ���i���ꃍ�S��ԂƂ��邽�ߕK�{�j
-      S  15.0 -fromSP : �ԑg�񋟊J�n������ʒu�A15�b���ړI�ʒu
-      E -15.0 -fromSP : �ԑg�񋟏I��������ʒu�A15�b�O��ړI�ʒu
-      -overC    : ��ʒu�ƖړI�ʒu�̊Ԃɍ\����؂葶�݁i2�\���ȏ�̌����������j
-      -ZoneImmL : �w�胊�X�g���J�n�^�I�����݂̃��S��ԂƂ��ċ�ԓ��Ɍ���
-    ���ԑg�񋟂�Nologo��Zone�p��ԂƂ��Ē�`���A��ԓ��Ɍ��肵�ēK�p���邱�ƂŎ���
-    ��-merge��̗��[���擾����ɂ�B�w��i�ړI�ʒu�ƏI���ʒu���擾����-holdB�ł̓_���j
-    ��B�w���S/E��2������Ɨ��Ɋ�ʒu�Ƃ��邽�߁A�ގ���-holdB�Ƃ͓��삪�قȂ�g����������
+    →番組提供と隣接Nologoを合わせると15秒になる時は結合してカット
+      B -fromSP -fromNL : 番組提供とNologoの構成両側の位置取得
+      -merge    : 隣接区間は同一領域とする（同一ロゴ区間とするため必須）
+      S  15.0 -fromSP : 番組提供開始側を基準位置、15秒後を目的位置
+      E -15.0 -fromSP : 番組提供終了側を基準位置、15秒前を目的位置
+      -overC    : 基準位置と目的位置の間に構成区切り存在（2構成以上の結合が条件）
+      -ZoneImmL : 指定リストを開始／終了交互のロゴ区間として区間内に限定
+    ※番組提供とNologoをZone用区間として定義し、区間内に限定して適用することで実現
+    ※-merge後の両端を取得するにはB指定（目的位置と終了位置を取得する-holdBではダメ）
+    ※B指定はS/Eの2か所を独立に基準位置とするため、類似の-holdBとは動作が異なり使い分け注意
 
   AutoIns 130.0 -fromC -underC 3 -AC 90.0 -AC 120.0 -keepC
-    ��90�b�A30�b�A10�b�ƍ\�����������͎c��
-      130.0 -fromC  : ���ׂĂ̍\����؂�J�n������ʒu�A130�b���ړI�ʒu
-      -underC 3 : ��ʒu�ƖړI�ʒu�̊Ԃɍ\����؂��2�܂�
-      -AC 90.0  : ��ʒu����90�b��ɍ\����؂肪����
-      -keepC    : ��ԓ��̍\����؂��ێ������܂�AutoIns�����s
-    ��130�b��ԓ��̋�؂��2�ȓ��Ɍ��肵�A90�b��120�b�ɑ��݂̏�����t���邱�Ƃŋ�Ԃ��m��
+    →90秒、30秒、10秒と構成が続く時は残す
+      130.0 -fromC  : すべての構成区切り開始側を基準位置、130秒後を目的位置
+      -underC 3 : 基準位置と目的位置の間に構成区切りは2つまで
+      -AC 90.0  : 基準位置から90秒後に構成区切りが存在
+      -keepC    : 区間内の構成区切りを保持したままAutoInsを実行
+    ※130秒区間内の区切りを2つ以内に限定し、90秒と120秒に存在の条件を付けることで区間を確定
 
   GetList 0 -fromC -RegOut lista
   GetList 90.0 -fromabs ${lista} -C -underC -RegOut lista
   GetList 30.0 -fromabs ${lista} -C -underC -RegOut lista
   GetList 10.0 -fromabs ${lista} -C -underC -RegOut lista
-  Echo list:${lista:f}   # �f�o�b�O�p
+  Echo list:${lista:f}   # デバッグ用
   AutoIns -fromabs ${lista} -DstPrevC 3 -keepC
-    ��90�b�A30�b�A10�b�ƍ\�����������͎c��
-      0 -fromC  : �ړI�ʒu�Ɋ�ʒu�i���ׂĂ̍\����؂�擪�j���w��
-      -RegOut   : �w��ϐ����ɏo��
-      -fromabs  : �w�胊�X�g�̗v�f���ꂼ�����ʒu
-      -C        : �\����؂�ʒu�Ɍ���i-C���Ȃ����͂��ׂĂ̖����V�[���`�F���W�ʒu�����j
-      ${lista:f} : �ϐ�lista�̎��Ԃ��t���[�����ɕϊ������l
-      -DstPrevC 3 : ��ʒu����3�O�̍\����؂��ړI�ʒu
-    ��ver5�ǉ��̍\�����ȊO����ʒu�ɂ��鎞�́A-C�����t���Ȃ��̂ō\����؂�����-C���K�v
-    �����������G�ɂȂ�����r�����ʂ�����������GetList�ŏ������������i�荞��Ŏ��s
+    →90秒、30秒、10秒と構成が続く時は残す
+      0 -fromC  : 目的位置に基準位置（すべての構成区切り先頭）を指定
+      -RegOut   : 指定変数名に出力
+      -fromabs  : 指定リストの要素それぞれを基準位置
+      -C        : 構成区切り位置に限定（-Cがない時はすべての無音シーンチェンジ位置が候補）
+      ${lista:f} : 変数listaの時間をフレーム数に変換した値
+      -DstPrevC 3 : 基準位置から3つ前の構成区切りを目的位置
+    ※ver5追加の構成情報以外を基準位置にする時は、-C自動付加ないので構成区切り限定に-Cが必要
+    ※条件が複雑になったり途中結果を見たい時はGetListで条件を少しずつ絞り込んで実行
 
 
-���ΏۂƂ���ʒu�̎w��I�v�V�����ɂ��Ⴂ
+■対象とする位置の指定オプションによる違い
 
 (1) AutoDel S 10.0 -Nauto 1
-    ��10�b��t�߂̖����V�[���`�F���W�ʒu���Ώ�
+    →10秒後付近の無音シーンチェンジ位置が対象
 
 (2) AutoDel S 10.0 -Nauto 1 -force
-    ��10�b��t�߂̖����V�[���`�F���W�ʒu���ΏہA�Ȃ���΋����I��10�b���ΏۂƂ���
+    →10秒後付近の無音シーンチェンジ位置が対象、なければ強制的に10秒後を対象とする
 
 (3) AutoDel S 10.0 -Nauto 1 -C
-    ��10�b��t�߂̍\����؂�ʒu���Ώ�
+    →10秒後付近の構成区切り位置が対象
 
 (4) AutoDel S 10.0 -Nauto 1 -fixpos
-    ��10�b��i�ʒu�Œ�j
+    →10秒後（位置固定）
 
 
-���J�b�g�R�}���h�̃I�v�V�����ɂ��Ⴂ
+■カットコマンドのオプションによる違い
 
 (1)
   AutoDel S 15.0 -Nauto 1
   AutoDel S 10.0 -Nauto 1
   AutoDel S  5.0 -Nauto 1
-    ���擪����15�b�A10�b�A5�b�̏��ɖ����V�[���`�F���W����΃J�b�g�B�폜������擪�ʒu���ς�邽�ߍő�30�b�J�b�g
+    →先頭から15秒、10秒、5秒の順に無音シーンチェンジあればカット。削除したら先頭位置も変わるため最大30秒カット
 
 (2)
   AutoDel S 15.0 -Nauto 1 -fix
   AutoDel S 10.0 -Nauto 1 -fix
   AutoDel S  5.0 -Nauto 1 -fix
-    ��(1)�Ɠ���͓����ŃJ�b�g�������t���B(1)�̓��S���Ȃ��������̂Ƃ��Ĉ����̂ɑ΂��A
-      (2)�̓J�b�g�ʒu�ł���Ɩ�������B�J�b�g������t����Ɣԑg�񋟓��̎����t���ΏۊO�ƂȂ�
+    →(1)と動作は同じでカット属性も付加。(1)はロゴがなかったものとして扱うのに対し、
+      (2)はカット位置であると明示する。カット属性を付けると番組提供等の自動付加対象外となる
 
 (3)
   AutoDel S 15.0 -Nauto 1 -keepL
   AutoDel S 10.0 -Nauto 1 -keepL
   AutoDel S  5.0 -Nauto 1 -keepL
-    �����S�ʒu�͎c�����܂ܑ����ŃJ�b�g�B��ʒu�͕ς��Ȃ��̂ōő�ł�15�b�J�b�g
+    →ロゴ位置は残したまま属性でカット。基準位置は変わらないので最大でも15秒カット
 
 (4)
   AutoDel S -Dlist 15.0,10.0,5.0 -Nauto 1
-    ���擪����15�b�A10�b�A5�b�̏��Ɍ������邪�A�J�b�g���s��ꂽ���_�ŏI���B
-      (1)-(3)���l�ɃI�v�V�����ő����t�����\�B
+    →先頭から15秒、10秒、5秒の順に検索するが、カットが行われた時点で終了。
+      (1)-(3)同様にオプションで属性付加も可能。
 
 
-���x�����s�̈�����
+■遅延実行の引数例
 
 SetN a 10
 SetN b 20
@@ -164,10 +164,10 @@ MemSet END -arg a {
 SetN a $a+5
 SetN b $b+5
 
-�i���ʁj10,25
-  ��MemSet��-arg�Ŏw�肵���ϐ��́A�ݒ莞�_�̒l��{}���Ŏg�p�����B
-    MemSet END�̓R�}���h�I���ӏ��Ŏ������s�����B-arg a,b�Ƃ�����b���ݒ莞�_�̒l���g�p�B
-    �ύX�̂Ȃ��O���[�o���ϐ��A���s���_�̒l���g�������ϐ��͎w��s�v�B�ێ�����Ȃ��ϐ��g�p���ɕK�v�B
+（結果）10,25
+  →MemSetの-argで指定した変数は、設定時点の値が{}内で使用される。
+    MemSet ENDはコマンド終了箇所で自動実行される。-arg a,bとしたらbも設定時点の値を使用。
+    変更のないグローバル変数、実行時点の値を使いたい変数は指定不要。保持されない変数使用時に必要。
 
 Function fn( ref(s) t ){
   SetN s $s+1
@@ -180,11 +180,11 @@ SetN b 20
 Fcall fn(a b) -RegOut c
 Echo P2:$a,$b,$c
 
-�i���ʁjP1:11,21,32  P2:11,20,32
-  ��Function�͈�ʓI�Ȋ֐��Ƃ��Ďg�p�ł���B�i���ʁj�͓r�����s���邪�ȗ��i�ȍ~���j
+（結果）P1:11,21,32  P2:11,20,32
+  →Functionは一般的な関数として使用できる。（結果）は途中改行あるが省略（以降も）
 
 
-���x�����s�̎��s���ʗ�
+■遅延実行の実行順位例
 
 MemSet END -order 70 {
   Echo 70-1
@@ -199,12 +199,12 @@ MemSet END -order 30 {
   Echo 30-2
 };
 
-�i���ʁj30-1  30-2  default-1  default-2  70-1  70-2
-  ���x�����s����R�}���h���Ŏ��s���ʂ�ύX�����B���w�莞��50�B
-    �L�ڏ��𖳎����Đ�^��Ɏ��s���������̂�����ꍇ�Ɏg�p����B
+（結果）30-1  30-2  default-1  default-2  70-1  70-2
+  →遅延実行するコマンド内で実行順位を変更する例。未指定時は50。
+    記載順を無視して先／後に実行したいものがある場合に使用する。
 
 
-�����[�J���̈�ݒ�R�}���h����s�L�ڂ̎g�p��
+■ローカル領域設定コマンド同一行記載の使用例
 
 Set a 3
 if $a<3 {
@@ -218,13 +218,13 @@ if    $a<3  { Set b 2 }
 elsif $a==3 { Set b 3 }
 else        { Set b 4 };
 
-  ��{}�͓���s���ő��R�}���h�ƕ��L�\�ɂȂ��s�ł܂Ƃ߂���B
-    �O������Ƌ�ʂɋ󔒕K�v�ł��邪�A�擪�R�}���h�Ԃ̋󔒂͏ȗ��B
-    "} EndIf"��"};"�ŕ\�L�\�ɂȂ�A�܂Ƃ߂���B
-    ���s�R�}���h�̑啶���������͉ǐ���D�悵�Ď��R�B
+  →{}は同一行内で他コマンドと併記可能になり一行でまとめられる。
+    前後引数と区別に空白必要であるが、先頭コマンド間の空白は省略可。
+    "} EndIf"も"};"で表記可能になり、まとめられる。
+    実行コマンドの大文字小文字は可読性を優先して自由。
 
 
-��Repeat�ǉ��@�\�̎g�p��
+■Repeat追加機能の使用例
 
 Set lista 1,2,3,4,5,6,7,8
 Repeat $#{lista}/2 -counter i 1 +2
@@ -232,30 +232,30 @@ Repeat $#{lista}/2 -counter i 1 +2
   Echo $lista[$i+1]
 EndRepeat
 
-�i���ʁj2 4
-  ��-counter�ŌJ��Ԃ��񐔘A���̃��[�J���ϐ����쐬�ABreak�Ŏ��s���̏����ɂ��I���������B
+（結果）2 4
+  →-counterで繰り返し回数連動のローカル変数を作成、Breakで実行中の条件による終了を実現。
 
 
-������������̎擾��
+■部分文字列の取得例
 
 Set str "D:\temp\work\test.ts.txt"
-  �����̕�����ɑ΂��镔���������͉��L�̒ʂ�
-${str:h}       �� D:\temp\work
-${str:H}       �� D:\temp\work\
-${str:t}       �� test.ts.txt
-${str:e}       �� txt
-${str:h:t}     �� work
-${str:t:r}     �� test.ts
-${str:t:r:r}   �� test
-${str:t:r:r:r} �� test
+  →この文字列に対する部分文字列例は下記の通り
+${str:h}       → D:\temp\work
+${str:H}       → D:\temp\work\
+${str:t}       → test.ts.txt
+${str:e}       → txt
+${str:h:t}     → work
+${str:t:r}     → test.ts
+${str:t:r:r}   → test
+${str:t:r:r:r} → test
 
 
-Set str "D:\temp\test _�f�[�^�P.txt"
+Set str "D:\temp\test _データ１.txt"
 {
   LocalSet EXTCHAR " _"
   Set str2 "${str:e:~0,3}"
 }
 Echo ${str2}
-�i���ʁj�f�[�^
-  ���g���q�ȊO�̕�����ŕ������g�p������BLocalSet�Ŏg�p�ӏ��݂̂Ɋg���q�ύX������B
+（結果）データ
+  →拡張子以外の文字列で分割を使用した例。LocalSetで使用箇所のみに拡張子変更を限定。
 

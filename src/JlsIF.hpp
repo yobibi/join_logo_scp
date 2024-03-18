@@ -1,39 +1,39 @@
-//
-// join_logo_scpŒÄ‚Ño‚µƒNƒ‰ƒX
+ï»¿//
+// join_logo_scpå‘¼ã³å‡ºã—ã‚¯ãƒ©ã‚¹
 //
 #pragma once
 
 class JlsDataset;
 class JlsScript;
 
-//--- ƒf[ƒ^Ši”[—p ---
+//--- ãƒ‡ãƒ¼ã‚¿æ ¼ç´ç”¨ ---
 class JlsIF
 {
 private:
-	const char* ChapterStrStill = (char *) u8"Q";	// chapter_exe‚Ìƒ}[ƒNi‰æ‘œ•Ï‰»‚È‚µƒ}[ƒNj
+	const char* ChapterStrStill = (char *) u8"ï¼¿";	// chapter_exeã®ãƒãƒ¼ã‚¯ï¼ˆç”»åƒå¤‰åŒ–ãªã—ãƒãƒ¼ã‚¯ï¼‰
 
-	//--- ƒV[ƒ“ƒ`ƒFƒ“ƒW‚Æ\¬‹æØ‚è—pi“ü—Íƒf[ƒ^j ---
+	//--- ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã¨æ§‹æˆåŒºåˆ‡ã‚Šç”¨ï¼ˆå…¥åŠ›ãƒ‡ãƒ¼ã‚¿ï¼‰ ---
 	struct DataScpIF {
-	// “Çƒf[ƒ^
-		int		msec;				// ƒ~ƒŠ•b
-		int		msbk;				// I—¹ˆÊ’uƒ~ƒŠ•b
-		int		msmute_s;			// ƒV[ƒ“ƒ`ƒFƒ“ƒW–³‰¹ŒŸoŠJnˆÊ’u
-		int		msmute_e;			// ƒV[ƒ“ƒ`ƒFƒ“ƒW–³‰¹ŒŸoI—¹ˆÊ’u
-		int		still;				// Ã~‰æ
+	// èª­è¾¼ãƒ‡ãƒ¼ã‚¿
+		int		msec;				// ãƒŸãƒªç§’
+		int		msbk;				// çµ‚äº†ä½ç½®ãƒŸãƒªç§’
+		int		msmute_s;			// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç„¡éŸ³æ¤œå‡ºé–‹å§‹ä½ç½®
+		int		msmute_e;			// ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ç„¡éŸ³æ¤œå‡ºçµ‚äº†ä½ç½®
+		int		still;				// é™æ­¢ç”»
 	};
-	//--- ƒƒSƒf[ƒ^•Û—pi“ü—Íƒf[ƒ^j ---
+	//--- ãƒ­ã‚´ãƒ‡ãƒ¼ã‚¿ä¿æŒç”¨ï¼ˆå…¥åŠ›ãƒ‡ãƒ¼ã‚¿ï¼‰ ---
 	struct DataLogoIF {
-	// “Çƒf[ƒ^
-		int		rise;				// ƒƒSŠeŠJnƒtƒŒ[ƒ€
-		int		fall;				// ƒƒSŠeI—¹ƒtƒŒ[ƒ€
-		int		rise_l;				// ƒƒSŠeŠJnƒtƒŒ[ƒ€Œó•âŠJn
-		int		rise_r;				// ƒƒSŠeŠJnƒtƒŒ[ƒ€Œó•âI—¹
-		int		fall_l;				// ƒƒSŠeI—¹ƒtƒŒ[ƒ€Œó•âŠJn
-		int		fall_r;				// ƒƒSŠeI—¹ƒtƒŒ[ƒ€Œó•âI—¹
-		int		fade_rise;			// ŠeŠJnƒtƒF[ƒhƒCƒ“ó‘Ô(0 or fadein)
-		int		fade_fall;			// ŠeI—¹ƒtƒF[ƒhƒAƒEƒgó‘Ô(0 or fadeout)
-		int		intl_rise;			// ƒCƒ“ƒ^[ƒŒ[ƒXó‘Ô(0:ALL 1:TOP 2:BTM)
-		int		intl_fall;			// ƒCƒ“ƒ^[ƒŒ[ƒXó‘Ô(0:ALL 1:TOP 2:BTM)
+	// èª­è¾¼ãƒ‡ãƒ¼ã‚¿
+		int		rise;				// ãƒ­ã‚´å„é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ 
+		int		fall;				// ãƒ­ã‚´å„çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ 
+		int		rise_l;				// ãƒ­ã‚´å„é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ å€™è£œé–‹å§‹
+		int		rise_r;				// ãƒ­ã‚´å„é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ å€™è£œçµ‚äº†
+		int		fall_l;				// ãƒ­ã‚´å„çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ å€™è£œé–‹å§‹
+		int		fall_r;				// ãƒ­ã‚´å„çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ å€™è£œçµ‚äº†
+		int		fade_rise;			// å„é–‹å§‹ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³çŠ¶æ…‹(0 or fadein)
+		int		fade_fall;			// å„çµ‚äº†ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆçŠ¶æ…‹(0 or fadeout)
+		int		intl_rise;			// ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ¬ãƒ¼ã‚¹çŠ¶æ…‹(0:ALL 1:TOP 2:BTM)
+		int		intl_fall;			// ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ¬ãƒ¼ã‚¹çŠ¶æ…‹(0:ALL 1:TOP 2:BTM)
 	};
 
 public:
@@ -52,9 +52,9 @@ public:
 	JlsIF();
 	virtual ~JlsIF();
 	int start(int argc, char *argv[]);
-	void setArgFull(int argc, char *argv[]);		// ˆø”İ’èi‚Ü‚Æ‚ß‚Äj
-	void setArgEach(char *str);						// ˆø”İ’èi‚PŒÂ‚¸‚Âj
-	int  runScript();								// JLƒXƒNƒŠƒvƒgÀs
+	void setArgFull(int argc, char *argv[]);		// å¼•æ•°è¨­å®šï¼ˆã¾ã¨ã‚ã¦ï¼‰
+	void setArgEach(char *str);						// å¼•æ•°è¨­å®šï¼ˆï¼‘å€‹ãšã¤ï¼‰
+	int  runScript();								// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆå®Ÿè¡Œ
 
 private:
 	void clear();
@@ -66,7 +66,7 @@ private:
 	void outputResultTrim(const std::string &outfile);
 	void outputResultDetail(const std::string &outscpfile);
 	void outputResultDiv(const std::string &outdivfile);
-	// ƒf[ƒ^ˆ—
+	// ãƒ‡ãƒ¼ã‚¿å‡¦ç†
 	void pushRecordLogo(DataLogoIF &dt);
 	void pushRecordScp(DataScpIF &dt);
 	void popRecordLogo();
@@ -79,19 +79,19 @@ private:
 	void clearRecord(DataScpIF &dt);
 
 private:
-	//--- ŠÖ”ƒ|ƒCƒ“ƒ^ ---
-	std::unique_ptr <JlsDataset>	m_funcDataset;		// ƒf[ƒ^–{‘ÌŠi”[
-	JlsDataset						*pdata;				// ƒf[ƒ^ƒ|ƒCƒ“ƒ^
+	//--- é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ ---
+	std::unique_ptr <JlsDataset>	m_funcDataset;		// ãƒ‡ãƒ¼ã‚¿æœ¬ä½“æ ¼ç´
+	JlsDataset						*pdata;				// ãƒ‡ãƒ¼ã‚¿ãƒã‚¤ãƒ³ã‚¿
 
-	//--- ƒIƒvƒVƒ‡ƒ“•Û ---
+	//--- ã‚ªãƒ—ã‚·ãƒ§ãƒ³ä¿æŒ ---
 	std::vector <std::string> m_listarg;
 
-	//--- ƒtƒ@ƒCƒ‹–¼•Û ---
-	std::string m_logofile;			// ƒƒSƒtƒ@ƒCƒ‹–¼
-	std::string m_scpfile;			// –³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒWƒtƒ@ƒCƒ‹–¼
-	std::string m_cmdfile;			// JLƒXƒNƒŠƒvƒgƒtƒ@ƒCƒ‹–¼
-	std::string m_outfile;			// o—ÍŒ‹‰Êƒtƒ@ƒCƒ‹–¼
-	std::string m_outscpfile;		// Ú×î•ño—Íƒtƒ@ƒCƒ‹–¼
-	std::string m_outdivfile;		// •ªŠ„î•ño—Íƒtƒ@ƒCƒ‹–¼
+	//--- ãƒ•ã‚¡ã‚¤ãƒ«åä¿æŒ ---
+	std::string m_logofile;			// ãƒ­ã‚´ãƒ•ã‚¡ã‚¤ãƒ«å
+	std::string m_scpfile;			// ç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ãƒ•ã‚¡ã‚¤ãƒ«å
+	std::string m_cmdfile;			// JLã‚¹ã‚¯ãƒªãƒ—ãƒˆãƒ•ã‚¡ã‚¤ãƒ«å
+	std::string m_outfile;			// å‡ºåŠ›çµæœãƒ•ã‚¡ã‚¤ãƒ«å
+	std::string m_outscpfile;		// è©³ç´°æƒ…å ±å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«å
+	std::string m_outdivfile;		// åˆ†å‰²æƒ…å ±å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«å
 };
 

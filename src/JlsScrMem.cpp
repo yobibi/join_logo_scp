@@ -1,5 +1,5 @@
-//
-// ’x‰„ÀsƒRƒ}ƒ“ƒh‚Ì•ÛŠÇ
+ï»¿//
+// é…å»¶å®Ÿè¡Œã‚³ãƒãƒ³ãƒ‰ã®ä¿ç®¡
 //
 #include "stdafx.h"
 #include "CommonJls.hpp"
@@ -7,7 +7,7 @@
 
 ///////////////////////////////////////////////////////////////////////
 //
-// ’x‰„Às•ÛŠÇ—p‚Ì¯•Êq•ÛƒNƒ‰ƒX
+// é…å»¶å®Ÿè¡Œä¿ç®¡ç”¨ã®è­˜åˆ¥å­ä¿æŒã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 JlsScrMemArg::JlsScrMemArg(){
@@ -15,28 +15,28 @@ JlsScrMemArg::JlsScrMemArg(){
 }
 
 //---------------------------------------------------------------------
-// ˆø”İ’è‚ğ‰Šú‰»
+// å¼•æ•°è¨­å®šã‚’åˆæœŸåŒ–
 //---------------------------------------------------------------------
 void JlsScrMemArg::clearArg(){
 	m_flagDummy  = false;
 	m_flagSpecial = false;
 	m_listName.clear();
-	m_listName.push_back("");		// ƒŠƒXƒg1‚Â–Ú‚Í‰Šúİ’è
+	m_listName.push_back("");		// ãƒªã‚¹ãƒˆ1ã¤ç›®ã¯åˆæœŸè¨­å®š
 }
 
 //---------------------------------------------------------------------
-// İ’èF¯•Êq•¶š—ñ‚É‚æ‚é•ÛŠÇ—p¯•Êqî•ñ
-//  ToBase ‚Å•ÛŠÇ‚·‚é¯•Êq‚Ì–¼‘O‚ğİ’è
-//  ToExt  ‚ÅLazy_S/A/E ‚Rí—Ş‚»‚ê‚¼‚ê‚Ìó‘Ô‚ğ•ÛŠÇ‚·‚é‚½‚ß‚Ì¯•Êq‚ğİ’è
+// è¨­å®šï¼šè­˜åˆ¥å­æ–‡å­—åˆ—ã«ã‚ˆã‚‹ä¿ç®¡ç”¨è­˜åˆ¥å­æƒ…å ±
+//  ToBase ã§ä¿ç®¡ã™ã‚‹è­˜åˆ¥å­ã®åå‰ã‚’è¨­å®š
+//  ToExt  ã§Lazy_S/A/E ï¼“ç¨®é¡ãã‚Œãã‚Œã®çŠ¶æ…‹ã‚’ä¿ç®¡ã™ã‚‹ãŸã‚ã®è­˜åˆ¥å­ã‚’è¨­å®š
 //---------------------------------------------------------------------
 void JlsScrMemArg::setNameByStr(const string strName){
-	//--- ‰Šú‰» ---
+	//--- åˆæœŸåŒ– ---
 	clearArg();
-	bool base = true;		// ’P‘Ì‚Ì•¶š—ñİ’è
+	bool base = true;		// å˜ä½“ã®æ–‡å­—åˆ—è¨­å®š
 	string strRegName = strName;
-	//--- “Áê¯•ÊqŠm”F ---
+	//--- ç‰¹æ®Šè­˜åˆ¥å­ç¢ºèª ---
 	MemSpecialID idName;
-	if ( findSpecialName(idName, strName) ){	// “Áê¯•Êq
+	if ( findSpecialName(idName, strName) ){	// ç‰¹æ®Šè­˜åˆ¥å­
 		m_flagSpecial = true;
 		switch( idName ){
 			case MemSpecialID::DUMMY:
@@ -44,33 +44,33 @@ void JlsScrMemArg::setNameByStr(const string strName){
 				base = false;
 				break;
 			case MemSpecialID::LAZY_FULL:
-				setMapNameToExt("");			// Lazy–{‘Ì‚É‚ÍLazy—pŠg’£¯•Êq‚ğ‚Â‚¯‚È‚¢
+				setMapNameToExt("");			// Lazyæœ¬ä½“ã«ã¯Lazyç”¨æ‹¡å¼µè­˜åˆ¥å­ã‚’ã¤ã‘ãªã„
 				base = false;
 				break;
 			case MemSpecialID::NoData:
 				base = false;
 				break;
 			default:
-				strRegName = getStringSpecialID(idName);	// “Áê‚Í‘Î‰‚·‚é¯•Êq‚É‚·‚é
+				strRegName = getStringSpecialID(idName);	// ç‰¹æ®Šã¯å¯¾å¿œã™ã‚‹è­˜åˆ¥å­ã«ã™ã‚‹
 				break;
 		}
 	}
 	else{
-		setMapNameToExt(strRegName);				// ’Êí¯•Êq‚É•ÛŠÇ‚·‚éLazy—pŠg’£¯•Êqİ’è
+		setMapNameToExt(strRegName);				// é€šå¸¸è­˜åˆ¥å­ã«ä¿ç®¡ã™ã‚‹Lazyç”¨æ‹¡å¼µè­˜åˆ¥å­è¨­å®š
 	}
-	//--- •¶š—ñİ’è ---
+	//--- æ–‡å­—åˆ—è¨­å®š ---
 	if ( base ){
 		setMapNameToBase(strRegName);
 	}
 }
 //---------------------------------------------------------------------
-// İ’èFLazyí—Ş‚É‚æ‚é•ÛŠÇ—p¯•Êqî•ñ
+// è¨­å®šï¼šLazyç¨®é¡ã«ã‚ˆã‚‹ä¿ç®¡ç”¨è­˜åˆ¥å­æƒ…å ±
 //---------------------------------------------------------------------
 void JlsScrMemArg::setNameByLazy(LazyType typeLazy){
-	//--- ‰Šú‰» ---
+	//--- åˆæœŸåŒ– ---
 	clearArg();
 	string strName = "";
-	//--- İ’è ---
+	//--- è¨­å®š ---
 	switch( typeLazy ){
 		case LazyType::LazyS:
 			strName = getStringSpecialID(MemSpecialID::LAZY_S);
@@ -92,13 +92,13 @@ void JlsScrMemArg::setNameByLazy(LazyType typeLazy){
 	}
 }
 //---------------------------------------------------------------------
-// æ“¾F•ÛŠÇ—p¯•Êq‚Ì‘¶İ
+// å–å¾—ï¼šä¿ç®¡ç”¨è­˜åˆ¥å­ã®å­˜åœ¨
 //---------------------------------------------------------------------
 bool JlsScrMemArg::isExistBaseName(){
 	return !( m_listName[0].empty() );
 }
 //---------------------------------------------------------------------
-// æ“¾FLazy—p•ÛŠÇ—p¯•Êq‚Ì‘¶İ
+// å–å¾—ï¼šLazyç”¨ä¿ç®¡ç”¨è­˜åˆ¥å­ã®å­˜åœ¨
 //---------------------------------------------------------------------
 bool JlsScrMemArg::isExistExtName(){
 	int sizeName = (int)m_listName.size();
@@ -108,41 +108,41 @@ bool JlsScrMemArg::isExistExtName(){
 	return false;
 }
 //---------------------------------------------------------------------
-// æ“¾FDUMMY•¶š—ñ”»’è
+// å–å¾—ï¼šDUMMYæ–‡å­—åˆ—åˆ¤å®š
 //---------------------------------------------------------------------
 bool JlsScrMemArg::isNameDummy(){
 	return m_flagDummy;
 }
 //---------------------------------------------------------------------
-// æ“¾F“Áê•¶š—ñ”»’è
+// å–å¾—ï¼šç‰¹æ®Šæ–‡å­—åˆ—åˆ¤å®š
 //---------------------------------------------------------------------
 bool JlsScrMemArg::isNameSpecial(){
 	return m_flagSpecial;
 }
 //---------------------------------------------------------------------
-// æ“¾F•ÛŠÇ—p¯•Êq•¶š—ñ
+// å–å¾—ï¼šä¿ç®¡ç”¨è­˜åˆ¥å­æ–‡å­—åˆ—
 //---------------------------------------------------------------------
 void JlsScrMemArg::getBaseName(string& strName){
 	strName = m_listName[0];
 }
 //---------------------------------------------------------------------
-// æ“¾FLazy—p‚ğŠÜ‚ß‚½•ÛŠÇ—p¯•Êq•¶š—ñƒŠƒXƒg
+// å–å¾—ï¼šLazyç”¨ã‚’å«ã‚ãŸä¿ç®¡ç”¨è­˜åˆ¥å­æ–‡å­—åˆ—ãƒªã‚¹ãƒˆ
 //---------------------------------------------------------------------
 void JlsScrMemArg::getNameList(vector <string>& listName){
 	listName = m_listName;
 }
 
 //---------------------------------------------------------------------
-// “à•”ˆ—F’Êí‚Ì•ÛŠÇ—p¯•Êq‚ğİ’è
+// å†…éƒ¨å‡¦ç†ï¼šé€šå¸¸ã®ä¿ç®¡ç”¨è­˜åˆ¥å­ã‚’è¨­å®š
 //---------------------------------------------------------------------
 void JlsScrMemArg::setMapNameToBase(const string strName){
 	m_listName[0] = strName;
 }
 //---------------------------------------------------------------------
-// “à•”ˆ—FLazy—p‚ÌŠg’£•ÛŠÇ¯•ÊqƒZƒbƒg‚ğİ’è
+// å†…éƒ¨å‡¦ç†ï¼šLazyç”¨ã®æ‹¡å¼µä¿ç®¡è­˜åˆ¥å­ã‚»ãƒƒãƒˆã‚’è¨­å®š
 //---------------------------------------------------------------------
 void JlsScrMemArg::setMapNameToExt(const string strName){
-	//--- ¯•ÊqstrName‚É‘Î‰‚µ‚½Lazy—p•ÛŠÇ•¶š—ñ‚ğİ’èiFULLw’è‚Éc‚·Lazy‚Ìí—Ş•ªj ---
+	//--- è­˜åˆ¥å­strNameã«å¯¾å¿œã—ãŸLazyç”¨ä¿ç®¡æ–‡å­—åˆ—ã‚’è¨­å®šï¼ˆFULLæŒ‡å®šæ™‚ã«æ®‹ã™Lazyã®ç¨®é¡åˆ†ï¼‰ ---
 	for(int i=0; i < SIZE_MEM_SPECIAL_ID; i++){
 		MemSpecialID id = (MemSpecialID) i;
 		switch( id ){
@@ -150,8 +150,8 @@ void JlsScrMemArg::setMapNameToExt(const string strName){
 			case MemSpecialID::LAZY_A:
 			case MemSpecialID::LAZY_E:
 				{
-					string str_var = getStringSpecialID(id);	// Lazy—p•ÛŠÇ¯•Êq
-					if ( !strName.empty() ){				// ’Êí¯•Êq‚ÌLazy—p•ÛŠÇ¯•Êq
+					string str_var = getStringSpecialID(id);	// Lazyç”¨ä¿ç®¡è­˜åˆ¥å­
+					if ( !strName.empty() ){				// é€šå¸¸è­˜åˆ¥å­ã®Lazyç”¨ä¿ç®¡è­˜åˆ¥å­
 						str_var = strName + ScrMemStrLazy + str_var;
 					}
 					m_listName.push_back(str_var);
@@ -163,13 +163,13 @@ void JlsScrMemArg::setMapNameToExt(const string strName){
 	}
 }
 //---------------------------------------------------------------------
-// “à•”ˆ—F“Áê¯•Êq‚ÌŠm”FEæ“¾
+// å†…éƒ¨å‡¦ç†ï¼šç‰¹æ®Šè­˜åˆ¥å­ã®ç¢ºèªãƒ»å–å¾—
 //---------------------------------------------------------------------
 bool JlsScrMemArg::findSpecialName(MemSpecialID& idName, const string& strName){
 	bool result = false;
 	for(int i=0; i < SIZE_MEM_SPECIAL_ID; i++){
 		if ( strName == MemSpecialData[i].str ){
-			idName = MemSpecialData[i].id;		// ¯•Êq–¼(strName)‚É‘Î‰‚·‚é”Ô†‚ğæ“¾
+			idName = MemSpecialData[i].id;		// è­˜åˆ¥å­å(strName)ã«å¯¾å¿œã™ã‚‹ç•ªå·ã‚’å–å¾—
 			result = true;
 			break;
 		}
@@ -177,7 +177,7 @@ bool JlsScrMemArg::findSpecialName(MemSpecialID& idName, const string& strName){
 	return result;
 }
 //---------------------------------------------------------------------
-// “à•”ˆ—F“Áê¯•Êq‚É‘Î‰‚·‚é•¶š—ñ‚ğæ“¾
+// å†…éƒ¨å‡¦ç†ï¼šç‰¹æ®Šè­˜åˆ¥å­ã«å¯¾å¿œã™ã‚‹æ–‡å­—åˆ—ã‚’å–å¾—
 //---------------------------------------------------------------------
 string JlsScrMemArg::getStringSpecialID(MemSpecialID idName){
 	int num = static_cast<int>(idName);
@@ -191,7 +191,7 @@ string JlsScrMemArg::getStringSpecialID(MemSpecialID idName){
 
 ///////////////////////////////////////////////////////////////////////
 //
-// ƒXƒNƒŠƒvƒgƒf[ƒ^•ÛŠÇÀs–{‘ÌƒNƒ‰ƒX
+// ã‚¹ã‚¯ãƒªãƒ—ãƒˆãƒ‡ãƒ¼ã‚¿ä¿ç®¡å®Ÿè¡Œæœ¬ä½“ã‚¯ãƒ©ã‚¹
 //
 ///////////////////////////////////////////////////////////////////////
 JlsScrMem::JlsScrMem(){
@@ -199,13 +199,13 @@ JlsScrMem::JlsScrMem(){
 }
 
 //---------------------------------------------------------------------
-// Lazy•ÛŠÇ‚³‚ê‚Ä‚¢‚é‚©Šm”F
+// Lazyä¿ç®¡ã•ã‚Œã¦ã„ã‚‹ã‹ç¢ºèª
 //---------------------------------------------------------------------
 bool JlsScrMem::isLazyExist(LazyType typeLazy){
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg marg;
 	marg.setNameByLazy(typeLazy);
-	//--- ‘¶İŠm”F ---
+	//--- å­˜åœ¨ç¢ºèª ---
 	vector <string> slist;
 	marg.getNameList(slist);
 	bool exist = false;
@@ -218,66 +218,66 @@ bool JlsScrMem::isLazyExist(LazyType typeLazy){
 }
 
 //=====================================================================
-// ƒRƒ}ƒ“ƒhÀs
-// •Ô‚è’l   FÀs—L–³
+// ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œ
+// è¿”ã‚Šå€¤   ï¼šå®Ÿè¡Œæœ‰ç„¡
 //=====================================================================
 
 //---------------------------------------------------------------------
-// Ši”[‚ÌÀs‡ˆÊ
+// æ ¼ç´æ™‚ã®å®Ÿè¡Œé †ä½
 //---------------------------------------------------------------------
-//--- Ši”[‚ÌÀs‡ˆÊ‚ğİ’è ---
+//--- æ ¼ç´æ™‚ã®å®Ÿè¡Œé †ä½ã‚’è¨­å®š ---
 void JlsScrMem::setOrderForPush(int order){
 	m_orderHold = order;
 }
-//--- Ši”[‚ÌÀs‡ˆÊ‚ğ•W€’l‚Åİ’è ---
+//--- æ ¼ç´æ™‚ã®å®Ÿè¡Œé †ä½ã‚’æ¨™æº–å€¤ã§è¨­å®š ---
 void JlsScrMem::resetOrderForPush(){
 	m_orderHold = orderInitial;
 }
-//--- Às‡ˆÊ‚Ì•W€’l‚ğ“Ç‚İo‚µ ---
+//--- å®Ÿè¡Œé †ä½ã®æ¨™æº–å€¤ã‚’èª­ã¿å‡ºã— ---
 int JlsScrMem::getOrderForPush(){
 	return m_orderHold;
 }
 //---------------------------------------------------------------------
-// ˆø”ˆ—
+// å¼•æ•°å‡¦ç†
 //---------------------------------------------------------------------
-//--- ˆø”İ’è ---
+//--- å¼•æ•°è¨­å®š ---
 bool JlsScrMem::setDefArg(vector<string>& argDef){
 	string strName = argDef[0];
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg marg;
 	marg.setNameByStr(strName);
-	//--- “Áê•¶š—ñˆ— ---
+	//--- ç‰¹æ®Šæ–‡å­—åˆ—å‡¦ç† ---
 	if ( marg.isNameSpecial() ){
-		if ( argDef.size() > 1 ) return false;		// ˆø”‚Íƒ_ƒ
+		if ( argDef.size() > 1 ) return false;		// å¼•æ•°ã¯ãƒ€ãƒ¡
 		return true;
 	}
-	//--- ’Êí•Ï”ˆ— ---
+	//--- é€šå¸¸å¤‰æ•°å‡¦ç† ---
 	string strNameBase;
 	marg.getBaseName(strNameBase);
-	if ( strNameBase.empty() ){		// ’Êí•Ï”–¼‚Æ‚µ‚Äİ’è‚Å‚«‚È‚¢‚à‚Ì‚Íƒ_ƒ
+	if ( strNameBase.empty() ){		// é€šå¸¸å¤‰æ•°åã¨ã—ã¦è¨­å®šã§ããªã„ã‚‚ã®ã¯ãƒ€ãƒ¡
 		return false;
 	}
 	if ( memIsNameExistArg(strNameBase) ){
-		if ( m_mapArg[strName].size() >= 2 ){	// ˆø”‘¶İ‚ÍƒGƒ‰[‚É‚·‚é
+		if ( m_mapArg[strName].size() >= 2 ){	// å¼•æ•°å­˜åœ¨æ™‚ã¯ã‚¨ãƒ©ãƒ¼ã«ã™ã‚‹
 			return false;
 		}
-		return ( argDef == m_mapArg[strName] );		// Šù‘¶‚Í“¯‚¶true
+		return ( argDef == m_mapArg[strName] );		// æ—¢å­˜æ™‚ã¯åŒã˜æ™‚true
 	}
 	m_mapArg[strNameBase] = argDef;
 	return true;
 }
-//--- ˆø”æ“¾ ---
+//--- å¼•æ•°å–å¾— ---
 bool JlsScrMem::getDefArg(vector<string>& argDef, const string& strName){
 	argDef.clear();
 	argDef.push_back(strName);
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg marg;
 	marg.setNameByStr(strName);
-	//--- “Áê•¶š—ñˆ— ---
+	//--- ç‰¹æ®Šæ–‡å­—åˆ—å‡¦ç† ---
 	if ( marg.isNameSpecial() ){
 		return true;
 	}
-	//--- ’Êí•Ï”ˆ— ---
+	//--- é€šå¸¸å¤‰æ•°å‡¦ç† ---
 	string strNameBase;
 	marg.getBaseName(strNameBase);
 	if ( strNameBase.empty() ){
@@ -287,216 +287,216 @@ bool JlsScrMem::getDefArg(vector<string>& argDef, const string& strName){
 		argDef = m_mapArg[strNameBase];
 		return true;
 	}
-	return false;	// ‚È‚¯‚ê‚Î¸”s
+	return false;	// ãªã‘ã‚Œã°å¤±æ•—
 }
 //---------------------------------------------------------------------
-// MemSet‚É‚æ‚é–¢g—pƒtƒ‰ƒO‚ğİ’è
+// MemSetã«ã‚ˆã‚‹æœªä½¿ç”¨ãƒ•ãƒ©ã‚°ã‚’è¨­å®š
 //---------------------------------------------------------------------
 void JlsScrMem::setUnusedFlag(const string& strName){
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg marg;
 	marg.setNameByStr(strName);
-	//--- –¢g—p‚É’Ç‰Á ---
+	//--- æœªä½¿ç”¨ã«è¿½åŠ  ---
 	setUnused(marg);
 }
 //---------------------------------------------------------------------
-// ‚Ps•¶š—ñ‚ğŠi”[i¯•Êq‚ÅŠi”[æ‚ğw’èj
+// ï¼‘è¡Œæ–‡å­—åˆ—ã‚’æ ¼ç´ï¼ˆè­˜åˆ¥å­ã§æ ¼ç´å…ˆã‚’æŒ‡å®šï¼‰
 //---------------------------------------------------------------------
 bool JlsScrMem::pushStrByName(const string& strName, const string& strBuf){
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg marg;
 	marg.setNameByStr(strName);
-	//--- Às ---
+	//--- å®Ÿè¡Œ ---
 	return exeCmdPushStr(marg, strBuf, m_orderHold);
 }
 //---------------------------------------------------------------------
-// ‚Ps•¶š—ñ‚ğŠi”[iLazyí—Ş‚ÅŠi”[æ‚ğw’èj
+// ï¼‘è¡Œæ–‡å­—åˆ—ã‚’æ ¼ç´ï¼ˆLazyç¨®é¡ã§æ ¼ç´å…ˆã‚’æŒ‡å®šï¼‰
 //---------------------------------------------------------------------
 bool JlsScrMem::pushStrByLazy(LazyType typeLazy, const string& strBuf){
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg marg;
 	marg.setNameByLazy(typeLazy);
-	//--- Às ---
+	//--- å®Ÿè¡Œ ---
 	return exeCmdPushStr(marg, strBuf, m_orderHold);
 }
 //---------------------------------------------------------------------
-// •ÛŠÇ•¶š—ñƒŠƒXƒg‚ğæ“¾i¯•Êq‚ÅŠi”[Œ³‚ğw’èj
+// ä¿ç®¡æ–‡å­—åˆ—ãƒªã‚¹ãƒˆã‚’å–å¾—ï¼ˆè­˜åˆ¥å­ã§æ ¼ç´å…ƒã‚’æŒ‡å®šï¼‰
 //---------------------------------------------------------------------
 bool JlsScrMem::getListByName(queue <string>& queStr, const string& strName){
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg marg;
 	marg.setNameByStr(strName);
-	//--- –¢g—pó‘Ô‚ğ‰ğœ ---
+	//--- æœªä½¿ç”¨çŠ¶æ…‹ã‚’è§£é™¤ ---
 	clearUnused(marg);
-	//--- Às ---
+	//--- å®Ÿè¡Œ ---
 	CopyFlagRecord flags = {};
-	flags.add  = true;		// ƒLƒ…[‚É’Ç‰Á
-	flags.move = false;		// Œ³ƒf[ƒ^‚Íc‚·
+	flags.add  = true;		// ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ 
+	flags.move = false;		// å…ƒãƒ‡ãƒ¼ã‚¿ã¯æ®‹ã™
 	return exeCmdGetList(queStr, marg, flags);
 }
 //---------------------------------------------------------------------
-// •ÛŠÇ•¶š—ñƒŠƒXƒg‚ğæ‚èo‚µi¯•Êq‚ÅŠi”[Œ³‚ğw’èj
+// ä¿ç®¡æ–‡å­—åˆ—ãƒªã‚¹ãƒˆã‚’å–ã‚Šå‡ºã—ï¼ˆè­˜åˆ¥å­ã§æ ¼ç´å…ƒã‚’æŒ‡å®šï¼‰
 //---------------------------------------------------------------------
 bool JlsScrMem::popListByName(queue <string>& queStr, const string& strName){
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg marg;
 	marg.setNameByStr(strName);
-	//--- –¢g—pó‘Ô‚ğ‰ğœ ---
+	//--- æœªä½¿ç”¨çŠ¶æ…‹ã‚’è§£é™¤ ---
 	clearUnused(marg);
-	//--- Às ---
+	//--- å®Ÿè¡Œ ---
 	CopyFlagRecord flags = {};
-	flags.add  = true;		// ƒLƒ…[‚É’Ç‰Á
-	flags.move = true;		// Œ³ƒf[ƒ^‚ğÁ‚·
+	flags.add  = true;		// ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ 
+	flags.move = true;		// å…ƒãƒ‡ãƒ¼ã‚¿ã‚’æ¶ˆã™
 	return exeCmdGetList(queStr, marg, flags);
 }
 //---------------------------------------------------------------------
-// •ÛŠÇ•¶š—ñƒŠƒXƒg‚ğæ“¾iLazyí—Ş‚ÅŠi”[Œ³‚ğw’èj
+// ä¿ç®¡æ–‡å­—åˆ—ãƒªã‚¹ãƒˆã‚’å–å¾—ï¼ˆLazyç¨®é¡ã§æ ¼ç´å…ƒã‚’æŒ‡å®šï¼‰
 //---------------------------------------------------------------------
 bool JlsScrMem::getListByLazy(queue <string>& queStr, LazyType typeLazy){
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg marg;
 	marg.setNameByLazy(typeLazy);
-	//--- –¢g—pó‘Ô‚ğ‰ğœ ---
+	//--- æœªä½¿ç”¨çŠ¶æ…‹ã‚’è§£é™¤ ---
 	clearUnused(marg);
-	//--- Às ---
+	//--- å®Ÿè¡Œ ---
 	CopyFlagRecord flags = {};
-	flags.add  = true;		// ƒLƒ…[‚É’Ç‰Á
-	flags.move = false;		// Œ³ƒf[ƒ^‚Íc‚·
+	flags.add  = true;		// ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ 
+	flags.move = false;		// å…ƒãƒ‡ãƒ¼ã‚¿ã¯æ®‹ã™
 	return exeCmdGetList(queStr, marg, flags);
 }
 //---------------------------------------------------------------------
-// •ÛŠÇ•¶š—ñƒŠƒXƒg‚ğæ‚èo‚µiLazyí—Ş‚ÅŠi”[Œ³‚ğw’èj
+// ä¿ç®¡æ–‡å­—åˆ—ãƒªã‚¹ãƒˆã‚’å–ã‚Šå‡ºã—ï¼ˆLazyç¨®é¡ã§æ ¼ç´å…ƒã‚’æŒ‡å®šï¼‰
 //---------------------------------------------------------------------
 bool JlsScrMem::popListByLazy(queue <string>& queStr, LazyType typeLazy){
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg marg;
 	marg.setNameByLazy(typeLazy);
-	//--- –¢g—pó‘Ô‚ğ‰ğœ ---
+	//--- æœªä½¿ç”¨çŠ¶æ…‹ã‚’è§£é™¤ ---
 	clearUnused(marg);
-	//--- Às ---
+	//--- å®Ÿè¡Œ ---
 	CopyFlagRecord flags = {};
-	flags.add  = true;		// ƒLƒ…[‚É’Ç‰Á
-	flags.move = true;		// Œ³ƒf[ƒ^‚ğÁ‚·
+	flags.add  = true;		// ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ 
+	flags.move = true;		// å…ƒãƒ‡ãƒ¼ã‚¿ã‚’æ¶ˆã™
 	return exeCmdGetList(queStr, marg, flags);
 }
 //---------------------------------------------------------------------
-// •ÛŠÇ•¶š—ñ—Ìˆæ‚ğÁ‹
+// ä¿ç®¡æ–‡å­—åˆ—é ˜åŸŸã‚’æ¶ˆå»
 //---------------------------------------------------------------------
 bool JlsScrMem::eraseMemByName(const string& strName){
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg marg;
 	marg.setNameByStr(strName);
-	//--- –¢g—pó‘Ô‚ğ‰ğœ ---
+	//--- æœªä½¿ç”¨çŠ¶æ…‹ã‚’è§£é™¤ ---
 	clearUnused(marg);
-	//--- Às ---
+	//--- å®Ÿè¡Œ ---
 	return exeCmdEraseMem(marg);
 }
 //---------------------------------------------------------------------
-// •ÛŠÇ•¶š—ñ—Ìˆæ‚ğ•¡Ê
+// ä¿ç®¡æ–‡å­—åˆ—é ˜åŸŸã‚’è¤‡å†™
 //---------------------------------------------------------------------
 bool JlsScrMem::copyMemByName(const string& strSrc, const string& strDst){
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg sarg;
 	JlsScrMemArg darg;
 	sarg.setNameByStr(strSrc);
 	darg.setNameByStr(strDst);
-	//--- –¢g—pó‘Ô‚ÍŒp‘± ---
-	//--- Às ---
+	//--- æœªä½¿ç”¨çŠ¶æ…‹ã¯ç¶™ç¶š ---
+	//--- å®Ÿè¡Œ ---
 	CopyFlagRecord flags = {};
-	flags.add  = false;		// ‹L‰¯—Ìˆæ‚ÉV‹K
-	flags.move = false;		// Œ³ƒf[ƒ^‚Íc‚·
+	flags.add  = false;		// è¨˜æ†¶é ˜åŸŸã«æ–°è¦
+	flags.move = false;		// å…ƒãƒ‡ãƒ¼ã‚¿ã¯æ®‹ã™
 	return exeCmdCopyMem(sarg, darg, flags);
 }
 //---------------------------------------------------------------------
-// •ÛŠÇ•¶š—ñ—Ìˆæ‚ğˆÚ“®
+// ä¿ç®¡æ–‡å­—åˆ—é ˜åŸŸã‚’ç§»å‹•
 //---------------------------------------------------------------------
 bool JlsScrMem::moveMemByName(const string& strSrc, const string& strDst){
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg sarg;
 	JlsScrMemArg darg;
 	sarg.setNameByStr(strSrc);
 	darg.setNameByStr(strDst);
-	//--- –¢g—pó‘Ô‚ğ•ÏX ---
+	//--- æœªä½¿ç”¨çŠ¶æ…‹ã‚’å¤‰æ›´ ---
 	clearUnused(sarg);
 	setUnused(darg);
-	//--- Às ---
+	//--- å®Ÿè¡Œ ---
 	CopyFlagRecord flags = {};
-	flags.add  = false;		// ‹L‰¯—Ìˆæ‚ÉV‹K
-	flags.move = true;		// Œ³ƒf[ƒ^‚ğÁ‚·
+	flags.add  = false;		// è¨˜æ†¶é ˜åŸŸã«æ–°è¦
+	flags.move = true;		// å…ƒãƒ‡ãƒ¼ã‚¿ã‚’æ¶ˆã™
 	return exeCmdCopyMem(sarg, darg, flags);
 }
 //---------------------------------------------------------------------
-// •ÛŠÇ•¶š—ñ—Ìˆæ‚ğ’Ç‰Á
+// ä¿ç®¡æ–‡å­—åˆ—é ˜åŸŸã‚’è¿½åŠ 
 //---------------------------------------------------------------------
 bool JlsScrMem::appendMemByName(const string& strSrc, const string& strDst){
-	//--- ¯•Êqİ’è ---
+	//--- è­˜åˆ¥å­è¨­å®š ---
 	JlsScrMemArg sarg;
 	JlsScrMemArg darg;
 	sarg.setNameByStr(strSrc);
 	darg.setNameByStr(strDst);
-	//--- –¢g—pó‘Ô‚ÍŒp‘± ---
-	//--- Às ---
+	//--- æœªä½¿ç”¨çŠ¶æ…‹ã¯ç¶™ç¶š ---
+	//--- å®Ÿè¡Œ ---
 	CopyFlagRecord flags = {};
-	flags.add  = true;		// ‹L‰¯—Ìˆæ‚É’Ç‰Á
-	flags.move = false;		// Œ³ƒf[ƒ^‚Íc‚·
+	flags.add  = true;		// è¨˜æ†¶é ˜åŸŸã«è¿½åŠ 
+	flags.move = false;		// å…ƒãƒ‡ãƒ¼ã‚¿ã¯æ®‹ã™
 	return exeCmdCopyMem(sarg, darg, flags);
 }
 
 //=====================================================================
-// ‹¤’Ê‚Ìˆø”‚©‚çƒRƒ}ƒ“ƒhÀs
-// •Ô‚è’l   FÀs—L–³
+// å…±é€šã®å¼•æ•°ã‹ã‚‰ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œ
+// è¿”ã‚Šå€¤   ï¼šå®Ÿè¡Œæœ‰ç„¡
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ‚Ps•¶š—ñ‚ğŠi”[
+// ï¼‘è¡Œæ–‡å­—åˆ—ã‚’æ ¼ç´
 //---------------------------------------------------------------------
 bool JlsScrMem::exeCmdPushStr(JlsScrMemArg& argDst, const string& strBuf, int order){
-	//--- ¯•ÊqŠm”F ---
+	//--- è­˜åˆ¥å­ç¢ºèª ---
 	bool success = false;
 	if ( argDst.isExistBaseName() ){
-		//--- ‘‚«‚İ ---
+		//--- æ›¸ãè¾¼ã¿ ---
 		string str_name;
 		argDst.getBaseName(str_name);
 		success = memPushStr(str_name, strBuf, order);
 	}
 	else{
-		success = argDst.isNameDummy();		// ƒ_ƒ~[‚Í¬Œ÷ˆµ‚¢
+		success = argDst.isNameDummy();		// ãƒ€ãƒŸãƒ¼æ™‚ã¯æˆåŠŸæ‰±ã„
 	}
 	return success;
 }
 //---------------------------------------------------------------------
-// •ÛŠÇ•¶š—ñƒŠƒXƒg‚ğæ“¾Eæ‚èo‚µ
+// ä¿ç®¡æ–‡å­—åˆ—ãƒªã‚¹ãƒˆã‚’å–å¾—ãƒ»å–ã‚Šå‡ºã—
 //---------------------------------------------------------------------
 bool JlsScrMem::exeCmdGetList(queue <string>& queStr, JlsScrMemArg& argSrc, CopyFlagRecord flags){
 	bool success = false;
-	//--- ‘¶İ‚·‚éê‡æ“¾ ---
+	//--- å­˜åœ¨ã™ã‚‹å ´åˆå–å¾— ---
 	if ( argSrc.isExistBaseName() ){
 		string strName;
 		argSrc.getBaseName(strName);
 		success = memGetList(queStr, strName, flags);
 	}else{
-		//--- o—ÍƒNƒŠƒA ---
+		//--- å‡ºåŠ›ã‚¯ãƒªã‚¢ ---
 		if ( !flags.add ){
 			queue<string>().swap(queStr);
 		}
-		success = argSrc.isNameDummy();		// ƒ_ƒ~[‚Í¬Œ÷ˆµ‚¢
+		success = argSrc.isNameDummy();		// ãƒ€ãƒŸãƒ¼æ™‚ã¯æˆåŠŸæ‰±ã„
 	}
-	//--- •ÛŠÇ‚³‚ê‚½Lazy—p•¶š—ñ‚ğLazy—p–{‘Ì‚Ö ---
+	//--- ä¿ç®¡ã•ã‚ŒãŸLazyç”¨æ–‡å­—åˆ—ã‚’Lazyç”¨æœ¬ä½“ã¸ ---
 	if ( argSrc.isExistExtName() ){
-		//--- Lazy—p¯•Êqî•ñ ---
+		//--- Lazyç”¨è­˜åˆ¥å­æƒ…å ± ---
 		JlsScrMemArg argDst;
-		argDst.setNameByLazy(LazyType::FULL);	// Lazy—p–{‘Ì
-		//--- ƒRƒs[À{ ---
-		flags.add = true;			// Lazy–{‘Ì‚Ì‹L˜^‚Íc‚µ‚½‚Ü‚Ü’Ç‰Á
+		argDst.setNameByLazy(LazyType::FULL);	// Lazyç”¨æœ¬ä½“
+		//--- ã‚³ãƒ”ãƒ¼å®Ÿæ–½ ---
+		flags.add = true;			// Lazyæœ¬ä½“ã®è¨˜éŒ²ã¯æ®‹ã—ãŸã¾ã¾è¿½åŠ 
 		bool s2 = exeCmdCopyMem(argSrc, argDst, flags);
-		if ( s2 ){					// Lazy—p¯•Êq‚É•ÛŠÇ‚ª‘¶İ‚µ‚Ä‚àtrue‚ğ•Ô‚·
+		if ( s2 ){					// Lazyç”¨è­˜åˆ¥å­ã«ä¿ç®¡ãŒå­˜åœ¨ã—ã¦ã‚‚trueã‚’è¿”ã™
 			success = true;
 		}
 	}
 	return success;
 }
 //---------------------------------------------------------------------
-// •ÛŠÇ•¶š—ñ—Ìˆæ‚ğÁ‹
+// ä¿ç®¡æ–‡å­—åˆ—é ˜åŸŸã‚’æ¶ˆå»
 //---------------------------------------------------------------------
 bool JlsScrMem::exeCmdEraseMem(JlsScrMemArg& argDst){
 	bool success = false;
@@ -505,13 +505,13 @@ bool JlsScrMem::exeCmdEraseMem(JlsScrMemArg& argDst){
 	for(int i=0; i < (int)listName.size(); i++){
 		success |= memErase(listName[i]);
 	}
-	if ( argDst.isNameDummy() ){		// ƒ_ƒ~[‚Í¬Œ÷ˆµ‚¢
+	if ( argDst.isNameDummy() ){		// ãƒ€ãƒŸãƒ¼æ™‚ã¯æˆåŠŸæ‰±ã„
 		success = true;
 	}
 	return success;
 }
 //---------------------------------------------------------------------
-// •ÛŠÇ•¶š—ñ—Ìˆæ‚ğ•¡ÊEˆÚ“®
+// ä¿ç®¡æ–‡å­—åˆ—é ˜åŸŸã‚’è¤‡å†™ãƒ»ç§»å‹•
 //---------------------------------------------------------------------
 bool JlsScrMem::exeCmdCopyMem(JlsScrMemArg& argSrc, JlsScrMemArg& argDst, CopyFlagRecord flags){
 	vector <string> slist;
@@ -525,7 +525,7 @@ bool JlsScrMem::exeCmdCopyMem(JlsScrMemArg& argSrc, JlsScrMemArg& argDst, CopyFl
 	int loopmax = ( smax >= dmax )? smax : dmax;
 	for(int i=0; i<loopmax; i++){
 		bool si = false;
-		//--- €–Ú‘¶İŠm”F ---
+		//--- é …ç›®å­˜åœ¨ç¢ºèª ---
 		bool existSrc = ( i < smax )? true : false;
 		bool existDst = ( i < dmax )? true : false;
 		if ( existSrc ){
@@ -534,16 +534,16 @@ bool JlsScrMem::exeCmdCopyMem(JlsScrMemArg& argSrc, JlsScrMemArg& argDst, CopyFl
 		if ( existDst ){
 			existDst = ! dlist[i].empty();
 		}
-		//--- €–Ú‚ª—¼•û‘¶İ‚·‚éê‡‚Ì‚İƒRƒs[‚·‚é ---
+		//--- é …ç›®ãŒä¸¡æ–¹å­˜åœ¨ã™ã‚‹å ´åˆã®ã¿ã‚³ãƒ”ãƒ¼ã™ã‚‹ ---
 		if ( existSrc && existDst ){
 			si = memCopy(slist[i], dlist[i], flags);
 		}else{
-			si = existSrc & argDst.isNameDummy();	// “ü—Í‘¶İ‚Å•¡Êæ‚ªƒ_ƒ~[‚Í¬Œ÷ˆµ‚¢
-			//--- Src‘¤íœ ---
+			si = existSrc & argDst.isNameDummy();	// å…¥åŠ›å­˜åœ¨ã§è¤‡å†™å…ˆãŒãƒ€ãƒŸãƒ¼ã¯æˆåŠŸæ‰±ã„
+			//--- Srcå´å‰Šé™¤ ---
 			if ( existSrc  && flags.move ){
 				memErase(slist[i]);
 			}
-			//--- Dst‘¤íœ ---
+			//--- Dstå´å‰Šé™¤ ---
 			if ( existDst  && !flags.add ){
 				memErase(dlist[i]);
 			}
@@ -554,15 +554,15 @@ bool JlsScrMem::exeCmdCopyMem(JlsScrMemArg& argSrc, JlsScrMemArg& argDst, CopyFl
 }
 
 //=====================================================================
-// ‹L‰¯—Ìˆæ‚Ì’¼Ú‘€ì
-// •Ô‚è’l   FÀs—L–³
+// è¨˜æ†¶é ˜åŸŸã®ç›´æ¥æ“ä½œ
+// è¿”ã‚Šå€¤   ï¼šå®Ÿè¡Œæœ‰ç„¡
 //=====================================================================
 
 //---------------------------------------------------------------------
-// ‹L‰¯—Ìˆæ‚É•¶š—ñ‚Ps‚ğ’Ç‰ÁŠi”[
+// è¨˜æ†¶é ˜åŸŸã«æ–‡å­—åˆ—ï¼‘è¡Œã‚’è¿½åŠ æ ¼ç´
 //---------------------------------------------------------------------
 bool JlsScrMem::memPushStr(const string& strName, const string& strBuf, int order){
-	if (m_mapVar.size() >= SIZE_MEMVARNUM_MAX){	// ”O‚Ì‚½‚ß“ü‚ê‚·‚¬Šm”F
+	if (m_mapVar.size() >= SIZE_MEMVARNUM_MAX){	// å¿µã®ãŸã‚å…¥ã‚Œã™ãç¢ºèª
 		return false;
 	}
 	if ( strName.empty() ){
@@ -572,44 +572,44 @@ bool JlsScrMem::memPushStr(const string& strName, const string& strBuf, int orde
 	return true;
 }
 //---------------------------------------------------------------------
-// ‹L‰¯—Ìˆæ‚©‚ç•¶š—ñ‘S‘Ì‚ğ“Ç‚İo‚µ
+// è¨˜æ†¶é ˜åŸŸã‹ã‚‰æ–‡å­—åˆ—å…¨ä½“ã‚’èª­ã¿å‡ºã—
 //---------------------------------------------------------------------
 bool JlsScrMem::memGetList(queue <string>& queStr, const string& strName, CopyFlagRecord flags){
-	if ( memIsExist(strName) == false ){		// Ši”[‚³‚ê‚Ä‚È‚©‚Á‚½ê‡
+	if ( memIsExist(strName) == false ){		// æ ¼ç´ã•ã‚Œã¦ãªã‹ã£ãŸå ´åˆ
 		queue <MemDataRecord> q;
-		setQueueStr(queStr, q, flags);				// ‰Šú‰»
+		setQueueStr(queStr, q, flags);				// åˆæœŸåŒ–
 		return false;
 	}
 	setQueueStr(queStr, m_mapVar[strName], flags);
 	return true;
 }
 //---------------------------------------------------------------------
-// ‹L‰¯—ÌˆæÁ‹
+// è¨˜æ†¶é ˜åŸŸæ¶ˆå»
 //---------------------------------------------------------------------
 bool JlsScrMem::memErase(const string& strName){
-	if ( memIsNameExist(strName) == false ) return false;	// ¯•Êq©‘Ì‚ª‚È‚©‚Á‚½ê‡
+	if ( memIsNameExist(strName) == false ) return false;	// è­˜åˆ¥å­è‡ªä½“ãŒãªã‹ã£ãŸå ´åˆ
 	m_mapVar.erase(strName);
-	m_mapArg.erase(strName);	// ˆø”İ’è
+	m_mapArg.erase(strName);	// å¼•æ•°è¨­å®š
 	return true;
 }
 //---------------------------------------------------------------------
-// ‹L‰¯—Ìˆæ‚ğ•Ê‚Ì‹L‰¯—Ìˆæ‚ÖƒRƒs[
+// è¨˜æ†¶é ˜åŸŸã‚’åˆ¥ã®è¨˜æ†¶é ˜åŸŸã¸ã‚³ãƒ”ãƒ¼
 //---------------------------------------------------------------------
 bool JlsScrMem::memCopy(const string& strSrc, const string& strDst, CopyFlagRecord flags){
-	if ( memIsExist(strSrc) == false ){			// Ši”[‚³‚ê‚Ä‚È‚©‚Á‚½ê‡
+	if ( memIsExist(strSrc) == false ){			// æ ¼ç´ã•ã‚Œã¦ãªã‹ã£ãŸå ´åˆ
 		if ( flags.add == false ){
 			memErase(strDst);
 		}
 		return false;
 	}
 	setQueueFull(m_mapVar[strDst], m_mapVar[strSrc], flags);
-	m_mapArg[strDst] = m_mapArg[strSrc];	// ˆø”İ’è
+	m_mapArg[strDst] = m_mapArg[strSrc];	// å¼•æ•°è¨­å®š
 	return true;
 }
 //---------------------------------------------------------------------
-// ‹L‰¯—ÌˆæŠm”FiŠù‚É‘¶İ‚µ‚Ä‚¢‚½‚çtrue‚ğ•Ô‚·j
+// è¨˜æ†¶é ˜åŸŸç¢ºèªï¼ˆæ—¢ã«å­˜åœ¨ã—ã¦ã„ãŸã‚‰trueã‚’è¿”ã™ï¼‰
 //---------------------------------------------------------------------
-//--- ƒf[ƒ^–³‚µ‚àŠÜ‚Ş ---
+//--- ãƒ‡ãƒ¼ã‚¿ç„¡ã—ã‚‚å«ã‚€ ---
 bool JlsScrMem::memIsExist(const string& strName){
 	if ( strName.empty() ){
 		return false;
@@ -617,19 +617,19 @@ bool JlsScrMem::memIsExist(const string& strName){
 	bool flag = ( m_mapVar.find(strName) != m_mapVar.end() )? true : false;
 	if ( flag ){
 		if ( m_mapVar[strName].empty() ){
-			flag = false;	// ƒf[ƒ^‚ª‘¶İ‚µ‚È‚¯‚ê‚Îfalse
+			flag = false;	// ãƒ‡ãƒ¼ã‚¿ãŒå­˜åœ¨ã—ãªã‘ã‚Œã°false
 		}
 	}
 	return flag;
 }
-//--- ¯•Êq©‘Ì‚Ì‘¶İŠm”F ---
+//--- è­˜åˆ¥å­è‡ªä½“ã®å­˜åœ¨ç¢ºèª ---
 bool JlsScrMem::memIsNameExist(const string& strName){
 	if ( strName.empty() ){
 		return false;
 	}
 	return ( m_mapVar.find(strName) != m_mapVar.end() );
 }
-//--- ˆø”‚Ì‘¶İ ---
+//--- å¼•æ•°ã®å­˜åœ¨ ---
 bool JlsScrMem::memIsNameExistArg(const string& strName){
 	if ( strName.empty() ){
 		return false;
@@ -637,20 +637,20 @@ bool JlsScrMem::memIsNameExistArg(const string& strName){
 	return ( m_mapArg.find(strName) != m_mapArg.end() );
 }
 //---------------------------------------------------------------------
-// queue‚É‚Ps’Ç‰Áiorder‚É‚æ‚é‘}“üˆÊ’uŠm”F‚às‚¤j
+// queueã«ï¼‘è¡Œè¿½åŠ ï¼ˆorderã«ã‚ˆã‚‹æŒ¿å…¥ä½ç½®ç¢ºèªã‚‚è¡Œã†ï¼‰
 //---------------------------------------------------------------------
 void JlsScrMem::addQueueLine(queue <MemDataRecord>& queDst, const string& strBuf, int order){
 	MemDataRecord din = { order, strBuf };
-	//--- ÅŒã‚É’Ç‰Á‚Ì”»’è ---
+	//--- æœ€å¾Œã«è¿½åŠ ã®åˆ¤å®š ---
 	bool flagTail = false;
 	if ( queDst.empty() ){
 		flagTail = true;
 	}else if ( queDst.back().order <= din.order ){
 		flagTail = true;
 	}
-	//--- ’Ç‰Áˆ— ---
+	//--- è¿½åŠ å‡¦ç† ---
 	bool remain = true;
-	if ( flagTail ){	// ÅŒã‚É’Ç‰Á
+	if ( flagTail ){	// æœ€å¾Œã«è¿½åŠ 
 		queDst.push(din);
 	}else{
 		queue <MemDataRecord> q;
@@ -670,11 +670,11 @@ void JlsScrMem::addQueueLine(queue <MemDataRecord>& queDst, const string& strBuf
 	}
 }
 //---------------------------------------------------------------------
-// queue‚É•Ê‚Ìqueue‚ğŠi”[
+// queueã«åˆ¥ã®queueã‚’æ ¼ç´
 //---------------------------------------------------------------------
 void JlsScrMem::setQueueStr(queue <string>& queDstStr, queue <MemDataRecord>& queSrc, CopyFlagRecord flags){
 	if ( flags.add == false ){
-		queue<string>().swap(queDstStr);		// ‰Šú‰»
+		queue<string>().swap(queDstStr);		// åˆæœŸåŒ–
 	}
 	queue <MemDataRecord> q = queSrc;
 	while( q.empty() == false ){
@@ -682,11 +682,11 @@ void JlsScrMem::setQueueStr(queue <string>& queDstStr, queue <MemDataRecord>& qu
 		q.pop();
 	}
 	if ( flags.move ){
-		queue<MemDataRecord>().swap(queSrc);		// ‰Šú‰»
+		queue<MemDataRecord>().swap(queSrc);		// åˆæœŸåŒ–
 	}
 }
 //---------------------------------------------------------------------
-// queue‚É•Ê‚Ìqueue‚ğŠi”[
+// queueã«åˆ¥ã®queueã‚’æ ¼ç´
 //---------------------------------------------------------------------
 void JlsScrMem::setQueueFull(queue <MemDataRecord>& queDst, queue <MemDataRecord>& queSrc, CopyFlagRecord flags){
 	if ( flags.add ){
@@ -699,11 +699,11 @@ void JlsScrMem::setQueueFull(queue <MemDataRecord>& queDst, queue <MemDataRecord
 		queDst = queSrc;
 	}
 	if ( flags.move ){
-		queue<MemDataRecord>().swap(queSrc);		// ‰Šú‰»
+		queue<MemDataRecord>().swap(queSrc);		// åˆæœŸåŒ–
 	}
 }
 //---------------------------------------------------------------------
-// ƒAƒNƒZƒXƒ`ƒFƒbƒNˆ—
+// ã‚¢ã‚¯ã‚»ã‚¹ãƒã‚§ãƒƒã‚¯å‡¦ç†
 //---------------------------------------------------------------------
 void JlsScrMem::setUnused(JlsScrMemArg& marg){
 	if ( marg.isExistBaseName() ){
@@ -732,7 +732,7 @@ bool JlsScrMem::getUnusedStr(string& strBuf){
 	return true;
 }
 //---------------------------------------------------------------------
-// ‚·‚×‚Ä‚Ì•ÛŠÇ“à—eæ‚èo‚µiƒfƒoƒbƒO—pj
+// ã™ã¹ã¦ã®ä¿ç®¡å†…å®¹å–ã‚Šå‡ºã—ï¼ˆãƒ‡ãƒãƒƒã‚°ç”¨ï¼‰
 //---------------------------------------------------------------------
 void JlsScrMem::getMapForDebug(string& strBuf){
 	for( auto itr = m_mapVar.begin(); itr != m_mapVar.end(); ++itr ){

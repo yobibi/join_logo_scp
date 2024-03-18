@@ -1,53 +1,53 @@
-# join_logo_scp—p‚ÌÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eFÅ‰‚ÆÅŒã‚ğ‘å•‚ÉƒJƒbƒg‚·‚éˆ—‚ğ’Ç‰Á
-#       ŒŸõií—Ş‚É§–ñ‚È‚µj‚ğÀs‚·‚é‘O‚Éİ’è‚·‚é
+# å†…å®¹ï¼šæœ€åˆã¨æœ€å¾Œã‚’å¤§å¹…ã«ã‚«ãƒƒãƒˆã™ã‚‹å‡¦ç†ã‚’è¿½åŠ 
+#       æ¤œç´¢ï¼ˆç¨®é¡ã«åˆ¶ç´„ãªã—ï¼‰ã‚’å®Ÿè¡Œã™ã‚‹å‰ã«è¨­å®šã™ã‚‹
 #
 
 #----------------------------------------------
-# İ’è
+# è¨­å®š
 #----------------------------------------------
-Default longcut_by_logo   1    # ƒƒSØ‚ê–Ú‚æ‚éƒJƒbƒg(0=‚µ‚È‚¢ 1=‚·‚é)
-Default longcut_by_logofc 0    # ƒƒS‚ÌˆÊ’u‚É‚æ‚é‹­§ƒJƒbƒg(0=‚µ‚È‚¢ 1=‚·‚é)
-Default longcut_by_auto   0    # „‘ª\¬‹æØ‚è‚É‚æ‚éƒJƒbƒg(0=‚µ‚È‚¢ 1=‚·‚é)
+Default longcut_by_logo   1    # ãƒ­ã‚´åˆ‡ã‚Œç›®ã‚ˆã‚‹ã‚«ãƒƒãƒˆ(0=ã—ãªã„ 1=ã™ã‚‹)
+Default longcut_by_logofc 0    # ãƒ­ã‚´ã®ä½ç½®ã«ã‚ˆã‚‹å¼·åˆ¶ã‚«ãƒƒãƒˆ(0=ã—ãªã„ 1=ã™ã‚‹)
+Default longcut_by_auto   0    # æ¨æ¸¬æ§‹æˆåŒºåˆ‡ã‚Šã«ã‚ˆã‚‹ã‚«ãƒƒãƒˆ(0=ã—ãªã„ 1=ã™ã‚‹)
 
-Default longcut_len_first 00:05:00  # ƒtƒ@ƒCƒ‹æ“ª‚ÌÅ‘åƒJƒbƒgŠúŠÔ
-Default longcut_len_last  00:08:00  # ƒtƒ@ƒCƒ‹ÅŒã‚ÌÅ‘åƒJƒbƒgŠúŠÔ
+Default longcut_len_first 00:05:00  # ãƒ•ã‚¡ã‚¤ãƒ«å…ˆé ­ã®æœ€å¤§ã‚«ãƒƒãƒˆæœŸé–“
+Default longcut_len_last  00:08:00  # ãƒ•ã‚¡ã‚¤ãƒ«æœ€å¾Œã®æœ€å¤§ã‚«ãƒƒãƒˆæœŸé–“
 
-Default longcut_str_auto  "-code 2" # „‘ª\¬ƒJƒbƒg‚Ì’Ç‰ÁƒIƒvƒVƒ‡ƒ“
+Default longcut_str_auto  "-code 2" # æ¨æ¸¬æ§‹æˆã‚«ãƒƒãƒˆæ™‚ã®è¿½åŠ ã‚ªãƒ—ã‚·ãƒ§ãƒ³
 
 #----------------------------------------------
-# “®ì
+# å‹•ä½œ
 #----------------------------------------------
-LazyAuto   # ‚±‚Ìƒtƒ@ƒCƒ‹‚Í©“®‚ÅÀsƒ^ƒCƒ~ƒ“ƒO§Œä
+LazyAuto   # ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯è‡ªå‹•ã§å®Ÿè¡Œã‚¿ã‚¤ãƒŸãƒ³ã‚°åˆ¶å¾¡
 
 If ${longcut_by_logo}==1
   Abort E -F -1 ${longcut_len_first} -WithP
   Abort S -F ${MAXTIME}-${longcut_len_last} -1 -WithN
 EndIf
 
-#--- ƒƒSˆÊ’uÄİ’è‚ğg‚Á‚½ƒƒSƒJƒbƒg“®ì ---
-If ${longcut_by_logofc}==1  # ƒƒS‚ÌˆÊ’u‚É‚æ‚éƒƒSî•ñ‹­§ƒJƒbƒg
+#--- ãƒ­ã‚´ä½ç½®å†è¨­å®šã‚’ä½¿ã£ãŸãƒ­ã‚´ã‚«ãƒƒãƒˆå‹•ä½œ ---
+If ${longcut_by_logofc}==1  # ãƒ­ã‚´ã®ä½ç½®ã«ã‚ˆã‚‹ãƒ­ã‚´æƒ…å ±å¼·åˆ¶ã‚«ãƒƒãƒˆ
 {
-  Find B -Dmargin 2.5             # ŠeˆÊ’u‚Ì•â³‚ ‚ê‚Î‹LÚ
-  LazyFlush                       # İ’èÏ‚İ•â³“à—e‚ğ‚±‚±‚ÅÀs
-  LocalSet pos_s ${longcut_len_first}           # ƒJƒbƒgæ“ª
-  LocalSet pos_e ${MAXTIME}-${longcut_len_last} # ƒJƒbƒgÅŒã
-  Set HEADTIME ${pos_s}+1.2       # ”ÍˆÍİ’è
-  Set TAILTIME ${pos_e}-1.2       # ”ÍˆÍİ’è
+  Find B -Dmargin 2.5             # å„ä½ç½®ã®è£œæ­£ã‚ã‚Œã°è¨˜è¼‰
+  LazyFlush                       # è¨­å®šæ¸ˆã¿è£œæ­£å†…å®¹ã‚’ã“ã“ã§å®Ÿè¡Œ
+  LocalSet pos_s ${longcut_len_first}           # ã‚«ãƒƒãƒˆå…ˆé ­
+  LocalSet pos_e ${MAXTIME}-${longcut_len_last} # ã‚«ãƒƒãƒˆæœ€å¾Œ
+  Set HEADTIME ${pos_s}+1.2       # ç¯„å›²è¨­å®š
+  Set TAILTIME ${pos_e}-1.2       # ç¯„å›²è¨­å®š
   GetList B -Nlogo 0 -pair -noforce -RegList tmp_list -local -now
-  Set HEADTIME -1                 # ”ÍˆÍ‰Šú‰»
-  Set TAILTIME -1                 # ”ÍˆÍ‰Šú‰»
+  Set HEADTIME -1                 # ç¯„å›²åˆæœŸåŒ–
+  Set TAILTIME -1                 # ç¯„å›²åˆæœŸåŒ–
   If $#{tmp_list}>0
-    If ${tmp_list[1]}<${pos_s}    # ˆÊ’u‚É‚æ‚éƒJƒbƒg
+    If ${tmp_list[1]}<${pos_s}    # ä½ç½®ã«ã‚ˆã‚‹ã‚«ãƒƒãƒˆ
       Set tmp_list[1] ${pos_s}
     EndIf
-    If ${tmp_list[-1]}>${pos_e}   # ˆÊ’u‚É‚æ‚éƒJƒbƒg
+    If ${tmp_list[-1]}>${pos_e}   # ä½ç½®ã«ã‚ˆã‚‹ã‚«ãƒƒãƒˆ
       Set tmp_list[-1] ${pos_e}
     EndIf
   EndIf
-  LogoReset                       # Às‘Oó‘Ô‚É–ß‚·
-  LogoDirect -RegList tmp_list    # ”ÍˆÍŠOƒJƒbƒg‚³‚ê‚½ƒƒSˆÊ’u‚ğw’è
+  LogoReset                       # å®Ÿè¡Œå‰çŠ¶æ…‹ã«æˆ»ã™
+  LogoDirect -RegList tmp_list    # ç¯„å›²å¤–ã‚«ãƒƒãƒˆã•ã‚ŒãŸãƒ­ã‚´ä½ç½®ã‚’æŒ‡å®š
 }
 EndIf
 

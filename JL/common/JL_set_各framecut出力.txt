@@ -1,24 +1,24 @@
-# join_logo_scp—p‚ÌÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eFo—ÍAVS‚ÌTrim‚Åc‚·•”•ª‚ğŠeˆÊ’u‚Å”ƒtƒŒ[ƒ€ƒJƒbƒg
-#       ƒXƒNƒŠƒvƒg“®ìŠm”F—p‚Éì¬B•K—v‚È‚ç‚±‚Ìƒtƒ@ƒCƒ‹‚ğCall‚·‚é
+# å†…å®¹ï¼šå‡ºåŠ›AVSã®Trimã§æ®‹ã™éƒ¨åˆ†ã‚’å„ä½ç½®ã§æ•°ãƒ•ãƒ¬ãƒ¼ãƒ ã‚«ãƒƒãƒˆ
+#       ã‚¹ã‚¯ãƒªãƒ—ãƒˆå‹•ä½œç¢ºèªç”¨ã«ä½œæˆã€‚å¿…è¦ãªã‚‰ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’Callã™ã‚‹
 #
 
 #----------------------------------------------
-# İ’è
+# è¨­å®š
 #----------------------------------------------
-Default outrev_cutframe 2       # ŠeˆÊ’u‚Å“à‘¤‚ÉƒJƒbƒg‚·‚éƒtƒŒ[ƒ€”
+Default outrev_cutframe 2       # å„ä½ç½®ã§å†…å´ã«ã‚«ãƒƒãƒˆã™ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 
-Default outrev_cutframe_s ${outrev_cutframe}   # ‘O‘¤‚ğŒÂ•Ê‚Éİ’è‰Â”\
-Default outrev_cutframe_e ${outrev_cutframe}   # Œã‘¤‚ğŒÂ•Ê‚Éİ’è‰Â”\
+Default outrev_cutframe_s ${outrev_cutframe}   # å‰å´ã‚’å€‹åˆ¥ã«è¨­å®šå¯èƒ½
+Default outrev_cutframe_e ${outrev_cutframe}   # å¾Œå´ã‚’å€‹åˆ¥ã«è¨­å®šå¯èƒ½
 
 #----------------------------------------------
-# “®ì
+# å‹•ä½œ
 #----------------------------------------------
 CountUp once_check_fin_cutframe
-MemOnce ${once_check_fin_cutframe}  # ‚±‚Ìƒtƒ@ƒCƒ‹‚ÌMemory/MemSet•¶‚Íˆê“x‚¾‚¯Às
+MemOnce ${once_check_fin_cutframe}  # ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã®Memory/MemSetæ–‡ã¯ä¸€åº¦ã ã‘å®Ÿè¡Œ
 
-MemSet FINALIZE {    # o—Í’¼‘O‚Å©“®“I‚ÉÀs
+MemSet FINALIZE {    # å‡ºåŠ›ç›´å‰ã§è‡ªå‹•çš„ã«å®Ÿè¡Œ
   GetList B -final -fixpos -RegList listdata -local
   LocalSet i 0
   Repeat $#{listdata}/2
@@ -27,5 +27,5 @@ MemSet FINALIZE {    # o—Í’¼‘O‚Å©“®“I‚ÉÀs
     CountUp i
     Set listdata[$i] ${listdata[$i]}-${outrev_cutframe_e}
   EndRepeat
-  Set OUTDIRECT $listdata      # o—Í‚Æ‚µ‚Ä’¼Úİ’è
+  Set OUTDIRECT $listdata      # å‡ºåŠ›ã¨ã—ã¦ç›´æ¥è¨­å®š
 };

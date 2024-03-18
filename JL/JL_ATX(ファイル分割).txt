@@ -1,9 +1,9 @@
-# join_logo_scp—p‚ÌŽÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eFƒƒS‚ðŽg‚í‚¸–³‰¹ƒV[ƒ“ƒ`ƒFƒ“ƒW‚¾‚¯‚Å‘OŒã‚ðƒJƒbƒg
-#       ATX‚ð‘z’è‚µ‚½Ý’è
+# å†…å®¹ï¼šãƒ­ã‚´ã‚’ä½¿ã‚ãšç„¡éŸ³ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸ã ã‘ã§å‰å¾Œã‚’ã‚«ãƒƒãƒˆ
+#       ATXã‚’æƒ³å®šã—ãŸè¨­å®š
 #
 
-Call "JL_out_divfile.txt"     # •ªŠ„ƒtƒŒ[ƒ€ƒŠƒXƒgo—Íˆ—
+Call "JL_out_divfile.txt"     # åˆ†å‰²ãƒ•ãƒ¬ãƒ¼ãƒ ãƒªã‚¹ãƒˆå‡ºåŠ›å‡¦ç†
 
-Call "JL_ATX.txt"             # ATX—p‚ð‹N“®
+Call "JL_ATX.txt"             # ATXç”¨ã‚’èµ·å‹•

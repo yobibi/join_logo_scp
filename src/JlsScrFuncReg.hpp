@@ -1,5 +1,5 @@
-//
-// •Ï”ƒAƒNƒZƒXŠÖ˜Aˆ—
+ï»¿//
+// å¤‰æ•°ã‚¢ã‚¯ã‚»ã‚¹é–¢é€£å‡¦ç†
 //
 
 #pragma once
@@ -12,27 +12,27 @@ class JlsScrFuncList;
 class JlsScrFuncReg
 {
 private:
-	const string DefRegExpTrim  = R"(Trim\s*\(\s*(\d+)\s*,\s*(\d+)\s*\))";	// Trimæ“¾³‹K•\Œ»
-	const string DefRegExtChar = "EXTCHAR";		// Šg’£q•¶š—ñˆ——p‚Ì•Ï”–¼
-	const string DefRegExtCsub = "EXTCHSUB";	// Šg’£q•¶š—ñˆ——p‚Ì•Ï”–¼
-	const string DefRegDQuote  = "DQUOTE";		// ƒ_ƒuƒ‹ƒNƒH[ƒg’uŠ·‘Ş”ğ—p‚Ì•Ï”–¼
-	const string DefRegSQuote  = "SQUOTE";		// ƒVƒ“ƒOƒ‹ƒNƒH[ƒg’uŠ·‘Ş”ğ—p‚Ì•Ï”–¼
-	const string DefStrRepDQ   = "__!(DQ)!__";	// ƒ_ƒuƒ‹ƒNƒH[ƒg‚ğ§Œä–³ŠÖŒW•¶š‚É’uŠ·‘Ş”ğ
-	const string DefStrRepSQ   = "__!(SQ)!__";	// ƒVƒ“ƒOƒ‹ƒNƒH[ƒg‚ğ§Œä–³ŠÖŒW•¶š‚É’uŠ·‘Ş”ğ
+	const string DefRegExpTrim  = R"(Trim\s*\(\s*(\d+)\s*,\s*(\d+)\s*\))";	// Trimå–å¾—æ­£è¦è¡¨ç¾
+	const string DefRegExtChar = "EXTCHAR";		// æ‹¡å¼µå­æ–‡å­—åˆ—å‡¦ç†ç”¨ã®å¤‰æ•°å
+	const string DefRegExtCsub = "EXTCHSUB";	// æ‹¡å¼µå­æ–‡å­—åˆ—å‡¦ç†ç”¨ã®å¤‰æ•°å
+	const string DefRegDQuote  = "DQUOTE";		// ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆç½®æ›é€€é¿ç”¨ã®å¤‰æ•°å
+	const string DefRegSQuote  = "SQUOTE";		// ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆç½®æ›é€€é¿ç”¨ã®å¤‰æ•°å
+	const string DefStrRepDQ   = "__!(DQ)!__";	// ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆã‚’åˆ¶å¾¡ç„¡é–¢ä¿‚æ–‡å­—ã«ç½®æ›é€€é¿
+	const string DefStrRepSQ   = "__!(SQ)!__";	// ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆã‚’åˆ¶å¾¡ç„¡é–¢ä¿‚æ–‡å­—ã«ç½®æ›é€€é¿
 
-	enum class VarProcType {	// •Ï”‚Ì•¶š—ñˆ—
+	enum class VarProcType {	// å¤‰æ•°ã®æ–‡å­—åˆ—å‡¦ç†
 		none,
-		path,		// ƒpƒX•”•ªæ“¾
-		divext,		// Šg’£q•”•ªæ“¾
-		substr,		// •”•ª•¶š—ñ
-		exchg,		// •¶š—ñ’uŠ·
-		blank,		// ‹ó”’œ‹‘S‘Ì
-		trim,		// ‹ó”’œ‹‘OŒã
-		chpath,		// ƒpƒX•¶š’Ç‰Á
-		frame,		// ƒtƒŒ[ƒ€”æ“¾
-		match,		// ³‹K•\Œ»ŒŸõ
-		count,		// Šg’£qoŒ»”
-		len,		// •¶š—ñ’·
+		path,		// ãƒ‘ã‚¹éƒ¨åˆ†å–å¾—
+		divext,		// æ‹¡å¼µå­éƒ¨åˆ†å–å¾—
+		substr,		// éƒ¨åˆ†æ–‡å­—åˆ—
+		exchg,		// æ–‡å­—åˆ—ç½®æ›
+		blank,		// ç©ºç™½é™¤å»å…¨ä½“
+		trim,		// ç©ºç™½é™¤å»å‰å¾Œ
+		chpath,		// ãƒ‘ã‚¹æ–‡å­—è¿½åŠ 
+		frame,		// ãƒ•ãƒ¬ãƒ¼ãƒ æ•°å–å¾—
+		match,		// æ­£è¦è¡¨ç¾æ¤œç´¢
+		count,		// æ‹¡å¼µå­å‡ºç¾æ•°
+		len,		// æ–‡å­—åˆ—é•·
 	};
 	struct VarProcRecord {
 		VarProcType typeProc;
@@ -55,14 +55,14 @@ private:
 public:
 	void setDataPointer(JlsDataset *pdata, JlsScrGlobal *pglobal, JlsScrFuncList *plist);
 public:
-	// ‹N“®ƒIƒvƒVƒ‡ƒ“ˆ—
+	// èµ·å‹•ã‚ªãƒ—ã‚·ãƒ§ãƒ³å‡¦ç†
 	int  setOptionsGetOne(int argrest, const char* strv, const char* str1, const char* str2, bool overwrite);
 private:
 	Msec setOptionsCnvCutMrg(const char* str);
 	bool setInputReg(const char *name, const char *val, bool overwrite);
 	bool setInputFlags(const char *flags, bool overwrite);
 public:
-	// ŠÖ”ˆø”ƒAƒNƒZƒX
+	// é–¢æ•°å¼•æ•°ã‚¢ã‚¯ã‚»ã‚¹
 	void setArgFuncName(const string& strName);
 	bool setArgRefReg(const string& strName, const string& strVal);
 	bool setArgRegByVal(const string& strName, const string& strVal);
@@ -72,7 +72,7 @@ private:
 	bool isValidAsRegName(const string& strName);
 	bool setArgRegCheckName(const string& strName);
 public:
-	// ƒŒƒWƒXƒ^ƒAƒNƒZƒX(write)
+	// ãƒ¬ã‚¸ã‚¹ã‚¿ã‚¢ã‚¯ã‚»ã‚¹(write)
 	bool unsetJlsRegVar(const string& strName, bool flagLocal);
 	bool setJlsRegVar(const string& strName, const string& strVal, bool overwrite);
 	bool setJlsRegVarLocal(const string& strName, const string& strVal, bool overwrite);
@@ -81,10 +81,10 @@ public:
 private:
 	void setJlsRegVarCouple(const string& strName, const string& strVal);
 public:
-	// ƒŒƒWƒXƒ^ƒAƒNƒZƒX(read)
+	// ãƒ¬ã‚¸ã‚¹ã‚¿ã‚¢ã‚¯ã‚»ã‚¹(read)
 	bool getJlsRegVarNormal(string& strVal, const string& strName);
 	int  getJlsRegVarPartName(string& strVal, const string& strCandName, bool exact);
-	// iprivateİ’è—\’èj
+	// ï¼ˆprivateè¨­å®šäºˆå®šï¼‰
 	int  getJlsRegVar(string& strVal, const string& strCandName, bool exact);
 private:
 	bool checkJlsRegDivide(string& strNamePart, string& strDivPart, int& lenFullVar);
@@ -96,12 +96,12 @@ private:
 public:
 	void backupStrQuote(string& strVal);
 	void restoreStrQuote(string& strVal);
-	// •Ï”–¼•”•ª‚Ì•Ï”’l‚É’uŠ·
+	// å¤‰æ•°åéƒ¨åˆ†ã®å¤‰æ•°å€¤ã«ç½®æ›
 	bool replaceBufVar(string& dstBuf, const string& srcBuf);
 private:
 	int  replaceRegVarInBuf(string& strVal, const string& strBuf, int pos);
 public:
-	// ƒVƒXƒeƒ€•Ï”İ’è
+	// ã‚·ã‚¹ãƒ†ãƒ å¤‰æ•°è¨­å®š
 	void setSystemRegInit();
 	void setSystemRegUpdate();
 	void setSystemRegFilePath();
@@ -114,7 +114,7 @@ public:
 	void setOutDirect();
 	bool setSystemRegOptions(const string& strBuf, int pos, bool overwrite);
 	void getSystemData(JlsCmdArg& cmdarg, const string& strIdent);
-	// ƒRƒ}ƒ“ƒhŒ‹‰Ê‚É‚æ‚é•Ï”XV
+	// ã‚³ãƒãƒ³ãƒ‰çµæœã«ã‚ˆã‚‹å¤‰æ•°æ›´æ–°
 	void updateResultRegWrite(JlsCmdArg& cmdarg);
 	void setResultRegWriteSize(JlsCmdArg& cmdarg, const string& strList);
 	void setResultRegPoshold(JlsCmdArg& cmdarg, Msec msecPos);
@@ -127,7 +127,7 @@ public:
 private:
 	bool setResultRegSubGetRegVal(JlsCmdArg& cmdarg, string& strListSub, bool must);
 public:
-	// ƒŠƒXƒg‘€ìƒRƒ}ƒ“ƒh
+	// ãƒªã‚¹ãƒˆæ“ä½œã‚³ãƒãƒ³ãƒ‰
 	void setResultRegListSel(JlsCmdArg& cmdarg, string strListNum);
 	void setResultRegListRep(JlsCmdArg& cmdarg, int numItem);
 	void setResultRegListClear(JlsCmdArg& cmdarg);
@@ -137,14 +137,14 @@ private:
 	void sortResultRegList(JlsCmdArg& cmdarg, string& strList);
 	void writeResultRegListW(JlsCmdArg& cmdarg, const string& strList);
 public:
-	// •¶š—ñƒŠƒXƒg‰»ƒRƒ}ƒ“ƒh
+	// æ–‡å­—åˆ—ãƒªã‚¹ãƒˆåŒ–ã‚³ãƒãƒ³ãƒ‰
 	string getStrRegListByCsvStr(const string& strBuf);
 	void setStrRegListByCsv(JlsCmdArg& cmdarg);
 	void setStrRegListBySpc(JlsCmdArg& cmdarg);
 private:
 	void setStrRegListCommon(JlsCmdArg& cmdarg, const string& strBuf, int readtype);
 public:
-	// ƒf[ƒ^—pƒtƒ@ƒCƒ‹“Ç‚İ‚İ
+	// ãƒ‡ãƒ¼ã‚¿ç”¨ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿
 	bool readDataCheck(JlsCmdArg& cmdarg, const string& fname);
 	bool readDataList(JlsCmdArg& cmdarg, const string& fname);
 	bool readDataTrim(JlsCmdArg& cmdarg, const string& fname);
@@ -158,7 +158,7 @@ private:
 	bool readDataFileLine(string& strLine, LocalIfs& ifs);
 	bool readDataFileTrim(string& strCmd, LocalIfs& ifs);
 public:
-	// ƒOƒ[ƒoƒ‹—Ìˆæì¬‚Ìƒtƒ@ƒCƒ‹“Ç‚İ‚İ
+	// ã‚°ãƒ­ãƒ¼ãƒãƒ«é ˜åŸŸä½œæˆã®ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿
 	bool readGlobalOpen(JlsCmdArg& cmdarg, const string& fname);
 	void readGlobalClose(JlsCmdArg& cmdarg);
 	bool readGlobalLine(JlsCmdArg& cmdarg);
@@ -166,7 +166,7 @@ private:
 	bool getRegArg(JlsCmdArg& cmdarg, string& strArg);
 	bool setRegOutSingle(JlsCmdArg& cmdarg, const string& strVal, bool certain);
 public:
-	// ŠÂ‹«İ’è“Ç‚İ‚İ
+	// ç’°å¢ƒè¨­å®šèª­ã¿è¾¼ã¿
 	bool readDataEnvGet(JlsCmdArg& cmdarg, const string& strEnvName);
 private:
 	void outputMesErr(const std::string& mes);

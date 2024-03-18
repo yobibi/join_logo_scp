@@ -1,28 +1,28 @@
-# join_logo_scp—p‚ÌÀs“à—eƒXƒNƒŠƒvƒg
+ï»¿# join_logo_scpç”¨ã®å®Ÿè¡Œå†…å®¹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
-# “à—eF“à•”ƒƒ‚‚ğo—Í
+# å†…å®¹ï¼šå†…éƒ¨ãƒ¡ãƒ¢ã‚’å‡ºåŠ›
 #
 #----------------------------------------------
-# İ’è
+# è¨­å®š
 #----------------------------------------------
-Default outmemo_code   1     # “à•”ƒƒ‚ƒtƒ@ƒCƒ‹o—Íi0:o—Í‚È‚µ 1:•W€•¶šƒR[ƒh 2:UTF-8 3:UTF-16j
-Default outmemo_name   "jlsmemo.txt"  # o—Íƒtƒ@ƒCƒ‹–¼
+Default outmemo_code   1     # å†…éƒ¨ãƒ¡ãƒ¢ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ï¼ˆ0:å‡ºåŠ›ãªã— 1:æ¨™æº–æ–‡å­—ã‚³ãƒ¼ãƒ‰ 2:UTF-8 3:UTF-16ï¼‰
+Default outmemo_name   "jlsmemo.txt"  # å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«å
 
-#--- ƒtƒ‹ƒpƒXæ“¾ ---
-SysDataGet FOUTSCP -RegOut fout -local  # ‰ğÍî•ño—Íƒtƒ@ƒCƒ‹êŠ
+#--- ãƒ•ãƒ«ãƒ‘ã‚¹å–å¾— ---
+SysDataGet FOUTSCP -RegOut fout -local  # è§£ææƒ…å ±å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«å ´æ‰€
 Default outmemo_fullpath "${fout:H}${outmemo_name}"
 
 #----------------------------------------------
-# “®ì
+# å‹•ä½œ
 #----------------------------------------------
 CountUp once_check_out_memo
-MemOnce ${once_check_out_memo}  # ‚±‚Ìƒtƒ@ƒCƒ‹‚ÌMemory/MemSet•¶‚Íˆê“x‚¾‚¯Às
+MemOnce ${once_check_out_memo}  # ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã®Memory/MemSetæ–‡ã¯ä¸€åº¦ã ã‘å®Ÿè¡Œ
 
-SysMemoSel 3    # ƒƒOo—Í‚ğ“à•”ƒƒ‚‚É“ü‚ê‚é
+SysMemoSel 3    # ãƒ­ã‚°å‡ºåŠ›ã‚’å†…éƒ¨ãƒ¡ãƒ¢ã«å…¥ã‚Œã‚‹
 
-#--- o—Íİ’è ---
-MemSet OUTPUT -order 90 {     # Às‡‚ğ‰º‚°‚ÄÅŒã‚ÉÀs
-  If ${outmemo_code}!=0     # 0ˆÈŠO‚Ì‚Éİ’è
+#--- å‡ºåŠ›è¨­å®š ---
+MemSet OUTPUT -order 90 {     # å®Ÿè¡Œé †ã‚’ä¸‹ã’ã¦æœ€å¾Œã«å®Ÿè¡Œ
+  If ${outmemo_code}!=0     # 0ä»¥å¤–ã®æ™‚ã«è¨­å®š
     FileOpen "${outmemo_fullpath}" -filecode ${outmemo_code}
     EchoMemo
     FileClose

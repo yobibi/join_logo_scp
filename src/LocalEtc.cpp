@@ -1,5 +1,5 @@
-//
-// ŠÂ‹«ˆË‘¶‚Å–Ê“|‚»‚¤‚Èˆ—‚ğ‚Ü‚Æ‚ß‚½‚à‚Ì
+ï»¿//
+// ç’°å¢ƒä¾å­˜ã§é¢å€’ãã†ãªå‡¦ç†ã‚’ã¾ã¨ã‚ãŸã‚‚ã®
 //
 #include "stdafx.h"
 
@@ -15,7 +15,7 @@
 using namespace LcParam;
 
 //---------------------------------------------------------------------
-// ‹¤’Ê—˜—p‚Ì•W€o—Í^ƒGƒ‰[•Ï”
+// å…±é€šåˆ©ç”¨ã®æ¨™æº–å‡ºåŠ›ï¼ã‚¨ãƒ©ãƒ¼å¤‰æ•°
 //---------------------------------------------------------------------
 LocalOutStream lcout;
 LocalErrStream lcerr;
@@ -23,18 +23,18 @@ LocalSys LSys;
 LocalWbCnv LWbCnv;
 
 //---------------------------------------------------------------------
-// ƒVƒXƒeƒ€§Œä
+// ã‚·ã‚¹ãƒ†ãƒ åˆ¶å¾¡
 //---------------------------------------------------------------------
 //
-// •W€o—Í^•W€ƒGƒ‰[ˆ—
+// æ¨™æº–å‡ºåŠ›ï¼æ¨™æº–ã‚¨ãƒ©ãƒ¼å‡¦ç†
 //
 void LocalSys::bufcout(const string& buf){
 	cout << wbc.cnvToFileString(buf, m_utfStd);
-	bufMemoInsSel(buf, true, false);	// “à•”ƒƒ‚İ’è
+	bufMemoInsSel(buf, true, false);	// å†…éƒ¨ãƒ¡ãƒ¢è¨­å®š
 }
 void LocalSys::bufcerr(const string& buf){
 	cerr << wbc.cnvToFileString(buf, m_utfStd);
-	bufMemoInsSel(buf, false, true);	// “à•”ƒƒ‚İ’è
+	bufMemoInsSel(buf, false, true);	// å†…éƒ¨ãƒ¡ãƒ¢è¨­å®š
 }
 void LocalSys::bufMemoIns(const string& buf){
 	bufMemoInsSel(buf, false, false);
@@ -42,13 +42,13 @@ void LocalSys::bufMemoIns(const string& buf){
 void LocalSys::bufMemoInsSel(const string& buf, bool chkStd, bool chkErr){
 	if ( (m_nMemoHold & 0x01) == 0 && chkStd ) return;
 	if ( (m_nMemoHold & 0x02) == 0 && chkErr ) return;
-	m_listMemo.push_back(buf);		// ƒƒO‚Æ‚µ‚Ä•ÛŠÇ
+	m_listMemo.push_back(buf);		// ãƒ­ã‚°ã¨ã—ã¦ä¿ç®¡
 }
 void LocalSys::bufMemoFlush(LocalOfs& ofs){
 	int sizeLine = (int)m_listMemo.size();
 	for(int i=0; i<sizeLine; i++){
 		if ( ofs.is_open() ){
-			ofs.write(m_listMemo[i]);	// ƒƒO‚ğƒtƒ@ƒCƒ‹‚Éo—Í
+			ofs.write(m_listMemo[i]);	// ãƒ­ã‚°ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›
 		}else{
 			cout << wbc.cnvToFileString(m_listMemo[i], m_utfStd);
 		}
@@ -56,14 +56,14 @@ void LocalSys::bufMemoFlush(LocalOfs& ofs){
 	m_listMemo.clear();
 }
 //
-// ƒtƒHƒ‹ƒ_ì¬
+// ãƒ•ã‚©ãƒ«ãƒ€ä½œæˆ
 //
 bool LocalSys::cmdMkdir(const string& strName){
 	filesystem::path fname = wbc.getWstrFromUtf8(strName);
 	return filesystem::create_directory(fname);
 }
 //
-// ƒtƒ@ƒCƒ‹ƒRƒs[
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‚³ãƒ”ãƒ¼
 //
 bool LocalSys::cmdCopy(const string& strFrom, const string& strTo){
 	filesystem::path fstrFrom = wbc.getWstrFromUtf8(strFrom);
@@ -71,18 +71,18 @@ bool LocalSys::cmdCopy(const string& strFrom, const string& strTo){
 	return filesystem::copy_file(fstrFrom, fstrTo, filesystem::copy_options::overwrite_existing);
 }
 //
-// ƒJƒŒƒ“ƒgƒtƒHƒ‹ƒ_æ“¾
+// ã‚«ãƒ¬ãƒ³ãƒˆãƒ•ã‚©ãƒ«ãƒ€å–å¾—
 //
 string LocalSys::getCurrentPath(){
 	wstring fpath = filesystem::current_path();
 	return wbc.getUtf8FromWstr(fpath);
 }
 //
-// ŠÂ‹«•Ï”‚ğæ“¾
-//   Windows‚ÅUnicode•¶š—ñ‚ğg‚¢‚½‚¯‚ê‚ÎƒƒCƒhƒoƒCƒg‚Åæ“¾‚µ‚ÄUTF-8‚É•ÏŠ·‚·‚é
+// ç’°å¢ƒå¤‰æ•°ã‚’å–å¾—
+//   Windowsã§Unicodeæ–‡å­—åˆ—ã‚’ä½¿ã„ãŸã‘ã‚Œã°ãƒ¯ã‚¤ãƒ‰ãƒã‚¤ãƒˆã§å–å¾—ã—ã¦UTF-8ã«å¤‰æ›ã™ã‚‹
 //
 bool LocalSys::getEnvString(string& strVal, const string& strEnvName){
-#if defined(_WIN32) && defined(USE_SAFETY_CALL)		// ƒƒCƒhƒoƒCƒg‚É‚æ‚éæ“¾
+#if defined(_WIN32) && defined(USE_SAFETY_CALL)		// ãƒ¯ã‚¤ãƒ‰ãƒã‚¤ãƒˆã«ã‚ˆã‚‹å–å¾—
 	wstring wname = wbc.getWstrFromUtf8(strEnvName);
 	size_t retSize;
 	_wgetenv_s(&retSize, NULL, 0, wname.c_str());
@@ -97,14 +97,14 @@ bool LocalSys::getEnvString(string& strVal, const string& strEnvName){
 		}
 	}
 	if ( success ) return true;
-#elif defined(_WIN32)		// ƒƒCƒhƒoƒCƒg‚É‚æ‚éæ“¾
+#elif defined(_WIN32)		// ãƒ¯ã‚¤ãƒ‰ãƒã‚¤ãƒˆã«ã‚ˆã‚‹å–å¾—
 	wstring wname = wbc.getWstrFromUtf8(strEnvName);
 	const wchar_t *pstr = _wgetenv(wname.c_str());
 	if ( pstr != nullptr ){
 		strVal = wbc.getUtf8FromWstr(pstr);
 		return true;
 	}
-#elif defined(USE_SAFETY_CALL)		// C11’è‹`‚ÌˆÀ‘S‚Èæ‚è‚İiC++‚Å‚ÍÀ‘•ˆË‘¶j
+#elif defined(USE_SAFETY_CALL)		// C11å®šç¾©ã®å®‰å…¨ãªå–ã‚Šè¾¼ã¿ï¼ˆC++ã§ã¯å®Ÿè£…ä¾å­˜ï¼‰
 	size_t retSize;
 	getenv_s(&retSize, NULL, 0, strEnvName.c_str());
 	if ( retSize > 0 ){
@@ -126,14 +126,14 @@ bool LocalSys::getEnvString(string& strVal, const string& strEnvName){
 	return false;
 }
 //
-// ‹N“®‚Ìˆø”‚ğæ“¾
-//   İ’è‚È‚¯‚ê‚Î‹N“®‚Ìmainˆø”‚ğ‚»‚Ì‚Ü‚Üg—p‚·‚é
-//   Windows‚ÅUnicode•¶š—ñ‚ğg‚¢‚½‚¯‚ê‚ÎƒƒCƒhƒoƒCƒg(Windows—p)‚Åæ“¾‚µ‚ÄUTF-8‚É•ÏŠ·
+// èµ·å‹•æ™‚ã®å¼•æ•°ã‚’å–å¾—
+//   è¨­å®šãªã‘ã‚Œã°èµ·å‹•æ™‚ã®mainå¼•æ•°ã‚’ãã®ã¾ã¾ä½¿ç”¨ã™ã‚‹
+//   Windowsã§Unicodeæ–‡å­—åˆ—ã‚’ä½¿ã„ãŸã‘ã‚Œã°ãƒ¯ã‚¤ãƒ‰ãƒã‚¤ãƒˆ(Windowsç”¨)ã§å–å¾—ã—ã¦UTF-8ã«å¤‰æ›
 //
 vector<string> LocalSys::getMainArg(int argc, char *argv[]){
 	vector<string> listArg;
-#if defined(_WIN32)			// ƒƒCƒhƒoƒCƒg‚É‚æ‚éˆø”æ“¾(MS-windows)
-	//--- windowsƒRƒ}ƒ“ƒh‚Åˆø”æ“¾ ---
+#if defined(_WIN32)			// ãƒ¯ã‚¤ãƒ‰ãƒã‚¤ãƒˆã«ã‚ˆã‚‹å¼•æ•°å–å¾—(MS-windows)
+	//--- windowsã‚³ãƒãƒ³ãƒ‰ã§å¼•æ•°å–å¾— ---
 	wchar_t* lpLine = ::GetCommandLineW();
 	int nArgc = 0;
 	wchar_t** lppArgv = ::CommandLineToArgvW( lpLine, &nArgc );
@@ -141,7 +141,7 @@ vector<string> LocalSys::getMainArg(int argc, char *argv[]){
 		string str = wbc.getUtf8FromWstr(lppArgv[i]);
 		listArg.push_back(str);
 	}
-#else		// İ’è‚È‚¯‚ê‚Îmainˆø”‚ğ‚»‚Ì‚Ü‚Üg—p
+#else		// è¨­å®šãªã‘ã‚Œã°mainå¼•æ•°ã‚’ãã®ã¾ã¾ä½¿ç”¨
 	for(int i=0; i<argc; i++){
 		string str = argv[i];
 		listArg.push_back(str);
@@ -150,7 +150,7 @@ vector<string> LocalSys::getMainArg(int argc, char *argv[]){
 	return listArg;
 }
 //
-// ƒƒOî•ñ•Ûİ’è
+// ãƒ­ã‚°æƒ…å ±ä¿æŒè¨­å®š
 //
 void LocalSys::setMemoSel(int n){
 	m_nMemoHold = n;
@@ -160,7 +160,7 @@ void LocalSys::setMemoSel(int n){
 	}
 }
 //
-// •¶šƒR[ƒh‚ÌƒXƒNƒŠƒvƒg“à”Ô†-ÀƒR[ƒhŠÔ‚ğ•ÏŠ·
+// æ–‡å­—ã‚³ãƒ¼ãƒ‰ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆå†…ç•ªå·-å®Ÿã‚³ãƒ¼ãƒ‰é–“ã‚’å¤‰æ›
 //
 LcParam::UtfType LocalSys::getUtfCodeFromNum(int num){
 	LcParam::UtfType utfcode;
@@ -226,7 +226,7 @@ int LocalSys::getUtfNumFromStr(const string& strUtf){
 	return num;
 }
 //
-// •W€o—Í^•W€ƒGƒ‰[‚Ì•¶šƒR[ƒhİ’è
+// æ¨™æº–å‡ºåŠ›ï¼æ¨™æº–ã‚¨ãƒ©ãƒ¼ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰è¨­å®š
 //
 void LocalSys::setStdUtfCodeFromNum(int num){
 	if ( num > 0 && num <= 4 ){
@@ -243,7 +243,7 @@ LcParam::UtfType LocalSys::getStdUtfCode(){
 	return m_utfStd;
 }
 //
-// ƒtƒ@ƒCƒ‹o—Í‚ÌƒfƒtƒHƒ‹ƒg•¶šƒR[ƒhİ’è
+// ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆæ–‡å­—ã‚³ãƒ¼ãƒ‰è¨­å®š
 //
 void LocalSys::setFileUtfCodeFromNum(int num){
 	if ( num > 0 && num <= 4 ){
@@ -260,9 +260,9 @@ LcParam::UtfType LocalSys::getFileUtfCode(){
 	return m_utfFile;
 }
 //
-// ƒfƒoƒbƒO—p
+// ãƒ‡ãƒãƒƒã‚°ç”¨
 //
-void LocalSys::echoCodeWB(wstring str, int len){	// WideByte•¶š—ñ‚ğ16i”‚Å•\¦
+void LocalSys::echoCodeWB(wstring str, int len){	// WideByteæ–‡å­—åˆ—ã‚’16é€²æ•°ã§è¡¨ç¤º
 	if ( len < 0 ) len = (int)str.length();
 	cout << "len(WB):" << len << "\n";
 	for(int i=0; i<len; i++){
@@ -271,7 +271,7 @@ void LocalSys::echoCodeWB(wstring str, int len){	// WideByte•¶š—ñ‚ğ16i”‚Å•\¦
 	}
 	cout << "\n";
 }
-void LocalSys::echoCodeByte(string str, int len){	// UTF-8‚Ì•¶š—ñ‚ğ16i”‚Å•\¦
+void LocalSys::echoCodeByte(string str, int len){	// UTF-8ã®æ–‡å­—åˆ—ã‚’16é€²æ•°ã§è¡¨ç¤º
 	if ( len < 0 ) len = (int)str.length();
 	cout << "len(byte):" << len << "\n";
 	for(int i=0; i<len; i++){
@@ -281,20 +281,20 @@ void LocalSys::echoCodeByte(string str, int len){	// UTF-8‚Ì•¶š—ñ‚ğ16i”‚Å•\¦
 	cout << "\n";
 }
 //---------------------------------------------------------------------
-// •W€ƒXƒgƒŠ[ƒ€(lcout/lcerr—p)
+// æ¨™æº–ã‚¹ãƒˆãƒªãƒ¼ãƒ (lcout/lcerrç”¨)
 //---------------------------------------------------------------------
-//--- “à•”ˆ——p ---
+//--- å†…éƒ¨å‡¦ç†ç”¨ ---
 iostream::int_type LocalUtf8StreamBuf::overflow(iostream::int_type ich){
 	if ( ich == EOF ) return ich;
-	if ( m_pos < 0 || m_pos >= 4 ){		// ”O‚Ì‚½‚ß”ÍˆÍ“àŠm”F
+	if ( m_pos < 0 || m_pos >= 4 ){		// å¿µã®ãŸã‚ç¯„å›²å†…ç¢ºèª
 		m_pos = 0;
 	}
 	char ch = (char) ich;
 	m_buf[m_pos++] = ch;
-	if ( m_pos == 1 ){		// æ“ª•¶š
+	if ( m_pos == 1 ){		// å…ˆé ­æ–‡å­—
 		m_size = wbc.getNeedByteFromUtf8Head(ch);
 	}
-	if ( m_pos == m_size ){		// UTF-8‚Ì•¶š’PˆÊ‚Å‘—M
+	if ( m_pos == m_size ){		// UTF-8ã®æ–‡å­—å˜ä½ã§é€ä¿¡
 		xsputn(m_buf, m_size);
 		m_pos = 0;
 	}else if ( m_size < 0 ){
@@ -313,12 +313,12 @@ std::streamsize LocalErrStreamBuf::xsputn(const iostream::char_type* s, std::str
 	return count;
 }
 //---------------------------------------------------------------------
-// ƒtƒ@ƒCƒ‹ƒ^ƒCƒvî•ñ
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‚¿ã‚¤ãƒ—æƒ…å ±
 //---------------------------------------------------------------------
-//--- ƒtƒ@ƒCƒ‹‚ÌBOM‚©‚çİ’è ---
+//--- ãƒ•ã‚¡ã‚¤ãƒ«ã®BOMã‹ã‚‰è¨­å®š ---
 bool LocalFileType::setFromFile(const string& strName){
 	filesystem::path fname = wbc.getWstrFromUtf8(strName);
-	//--- BOMæ“¾ ---
+	//--- BOMå–å¾— ---
 	ifstream ifs_bom(fname);
 	if ( ifs_bom.fail() ) return false;
 	unsigned long bomid = 0;
@@ -326,7 +326,7 @@ bool LocalFileType::setFromFile(const string& strName){
 		unsigned char ch = ifs_bom.get();
 		bomid = ( bomid << 8 ) + (unsigned long) ch;
 	}
-	//--- BOM”»’è ---
+	//--- BOMåˆ¤å®š ---
 	LcParam::UtfType selUtf;
 	bool selBom = false;
 	if ( (bomid >> 8) == 0xEFBBBF ){
@@ -342,15 +342,15 @@ bool LocalFileType::setFromFile(const string& strName){
 		selBom = true;
 	}
 	else{
-		selUtf = LcParam::UtfDefault;	// windows‚ÅBOM‚È‚µ‚ÍShift-JIS‚Æ”»’è
+		selUtf = LcParam::UtfDefault;	// windowsã§BOMãªã—ã¯Shift-JISã¨åˆ¤å®š
 		selBom = false;
 	}
 	setDirect(selUtf);
-	if ( !selBom ) m_bom = 0;	// BOM–¢‘¶İ
+	if ( !selBom ) m_bom = 0;	// BOMæœªå­˜åœ¨æ™‚
 	ifs_bom.close();
 	return true;
 }
-//--- ’¼Úİ’è ---
+//--- ç›´æ¥è¨­å®š ---
 void LocalFileType::setDirect(LcParam::UtfType utfcode){
 	m_utf = utfcode;
 	switch( m_utf ){
@@ -380,24 +380,24 @@ bool LocalFileType::isSet(){
 	return m_set;
 }
 //---------------------------------------------------------------------
-// ifstreamˆ—
+// ifstreamå‡¦ç†
 //---------------------------------------------------------------------
 bool LocalIfs::open(const string& strName){
 	if ( flagOpen ) return false;
-	//--- ƒtƒ@ƒCƒ‹í—Şæ“¾ ---
+	//--- ãƒ•ã‚¡ã‚¤ãƒ«ç¨®é¡å–å¾— ---
 	if ( !attr.setFromFile(strName) ){
 		return false;
 	}
-	//--- WindowsƒpƒX‘Î‰ ---
+	//--- Windowsãƒ‘ã‚¹å¯¾å¿œ ---
 	filesystem::path fname = wbc.getWstrFromUtf8(strName);
-	//--- openˆ— ---
+	//--- openå‡¦ç† ---
 	if ( attr.unit() != 2 ){
 		ifs.open(fname);
-	}else{		// 2ƒoƒCƒg’PˆÊ“Ç‚İo‚µ‚ÍƒoƒCƒiƒŠˆ—
+	}else{		// 2ãƒã‚¤ãƒˆå˜ä½èª­ã¿å‡ºã—ã¯ãƒã‚¤ãƒŠãƒªå‡¦ç†
 		ifs.open(fname, ios::binary);
 	}
 	if ( ifs.fail() ) return false;
-	ifs.ignore(attr.bom());	// BOM“Ç‚İ”ò‚Î‚µ
+	ifs.ignore(attr.bom());	// BOMèª­ã¿é£›ã°ã—
 	flagOpen = true;
 	return true;
 }
@@ -410,12 +410,12 @@ bool LocalIfs::getline(string& buf){
 	buf = wbc.cnvFromFileString(lfbuf, attr.utf());
 	return true;
 }
-bool LocalIfs::getlineCore(string& buf){	// ‰üsƒR[ƒh‚Ì•â³•t‚«
+bool LocalIfs::getlineCore(string& buf){	// æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã®è£œæ­£ä»˜ã
 	if ( attr.unit() != 2 ){
 		std::getline(ifs, buf);
-		return ( ifs.fail() == 0 );		// 2ƒoƒCƒg’PˆÊˆÈŠO‚Í’Êí“Ç‚İo‚µ
+		return ( ifs.fail() == 0 );		// 2ãƒã‚¤ãƒˆå˜ä½ä»¥å¤–ã¯é€šå¸¸èª­ã¿å‡ºã—
 	}
-	//--- 2ƒoƒCƒg’PˆÊ‚Í‰üsƒR[ƒh‚ğ”F¯‚·‚é‚½‚ß•Ê“rì¬ ---
+	//--- 2ãƒã‚¤ãƒˆå˜ä½ã¯æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’èªè­˜ã™ã‚‹ãŸã‚åˆ¥é€”ä½œæˆ ---
 	buf.clear();
 	auto posBase = ifs.tellg();
 	auto posCur  = posBase;
@@ -472,33 +472,33 @@ int LocalIfs::getCodeNum(){
 	return LSys.getUtfNumFromCode(attr.utf());
 }
 //---------------------------------------------------------------------
-// ofstreamˆ—
+// ofstreamå‡¦ç†
 //---------------------------------------------------------------------
 bool LocalOfs::open(const string& strName, bool append){
 	if ( flagOpen ) return false;
-	//--- ƒtƒ@ƒCƒ‹í—Şİ’è ---
-	if ( !attr.isSet() ){		// ƒR[ƒh–¢İ’è‚È‚çƒVƒXƒeƒ€İ’è‚ğg—p
+	//--- ãƒ•ã‚¡ã‚¤ãƒ«ç¨®é¡è¨­å®š ---
+	if ( !attr.isSet() ){		// ã‚³ãƒ¼ãƒ‰æœªè¨­å®šãªã‚‰ã‚·ã‚¹ãƒ†ãƒ è¨­å®šã‚’ä½¿ç”¨
 		attr.setDirect(LSys.getFileUtfCode());
 	}
-	//--- WindowsƒpƒX‘Î‰ ---
+	//--- Windowsãƒ‘ã‚¹å¯¾å¿œ ---
 	filesystem::path fname = wbc.getWstrFromUtf8(strName);
-	//--- openˆ— ---
+	//--- openå‡¦ç† ---
 	if ( append ){
 		if ( attr.unit() != 2 ){
 			ofs.open(fname, ios::app);
-		}else{		// WideByte‚ÍƒoƒCƒiƒŠˆ—
+		}else{		// WideByteã¯ãƒã‚¤ãƒŠãƒªå‡¦ç†
 			ofs.open(fname, ios::app | ios::binary);
 		}
 	}else{
 		if ( attr.unit() != 2 ){
 			ofs.open(fname);
-		}else{		// WideByte‚ÍƒoƒCƒiƒŠˆ—
+		}else{		// WideByteã¯ãƒã‚¤ãƒŠãƒªå‡¦ç†
 			ofs.open(fname, ios::binary);
 		}
 	}
 	if ( ofs.fail() ) return true;
 	if ( attr.bom() > 0 && !append ){
-		ofs << attr.strbom();	// BOMİ’è
+		ofs << attr.strbom();	// BOMè¨­å®š
 	}
 	flagOpen = true;
 	return true;
@@ -508,15 +508,15 @@ bool LocalOfs::append(const string& strName){
 }
 bool LocalOfs::write(const string& buf){
 	if ( !flagOpen ) return false;
-	string revbuf = writeRevStr(buf);		// WideByteƒR[ƒh‚ÍƒoƒCƒiƒŠ‚Åˆ—‚·‚é‚½‚ß•â³‚ª•K—v
+	string revbuf = writeRevStr(buf);		// WideByteã‚³ãƒ¼ãƒ‰ã¯ãƒã‚¤ãƒŠãƒªã§å‡¦ç†ã™ã‚‹ãŸã‚è£œæ­£ãŒå¿…è¦
 	string lfbuf = wbc.cnvToFileString(revbuf, attr.utf());
 	ofs << lfbuf;
 	return true;
 }
-string LocalOfs::writeRevStr(const string& buf){		// WideByteƒR[ƒh‘Î‰•â³
-	if ( attr.unit() != 2 ) return buf;	// ’ÊíƒeƒLƒXƒgˆ—‚Í‰½‚à‚µ‚È‚¢
+string LocalOfs::writeRevStr(const string& buf){		// WideByteã‚³ãƒ¼ãƒ‰å¯¾å¿œè£œæ­£
+	if ( attr.unit() != 2 ) return buf;	// é€šå¸¸ãƒ†ã‚­ã‚¹ãƒˆå‡¦ç†ã¯ä½•ã‚‚ã—ãªã„
 
-//--- ƒoƒCƒiƒŠˆ—‚Å‚ÍAWindows‚Ì‚İLF‚ğCR+LF‚É•Ï‚¦‚éˆ— ---
+//--- ãƒã‚¤ãƒŠãƒªå‡¦ç†ã§ã¯ã€Windowsã®ã¿LFã‚’CR+LFã«å¤‰ãˆã‚‹å‡¦ç† ---
 	string revbuf = buf;
 #if defined(_WIN32)
 	unsigned char chCR = 0x0D;
@@ -524,7 +524,7 @@ string LocalOfs::writeRevStr(const string& buf){		// WideByteƒR[ƒh‘Î‰•â³
 	auto pos = revbuf.rfind(chLF);
 	while( pos != string::npos ){
 		bool needCR = true;
-		if ( pos > 0 ){		// Šù‚ÉCR+LF‚É‚È‚Á‚Ä‚¢‚½‚ç‘}“ü‚µ‚È‚¢
+		if ( pos > 0 ){		// æ—¢ã«CR+LFã«ãªã£ã¦ã„ãŸã‚‰æŒ¿å…¥ã—ãªã„
 			if ( revbuf[pos-1] == chCR ) needCR = false;
 		}
 		if ( needCR ){
@@ -550,17 +550,17 @@ void LocalOfs::setCodeType(LcParam::UtfType utfcode){
 	attr.setDirect(utfcode);
 }
 //---------------------------------------------------------------------
-// UTF-8‚Ì•¶š—ñ‘€ì
+// UTF-8ã®æ–‡å­—åˆ—æ“ä½œ
 //---------------------------------------------------------------------
-//--- ÀÛ‚Ì•¶š—ñ’·‚ğ•Ô‚· ---
+//--- å®Ÿéš›ã®æ–‡å­—åˆ—é•·ã‚’è¿”ã™ ---
 int LocalStr::getStrLen(const string& str){
 	return wbc.getWlenFromUtf8(str);
 }
-//--- w’èˆÊ’u‚Ì•”•ª•¶š—ñ‚ğ•Ô‚·iw’èˆÊ’u‚©‚çÅŒã‚Ü‚Åj ---
+//--- æŒ‡å®šä½ç½®ã®éƒ¨åˆ†æ–‡å­—åˆ—ã‚’è¿”ã™ï¼ˆæŒ‡å®šä½ç½®ã‹ã‚‰æœ€å¾Œã¾ã§ï¼‰ ---
 string LocalStr::getSubStr(const string& str, int st){
 	return getSubStrCommon(str, st, 0, false);		// validLen=false
 }
-//--- w’èˆÊ’u‚Ì•”•ª•¶š—ñ‚ğ•Ô‚·iw’èˆÊ’u‚©‚çw’è•¶š”j ---
+//--- æŒ‡å®šä½ç½®ã®éƒ¨åˆ†æ–‡å­—åˆ—ã‚’è¿”ã™ï¼ˆæŒ‡å®šä½ç½®ã‹ã‚‰æŒ‡å®šæ–‡å­—æ•°ï¼‰ ---
 string LocalStr::getSubStrLen(const string& str, int st, int len){
 	return getSubStrCommon(str, st, len, true);		// validLen=true
 }
@@ -585,7 +585,7 @@ string LocalStr::getSubStrCommon(const string& str, int st, int len, bool validL
 	}
 	return strSub;
 }
-//--- •¶šƒŠƒXƒg‚ÉŠÜ‚Ü‚ê‚é•¶š‚Ì”‚ğ•Ô‚· ---
+//--- æ–‡å­—ãƒªã‚¹ãƒˆã«å«ã¾ã‚Œã‚‹æ–‡å­—ã®æ•°ã‚’è¿”ã™ ---
 int LocalStr::countInStr(const string& strSrc, const string& strEach){
 	int count = 0;
 	wstring wstrSrc = wbc.getWstrFromUtf8(strSrc);
@@ -601,7 +601,7 @@ int LocalStr::countInStr(const string& strSrc, const string& strEach){
 	}
 	return count;
 }
-//--- •¶šƒŠƒXƒg(strEach)‚Ì•¶š‚ğ‘Î‰‚·‚éw’è•¶š(strSub)‚É•ÏŠ· ---
+//--- æ–‡å­—ãƒªã‚¹ãƒˆ(strEach)ã®æ–‡å­—ã‚’å¯¾å¿œã™ã‚‹æŒ‡å®šæ–‡å­—(strSub)ã«å¤‰æ› ---
 bool LocalStr::replaceInStr(string& strSrc, const string& strEach, const string& strSub){
 	wstring wstrSrc  = wbc.getWstrFromUtf8(strSrc);
 	wstring wstrEach = wbc.getWstrFromUtf8(strEach);
@@ -619,15 +619,15 @@ bool LocalStr::replaceInStr(string& strSrc, const string& strEach, const string&
 	strSrc = wbc.getUtf8FromWstr(wstrSrc);
 	return true;
 }
-//--- ³‹K•\Œ»‚Åƒ}ƒbƒ`‚µ‚½ˆÊ’u‚Ì‡Œv‚ğ•Ô‚· ---
+//--- æ­£è¦è¡¨ç¾ã§ãƒãƒƒãƒã—ãŸä½ç½®ã®åˆè¨ˆã‚’è¿”ã™ ---
 int LocalStr::countRegExMatch(const string& strSrc, const string& strRe){
-	//--- ”Ä—p³‹K•\Œ»g—p‚É‚ÍƒƒCƒhƒoƒCƒg‚ª•K—v‚È‚½‚ß•ÏŠ· ---
+	//--- æ±ç”¨æ­£è¦è¡¨ç¾ä½¿ç”¨ã«ã¯ãƒ¯ã‚¤ãƒ‰ãƒã‚¤ãƒˆãŒå¿…è¦ãªãŸã‚å¤‰æ› ---
 	wstring wstrSrc = wbc.getWstrFromUtf8(strSrc);
 	wstring wstrRe  = wbc.getWstrFromUtf8(strRe);
 	if ( wstrSrc.empty() || wstrRe.empty() ){
 		return 0;
 	}
-	//--- ƒƒCƒhƒoƒCƒg‚Å³‹K•\Œ»‚ÌŠm”F ---
+	//--- ãƒ¯ã‚¤ãƒ‰ãƒã‚¤ãƒˆã§æ­£è¦è¡¨ç¾ã®ç¢ºèª ---
 	int count = 0;
 	std::wregex re(wstrRe);
 	auto iter = wstrSrc.cbegin();
@@ -639,7 +639,7 @@ int LocalStr::countRegExMatch(const string& strSrc, const string& strRe){
 	}
 	return count;
 }
-//--- ³‹K•\Œ»‚Åƒ}ƒbƒ`‚µ‚½•¶š—ñ‚ğ•Ô‚· ---
+//--- æ­£è¦è¡¨ç¾ã§ãƒãƒƒãƒã—ãŸæ–‡å­—åˆ—ã‚’è¿”ã™ ---
 string LocalStr::getRegMAtch(const string& strSrc, const string& strRe){
 	wstring wstrSrc = wbc.getWstrFromUtf8(strSrc);
 	wstring wstrRe  = wbc.getWstrFromUtf8(strRe);
@@ -647,7 +647,7 @@ string LocalStr::getRegMAtch(const string& strSrc, const string& strRe){
 	if ( wstrSrc.empty() || wstrRe.empty() ){
 		return strRet;
 	}
-	//--- ƒƒCƒhƒoƒCƒg‚Å³‹K•\Œ»‚ÌŠm”F ---
+	//--- ãƒ¯ã‚¤ãƒ‰ãƒã‚¤ãƒˆã§æ­£è¦è¡¨ç¾ã®ç¢ºèª ---
 	std::wregex re(wstrRe);
 	std::wsmatch m;
 	if ( std::regex_search(wstrSrc, m, re) ){
@@ -659,15 +659,15 @@ string LocalStr::getRegMAtch(const string& strSrc, const string& strRe){
 
 
 //---------------------------------------------------------------------
-// ƒtƒ@ƒCƒ‹ - UTF-8 •¶šƒR[ƒh•ÏŠ·
+// ãƒ•ã‚¡ã‚¤ãƒ« - UTF-8 æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›
 //---------------------------------------------------------------------
-//--- w’èŒ`®‚Ì•¶š—ñ‚ğUTF-8‚É•ÏŠ· ---
+//--- æŒ‡å®šå½¢å¼ã®æ–‡å­—åˆ—ã‚’UTF-8ã«å¤‰æ› ---
 string LocalWbCnv::cnvFromFileString(const string& lstr, LcParam::UtfType utype){
 	switch( utype ){
 		case UtfType::UTF8 :
 			return lstr;
 			break;
-#if defined(WIDE_BYTE_SJIS)		// Shift-JISˆ—iWindowsê—pj
+#if defined(WIDE_BYTE_SJIS)		// Shift-JISå‡¦ç†ï¼ˆWindowså°‚ç”¨ï¼‰
 		case UtfType::SJIS :
 			{
 				wstring wstr = getWstrFromSjis(lstr);
@@ -680,7 +680,7 @@ string LocalWbCnv::cnvFromFileString(const string& lstr, LcParam::UtfType utype)
 			{
 				int wlen = (int)((lstr.length()) / 2);
 				int sw = ( utype == UtfType::UTF16LE )? 1 : 0;
-				wstring wstr(wlen, 'a');	// —ÌˆæŠm•Û
+				wstring wstr(wlen, 'a');	// é ˜åŸŸç¢ºä¿
 				for(auto i=0; i<wlen; i++){
 					unsigned char chh = lstr[i*2+sw];
 					unsigned char chl = lstr[i*2+1-sw];
@@ -696,13 +696,13 @@ string LocalWbCnv::cnvFromFileString(const string& lstr, LcParam::UtfType utype)
 	string ustr;
 	return ustr;
 }
-//--- UTF-8‚Ì•¶š—ñ‚ğw’èŒ`®‚É•ÏŠ· ---
+//--- UTF-8ã®æ–‡å­—åˆ—ã‚’æŒ‡å®šå½¢å¼ã«å¤‰æ› ---
 string LocalWbCnv::cnvToFileString(const string& ustr, LcParam::UtfType utype){
 	switch( utype ){
 		case UtfType::UTF8 :
 			return ustr;
 			break;
-#if defined(WIDE_BYTE_SJIS)		// Shift-JISˆ—iWindowsê—pj
+#if defined(WIDE_BYTE_SJIS)		// Shift-JISå‡¦ç†ï¼ˆWindowså°‚ç”¨ï¼‰
 		case UtfType::SJIS :
 			{
 				wstring wstr = getWstrFromUtf8(ustr);
@@ -716,7 +716,7 @@ string LocalWbCnv::cnvToFileString(const string& ustr, LcParam::UtfType utype){
 				wstring wstr = getWstrFromUtf8(ustr);
 				int wlen = (int)wstr.length();
 				int sw = ( utype == UtfType::UTF16LE )? 1 : 0;
-				string lstr(wlen*2, 'a');	// —ÌˆæŠm•Û
+				string lstr(wlen*2, 'a');	// é ˜åŸŸç¢ºä¿
 				for(auto i=0; i<wlen; i++){
 					wchar_t wch = wstr[i];
 					unsigned long val = (unsigned long) wch;
@@ -735,11 +735,11 @@ string LocalWbCnv::cnvToFileString(const string& ustr, LcParam::UtfType utype){
 	return lstr;
 }
 
-#if defined(WIDE_BYTE_SJIS)		// Shift-JISˆ—iWindowsê—pj
-//--- Shift-JIS -> WideByte iWindowsê—pj ---
+#if defined(WIDE_BYTE_SJIS)		// Shift-JISå‡¦ç†ï¼ˆWindowså°‚ç”¨ï¼‰
+//--- Shift-JIS -> WideByte ï¼ˆWindowså°‚ç”¨ï¼‰ ---
 wstring LocalWbCnv::getWstrFromSjis(const string& str){
 	wstring wstr;
-	// WindowsƒRƒ}ƒ“ƒh(CP_ACP=932 : Shift-JIS)
+	// Windowsã‚³ãƒãƒ³ãƒ‰(CP_ACP=932 : Shift-JIS)
 	const int wlen = ::MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, nullptr, 0);
 	wchar_t* wbuf = new(std::nothrow) wchar_t[wlen];
 	if ( wbuf == nullptr ) return wstr;
@@ -749,10 +749,10 @@ wstring LocalWbCnv::getWstrFromSjis(const string& str){
 	delete [] wbuf;
 	return wstr;
 }
-//--- WideByte -> Shift-JIS iWindowsê—pj ---
+//--- WideByte -> Shift-JIS ï¼ˆWindowså°‚ç”¨ï¼‰ ---
 string LocalWbCnv::getSjisFromWstr(const wstring& wstr){
 	string str;
-	// WindowsƒRƒ}ƒ“ƒh(CP_ACP=932 : Shift-JIS)
+	// Windowsã‚³ãƒãƒ³ãƒ‰(CP_ACP=932 : Shift-JIS)
 	const int len = ::WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
 	char* buf = new(std::nothrow) char[len];
 	if ( buf == nullptr ) return str;
@@ -765,9 +765,9 @@ string LocalWbCnv::getSjisFromWstr(const wstring& wstr){
 #endif
 
 //---------------------------------------------------------------------
-// WideByte - UTF-8 •¶š—ñ•ÏŠ·ˆ—
+// WideByte - UTF-8 æ–‡å­—åˆ—å¤‰æ›å‡¦ç†
 //---------------------------------------------------------------------
-//--- UTF-8‚ÌÀÛ‚Ì•¶š—ñ’·‚ğæ“¾ ---
+//--- UTF-8ã®å®Ÿéš›ã®æ–‡å­—åˆ—é•·ã‚’å–å¾— ---
 int LocalWbCnv::getWlenFromUtf8(const string& str){
 	int nlen = (int) str.length();
 	int mlen = 0;
@@ -775,7 +775,7 @@ int LocalWbCnv::getWlenFromUtf8(const string& str){
 	while( i < nlen && i >= 0 ){
 		int mblen = getWordByteFromUtf8(str, i);
 		if ( mblen <= 0 ){
-			i = -1;			// ˆÙíI—¹
+			i = -1;			// ç•°å¸¸çµ‚äº†
 		}else{
 			mlen ++;
 			i += mblen;
@@ -783,7 +783,7 @@ int LocalWbCnv::getWlenFromUtf8(const string& str){
 	}
 	return mlen;
 }
-//--- WideByte‚ğUTF-8‚É•ÏŠ·‚µ‚½‚É•K—v‚È•¶š—ñ’·‚ğæ“¾ ---
+//--- WideByteã‚’UTF-8ã«å¤‰æ›ã—ãŸæ™‚ã«å¿…è¦ãªæ–‡å­—åˆ—é•·ã‚’å–å¾— ---
 int LocalWbCnv::getLenToUtf8(const wstring& wstr){
 	int len = 0;
 	for(int i=0; i<(int)wstr.length(); i++){
@@ -797,7 +797,7 @@ int LocalWbCnv::getLenToUtf8(const wstring& wstr){
 	}
 	return len;
 }
-//--- UTF-8‚ğWideByte•¶š—ñ‚É‚µ‚Äæ“¾ ---
+//--- UTF-8ã‚’WideByteæ–‡å­—åˆ—ã«ã—ã¦å–å¾— ---
 wstring LocalWbCnv::getWstrFromUtf8(const string& str){
 	wstring wstr;
 	int wlen = getWlenFromUtf8(str);
@@ -811,13 +811,13 @@ wstring LocalWbCnv::getWstrFromUtf8(const string& str){
 		wbuf[i] = getWordStrFromUtf8(sz, str, pos);
 		pos += sz;
 	}
-	if ( pos == (int)str.length() ){		// ”O‚Ì‚½‚ßŠm”F
+	if ( pos == (int)str.length() ){		// å¿µã®ãŸã‚ç¢ºèª
 		wstr = wbuf;
 	}
 	delete [] wbuf;
 	return wstr;
 }
-//--- WideByte•¶š—ñ‚ğUTF-8•¶š—ñ‚É‚µ‚Äæ“¾ ---
+//--- WideByteæ–‡å­—åˆ—ã‚’UTF-8æ–‡å­—åˆ—ã«ã—ã¦å–å¾— ---
 string LocalWbCnv::getUtf8FromWstr(const wstring& wstr){
 	string str;
 	int wlen = (int)wstr.length();
@@ -831,13 +831,13 @@ string LocalWbCnv::getUtf8FromWstr(const wstring& wstr){
 		int sz = getWordUtf8FromWstr(&buf[pos], wstr, i);
 		pos += sz;
 	}
-	if ( pos == len ){		// ”O‚Ì‚½‚ßŠm”F
+	if ( pos == len ){		// å¿µã®ãŸã‚ç¢ºèª
 		str = buf;
 	}
 	delete [] buf;
 	return str;
 }
-//--- UTF-8‚Ìæ“ª•¶š‚©‚ç•K—v‚ÈƒoƒCƒg”‚ğæ“¾i-1‚Ì‚Íæ“ª•¶š‚Å‚Í‚È‚¢j ---
+//--- UTF-8ã®å…ˆé ­æ–‡å­—ã‹ã‚‰å¿…è¦ãªãƒã‚¤ãƒˆæ•°ã‚’å–å¾—ï¼ˆ-1ã®æ™‚ã¯å…ˆé ­æ–‡å­—ã§ã¯ãªã„ï¼‰ ---
 int LocalWbCnv::getNeedByteFromUtf8Head(const char ch){
 	if ( (ch & 0x80) == 0 ) return 1;
 	if ( (ch & 0x40) == 0 ) return -1;
@@ -845,7 +845,7 @@ int LocalWbCnv::getNeedByteFromUtf8Head(const char ch){
 	if ( (ch & 0x10) == 0 ) return 3;
 	return 4;
 }
-//--- UTF-8‚Ì‘ÎÛˆÊ’u‚©‚ç1•¶š‚Ìbyte”‚ğæ“¾ ---
+//--- UTF-8ã®å¯¾è±¡ä½ç½®ã‹ã‚‰1æ–‡å­—ã®byteæ•°ã‚’å–å¾— ---
 int LocalWbCnv::getWordByteFromUtf8(const string& str, int n){
 	int len = (int)str.length();
 	if ( n >= len || n < 0 ) return 0;
@@ -858,7 +858,7 @@ int LocalWbCnv::getWordByteFromUtf8(const string& str, int n){
 	}
 	return 4;
 }
-//--- UTF-8‚Ì‘ÎÛˆÊ’u‚©‚ç1•¶š‚ğWideByte‚Åæ“¾ ---
+//--- UTF-8ã®å¯¾è±¡ä½ç½®ã‹ã‚‰1æ–‡å­—ã‚’WideByteã§å–å¾— ---
 wchar_t LocalWbCnv::getWordStrFromUtf8(int& nSize, const string& str, int n){
 	int len = (int)str.length();
 	if ( n >= len || n < 0 ){
@@ -896,11 +896,11 @@ wchar_t LocalWbCnv::getWordStrFromUtf8(int& nSize, const string& str, int n){
 		if ( nSize >= 4 ){
 			nSize = 4;
 		}
-		val = 0x3F;		// 17bitˆÈã‚ÌƒR[ƒh‚Í¡‚ÌŠ•K—v‚È‚¢‚Ì‚Å‘Î‰‚È‚µ
+		val = 0x3F;		// 17bitä»¥ä¸Šã®ã‚³ãƒ¼ãƒ‰ã¯ä»Šã®æ‰€å¿…è¦ãªã„ã®ã§å¯¾å¿œãªã—
 	}
 	return (wchar_t) val;
 }
-//--- WideByte‚Ì‘ÎÛˆÊ’u1•¶š‚ğUTF-8•¶š—ñ‚Åæ“¾ ---
+//--- WideByteã®å¯¾è±¡ä½ç½®1æ–‡å­—ã‚’UTF-8æ–‡å­—åˆ—ã§å–å¾— ---
 int LocalWbCnv::getWordUtf8FromWstr(char* str, const wstring& wstr, int n){
 	int wlen = (int) wstr.length();
 	if ( n >= wlen || n < 0 ){
