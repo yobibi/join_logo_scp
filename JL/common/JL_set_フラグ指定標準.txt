@@ -92,10 +92,19 @@ Memory mbase_first
 
 # ・ANIMAX用の設定
 If ANIMAX
+  If intype_logo_amt           # Amatsukazeによるロゴ検出
+    OptSet -CutMrgIn   167     # 切り替わりからロゴ表示開始までの期間
+    OptSet -CutMrgOut  167     # ロゴ表示終了から切り替わりまでの期間
+    MemSet START {             # 最初の短い透過でないロゴを検出するのでカット
+      Abort S -N 1 -LenN 3.0 20.0 -WithN   # -CutMrg期間込みロゴ期間で制約
+    };
+  Else                         # logoframeによるロゴ検出
+    OptSet -CutMrgIn   150     # 切り替わりからロゴ表示開始までの期間
+    OptSet -CutMrgOut  150     # ロゴ表示終了から切り替わりまでの期間
+  EndIf
+  OptDefault -CutMrgWI 0       # CutMrgIn値の使用判断（0:指定値 1:指定値と0の２点から判断 2:自動判断）
+  OptDefault -CutMrgWO 0       # CutMrgOut値の使用判断（0:指定値 1:指定値と0の２点から判断 2:自動判断）
   Set ASPN     1               # 番組提供なし
-#  Set TWTR15A  1              # 予告が見つからない時、15秒以下構成で次構成が10秒なら予告にする
-  OptSet -CutMrgIn   150       # 切り替わりからロゴ表示開始までの期間
-  OptSet -CutMrgOut  150       # ロゴ表示終了から切り替わりまでの期間
   If $NOLOGO
     Set NLANIMAX      1        # ロゴなしANIMAX設定
     Set autocm_scopex 120      # 最後から指定秒以降の位置に含まれる60/90/120秒構成はCM扱い

@@ -1,7 +1,7 @@
 ﻿//
 // JLスクリプト用コマンド内容格納データ
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsCmdSet.hpp"
 
@@ -227,7 +227,7 @@ bool JlsCmdLimit::setTargetRange(WideMsec wmsec, bool fromLogo){
 	}
 	process |= ARG_PROCESS_TARGETRANGE;
 	wmsecTarget  = wmsec;
-	fromLogo     = fromLogo;
+	this->fromLogo = fromLogo;
 	return true;
 }
 //--- ターゲット位置取得 ---

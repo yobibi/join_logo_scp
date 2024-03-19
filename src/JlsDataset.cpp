@@ -2,7 +2,7 @@
 // join_logo_scp データ格納クラス
 //
 
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsDataset.hpp"
 
@@ -63,6 +63,8 @@ void JlsDataset::initData(){
 	extOpt.wideCutIn  = 0;
 	extOpt.wideCutOut = 0;
 	extOpt.flagNoLogo = 0;
+	extOpt.errNoLogo  = 0;
+	extOpt.flagDispNoLogo = 0;
 	extOpt.fixCutIn   = 0;
 	extOpt.fixCutOut  = 0;
 	extOpt.fixWidCutI = 0;
@@ -71,16 +73,22 @@ void JlsDataset::initData(){
 	extOpt.fixVLine   = 0;
 	extOpt.fixFDirect = 0;
 	extOpt.fixNLgExact = 0;
+	extOpt.fixNSysCode = 0;
+	extOpt.fixNStdCode = 0;
 	extOpt.fixSubList = 0;
 	extOpt.fixSubPath = 0;
 	extOpt.fixSetup   = 0;
+	extOpt.fixPathRead = 0;
 	extOpt.vLine      = 0;
 	extOpt.flagDirect = 0;
 	extOpt.nLgExact   = 0;
+	extOpt.nSysCode   = 0;
+	extOpt.nStdCode   = 0;
 	extOpt.dispSysMes = 0;
 	extOpt.subList    = "user,<,common";	// 初期検索フォルダ設定
 	extOpt.subPath    = "";
 	extOpt.setup      = "JL_common.txt";	// 共通先頭実行ファイル
+	extOpt.pathRead   = "${JLUSERPATH},${JLDATAPATH}";	// READ系ファイル検索パスリスト
 
 	//--- 状態初期設定 ---
 	recHold = {};		// 念のため個別に初期化
@@ -3674,16 +3682,21 @@ void JlsDataset::outputResultDetailGetLineLabel(string &strBuf, ScpArType arstat
 // ログ表示
 //=====================================================================
 void JlsDataset::dispSysMesN(const string& msg, SysMesType typeMsg){
+	int code1 = pdata->extOpt.dispSysMes % 10;
+	int code2 = pdata->extOpt.dispSysMes / 10;
 	bool flagDisp;
 	switch( typeMsg ){
 		case SysMesType::CutMrg :
-			flagDisp = ( (pdata->extOpt.dispSysMes & 0x4) != 0 );
+			flagDisp = ( (code1 & 0x4) != 0 );
 			break;
 		case SysMesType::OutDirect :
-			flagDisp = ( (pdata->extOpt.dispSysMes & 0x2) != 0 );
+			flagDisp = ( (code1 & 0x2) != 0 );
 			break;
 		case SysMesType::CallFile :
-			flagDisp = ( (pdata->extOpt.dispSysMes & 0x1) != 0 );
+			flagDisp = ( (code1 & 0x1) != 0 );
+			break;
+		case SysMesType::LogoOff :
+			flagDisp = ( (code2 & 0x1) != 0 );
 			break;
 		default :
 			flagDisp = false;

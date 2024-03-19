@@ -11,8 +11,8 @@ Amatsukazeの直接Trim指定ではない時、データ記載内容からJLス�
 環境変数設定は
 [Amatsukazeから起動する場合]
 ・環境変数に情報設定されるようにする。
- （CLI入力ファイル名にタイトルが入る（一時ファイル名に変更されない）使い方で、
-   hookAmatsukazeCLIを入れたら対応する）
+ （Amatsukazeのバージョン0.9.6.0以降であれば対応している。
+   非対応バージョンで使用する場合はhookAmatsukazeCLIを入れる）
 
 [join_logo_scpを直接起動する場合]
 ・放送局情報はサービスID（SERVICE_ID）または放送局略称（SERVICE_ABBR）のどちらか

@@ -1,11 +1,13 @@
 ﻿//
 // 文字列と時間とフレーム位置の相互変換クラス
 //
-#include "stdafx.h"
+//#include "stdafx.h"
+#include <iostream>
 
 using namespace std;
 using Msec = int;
 #include "CnvStrTime.hpp"
+#include "LocalEtc.hpp"
 
 
 //---------------------------------------------------------------------
@@ -15,7 +17,7 @@ CnvStrTime::CnvStrTime(){
 	m_frate_n = 30000;
 	m_frate_d = 1001;
 	m_unitsec = 0;
-	m_delimiter = "\\";		// パス区切りは起動時指定パスの使用文字で自動的に切り替わる
+	m_delimiter = LocalEtc::LSys.getPathDelimiter();		// パス区切りは機種別に固定
 }
 
 
@@ -70,7 +72,7 @@ int CnvStrTime::getStrFilePathName(string &pathname, string &fname, const string
 	int nloc = (int) fullname.rfind("\\");
 	if (nloc >= 0){
 		flag_find = true;
-		m_delimiter = "\\";		// 区切り文字変更
+//		m_delimiter = "\\";		// 区切り文字変更
 	}
 	//--- "/"区切りを検索 ---
 	int nloc_sl = (int) fullname.rfind("/");
@@ -78,7 +80,7 @@ int CnvStrTime::getStrFilePathName(string &pathname, string &fname, const string
 		if (flag_find == false || nloc < nloc_sl){
 			flag_find = true;
 			nloc = nloc_sl;
-			m_delimiter = "/";		// 区切り文字変更
+//			m_delimiter = "/";		// 区切り文字変更
 		}
 	}
 	if (flag_find){

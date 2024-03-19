@@ -1,7 +1,7 @@
 ﻿//
 // join_logo_scp データ構成初期補正
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsReformData.hpp"
 #include "JlsDataset.hpp"

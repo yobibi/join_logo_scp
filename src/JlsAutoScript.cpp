@@ -1,7 +1,7 @@
 ﻿//
 // join_logo_scp Autoコマンド処理
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsAutoScript.hpp"
 #include "JlsAutoReform.hpp"

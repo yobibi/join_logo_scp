@@ -9,6 +9,7 @@ If ${once_check_extenv_get}!=1 { Return };   # 1回のみ実行
 #----------------------------------------------
 # 設定
 #----------------------------------------------
+EnvGet TS_IN_PATH -RegOut file_ts -default     # 環境変数から（変数未定義時のみ更新）
 EnvGet CLI_IN_PATH -RegOut file_ts -default    # 環境変数から（変数未定義時のみ更新）
 EnvGet SERVICE_ID -RegOut service_id -default  # 環境変数から（変数未定義時のみ更新）
 

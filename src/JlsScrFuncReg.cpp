@@ -2,7 +2,7 @@
 // 変数アクセス関連処理
 //
 
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsScrFuncReg.hpp"
 #include "JlsScrFuncList.hpp"
@@ -47,7 +47,7 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 	}
 	int numarg = 0;
 	if(strv[0] == '-' && strv[1] != '\0') {
-		if (!_stricmp(strv, "-flags")){
+		if (isStrCaseSame(strv, "-flags")){
 			if (!exist2){
 				outputMesErr("-flags needs an argument\n");
 				return -1;
@@ -60,7 +60,7 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 			}
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-set")){
+		else if (isStrCaseSame(strv, "-set")){
 			if (!exist3){
 				outputMesErr("-set needs two arguments\n");
 				return -1;
@@ -73,7 +73,7 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 			}
 			numarg = 3;
 		}
-		else if (!_stricmp(strv, "-cutmrgin")){
+		else if (isStrCaseSame(strv, "-cutmrgin")){
 			if (!exist2){
 				outputMesErr("-cutmrgin needs an argument\n");
 				return -1;
@@ -84,7 +84,7 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 			}
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-cutmrgout")){
+		else if (isStrCaseSame(strv, "-cutmrgout")){
 			if (!exist2){
 				outputMesErr("-cutmrgout needs an argument\n");
 				return -1;
@@ -95,7 +95,7 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 			}
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-cutmrgwi")){
+		else if (isStrCaseSame(strv, "-cutmrgwi")){
 			if (!exist2){
 				outputMesErr("-cutmrgwi needs an argument\n");
 				return -1;
@@ -107,7 +107,7 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 			}
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-cutmrgwo")){
+		else if (isStrCaseSame(strv, "-cutmrgwo")){
 			if (!exist2){
 				outputMesErr("-cutmrgwo needs an argument\n");
 				return -1;
@@ -119,7 +119,7 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 			}
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-sublist")){
+		else if (isStrCaseSame(strv, "-sublist")){
 			if (!exist2){
 				outputMesErr("-sublist needs an argument\n");
 				return -1;
@@ -135,7 +135,7 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 			}
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-subpath")){
+		else if (isStrCaseSame(strv, "-subpath")){
 			if (!exist2){
 				outputMesErr("-subpath needs an argument\n");
 				return -1;
@@ -146,7 +146,23 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 			}
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-setup")){
+		else if (isStrCaseSame(strv, "-pathread")){
+			if (!exist2){
+				outputMesErr("-pathread needs an argument\n");
+				return -1;
+			}
+			else if (overwrite || pdata->extOpt.fixPathRead == 0){
+				if ( str1[0] == '+' ){
+					string tmp = str1;
+					pdata->extOpt.pathRead = tmp.substr(1) + "," + pdata->extOpt.pathRead;
+				}else{
+					pdata->extOpt.pathRead = str1;
+				}
+				pdata->extOpt.fixPathRead = 1;
+			}
+			numarg = 2;
+		}
+		else if (isStrCaseSame(strv, "-setup")){
 			if (!exist2){
 				outputMesErr("-setup needs an argument\n");
 				return -1;
@@ -157,7 +173,7 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 			}
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-syscode")){
+		else if (isStrCaseSame(strv, "-syscode")){
 			if (!exist2){
 				outputMesErr("-syscode needs an argument\n");
 				return -1;
@@ -171,11 +187,29 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 				}
 				pdata->extOpt.nSysCode = num;
 				pdata->extOpt.fixNSysCode = 1;
-				LSys.setStdUtfCodeFromNum(num);		// すぐ設定
+				LSys.setSysUtfNum(num);		// すぐ設定
 			}
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-vline")){	// debug
+		else if (isStrCaseSame(strv, "-stdcode")){
+			if (!exist2){
+				outputMesErr("-stdcode needs an argument\n");
+				return -1;
+			}
+			else if (overwrite || pdata->extOpt.fixNStdCode == 0){
+				//--- 標準出力/エラーの文字コードは最優先で設定しておきたいのですぐ実行 ---
+				int num = LSys.getUtfNumFromStr(str1);
+				if ( num < 0 ){
+					outputMesErr("-stdcode unsupported data\n");
+					return -1;
+				}
+				pdata->extOpt.nStdCode = num;
+				pdata->extOpt.fixNStdCode = 1;
+				LSys.setUtfDefaultNum(num);		// すぐ設定
+			}
+			numarg = 2;
+		}
+		else if (isStrCaseSame(strv, "-vline")){	// debug
 			if (!exist2){
 				outputMesErr("-vline needs an argument\n");
 				return -1;
@@ -187,27 +221,27 @@ int JlsScrFuncReg::setOptionsGetOne(int argrest, const char* strv, const char* s
 			}
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-inlogo")){	// 名前のみ保持
+		else if (isStrCaseSame(strv, "-inlogo")){	// 名前のみ保持
 			pdata->extOpt.logofile = str1;
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-inscp")){	// 名前のみ保持
+		else if (isStrCaseSame(strv, "-inscp")){	// 名前のみ保持
 			pdata->extOpt.scpfile = str1;
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-incmd")){	// 名前のみ保持
+		else if (isStrCaseSame(strv, "-incmd")){	// 名前のみ保持
 			pdata->extOpt.cmdfile = str1;
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-o")){	// 名前のみ保持
+		else if (isStrCaseSame(strv, "-o")){	// 名前のみ保持
 			pdata->extOpt.outfile = str1;
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-oscp")){	// 名前のみ保持
+		else if (isStrCaseSame(strv, "-oscp")){	// 名前のみ保持
 			pdata->extOpt.outscpfile = str1;
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-odiv")){	// 名前のみ保持
+		else if (isStrCaseSame(strv, "-odiv")){	// 名前のみ保持
 			pdata->extOpt.outdivfile = str1;
 			numarg = 2;
 		}
@@ -421,25 +455,25 @@ bool JlsScrFuncReg::setJlsRegVarCountUp(const string& strName, int step, bool fl
 //--- 変数設定後のシステム変数更新 ---
 void JlsScrFuncReg::setJlsRegVarCouple(const string& strName, const string& strVal){
 	//--- システム変数の特殊処理 ---
-	if (_stricmp(strName.c_str(), "RANGETYPE") == 0){
+	if ( isStrCaseSame(strName.c_str(), "RANGETYPE") ){
 		pdata->cnv.getStrValNum(pdata->recHold.typeRange, strVal, 0);
 	}
 	//--- HEAD/TAIL期間処理 ---
 	int type_add = 0;
 	string strAddName;
-	if (_stricmp(strName.c_str(), "HEADFRAME") == 0){
+	if ( isStrCaseSame(strName.c_str(), "HEADFRAME") ){
 		strAddName = "HEADTIME";
 		type_add = 1;
 	}
-	else if (_stricmp(strName.c_str(), "TAILFRAME") == 0){
+	else if ( isStrCaseSame(strName.c_str(), "TAILFRAME") ){
 		strAddName = "TAILTIME";
 		type_add = 1;
 	}
-	else if (_stricmp(strName.c_str(), "HEADTIME") == 0){
+	else if ( isStrCaseSame(strName.c_str(), "HEADTIME") ){
 		strAddName = "HEADFRAME";
 		type_add = 2;
 	}
-	else if (_stricmp(strName.c_str(), "TAILTIME") == 0){
+	else if ( isStrCaseSame(strName.c_str(), "TAILTIME") ){
 		strAddName = "TAILFRAME";
 		type_add = 2;
 	}
@@ -484,7 +518,7 @@ void JlsScrFuncReg::setJlsRegVarCouple(const string& strName, const string& strV
 		}
 	}
 	//--- MAXTIME更新 ---
-	if ( _stricmp(strName.c_str(), "MAXTIME") == 0 ){
+	if ( isStrCaseSame(strName.c_str(), "MAXTIME") ){
 		string strTail;
 		bool validTail = false;
 		if ( getJlsRegVarNormal(strTail, "TAILTIME") ){
@@ -651,15 +685,14 @@ bool JlsScrFuncReg::divideJlsRegVarDecode(string& strVal, const string& strCmd){
 				int nSt;
 				int pos = pdata->cnv.getStrValFuncNum(nSt, strCmd, 1);
 				if ( pos >= 0 ){
-					LocalStr lcstr;
 					if ( pos == (int) strCmd.length() ){	// 長さ省略時
-						strVal = lcstr.getSubStr(strVal, nSt);
+						strVal = LStr.getSubStr(strVal, nSt);
 					}else if ( strCmd[pos] != ',' ){	// 区切りは , 限定
 						pos = -1;
 					}else{
 						int nLen;
 						pos = pdata->cnv.getStrValFuncNum(nLen, strCmd, pos+1);
-						strVal = lcstr.getSubStrLen(strVal, nSt, nLen);
+						strVal = LStr.getSubStrLen(strVal, nSt, nLen);
 					}
 				}
 				if ( pos < 0 ) return false;
@@ -667,8 +700,7 @@ bool JlsScrFuncReg::divideJlsRegVarDecode(string& strVal, const string& strCmd){
 			break;
 		case VarProcType::exchg :	// 拡張子文字列を置換
 			if ( var.selInStr ){	// 各文字それぞれ置換
-				LocalStr lcstr;
-				success = lcstr.replaceInStr(strVal, strDelim, strSubDelim);
+				success = LStr.replaceInStr(strVal, strDelim, strSubDelim);
 			}else if ( var.selQuote ){		// クォート置換
 				if ( var.selBackup ){
 					backupStrQuote(strVal);
@@ -714,20 +746,17 @@ bool JlsScrFuncReg::divideJlsRegVarDecode(string& strVal, const string& strCmd){
 			break;
 		case VarProcType::match :	// 正規表現検索
 			{
-				LocalStr lcstr;
-				strVal = lcstr.getRegMAtch(strVal, strDelim);
+				strVal = LStr.getRegMatch(strVal, strDelim);
 			}
 			break;
 		case VarProcType::count :	// 拡張子出現数を出力
 			{
 				int mc = 0;
 				if ( var.selInStr ){		// いずれかの文字
-					LocalStr lcstr;
-					mc = lcstr.countInStr(strVal, strDelim);
+					mc = LStr.countInStr(strVal, strDelim);
 				}
 				else if ( var.selRegEx ){		// 正規表現で
-					LocalStr lcstr;
-					mc = lcstr.countRegExMatch(strVal, strDelim);
+					mc = LStr.countRegExMatch(strVal, strDelim);
 				}
 				else{
 					auto n = strVal.find(strDelim);
@@ -741,8 +770,7 @@ bool JlsScrFuncReg::divideJlsRegVarDecode(string& strVal, const string& strCmd){
 			break;
 		case VarProcType::len :	// 文字列長を出力
 			{
-				LocalStr lcstr;
-				int len = lcstr.getStrLen(strVal);
+				int len = LStr.getStrLen(strVal);
 				strVal = to_string(len);
 			}
 			break;
@@ -1163,6 +1191,7 @@ void JlsScrFuncReg::setSystemRegUpdate(){
 //---------------------------------------------------------------------
 void JlsScrFuncReg::setSystemRegFilePath(){
 	string strDataLast = "data";		// リストデータ読み込み用JLサブパスからの位置
+	string strUserLast = "user";		// リストデータ読み込み用JLサブパスからの位置
 
 	//--- JLサブパス読み込み ---
 	string strPathSub;
@@ -1174,9 +1203,14 @@ void JlsScrFuncReg::setSystemRegFilePath(){
 	pdata->cnv.getStrFileAllPath(strPathSub);	// 最後に区切り付加
 	//--- JLデータパス ---
 	string strPathData = strPathSub + strDataLast;
+	string strPathUser = strPathSub + strUserLast;
 	pdata->cnv.getStrFileAllPath(strPathData);	// 最後に区切り付加
+	pdata->cnv.getStrFileAllPath(strPathUser);	// 最後に区切り付加
 	//--- 初期設定変数の変更 ---
 	setJlsRegVar("JLDATAPATH", strPathData, true);
+	setJlsRegVar("JLUSERPATH", strPathUser, true);
+	setJlsRegVar("JLSUBPATH", strPathSub, true);
+	setJlsRegVar("JLPATHREAD", pdata->extOpt.pathRead, true);
 }
 //---------------------------------------------------------------------
 // Echo出力先がファイルか判別設定
@@ -1225,6 +1259,29 @@ void JlsScrFuncReg::setSystemRegNologo(bool need_check){
 		pdata->extOpt.flagNoLogo = 1;
 		// システム変数を更新
 		setJlsRegVar("NOLOGO", "1", true);	// 上書き許可で"1"設定
+		// warning/info表示
+		if ( pdata->extOpt.flagDispNoLogo == 0 ){
+			if ( need_check ){
+				string strMsg;
+				switch( pdata->extOpt.errNoLogo ){
+					case 1:
+						strMsg = "warning: not found logo file(-inlogo filename)";
+						break;
+					case 2:
+						strMsg = "warning: no logo information found in '";
+						strMsg += pdata->extOpt.logofile;
+						strMsg += "'";
+						break;
+					default:
+						strMsg = "warning: LogoOff is set due to insufficient logo period";
+						break;
+				}
+				pGlobalState->addMsgErrorN(strMsg);
+			}else{
+				pdata->dispSysMesN("info: LogoOff is set", JlsDataset::SysMesType::LogoOff);
+			}
+		}
+		pdata->extOpt.flagDispNoLogo = 1;
 	}
 }
 
@@ -1370,6 +1427,12 @@ void JlsScrFuncReg::getSystemData(JlsCmdArg& cmdarg, const string& strIdent){
 	}
 	else if ( strIdent == "SYSCODE" ){
 		strData = to_string(pdata->extOpt.nSysCode);
+	}
+	else if ( strIdent == "STDCODE" ){
+		strData = to_string(pdata->extOpt.nStdCode);
+	}
+	else if ( strIdent == "STDCODEA" ){
+		strData = to_string(LSys.getUtfDefaultNum());
 	}
 	else if ( strIdent == "FILECODE" ){
 		strData = to_string(pGlobalState->fileGetCodeDefaultNum());
@@ -1698,6 +1761,13 @@ bool JlsScrFuncReg::readDataCheck(JlsCmdArg& cmdarg, const string& fname){
 	return readDataCommon(cmdarg, fname, rtype);
 }
 //---------------------------------------------------------------------
+// ファイルのフルパスを取得
+//---------------------------------------------------------------------
+bool JlsScrFuncReg::readDataPath(JlsCmdArg& cmdarg, const string& fname){
+	ReadFileType rtype = ReadFileType::Path;	// フルパスを取得
+	return readDataCommon(cmdarg, fname, rtype);
+}
+//---------------------------------------------------------------------
 // リストデータ（数値）をファイルから読み込み（１行１データ）
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::readDataList(JlsCmdArg& cmdarg, const string& fname){
@@ -1730,7 +1800,8 @@ bool JlsScrFuncReg::readDataCommon(JlsCmdArg& cmdarg, const string& fname, ReadF
 		nMax = cmdarg.getOpt(OptType::NumMaxSize);
 	}
 	//--- ファイル読み込み ---
-	LocalIfs ifs(fname.c_str());
+	string fnameFull = addReadFullPath(fname);
+	LocalIfs ifs(fnameFull.c_str());
 	//--- 存在チェック ---
 	if ( rtype == ReadFileType::Check ){
 		bool exist = ifs.is_open();
@@ -1740,9 +1811,18 @@ bool JlsScrFuncReg::readDataCommon(JlsCmdArg& cmdarg, const string& fname, ReadF
 		}
 		return exist;
 	}
+	//--- フルパス取得 ---
+	if ( rtype == ReadFileType::Path ){
+		bool exist = ifs.is_open();
+		if ( cmdarg.isSetStrOpt(OptType::StrRegOut) ){
+			string strVal = fnameFull;
+			setRegOutSingle(cmdarg, strVal, true);	// RegOutに無条件で書き込み
+		}
+		return exist;
+	}
 	if ( !ifs.is_open() ){
 		if ( !cmdarg.getOptFlag(OptType::FlagSilent) ){
-			pGlobalState->fileOutput("warning: file not found(" + fname + ")\n");
+			pGlobalState->fileOutput("warning: file not found(" + fnameFull + ")\n");
 		}
 		return false;
 	}
@@ -1911,7 +1991,8 @@ bool JlsScrFuncReg::readDataFileTrim(string& strCmd, LocalIfs& ifs){
 // グローバル領域作成のファイル読み込み
 //---------------------------------------------------------------------
 bool JlsScrFuncReg::readGlobalOpen(JlsCmdArg& cmdarg, const string& fname){
-	bool success = pGlobalState->readGOpen(fname);
+	string fnameFull = addReadFullPath(fname);
+	bool success = pGlobalState->readGOpen(fnameFull);
 	if ( cmdarg.isSetStrOpt(OptType::StrRegOut) ){
 		string strVal = ( success )? "1" : "0";
 		return setRegOutSingle(cmdarg, strVal, true);	// RegOutに無条件で書き込み
@@ -1966,6 +2047,47 @@ bool JlsScrFuncReg::setRegOutSingle(JlsCmdArg& cmdarg, const string& strVal, boo
 		if ( !flagW ) return false;	// 書き込み失敗
 	}
 	return certain;
+}
+
+//---------------------------------------------------------------------
+// Read系コマンドで読み込むファイルのフルパス追加
+//---------------------------------------------------------------------
+string JlsScrFuncReg::addReadFullPath(const string& strSrc){
+	//--- ファイル名にパスが含まれる場合は何もしない ---
+	{
+		string strPathTmp;
+		if ( pdata->cnv.getStrFilePath(strPathTmp, strSrc) >= 0 ){
+			return strSrc;
+		}
+	}
+	//--- 変数(JLPATHREAD)を取得 ---
+	string strListPath;
+	{
+		string strListPathOrg;
+		if ( !getJlsRegVarNormal(strListPathOrg, "JLPATHREAD") ){
+			return strSrc;
+		}
+		if ( !replaceBufVar(strListPath, strListPathOrg) ){		// 変数があれば置換し異常時はやめる
+			return strSrc;
+		}
+	}
+	//--- リスト各位置の確認 ---
+	int nSizeList = pFuncList->getListStrSize(strListPath);
+	for(int i=1; i<=nSizeList; i++){
+		string strCheck;
+		if ( pFuncList->getListStrElement(strCheck, strListPath, i) ){
+			pdata->cnv.getStrFileAllPath(strCheck);		// 最後にパス区切り追加
+			strCheck += strSrc;
+			if ( isFileExist(strCheck) ){
+				return strCheck;
+			}
+		}
+	}
+	return strSrc;
+}
+bool JlsScrFuncReg::isFileExist(const string& str){
+	LocalIfs ifs(str.c_str());
+	return ifs.is_open();
 }
 
 //---------------------------------------------------------------------

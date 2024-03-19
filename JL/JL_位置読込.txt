@@ -12,7 +12,10 @@ Default file_ts      ""                      # 未定義時の初期設定
 Default file_div     "${file_ts}.div.txt"    # 分割位置記載の入力ファイル名
 Default file_trim    "${file_ts}.trim.avs"   # Trim位置記載の入力ファイル名
 Default use_divfile 1       # ファイル分割使用（0=なし 1=使用）
-Default type_trim_in 2      # ロゴ位置入力ファイル（0=なし 1=list 2=avs-Trim）
+Default type_trim_in 2      # ロゴ位置入力ファイル（0=なし 1=list 2=avs-Trim 3=keyframe）
+Default file_keyf    "${file_ts:r}.keyframe" # keyframe入力ファイル名
+Default keyf_fromcut 1      # keyframe最初データ位置から（0=残す 1=カット）
+Default use_divforce 0      # 構成時間から強制的にファイル分割作成（0=なし 1=作成）
 
 #----------------------------------------------
 # 動作
@@ -34,6 +37,16 @@ If ${type_trim_in}==1           # 1行1データのリスト形式ファイル�
   ReadData "${file_trim}" -RegList trim_list
 ElsIf ${type_trim_in}==2        # avisynth形式ファイルのTrimから読み込み
   ReadTrim "${file_trim}" -RegList trim_list
+ElsIf ${type_trim_in}==3 && ${keyf_fromcut}==0  # keyframeをTrim位置で読み込み
+  ReadData "${file_keyf}" -RegList trim_list
+ElsIf ${type_trim_in}==3        # keyframe読み込み
+  ReadData "${file_keyf}" -RegList trim_list
+  ListDel 1 -RegList trim_list # 先頭カット
+  ListDel -1 -RegList trim_list # 最後カット
+  Repeat $#{trim_list}/2 -counter i 1 +2 { # 内側に1フレームずらす
+    SetN trim_list[$i] ${trim_list[$i]:f}+1
+    SetN trim_list[$i+1] ${trim_list[$i+1]:f}-1
+  };
 ElsIf $#{divide_pos_list}>0     # 分割ファイル設定をロゴ位置として使用
   ListIns -1 -RegList trim_list -val 0     # 先頭ロゴ開始位置
   LocalSet cnt 0
@@ -54,3 +67,8 @@ EndIf
 LogoDirect -RegList trim_list   # 読み込みデータ位置をロゴ位置として直接設定
 Force B        # ロゴ位置をそのまま確定
 AutoUp -code 1 # Auto処理化
+
+#--- 強制分割確認 ---
+If ${use_divforce}==1 && $#{divide_pos_list}==0
+  Call "JL_set_分割強制作成.txt"
+EndIf

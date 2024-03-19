@@ -6,7 +6,7 @@
 //    pdata(score)
 //  データ挿入によるシーンチェンジ番号(nsc)変更あり
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsAutoReform.hpp"
 #include "JlsCmdSet.hpp"

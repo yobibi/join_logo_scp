@@ -1,7 +1,7 @@
 ﻿//
 // 実行スクリプトコマンド文字列解析
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsScriptDecode.hpp"
 #include "JlsScrFuncList.hpp"
@@ -137,7 +137,7 @@ int JlsScriptDecode::decodeCmdNameId(const string& cstr){
 	}
 	else{
 		for(int i=0; i<(int)CmdDefine.size(); i++){
-			if (_stricmp(cmdname, CmdDefine[i].cmdname.c_str()) == 0){
+			if ( isStrCaseSame(cmdname, CmdDefine[i].cmdname.c_str()) ){
 				det = i;
 				break;
 			}
@@ -147,7 +147,7 @@ int JlsScriptDecode::decodeCmdNameId(const string& cstr){
 			bool flag = false;
 			CmdType target;
 			for(int i=0; i<(int)CmdAlias.size(); i++){
-				if (_stricmp(cmdname, CmdAlias[i].cmdname.c_str()) == 0){
+				if ( isStrCaseSame(cmdname, CmdAlias[i].cmdname.c_str()) ){
 					target = CmdAlias[i].cmdsel;
 					flag = true;
 					break;
@@ -337,7 +337,7 @@ int JlsScriptDecode::decodeCmdArgOptOne(JlsCmdArg& cmdarg, CmdErrType& errval, c
 		//--- オプション識別 ---
 		const char *pstr = strWord.c_str();
 		for(int i=0; i<(int)OptDefine.size(); i++){
-			if (!_stricmp(pstr, OptDefine[i].optname.c_str())){
+			if  (isStrCaseSame(pstr, OptDefine[i].optname.c_str())){
 				optsel = i;
 			}
 		}
@@ -671,7 +671,7 @@ int JlsScriptDecode::getOptionTypeList(vector<OptType>& listOptType, OptType org
 			break;
 	}
 	if ( numUsed < numArg ){
-		castErrInternal("(numArg) type:" + static_cast<int>(orgOptType));
+		castErrInternal("(numArg) type:" + to_string(static_cast<int>(orgOptType)));
 	}
 	return numUsed;
 }
@@ -690,31 +690,31 @@ void JlsScriptDecode::castErrInternal(const string& msg){
 //---------------------------------------------------------------------
 bool JlsScriptDecode::getTrSpEcID(CmdTrSpEcID& idSub, const string& strName, bool flagOption){
 	bool det = false;
-	if ( ! _stricmp(strName.c_str(), "TR") ){
+	if ( isStrCaseSame(strName.c_str(), "TR") ){
 		det = true;
 		idSub = CmdTrSpEcID::TR;
 	}
-	else if ( ! _stricmp(strName.c_str(), "SP") ){
+	else if ( isStrCaseSame(strName.c_str(), "SP") ){
 		det = true;
 		idSub = CmdTrSpEcID::SP;
 	}
-	else if ( ! _stricmp(strName.c_str(), "EC") ){
+	else if ( isStrCaseSame(strName.c_str(), "EC") ){
 		det = true;
 		idSub = CmdTrSpEcID::EC;
 	}
-	else if ( ! _stricmp(strName.c_str(), "LG") && flagOption ){
+	else if ( isStrCaseSame(strName.c_str(), "LG") && flagOption ){
 		det = true;
 		idSub = CmdTrSpEcID::LG;
 	}
-	else if ( ! _stricmp(strName.c_str(), "NLG") && flagOption ){
+	else if ( isStrCaseSame(strName.c_str(), "NLG") && flagOption ){
 		det = true;
 		idSub = CmdTrSpEcID::NLG;
 	}
-	else if ( ! _stricmp(strName.c_str(), "NTR") && flagOption ){
+	else if ( isStrCaseSame(strName.c_str(), "NTR") && flagOption ){
 		det = true;
 		idSub = CmdTrSpEcID::NTR;
 	}
-	else if ( ! _stricmp(strName.c_str(), "Off") && flagOption ){
+	else if ( isStrCaseSame(strName.c_str(), "Off") && flagOption ){
 		det = true;
 		idSub = CmdTrSpEcID::Off;
 	}
@@ -1400,7 +1400,7 @@ bool JlsScriptDecode::convertStringRegParam(string& strName, string& strVal){
 		const char *varname = strName.c_str();
 		//--- 文字列からパラメータを識別 ---
 		for(int i=0; i<(int)ConfigDefine.size(); i++){
-			if ( _stricmp(varname, ConfigDefine[i].namestr.c_str()) == 0 ){
+			if ( isStrCaseSame(varname, ConfigDefine[i].namestr.c_str()) ){
 				csel = i;
 				break;
 			}

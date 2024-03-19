@@ -5,8 +5,9 @@ NHK-E,,JL_NHK.txt,,,NHK用前後（他番組宣伝）カット,
 BS1,,JL_NHK.txt,,,NHK用前後（他番組宣伝）カット,
 BSP,,JL_NHK.txt,,,NHK用前後（他番組宣伝）カット,
 BSTBS,,JL_MBS.txt,,,MBS系番組対応設定,予告終了直後のロゴ付き１５秒単位構成をカット
-ANIMAX,,JL_フラグ指定.txt,ANIMAX,,ANIMAX,番組提供なし。シーンチェンジ－ロゴ間が離れているので念のため位置設定
-ANIMAX,[0-9]話?[，～－][0-9],JL_構成30分単位(ファイル分割).txt,,,30分単位複数話,
+WOWOW.*,,JL_フラグ指定.txt,"fLOff,fHCWOWA",,WOWOW,フラグ指定で共通のカットを追加
+ANIMAX,,JL_フラグ指定.txt,ANIMAX,,ANIMAX,フラグ指定内の動作で詳細設定
+ANIMAX,[0-9]話?[，～－][0-9],JL_構成30分単位(ファイル分割).txt,,-set divnext_use_auto 2,30分単位複数話,
 AT-X,,JL_ATX(ファイル分割).txt,,,AT-X（ロゴを使わずCM検出）,
 MBS,,JL_MBS.txt,,,MBS基本設定,予告終了後のロゴ付き１５秒単位構成以降をカット
 TBS,,JL_MBS.txt,,,MBS系番組対応設定,予告終了直後のロゴ付き１５秒単位構成をカット

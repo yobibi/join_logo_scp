@@ -1,7 +1,7 @@
 ﻿//
 // JLスクリプト グローバル状態保持
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsScrGlobal.hpp"
 
@@ -19,7 +19,7 @@
 bool JlsScrGlobal::fileOpen(const string& strName, bool flagAppend){
 	//--- 文字コード番号設定があれば更新 ---
 	if ( m_outCodeNum > 0 ){
-		m_ofsScr.setCodeTypeFromNum(m_outCodeNum);
+		m_ofsScr.setUtfNum(m_outCodeNum);
 		m_outCodeNum = 0;		// 設定なしに戻す
 	}
 	//--- 既にOpenしていたらClose ---
@@ -33,7 +33,7 @@ bool JlsScrGlobal::fileOpen(const string& strName, bool flagAppend){
 		m_ofsScr.open(strName);
 	}
 	//--- 確認 ---
-	if ( !m_ofsScr.is_open() ){
+	if ( !m_ofsScr ){
 		return false;
 	}
 	return true;
@@ -42,7 +42,7 @@ bool JlsScrGlobal::fileOpen(const string& strName, bool flagAppend){
 bool JlsScrGlobal::fileSetCodeDefault(const string& str){
 	int num = LSys.getUtfNumFromStr(str);
 	if ( num < 0 ) return false;
-	LSys.setFileUtfCodeFromNum(num);
+	LSys.setFileUtfNum(num);
 	return true;
 }
 int JlsScrGlobal::fileGetCodeDefaultNum(){
@@ -106,7 +106,7 @@ void JlsScrGlobal::readGClose(){
 }
 //--- ファイルの文字コード番号を取得 ---
 int JlsScrGlobal::readGCodeNum(){
-	return m_ifsScr.getCodeNum();
+	return m_ifsScr.getUtfNum();
 }
 //--- 文字列を1行入力 ---
 bool JlsScrGlobal::readGLine(string& strLine){

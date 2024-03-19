@@ -12,7 +12,7 @@ Default fdiv_max  00:30:30      # 1構成期間（最大期間）
 Default divch_sb  B             # 分割区切り（B=優先なし S=ロゴ立上り優先）
 Default divpos_first  0         # 分割最初の開始フレーム位置
 Default divnext_force 0         # 1構成を標準期間強制区切り（0=しない 1=する）
-Default divnext_use_auto 0      # 分割に推測構成使用（0=使用しない 1=使用）
+Default divnext_use_auto 0      # 分割に推測構成使用（0=使用しない 1=使用 2=推測構成先頭優先で使用）
 
 Default nextcall_divide  "JL_フラグ指定.txt"   # 次にCallするファイル
 
@@ -26,6 +26,26 @@ Default file_period_list "${JLDATAPATH}list_60分30分.txt"  # 期間ファイ�
 # 実行処理の設定
 #----------------------------------------------
 LazyAuto   # このファイルは自動で実行タイミング制御
+
+# 推測構成の各先頭位置を優先する場合の検索（Auto系処理）
+Function getDividePosNautoS( ref(dc) drs dre posbase ){
+  GetList S -NFauto -RegOut listpos -local
+  ListIns -1 -val $MAXTIME -RegList listpos   # 一番最後も候補に入れる
+  LocalSet result -1
+  LocalSet difmin 0
+  Repeat $#{listpos} -counter i 1 {
+    LocalSet poscur $listpos[$i]
+    If ${posbase}+${drs}<=${poscur} && ${poscur}<=${posbase}+${dre} {
+      LocalSetT difcur ${poscur}-${posbase}-${dc}
+      If ${difcur}<0 { SetT difcur -${difcur} };
+      If ${result}<0 || ${difcur}<${difmin} {
+        Set result ${poscur}
+        Set difmin ${difcur}
+      };
+    };
+  };
+  If ${result}>0 { SetT dc ${result}-${posbase} };
+};
 
 # 分割内容を設定
 # 実行時には分割位置情報を変数(divide_pos_list)に出力する
@@ -45,11 +65,16 @@ LazyAuto   # このファイルは自動で実行タイミング制御
       EndIf
     }
     EndIf
-    LocalSet str_range "${fdiv_typ} ${fdiv_min} ${fdiv_max}"
+    LocalSet fdiv_typ_rev ${fdiv_typ}
     If ${divnext_force} == 1          # 標準期間で強制区切り
       Set str_range "${fdiv_typ} -force"
+    Else
+      If ${divnext_use_auto} == 2       # 分割に推測構成の先頭優先
+        Fcall getDividePosNautoS( fdiv_typ_rev fdiv_min fdiv_max $ABSTAIL )
+      EndIf
     EndIf
-    If ${divnext_use_auto} == 1       # 分割に推測構成使用
+    LocalSet str_range "${fdiv_typ_rev} ${fdiv_min} ${fdiv_max}"
+    If ${divnext_use_auto} >= 1       # 分割に推測構成使用
       NextTail ${divch_sb} ${str_range} -now -autochg
     Else
       NextTail ${divch_sb} ${str_range}

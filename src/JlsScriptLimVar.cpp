@@ -1,7 +1,7 @@
 ﻿//
 // 実行スクリプトコマンドの引数条件からターゲットを絞る
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsScriptLimit.hpp"
 #include "JlsCmdSet.hpp"

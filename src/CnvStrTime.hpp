@@ -1,6 +1,11 @@
 ﻿//
 // 文字列と時間とフレーム位置の相互変換クラス
 //
+#pragma once
+
+#include <string>
+#include <vector>
+
 
 class CnvStrTime
 {

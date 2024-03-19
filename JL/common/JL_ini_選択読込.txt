@@ -3,7 +3,6 @@
 # 内容：取得できる情報からJLスクリプトを選択
 #
 # 設定
-#  path_user_rd : データファイルがこのパスにあれば優先して読み込み
 #  file_ini_ch  : サービスIDと放送局略称の対応を記載したファイル
 #  file_ini_t1  : 放送局とタイトルからのパラメータ設定ファイル（主に放送局）
 #  file_ini_t2  : 放送局とタイトルからのパラメータ設定ファイル
@@ -22,10 +21,9 @@
 # 設定
 #----------------------------------------------
 Call "JL_ini_外部環境取得.txt"               # 外部設定
-Default path_user_rd "${JLDATAPATH:h:H}user"       # 優先読込フォルダを設定する場合
-Default file_ini_ch  "${JLDATAPATH}ChList.csv"     # 設定データ
-Default file_ini_t1  "${JLDATAPATH}ChParamJL1.csv" # 設定データ
-Default file_ini_t2  "${JLDATAPATH}ChParamJL2.csv" # 設定データ
+Default file_ini_ch  "ChList.csv"            # 設定データ
+Default file_ini_t1  "ChParamJL1.csv"        # 設定データ
+Default file_ini_t2  "ChParamJL2.csv"        # 設定データ
 Default file_title   ""                      # 初期設定（未定義時のみ更新）
 Default service_id   ""                      # 初期設定（未定義時のみ更新）
 Default service_abbr ""                      # 初期設定（未定義時のみ更新）
@@ -196,11 +194,6 @@ Function getIniInfoSet( list_set ){
 #----------------------------------------------
 # 起動シーケンス
 #----------------------------------------------
-#--- 優先するフォルダにファイルがあれ読み込みファイル場所変更 ---
-Fcall takeReadPriorityFolder( file_ini_ch path_user_rd )
-Fcall takeReadPriorityFolder( file_ini_t1 path_user_rd )
-Fcall takeReadPriorityFolder( file_ini_t2 path_user_rd )
-
 #--- 放送局略称をサービスIDから取得 ---
 If "${service_abbr}"=="" && "${service_id}"!="" {
   Fcall getIniInfoCh(service_id file_ini_ch) -RegOut service_abbr
@@ -215,9 +208,12 @@ If ${iniinfo_disp_read}>0 {
   If ${iniinfo_disp_read}==1 {
     FileToMemo 1
   };
-  Echo read_path(ChList) : ${file_ini_ch}
-  Echo read_path(ChParamJL1) : ${file_ini_t1}
-  Echo read_path(ChParamJL2) : ${file_ini_t2}
+  ReadPathGet "${file_ini_ch}" -RegOut fullname_ch -local
+  ReadPathGet "${file_ini_t1}" -RegOut fullname_t1 -local
+  ReadPathGet "${file_ini_t2}" -RegOut fullname_t2 -local
+  Echo read_path(ChList) : ${fullname_ch}
+  Echo read_path(ChParamJL1) : ${fullname_t1}
+  Echo read_path(ChParamJL2) : ${fullname_t2}
   FileToMemo 0
 };
 #--- パラメータ表示 ---

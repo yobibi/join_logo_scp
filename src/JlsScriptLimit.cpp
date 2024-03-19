@@ -1,7 +1,7 @@
 ﻿//
 // 実行スクリプトコマンドの引数条件からターゲットを絞る
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsScriptLimit.hpp"
 #include "JlsCmdSet.hpp"
@@ -1443,7 +1443,11 @@ void JlsScriptLimit::seekTargetPoint(JlsCmdSet& cmdset){
 		var.seek.tgDst.msec = var.getRangeDstJust();
 		var.seek.tgDst.msbk = var.seek.tgDst.msec;
 		bool zone = var.isRangeToDst(var.getRangeDstFrom(), var.seek.tgDst.msec);
-		if ( !zone ){
+		bool valid = zone;
+		if ( valid ){
+			valid = var.isScpEnableAtMsec(var.seek.tgDst.msec, LOGO_EDGE_RISE, TargetCatType::Dst);
+		}
+		if ( !valid ){
 			var.seek.tgDst.tp = TargetScpType::Invalid;
 		}else if ( flagForce ){
 			if ( pdata->isRangeInTotalMax(var.seek.tgDst.msec) ){
@@ -1596,16 +1600,16 @@ bool JlsScriptLimit::seekTargetPointEnd(JlsCmdSet& cmdset, Msec msecDst, bool fo
 		if ( valid ){		// 無音シーンチェンジのEnd位置を検索する
 			valid = var.isScpEnableAtMsec(tgTry.msec, LOGO_EDGE_RISE, TargetCatType::End);
 		}
-		if ( force ){
-			if ( zone && pdata->isRangeInTotalMax(tgTry.msec) ){
+		if ( !valid ){
+			tgTry.tp = TargetScpType::Invalid;
+		}else if ( force ){
+			if ( pdata->isRangeInTotalMax(tgTry.msec) ){
 				if ( tgTry.tp != TargetScpType::ScpNum ){
 					tgTry.tp = TargetScpType::Force;
 				}
 			}else{
 				tgTry.tp = TargetScpType::Invalid;
 			}
-		}else if ( !valid ){
-			tgTry.tp = TargetScpType::Invalid;
 		}else if ( fixpos ){
 			tgTry.tp = TargetScpType::Direct;
 		}
@@ -1638,7 +1642,11 @@ bool JlsScriptLimit::seekTargetPointEnd(JlsCmdSet& cmdset, Msec msecDst, bool fo
 			var.seek.statEnd    = ScpPriorType::SCP_PRIOR_NONE;
 			var.seek.gapEnd     = 0;
 			bool zone = var.isRangeToEndZone(msecDst, var.seek.tgEnd.msec);	// Zone確認
-			if ( zone ){
+			bool valid = zone;
+			if ( valid ){		// 無音シーンチェンジのEnd位置を検索する
+				valid = var.isScpEnableAtMsec(var.seek.tgEnd.msec, LOGO_EDGE_RISE, TargetCatType::End);
+			}
+			if ( valid ){
 				if ( force && pdata->isRangeInTotalMax(var.seek.tgEnd.msec) ){
 					var.seek.tgEnd.tp = TargetScpType::Force;
 				}else if ( fixpos ){

@@ -91,23 +91,29 @@ private:
 		int		fixWidCutO;				// 0:widecut指定なし 1:widecut指定あり
 		// 内部保持パラメータ
 		int		flagNoLogo;				// 0:通常 1:ロゴを読み込まない場合
+		int     errNoLogo;				// 0:通常 1:ファイル指定なし 2:ロゴ期間データなし
+		int		flagDispNoLogo;			// 0:warning未表示 1:warning表示済
 		int		oldAdjust;				// 0:旧方式調整なし 1:旧方式調整あり
 		// 追加
 		int     fixVLine;				// 0:vLine指定なし  1:vLine指定あり
 		int     fixFDirect;				// 0:指定なし  1:指定あり  flagDirect
 		int     fixNLgExact;			// 0:指定なし  1:指定あり  nLgExact
 		int     fixNSysCode;			// 0:指定なし  1:指定あり  nSysCode
+		int     fixNStdCode;			// 0:指定なし  1:指定あり  nStdCode
 		int     fixSubList;				// 0:subDir指定なし 1:subDir指定あり
 		int     fixSubPath;				// 0:subPath指定なし 1:subPath指定あり
 		int     fixSetup;				// 0:setup指定なし 1:setup指定あり
+		int     fixPathRead;			// 0:pathRead指定なし 1:pathRead指定あり
 		int     vLine;					// 読み込み行表示用
 		int     flagDirect;				// 0:通常の検出ロゴ 1:ロゴ位置を直接指定
 		int     nLgExact;				// 0:通常 1:ロゴ補正最小限
-		int     nSysCode;				// 標準出力/エラーの文字コード番号 1:STD 2:UTF8 3:UTF16
+		int     nSysCode;				// 標準出力/エラーの文字コード番号 1:STD 2:UTF8 3:UTF16 11:SJIS 12:UTF8N
+		int     nStdCode;				// 標準コードに使用する文字コード番号 2:UTF8 3:UTF16 11:SJIS 12:UTF8N
 		int     dispSysMes;				// ログ表示 0:なし 1:CurMrgIn/Out 2:OUTDIRECT 4:CallFile
 		string  subList;				// サブフォルダリスト指定
 		string  subPath;				// サブフォルダパス指定
 		string  setup;					// 共通先頭実行ファイル
+		string  pathRead;				// READ系コマンドのファイル検索パスリスト
 		// 名前保管のみ
 		string  logofile;
 		string  scpfile;
@@ -137,6 +143,7 @@ public:
 		CutMrg,
 		OutDirect,
 		CallFile,
+		LogoOff,
 	};
 
 public:

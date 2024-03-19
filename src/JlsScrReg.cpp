@@ -1,7 +1,7 @@
 ﻿//
 // 変数の格納
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsScrReg.hpp"
 
@@ -152,7 +152,7 @@ void JlsRegFile::setIgnoreCase(bool valid){
 }
 bool JlsRegFile::isSameInLen(const string& s1, const string& s2, int nLen){
 	if ( m_ignoreCase ){
-		return ( _strnicmp(s1.c_str(), s2.c_str(), nLen) == 0 );	// 先頭位置からマッチ
+		return isStrCaseSame(s1.substr(0, nLen), s2.substr(0, nLen));	// 先頭位置からマッチ
 	}
 	return ( s1.substr(0, nLen) == s2.substr(0, nLen) );
 }

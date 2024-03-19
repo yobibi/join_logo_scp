@@ -1,5 +1,5 @@
 ﻿//
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsIF.hpp"
 #include "JlsScript.hpp"
@@ -99,7 +99,8 @@ int JlsIF::runScript() {
 
 	//--- check filename ---
 	if (m_logofile.empty()) {
-		outputMesErr("warning: not found logo file(-inlogo filename)\n");
+//		outputMesErr("warning: not found logo file(-inlogo filename)\n");	// 表示は後で行う
+		pdata->extOpt.errNoLogo = 1;
 		pdata->extOpt.flagNoLogo = 1;
 	}
 	if (m_scpfile.empty()) {
@@ -157,7 +158,12 @@ int JlsIF::expandArg(JlsScript &funcScript, vector <string> &listin){
 	//--- 標準エラー文字コードは最初に設定しておく ---
 	for(int k = 0; k < argc-1; k++){
 		const char* strv = listin[k].c_str();
-		if (!_stricmp(strv, "-syscode")){
+		if (isStrCaseSame(strv, "-syscode")){
+			const char* str1 = listin[k+1].c_str();
+			const char* str2 = nullptr;
+			expandArgOne(funcScript, 2, strv, str1, str2);
+		}
+		else if (isStrCaseSame(strv, "-stdcode")){
 			const char* str1 = listin[k+1].c_str();
 			const char* str2 = nullptr;
 			expandArgOne(funcScript, 2, strv, str1, str2);
@@ -243,15 +249,15 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 	}
 	int numarg = 0;
 	if(strv[0] == '-' && strv[1] != '\0') {
-		if(!_stricmp(strv, "-v")){
+		if(isStrCaseSame(strv, "-v")){
 			pdata->extOpt.verbose = 1;
 			numarg = 1;
 		}
-		else if (!_stricmp(strv, "-ver")){
-			lcout << "join_logo_scp ver5.0" << endl;
+		else if (isStrCaseSame(strv, "-ver")){
+			lcout << "join_logo_scp ver5.1" << endl;
 			return GETONE_EXIT;
 		}
-		else if (!_stricmp(strv, "-F")){
+		else if (isStrCaseSame(strv, "-F")){
 			int erropt = expandArgFromFile(funcScript, str1);
 			if (erropt == ERROPT_EXIT){
 				return GETONE_EXIT;
@@ -261,7 +267,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			}
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-inlogo")){
+		else if (isStrCaseSame(strv, "-inlogo")){
 			if (!exist2){
 				outputMesErr("-inlogo needs an argument\n");
 				return GETONE_ERR;
@@ -270,7 +276,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			numarg = 2;
 			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// 名前保管のみ
 		}
-		else if (!_stricmp(strv, "-inscp")){
+		else if (isStrCaseSame(strv, "-inscp")){
 			if (!exist2){
 				outputMesErr("-inscp needs an argument\n");
 				return GETONE_ERR;
@@ -279,7 +285,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			numarg = 2;
 			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// 名前保管のみ
 		}
-		else if (!_stricmp(strv, "-incmd")){
+		else if (isStrCaseSame(strv, "-incmd")){
 			if (!exist2){
 				outputMesErr("-incmd needs an argument\n");
 				return GETONE_ERR;
@@ -288,7 +294,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			numarg = 2;
 			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// 名前保管のみ
 		}
-		else if (!_stricmp(strv, "-o")){
+		else if (isStrCaseSame(strv, "-o")){
 			if (!exist2){
 				outputMesErr("-o needs an argument\n");
 				return GETONE_ERR;
@@ -297,7 +303,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			numarg = 2;
 			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// 名前保管のみ
 		}
-		else if (!_stricmp(strv, "-oscp")){
+		else if (isStrCaseSame(strv, "-oscp")){
 			if (!exist2){
 				outputMesErr("-oscp needs an argument\n");
 				return GETONE_ERR;
@@ -306,7 +312,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			numarg = 2;
 			funcScript.setOptionsGetOne(argrest, strv, str1, str2, true);	// 名前保管のみ
 		}
-		else if (!_stricmp(strv, "-lastcut")){
+		else if (isStrCaseSame(strv, "-lastcut")){
 			if (!exist2){
 				outputMesErr("-lastcut needs an argument\n");
 				return GETONE_ERR;
@@ -314,7 +320,7 @@ int JlsIF::expandArgOne(JlsScript &funcScript, int argrest, const char* strv, co
 			pdata->extOpt.frmLastcut = atoi(str1);
 			numarg = 2;
 		}
-		else if (!_stricmp(strv, "-odiv")) {
+		else if (isStrCaseSame(strv, "-odiv")) {
 			if (!exist2) {
 				outputMesErr("-odiv needs an argument\n");
 				return GETONE_ERR;
@@ -436,7 +442,8 @@ int JlsIF::readLogoframe(const string &fname){
 	}
 
 	if (emptyDataLogo() != 0){
-		outputMesErr("warning: no logo information found in '" + fname + "'\n");
+		pdata->extOpt.errNoLogo = 2;
+//		outputMesErr("warning: no logo information found in '" + fname + "'\n");	// 表示は後で行う
 	}
 	return 0;
 }

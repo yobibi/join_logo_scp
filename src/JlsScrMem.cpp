@@ -1,7 +1,7 @@
 ﻿//
 // 遅延実行コマンドの保管
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsScrMem.hpp"
 

@@ -1,7 +1,7 @@
 ﻿//
 // JLスクリプト用コマンド内容格納データ
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsCmdArg.hpp"
 

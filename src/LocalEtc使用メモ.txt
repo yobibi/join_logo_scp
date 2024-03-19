@@ -1,0 +1,192 @@
+﻿//
+// LocalEtc for C++   by Yobi
+//
+// 対象：LocalEtc.cpp, LocalEtc.hpp
+//
+
+Unicode処理等は汎用性あるので使い方メモを作成。
+探したら同じようなものありそうですが、技術的な興味から作成。
+
+join_logo_scpからLocalEtc*のみ抜き出して汎用的に再利用できるので、
+明確化のためMITライセンスで提供します。
+
+
+【機能】
+・標準出力・標準エラー、ファイル読み書き : 文字コードを指定したら後は関数が処理する
+・OSアクセス（起動引数、ファイルCopy等、環境変数取得） : Windows/Linux共通利用
+・UTF-8文字列処理 : 内部はUTF-8のstringで動作するためUTF-8用の文字列関数追加
+・一般関数 : 標準化された関数にないが広範囲で使いたい関数を追加
+・以上をWindowsとLinuxで共通に使用できる
+
+
+【使い方】
+・C++17環境に`LocalEtc.cpp`, `LocalEtc.hpp`を追加する。
+・#include "LocalEtc.hpp" を使用するソースに追加する。
+・コンパイルでは`LocalEtc.cpp`も追加して、一緒にリンクする。
+・記載コマンドは全部LocalEtcの名前空間に存在するので、以降 using namespace LocalEtc; 設定を前提に記載
+
+
+【呼び出し関数メモ】
+以降は外部から使用する関数を記載（基本UTF-8で動作し、設定された文字コードに入出力で変換する）
+
+■[標準出力・標準エラー] coutとcerrの置き換え
+lcout
+lcerr
+
+※以下、LocalIfs/LocaOIfsの[追加][使用]は置き換え前にないコマンド
+  [追加]は機能追加のため必要なコマンド
+  [使用]は互換コマンド実装前から使用していて残すコマンド
+
+■[LocalIfs] ifstreamの置き換え
+LocalIfs();                             // 作成（openは後で行う）
+LocalIfs(const string& strName);        // 作成（指定ファイル名でopenも行う）
+LocalIfs(const string& strName,openmode mode); // 作成（指定ファイル名でmode付きopenも行う）
+void open(const string& strName);       // ファイルオープン
+void open(const string& strName,openmode mode); // ファイルオープン（mode指定付き）
+bool getline(string& buf);              // [使用]1行読み込み
+void close();                           // ファイルクローズ
+operator bool()                         // 成功判定
+bool is_open();                         // is_open()結果
+bool fail();                            // fail()結果
+bool eof();                             // eof()結果
+int  getUtfNum();                       // [追加]読み込み中ファイルの文字コード番号取得（open後に設定される）
+（下は LocalEtc:: からの関数）
+bool getline(LocalIfs& ifs,string& buf); // 1行読み込み
+
+■[LocalOfs] ofstreamの置き換え
+LocalOfs();                             // 作成（openは後で行う）
+LocalOfs(const string& strName);        // 作成（指定ファイル名でopenも行う）
+LocalOfs(const string& strName,openmode mode);  // 作成（指定ファイル名でmode付きopenも行う）
+void open(const string& strName);       // ファイルオープン
+void open(const string& strName,openmode mode); // ファイルオープン（mode指定付き）
+void append(const string& strName);     // [使用]ファイル追加モードでオープン
+bool write(const string& buf);          // [使用]文字列書き込み
+<<                                      // 文字列書き込み
+void close();                           // ファイルクローズ
+operator bool()                         // 成功判定
+bool is_open();                         // is_open()結果
+bool fail();                            // fail()結果
+void setUtfNum(int num);                // [追加]書き込むファイルの文字コード番号設定（open前に設定）
+
+■[LSys] 機種（文字コード）依存を吸収する共通処理。LSys.関数名 で呼び出す
+★文字列出力関連
+void bufcout(const string& buf);        // lcoutの関数版
+void bufcerr(const string& buf);        // lcerrの関数版
+void bufMemoIns(const string& buf);     // 内部メモに文字列を追加
+void bufMemoFlush(LocalOfs& ofs);       // 内部メモを指定ファイルに出力してクリア
+void setMemoSel(int n);                 // 内部メモ追加選択 +1=標準出力/+2=標準エラー (-1=初期化)
+void setMsgUtf(int n);                  // 標準出力にmessage +1=読込文字コードからデータ不明確時
+★OSコマンド
+bool cmdMkdir(const string& strName);                           // ディレクトリ作成
+bool cmdCopy(const string& strFrom, const string& strTo);       // ファイルコピー
+string getCurrentPath();                                        // カレントパス取得
+bool getEnvString(string& strVal, const string& strEnvName);    // 環境変数取得
+vector<string> getMainArg(int argc, char *argv[]);	        // 起動時引数取得
+string getPathDelimiter();                                      // パス区切り文字取得（"\"または"/"）
+★文字コードの文字列と番号の対応
+int  getUtfNumFromStr(const string& strUtf);    // 文字コード文字列に対応する番号を取得（未存在時=-1）
+string getUtfStrFromNum(int num);               // 文字コード番号に対応する文字列を取得
+★標準コードの設定・取得
+void setUtfDefaultNum(int num);         // 標準コードに使用する文字コード番号を設定
+int  getUtfDefaultNum();                // 標準コードに使用する文字コード番号を取得
+★標準出力／標準エラーの文字コード設定・取得
+void setSysUtfNum(int num);             // 設定
+int  getSysUtfNum();                    // 取得
+★ファイル出力のデフォルト文字コード設定・取得
+void setFileUtfNum(int num);            // 設定
+int  getFileUtfNum();                   // 取得
+
+※文字コードの文字列と番号の割り当て。()内が文字列であるが番号を文字列にしてもOK
+   1(STD)     : 標準（初期設定はWindows=SJIS,Linux=UTF8N。標準コードの設定で変更可）
+   2(UTF8)    : UTF-8（ファイル作成時BOMあり）
+   3(UTF16)   : UTF-16（ファイル作成時BOMあり）
+   4(UTF16BE) : UTF-16 big endian ※動作未確認
+  11(SJIS)    : Shift-JIS
+  12(UTF8N)   : UTF-8（ファイル作成時BOMなし）
+
+■[LStr] UTF-8の文字列操作（正規表現含む）。LStr.関数名 で呼び出す
+int getStrLen(const string& str);                               // 実際の文字列長を取得
+string getSubStr(const string& str, int st);                    // 指定位置から最後まで文字列取得
+string getSubStrLen(const string& str, int st, int len);        // 指定位置から指定長の文字列取得
+int countInStr(const string& strSrc, const string& strEach);    // 各文字の出現数合計を取得
+bool replaceInStr(string& strSrc, const string& strEach, const string& strSub); // 各文字に対応する文字に置換
+int countRegExMatch(const string& strSrc, const string& strRe); // 正規表現にマッチした数を取得
+string getRegMatch(const string& strSrc, const string& strRe);  // 正規表現にマッチした文字列を取得
+
+■[一般関数] 名前が他と重なることあれば、LocalEtc::も付加する
+string sformat(const string& fmt, Args ... args);               // 書式整形（sprintfのstring出力）
+bool isStrCaseSame(const string& str1, const string& str2);     // 大文字小文字無視の文字列比較
+
+
+■■■ 使用例 ■■■
+
+※定数文字列の前につけるu8はコンパイルのUTF-8設定あれば省略可能
+
+★起動時引数取得
+  引数をvector<string>の変数に格納。Windowsではwmainを使わずUnicodeを取得できUTF-8変換も実施。
+
+int main(int argc, char *argv[])
+{
+  vector<string> listArg = LSys.getMainArg(argc, argv);
+
+
+★fprintf(stdout, "%d %d\n", d1, d2)の置き換え
+  coutはlcoutに置き換えるが、fprintf(stdout, はsformatを使って文字列を作成する。
+  名前の重複が心配であれば、sformat を LocalEtc::sformat に置き換えて使用する。
+
+lcout << sformat("%d %d\n", d1, d2);
+
+
+★環境変数取得
+  OSアクセスはLSys.で呼び出し。Windowsでは取得データをUTF-8変換している。
+
+  string strVal;
+  bool success = LSys.getEnvString(strVal, "CLI_IN_PATH");
+
+
+★ファイル読み込み
+  ifstreamをLocalIfsに置き換える。
+  ファイル文字コードはBOMや内容で判別され、UTF-8に変換された文字列を取得。
+
+string fname = u8"ファイル名.txt";
+LocalIfs ifs(fname);
+if ( !ifs ) return;  // open失敗
+string buf;
+if ( !getline(ifs,buf) ) return;  // データなしはreturn
+ifs.close();
+
+
+★ファイル書き込み
+  ofstreamをLocalOfsに置き換える。
+  ファイル文字コードは個別設定、なければファイル出力のデフォルト文字コードにopen時設定。
+
+string fname = u8"ファイル名.txt";
+LocalOfs ofs;
+int num = LSys.getUtfNumFromStr("UTF8");
+ofs.setUtfNum(num);      // デフォルト文字コードから変更する場合
+ofs.open(fname);
+if ( !ofs ) return;  // open失敗
+string buf = u8"書き込みデータ\n";
+ofs << buf;
+ofs.close();
+
+
+★文字コードの設定
+  文字列からコード番号を取得して対象とする関数に設定する。
+
+string str = "UTF8N";
+int num = LSys.getUtfNumFromStr(str);  // 文字列からコード番号取得
+if ( num < 0 ) return;  // 文字列異常
+LSys.setSysUtfNum(num);      // 標準出力／標準エラーの文字コード設定
+LSys.setFileUtfNum(num);     // ファイル出力のデフォルト文字コード設定
+LSys.setUtfDefaultNum(num);  // 標準(STD)選択時の文字コード設定
+
+
+★正規表現の利用
+  LStr.で関数を呼び出す。入出力文字列はすべてUTF-8
+
+string strSrc = u8"タイトル文字列";
+string strRe = u8"^.*ル";
+string strResult = LStr.getRegMatch(strSrc, strRe);
+
+

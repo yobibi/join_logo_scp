@@ -7,16 +7,21 @@
 # 設定
 #----------------------------------------------
 Default setup_ignore_case   1   # 変数の大文字小文字（0:区別 1:同一扱いでwarning表示）
-Default setup_sysmes_disp   0   # システム表示の出力追加（+1:Callファイル場所 +2:OUTDIRECT +4:CutMrg)
+Default setup_sysmes_disp   0   # システム表示の出力追加（+1:Callファイル場所 +2:OUTDIRECT +4:CutMrg +10:LogoOff)
+Default setup_sysmes_utf    1   # 文字コード関連システム表示出力（+1:読込ファイル文字コード判別でデータ確定できない時)
 
 Default outrev_cutframe  0   # 出力Trimを各位置内側にカット補正するフレーム数
-Default outmemo_code     2   # 内部メモファイル出力（0:出力なし 1:標準文字コード 2:UTF-8 3:UTF-16）
+Default outmemo_code     2   # 内部メモファイル出力（0:出力なし 1:標準文字コード 2:UTF-8 3:UTF-16 11:SJIS 12:UTF-8NoBOM）
+
+# intype_logo_amtはロゴ検出方法による（一部ロゴの）検出区間相違を補正する用途を想定
+Default intype_logo_amt  -1  # Amatsukazeのロゴ結果（0:なし 1:使用 -1:ファイル名で判別）
 
 #----------------------------------------------
 # 動作
 #----------------------------------------------
 IgnoreCase ${setup_ignore_case}
 SysMesDisp ${setup_sysmes_disp}
+SysMesUtf  ${setup_sysmes_utf}
 
 If ${outrev_cutframe}!=0     # 0以外の時に設定
   Call "JL_set_各framecut出力.txt"
@@ -25,5 +30,15 @@ EndIf
 If ${outmemo_code}!=0     # 0以外の時に設定
   Call "JL_out_内部メモ.txt"
 EndIf
+
+If ${intype_logo_amt}==-1 {
+  SysDataGet FINLOGO -RegOut name -local  # ロゴ結果ファイル名
+  LocalSet EXTCHAR "^logof[0-9]"
+  If ${name:t:Cm}>0 {
+    Set intype_logo_amt 1
+  }else{
+    Set intype_logo_amt 0
+  };
+};
 
 #Call "JL_out_copyファイル一式.txt"

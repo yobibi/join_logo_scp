@@ -50,7 +50,7 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,0,0,1
+ FILEVERSION 5,1,0,1
  PRODUCTVERSION 1,0,0,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
@@ -66,7 +66,7 @@ BEGIN
     BEGIN
         BLOCK "041104b0"
         BEGIN
-            VALUE "FileVersion", "5.0.0.1"
+            VALUE "FileVersion", "5.1.0.1"
             VALUE "InternalName", "join_log.exe"
             VALUE "OriginalFilename", "join_log.exe"
         END

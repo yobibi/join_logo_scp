@@ -1,4 +1,44 @@
-﻿■修正内容(ver 5.0)
+﻿■修正内容(ver 5.1)
+Unicode関連の強化、細かい機能追加・修正
+
+・Unicode関連の強化
+   - BOMなしUTF-8に対応。読込時は内容からShift-JISと自動判別
+   - Shift-JISは標準とは別枠に用意し、標準は指定したコードを設定可能
+   - Unicodeで17bit以上コードとUTF-16サロゲートペアの変換処理追加
+   - Linuxとソース共通化。LinuxはBOMなしUTF-8（結果TrimにBOMを付けない）
+     LinuxのShift-JIS処理も追加
+・Read系コマンドのファイル読み込みパスを指定順に検索する機能追加
+   - 変数(JLPATHREAD)設定で初期値はJLフォルダ内user,dataの順に読み込み
+     パスを付けたファイル名の場合は従来通り変更なし
+・If条件で0も含めた変数定義済みの確認方法を追加
+   - 0以外の値で変数定義済みは確認できたが、defined(変数名)は変数定義済み確認
+・-force適用時に一部の追加制約条件が無視されていたのを修正
+・その他細かい追加・修正
+・JLフォルダ内で気付いた所の追加・修正
+
+  コマンド詳細はreadme.txtと「JLコマンド説明_全般.txt」の「ver5.1」で検索
+
+差し替えたファイル（今回、Shift-JISはBOM付きUTF-8に全ファイル変換）
+join_logo_scp.exe  今回の修正
+src/*              今回の修正ソースファイル
+ドキュメント類     今回の修正を記載（変更あるファイルのみ）
+JL/*               気付いた所の追加・修正。下記ファイルを変更
+  JL_ANYSEL.txt       keyframe入力対応、直接位置指定時も放送局等の変数設定読む
+  JL_フラグ指定.txt   フラグ設定追加
+  JL_位置読込.txt     keyframe入力対応、強制ファイル分割作成の設定追加
+  JL_構成30分単位.txt 分割位置に推測構成先頭優先を追加
+  common/
+    JL_common.txt                 設定追加
+    JL_ini_外部環境取得.txt       TS_IN_PATHに対応
+    JL_ini_選択読込.txt           ファイル読み込みパス指定の共通化
+    JL_set_フラグ指定標準.txt     ANIMAXのAmatsukazeロゴ検出位置対応
+    JL_set_フラグ指定標準2.txt    設定追加・修正
+    JL_set_各framecut出力.txt     カット数は実行時点まで待って変数値を反映
+    JL_set_分割強制作成.txt       （追加）構成時間から強制的にファイル分割作成
+  data/ChParamJL1.csv             設定追加・修正(WOWOW,ANIMAX)
+
+
+■修正内容(ver 5.0)
 JLスクリプトの強化（検索機能強化および不明確仕様の見直し）
 
 （機能追加）

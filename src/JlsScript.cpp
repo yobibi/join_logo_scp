@@ -1,5 +1,5 @@
 ﻿//
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsScript.hpp"
 #include "JlsScriptState.hpp"
@@ -271,7 +271,7 @@ int JlsScript::startCmdLoop(const string& fname, int loop){
 	LocalIfs ifs;
 	if ( !byFcall ){	// Fcall以外はファイルから
 		ifs.open(fname.c_str());
-		if ( !ifs.is_open() ){
+		if ( !ifs ){
 			globalState.addMsgErrorN("error: failed to open " + fname);
 			return 2;
 		}
@@ -1030,10 +1030,21 @@ void JlsScript::getCondFlagConnectWord(string& strCalc, const string& strItem){
 	//--- フラグ変数の判定 ---
 	char chFront = strRemain.front();
 	if ((chFront >= 'A' && chFront <= 'Z') || (chFront >= 'a' && chFront <= 'z')){
+		//--- defined(変数名) の確認 ---
+		bool flagDefined = false;
+		if ( strRemain.substr(0,8) == "defined(" ){
+			if ( strRemain.back() == ')' ){
+				flagDefined = true;
+				strRemain = strRemain.substr(8, strRemain.length()-9);
+			}
+		}
 		string strVal;
 		//--- 変数からフラグの値を取得 ---
 		bool match = funcReg.getJlsRegVarNormal(strVal, strRemain);
-		if (match && strVal != "0"){	// 変数が存在して0以外の場合
+		if ( flagDefined ){
+			strVal = (match)? "1" : "0";
+		}
+		else if (match && strVal != "0"){	// 変数が存在して0以外の場合
 			strVal = "1";
 		}
 		else{
@@ -1631,6 +1642,12 @@ bool JlsScript::setCmdSys(JlsCmdArg& cmdarg){
 				pdata->extOpt.dispSysMes = val;
 			}
 			break;
+		case CmdType::SysMesUtf:
+			{
+				int val = cmdarg.getValStrArg(1);
+				LSys.setMsgUtf(val);
+			}
+			break;
 		case CmdType::SysMemoSel:
 			{
 				int val = cmdarg.getValStrArg(1);
@@ -1720,6 +1737,9 @@ bool JlsScript::setCmdRead(JlsCmdArg& cmdarg){
 			break;
 		case CmdType::ReadCheck:
 			valid = funcReg.readDataCheck(cmdarg, cmdarg.getStrArg(1));
+			break;
+		case CmdType::ReadPathG:
+			valid = funcReg.readDataPath(cmdarg, cmdarg.getStrArg(1));
 			break;
 		case CmdType::ReadOpen:
 			valid = funcReg.readGlobalOpen(cmdarg, cmdarg.getStrArg(1));

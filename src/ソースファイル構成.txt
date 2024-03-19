@@ -5,6 +5,9 @@
   join_logo_scp.sln
 ・MinGW (C++17対応版)
   compile.cmd
+・Linux Ubuntu (C++17対応版)
+  makefile （makeで実行）
+※実動作で確認しているものはVisual Studio（他は起動確認のみ）
 
 
 ■ソースファイルクラス構成

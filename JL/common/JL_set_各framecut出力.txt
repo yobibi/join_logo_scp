@@ -9,8 +9,8 @@
 #----------------------------------------------
 Default outrev_cutframe 2       # 各位置で内側にカットするフレーム数
 
-Default outrev_cutframe_s ${outrev_cutframe}   # 前側を個別に設定可能
-Default outrev_cutframe_e ${outrev_cutframe}   # 後側を個別に設定可能
+Default outrev_cutframe_s '${outrev_cutframe}'   # 前側を個別に設定可能
+Default outrev_cutframe_e '${outrev_cutframe}'   # 後側を個別に設定可能
 
 #----------------------------------------------
 # 動作
@@ -19,13 +19,15 @@ CountUp once_check_fin_cutframe
 MemOnce ${once_check_fin_cutframe}  # このファイルのMemory/MemSet文は一度だけ実行
 
 MemSet FINALIZE {    # 出力直前で自動的に実行
-  GetList B -final -fixpos -RegList listdata -local
-  LocalSet i 0
-  Repeat $#{listdata}/2
-    CountUp i
-    Set listdata[$i] ${listdata[$i]}+${outrev_cutframe_s}
-    CountUp i
-    Set listdata[$i] ${listdata[$i]}-${outrev_cutframe_e}
-  EndRepeat
-  Set OUTDIRECT $listdata      # 出力として直接設定
+  If ${outrev_cutframe_s}!=0 || ${outrev_cutframe_e}!=0
+    GetList B -final -fixpos -RegList listdata -local
+    LocalSet i 0
+    Repeat $#{listdata}/2
+      CountUp i
+      Set listdata[$i] ${listdata[$i]}+${outrev_cutframe_s}
+      CountUp i
+      Set listdata[$i] ${listdata[$i]}-${outrev_cutframe_e}
+    EndRepeat
+    Set OUTDIRECT $listdata      # 出力として直接設定
+  EndIf
 };

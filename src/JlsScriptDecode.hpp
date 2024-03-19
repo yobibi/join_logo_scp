@@ -114,6 +114,7 @@ const vector<JlscrCmdRecord> CmdDefine = {
 	{ "OldAdjust"    , CmdType::OldAdjust,  CmdCat::SYS,      1,0,0,0 },
 	{ "IgnoreCase"   , CmdType::IgnoreCase, CmdCat::SYS,      1,0,0,0 },
 	{ "SysMesDisp"   , CmdType::SysMesDisp, CmdCat::SYS,      1,0,0,0 },
+	{ "SysMesUtf"    , CmdType::SysMesUtf,  CmdCat::SYS,      1,0,0,0 },
 	{ "SysMemoSel"   , CmdType::SysMemoSel, CmdCat::SYS,      1,0,0,0 },
 	{ "SysDataGet"   , CmdType::SysDataGet, CmdCat::SYS,      1,0,0,1 },
 	{ "LogoDirect"   , CmdType::LogoDirect, CmdCat::SYS,      0,0,0,1 },
@@ -123,6 +124,7 @@ const vector<JlscrCmdRecord> CmdDefine = {
 	{ "ReadTrim"     , CmdType::ReadTrim,   CmdCat::READ,     1,0,0,1 },
 	{ "ReadString"   , CmdType::ReadString, CmdCat::READ,     1,0,0,1 },
 	{ "ReadCheck"    , CmdType::ReadCheck,  CmdCat::READ,     1,0,0,1 },
+	{ "ReadPathGet"  , CmdType::ReadPathG,  CmdCat::READ,     1,0,0,1 },
 	{ "ReadOpen"     , CmdType::ReadOpen,   CmdCat::READ,     1,0,0,1 },
 	{ "ReadClose"    , CmdType::ReadClose,  CmdCat::READ,     0,0,0,1 },
 	{ "ReadLine"     , CmdType::ReadLine,   CmdCat::READ,     0,0,0,1 },
@@ -205,6 +207,9 @@ const vector<JlscrCmdAlias> CmdAlias = {
 	{ "SetF"         , CmdType::EvalFrame  },
 	{ "SetT"         , CmdType::EvalTime   },
 	{ "SetN"         , CmdType::EvalNum    },
+	{ "SetFrame"     , CmdType::EvalFrame  },
+	{ "SetTime"      , CmdType::EvalTime   },
+	{ "SetNum"       , CmdType::EvalNum    },
 };
 
 //--- コマンド別の引数演算加工（コマンド名、引数位置、演算内容） ---

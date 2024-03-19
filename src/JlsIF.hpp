@@ -3,6 +3,10 @@
 //
 #pragma once
 
+#include <string>
+#include <vector>
+#include <memory>
+
 class JlsDataset;
 class JlsScript;
 

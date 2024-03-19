@@ -50,6 +50,7 @@ private:
 		Trim,
 		List,
 		String,
+		Path,
 	};
 
 public:
@@ -146,6 +147,7 @@ private:
 public:
 	// データ用ファイル読み込み
 	bool readDataCheck(JlsCmdArg& cmdarg, const string& fname);
+	bool readDataPath(JlsCmdArg& cmdarg, const string& fname);
 	bool readDataList(JlsCmdArg& cmdarg, const string& fname);
 	bool readDataTrim(JlsCmdArg& cmdarg, const string& fname);
 	bool readDataString(JlsCmdArg& cmdarg, const string& fname);
@@ -165,6 +167,8 @@ public:
 private:
 	bool getRegArg(JlsCmdArg& cmdarg, string& strArg);
 	bool setRegOutSingle(JlsCmdArg& cmdarg, const string& strVal, bool certain);
+	string addReadFullPath(const string& strSrc);
+	bool isFileExist(const string& str);
 public:
 	// 環境設定読み込み
 	bool readDataEnvGet(JlsCmdArg& cmdarg, const string& strEnvName);

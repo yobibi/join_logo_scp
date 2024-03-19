@@ -1,0 +1,49 @@
+﻿# join_logo_scp用の実行内容スクリプト
+#
+# 内容：分割ファイルを強制的に作成
+#       残す区間が複数存在して区間が指定期間(divfc_divsize)を超えた時に分割
+#
+#----------------------------------------------
+# 設定
+#----------------------------------------------
+Default divfc_divsize 00:05:00               # フレーム間指定時間超えで分割
+Default divfc_divchk_lg 1                    # 本編期間の指定時間超え検索(0=なし 1=あり)
+Default divfc_divchk_cm 1                    # カット期間の指定時間超え検索(0=なし 1=あり)
+
+#----------------------------------------------
+# 動作
+#----------------------------------------------
+CountUp once_check_fin_divfc
+MemOnce ${once_check_fin_divfc}  # このファイルのMemory/MemSet文は一度だけ実行
+
+MemSet FINALIZE -order 80 {    # 出力直前で自動的に実行（実行順位は遅く）
+  #--- Trimデータ読み込み ---
+  GetList B -final -fixpos -RegList listtr -local
+  If defined(OUTDIRECT) {
+    SetReg listtr OUTDIRECT
+  };
+  #--- 分割処理開始 ---
+  ListClear -RegList listd -local  # 分割データ初期化
+  Repeat $#{listtr} -counter i 1 +2 {
+    If $i>=$#{listtr}-2 { Break 1 };   # 次の本編なければ終了
+    LocalSet ds ${listtr[$i]}          # 開始位置
+    LocalSet dm ${listtr[$i+1]}        # 本編終了位置
+    LocalSet de ${listtr[$i+2]}        # 終了位置（次の開始位置）
+    LocalSet detect_div 0
+    If ${dm}-${ds}>${divfc_divsize} {    # 本編期間の指定時間超え
+      If ${divfc_divchk_lg}==1 { Set detect_div 1 };
+    };
+    If ${de}-${dm}>${divfc_divsize} {    # カット領域の指定時間超え
+      If ${divfc_divchk_cm}==1 { Set detect_div 1 };
+    };
+    If ${detect_div} {
+      ListIns -1 -val ${de} -RegList listd
+    };
+  };
+  If $#{listd}>0 {  # 存在したら分割ファイル作成
+    SetReg divide_pos_list listd  # divide_pos_listに格納
+    Set divfile_from     1        # 分割で何番目の構成から位置を出力するか
+    Set divfile_zero_out 0        # 分割で最初に0を出力(0=しない 1=する)
+    Call "JL_out_divfile.txt"
+  };
+};

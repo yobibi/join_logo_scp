@@ -2,7 +2,7 @@
 // リストデータ基本処理
 //
 
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsScrFuncList.hpp"
 #include "JlsDataset.hpp"

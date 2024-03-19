@@ -89,9 +89,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="CnvStrTime.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>

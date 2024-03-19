@@ -1,7 +1,7 @@
 ﻿//
 // JLスクリプト制御状態の保持（Callの数だけ作成）
 //
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CommonJls.hpp"
 #include "JlsScriptState.hpp"
 #include "JlsScrGlobal.hpp"
